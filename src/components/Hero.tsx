@@ -10,7 +10,7 @@ const pillars = [
     href: "/shop",
     accentColor: "#3B7CF4",
     photo: "/media/sport-hero.jpg",
-    photoCrop: "object-[60%_20%]",
+    photoCrop: "object-[35%_20%]",
     overlayColor: "rgba(20,30,60,0.48)",
   },
   {
