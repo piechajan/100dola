@@ -30,6 +30,7 @@ const pillars = [
     href: "/community",
     accentColor: "#2EAA6E",
     photo: "/media/community-hero.jpg",
+    photoCrop: "object-[center_30%]",
     overlayColor: "rgba(10,30,20,0.48)",
   },
 ];
@@ -60,6 +61,7 @@ function PillarPanel({
   href,
   accentColor,
   photo,
+  photoCrop,
   overlayColor,
   index,
   isLast,
@@ -71,6 +73,7 @@ function PillarPanel({
   href: string;
   accentColor: string;
   photo: string;
+  photoCrop?: string;
   overlayColor: string;
   index: number;
   isLast: boolean;
@@ -89,7 +92,7 @@ function PillarPanel({
         src={photo}
         alt={tag}
         fill
-        className="object-cover transition-transform duration-700 group-hover:scale-105"
+        className={`object-cover transition-transform duration-700 group-hover:scale-105 ${photoCrop ?? ""}`}
         sizes="(max-width: 768px) 100vw, 33vw"
         priority={index === 0}
       />
