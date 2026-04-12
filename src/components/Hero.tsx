@@ -21,7 +21,7 @@ const pillars = [
     href: "/malaga",
     accentColor: "#7C5CBF",
     photo: "/media/community-hero.jpg",
-    photoCrop: "object-[55%_15%]",
+    photoCrop: "object-[35%_15%]",
     overlayColor: "rgba(30,15,50,0.42)",
   },
   {
