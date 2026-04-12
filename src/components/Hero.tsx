@@ -20,8 +20,8 @@ const pillars = [
     cta: "Jak to funguje",
     href: "/malaga",
     accentColor: "#7C5CBF",
-    photo: "/media/malaga-hero.jpg",
-    photoCrop: "object-[40%_20%]",
+    photo: "/media/community-hero.jpg",
+    photoCrop: "object-[45%_15%]",
     overlayColor: "rgba(30,15,50,0.42)",
   },
   {
@@ -31,8 +31,8 @@ const pillars = [
     cta: "Nadcházející eventy",
     href: "/community",
     accentColor: "#2EAA6E",
-    photo: "/media/community-hero.jpg",
-    photoCrop: "object-[45%_15%]",
+    photo: "/media/malaga-hero.jpg",
+    photoCrop: "object-[40%_20%]",
     overlayColor: "rgba(10,30,20,0.48)",
   },
 ];
