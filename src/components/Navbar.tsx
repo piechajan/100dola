@@ -33,7 +33,7 @@ export default function Navbar() {
               Malaga
             </Link>
             <Link href="/community" className="text-[#5A6480] hover:text-[#2EAA6E] transition-colors duration-150">
-              Community
+              Social rides
             </Link>
             <Link href="/magazin" className="text-[#5A6480] hover:text-[#1a1a2e] transition-colors duration-150">
               Magazín
@@ -99,7 +99,7 @@ export default function Navbar() {
             {[
               { label: "Sport", href: "/shop", color: "#3B7CF4" },
               { label: "Malaga", href: "/malaga", color: "#7C5CBF" },
-              { label: "Community", href: "/community", color: "#2EAA6E" },
+              { label: "Social rides", href: "/community", color: "#2EAA6E" },
               { label: "Magazín", href: "/magazin", color: "#1a1a2e" },
               { label: "O nás", href: "/o-nas", color: "#1a1a2e" },
             ].map((item) => (
