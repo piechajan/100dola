@@ -32,7 +32,7 @@ const pillars = [
     href: "/community",
     accentColor: "#2EAA6E",
     photo: "/media/community-hero.jpg",
-    photoCrop: "object-[30%_30%]",
+    photoCrop: "object-[45%_15%]",
     overlayColor: "rgba(10,30,20,0.48)",
   },
 ];
