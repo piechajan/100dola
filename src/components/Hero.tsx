@@ -121,6 +121,7 @@ function PillarPanel({
             backgroundColor: `${accentColor}30`,
             color: "white",
             border: `1px solid ${accentColor}60`,
+            borderRadius: "9999px",
           }}
         >
           {tag}
