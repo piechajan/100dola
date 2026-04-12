@@ -54,7 +54,7 @@ const events = [
     capacity: 20,
     filled: 11,
     description: "Pravidelná středeční večerní vyjížďka. Tempo klidné, nálada dobrá. Vhodné pro každého.",
-    photo: "https://images.unsplash.com/photo-1502904550040-7534597429ae?w=800&q=80&fit=crop",
+    photo: "/media/road-event.jpg",
   },
   {
     id: 3,
@@ -70,7 +70,7 @@ const events = [
     capacity: 16,
     filled: 9,
     description: "Skupinová vyjížďka v Andalusii. Slunce, výhledy na moře a silnice bez aut.",
-    photo: "https://images.unsplash.com/photo-1520175480921-4edfa2983e0f?w=800&q=80&fit=crop",
+    photo: "/media/malaga-event.jpg",
   },
   {
     id: 4,

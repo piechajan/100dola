@@ -9,9 +9,8 @@ const pillars = [
     cta: "Do shopu",
     href: "/shop",
     accentColor: "#3B7CF4",
-    // Cyklistika na silnici, horský průsmyk
-    photo: "https://images.unsplash.com/photo-1541625602330-2277a4c46182?w=1200&q=85&fit=crop&crop=center",
-    overlayColor: "rgba(20,30,60,0.52)",
+    photo: "/media/sport-hero.jpg",
+    overlayColor: "rgba(20,30,60,0.48)",
   },
   {
     tag: "100dola malaga",
@@ -20,9 +19,8 @@ const pillars = [
     cta: "Jak to funguje",
     href: "/malaga",
     accentColor: "#7C5CBF",
-    // Španělská pobřežní silnice, slunce, modrá voda
-    photo: "https://images.unsplash.com/photo-1520175480921-4edfa2983e0f?w=1200&q=85&fit=crop&crop=center",
-    overlayColor: "rgba(30,15,50,0.50)",
+    photo: "/media/malaga-hero.jpg",
+    overlayColor: "rgba(30,15,50,0.42)",
   },
   {
     tag: "Open Miles Clinic",
@@ -31,9 +29,8 @@ const pillars = [
     cta: "Nadcházející eventy",
     href: "/community",
     accentColor: "#2EAA6E",
-    // Skupina cyklistů na cestě
-    photo: "https://images.unsplash.com/photo-1501147830916-ce44a6359892?w=1200&q=85&fit=crop&crop=center",
-    overlayColor: "rgba(10,30,20,0.52)",
+    photo: "/media/community-hero.jpg",
+    overlayColor: "rgba(10,30,20,0.48)",
   },
 ];
 

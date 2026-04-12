@@ -129,7 +129,7 @@ Tato akce je ideální pro nové lidi v komunitě — bezpečný start, žádný
     ],
     whoIsItFor: "Kdokoliv na kole. Začátečníci i zkušení. Tempo přizpůsobíme.",
     organizer: { name: "Jan Piecháček", role: "Zakladatel Open Miles Clinic" },
-    photo: "https://images.unsplash.com/photo-1502904550040-7534597429ae?w=1400&q=85&fit=crop",
+    photo: "/media/road-event.jpg",
     photoGallery: [
       "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80&fit=crop",
       "https://images.unsplash.com/photo-1501147830916-ce44a6359892?w=700&q=80&fit=crop",
@@ -165,7 +165,7 @@ Akce je primárně určena pro lidi, kteří mají kolo v zázemí 100dola Malag
     ],
     whoIsItFor: "Pro zákazníky služby 100dola Malaga a kohokoliv, kdo přicestuje s kolem.",
     organizer: { name: "Jan Piecháček", role: "Zakladatel Open Miles Clinic" },
-    photo: "https://images.unsplash.com/photo-1520175480921-4edfa2983e0f?w=1400&q=85&fit=crop",
+    photo: "/media/malaga-event.jpg",
   },
   {
     id: 4,
