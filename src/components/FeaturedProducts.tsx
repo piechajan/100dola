@@ -35,7 +35,7 @@ const products = [
     badge: "Buď vidět",
     note: "Funkce jako Garmin Varia + USB-C. Za zlomek ceny.",
     photo: "/media/seemee-r300.jpg",
-    photoBg: "#ffffff",
+    photoBg: "#f5f7fa",
     specs: ["Radar 140 m dozadu", "ANT+ / Bluetooth", "100 h výdrž, USB-C"],
   },
   {
