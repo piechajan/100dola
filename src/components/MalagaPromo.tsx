@@ -25,7 +25,7 @@ export default function MalagaPromo() {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#1a1a2e] leading-[0.95] text-balance">
               Kolo ti pošleme
               <br />do Malagy.
-              <br /><span style={{ color: "#7C5CBF" }}>Přileť se spříručákem.</span>
+              <br /><span style={{ color: "#7C5CBF" }}>Přileť jen s příručákem.</span>
             </h2>
 
             <p className="mt-6 text-[#5A6480] leading-relaxed max-w-md">
