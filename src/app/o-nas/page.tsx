@@ -1,5 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "O nás — 100dola sport, Malaga, Open Miles Clinic",
+  description: "100dola je sportovní projekt pro cyklisty a lyžaře. Prodej kol a vybavení, přeprava kol do Malagy a komunitní cyklistické eventy pod Open Miles Clinic.",
+  keywords: ["100dola", "silniční kola", "cyklistické vybavení", "kola Malaga", "přeprava kola Španělsko", "Open Miles Clinic", "social rides Praha", "skialpy"],
+  openGraph: {
+    title: "O nás — 100dola",
+    description: "Sportovní projekt postavený na reálné zkušenosti. Kola, Malaga, komunita.",
+    images: ["/media/sport-hero.jpg"],
+  },
+};
 
 export default function ONasPage() {
   return (
@@ -161,10 +173,10 @@ export default function ONasPage() {
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="relative h-72 md:h-96 rounded-2xl overflow-hidden bg-[#1a1a2e]">
               <Image
-                src="/media/community-hero.jpg"
-                alt="Open Miles Clinic"
+                src="/media/ona-zkusenost.jpg"
+                alt="Open Miles Clinic — reálná zkušenost"
                 fill
-                className="object-cover object-[35%_20%] opacity-80"
+                className="object-cover object-[40%_center] opacity-85"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>

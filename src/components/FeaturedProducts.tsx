@@ -10,8 +10,8 @@ const products = [
     price: "159 900 Kč",
     badge: "Doporučuje tým",
     note: "Kolo, na kterém jezdíme v Malaze",
-    photo: "https://asset.scott-sports.com/fit-in/2000x2000/425/4256848096_2219877.png",
-    photoBg: "#f0f2f7",
+    photo: "/media/scott-addict-rc10.png",
+    photoBg: "#111111",
     specs: ["Shimano Ultegra Di2", "Syncros Carbon 40mm", "~7 kg"],
   },
   {
@@ -28,16 +28,15 @@ const products = [
   },
   {
     id: 3,
-    name: "Garmin Edge 1050",
+    name: "Magicshine Seemee R300",
     year: null,
-    category: "Cyklocomputer",
-    price: "18 490 Kč",
-    badge: "Bestseller",
-    note: null,
-    photo: null,
-    photoBg: null,
-    gradient: "from-slate-700 to-slate-900",
-    specs: [],
+    category: "Radarové světlo",
+    price: "3 190 Kč",
+    badge: "Tip týmu",
+    note: "Funkce jako Garmin Varia + USB-C. Za zlomek ceny.",
+    photo: "/media/seemee-r300.jpg",
+    photoBg: "#ffffff",
+    specs: ["Radar 140 m dozadu", "ANT+ / Bluetooth", "100 h výdrž, USB-C"],
   },
   {
     id: 4,
@@ -149,7 +148,7 @@ function ProductCard({
           <div className="absolute top-3 left-3 z-10">
             <span
               className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full text-white"
-              style={{ backgroundColor: badge === "Doporučuje tým" ? "#E8431A" : badge === "Novinka" ? "#2EAA6E" : "#1a1a1a" }}
+              style={{ backgroundColor: badge === "Doporučuje tým" ? "#E8431A" : badge === "Novinka" ? "#2EAA6E" : badge === "Tip týmu" ? "#3B7CF4" : "#1a1a1a" }}
             >
               {badge}
             </span>
