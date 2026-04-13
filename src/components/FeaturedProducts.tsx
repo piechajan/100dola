@@ -7,7 +7,7 @@ const products = [
     name: "Scott Addict RC 10",
     year: "2026",
     category: "Silniční kola",
-    price: "159 900 Kč",
+    price: "142 040 Kč",
     badge: "Doporučuje tým",
     note: "Kolo, na kterém jezdíme v Malaze",
     photo: "/media/scott-addict-rc10.png",
@@ -31,7 +31,8 @@ const products = [
     name: "Magicshine Seemee R300",
     year: null,
     category: "Radarové světlo",
-    price: "3 190 Kč",
+    price: "2 750 Kč",
+    originalPrice: "3 190 Kč",
     badge: "Buď vidět",
     note: "Funkce jako Garmin Varia + USB-C. Za zlomek ceny.",
     photo: "/media/seemee-r300.jpg",
@@ -100,6 +101,7 @@ function ProductCard({
   year,
   category,
   price,
+  originalPrice,
   badge,
   note,
   photo,
@@ -111,6 +113,7 @@ function ProductCard({
   year: string | null;
   category: string;
   price: string;
+  originalPrice?: string;
   badge: string | null;
   note: string | null;
   photo: string | null;
@@ -181,7 +184,12 @@ function ProductCard({
         )}
 
         <div className="flex items-center justify-between mt-auto pt-3 border-t border-[#F4F4F4] mt-3">
-          <span className="text-base font-black text-[#111111]">{price}</span>
+          <div>
+            {originalPrice && (
+              <span className="text-xs text-[#9A9A9A] line-through block">{originalPrice}</span>
+            )}
+            <span className={`text-base font-black ${originalPrice ? "text-[#E8431A]" : "text-[#111111]"}`}>{price}</span>
+          </div>
           <button
             className="p-2 rounded-full bg-[#F4F4F4] group-hover:bg-[#E8431A] transition-colors duration-200"
             aria-label="Přidat do košíku"
