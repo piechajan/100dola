@@ -35,7 +35,7 @@ const products = [
     badge: "Buď vidět",
     note: "Funkce jako Garmin Varia + USB-C. Za zlomek ceny.",
     photo: "/media/seemee-r300.jpg",
-    photoBg: "#f5f7fa",
+    photoBg: "#ffffff",
     specs: ["Radar 140 m dozadu", "ANT+ / Bluetooth", "100 h výdrž, USB-C"],
   },
   {
@@ -47,7 +47,7 @@ const products = [
     badge: "Novinka",
     note: "Skialpová sezóna s OMC",
     photo: "https://www.dynastar-lange.com/dw/image/v2/BJJZ_PRD/on/demandware.static/-/Sites-rossignol-catalog/default/dw966b7994/images/large/DANM301_000_72DPI_01.jpg",
-    photoBg: "#f5f7fa",
+    photoBg: "#ffffff",
     specs: ["88mm waist", "1.18 kg / lyži", "Paulownia core"],
   },
 ];
