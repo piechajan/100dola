@@ -5,7 +5,7 @@ const pillars = [
   {
     tag: "100dola sport",
     headline: "Vybav se\nna sezónu.",
-    description: "Kurátorský výběr kol, lyží a vybavení od lidí, kteří sport opravdu žijí.",
+    description: "Kola, lyže a vybavení vybrané lidmi, kteří sport opravdu žijí.",
     cta: "Do shopu",
     href: "/shop",
     accentColor: "#3B7CF4",
