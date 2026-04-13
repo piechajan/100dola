@@ -11,7 +11,7 @@ const products = [
     badge: "Doporučuje tým",
     note: "Kolo, na kterém jezdíme v Malaze",
     photo: "/media/scott-addict-rc10.png",
-    photoBg: "#111111",
+    photoBg: "#f0f2f7",
     specs: ["Shimano Ultegra Di2", "Syncros Carbon 40mm", "~7 kg"],
   },
   {
@@ -32,7 +32,7 @@ const products = [
     year: null,
     category: "Radarové světlo",
     price: "3 190 Kč",
-    badge: "Tip týmu",
+    badge: "Buď vidět",
     note: "Funkce jako Garmin Varia + USB-C. Za zlomek ceny.",
     photo: "/media/seemee-r300.jpg",
     photoBg: "#ffffff",
@@ -148,7 +148,7 @@ function ProductCard({
           <div className="absolute top-3 left-3 z-10">
             <span
               className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full text-white"
-              style={{ backgroundColor: badge === "Doporučuje tým" ? "#E8431A" : badge === "Novinka" ? "#2EAA6E" : badge === "Tip týmu" ? "#3B7CF4" : "#1a1a1a" }}
+              style={{ backgroundColor: badge === "Doporučuje tým" ? "#E8431A" : badge === "Novinka" ? "#2EAA6E" : badge === "Buď vidět" ? "#3B7CF4" : "#1a1a1a" }}
             >
               {badge}
             </span>
