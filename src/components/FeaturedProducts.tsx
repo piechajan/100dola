@@ -11,7 +11,7 @@ const products = [
     badge: "Doporučuje tým",
     note: "Kolo, na kterém jezdíme v Malaze",
     photo: "/media/scott-addict-rc10.png",
-    photoBg: "#f0f2f7",
+    photoBg: "#ffffff",
     specs: ["Shimano Ultegra Di2", "Syncros Carbon 40mm", "~7 kg"],
   },
   {
