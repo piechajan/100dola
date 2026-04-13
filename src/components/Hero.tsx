@@ -27,7 +27,7 @@ const pillars = [
   {
     tag: "Open Miles Clinic",
     headline: "Jedeme\nspolu.",
-    description: "Social rides, skupinové akce a komunita sportovců. Cyklistika, skialpy, běh.",
+    description: "Social rides, eventy a komunita. Cyklistika, skialpy, běh.",
     cta: "Nadcházející eventy",
     href: "/community",
     accentColor: "#2EAA6E",
