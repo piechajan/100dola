@@ -1,45 +1,55 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const products = [
   {
     id: 1,
-    name: "Orbea Orca M20 Team",
+    name: "Scott Addict RC 10",
+    year: "2026",
     category: "Silniční kola",
-    price: "74 990 Kč",
+    price: "159 900 Kč",
     badge: "Doporučuje tým",
     note: "Kolo, na kterém jezdíme v Malaze",
-    gradient: "from-zinc-800 to-zinc-900",
-    tag: "sport",
+    photo: "https://asset.scott-sports.com/fit-in/2000x2000/425/4256848096_2219877.png",
+    photoBg: "#f0f2f7",
+    specs: ["Shimano Ultegra Di2", "Syncros Carbon 40mm", "~7 kg"],
   },
   {
     id: 2,
-    name: "Castelli Velocissima 4",
+    name: "Gregarius Q36.5 Pro Jersey",
+    year: "2025",
     category: "Cyklistické oblečení",
-    price: "4 290 Kč",
+    price: "3 290 Kč",
     badge: null,
-    note: null,
-    gradient: "from-stone-700 to-stone-900",
-    tag: "sport",
+    note: "Dres, který jedeme my",
+    photo: "https://www.q36-5.com/media/44/51/b4/1734343420/038PRO25-GregariusQ36.5ProCyclingTeamShortsSleeveJersey-1.png",
+    photoBg: "#ffffff",
+    specs: ["112 g (vel. M)", "4 speciální materiály", "Made in Italy"],
   },
   {
     id: 3,
     name: "Garmin Edge 1050",
+    year: null,
     category: "Cyklocomputer",
     price: "18 490 Kč",
     badge: "Bestseller",
     note: null,
+    photo: null,
+    photoBg: null,
     gradient: "from-slate-700 to-slate-900",
-    tag: "sport",
+    specs: [],
   },
   {
     id: 4,
-    name: "Dynafit Radical 88",
+    name: "Dynastar M-Vertical 88 Open",
+    year: "2026",
     category: "Skialpové lyže",
-    price: "28 900 Kč",
+    price: "20 990 Kč",
     badge: "Novinka",
-    note: "Brzy i na Open Miles Clinic",
-    gradient: "from-blue-900 to-slate-900",
-    tag: "skialpy",
+    note: "Skialpová sezóna s OMC",
+    photo: "https://www.dynastar-lange.com/dw/image/v2/BJJZ_PRD/on/demandware.static/-/Sites-rossignol-catalog/default/dw966b7994/images/large/DANM301_000_72DPI_01.jpg",
+    photoBg: "#f5f7fa",
+    specs: ["88mm waist", "1.18 kg / lyži", "Paulownia core"],
   },
 ];
 
@@ -88,42 +98,58 @@ export default function FeaturedProducts() {
 
 function ProductCard({
   name,
+  year,
   category,
   price,
   badge,
   note,
+  photo,
+  photoBg,
   gradient,
+  specs,
 }: {
   name: string;
+  year: string | null;
   category: string;
   price: string;
   badge: string | null;
   note: string | null;
-  gradient: string;
+  photo: string | null;
+  photoBg: string | null;
+  gradient?: string;
+  specs: string[];
 }) {
   return (
     <Link href="/shop" className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-[#E8E8E8] hover:border-[#E8431A]/20 hover:shadow-lg transition-all duration-200">
 
       {/* Image area */}
-      <div className={`relative aspect-[4/3] bg-gradient-to-br ${gradient} flex items-center justify-center`}>
-        {/* Placeholder product visual */}
-        <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
-          <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={1.5} opacity={0.4}>
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-            <path d="M2 12h20" />
-          </svg>
-        </div>
+      <div
+        className={`relative aspect-[4/3] flex items-center justify-center overflow-hidden ${!photo ? `bg-gradient-to-br ${gradient}` : ""}`}
+        style={photo && photoBg ? { backgroundColor: photoBg } : undefined}
+      >
+        {photo ? (
+          <Image
+            src={photo}
+            alt={name}
+            fill
+            className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          />
+        ) : (
+          <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={1.5} opacity={0.4}>
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+              <path d="M2 12h20" />
+            </svg>
+          </div>
+        )}
 
-        {/* Badge */}
         {badge && (
-          <div className="absolute top-3 left-3">
+          <div className="absolute top-3 left-3 z-10">
             <span
-              className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full"
-              style={{
-                backgroundColor: badge === "Doporučuje tým" ? "var(--accent)" : badge === "Novinka" ? "var(--community-color)" : "#1a1a1a",
-                color: "white",
-              }}
+              className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full text-white"
+              style={{ backgroundColor: badge === "Doporučuje tým" ? "#E8431A" : badge === "Novinka" ? "#2EAA6E" : "#1a1a1a" }}
             >
               {badge}
             </span>
@@ -136,17 +162,26 @@ function ProductCard({
         <div className="text-[10px] tracking-wider uppercase text-[#9A9A9A] font-medium mb-1">
           {category}
         </div>
-        <h3 className="text-sm font-bold text-[#111111] leading-snug mb-auto">
-          {name}
+        <h3 className="text-sm font-bold text-[#111111] leading-snug">
+          {name} {year && <span className="text-[#9A9A9A] font-medium">{year}</span>}
         </h3>
 
-        {note && (
-          <p className="text-[11px] text-[#E8431A] mt-2 font-medium italic">
-            {note}
-          </p>
+        {specs.length > 0 && (
+          <ul className="mt-2 space-y-0.5">
+            {specs.map((s) => (
+              <li key={s} className="text-[10px] text-[#9A9A9A] flex items-center gap-1">
+                <span className="w-1 h-1 rounded-full bg-[#E8431A] shrink-0" />
+                {s}
+              </li>
+            ))}
+          </ul>
         )}
 
-        <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#F4F4F4]">
+        {note && (
+          <p className="text-[11px] text-[#E8431A] mt-2 font-medium italic">{note}</p>
+        )}
+
+        <div className="flex items-center justify-between mt-auto pt-3 border-t border-[#F4F4F4] mt-3">
           <span className="text-base font-black text-[#111111]">{price}</span>
           <button
             className="p-2 rounded-full bg-[#F4F4F4] group-hover:bg-[#E8431A] transition-colors duration-200"
