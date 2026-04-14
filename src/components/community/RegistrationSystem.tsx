@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 export interface Participant {
@@ -147,7 +147,6 @@ function RegistrationModal({
   const [city, setCity] = useState("");
   const [photoDataUrl, setPhotoDataUrl] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const fileRef = useRef<HTMLInputElement>(null);
 
   const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -177,15 +176,17 @@ function RegistrationModal({
 
   const inputClass = "w-full px-4 py-3 rounded-xl text-sm border border-[#E2E6F3] text-[#1a1a2e] placeholder-[#C0C7D8] focus:outline-none focus:border-current transition-colors";
 
+  const photoInputId = `photo-upload-${eventSlug}`;
+
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center p-4" onClick={onClose}>
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
       <div
-        className="relative bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden"
+        className="relative bg-white rounded-2xl w-full max-w-md shadow-2xl max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#F0F2FA]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#F0F2FA] shrink-0">
           <h3 className="font-black text-[#1a1a2e]">Přihlásit se na akci</h3>
           <button
             onClick={onClose}
@@ -197,14 +198,13 @@ function RegistrationModal({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="px-6 py-5 space-y-3">
-          {/* Photo upload */}
+        <form onSubmit={handleSubmit} className="px-6 py-5 space-y-3 overflow-y-auto">
+          {/* Photo upload — label approach, reliable across all browsers */}
           <div className="flex items-center gap-4 mb-4">
-            <button
-              type="button"
-              onClick={() => fileRef.current?.click()}
-              className="w-16 h-16 rounded-full border-2 border-dashed border-[#E2E6F3] flex items-center justify-center overflow-hidden hover:border-current transition-colors shrink-0"
-              style={{ "--tw-border-opacity": "1", color } as React.CSSProperties}
+            <label
+              htmlFor={photoInputId}
+              className="w-16 h-16 rounded-full border-2 border-dashed border-[#E2E6F3] flex items-center justify-center overflow-hidden cursor-pointer hover:border-current transition-colors shrink-0"
+              style={{ color }}
             >
               {photoDataUrl ? (
                 <img src={photoDataUrl} alt="foto" className="w-full h-full object-cover" />
@@ -214,19 +214,20 @@ function RegistrationModal({
                   <circle cx="12" cy="7" r="4" />
                 </svg>
               )}
-            </button>
+            </label>
             <div>
-              <button
-                type="button"
-                onClick={() => fileRef.current?.click()}
-                className="text-sm font-semibold"
-                style={{ color }}
-              >
+              <label htmlFor={photoInputId} className="text-sm font-semibold cursor-pointer" style={{ color }}>
                 {photoDataUrl ? "Změnit fotku" : "Nahrát profilovou fotku"}
-              </button>
+              </label>
               <p className="text-xs text-[#C0C7D8] mt-0.5">Nepovinné · JPG nebo PNG</p>
             </div>
-            <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handlePhoto} />
+            <input
+              id={photoInputId}
+              type="file"
+              accept="image/*"
+              className="sr-only"
+              onChange={handlePhoto}
+            />
           </div>
 
           {/* Name row */}
