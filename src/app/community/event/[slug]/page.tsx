@@ -13,6 +13,22 @@ import {
   DIFFICULTY_COLOR,
 } from "@/data/events";
 
+function RichText({ text }: { text: string }) {
+  // Split on **bold** and [label](url) patterns
+  const parts = text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g);
+  return (
+    <>
+      {parts.map((part, i) => {
+        const bold = part.match(/^\*\*(.+)\*\*$/);
+        if (bold) return <strong key={i} className="font-bold text-[#1a1a2e]">{bold[1]}</strong>;
+        const link = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+        if (link) return <a key={i} href={link[2]} target="_blank" rel="noopener noreferrer" className="font-semibold underline underline-offset-2" style={{ color: "var(--community-color, #2EAA6E)" }}>{link[1]}</a>;
+        return <span key={i}>{part}</span>;
+      })}
+    </>
+  );
+}
+
 export function generateStaticParams() {
   return events.map((e) => ({ slug: e.slug }));
 }
@@ -138,7 +154,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                 <h3 className="font-black text-[#1a1a2e] mb-4 text-lg">O akci</h3>
                 <div className="text-[#5A6480] leading-relaxed space-y-3 text-sm">
                   {event.longDescription.trim().split("\n\n").map((para, i) => (
-                    <p key={i}>{para}</p>
+                    <p key={i}><RichText text={para} /></p>
                   ))}
                 </div>
               </div>
