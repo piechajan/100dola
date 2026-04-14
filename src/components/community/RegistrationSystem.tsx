@@ -77,10 +77,13 @@ function ParticipantsModal({
   color: string;
 }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+    <div
+      style={{ position: "fixed", inset: 0, zIndex: 99999, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}
+      onClick={onClose}
+    >
+      <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.5)" }} />
       <div
-        className="relative bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden"
+        style={{ position: "relative", background: "#ffffff", borderRadius: 20, width: "100%", maxWidth: 440, boxShadow: "0 24px 60px rgba(0,0,0,0.25)", overflow: "hidden", zIndex: 100000 }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -179,10 +182,13 @@ function RegistrationModal({
   const photoInputId = `photo-upload-${eventSlug}`;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center p-4" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+    <div
+      style={{ position: "fixed", inset: 0, zIndex: 99999, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}
+      onClick={onClose}
+    >
+      <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.5)" }} />
       <div
-        className="relative bg-white rounded-2xl w-full max-w-md shadow-2xl max-h-[90vh] flex flex-col"
+        style={{ position: "relative", background: "#ffffff", borderRadius: 20, width: "100%", maxWidth: 440, boxShadow: "0 24px 60px rgba(0,0,0,0.25)", maxHeight: "90vh", display: "flex", flexDirection: "column", zIndex: 100000 }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
