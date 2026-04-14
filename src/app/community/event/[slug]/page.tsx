@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import RegisterButton from "@/components/community/RegisterButton";
+import RegistrationSystem from "@/components/community/RegistrationSystem";
 import {
   events,
   getEventBySlug,
@@ -214,62 +214,14 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   <div className="h-1.5 w-full" style={{ backgroundColor: color }} />
 
                   <div className="p-6">
-                    <div className="flex items-center justify-between mb-5">
-                      <div>
-                        <div className="text-xs text-[#9AA3C2] font-medium">Kapacita</div>
-                        <div className="font-black text-[#1a1a2e] text-lg">
-                          {event.filled} / {event.capacity}
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-xs text-[#9AA3C2] font-medium">Zbývá</div>
-                        <div
-                          className="font-black text-lg"
-                          style={{ color: almostFull ? "#E8431A" : color }}
-                        >
-                          {spotsLeft} míst
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Progress bar */}
-                    <div className="h-2 bg-[#F0F2FA] rounded-full overflow-hidden mb-2">
-                      <div
-                        className="h-full rounded-full transition-all"
-                        style={{ width: `${fillPct}%`, backgroundColor: almostFull ? "#E8431A" : color }}
-                      />
-                    </div>
-
-                    {almostFull && (
-                      <div className="text-xs font-semibold text-[#E8431A] mb-4">
-                        ⚠️ Skoro plno — registruj se rychle
-                      </div>
-                    )}
-
-                    {/* Participant avatars */}
-                    <div className="flex items-center gap-2 mb-6 mt-4">
-                      <div className="flex -space-x-2">
-                        {Array.from({ length: Math.min(5, event.filled) }).map((_, i) => (
-                          <div
-                            key={i}
-                            className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-xs font-bold text-white"
-                            style={{ backgroundColor: color, opacity: 0.7 + i * 0.06 }}
-                          >
-                            {String.fromCharCode(65 + i)}
-                          </div>
-                        ))}
-                      </div>
-                      <span className="text-xs text-[#9AA3C2]">
-                        a {event.filled - 5 > 0 ? `dalších ${event.filled - 5}` : "další"} jede
-                      </span>
-                    </div>
-
-                    {/* Register button */}
-                    <RegisterButton color={color} spotsLeft={spotsLeft} />
-
-                    <p className="text-[10px] text-[#C0C7D8] text-center mt-3 leading-relaxed">
-                      Přihlášením souhlasíš s podmínkami účasti. Odhlásit se lze do 48h před akcí.
-                    </p>
+                    {/* Registration system */}
+                    <RegistrationSystem
+                      eventSlug={event.slug}
+                      color={color}
+                      spotsLeft={spotsLeft}
+                      filledCount={event.filled}
+                      capacity={event.capacity}
+                    />
                   </div>
                 </div>
 
