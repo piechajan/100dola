@@ -98,7 +98,7 @@ Jedeme vždy v jedné skupině — tempo přizpůsobíme. Kdo chce Cappuccino, o
       "Dobrá nálada",
     ],
     whoIsItFor: "Kdokoliv na kole. Tempo přizpůsobíme skupině.",
-    organizer: { name: "Jan Piecháček", role: "Zakladatel Open Miles Clinic" },
+    organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
     photo: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=85&fit=crop",
   },
   {
@@ -130,7 +130,7 @@ Sraz u Chochina v 10:00.`,
       "Nabitý telefon",
     ],
     whoIsItFor: "Jezdci se základní kondicí. Průměrné tempo skupiny ~25–28 km/h.",
-    organizer: { name: "Jan Piecháček", role: "Zakladatel Open Miles Clinic" },
+    organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
     photo: "https://images.unsplash.com/photo-1501147830916-ce44a6359892?w=1400&q=85&fit=crop",
   },
   {
@@ -163,7 +163,7 @@ Na trase plánujeme oběd v horské boudě a kávovou zastávku na Pustevnách.`
       "Trekingové hole — doporučeny",
     ],
     whoIsItFor: "Kdokoliv v dobré fyzické kondici. Zkušenost s horskou turistikou výhodou.",
-    organizer: { name: "Jan Piecháček", role: "Zakladatel Open Miles Clinic" },
+    organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
     photo: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=1400&q=85&fit=crop",
   },
   {
@@ -195,7 +195,7 @@ V ceně je zázemí, technická podpora a organizace tras. Ubytování si zajiš
       "Chuť jezdit",
     ],
     whoIsItFor: "Cyklisté všech úrovní. Ideální pro ty, kdo mají kolo v zázemí 100dola Malaga.",
-    organizer: { name: "Jan Piecháček", role: "Zakladatel 100dola Malaga" },
+    organizer: { name: "Jan Piecha", role: "Zakladatel 100dola Malaga" },
     photo: "/media/malaga-hero.jpg",
   },
   {
@@ -226,7 +226,7 @@ Pokud ti nevyhovuje první termín nebo chceš přijet na oba — kolo zůstane 
       "Cestovní pojištění",
     ],
     whoIsItFor: "Cyklisté všech úrovní. Vhodné i pro kombinaci s Podzimní Malaga I.",
-    organizer: { name: "Jan Piecháček", role: "Zakladatel 100dola Malaga" },
+    organizer: { name: "Jan Piecha", role: "Zakladatel 100dola Malaga" },
     photo: "/media/malaga-event.jpg",
   },
   {
@@ -259,7 +259,7 @@ Startujeme v 7:00 ráno ze Štefanové. Lavinové vybavení je podmínkou účas
       "Sluneční brýle nebo maska",
     ],
     whoIsItFor: "Zkušení skialpinisté s lavinovým kurzem. Bez zkušeností nevhodné.",
-    organizer: { name: "Jan Piecháček", role: "Zakladatel Open Miles Clinic" },
+    organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
     photo: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=1400&q=85&fit=crop",
   },
 ];
