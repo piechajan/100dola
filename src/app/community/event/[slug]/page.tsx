@@ -4,8 +4,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import RegistrationSystem from "@/components/community/RegistrationSystem";
-import dynamic from "next/dynamic";
-const RouteMap = dynamic(() => import("@/components/community/RouteMap"), { ssr: false });
+import RouteMapClient from "@/components/community/RouteMapClient";
 import {
   events,
   getEventBySlug,
@@ -141,7 +140,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                 {/* Map */}
                 <div className="mt-4">
                   {event.slug === "season-opening" ? (
-                    <RouteMap accentColor={color} />
+                    <RouteMapClient accentColor={color} />
                   ) : event.mapUrl ? (
                     <div className="rounded-xl overflow-hidden h-64">
                       <iframe src={event.mapUrl} width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy" title={`Mapa trasy — ${event.title}`} />
