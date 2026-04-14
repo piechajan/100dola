@@ -62,6 +62,38 @@ export const DIFFICULTY_COLOR: Record<Difficulty, string> = {
 
 export const events: Event[] = [
   {
+    id: 0,
+    slug: "season-opening",
+    title: "Season Opening",
+    sport: "Silnice",
+    date: "So 19. dubna",
+    dateISO: "2026-04-19",
+    time: "09:45",
+    location: "Kavárna Chochino, Valašské Meziříčí",
+    locationDetail: "Sraz přímo u kavárny Chochino, Valašské Meziříčí",
+    distance: "~40 km",
+    elevation: "~400 m",
+    difficulty: "Lehká",
+    capacity: 20,
+    filled: 6,
+    description: "Otevíráme sezónu. Sraz u Chochina, 2–3 hodiny v pohodovém tempu. Vhodné pro všechny, kdo se těší zpátky na kolo.",
+    longDescription: `Season Opening je neformální start sezóny pro celou komunitu Open Miles Clinic. Jedeme 2–3 hodiny v pohodovém tempu z Valašského Meziříčí a zpátky — žádné kilometry navíc, žádný tlak.
+
+Sraz je u kavárny Chochino v 9:45. Po jízdě se vracíme zpátky na kávu a popovídáme, co nás čeká v sezóně.
+
+Vhodné pro každého — ať jedete poprvé nebo se vracíte po zimě.`,
+    whatToBring: [
+      "Silniční nebo gravel kolo",
+      "Helma — povinná",
+      "Voda a svačina na 2–3 hodiny",
+      "Dle počasí — větrovka",
+      "Dobrá nálada",
+    ],
+    whoIsItFor: "Kdokoliv na kole. Tempo přizpůsobíme skupině.",
+    organizer: { name: "Jan Piecháček", role: "Zakladatel Open Miles Clinic" },
+    photo: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=85&fit=crop",
+  },
+  {
     id: 1,
     slug: "blanik-gravel-2025",
     title: "Blaník Gravel",

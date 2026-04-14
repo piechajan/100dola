@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 export default function LoginPage() {
   const [password, setPassword] = useState("");
@@ -36,7 +35,8 @@ export default function LoginPage() {
 
         {/* Logo */}
         <div className="flex justify-center mb-10">
-          <Image src="/logo.png" alt="100dola" width={140} height={56} className="object-contain" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-sport-box.png?v=2" alt="100dola sport" style={{ height: 160, width: "auto" }} />
         </div>
 
         {/* Card */}

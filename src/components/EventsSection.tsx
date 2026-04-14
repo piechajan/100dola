@@ -2,6 +2,19 @@ import Link from "next/link";
 
 const events = [
   {
+    id: 0,
+    title: "Season Opening",
+    type: "Cyklistika",
+    date: "So 19. dubna",
+    time: "09:45",
+    location: "Kavárna Chochino, Valašské Meziříčí",
+    distance: "~40 km",
+    elevation: "~400 m",
+    capacity: 20,
+    filled: 6,
+    color: "var(--community-color)",
+  },
+  {
     id: 1,
     title: "Blaník Gravel 2025",
     type: "Cyklistika",
@@ -26,19 +39,6 @@ const events = [
     capacity: 16,
     filled: 9,
     color: "var(--malaga-color)",
-  },
-  {
-    id: 3,
-    title: "OMC Wednesday Social",
-    type: "Cyklistika",
-    date: "St 30. dubna",
-    time: "18:00",
-    location: "Praha — Prokopák",
-    distance: "45 km",
-    elevation: "450 m",
-    capacity: 20,
-    filled: 11,
-    color: "var(--community-color)",
   },
 ];
 
