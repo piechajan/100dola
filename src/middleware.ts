@@ -25,5 +25,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|logo\\.png|logo-malaga\\.png|logo-sport-box\\.png).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|media/|logo\\.png|logo-malaga\\.png|logo-sport-box\\.png).*)"],
 };
