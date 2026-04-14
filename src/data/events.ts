@@ -32,6 +32,7 @@ export interface Event {
   photo: string;
   photoGallery?: string[];
   routeUrl?: string;
+  mapUrl?: string;
 }
 
 export const SPORT_COLORS: Record<Sport, string> = {
@@ -100,6 +101,7 @@ Jedeme vždy v jedné skupině — tempo přizpůsobíme. Kdo chce Cappuccino, o
     whoIsItFor: "Kdokoliv na kole. Tempo přizpůsobíme skupině.",
     organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
     photo: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=85&fit=crop",
+    mapUrl: "https://en.mapy.cz/turisticka?x=18.0399812&y=49.4375893&z=12",
   },
   {
     id: 1,
