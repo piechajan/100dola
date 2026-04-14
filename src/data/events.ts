@@ -71,17 +71,25 @@ export const events: Event[] = [
     time: "09:45",
     location: "Kavárna Chochino, Valašské Meziříčí",
     locationDetail: "Sraz přímo u kavárny Chochino, Valašské Meziříčí",
-    distance: "~40 km",
-    elevation: "~400 m",
+    distance: "25–45 km",
+    elevation: "250–500 m",
     difficulty: "Lehká",
     capacity: 20,
     filled: 6,
-    description: "Otevíráme sezónu. Sraz u Chochina, 2–3 hodiny v pohodovém tempu. Vhodné pro všechny, kdo se těší zpátky na kolo.",
-    longDescription: `Season Opening je neformální start sezóny pro celou komunitu Open Miles Clinic. Jedeme 2–3 hodiny v pohodovém tempu z Valašského Meziříčí a zpátky — žádné kilometry navíc, žádný tlak.
+    description: "Otevíráme sezónu. Sraz u Chochina, dvě trasy na výběr — kratší (25 km) nebo delší (45 km). Jedeme spolu, tempo pohodové.",
+    longDescription: `Season Opening je neformální start sezóny pro celou komunitu Open Miles Clinic. Sraz v 9:45 u kavárny Chochino, výjezd v 10:00. Po jízdě se vracíme na kávu a projdeme, co nás čeká v sezóně.
 
-Sraz je u kavárny Chochino v 9:45. Po jízdě se vracíme zpátky na kávu a popovídáme, co nás čeká v sezóně.
+Na výběr jsou dvě trasy — vyber si podle nálady:
 
-Vhodné pro každého — ať jedete poprvé nebo se vracíte po zimě.`,
+**Kratší trasa (~25 km, ~250 m)**
+Okruh přes Krásno nad Bečvou a zpátky podél řeky. Pohodová jízda bez větších kopců, ideální pro první výjezd po zimě.
+→ [Zobrazit trasu na Mapy.com](https://mapy.com/cs/turisticka?planovani-trasy&x=17.9593785&y=49.4630376&z=14)
+
+**Delší trasa (~45 km, ~500 m)**
+Rozšířený okruh přes Vsetínsko s výhledem na Beskydy. Pár kopců, pár výhledů, dobrý základ do sezóny.
+→ [Zobrazit trasu na Mapy.com](https://mapy.com/cs/turisticka?planovani-trasy&x=18.1205839&y=49.4121410&z=15)
+
+Jedeme vždy v jedné skupině — tempo přizpůsobíme. Kdo chce kratší, odbočí dřív.`,
     whatToBring: [
       "Silniční nebo gravel kolo",
       "Helma — povinná",
@@ -95,206 +103,164 @@ Vhodné pro každého — ať jedete poprvé nebo se vracíte po zimě.`,
   },
   {
     id: 1,
-    slug: "blanik-gravel-2025",
-    title: "Blaník Gravel",
-    sport: "Gravel",
-    date: "So 26. dubna 2025",
-    dateISO: "2025-04-26",
-    time: "07:30",
-    location: "Mladá Vožice",
-    locationDetail: "Start: parkoviště u nádraží Mladá Vožice",
-    distance: "120 km",
-    elevation: "1 800 m",
-    difficulty: "Střední",
-    capacity: 24,
-    filled: 18,
-    description: "Klasická jarní gravel jízda přes Blaník. Otevírá sezónu pořádnou dávkou štěrku a výhledů.",
-    longDescription: `Blaník Gravel je naše tradiční jarní otevírací akce. Jedeme přes Blaník, Vlašimsko a zpět přes lesní cesty a polní štěrkové silnice. Trasa kombinuje asfalt a gravel v poměru 40/60.
-
-Tempo je skupinové — jedeme jako jeden peloton, přizpůsobujeme se pomalejším. Na trase jsou dvě plánované zastávky: u pekárny v Bystřici (km 45) a u přírodní restaurace u Blaníku (km 85).
-
-Akce je vhodná pro zkušenější jezdce na gravelovém nebo silničním kole s vhodnou geometrií na delší jízdu.`,
-    whatToBring: [
-      "Gravel nebo silniční kolo (minimálně 32mm plášť doporučen)",
-      "Cyklistická helma — povinná",
-      "Jídlo a pití na cca 4–5 hodin",
-      "Záplaty, rezervní duše, minihuška",
-      "Dle počasí — větrovka nebo pláštěnka",
-      "Nabitý telefon a power bank",
-    ],
-    whoIsItFor: "Jezdci se zkušeností 80+ km jednorázově. Gravel nebo silniční kolo s výbavou.",
-    organizer: { name: "Jan Piecháček", role: "Zakladatel Open Miles Clinic" },
-    photo: "https://images.unsplash.com/photo-1544191696-15693a5c5a38?w=1400&q=85&fit=crop",
-    photoGallery: [
-      "https://images.unsplash.com/photo-1502904550040-7534597429ae?w=700&q=80&fit=crop",
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80&fit=crop",
-      "https://images.unsplash.com/photo-1501147830916-ce44a6359892?w=700&q=80&fit=crop",
-    ],
-  },
-  {
-    id: 2,
-    slug: "omc-wednesday-social",
-    title: "OMC Wednesday Social",
+    slug: "vyjízdka-od-chochina-kvetna",
+    title: "Vyjížďka od Chochina",
     sport: "Silnice",
-    date: "St 30. dubna 2025",
-    dateISO: "2025-04-30",
-    time: "18:00",
-    location: "Praha — start Prokopák",
-    locationDetail: "Start: parkoviště Prokopské údolí, Praha 5",
-    distance: "45 km",
-    elevation: "420 m",
-    difficulty: "Lehká",
+    date: "So 16. května",
+    dateISO: "2026-05-16",
+    time: "10:00",
+    location: "Kavárna Chochino, Valašské Meziříčí",
+    locationDetail: "Sraz u kavárny Chochino. Při horším počasí přesun na neděli 17. 5.",
+    distance: "55 km",
+    elevation: "600 m",
+    difficulty: "Střední",
     capacity: 20,
-    filled: 11,
-    description: "Pravidelná středeční večerní vyjížďka. Tempo klidné, nálada dobrá. Vhodné pro každého.",
-    longDescription: `Wednesday Social je naše nejčastější akce — pravidelná středeční vyjížďka, která se koná každé dva týdny od dubna do října.
+    filled: 3,
+    description: "Jarní vyjížďka z Valašského Meziříčí. Při horším počasí se přesouváme na neděli 17. 5. — rozhodnutí den předem.",
+    longDescription: `Jarní vyjížďka v dobrém tempu přes Vsetínsko a zpátky. Trasa vede přes Bečvu, kopce nad Vsetínem a zpátky po silnicích s výhledem na Beskydy.
 
-Jedeme po prověřené trase přes Prokopák, Řeporyje a zpátky přes Motol. Tempo je konverzační — dojedeš a přitom si popovídáš. Po jízdě je typicky spontánní afterride v místním pivovaru nebo kavárně.
+Při horším počasí (déšť, silný vítr) se akce přesouvá na neděli 17. 5. — rozhodnutí oznámíme den předem přes skupinový chat.
 
-Tato akce je ideální pro nové lidi v komunitě — bezpečný start, žádný závazek, příjemná parta.`,
+Sraz u Chochina v 10:00.`,
     whatToBring: [
       "Silniční nebo gravel kolo",
       "Helma — povinná",
-      "Voda a svačina",
-      "Světla (jezdíme do setmění)",
-      "Dobrá nálada",
+      "Jídlo a pití na ~2,5 hodiny",
+      "Větrovka nebo pláštěnka dle předpovědi",
+      "Nabitý telefon",
     ],
-    whoIsItFor: "Kdokoliv na kole. Začátečníci i zkušení. Tempo přizpůsobíme.",
+    whoIsItFor: "Jezdci se základní kondicí. Průměrné tempo skupiny ~25–28 km/h.",
     organizer: { name: "Jan Piecháček", role: "Zakladatel Open Miles Clinic" },
-    photo: "/media/road-event.jpg",
-    photoGallery: [
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80&fit=crop",
-      "https://images.unsplash.com/photo-1501147830916-ce44a6359892?w=700&q=80&fit=crop",
+    photo: "https://images.unsplash.com/photo-1501147830916-ce44a6359892?w=1400&q=85&fit=crop",
+  },
+  {
+    id: 2,
+    slug: "turistika-beskydy-leto",
+    title: "Turistika Beskydy",
+    sport: "Turistika",
+    date: "So 18. července",
+    dateISO: "2026-07-18",
+    time: "08:30",
+    location: "Pustevny, Beskydy",
+    locationDetail: "Start: parkoviště Pustevny, Trojanovice",
+    distance: "22 km",
+    elevation: "950 m",
+    difficulty: "Střední",
+    capacity: 16,
+    filled: 2,
+    description: "Letní túra přes hřebeny Beskyd. Radhošť, Pustevny, výhledy až na Tatry. Tempo pohodové, parta dobrá.",
+    longDescription: `Letní výšlap přes nejkrásnější část Beskyd — z Pusteven na Radhošť a přes Čertův mlýn zpátky. Trasa kombinuje lesní pěšiny a otevřené hřebeny s výhledem na Slovensko.
+
+Celkem 22 km, 950 m převýšení — fyzicky střední zátěž, technicky nenáročné. Počítejte s 6–7 hodinami včetně zastávek.
+
+Na trase plánujeme oběd v horské boudě a kávovou zastávku na Pustevnách.`,
+    whatToBring: [
+      "Pohodlná turistická obuv — povinná",
+      "Batoh s vodou min. 1,5 l",
+      "Svačina a peníze na oběd (cca 200 Kč)",
+      "Lehká nepromokavá bunda",
+      "Sluneční ochrana a brýle",
+      "Trekingové hole — doporučeny",
     ],
+    whoIsItFor: "Kdokoliv v dobré fyzické kondici. Zkušenost s horskou turistikou výhodou.",
+    organizer: { name: "Jan Piecháček", role: "Zakladatel Open Miles Clinic" },
+    photo: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=1400&q=85&fit=crop",
   },
   {
     id: 3,
-    slug: "malaga-spring-ride",
-    title: "Malaga Spring Ride",
+    slug: "podzimni-malaga-1",
+    title: "Podzimní Malaga I",
     sport: "Malaga",
-    date: "Po 12. května 2025",
-    dateISO: "2025-05-12",
-    time: "08:00",
+    date: "16.–22. října",
+    dateISO: "2026-10-16",
+    time: "—",
     location: "Málaga, Španělsko",
-    locationDetail: "Start: zázemí 100dola Malaga, Calle Larios",
-    distance: "85 km",
-    elevation: "1 200 m",
+    locationDetail: "Zázemí 100dola Malaga, Málaga",
+    distance: "~80 km / den",
+    elevation: "~1 000 m / den",
     difficulty: "Střední",
-    capacity: 16,
-    filled: 9,
-    description: "Skupinová vyjížďka v Andalusii. Slunce, výhledy na moře a silnice bez aut.",
-    longDescription: `Malaga Spring Ride je skupinová jízda organizovaná přímo v rámci zázemí 100dola Malaga. Jedeme z centra Malagy do hor přes Caminito del Rey a zpátky pobřežní silnicí s výhledy na Středozemní moře.
+    capacity: 12,
+    filled: 4,
+    description: "Týdenní cyklistický pobyt v Malaze. Vlastní kolo, vlastní tempo. Říjen je v Andalusii nejlepší — teplo, prázdné silnice, barvy.",
+    longDescription: `Podzimní Malaga I je týdenní cyklistický pobyt postavený kolem zázemí 100dola Malaga. Jedeme každý den, tempo si volí každý sám — jsou zde jezdci na různé úrovni a trasy pro každého.
 
-Trasa je nádherná — stoupáme do 700 m n.m., pak klesáme k moři a finišujeme espresso na terase. Teploty v květnu okolo 22–26 °C.
+Říjen je v Malaze ideální měsíc — teploty 22–26 °C, prázdné silnice, žádné turistické davy. Kopce nad Malaga nabízí výzvu pro zkušené jezdce, pobřežní silnice jsou perfektní pro pohodovější dny.
 
-Akce je primárně určena pro lidi, kteří mají kolo v zázemí 100dola Malaga, nebo si kolo přivezou vlastní cestou.`,
+V ceně je zázemí, technická podpora a organizace tras. Ubytování si zajišťuje každý sám — pomůžeme s doporučeními.`,
     whatToBring: [
-      "Kolo (nebo využij zázemí 100dola Malaga)",
-      "Lehké cyklistické oblečení — v Malaze je teplo",
+      "Kolo (nebo využij přepravu 100dola Malaga)",
+      "Cyklistické oblečení na teplo (20–26 °C)",
       "Sluneční ochrana",
-      "Plná láhev — na trase jsou omezené zdroje vody",
-      "Pas nebo ID",
+      "Cestovní pojištění",
+      "Chuť jezdit",
     ],
-    whoIsItFor: "Pro zákazníky služby 100dola Malaga a kohokoliv, kdo přicestuje s kolem.",
-    organizer: { name: "Jan Piecháček", role: "Zakladatel Open Miles Clinic" },
-    photo: "/media/malaga-event.jpg",
+    whoIsItFor: "Cyklisté všech úrovní. Ideální pro ty, kdo mají kolo v zázemí 100dola Malaga.",
+    organizer: { name: "Jan Piecháček", role: "Zakladatel 100dola Malaga" },
+    photo: "/media/malaga-hero.jpg",
   },
   {
     id: 4,
-    slug: "krkonose-skialpy",
-    title: "Krkonoše — skialpový den",
-    sport: "Skialpy",
-    date: "So 17. května 2025",
-    dateISO: "2025-05-17",
-    time: "06:00",
-    location: "Špindlerův Mlýn",
-    locationDetail: "Start: parkoviště Sv. Petr, Špindlerův Mlýn",
-    distance: "18 km",
-    elevation: "1 100 m",
-    difficulty: "Náročná",
+    slug: "podzimni-malaga-2",
+    title: "Podzimní Malaga II",
+    sport: "Malaga",
+    date: "23.–29. října",
+    dateISO: "2026-10-23",
+    time: "—",
+    location: "Málaga, Španělsko",
+    locationDetail: "Zázemí 100dola Malaga, Málaga",
+    distance: "~80 km / den",
+    elevation: "~1 000 m / den",
+    difficulty: "Střední",
     capacity: 12,
-    filled: 7,
-    description: "Pozdní jarní skialpinismus. Ideální podmínky, firn a prázdné hřebeny.",
-    longDescription: `Pozdní jarní skialpinismus v Krkonoších je jeden z nejvíc odměňujících zážitků — firn, slunce, prázdné hřebeny a výhledy na celé Čechy.
+    filled: 2,
+    description: "Druhý termín podzimního pobytu v Malaze. Stejný formát, jiná parta. Kolo čeká, ty jen přileť.",
+    longDescription: `Podzimní Malaga II navazuje bezprostředně na první termín — stejné zázemí, stejné trasy, ale nová skupina lidí.
 
-Výstup vede přes Svatopeterský hřeben na Kozí hřbet a zpátky přes Zlaté návrší. Celková délka 18 km, převýšení 1 100 m. Technicky středně náročné, fyzicky náročné.
+Pokud ti nevyhovuje první termín nebo chceš přijet na oba — kolo zůstane v zázemí 100dola Malaga mezi oběma termíny. Přiletíš znovu s příručákem a jedeš.
 
-Startujeme v 6:00 ráno, abychom využili ranní firn. Doporučená výbava včetně lavinového vybavení je povinná.`,
+Říjen v Andalusii: teploty 20–25 °C, zlaté světlo, silnice bez aut. Nejlepší měsíc na kole v jižní Evropě.`,
     whatToBring: [
-      "Skialpové lyže s pásy",
-      "Lavinové vybavení: lopata, sonda, detektor — povinné",
-      "Přilba",
-      "Zásoby jídla a pití na celý den",
-      "Slunce: brýle + opalovací krém faktor 50",
-      "Náhradní oblečení do batohu",
+      "Kolo (nebo využij přepravu 100dola Malaga)",
+      "Cyklistické oblečení na teplo",
+      "Sluneční ochrana",
+      "Cestovní pojištění",
     ],
-    whoIsItFor: "Pro zkušené skialpinisty s lavinovým vybavením. Bez zkušeností není vhodné.",
-    organizer: { name: "Jan Piecháček", role: "Zakladatel Open Miles Clinic" },
-    photo: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=1400&q=85&fit=crop",
+    whoIsItFor: "Cyklisté všech úrovní. Vhodné i pro kombinaci s Podzimní Malaga I.",
+    organizer: { name: "Jan Piecháček", role: "Zakladatel 100dola Malaga" },
+    photo: "/media/malaga-event.jpg",
   },
   {
     id: 5,
-    slug: "mtb-krivoklatsko",
-    title: "MTB Křivoklátsko",
-    sport: "MTB",
-    date: "Ne 25. května 2025",
-    dateISO: "2025-05-25",
-    time: "09:00",
-    location: "Křivoklát",
-    locationDetail: "Start: parkoviště u hradu Křivoklát",
-    distance: "55 km",
-    elevation: "900 m",
-    difficulty: "Střední",
-    capacity: 18,
-    filled: 4,
-    description: "Technický MTB výjezd přes Křivoklátsko. Lesy, singletracky a dobré kafé na konci.",
-    longDescription: `Křivoklátsko je jeden z nejkrásnějších MTB regionů v Čechách. Jedeme přes CHKO Křivoklátsko — lesy, singletracky, kamenné výjezdy a dávky ve stylu enduro.
-
-Trasa je technicky pestrá — kombinace lesních cest a singletrackových úseků. Doporučujeme full suspension nebo hardtail s dobrým odpružením.
-
-Po jízdě máme rezervovaný stůl v hospodě přímo v Křivoklátě.`,
-    whatToBring: [
-      "MTB kolo — full suspension nebo hardtail",
-      "Helma — povinná, chrániče vhodné",
-      "Hydration pack nebo lahve min. 2l",
-      "Svačina + energetické tyčinky",
-      "Základní nářadí a záplaty",
-    ],
-    whoIsItFor: "MTB jezdci se zkušeností s technickým terénem. Pro začátečníky nevhodné.",
-    organizer: { name: "Jan Piecháček", role: "Zakladatel Open Miles Clinic" },
-    photo: "https://images.unsplash.com/photo-1594737625785-a6cbdabd333c?w=1400&q=85&fit=crop",
-  },
-  {
-    id: 6,
-    slug: "omc-saturday-long",
-    title: "OMC Saturday Long Ride",
-    sport: "Silnice",
-    date: "So 7. června 2025",
-    dateISO: "2025-06-07",
+    slug: "skialpy-mala-fatra",
+    title: "Skialpy Malá Fatra",
+    sport: "Skialpy",
+    date: "So 19. prosince",
+    dateISO: "2026-12-19",
     time: "07:00",
-    location: "Praha — Sázava — Praha",
-    locationDetail: "Start: parkoviště Smíchov nábřeží, Praha 5",
-    distance: "140 km",
-    elevation: "1 600 m",
+    location: "Malá Fatra, Slovensko",
+    locationDetail: "Start: parkoviště Štefanová, Malá Fatra NP",
+    distance: "16 km",
+    elevation: "1 050 m",
     difficulty: "Náročná",
-    capacity: 20,
-    filled: 12,
-    description: "Dlouhá sobotní jízda přes Posázaví. Pro ty, co chtějí pořádné kilometry.",
-    longDescription: `Saturday Long Ride je naše největší pravidelná akce. Jedeme přes Posázaví — jedna z nejkrásnějších cykloregionů u Prahy. Trasa kombinuje říční údolí, stoupání do kopců a rychlé sjezdy.
+    capacity: 10,
+    filled: 1,
+    description: "Otevření skialpové sezóny v Malé Fatře. První sníh, první výstupy. Rarita — hřebeny bez lidí.",
+    longDescription: `Malá Fatra je pro skialpinismus jeden z nejlepších prosincových cílů — v prosinci bývá stabilní sněhová pokrývka na hřebenech a minimum lidí.
 
-140 km, 1 600 m převýšení — fyzicky náročná akce, ale odměna stojí za to. Na trase jsou tři plánované zastávky včetně oběda v restauraci u Sázavy.
+Výstup vede přes Štefanovou na Velký Kriváň (1709 m) a zpátky klasickým sjezdovým hřebenem. Celkem 16 km, 1050 m převýšení. Fyzicky a technicky náročné.
 
-Akce je pro zkušené jezdce, kteří pravidelně jedou 100+ km.`,
+Startujeme v 7:00 ráno ze Štefanové. Lavinové vybavení je podmínkou účasti — bez detektoru, lopaty a sondy není možné akce se zúčastnit.`,
     whatToBring: [
-      "Silniční nebo gravel kolo v dobrém technickém stavu",
-      "Dres, kraťasy, návleky (ráno může být chladno)",
-      "Jídlo + doplňování na zastávkách",
-      "Peníze na oběd (cca 200–300 Kč)",
-      "Záplaty, minihuška, multitool",
+      "Skialpové lyže s pásy",
+      "Lavinové vybavení: detektor, lopata, sonda — povinné",
+      "Přilba",
+      "Batoh s jídlem a termoskou",
+      "Záložní oblečení",
+      "Sluneční brýle nebo maska",
     ],
-    whoIsItFor: "Zkušení silniční jezdci. Min. 100 km na kole za posledních 30 dní.",
+    whoIsItFor: "Zkušení skialpinisté s lavinovým kurzem. Bez zkušeností nevhodné.",
     organizer: { name: "Jan Piecháček", role: "Zakladatel Open Miles Clinic" },
-    photo: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=85&fit=crop",
+    photo: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=1400&q=85&fit=crop",
   },
 ];
 
@@ -306,7 +272,6 @@ export function getRelatedEvents(event: Event, count = 3): Event[] {
   return events
     .filter((e) => e.slug !== event.slug)
     .sort((a, b) => {
-      // same sport first
       if (a.sport === event.sport && b.sport !== event.sport) return -1;
       if (b.sport === event.sport && a.sport !== event.sport) return 1;
       return 0;

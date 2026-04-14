@@ -16,28 +16,28 @@ const events = [
   },
   {
     id: 1,
-    title: "Blaník Gravel 2025",
+    title: "Vyjížďka od Chochina",
     type: "Cyklistika",
-    date: "So 26. dubna",
-    time: "07:30",
-    location: "Mladá Vožice",
-    distance: "120 km",
-    elevation: "1 800 m",
-    capacity: 24,
-    filled: 18,
-    color: "var(--accent)",
+    date: "So 16. května",
+    time: "10:00",
+    location: "Kavárna Chochino, Valašské Meziříčí",
+    distance: "55 km",
+    elevation: "600 m",
+    capacity: 20,
+    filled: 3,
+    color: "var(--community-color)",
   },
   {
     id: 2,
-    title: "Malaga Spring Ride",
+    title: "Podzimní Malaga I",
     type: "Cyklistika · Malaga",
-    date: "Po 12. května",
-    time: "08:00",
+    date: "16.–22. října",
+    time: "—",
     location: "Málaga, Španělsko",
-    distance: "85 km",
-    elevation: "1 200 m",
-    capacity: 16,
-    filled: 9,
+    distance: "~80 km / den",
+    elevation: "~1 000 m / den",
+    capacity: 12,
+    filled: 4,
     color: "var(--malaga-color)",
   },
 ];
@@ -65,7 +65,7 @@ export default function EventsSection() {
           </div>
           <Link
             href="/community"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[#111111] hover:text-[#E8431A] transition-colors shrink-0"
+            className="inline-flex items-center gap-2 text-sm font-semibold transition-colors shrink-0"
             style={{ color: "var(--community-color)" }}
           >
             Všechny eventy
@@ -102,27 +102,10 @@ export default function EventsSection() {
 }
 
 function EventCard({
-  title,
-  type,
-  date,
-  time,
-  location,
-  distance,
-  elevation,
-  capacity,
-  filled,
-  color,
+  title, type, date, time, location, distance, elevation, capacity, filled, color,
 }: {
-  title: string;
-  type: string;
-  date: string;
-  time: string;
-  location: string;
-  distance: string;
-  elevation: string;
-  capacity: number;
-  filled: number;
-  color: string;
+  title: string; type: string; date: string; time: string; location: string;
+  distance: string; elevation: string; capacity: number; filled: number; color: string;
 }) {
   const fillPct = (filled / capacity) * 100;
   const spotsLeft = capacity - filled;
@@ -132,19 +115,14 @@ function EventCard({
       href="/community"
       className="group flex flex-col bg-white rounded-2xl border border-[#E8E8E8] overflow-hidden hover:border-[#111111]/20 hover:shadow-lg transition-all duration-200"
     >
-      {/* Top accent */}
       <div className="h-1 w-full" style={{ backgroundColor: color }} />
-
       <div className="p-5 flex flex-col flex-1">
-        {/* Type badge */}
         <div
           className="inline-flex self-start text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full mb-3"
           style={{ backgroundColor: `${color}15`, color }}
         >
           {type}
         </div>
-
-        {/* Date + time */}
         <div className="flex items-center gap-1.5 text-xs text-[#9A9A9A] mb-2">
           <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -154,11 +132,7 @@ function EventCard({
           </svg>
           {date} · {time}
         </div>
-
-        {/* Title */}
         <h3 className="text-lg font-black text-[#111111] leading-tight mb-2">{title}</h3>
-
-        {/* Location */}
         <div className="flex items-center gap-1.5 text-xs text-[#666666] mb-4">
           <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
@@ -166,8 +140,6 @@ function EventCard({
           </svg>
           {location}
         </div>
-
-        {/* Stats */}
         <div className="flex gap-4 text-xs mb-auto">
           <div>
             <div className="font-black text-[#111111]">{distance}</div>
@@ -178,24 +150,15 @@ function EventCard({
             <div className="text-[#9A9A9A]">převýšení</div>
           </div>
         </div>
-
-        {/* Capacity */}
         <div className="mt-5 pt-4 border-t border-[#F4F4F4]">
           <div className="flex items-center justify-between text-xs mb-2">
             <span className="text-[#666666]">{filled} / {capacity} míst obsazeno</span>
-            <span className="font-semibold" style={{ color }}>
-              {spotsLeft} zbývá
-            </span>
+            <span className="font-semibold" style={{ color }}>{spotsLeft} zbývá</span>
           </div>
           <div className="h-1 bg-[#F4F4F4] rounded-full overflow-hidden">
-            <div
-              className="h-full rounded-full transition-all duration-300"
-              style={{ width: `${fillPct}%`, backgroundColor: color }}
-            />
+            <div className="h-full rounded-full transition-all duration-300" style={{ width: `${fillPct}%`, backgroundColor: color }} />
           </div>
         </div>
-
-        {/* CTA */}
         <button
           className="mt-4 w-full py-2.5 text-sm font-bold rounded-xl text-white transition-opacity hover:opacity-90"
           style={{ backgroundColor: color }}
