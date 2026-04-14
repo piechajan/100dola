@@ -10,6 +10,8 @@ export interface Participant {
   nickname: string;
   club: string;
   city: string;
+  phone: string;
+  email: string;
   photoDataUrl: string;
   eventSlug: string;
   registeredAt: string;
@@ -148,6 +150,8 @@ function RegistrationModal({
   const [nickname, setNickname] = useState("");
   const [club, setClub] = useState("");
   const [city, setCity] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [photoDataUrl, setPhotoDataUrl] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -169,6 +173,8 @@ function RegistrationModal({
       nickname,
       club,
       city,
+      phone,
+      email,
       photoDataUrl,
       eventSlug,
       registeredAt: new Date().toISOString(),
@@ -278,6 +284,26 @@ function RegistrationModal({
             required
             className={inputClass}
           />
+          <input
+            type="email"
+            placeholder="E-mail *"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className={inputClass}
+          />
+          <div>
+            <input
+              type="tel"
+              placeholder="Telefon"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className={inputClass}
+            />
+            <p className="text-[11px] text-[#9AA3C2] mt-1.5 leading-relaxed px-1">
+              Hodí se, pokud dorazíš později nebo tě nabereme po cestě.
+            </p>
+          </div>
 
           <button
             type="submit"
