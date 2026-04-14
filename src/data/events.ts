@@ -76,20 +76,20 @@ export const events: Event[] = [
     difficulty: "Lehká",
     capacity: 20,
     filled: 6,
-    description: "Otevíráme sezónu. Sraz u Chochina, dvě trasy na výběr — kratší (25 km) nebo delší (45 km). Jedeme spolu, tempo pohodové.",
+    description: "Otevíráme sezónu. Dvě trasy na výběr — Cappuccino (25 km) nebo Espresso (45 km). Sraz u Chochina, jedeme spolu.",
     longDescription: `Season Opening je neformální start sezóny pro celou komunitu Open Miles Clinic. Sraz v 9:45 u kavárny Chochino, výjezd v 10:00. Po jízdě se vracíme na kávu a projdeme, co nás čeká v sezóně.
 
 Na výběr jsou dvě trasy — vyber si podle nálady:
 
-**Kratší trasa (~25 km, ~250 m)**
+☕ **Cappuccino (~25 km, ~250 m)**
 Okruh přes Krásno nad Bečvou a zpátky podél řeky. Pohodová jízda bez větších kopců, ideální pro první výjezd po zimě.
 → [Zobrazit trasu na Mapy.com](https://mapy.com/cs/turisticka?planovani-trasy&x=17.9593785&y=49.4630376&z=14)
 
-**Delší trasa (~45 km, ~500 m)**
-Rozšířený okruh přes Vsetínsko s výhledem na Beskydy. Pár kopců, pár výhledů, dobrý základ do sezóny.
+☕ **Espresso (~45 km, ~500 m)**
+Rozšířený okruh přes Vsetínsko s výhledem na Beskydy. Pár kopců, pár výhledů, koncentrovaná dávka do sezóny.
 → [Zobrazit trasu na Mapy.com](https://mapy.com/cs/turisticka?planovani-trasy&x=18.1205839&y=49.4121410&z=15)
 
-Jedeme vždy v jedné skupině — tempo přizpůsobíme. Kdo chce kratší, odbočí dřív.`,
+Jedeme vždy v jedné skupině — tempo přizpůsobíme. Kdo chce Cappuccino, odbočí dřív.`,
     whatToBring: [
       "Silniční nebo gravel kolo",
       "Helma — povinná",
