@@ -4,6 +4,8 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import RegistrationSystem from "@/components/community/RegistrationSystem";
+import dynamic from "next/dynamic";
+const RouteMap = dynamic(() => import("@/components/community/RouteMap"), { ssr: false });
 import {
   events,
   getEventBySlug,
@@ -137,23 +139,18 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                 <div className="text-sm text-[#9AA3C2] mt-0.5">{event.locationDetail}</div>
 
                 {/* Map */}
-                <div className="mt-4 rounded-xl overflow-hidden h-64">
-                  {event.mapUrl ? (
-                    <iframe
-                      src={event.mapUrl}
-                      width="100%"
-                      height="100%"
-                      style={{ border: 0 }}
-                      allowFullScreen
-                      loading="lazy"
-                      title={`Mapa trasy — ${event.title}`}
-                    />
+                <div className="mt-4">
+                  {event.slug === "season-opening" ? (
+                    <RouteMap accentColor={color} />
+                  ) : event.mapUrl ? (
+                    <div className="rounded-xl overflow-hidden h-64">
+                      <iframe src={event.mapUrl} width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy" title={`Mapa trasy — ${event.title}`} />
+                    </div>
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-[#F0F2FA]">
+                    <div className="rounded-xl h-52 flex items-center justify-center bg-[#F0F2FA]">
                       <div className="text-center text-[#9AA3C2]">
                         <div className="text-3xl mb-2">🗺️</div>
-                        <div className="text-sm font-medium">Mapa trasy</div>
-                        <div className="text-xs mt-1">Připravujeme</div>
+                        <div className="text-sm font-medium">Mapa trasy připravujeme</div>
                       </div>
                     </div>
                   )}
