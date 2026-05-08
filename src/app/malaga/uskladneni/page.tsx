@@ -108,7 +108,7 @@ export default function UskladneniPage() {
                 Co skladování zahrnuje.
               </h2>
               <p className="text-[#5A6480] leading-relaxed">
-                Není to kotec za rohem. Sklad je monitorovaný, pojištěný a 25 minut od letiště
+                Není to kotec za rohem. Sklad je monitorovaný, pojištěný a 0 minut od letiště
                 Malaga (AGP). Když kolo potřebuješ, vyzvedneš a jedeš.
               </p>
             </div>

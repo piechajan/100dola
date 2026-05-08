@@ -12,7 +12,7 @@ export const MALAGA_BRAND = {
 export const MALAGA_FACTS = {
   flightTime: "2,5 hod z Prahy",
   sunnyDays: "300+ slunečných dní",
-  baseAirportMinutes: 25,
+  baseAirportMinutes: 0,
   winterTempRange: "15–22 °C v zimě",
   seasonLabel: "říjen–květen",
   seasonMonths: 8,
@@ -219,7 +219,7 @@ export const TRUST_FACTS: { icon: string; text: string }[] = [
   { icon: "🔒", text: "Pojištění během transportu" },
   { icon: "📦", text: "Monitorovaný a zabezpečený sklad" },
   { icon: "🛠", text: "Servisní zázemí na místě" },
-  { icon: "📍", text: "25 minut od letiště Malaga (AGP)" },
+  { icon: "📍", text: "0 minut od letiště Malaga (AGP)" },
   { icon: "🇨🇿", text: "Komunikace v češtině, smlouva v češtině" },
 ];
 
