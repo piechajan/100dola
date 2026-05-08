@@ -69,10 +69,10 @@ export default function ONasPage() {
               </h2>
               <div className="space-y-4 text-[#5A6480] leading-relaxed">
                 <p>
-                  Jsme projekt postavený na třech věcech: správném vybavení, smysluplné logistice a komunitě, která to myslí vážně. Ne jako korporát. Ne jako lifestylová značka. Jako lidi, kteří to sami jedou.
+                  Jsme projekt postavený na čtyřech věcech: detailech, správném vybavení, smysluplné logistice a komunitě. Ne jako korporát, ne jako lifestylová značka. Jako lidi, kteří to žijí.
                 </p>
                 <p>
-                  Za 100dola stojí reálná zkušenost z terénu — ze závodů, soustředění, výjezdů do Andalusie i z lokálních středečních vyjížděk přes Prokopák. Tohle není projekt od stolu.
+                  Za projektem 100dola stojí reálné zkušenosti — z tréninků, závodů, soustředění, lokálních vyjížděk a aktivních dovolených po celém světě.
                 </p>
               </div>
             </div>
