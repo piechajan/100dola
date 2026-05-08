@@ -190,7 +190,7 @@ export default function ONasPage() {
               </h2>
               <div className="space-y-4 text-[#5A6480] leading-relaxed">
                 <p>
-                  Ať jde o výběr kola, organizaci výjezdu do Malagy nebo středeční social ride — vždy platí jedno: stojíme za tím, co děláme. Osobně.
+                  Ať jde o výběr kola, organizaci výjezdu do Malagy nebo sobotní social ride — vždy platí jedno: stojíme za tím, co děláme. Osobně.
                 </p>
                 <p>
                   100dola není franšíza ani agenturní projekt. Je to přirozené propojení tří věcí, které k sobě patří — výbava, cesta a parta.
