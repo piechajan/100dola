@@ -1,7 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+
+interface UIEvent {
+  id: number;
+  slug: string;
+  title: string;
+  sport: string;
+  date: string;
+  time: string;
+  location: string;
+  distance: string;
+  elevation: string;
+  difficulty: string;
+  capacity: number;
+  filled: number;
+  description: string;
+  photo: string;
+  photoPosition?: string;
+  source?: "manual" | "strava";
+  stravaUrl?: string;
+}
 
 const SPORT_COLORS: Record<string, string> = {
   Silnice: "#3B7CF4",
@@ -23,7 +43,7 @@ const SPORT_ICONS: Record<string, string> = {
   Malaga: "☀️",
 };
 
-const events = [
+const events: UIEvent[] = [
   {
     id: 0,
     slug: "season-opening",
@@ -41,25 +61,9 @@ const events = [
     photo: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&fit=crop",
   },
   {
-    id: 1,
-    slug: "blanik-gravel-2025",
-    title: "Blaník Gravel",
-    sport: "Gravel",
-    date: "So 26. dubna",
-    time: "07:30",
-    location: "Mladá Vožice",
-    distance: "120 km",
-    elevation: "1 800 m",
-    difficulty: "Střední",
-    capacity: 24,
-    filled: 18,
-    description: "Klasická jarní gravel jízda přes Blaník. Otevírá sezónu pořádnou dávkou štěrku a výhledů.",
-    photo: "https://images.unsplash.com/photo-1544191696-15693a5c5a38?w=800&q=80&fit=crop",
-  },
-  {
     id: 2,
     slug: "omc-wednesday-social",
-    title: "OMC Wednesday Social",
+    title: "Open Miles Clinic — Wednesday Social",
     sport: "Silnice",
     date: "St 30. dubna",
     time: "18:00",
@@ -102,7 +106,7 @@ const events = [
     capacity: 12,
     filled: 7,
     description: "Pozdní jarní skialpinismus. Ideální podmínky, firn a prázdné hřebeny.",
-    photo: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&q=80&fit=crop",
+    photo: "/media/krkonose-skialpy.jpg",
   },
   {
     id: 5,
@@ -118,12 +122,13 @@ const events = [
     capacity: 18,
     filled: 4,
     description: "Technický MTB výjezd přes Křivoklátsko. Lesy, singletracky a dobré kafé na konci.",
-    photo: "https://images.unsplash.com/photo-1594737625785-a6cbdabd333c?w=800&q=80&fit=crop",
+    photo: "/media/mtb-krivoklatsko.jpg",
+    photoPosition: "50% 30%",
   },
   {
     id: 6,
     slug: "omc-saturday-long",
-    title: "OMC Saturday Long Ride",
+    title: "Open Miles Clinic — Saturday Long Ride",
     sport: "Silnice",
     date: "So 7. června",
     time: "07:00",
@@ -142,8 +147,31 @@ const FILTERS = ["Vše", "Silnice", "Gravel", "MTB", "Skialpy", "Běžky", "Turi
 
 export default function EventListing() {
   const [active, setActive] = useState("Vše");
+  const [stravaEvents, setStravaEvents] = useState<UIEvent[]>([]);
 
-  const filtered = active === "Vše" ? events : events.filter((e) => e.sport === active);
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/strava/events")
+      .then((r) => r.json())
+      .then((data: { configured: boolean; events?: UIEvent[] }) => {
+        if (cancelled) return;
+        if (data.configured && Array.isArray(data.events)) {
+          setStravaEvents(data.events);
+        }
+      })
+      .catch(() => { /* fallback: jen ruční eventy */ });
+    return () => { cancelled = true; };
+  }, []);
+
+  // Merge: ruční eventy první, Strava eventy za nimi.
+  // Stejný slug se nesmí opakovat — manual má prioritu.
+  const manualSlugs = new Set(events.map((e) => e.slug));
+  const merged: UIEvent[] = [
+    ...events,
+    ...stravaEvents.filter((e) => !manualSlugs.has(e.slug)),
+  ];
+
+  const filtered = active === "Vše" ? merged : merged.filter((e) => e.sport === active);
 
   return (
     <section id="eventy" className="py-20 md:py-24 bg-white">
@@ -222,24 +250,29 @@ export default function EventListing() {
   );
 }
 
-function EventCard({ event }: { event: typeof events[0] }) {
+function EventCard({ event }: { event: UIEvent }) {
   const color = SPORT_COLORS[event.sport] || "#2EAA6E";
   const icon = SPORT_ICONS[event.sport] || "🏃";
-  const fillPct = (event.filled / event.capacity) * 100;
+  const isStrava = event.source === "strava";
+  const hasCapacity = event.capacity > 0;
+  const fillPct = hasCapacity ? (event.filled / event.capacity) * 100 : 0;
   const spotsLeft = event.capacity - event.filled;
-  const almostFull = fillPct >= 75;
+  const almostFull = hasCapacity && fillPct >= 75;
 
-  return (
-    <Link
-      href={`/community/event/${event.slug}`}
-      className="group flex flex-col bg-white rounded-2xl border border-[#E2E6F3] overflow-hidden hover:border-transparent hover:shadow-xl transition-all duration-300"
-    >
+  // Wrapper props — Strava event jde externě, manuální interně
+  const cardClass =
+    "group flex flex-col bg-white rounded-2xl border border-[#E2E6F3] overflow-hidden hover:border-transparent hover:shadow-xl transition-all duration-300";
+
+  const cardInner = (
+    <>
       {/* Photo */}
       <div className="relative h-44 overflow-hidden bg-[#F0F2FA]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={event.photo}
           alt={event.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          style={{ objectPosition: event.photoPosition ?? "center" }}
         />
         {/* Sport badge */}
         <div className="absolute top-3 left-3">
@@ -251,11 +284,16 @@ function EventCard({ event }: { event: typeof events[0] }) {
             {event.sport}
           </span>
         </div>
-        {/* Difficulty */}
-        <div className="absolute top-3 right-3">
+        {/* Right top: difficulty + Strava badge */}
+        <div className="absolute top-3 right-3 flex flex-col items-end gap-2">
           <span className="text-[10px] font-bold px-2.5 py-1.5 rounded-full bg-black/50 text-white backdrop-blur-sm">
             {event.difficulty}
           </span>
+          {isStrava && (
+            <span className="text-[10px] font-bold px-2.5 py-1.5 rounded-full bg-[#FC4C02] text-white backdrop-blur-sm">
+              Strava
+            </span>
+          )}
         </div>
       </div>
 
@@ -286,43 +324,85 @@ function EventCard({ event }: { event: typeof events[0] }) {
 
         <p className="text-xs text-[#9AA3C2] leading-relaxed mb-4 flex-1">{event.description}</p>
 
-        {/* Stats row */}
-        <div className="flex gap-4 text-xs mb-4 pb-4 border-b border-[#F0F2FA]">
-          <div>
-            <div className="font-black text-[#1a1a2e]">{event.distance}</div>
-            <div className="text-[#C0C7D8]">vzdálenost</div>
+        {/* Stats row — pouze pro manuální eventy s daty */}
+        {!isStrava && (event.distance || event.elevation || hasCapacity) && (
+          <div className="flex gap-4 text-xs mb-4 pb-4 border-b border-[#F0F2FA]">
+            {event.distance && (
+              <div>
+                <div className="font-black text-[#1a1a2e]">{event.distance}</div>
+                <div className="text-[#C0C7D8]">vzdálenost</div>
+              </div>
+            )}
+            {event.elevation && (
+              <div>
+                <div className="font-black text-[#1a1a2e]">{event.elevation}</div>
+                <div className="text-[#C0C7D8]">převýšení</div>
+              </div>
+            )}
+            {hasCapacity && (
+              <div className="ml-auto text-right">
+                <div className="font-black" style={{ color: almostFull ? "#E8431A" : color }}>
+                  {spotsLeft} míst
+                </div>
+                <div className="text-[#C0C7D8]">zbývá</div>
+              </div>
+            )}
           </div>
-          <div>
-            <div className="font-black text-[#1a1a2e]">{event.elevation}</div>
-            <div className="text-[#C0C7D8]">převýšení</div>
-          </div>
-          <div className="ml-auto text-right">
-            <div className="font-black" style={{ color: almostFull ? "#E8431A" : color }}>
-              {spotsLeft} míst
-            </div>
-            <div className="text-[#C0C7D8]">zbývá</div>
-          </div>
-        </div>
+        )}
 
-        {/* Capacity bar */}
-        <div className="mb-4">
-          <div className="h-1.5 bg-[#F0F2FA] rounded-full overflow-hidden">
-            <div
-              className="h-full rounded-full transition-all"
-              style={{ width: `${fillPct}%`, backgroundColor: almostFull ? "#E8431A" : color }}
-            />
+        {/* Capacity bar — jen manuální */}
+        {!isStrava && hasCapacity && (
+          <div className="mb-4">
+            <div className="h-1.5 bg-[#F0F2FA] rounded-full overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all"
+                style={{ width: `${fillPct}%`, backgroundColor: almostFull ? "#E8431A" : color }}
+              />
+            </div>
+            <div className="text-[10px] text-[#C0C7D8] mt-1">{event.filled} / {event.capacity} registrací</div>
           </div>
-          <div className="text-[10px] text-[#C0C7D8] mt-1">{event.filled} / {event.capacity} registrací</div>
-        </div>
+        )}
 
         {/* CTA */}
-        <button
-          className="w-full py-2.5 text-sm font-bold rounded-xl text-white transition-all group-hover:shadow-lg"
-          style={{ backgroundColor: color, boxShadow: `0 2px 8px ${color}25` }}
-        >
-          {spotsLeft > 0 ? "Přihlásit se" : "Čekací listina"}
-        </button>
+        {isStrava ? (
+          <div
+            className="w-full py-2.5 text-sm font-bold rounded-xl text-white transition-all group-hover:shadow-lg flex items-center justify-center gap-2"
+            style={{ backgroundColor: "#FC4C02", boxShadow: "0 2px 8px #FC4C0240" }}
+          >
+            Detail na Stravě
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path d="M14 3h7v7M21 3 10 14M5 7v12a2 2 0 0 0 2 2h12" />
+            </svg>
+          </div>
+        ) : (
+          <button
+            type="button"
+            className="w-full py-2.5 text-sm font-bold rounded-xl text-white transition-all group-hover:shadow-lg"
+            style={{ backgroundColor: color, boxShadow: `0 2px 8px ${color}25` }}
+          >
+            {hasCapacity && spotsLeft <= 0 ? "Čekací listina" : "Přihlásit se"}
+          </button>
+        )}
       </div>
+    </>
+  );
+
+  if (isStrava && event.stravaUrl) {
+    return (
+      <a
+        href={event.stravaUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cardClass}
+      >
+        {cardInner}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={`/community/event/${event.slug}`} className={cardClass}>
+      {cardInner}
     </Link>
   );
 }
