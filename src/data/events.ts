@@ -170,11 +170,11 @@ Na trase plánujeme oběd v horské boudě a kávovou zastávku na Pustevnách.`
   },
   {
     id: 3,
-    slug: "podzimni-malaga-1",
-    title: "Podzimní Malaga I",
+    slug: "malaga-fall-ride-1",
+    title: "Malaga fall ride I",
     sport: "Malaga",
-    date: "16.–22. října",
-    dateISO: "2026-10-16",
+    date: "23.–29. října",
+    dateISO: "2026-10-23",
     time: "—",
     location: "Málaga, Španělsko",
     locationDetail: "Zázemí 100dola Malaga, Málaga",
@@ -184,7 +184,7 @@ Na trase plánujeme oběd v horské boudě a kávovou zastávku na Pustevnách.`
     capacity: 12,
     filled: 4,
     description: "Týdenní cyklistický pobyt v Malaze. Vlastní kolo, vlastní tempo. Říjen je v Andalusii nejlepší — teplo, prázdné silnice, barvy.",
-    longDescription: `Podzimní Malaga I je týdenní cyklistický pobyt postavený kolem zázemí 100dola Malaga. Jedeme každý den, tempo si volí každý sám — jsou zde jezdci na různé úrovni a trasy pro každého.
+    longDescription: `Malaga fall ride I je týdenní cyklistický pobyt postavený kolem zázemí 100dola Malaga. Jedeme každý den, tempo si volí každý sám — jsou zde jezdci na různé úrovni a trasy pro každého.
 
 Říjen je v Malaze ideální měsíc — teploty 22–26 °C, prázdné silnice, žádné turistické davy. Kopce nad Malaga nabízí výzvu pro zkušené jezdce, pobřežní silnice jsou perfektní pro pohodovější dny.
 
@@ -202,11 +202,11 @@ V ceně je zázemí, technická podpora a organizace tras. Ubytování si zajiš
   },
   {
     id: 4,
-    slug: "podzimni-malaga-2",
-    title: "Podzimní Malaga II",
+    slug: "malaga-fall-ride-2",
+    title: "Malaga fall ride II",
     sport: "Malaga",
-    date: "23.–29. října",
-    dateISO: "2026-10-23",
+    date: "30. října – 6. listopadu",
+    dateISO: "2026-10-30",
     time: "—",
     location: "Málaga, Španělsko",
     locationDetail: "Zázemí 100dola Malaga, Málaga",
@@ -216,7 +216,7 @@ V ceně je zázemí, technická podpora a organizace tras. Ubytování si zajiš
     capacity: 12,
     filled: 2,
     description: "Druhý termín podzimního pobytu v Malaze. Stejný formát, jiná parta. Kolo čeká, ty jen přileť.",
-    longDescription: `Podzimní Malaga II navazuje bezprostředně na první termín — stejné zázemí, stejné trasy, ale nová skupina lidí.
+    longDescription: `Malaga fall ride II navazuje bezprostředně na první termín — stejné zázemí, stejné trasy, ale nová skupina lidí.
 
 Pokud ti nevyhovuje první termín nebo chceš přijet na oba — kolo zůstane v zázemí 100dola Malaga mezi oběma termíny. Přiletíš znovu s příručákem a jedeš.
 
@@ -227,7 +227,7 @@ Pokud ti nevyhovuje první termín nebo chceš přijet na oba — kolo zůstane 
       "Sluneční ochrana",
       "Cestovní pojištění",
     ],
-    whoIsItFor: "Cyklisté všech úrovní. Vhodné i pro kombinaci s Podzimní Malaga I.",
+    whoIsItFor: "Cyklisté všech úrovní. Vhodné i pro kombinaci s Malaga fall ride I.",
     organizer: { name: "Jan Piecha", role: "Zakladatel 100dola Malaga" },
     photo: "/media/malaga-event.jpg",
   },
