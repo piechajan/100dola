@@ -9,6 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://100dolamalaga.cz"),
   title: "100dola — Sport. Komunita. Malaga.",
   description:
     "Vybavíme tě na sport, dostaneme tvé kolo do Malagy a propojíme tě s komunitou lidí, kteří to myslí vážně.",

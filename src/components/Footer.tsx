@@ -1,25 +1,27 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const links = {
-  Sport: [
+const links: Record<string, { label: string; href: string; external?: boolean }[]> = {
+  "100dola sport": [
     { label: "Kola", href: "/shop/kola" },
     { label: "Cyklistika", href: "/shop/cyklistika" },
     { label: "Lyžování & Skialpy", href: "/shop/lyzovani" },
     { label: "Běh", href: "/shop/beh" },
     { label: "Turistika", href: "/shop/turistika" },
+    { label: "@100dolasport.cz", href: "https://www.instagram.com/100dolasport.cz/", external: true },
   ],
-  Malaga: [
+  "100dola malaga": [
     { label: "Jak to funguje", href: "/malaga" },
     { label: "Přeprava kol", href: "/malaga/preprava" },
     { label: "Uskladnění", href: "/malaga/uskladneni" },
-    { label: "Eventy", href: "/malaga/eventy" },
-    { label: "FAQ", href: "/malaga/faq" },
+    { label: "Balíčky a ceny", href: "/malaga/balicky" },
+    { label: "@100dola_malaga", href: "https://www.instagram.com/100dola_malaga/", external: true },
   ],
-  Community: [
+  "Open Miles Clinic": [
     { label: "Nadcházející eventy", href: "/community/eventy" },
     { label: "O Open Miles Clinic", href: "/community/o-klinice" },
     { label: "Galerie", href: "/community/galerie" },
+    { label: "@open_miles_clinic", href: "https://www.instagram.com/open_miles_clinic/", external: true },
   ],
   "100dola": [
     { label: "O nás", href: "/o-nas" },
@@ -43,20 +45,25 @@ export default function Footer() {
             <p className="text-sm text-white/40 leading-relaxed max-w-[200px]">
               Sport. Komunita. Malaga. Jeden ekosystém pro aktivní lidi.
             </p>
-            <div className="flex gap-3 mt-6">
-              {["instagram", "strava", "facebook"].map((social) => (
-                <a key={social} href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    {social === "instagram" && (
-                      <>
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                      </>
-                    )}
-                    {social === "strava" && <path d="m13.5 19-3-6 3.5-6H10L6.5 13l3 6zM17.5 13 14 19" />}
-                    {social === "facebook" && <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />}
+            <div className="flex flex-col gap-2 mt-6">
+              {[
+                { handle: "@100dolasport.cz", href: "https://www.instagram.com/100dolasport.cz/" },
+                { handle: "@100dola_malaga", href: "https://www.instagram.com/100dola_malaga/" },
+                { handle: "@open_miles_clinic", href: "https://www.instagram.com/open_miles_clinic/" },
+              ].map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-xs text-white/40 hover:text-white transition-colors duration-150 group"
+                >
+                  <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} className="shrink-0 opacity-60 group-hover:opacity-100">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                   </svg>
+                  {item.handle}
                 </a>
               ))}
             </div>
@@ -68,9 +75,25 @@ export default function Footer() {
               <ul className="space-y-2.5">
                 {items.map((item) => (
                   <li key={item.href}>
-                    <Link href={item.href} className="text-sm text-white/50 hover:text-white transition-colors duration-150">
-                      {item.label}
-                    </Link>
+                    {item.external ? (
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 text-sm text-white/40 hover:text-white transition-colors duration-150 group"
+                      >
+                        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} className="shrink-0 opacity-60 group-hover:opacity-100">
+                          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                        </svg>
+                        {item.label}
+                      </a>
+                    ) : (
+                      <Link href={item.href} className="text-sm text-white/50 hover:text-white transition-colors duration-150">
+                        {item.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

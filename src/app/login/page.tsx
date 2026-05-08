@@ -36,7 +36,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="flex justify-center mb-10">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-sport-box.png?v=2" alt="100dola sport" style={{ height: 160, width: "auto" }} />
+          <img src="/logo.png" alt="100dola sport" style={{ height: 80, width: "auto" }} />
         </div>
 
         {/* Card */}

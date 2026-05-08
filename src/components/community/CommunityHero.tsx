@@ -6,10 +6,12 @@ export default function CommunityHero() {
     <section className="relative overflow-hidden bg-[#0d1a10] text-white" style={{ minHeight: "70vh" }}>
       {/* Background photo */}
       <Image
-        src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=85&fit=crop&crop=center"
+        src="/media/community-hero-jedeme-spolu-9423.jpg"
         alt="Skupina cyklistů"
         fill
-        className="object-cover opacity-40"
+        sizes="100vw"
+        className="object-cover opacity-65"
+        style={{ transform: "scale(1.18) translateX(8%)" }}
         priority
       />
 
@@ -21,8 +23,14 @@ export default function CommunityHero() {
       <div className="relative max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 flex flex-col justify-end pb-16 md:pb-24" style={{ minHeight: "70vh" }}>
 
         {/* Eyebrow */}
-        <div className="flex items-center gap-2 mb-5">
-          <span className="w-6 h-px bg-[#2EAA6E]" />
+        <div className="flex items-center gap-3 mb-5">
+          <Image
+            src="/media/omc-logo.png"
+            alt="Open Miles Clinic"
+            width={48}
+            height={48}
+            className="rounded-xl"
+          />
           <span className="text-xs tracking-[0.2em] uppercase font-bold text-[#2EAA6E]">
             Open Miles Clinic
           </span>
@@ -36,9 +44,9 @@ export default function CommunityHero() {
         </h1>
 
         <p className="mt-6 text-lg text-white/60 max-w-lg leading-relaxed">
-          Lokální akce, social rides a skupinový pohyb.
-          Cyklistika, skialpy, běžky a vše, co tě dostane ven.
-          Žádné ego. Jen kilometry.
+          Jsme sportovní komunita z Valašska. Ego necháváme doma
+          a sdílíme víc než jen společné kilometry. Začínáme u kafe
+          a sportem nekončíme.
         </p>
 
         {/* Sport badges */}
@@ -84,8 +92,8 @@ export default function CommunityHero() {
         {/* Stats */}
         <div className="mt-14 flex gap-10">
           {[
-            { value: "40+", label: "akcí za rok" },
-            { value: "200+", label: "aktivních členů" },
+            { value: "30+", label: "akcí za rok" },
+            { value: "100+", label: "aktivních členů" },
             { value: "6", label: "typů aktivit" },
           ].map((s) => (
             <div key={s.label}>

@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const pillars = [
   {
@@ -12,28 +15,31 @@ const pillars = [
     photo: "/media/sport-hero.jpg",
     photoCrop: "object-[35%_20%]",
     overlayColor: "rgba(20,30,60,0.48)",
+    instagram: "https://www.instagram.com/100dolasport.cz/",
   },
   {
     tag: "100dola malaga",
     headline: "Kolo tam\npošleme.",
-    description: "Přeprava a uskladnění kol v Malaze. Přiletíš jen se spříručákem a jedeš.",
+    description: "Přeprava a uskladnění kol v Malaze. Přiletíš jen s příručákem a jedeš.",
     cta: "Jak to funguje",
     href: "/malaga",
-    accentColor: "#7C5CBF",
-    photo: "/media/community-hero.jpg",
-    photoCrop: "object-[35%_15%]",
-    overlayColor: "rgba(30,15,50,0.42)",
+    accentColor: "#E8431A",
+    photo: "/media/malaga-event.jpg",
+    photoCrop: "object-[50%_60%]",
+    overlayColor: "rgba(40,15,5,0.50)",
+    instagram: "https://www.instagram.com/100dola_malaga/",
   },
   {
     tag: "Open Miles Clinic",
     headline: "Jedeme\nspolu.",
-    description: "Social rides, eventy a komunita. Cyklistika, skialpy, běh.",
+    description: "Social rides, eventy a komunita. Cyklistika, skialpy, běh, turistika.",
     cta: "Nadcházející eventy",
     href: "/community",
     accentColor: "#2EAA6E",
-    photo: "/media/malaga-hero.jpg",
-    photoCrop: "object-[35%_20%]",
+    photo: "/media/omc-hero-panel.jpg",
+    photoCrop: "object-[50%_45%]",
     overlayColor: "rgba(10,30,20,0.48)",
+    instagram: "https://www.instagram.com/open_miles_clinic/",
   },
 ];
 
@@ -64,7 +70,10 @@ function PillarPanel({
   accentColor,
   photo,
   photoCrop,
+  photoFit,
+  panelBg,
   overlayColor,
+  instagram,
   index,
   isLast,
 }: {
@@ -76,26 +85,44 @@ function PillarPanel({
   accentColor: string;
   photo: string;
   photoCrop?: string;
+  photoFit?: "cover" | "contain";
+  panelBg?: string;
   overlayColor: string;
+  instagram: string;
   index: number;
   isLast: boolean;
 }) {
+  const router = useRouter();
   return (
-    <Link
-      href={href}
-      className="group relative flex flex-col justify-between overflow-hidden text-white flex-1 min-h-[380px] md:min-h-0"
+    <div
+      role="link"
+      tabIndex={0}
+      onClick={() => router.push(href)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          router.push(href);
+        }
+      }}
+      className="group relative flex flex-col justify-between overflow-hidden text-white flex-1 min-h-[380px] md:min-h-0 cursor-pointer"
       style={{
         borderRight: !isLast ? "1px solid rgba(255,255,255,0.08)" : undefined,
         flexBasis: "33.333%",
+        backgroundColor: panelBg,
       }}
     >
+      {/* SEO-friendly invisible link for crawlers */}
+      <Link href={href} className="sr-only" aria-label={`${tag} — ${cta}`}>
+        {cta}
+      </Link>
+
       {/* Background photo */}
       <Image
         src={photo}
         alt={tag}
         fill
-        quality={90}
-        className={`object-cover transition-transform duration-700 group-hover:scale-105 ${photoCrop ?? ""}`}
+        quality={85}
+        className={`${photoFit === "contain" ? "object-contain" : "object-cover"} transition-transform duration-700 group-hover:scale-105 ${photoCrop ?? ""}`}
         sizes="(max-width: 768px) 100vw, 33vw"
         priority={index <= 2}
       />
@@ -128,10 +155,22 @@ function PillarPanel({
           {tag}
         </div>
 
-        {/* Index number top right */}
-        <div className="text-xs font-black text-white/20 tabular-nums">
-          {String(index + 1).padStart(2, "0")}
-        </div>
+        {/* Instagram link top right */}
+        <a
+          href={instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+          style={{ backgroundColor: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)" }}
+          aria-label={`${tag} na Instagramu`}
+        >
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+          </svg>
+        </a>
       </div>
 
       {/* Bottom: content */}
@@ -173,6 +212,6 @@ function PillarPanel({
           </svg>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
