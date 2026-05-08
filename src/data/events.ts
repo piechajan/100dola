@@ -100,7 +100,7 @@ Jedeme vždy v jedné skupině — tempo přizpůsobíme. Kdo chce Cappuccino, o
     ],
     whoIsItFor: "Kdokoliv na kole. Tempo přizpůsobíme skupině.",
     organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
-    photo: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=85&fit=crop",
+    photo: "/media/season-opening.jpg",
     mapUrl: "https://en.mapy.cz/turisticka?x=18.0399812&y=49.4375893&z=12",
   },
   {

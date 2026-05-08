@@ -58,7 +58,7 @@ const events: UIEvent[] = [
     capacity: 20,
     filled: 6,
     description: "Otevíráme sezónu. Sraz u Chochina, 2–3 hodiny v pohodovém tempu. Vhodné pro všechny, kdo se těší zpátky na kolo.",
-    photo: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&fit=crop",
+    photo: "/media/season-opening.jpg",
   },
   {
     id: 2,
