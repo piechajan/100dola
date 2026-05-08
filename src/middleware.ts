@@ -8,7 +8,11 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Pustit login stránku a API bez kontroly
-  if (pathname.startsWith("/login") || pathname.startsWith("/api/auth")) {
+  if (
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/api/auth") ||
+    pathname.startsWith("/api/strava-callback")
+  ) {
     return NextResponse.next();
   }
 
