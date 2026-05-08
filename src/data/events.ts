@@ -67,7 +67,7 @@ export const events: Event[] = [
     slug: "season-opening",
     title: "Season Opening",
     sport: "Silnice",
-    date: "So 19. dubna",
+    date: "Ne 19. dubna",
     dateISO: "2026-04-19",
     time: "09:45",
     location: "Kavárna Chochino, Valašské Meziříčí",
@@ -102,6 +102,38 @@ Jedeme vždy v jedné skupině — tempo přizpůsobíme. Kdo chce Cappuccino, o
     organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
     photo: "/media/season-opening.jpg",
     mapUrl: "https://en.mapy.cz/turisticka?x=18.0399812&y=49.4375893&z=12",
+  },
+  {
+    id: 8,
+    slug: "trojak-tesak",
+    title: "Troják — Tesák",
+    sport: "Silnice",
+    date: "So 2. května",
+    dateISO: "2026-05-02",
+    time: "09:00",
+    location: "Valašské Meziříčí — Hostýnské vrchy",
+    locationDetail: "Sraz u kavárny Chochino, Valašské Meziříčí",
+    distance: "~95 km",
+    elevation: "~1 400 m",
+    difficulty: "Střední",
+    capacity: 20,
+    filled: 14,
+    description: "Klasický okruh přes Troják a Tesák. Krásné stoupání hřebenovkou, sjezdy přes valašské kopečky. Klubová sobota Open Miles Clinic.",
+    longDescription: `Troják (933 m) a Tesák patří mezi klasické cíle valašských silničářů. Tradiční sobotní okruh Open Miles Clinic vede z Valašského Meziříčí přes hřebenovku Hostýnských vrchů.
+
+Stoupání nahoru je zvládnutelné v jakémkoli tempu — skupina se rozdělí podle síly a v cíli se zase najde. Výhled z hřebene je za jasného počasí ažň po Slovensko.
+
+Po jízdě klasika — kafe a něco dobrého v některé z místních kaváren / hospůdek.`,
+    whatToBring: [
+      "Silniční nebo gravel kolo",
+      "Helma — povinná",
+      "Voda na 2× láhev",
+      "Drobnou svačinu nebo gel",
+      "Větrovku (na hřebeni umí zafoukat)",
+    ],
+    whoIsItFor: "Pro pravidelné silničáře. Tempo skupinové, ale na stoupáních se přirozeně rozjedeme — čekáme na sebe v cílech.",
+    organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
+    photo: "/media/road-event.jpg",
   },
   {
     id: 1,
