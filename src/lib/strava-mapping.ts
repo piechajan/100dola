@@ -64,20 +64,33 @@ function mapTerrainToDifficulty(terrain: number): string {
   return "Lehká";
 }
 
-const CZECH_DAYS = ["Ne", "Po", "Út", "St", "Čt", "Pá", "So"];
-const CZECH_MONTHS = [
-  "ledna", "února", "března", "dubna", "května", "června",
-  "července", "srpna", "září", "října", "listopadu", "prosince",
-];
+// Strava times jsou v ISO UTC. Formátujeme do Europe/Prague,
+// ať na Vercel produkci (UTC server) ukazujeme CET/CEST stejně jako na dev.
+const CZ_TZ = "Europe/Prague";
 
 function formatCzechDate(iso: string): string {
   const d = new Date(iso);
-  return `${CZECH_DAYS[d.getDay()]} ${d.getDate()}. ${CZECH_MONTHS[d.getMonth()]}`;
+  // Použijeme Intl s europe/prague pro získání správného dne a měsíce
+  const parts = new Intl.DateTimeFormat("cs-CZ", {
+    timeZone: CZ_TZ,
+    weekday: "short",
+    day: "numeric",
+    month: "long",
+  }).formatToParts(d);
+  const get = (t: string) => parts.find((p) => p.type === t)?.value || "";
+  // weekday např. "so", "ne" — kapitalizujeme
+  const wd = get("weekday").replace(/^./, (c) => c.toUpperCase()).replace(/\.$/, "");
+  return `${wd} ${get("day")}. ${get("month")}`;
 }
 
 function formatTime(iso: string): string {
   const d = new Date(iso);
-  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+  return new Intl.DateTimeFormat("cs-CZ", {
+    timeZone: CZ_TZ,
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(d);
 }
 
 export function mapStravaEventToNormalized(ev: StravaGroupEvent): NormalizedEvent {
