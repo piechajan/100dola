@@ -142,7 +142,7 @@ export default function ONasPage() {
               <div className="text-xs tracking-[0.15em] uppercase font-bold text-[#7C5CBF] mb-2">100dola malaga</div>
               <h3 className="text-xl font-black text-[#1a1a2e] mb-3">Kolo tam pošleme. Ty přiletíš.</h3>
               <p className="text-sm text-[#5A6480] leading-relaxed mb-6">
-                Přeprava a uskladnění kol v Malaze. Tvoje kolo čeká v zázemí — přes zimu, přes sezónu, klidně celý rok. Přiletíš jen se spříručákem a jedeš. Andalusie bez kompromisů.
+                Přeprava a uskladnění kol v Malaze. Tvoje kolo čeká v zázemí — přes zimu, přes sezónu, klidně celý rok. Přiletíš jen s příručákem a jedeš. Andalusie bez kompromisů.
               </p>
               <Link href="/malaga" className="inline-flex items-center gap-1.5 text-sm font-bold text-[#7C5CBF] hover:gap-3 transition-all">
                 Jak to funguje

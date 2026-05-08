@@ -84,11 +84,11 @@ Na výběr jsou dvě trasy — vyber si podle nálady:
 
 ☕ **Cappuccino — 63,7 km · 565 m · ~4 hod**
 Okruh z Valašského Meziříčí přes kopce a zpátky. Dvě výraznější stoupání, max. výška 670 m n.m. Pohodové tempo, ideální start sezóny.
-→ [Trasa ZDE](https://mapy.com/cs/turisticka?planovani-trasy&x=17.9593785&y=49.4630376&z=14)
+→ [Stáhnout GPX](/routes/season-opening-cappuccino.gpx)
 
 ☕ **Espresso — 67,9 km · 670 m · ~4,5 hod**
 Delší varianta se stejným charakterem — o trochu více převýšení, o trochu více kilometrů. Pro ty, kdo chtějí sezónu otevřít pořádně.
-→ [Trasa ZDE](https://mapy.com/cs/turisticka?planovani-trasy&x=18.1205839&y=49.4121410&z=15)
+→ [Stáhnout GPX](/routes/season-opening-espresso.gpx)
 
 Jedeme vždy v jedné skupině — tempo přizpůsobíme. Kdo chce Cappuccino, odbočí dřív.`,
     whatToBring: [
