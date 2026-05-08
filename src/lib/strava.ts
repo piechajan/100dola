@@ -30,7 +30,9 @@ export type StravaActivityType =
   | string;
 
 export interface StravaGroupEvent {
-  id: number;
+  // ID je 19místný integer ze Stravy, přesahuje Number.MAX_SAFE_INTEGER.
+  // Drží se jako string (pre-processed při JSON parse, viz fetchClubGroupEvents).
+  id: string;
   resource_state: number;
   title: string;
   description: string | null;
@@ -119,6 +121,9 @@ async function refreshAccessToken(): Promise<string> {
  * klubu (i minulé), filtrování na upcoming je až v `fetchUpcomingClubEvents`.
  *
  * Cache: 30 min (revalidate). Mimo cache se posílá dotaz na Strava.
+ *
+ * ⚠️ Strava IDs jsou 19místné a překračují Number.MAX_SAFE_INTEGER.
+ * Před JSON.parse je obalíme do uvozovek, aby se zachovala přesnost.
  */
 export async function fetchClubGroupEvents(): Promise<StravaGroupEvent[]> {
   const token = await refreshAccessToken();
@@ -132,7 +137,12 @@ export async function fetchClubGroupEvents(): Promise<StravaGroupEvent[]> {
     throw new Error(`Strava group_events fetch failed: ${res.status} ${text}`);
   }
 
-  return (await res.json()) as StravaGroupEvent[];
+  const text = await res.text();
+  // Najdi všechny "id": <12+ digit number> a obal je do uvozovek (string).
+  // Pattern není greedy — drží se jen na "id" klíči, malé IDs (club, athlete)
+  // se nedotkne (mají méně než 12 digits).
+  const safe = text.replace(/"id"\s*:\s*(\d{12,})/g, '"id":"$1"');
+  return JSON.parse(safe) as StravaGroupEvent[];
 }
 
 /**

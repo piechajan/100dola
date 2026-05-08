@@ -115,7 +115,7 @@ Jedeme vždy v jedné skupině — tempo přizpůsobíme. Kdo chce Cappuccino, o
     locationDetail: "Sraz u kavárny Chochino, Valašské Meziříčí",
     distance: "~95 km",
     elevation: "~1 400 m",
-    difficulty: "Střední",
+    difficulty: "Náročná",
     capacity: 20,
     filled: 14,
     description: "Klasický okruh přes Troják a Tesák. Krásné stoupání hřebenovkou, sjezdy přes valašské kopečky. Klubová sobota Open Miles Clinic.",

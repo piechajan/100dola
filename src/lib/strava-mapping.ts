@@ -64,6 +64,45 @@ function mapTerrainToDifficulty(terrain: number): string {
   return "Lehká";
 }
 
+// ── Distance-based difficulty (sjednocené pravidlo) ──────────────────────────
+// Pravidlo Jana (2026-05-08): Lehká ≤ 60 km, Střední ≤ 90 km, Náročná > 90 km.
+
+export function difficultyFromDistanceKm(km: number | null | undefined): string {
+  if (km === null || km === undefined) return "Lehká";
+  if (km <= 60) return "Lehká";
+  if (km <= 90) return "Střední";
+  return "Náročná";
+}
+
+// Parse "60-70km", "60–70 km", "68,5 km", "72.5km" etc. Vrací upper bound.
+export function parseDistanceKm(text: string | null | undefined): number | null {
+  if (!text) return null;
+  // Range: 60-70, 60–70, 60—70 + km
+  const range = text.match(/(\d+(?:[.,]\d+)?)\s*[-–—]\s*(\d+(?:[.,]\d+)?)\s*km/i);
+  if (range) return parseFloat(range[2].replace(",", "."));
+  // Single: 72,5 km / 72.5km / 72 km
+  const single = text.match(/(\d+(?:[.,]\d+)?)\s*km/i);
+  if (single) return parseFloat(single[1].replace(",", "."));
+  return null;
+}
+
+// Hezký label "~72 km" nebo "~70 km" pro UI.
+export function formatDistanceLabel(km: number | null): string {
+  if (km === null) return "";
+  // pokud má desetinné místo, ukážeme
+  return Number.isInteger(km) ? `~${km} km` : `~${km.toFixed(1).replace(".", ",")} km`;
+}
+
+// Stabilní 32-bit hash pro převod string ID na číselné ID v UIEvent.
+// 100_000+ = namespace nad ručními eventy (které začínají od 0).
+function hashStringToInt(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) {
+    h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+  }
+  return Math.abs(h) + 100_000;
+}
+
 // Strava times jsou v ISO UTC. Formátujeme do Europe/Prague,
 // ať na Vercel produkci (UTC server) ukazujeme CET/CEST stejně jako na dev.
 const CZ_TZ = "Europe/Prague";
@@ -98,8 +137,19 @@ export function mapStravaEventToNormalized(ev: StravaGroupEvent): NormalizedEven
   const sport = mapActivityToSport(ev.activity_type);
   const photo = mapActivityToPhoto(ev.activity_type);
 
+  // Distance: pokusíme parsovat z description (Strava nedává programaticky).
+  // Difficulty: distance-driven podle Jan-pravidla, fallback terrain.
+  const km = parseDistanceKm(ev.description);
+  const distanceLabel = formatDistanceLabel(km);
+  const difficulty =
+    km !== null
+      ? difficultyFromDistanceKm(km)
+      : mapTerrainToDifficulty(ev.terrain ?? 0);
+
   return {
-    id: 100_000 + ev.id, // namespace nad ručními (které začínají od 0)
+    // String IDs ze Stravy přesahují Number.MAX_SAFE_INTEGER → hashujeme
+    // do 32-bit číselného prostoru s namespace 100_000+ pro odlišení od ručních.
+    id: hashStringToInt(ev.id),
     slug: `strava-${ev.id}`,
     title: ev.title,
     sport,
@@ -107,9 +157,9 @@ export function mapStravaEventToNormalized(ev: StravaGroupEvent): NormalizedEven
     dateISO: firstOccurrence,
     time: formatTime(firstOccurrence),
     location: ev.address || "Místo na Stravě",
-    distance: "",
+    distance: distanceLabel,
     elevation: "",
-    difficulty: mapTerrainToDifficulty(ev.terrain),
+    difficulty,
     capacity: 0,
     filled: 0,
     description: ev.description || "Detail a registrace na Stravě.",
