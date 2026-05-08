@@ -193,7 +193,7 @@ export default function ONasPage() {
                   Ať jde o výběr kola, organizaci výjezdu do Malagy nebo sobotní social ride — vždy platí jedno: stojíme za tím, co děláme. Osobně.
                 </p>
                 <p>
-                  100dola není franšíza ani agenturní projekt. Je to přirozené propojení tří věcí, které k sobě patří — výbava, cesta a parta.
+                  100dola není franšíza ani agenturní projekt. Je to přirozené propojení věcí, kterými žijeme — výbava, cesta a parta.
                 </p>
               </div>
             </div>
