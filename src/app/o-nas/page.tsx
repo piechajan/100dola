@@ -32,7 +32,7 @@ export default function ONasPage() {
               Sport je způsob,<br />jak žít.
             </h1>
             <p className="text-lg text-white/70 leading-relaxed mb-10 max-w-lg">
-              100dola vzniklo z potřeby, která neexistovala — mít jedno přirozené místo pro vybavení, cestu na soustředění i partu, se kterou má cenu jet.
+              100dola vzniklo z potřeby, která neexistovala — mít jedno přirozené místo pro vybavení, cestu na soustředění i partu, se kterou chceš jet.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
