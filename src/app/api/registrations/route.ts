@@ -8,69 +8,17 @@ import {
   sendMalagaLeadConfirmation,
   sendEventRegistrationNotification,
 } from "@/lib/email";
+import {
+  EventPayloadSchema,
+  MalagaPayloadSchema,
+  HONEYPOT_NAME,
+} from "@/lib/schemas";
 
-// ── Schemas ───────────────────────────────────────────────────────────────────
-// Payload, který přijde od klienta. UDB schema (snake_case) je v lib/supabase.
-
-interface BasePayload {
-  id?: string;
-  email: string;
-  registeredAt?: string;
-}
-
-interface EventPayload extends BasePayload {
-  source?: "event"; // implicit when eventSlug present
-  firstName: string;
-  lastName: string;
-  nickname?: string;
-  club?: string;
-  city?: string;
-  phone?: string;
-  isVip?: boolean;
-  eventSlug: string;
-}
-
-type MalagaIntent = "transport" | "storage" | "package" | "tour" | "group" | "other";
-type MalagaPackage = "basic" | "exclusive" | "undecided";
-type MalagaGroupKind = "individual" | "group" | "club";
-
-interface MalagaPayload extends BasePayload {
-  source: "malaga";
-  name: string;
-  phone?: string;
-  intent: MalagaIntent;
-  packageInterest?: MalagaPackage;
-  bikeCount?: number;
-  bikeType?: string;
-  isEbike?: boolean;
-  preferredMonth?: string;
-  groupKind?: MalagaGroupKind;
-  pickupAtHome?: boolean;
-  message?: string;
-}
-
-// ── Validation ────────────────────────────────────────────────────────────────
-
-function isMalagaPayload(b: unknown): b is MalagaPayload {
-  if (!b || typeof b !== "object") return false;
-  const r = b as Record<string, unknown>;
-  return (
-    r.source === "malaga" &&
-    typeof r.email === "string" &&
-    typeof r.name === "string" &&
-    typeof r.intent === "string"
-  );
-}
-
-function isEventPayload(b: unknown): b is EventPayload {
-  if (!b || typeof b !== "object") return false;
-  const r = b as Record<string, unknown>;
-  return (
-    typeof r.firstName === "string" &&
-    typeof r.lastName === "string" &&
-    typeof r.email === "string" &&
-    typeof r.eventSlug === "string"
-  );
+// Pro lidi přemýšlející: honeypot dropme tiše (200 ok), aby bot nevěděl, že byl chycen.
+function isHoneypotFilled(body: unknown): boolean {
+  if (!body || typeof body !== "object") return false;
+  const v = (body as Record<string, unknown>)[HONEYPOT_NAME];
+  return typeof v === "string" && v.length > 0;
 }
 
 // ── Fallback file storage (dev / když Supabase není nakonfigurován) ──────────
@@ -123,29 +71,55 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
+  // Honeypot — tichá 200 odpověď bez uložení. Bot nesmí poznat, že byl chycen.
+  if (isHoneypotFilled(body)) {
+    console.warn("[api/registrations] honeypot triggered — silently dropping");
+    return NextResponse.json({ ok: true });
+  }
+
   const now = new Date().toISOString();
   const useDb = isSupabaseConfigured();
 
+  // Source decision: malaga má explicitní source, event ho nemusí mít (legacy).
+  const rawSource = (body as Record<string, unknown> | null)?.source;
+  const looksLikeEvent =
+    !!body &&
+    typeof body === "object" &&
+    "firstName" in body &&
+    "eventSlug" in body;
+
+  function invalidPayload(issues: { path: string; message: string }[]) {
+    return NextResponse.json({ error: "Invalid payload", issues }, { status: 400 });
+  }
+
   // ── Malaga lead ───────────────────────────────────────────────────────────
-  if (isMalagaPayload(body)) {
+  if (rawSource === "malaga") {
+    const parsed = MalagaPayloadSchema.safeParse(body);
+    if (!parsed.success) {
+      return invalidPayload(
+        parsed.error.issues.map((i) => ({ path: i.path.join("."), message: i.message })),
+      );
+    }
+    const m = parsed.data;
+
     if (useDb) {
       const sb = getSupabase();
       const insert = {
-        name: body.name.trim(),
-        email: body.email.trim().toLowerCase(),
-        phone: body.phone?.trim() || null,
-        intent: body.intent,
-        package_interest: body.packageInterest || null,
-        bike_count: body.bikeCount ?? null,
-        bike_type: body.bikeType?.trim() || null,
-        is_ebike: body.isEbike ?? false,
-        preferred_month: body.preferredMonth || null,
-        group_kind: body.groupKind || null,
-        pickup_at_home: body.pickupAtHome ?? false,
-        message: body.message?.trim() || null,
-        registered_at: body.registeredAt || now,
+        name: m.name,
+        email: m.email,
+        phone: m.phone || null,
+        intent: m.intent,
+        package_interest: m.packageInterest || null,
+        bike_count: m.bikeCount ?? null,
+        bike_type: m.bikeType || null,
+        is_ebike: m.isEbike ?? false,
+        preferred_month: m.preferredMonth || null,
+        group_kind: m.groupKind || null,
+        pickup_at_home: m.pickupAtHome ?? false,
+        message: m.message || null,
+        registered_at: m.registeredAt || now,
       };
-      const { data, error } = await sb
+      const { data: row, error } = await sb
         .from("malaga_leads")
         .insert(insert)
         .select("*")
@@ -156,8 +130,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "Storage error" }, { status: 500 });
       }
 
-      // Notifikace + confirmation — async, bez blokování response
-      const lead = data as MalagaLeadRow;
+      const lead = row as MalagaLeadRow;
       Promise.allSettled([
         sendMalagaLeadNotification(lead),
         sendMalagaLeadConfirmation(lead),
@@ -167,46 +140,53 @@ export async function POST(req: NextRequest) {
     }
 
     // fallback: file storage
-    const id = body.id || crypto.randomUUID();
+    const id = m.id || crypto.randomUUID();
     await fileAppend({
       source: "malaga",
       id,
-      email: body.email,
-      registeredAt: body.registeredAt || now,
-      name: body.name,
-      phone: body.phone,
-      intent: body.intent,
-      packageInterest: body.packageInterest,
-      bikeCount: body.bikeCount,
-      bikeType: body.bikeType,
-      isEbike: body.isEbike,
-      preferredMonth: body.preferredMonth,
-      groupKind: body.groupKind,
-      pickupAtHome: body.pickupAtHome,
-      message: body.message,
+      email: m.email,
+      registeredAt: m.registeredAt || now,
+      name: m.name,
+      phone: m.phone,
+      intent: m.intent,
+      packageInterest: m.packageInterest,
+      bikeCount: m.bikeCount,
+      bikeType: m.bikeType,
+      isEbike: m.isEbike,
+      preferredMonth: m.preferredMonth,
+      groupKind: m.groupKind,
+      pickupAtHome: m.pickupAtHome,
+      message: m.message,
     });
     return NextResponse.json({ ok: true, source: "malaga", id, fallback: true });
   }
 
   // ── Event registration ────────────────────────────────────────────────────
-  if (isEventPayload(body)) {
+  if (looksLikeEvent) {
+    const parsed = EventPayloadSchema.safeParse(body);
+    if (!parsed.success) {
+      return invalidPayload(
+        parsed.error.issues.map((i) => ({ path: i.path.join("."), message: i.message })),
+      );
+    }
+    const e = parsed.data;
+
     if (useDb) {
       const sb = getSupabase();
       const insert = {
-        first_name: body.firstName.trim(),
-        last_name: body.lastName.trim(),
-        nickname: body.nickname?.trim() || null,
-        club: body.club?.trim() || null,
-        city: body.city?.trim() || null,
-        phone: body.phone?.trim() || null,
-        email: body.email.trim().toLowerCase(),
-        is_vip: body.isVip ?? false,
-        event_slug: body.eventSlug,
-        registered_at: body.registeredAt || now,
+        first_name: e.firstName,
+        last_name: e.lastName,
+        nickname: e.nickname || null,
+        club: e.club || null,
+        city: e.city || null,
+        phone: e.phone || null,
+        email: e.email,
+        is_vip: e.isVip ?? false,
+        event_slug: e.eventSlug,
+        registered_at: e.registeredAt || now,
       };
 
-      // Dedup: unique constraint na (email, event_slug) — upsert nebo ignore conflict
-      const { data, error } = await sb
+      const { data: row, error } = await sb
         .from("registrations")
         .upsert(insert, { onConflict: "email,event_slug", ignoreDuplicates: true })
         .select("*")
@@ -217,34 +197,33 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "Storage error" }, { status: 500 });
       }
 
-      // Notifikace jen pokud byl insert nový (data není null)
-      if (data) {
-        Promise.allSettled([sendEventRegistrationNotification(data as RegistrationRow)]);
+      if (row) {
+        Promise.allSettled([sendEventRegistrationNotification(row as RegistrationRow)]);
       }
 
-      return NextResponse.json({ ok: true, source: "event", duplicate: !data });
+      return NextResponse.json({ ok: true, source: "event", duplicate: !row });
     }
 
     // fallback: file storage
-    const id = body.id || crypto.randomUUID();
+    const id = e.id || crypto.randomUUID();
     await fileAppend({
       source: "event",
       id,
-      email: body.email,
-      registeredAt: body.registeredAt || now,
-      firstName: body.firstName,
-      lastName: body.lastName,
-      nickname: body.nickname,
-      club: body.club,
-      city: body.city,
-      phone: body.phone,
-      isVip: body.isVip ?? false,
-      eventSlug: body.eventSlug,
+      email: e.email,
+      registeredAt: e.registeredAt || now,
+      firstName: e.firstName,
+      lastName: e.lastName,
+      nickname: e.nickname,
+      club: e.club,
+      city: e.city,
+      phone: e.phone,
+      isVip: e.isVip ?? false,
+      eventSlug: e.eventSlug,
     });
     return NextResponse.json({ ok: true, source: "event", id, fallback: true });
   }
 
-  return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+  return invalidPayload([{ path: "source", message: "Unknown payload source" }]);
 }
 
 // ── GET — list (preview-protected) ────────────────────────────────────────────

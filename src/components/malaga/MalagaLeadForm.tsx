@@ -44,6 +44,9 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Honeypot — viz lib/schemas (HONEYPOT_NAME = "website"). Pole je v DOM, ale
+  // pro skutečné uživatele neviditelné. Bot ho vyplní → server odmítne (tichá 200).
+  const [website, setWebsite] = useState("");
 
   const isGroupy = intent === "group" || (parseInt(bikeCount) || 0) >= 5;
   const isEbike = /e-?bike|elektro|elektrické?/i.test(bikeType);
@@ -70,6 +73,7 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
       groupKind: isGroupy ? ("group" as const) : ("individual" as const),
       pickupAtHome,
       message: message.trim() || undefined,
+      website, // honeypot — pro reálné uživatele "", bot ho vyplní
     };
 
     try {
@@ -128,6 +132,20 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
         <p className="text-sm text-[#9AA3C2] mt-1">
           Stačí pár polí. Nemusíš zatím vědět všechno — doladíme spolu.
         </p>
+      </div>
+
+      {/* Honeypot — pro reálné uživatele neviditelné; vyplněné = spam */}
+      <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", top: "-9999px", height: 0, width: 0, overflow: "hidden" }}>
+        <label htmlFor="website-url-hp">Web (nevyplňuj)</label>
+        <input
+          id="website-url-hp"
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+        />
       </div>
 
       <div className="space-y-4">

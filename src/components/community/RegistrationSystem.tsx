@@ -204,6 +204,8 @@ function RegistrationModal({
   const [photoDataUrl, setPhotoDataUrl] = useState("");
   const [isVip, setIsVip] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  // Honeypot — pro reálné uživatele neviditelné. Bot ho vyplní → server tichá 200.
+  const [website, setWebsite] = useState("");
 
   const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -216,6 +218,11 @@ function RegistrationModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
+    // Honeypot — když je vyplněné, předstíráme úspěch ale nikam neukládáme.
+    if (website.length > 0) {
+      setTimeout(() => onClose(), 400);
+      return;
+    }
     const participant: Participant = {
       id: crypto.randomUUID(),
       firstName,
@@ -302,6 +309,20 @@ function RegistrationModal({
                 accept="image/*"
                 className="sr-only"
                 onChange={handlePhoto}
+              />
+            </div>
+
+            {/* Honeypot — neviditelné pole pro detekci botů */}
+            <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", top: "-9999px", height: 0, width: 0, overflow: "hidden" }}>
+              <label htmlFor={`hp-${eventSlug}`}>Web (nevyplňuj)</label>
+              <input
+                id={`hp-${eventSlug}`}
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
               />
             </div>
 
