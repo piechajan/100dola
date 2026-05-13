@@ -10,7 +10,7 @@ export default function LabHero() {
       <img
         src={LAB_HERO.image}
         alt="100dola Lab — kultivace kola"
-        className="absolute inset-0 w-full h-full object-cover opacity-50"
+        className="absolute inset-0 w-full h-full object-cover opacity-65"
         loading="eager"
       />
 
@@ -18,7 +18,7 @@ export default function LabHero() {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(to right, rgba(10,18,14,0.94) 0%, rgba(10,18,14,0.7) 55%, rgba(10,18,14,0.2) 100%)",
+            "linear-gradient(to right, rgba(10,18,14,0.86) 0%, rgba(10,18,14,0.55) 55%, rgba(10,18,14,0.1) 100%)",
         }}
       />
 

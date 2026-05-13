@@ -19,7 +19,7 @@ export const LAB_HERO = {
   ctaPrimary: "Naceň úpravu mého kola",
   ctaSecondary: "Co všechno Lab umí",
   image:
-    "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=1800&h=1100&fit=crop&auto=format&q=80",
+    "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1800&h=1100&fit=crop&auto=format&q=85",
 };
 
 export const LAB_INTRO = {
