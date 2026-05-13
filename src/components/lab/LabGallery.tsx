@@ -1,11 +1,13 @@
-import { LAB_GALLERY } from "@/data/lab";
+import { LAB_BRAND, LAB_GALLERY } from "@/data/lab";
+
+const brassDark = LAB_BRAND.brassDark;
 
 export default function LabGallery() {
   return (
     <section className="bg-[#F5F7FF] py-20 md:py-28">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
         <div className="max-w-2xl mb-12">
-          <div className="text-xs tracking-[0.22em] uppercase font-bold text-[#1F4937] mb-3">
+          <div className="text-xs tracking-[0.22em] uppercase font-bold mb-3" style={{ color: brassDark }}>
             Z Labu
           </div>
           <h2 className="text-3xl md:text-5xl font-black text-[#1a1a2e] tracking-tight leading-[1.1]">

@@ -4,11 +4,14 @@
 export const LAB_BRAND = {
   name: "100dola Lab",
   tagline: "Kultivace stroje",
-  color: "#1F4937",       // deep emerald
+  color: "#1F4937",       // deep emerald (base)
   colorDark: "#163528",
   colorLight: "#2E6651",
   bgDark: "#0F1A14",
   bgMid: "#1A2620",
+  // Champagne / brushed brass accent — premium řemeslo, ne kasino zlato
+  brass: "#C9A86E",       // světlejší — na tmavé pozadí
+  brassDark: "#8C6A3F",   // tmavší — na světlé pozadí (čitelnost)
 } as const;
 
 export const LAB_HERO = {
@@ -18,8 +21,7 @@ export const LAB_HERO = {
   sub: "Keramická ložiska, ochrana laku, voskování řetězu, kompletní cleanup. Kolo, co jezdí dál, déle — a o pár wattů rychleji.",
   ctaPrimary: "Naceň úpravu mého kola",
   ctaSecondary: "Co všechno Lab umí",
-  image:
-    "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1800&h=1100&fit=crop&auto=format&q=85",
+  image: "/media/lab/pinarello-dogma-hero.jpg",
 };
 
 export const LAB_INTRO = {

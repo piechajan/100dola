@@ -1,13 +1,13 @@
 import { LAB_BRAND, LAB_PROCESS } from "@/data/lab";
 
-const accent = LAB_BRAND.color;
+const brassDark = LAB_BRAND.brassDark;
 
 export default function LabProcess() {
   return (
     <section className="bg-white py-20 md:py-28">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 lg:px-20">
         <div className="max-w-2xl mb-14">
-          <div className="text-xs tracking-[0.22em] uppercase font-bold text-[#1F4937] mb-3">
+          <div className="text-xs tracking-[0.22em] uppercase font-bold mb-3" style={{ color: brassDark }}>
             Proces
           </div>
           <h2 className="text-3xl md:text-5xl font-black text-[#1a1a2e] tracking-tight leading-[1.1]">
@@ -20,7 +20,7 @@ export default function LabProcess() {
             <div key={s.step} className="relative">
               <div
                 className="text-5xl font-black mb-3"
-                style={{ color: accent, opacity: 0.18 }}
+                style={{ color: brassDark, opacity: 0.55 }}
               >
                 0{s.step}
               </div>

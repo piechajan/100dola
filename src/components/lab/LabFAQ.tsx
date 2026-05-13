@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { LAB_FAQ } from "@/data/lab";
+import { LAB_BRAND, LAB_FAQ } from "@/data/lab";
+
+const brassDark = LAB_BRAND.brassDark;
 
 export default function LabFAQ() {
   const [open, setOpen] = useState<number | null>(0);
@@ -10,7 +12,7 @@ export default function LabFAQ() {
     <section className="bg-white py-20 md:py-28">
       <div className="max-w-[900px] mx-auto px-6 md:px-12">
         <div className="mb-12">
-          <div className="text-xs tracking-[0.22em] uppercase font-bold text-[#1F4937] mb-3">
+          <div className="text-xs tracking-[0.22em] uppercase font-bold mb-3" style={{ color: brassDark }}>
             Otázky
           </div>
           <h2 className="text-3xl md:text-5xl font-black text-[#1a1a2e] tracking-tight leading-[1.1]">

@@ -10,7 +10,7 @@ import LabGallery from "@/components/lab/LabGallery";
 import LabFAQ from "@/components/lab/LabFAQ";
 import LabCrossSellMalaga from "@/components/lab/LabCrossSellMalaga";
 import LabLeadForm from "@/components/lab/LabLeadForm";
-import { LAB_FAQ, LAB_CONTACT } from "@/data/lab";
+import { LAB_BRAND, LAB_FAQ, LAB_CONTACT } from "@/data/lab";
 
 export const metadata: Metadata = {
   title: "100dola Lab — kultivace kola: keramická ložiska, PPF, voskování",
@@ -76,7 +76,7 @@ export default function LabPage() {
         <section className="bg-[#F5F7FF] py-20 md:py-28">
           <div className="max-w-[720px] mx-auto px-6 md:px-12">
             <div className="text-center mb-10">
-              <div className="text-xs tracking-[0.22em] uppercase font-bold text-[#1F4937] mb-3">
+              <div className="text-xs tracking-[0.22em] uppercase font-bold mb-3" style={{ color: LAB_BRAND.brassDark }}>
                 Poptávka
               </div>
               <h2 className="text-3xl md:text-5xl font-black text-[#1a1a2e] tracking-tight leading-[1.1]">

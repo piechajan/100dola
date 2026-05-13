@@ -6,14 +6,16 @@ const accent = LAB_BRAND.color;
 export default function LabHero() {
   return (
     <section className="relative overflow-hidden bg-[#0F1A14] text-white" style={{ minHeight: "85vh" }}>
+      {/* Pinarello Dogma — full-bleed hero photo */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={LAB_HERO.image}
-        alt="100dola Lab — kultivace kola"
+        alt="Pinarello Dogma — 100dola Lab kultivace stroje"
         className="absolute inset-0 w-full h-full object-cover opacity-65"
         loading="eager"
       />
 
+      {/* Left-to-right dark gradient for text legibility */}
       <div
         className="absolute inset-0"
         style={{
@@ -27,8 +29,8 @@ export default function LabHero() {
         style={{ minHeight: "85vh" }}
       >
         <div className="flex items-center gap-3 mb-6">
-          <span className="w-8 h-px" style={{ backgroundColor: accent }} />
-          <span className="text-xs tracking-[0.22em] uppercase font-bold" style={{ color: "#7BC9A8" }}>
+          <span className="w-8 h-px" style={{ backgroundColor: LAB_BRAND.brass }} />
+          <span className="text-xs tracking-[0.22em] uppercase font-bold" style={{ color: LAB_BRAND.brass }}>
             {LAB_HERO.eyebrow}
           </span>
         </div>

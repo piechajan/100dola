@@ -1,13 +1,14 @@
 import { LAB_BRAND, LAB_SERVICES } from "@/data/lab";
 
 const accent = LAB_BRAND.color;
+const brassDark = LAB_BRAND.brassDark;
 
 export default function LabServices() {
   return (
     <section id="sluzby" className="bg-[#F5F7FF] py-20 md:py-28">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
         <div className="max-w-2xl mb-14">
-          <div className="text-xs tracking-[0.22em] uppercase font-bold text-[#1F4937] mb-3">
+          <div className="text-xs tracking-[0.22em] uppercase font-bold mb-3" style={{ color: brassDark }}>
             Co Lab umí
           </div>
           <h2 className="text-3xl md:text-5xl font-black text-[#1a1a2e] tracking-tight leading-[1.1]">
@@ -40,7 +41,7 @@ export default function LabServices() {
               </div>
 
               <div className="p-6">
-                <div className="text-[10px] tracking-[0.18em] uppercase font-bold text-[#1F4937] mb-1.5">
+                <div className="text-[10px] tracking-[0.18em] uppercase font-bold mb-1.5" style={{ color: brassDark }}>
                   {svc.eyebrow}
                 </div>
                 <h3 className="text-xl font-black text-[#1a1a2e] mb-2 leading-tight">
