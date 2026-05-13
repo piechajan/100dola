@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { LAB_BRAND, LAB_HERO } from "@/data/lab";
 
@@ -6,13 +7,14 @@ const accent = LAB_BRAND.color;
 export default function LabHero() {
   return (
     <section className="relative overflow-hidden bg-[#0F1A14] text-white" style={{ minHeight: "85vh" }}>
-      {/* Pinarello Dogma — full-bleed hero photo */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src={LAB_HERO.image}
         alt="Pinarello Dogma — 100dola Lab kultivace stroje"
-        className="absolute inset-0 w-full h-full object-cover opacity-65"
-        loading="eager"
+        fill
+        sizes="100vw"
+        quality={85}
+        priority
+        className="object-cover opacity-65"
       />
 
       {/* Left-to-right dark gradient for text legibility */}
