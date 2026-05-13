@@ -1,0 +1,88 @@
+name: Pre-warm hero image cache
+
+# Po každém pushi do main počkáme na Vercel deploy, pak nahřejeme
+# Vercel image optimizer pro všechny varianty srcset hero fotek.
+# Diky tomu první návštěvník nepostřehne cold-start optimizeru (~2-3s).
+#
+# Editace seznamu hero fotek: viz IMAGES níže.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # manuální spuštění (Actions tab → Run workflow)
+
+jobs:
+  prewarm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Wait for Vercel deploy to settle
+        run: |
+          echo "Waiting 120 s for Vercel build + propagation..."
+          sleep 120
+
+      - name: Pre-warm hero images on production CDN
+        env:
+          BASE_URL: https://www.100dola.com
+        run: |
+          set -e
+
+          # Seznam hero fotek a jejich kvality (musí odpovídat hodnotám
+          # předaným do <Image quality={...} /> v komponentách).
+          IMAGES=(
+            "/media/lab/pinarello-dogma-hero.jpg:75"
+            "/media/malaga-hero.jpg:88"
+          )
+
+          WIDTHS=(640 750 828 1080 1200 1920 2048 3840)
+          ACCEPTS=(
+            "image/avif,image/webp,image/*"
+            "image/webp,image/*"
+          )
+
+          total=0
+          ok=0
+          fail=0
+
+          for entry in "${IMAGES[@]}"; do
+            IMG="${entry%:*}"
+            Q="${entry#*:}"
+            ENCODED=$(python3 -c "import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1]))" "$IMG")
+            echo ""
+            echo "── $IMG (q=$Q) ──────────────────────"
+
+            for W in "${WIDTHS[@]}"; do
+              URL="${BASE_URL}/_next/image?url=${ENCODED}&w=${W}&q=${Q}"
+              for ACCEPT in "${ACCEPTS[@]}"; do
+                total=$((total+1))
+                response=$(curl -s -o /dev/null -w "%{http_code}|%{size_download}|%{time_total}" \
+                  -H "Accept: ${ACCEPT}" \
+                  --max-time 30 \
+                  "$URL" || echo "0|0|fail")
+                code="${response%%|*}"
+                rest="${response#*|}"
+                size="${rest%%|*}"
+                time="${rest#*|}"
+                fmt="${ACCEPT%%,*}"
+                if [ "$code" = "200" ]; then
+                  ok=$((ok+1))
+                  printf "  ✓ w=%-4s %s → %s bytes, %s s\n" "$W" "$fmt" "$size" "$time"
+                else
+                  fail=$((fail+1))
+                  printf "  ✗ w=%-4s %s → code=%s\n" "$W" "$fmt" "$code"
+                fi
+              done
+            done
+          done
+
+          echo ""
+          echo "═══════════════════════════════════════"
+          echo "Total: $total | OK: $ok | Failed: $fail"
+          echo "═══════════════════════════════════════"
+
+          # Failne workflow pokud víc než 10 % requestů selhalo
+          # (občasný 504 v rámci pre-warmu je OK, ale široký výpadek hlásit)
+          if [ "$fail" -gt $((total / 10)) ]; then
+            echo "::error::Too many failures ($fail / $total)"
+            exit 1
+          fi
