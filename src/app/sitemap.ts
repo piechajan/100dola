@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/malaga/balicky",
     "/lab",
     "/community",
+    "/community/o-klinice",
     "/o-nas",
     "/shop",
   ];
