@@ -12,8 +12,9 @@ export default function LabHero() {
         alt="Pinarello Dogma — 100dola Lab kultivace stroje"
         fill
         sizes="100vw"
-        quality={85}
+        quality={75}
         priority
+        fetchPriority="high"
         className="object-cover opacity-65"
       />
 
