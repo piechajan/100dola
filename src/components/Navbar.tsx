@@ -192,6 +192,9 @@ export default function Navbar() {
             <Link href="/malaga" className="text-[#5A6480] hover:text-[#E8431A] transition-colors duration-150">
               Malaga
             </Link>
+            <Link href="/lab" className="text-[#5A6480] hover:text-[#1F4937] transition-colors duration-150">
+              Lab
+            </Link>
             <Link href="/community" className="text-[#5A6480] hover:text-[#2EAA6E] transition-colors duration-150">
               Social rides
             </Link>
@@ -361,6 +364,7 @@ export default function Navbar() {
 
             {[
               { label: "Malaga", href: "/malaga", color: "#E8431A" },
+              { label: "Lab", href: "/lab", color: "#1F4937" },
               { label: "Social rides", href: "/community", color: "#2EAA6E" },
               { label: "O nás", href: "/o-nas", color: "#1a1a2e" },
             ].map((item) => (

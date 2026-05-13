@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/malaga/preprava",
     "/malaga/uskladneni",
     "/malaga/balicky",
+    "/lab",
     "/community",
     "/o-nas",
     "/shop",
@@ -19,7 +20,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map((path) => ({
     url: `${BASE_URL}${path}`,
     lastModified,
-    changeFrequency: path.startsWith("/malaga") ? "weekly" : "monthly",
-    priority: path === "/malaga" ? 0.9 : path.startsWith("/malaga") ? 0.8 : 0.6,
+    changeFrequency:
+      path.startsWith("/malaga") || path === "/lab" ? "weekly" : "monthly",
+    priority:
+      path === "/malaga" || path === "/lab"
+        ? 0.9
+        : path.startsWith("/malaga")
+          ? 0.8
+          : 0.6,
   }));
 }

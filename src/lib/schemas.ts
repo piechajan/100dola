@@ -49,7 +49,28 @@ export const MalagaPayloadSchema = z
   })
   .merge(Honeypot);
 
+export const LabPayloadSchema = z
+  .object({
+    id: z.string().max(200).optional(),
+    registeredAt: z.string().max(64).optional(),
+    source: z.literal("lab"),
+    name: z.string().min(1).max(120).trim(),
+    email: z.email().max(254).toLowerCase(),
+    phone: z.string().max(40).trim().optional(),
+    bikeBrand: z.string().max(120).trim().optional(),
+    bikeValue: z.enum(["under100k", "100to200k", "200kPlus", "undecided"]).optional(),
+    services: z
+      .array(z.enum(["bearings", "shield", "glaze", "wax", "cleanup", "fit"]))
+      .max(6)
+      .optional(),
+    preferredWindow: z.string().max(64).trim().optional(),
+    pickupInPrague: z.boolean().optional(),
+    message: z.string().max(2000).trim().optional(),
+  })
+  .merge(Honeypot);
+
 export type EventPayload = z.infer<typeof EventPayloadSchema>;
 export type MalagaPayload = z.infer<typeof MalagaPayloadSchema>;
+export type LabPayload = z.infer<typeof LabPayloadSchema>;
 
 export const HONEYPOT_NAME = HONEYPOT_FIELD;

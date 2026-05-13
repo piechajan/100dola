@@ -7,10 +7,13 @@ import {
   sendMalagaLeadNotification,
   sendMalagaLeadConfirmation,
   sendEventRegistrationNotification,
+  sendLabLeadNotification,
+  sendLabLeadConfirmation,
 } from "@/lib/email";
 import {
   EventPayloadSchema,
   MalagaPayloadSchema,
+  LabPayloadSchema,
   HONEYPOT_NAME,
 } from "@/lib/schemas";
 
@@ -27,7 +30,7 @@ const DATA_DIR = process.env.NODE_ENV === "production" ? "/tmp" : path.join(proc
 const FILE = path.join(DATA_DIR, "registrations.json");
 
 interface FileRecord {
-  source: "event" | "malaga";
+  source: "event" | "malaga" | "lab";
   id: string;
   email: string;
   registeredAt: string;
@@ -159,6 +162,55 @@ export async function POST(req: NextRequest) {
       message: m.message,
     });
     return NextResponse.json({ ok: true, source: "malaga", id, fallback: true });
+  }
+
+  // ── Lab lead ──────────────────────────────────────────────────────────────
+  // MVP: jen file storage + e-mail notif. Supabase tabulka přidám později.
+  if (rawSource === "lab") {
+    const parsed = LabPayloadSchema.safeParse(body);
+    if (!parsed.success) {
+      return invalidPayload(
+        parsed.error.issues.map((i) => ({ path: i.path.join("."), message: i.message })),
+      );
+    }
+    const l = parsed.data;
+    const id = l.id || crypto.randomUUID();
+    const registeredAt = l.registeredAt || now;
+
+    await fileAppend({
+      source: "lab",
+      id,
+      email: l.email,
+      registeredAt,
+      name: l.name,
+      phone: l.phone,
+      bikeBrand: l.bikeBrand,
+      bikeValue: l.bikeValue,
+      services: l.services,
+      preferredWindow: l.preferredWindow,
+      pickupInPrague: l.pickupInPrague,
+      message: l.message,
+    });
+
+    const emailPayload = {
+      id,
+      registeredAt,
+      name: l.name,
+      email: l.email,
+      phone: l.phone,
+      bikeBrand: l.bikeBrand,
+      bikeValue: l.bikeValue,
+      services: l.services,
+      preferredWindow: l.preferredWindow,
+      pickupInPrague: l.pickupInPrague,
+      message: l.message,
+    };
+    Promise.allSettled([
+      sendLabLeadNotification(emailPayload),
+      sendLabLeadConfirmation(emailPayload),
+    ]);
+
+    return NextResponse.json({ ok: true, source: "lab", id });
   }
 
   // ── Event registration ────────────────────────────────────────────────────
