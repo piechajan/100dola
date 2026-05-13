@@ -41,7 +41,7 @@ const serviceJsonLd = {
   provider: {
     "@type": "Organization",
     name: "FUTUNATU s.r.o.",
-    email: "piecha.jan@gmail.com",
+    email: "info@100dola.com",
     telephone: "+420739045057",
   },
   areaServed: ["CZ", "ES"],

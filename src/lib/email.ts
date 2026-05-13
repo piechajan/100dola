@@ -7,7 +7,7 @@ import type { MalagaLeadRow, RegistrationRow } from "./supabase";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "100dola <onboarding@resend.dev>";
-const NOTIFY_EMAIL = process.env.RESEND_NOTIFY_EMAIL || "piecha.jan@gmail.com";
+const NOTIFY_EMAIL = process.env.RESEND_NOTIFY_EMAIL || "info@100dola.com";
 
 let cached: Resend | null = null;
 
@@ -147,7 +147,7 @@ export async function sendMalagaLeadConfirmation(lead: MalagaLeadRow): Promise<v
         <div style="font-weight: 700; margin-bottom: 4px;">Jan Piecha</div>
         <div style="font-size: 14px; color: #5A6480;">FUTUNATU s.r.o.</div>
         <div style="font-size: 14px; margin-top: 8px;">
-          <a href="mailto:piecha.jan@gmail.com" style="color: #E8431A; text-decoration: none;">piecha.jan@gmail.com</a>
+          <a href="mailto:info@100dola.com" style="color: #E8431A; text-decoration: none;">info@100dola.com</a>
           · <a href="tel:+420739045057" style="color: #E8431A; text-decoration: none;">+420 739 045 057</a>
         </div>
       </div>
@@ -165,7 +165,7 @@ export async function sendMalagaLeadConfirmation(lead: MalagaLeadRow): Promise<v
     `Mám tvoji zprávu. Ozvu se ti do 24 hodin s konkrétním dalším krokem — termín, cena na míru, co potřebuju vědět.`,
     ``,
     `Pokud spěcháš, klidně mi napiš nebo zavolej:`,
-    `piecha.jan@gmail.com`,
+    `info@100dola.com`,
     `+420 739 045 057`,
     ``,
     `Jan Piecha · FUTUNATU s.r.o.`,

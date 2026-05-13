@@ -104,8 +104,8 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
         <div className="font-black text-lg text-[#1a1a2e] mb-1">Poptávka odeslaná!</div>
         <div className="text-sm text-[#5A6480] max-w-md mx-auto">
           Ozveme se ti do 24 hodin s konkrétním dalším krokem. Pokud spěcháš, napiš rovnou na{" "}
-          <a href="mailto:piecha.jan@gmail.com" className="underline" style={{ color: accent }}>
-            piecha.jan@gmail.com
+          <a href="mailto:info@100dola.com" className="underline" style={{ color: accent }}>
+            info@100dola.com
           </a>{" "}
           nebo volej{" "}
           <a href="tel:+420739045057" className="underline" style={{ color: accent }}>

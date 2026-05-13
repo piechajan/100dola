@@ -288,6 +288,6 @@ export const FINAL_CTA_COPY = {
   h2: "Začneš poptávkou. Nemusíš vědět všechno.",
   body: "Napiš nám, co plánuješ. Ozveme se do 24 hodin s konkrétním dalším krokem.",
   cta: "Poslat poptávku",
-  email: "piecha.jan@gmail.com",
+  email: "info@100dola.com",
   phone: "+420 739 045 057",
 } as const;

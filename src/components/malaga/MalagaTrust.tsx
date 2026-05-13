@@ -33,7 +33,7 @@ export default function MalagaTrust() {
 
             <div className="mt-8 flex flex-wrap gap-3 items-center text-sm">
               <a
-                href="mailto:piecha.jan@gmail.com"
+                href="mailto:info@100dola.com"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-full font-bold transition-all hover:opacity-90"
                 style={{ backgroundColor: "#1a1a2e", color: "#fff" }}
               >
@@ -41,7 +41,7 @@ export default function MalagaTrust() {
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                   <path d="m22 6-10 7L2 6" />
                 </svg>
-                piecha.jan@gmail.com
+                info@100dola.com
               </a>
               <a
                 href="tel:+420739045057"
