@@ -18,6 +18,7 @@ export default function LabFAQ() {
           <h2 className="text-3xl md:text-5xl font-black text-[#1a1a2e] tracking-tight leading-[1.1]">
             Co se ptají nejčastěji.
           </h2>
+          <div className="mt-6 w-12 h-px" style={{ backgroundColor: brassDark }} />
         </div>
 
         <div className="space-y-2">
@@ -43,9 +44,9 @@ export default function LabFAQ() {
                     height="18"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="currentColor"
+                    stroke={isOpen ? brassDark : "#1F4937"}
                     strokeWidth={2.5}
-                    className={`text-[#1F4937] shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                    className={`shrink-0 transition-all ${isOpen ? "rotate-180" : ""}`}
                   >
                     <path d="M6 9l6 6 6-6" />
                   </svg>

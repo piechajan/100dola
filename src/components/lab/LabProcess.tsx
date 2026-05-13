@@ -13,6 +13,7 @@ export default function LabProcess() {
           <h2 className="text-3xl md:text-5xl font-black text-[#1a1a2e] tracking-tight leading-[1.1]">
             Čtyři kroky, žádné překvapení.
           </h2>
+          <div className="mt-6 w-12 h-px" style={{ backgroundColor: brassDark }} />
         </div>
 
         <div className="grid md:grid-cols-4 gap-5">

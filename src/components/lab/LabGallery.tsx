@@ -13,7 +13,8 @@ export default function LabGallery() {
           <h2 className="text-3xl md:text-5xl font-black text-[#1a1a2e] tracking-tight leading-[1.1]">
             Detaily, na kterých záleží.
           </h2>
-          <p className="mt-4 text-sm text-[#9AA3C2]">
+          <div className="mt-6 w-12 h-px" style={{ backgroundColor: brassDark }} />
+          <p className="mt-5 text-sm text-[#9AA3C2]">
             Ilustrativní snímky. Po prvních realizacích sem nahrajeme reálné fotky z vlastní dílny.
           </p>
         </div>

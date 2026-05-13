@@ -14,6 +14,7 @@ export default function LabWhy() {
           <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-[1.1]">
             {LAB_WHY.title}
           </h2>
+          <div className="mt-6 w-12 h-px" style={{ backgroundColor: brass }} />
           <p className="mt-5 text-lg text-white/65 leading-relaxed">
             {LAB_WHY.lead}
           </p>

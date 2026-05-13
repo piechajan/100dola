@@ -14,6 +14,7 @@ export default function LabServices() {
           <h2 className="text-3xl md:text-5xl font-black text-[#1a1a2e] tracking-tight leading-[1.1]">
             Šest věcí. Vybíráš jen ty, co dávají smysl tvému kolu.
           </h2>
+          <div className="mt-6 w-12 h-px" style={{ backgroundColor: brassDark }} />
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -70,9 +71,11 @@ export default function LabServices() {
                   ))}
                 </ul>
 
-                <div className="flex items-center justify-between pt-4 border-t border-[#F0F2FA]">
-                  <span className="text-sm font-black text-[#1a1a2e]">{svc.priceFrom}</span>
-                  <span className="text-[11px] text-[#9AA3C2]">Finální cena po diagnostice</span>
+                <div className="pt-4" style={{ borderTop: `1px solid ${brassDark}30` }}>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-black text-[#1a1a2e]">{svc.priceFrom}</span>
+                    <span className="text-[11px] text-[#9AA3C2]">Finální cena po diagnostice</span>
+                  </div>
                 </div>
               </div>
             </article>

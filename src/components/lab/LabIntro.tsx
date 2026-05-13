@@ -1,4 +1,6 @@
-import { LAB_INTRO } from "@/data/lab";
+import { LAB_BRAND, LAB_INTRO } from "@/data/lab";
+
+const brassDark = LAB_BRAND.brassDark;
 
 export default function LabIntro() {
   return (
@@ -7,7 +9,8 @@ export default function LabIntro() {
         <h2 className="text-3xl md:text-5xl font-black text-[#1a1a2e] tracking-tight max-w-3xl leading-[1.1]">
           {LAB_INTRO.title}
         </h2>
-        <p className="mt-6 text-lg text-[#5A6480] max-w-2xl leading-relaxed">
+        <div className="mt-6 w-12 h-px" style={{ backgroundColor: brassDark }} />
+        <p className="mt-5 text-lg text-[#5A6480] max-w-2xl leading-relaxed">
           {LAB_INTRO.lead}
         </p>
 
