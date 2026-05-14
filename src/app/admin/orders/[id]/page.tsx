@@ -38,6 +38,13 @@ interface OrderDetail {
   shipped_at: string | null;
   tracking_number: string | null;
   notes: string | null;
+  invoice?: {
+    fakturoid_id: number;
+    number: string;
+    pdf_url: string;
+    html_url: string;
+    status: string;
+  };
   items: Array<{
     product_id: number;
     slug: string;
@@ -59,8 +66,14 @@ async function getOrder(id: string): Promise<OrderDetail | null> {
       const { data: order, error } = await sb.from("orders").select("*").eq("id", id).maybeSingle();
       if (error || !order) throw error || new Error("not found");
       const { data: items } = await sb.from("order_items").select("*").eq("order_id", id);
+      const { data: invoice } = await sb
+        .from("invoices")
+        .select("fakturoid_id, number, pdf_url, html_url, status")
+        .eq("order_id", id)
+        .maybeSingle();
       return {
         ...order,
+        invoice: invoice || undefined,
         items: (items || []).map((i: Record<string, unknown>) => ({
           product_id: i.product_id as number,
           slug: i.slug as string,
@@ -186,6 +199,43 @@ export default async function AdminOrderDetailPage({
               {status.label}
             </span>
           </div>
+
+          {/* Invoice (Fakturoid) */}
+          {order.invoice && (
+            <section className="bg-white rounded-2xl border border-[#E2E6F3] p-6 mb-5">
+              <div className="text-xs tracking-[0.18em] uppercase font-bold text-[#9AA3C2] mb-3">
+                Faktura
+              </div>
+              <div className="flex items-center justify-between gap-4 flex-wrap">
+                <div>
+                  <div className="font-black text-[#1a1a2e]">
+                    Faktura č. {order.invoice.number}
+                  </div>
+                  <div className="text-xs text-[#5A6480] mt-0.5">
+                    Status: <span className="font-bold">{order.invoice.status}</span>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <a
+                    href={order.invoice.pdf_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 text-xs font-bold text-white rounded-full bg-[#3B7CF4] hover:opacity-90"
+                  >
+                    Stáhnout PDF
+                  </a>
+                  <a
+                    href={order.invoice.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 text-xs font-bold rounded-full border border-[#E2E6F3] text-[#1a1a2e] hover:border-[#3B7CF4]"
+                  >
+                    Otevřít ve Fakturoidu →
+                  </a>
+                </div>
+              </div>
+            </section>
+          )}
 
           {/* Actions */}
           <section className="bg-white rounded-2xl border border-[#E2E6F3] p-6 mb-5">
