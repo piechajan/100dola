@@ -1,17 +1,47 @@
 import Link from "next/link";
 
-const events = [
+interface HomeEvent {
+  id: number;
+  title: string;
+  type: string;
+  date: string;
+  dateISO: string;       // pro filtraci past events
+  time: string;
+  location: string;
+  distance: string;
+  elevation: string;
+  capacity: number;
+  filled: number;
+  color: string;
+}
+
+const ALL_EVENTS: HomeEvent[] = [
   {
     id: 0,
     title: "Season Opening",
     type: "Cyklistika",
-    date: "So 19. dubna",
+    date: "Ne 19. dubna",
+    dateISO: "2026-04-19",
     time: "09:45",
     location: "Kavárna Chochino, Valašské Meziříčí",
-    distance: "~40 km",
-    elevation: "~400 m",
+    distance: "63–68 km",
+    elevation: "565–670 m",
     capacity: 20,
-    filled: 6,
+    filled: 13,
+    color: "var(--community-color)",
+  },
+  {
+    id: 8,
+    title: "Troják — Tesák",
+    type: "Cyklistika",
+    date: "So 2. května",
+    dateISO: "2026-05-02",
+    time: "09:45",
+    location: "Valašské Meziříčí — Hostýnské vrchy",
+    distance: "~95 km",
+    elevation: "~1 400 m",
+    capacity: 20,
+    filled: 9,
     color: "var(--community-color)",
   },
   {
@@ -19,7 +49,8 @@ const events = [
     title: "Vyjížďka od Chochina",
     type: "Cyklistika",
     date: "So 16. května",
-    time: "10:00",
+    dateISO: "2026-05-16",
+    time: "09:45",
     location: "Kavárna Chochino, Valašské Meziříčí",
     distance: "55 km",
     elevation: "600 m",
@@ -31,7 +62,8 @@ const events = [
     id: 2,
     title: "Podzimní Malaga I",
     type: "Cyklistika · Malaga",
-    date: "16.–22. října",
+    date: "23.–29. října",
+    dateISO: "2026-10-23",
     time: "—",
     location: "Málaga, Španělsko",
     distance: "~80 km / den",
@@ -41,6 +73,15 @@ const events = [
     color: "var(--malaga-color)",
   },
 ];
+
+// Filter: jen budoucí akce. Server-side render použije dateISO porovnání s aktuální dobou.
+// `>= today` zajišťuje, že akce v den startu se ještě zobrazí.
+function getUpcoming(): HomeEvent[] {
+  const today = new Date().toISOString().slice(0, 10);
+  return ALL_EVENTS.filter((e) => e.dateISO >= today).slice(0, 3);
+}
+
+const events = getUpcoming();
 
 export default function EventsSection() {
   return (

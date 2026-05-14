@@ -78,7 +78,7 @@ export default function WhySection() {
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
             {
-              quote: "Objednal jsem kolo, dostal jsem doporučení na míru. Ne obecný popis z Alzy, ale osobní zkušenost.",
+              quote: "Nebyl jsem si jistý velikostí kola. Napsal jsem a dostal jsem doporučení na míru — ne obecný popis z Alzy, ale osobní zkušenost.",
               author: "Tomáš K.",
               role: "Zákazník 100dola sport",
             },
