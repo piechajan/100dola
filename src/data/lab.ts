@@ -92,8 +92,7 @@ export const LAB_SERVICES: LabService[] = [
       "Trvanlivost 1–3 roky podle režimu jízdy",
     ],
     priceFrom: "od 3 500 Kč",
-    image:
-      "https://images.unsplash.com/photo-1502161254066-6c74afbf07aa?w=900&h=700&fit=crop&auto=format&q=80",
+    image: "/media/lab/pinarello-dogma-hero.jpg",
   },
   {
     slug: "wax",
