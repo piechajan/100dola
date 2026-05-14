@@ -4,6 +4,8 @@ import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { categories, BRANDS, type TopCategory, type SubCategory } from "@/data/categories";
+import { PRODUCTS, formatPrice, splitVat, type Product } from "@/data/products";
+import { useCart } from "@/lib/cart-store";
 
 const BADGE_COLORS: Record<string, string> = {
   "Doporučuje tým": "#E8431A",
@@ -11,8 +13,8 @@ const BADGE_COLORS: Record<string, string> = {
   "Buď vidět": "#3B7CF4",
 };
 
-// ─── Static product data ─────────────────────────────────────────────────────
-const PRODUCTS = [
+// ─── Local (legacy, inline) — TO BE REMOVED, kept jen pro porovnání ─────────
+const _LEGACY_PRODUCTS_REMOVED = [
   {
     id: 1,
     name: "Scott Addict RC 10",
@@ -94,9 +96,6 @@ const PRODUCTS = [
   },
 ];
 
-function formatPrice(n: number): string {
-  return n.toLocaleString("cs-CZ") + "\u00a0Kč";
-}
 
 // ─── Collect all sub-ids for a top-level category ────────────────────────────
 function getAllSubIds(sub: SubCategory): string[] {
@@ -158,7 +157,18 @@ function SubCatCard({
 }
 
 // ─── Product card ─────────────────────────────────────────────────────────────
-function ProductCard({ product }: { product: typeof PRODUCTS[number] }) {
+function ProductCard({ product }: { product: Product }) {
+  const addToCart = useCart((s) => s.add);
+  const openDrawer = useCart((s) => s.openDrawer);
+  const { withoutVat, vatAmount } = splitVat(product.priceWithVat, product.vatRate);
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart(product, 1);
+    openDrawer();
+  };
+
   return (
     <Link
       href={`/shop/${product.slug}`}
@@ -214,21 +224,25 @@ function ProductCard({ product }: { product: typeof PRODUCTS[number] }) {
 
         <div className="flex items-center justify-between mt-auto pt-3 border-t border-[#F4F4F4] mt-3">
           <div>
-            {"originalPrice" in product && product.originalPrice && (
+            {product.originalPriceWithVat && (
               <span className="text-xs text-[#9A9A9A] line-through block">
-                {formatPrice(product.originalPrice)}
+                {formatPrice(product.originalPriceWithVat)}
               </span>
             )}
             <span
-              className={`text-base font-black ${"originalPrice" in product && product.originalPrice ? "text-[#E8431A]" : "text-[#111111]"}`}
+              className={`text-base font-black ${product.originalPriceWithVat ? "text-[#E8431A]" : "text-[#111111]"}`}
             >
-              {formatPrice(product.price)}
+              {formatPrice(product.priceWithVat)}
+            </span>
+            <span className="block text-[9px] text-[#9A9A9A] leading-tight">
+              DPH {product.vatRate} %: {formatPrice(vatAmount)} · bez DPH: {formatPrice(withoutVat)}
             </span>
           </div>
           <button
-            className="p-2 rounded-full bg-[#F4F4F4] group-hover:bg-[#E8431A] transition-colors duration-200"
+            type="button"
+            onClick={handleAdd}
+            className="p-2 rounded-full bg-[#F4F4F4] hover:bg-[#3B7CF4] active:bg-[#2563CC] transition-colors duration-200 group/btn"
             aria-label="Přidat do košíku"
-            onClick={(e) => e.preventDefault()}
           >
             <svg
               width="14"
@@ -237,7 +251,7 @@ function ProductCard({ product }: { product: typeof PRODUCTS[number] }) {
               viewBox="0 0 24 24"
               stroke="currentColor"
               strokeWidth={2.5}
-              className="text-[#666666] group-hover:text-white transition-colors"
+              className="text-[#666666] group-hover/btn:text-white transition-colors"
             >
               <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
               <line x1="3" y1="6" x2="21" y2="6" />
