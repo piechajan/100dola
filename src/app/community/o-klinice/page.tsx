@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const stats = [
   { value: "2025", label: "rok založení" },
   { value: "2", label: "sezóny" },
-  { value: "6", label: "typů aktivit" },
+  { value: "5", label: "typů aktivit" },
 ];
 
 const principles = [

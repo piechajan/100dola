@@ -54,7 +54,7 @@ export default function WhyJoin() {
               {[
                 { value: "2025", label: "rok založení" },
                 { value: "2", label: "sezóny" },
-                { value: "6", label: "typů aktivit" },
+                { value: "5", label: "typů aktivit" },
               ].map((s) => (
                 <div key={s.label}>
                   <div className="text-3xl font-black text-[#1a1a2e]">{s.value}</div>

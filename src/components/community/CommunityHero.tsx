@@ -92,9 +92,9 @@ export default function CommunityHero() {
         {/* Stats */}
         <div className="mt-14 flex gap-10">
           {[
-            { value: "30+", label: "akcí za rok" },
-            { value: "100+", label: "aktivních členů" },
-            { value: "6", label: "typů aktivit" },
+            { value: "20+", label: "akcí za rok" },
+            { value: "50+", label: "aktivních členů" },
+            { value: "5", label: "typů aktivit" },
           ].map((s) => (
             <div key={s.label}>
               <div className="text-2xl font-black text-white">{s.value}</div>
