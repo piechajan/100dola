@@ -29,7 +29,7 @@ export const LAB_INTRO = {
   lead:
     "Tři věci, díky kterým drahé kolo jezdí dál, déle a rychleji — vyladění, ochrana, péče. Bez kompromisů na materiálech, s dokumentací každého zásahu.",
   pillars: [
-    { icon: "⚡", title: "Vyladění", text: "Keramická ložiska, build check, fit. Kolo se točí lépe a o pár wattů rychleji." },
+    { icon: "⚡", title: "Vyladění", text: "Keramická ložiska, build check, fit. Vše se točí lépe a o pár wattů rychleji." },
     { icon: "🛡", title: "Ochrana", text: "PPF folie a keramika laku. Carbon a lak přečkají sezóny bez šrámů a šedi." },
     { icon: "🧪", title: "Péče", text: "Voskování řetězu, cleanup, servisní diagnostika. Drivetrain tichý, vše dotažené." },
   ],
