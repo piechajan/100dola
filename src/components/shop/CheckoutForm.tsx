@@ -9,9 +9,17 @@ import { formatPrice } from "@/data/products";
 import {
   calcShippingFee,
   isPaymentAvailable,
+  FREE_SHIPPING_THRESHOLD,
 } from "@/lib/orders";
 import type { ShippingMethod, PaymentMethod } from "@/lib/schemas";
 import ZasilkovnaPicker from "./ZasilkovnaPicker";
+
+interface AppliedDiscount {
+  code: string;
+  type: "percent" | "fixed";
+  value: number;
+  amount: number;
+}
 
 const accent = "#3B7CF4";
 
@@ -72,6 +80,12 @@ export default function CheckoutForm() {
   const [gdprConsent, setGdprConsent] = useState(false);
   const [website, setWebsite] = useState(""); // honeypot
 
+  // Discount code state
+  const [discountInput, setDiscountInput] = useState("");
+  const [discount, setDiscount] = useState<AppliedDiscount | null>(null);
+  const [discountError, setDiscountError] = useState<string | null>(null);
+  const [discountChecking, setDiscountChecking] = useState(false);
+
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -82,11 +96,46 @@ export default function CheckoutForm() {
     }
   }, [shippingMethod, paymentMethod]);
 
-  const shippingFee = calcShippingFee(shippingMethod, hasBulky);
-  const total = subtotalWithVat + shippingFee;
+  const shippingFee = calcShippingFee(shippingMethod, hasBulky, subtotalWithVat);
+  const discountAmount = discount?.amount || 0;
+  const total = Math.max(0, subtotalWithVat - discountAmount + shippingFee);
+  const isPersonalOrBulky = shippingMethod.startsWith("personal-") || hasBulky;
+  const freeShipDelta = FREE_SHIPPING_THRESHOLD - subtotalWithVat;
   const isPersonal = shippingMethod.startsWith("personal-");
   const isZasilkovna = shippingMethod === "zasilkovna";
   const needsAddress = !isPersonal;
+
+  const applyDiscount = async () => {
+    const code = discountInput.trim();
+    if (!code) return;
+    setDiscountChecking(true);
+    setDiscountError(null);
+    try {
+      const res = await fetch("/api/discounts/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, subtotal: subtotalWithVat }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setDiscount(data.discount);
+        setDiscountError(null);
+      } else {
+        setDiscount(null);
+        setDiscountError(data.error || "Kód nelze použít.");
+      }
+    } catch {
+      setDiscountError("Nepodařilo se ověřit kód.");
+    } finally {
+      setDiscountChecking(false);
+    }
+  };
+
+  const removeDiscount = () => {
+    setDiscount(null);
+    setDiscountInput("");
+    setDiscountError(null);
+  };
 
   // Empty cart guard
   if (items.length === 0) {
@@ -150,6 +199,7 @@ export default function CheckoutForm() {
       zasilkovnaPickup: isZasilkovna ? zasilkovnaPickup.trim() : undefined,
       shippingMethod,
       paymentMethod,
+      discountCode: discount?.code,
       notes: notes.trim() || undefined,
       gdprConsent: true as const,
       website,
@@ -415,11 +465,87 @@ export default function CheckoutForm() {
             ))}
           </div>
 
+          {/* Discount code */}
+          <div className="mb-4 pt-4 border-t border-[#F0F2FA]">
+            {discount ? (
+              <div className="flex items-center justify-between gap-2 p-3 rounded-xl bg-[#D1FAE5] border border-[#10B981]/30">
+                <div>
+                  <div className="text-xs font-black text-[#065F46]">
+                    ✓ {discount.code}
+                    <span className="ml-2 text-[10px] uppercase tracking-wider">
+                      {discount.type === "percent" ? `-${discount.value} %` : `-${formatPrice(discount.value)}`}
+                    </span>
+                  </div>
+                  <div className="text-[11px] text-[#065F46] mt-0.5">
+                    Sleva: {formatPrice(discount.amount)}
+                  </div>
+                </div>
+                <button type="button" onClick={removeDiscount} className="text-xs text-[#065F46] hover:underline">
+                  Odebrat
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="text-xs font-bold text-[#5A6480] mb-2">Slevový kód</div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={discountInput}
+                    onChange={(e) => setDiscountInput(e.target.value.toUpperCase())}
+                    placeholder="např. WELCOME10"
+                    className="flex-1 px-3 py-2 text-xs rounded-xl border border-[#E2E6F3] focus:outline-none focus:border-[#3B7CF4] uppercase"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        applyDiscount();
+                      }
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={applyDiscount}
+                    disabled={discountChecking || !discountInput.trim()}
+                    className="px-4 py-2 text-xs font-bold rounded-xl border border-[#3B7CF4] text-[#3B7CF4] hover:bg-[#3B7CF4] hover:text-white transition-colors disabled:opacity-50"
+                  >
+                    {discountChecking ? "..." : "Použít"}
+                  </button>
+                </div>
+                {discountError && <div className="mt-2 text-[11px] text-red-600">{discountError}</div>}
+              </>
+            )}
+          </div>
+
           <div className="space-y-2 pt-4 border-t border-[#F0F2FA] text-sm">
+            {/* Free shipping progress */}
+            {!isPersonalOrBulky && freeShipDelta > 0 && freeShipDelta < FREE_SHIPPING_THRESHOLD && (
+              <div className="mb-1">
+                <div className="text-[11px] text-[#5A6480] mb-1.5">
+                  Do dopravy zdarma chybí <strong>{formatPrice(freeShipDelta)}</strong>
+                </div>
+                <div className="h-1 bg-[#F0F2FA] rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-[#3B7CF4] transition-all"
+                    style={{ width: `${Math.min(100, (subtotalWithVat / FREE_SHIPPING_THRESHOLD) * 100)}%` }}
+                  />
+                </div>
+              </div>
+            )}
+            {!isPersonalOrBulky && freeShipDelta <= 0 && (
+              <div className="mb-1 text-[11px] font-bold text-[#10B981]">
+                ✓ Máš dopravu zdarma!
+              </div>
+            )}
+
             <div className="flex justify-between text-[#5A6480]">
               <span>Mezisoučet</span>
               <span>{formatPrice(subtotalWithVat)}</span>
             </div>
+            {discountAmount > 0 && (
+              <div className="flex justify-between text-[#10B981] font-bold">
+                <span>Sleva ({discount?.code})</span>
+                <span>−{formatPrice(discountAmount)}</span>
+              </div>
+            )}
             <div className="flex justify-between text-[#5A6480]">
               <span>Doprava</span>
               <span>{shippingFee === 0 ? "zdarma" : formatPrice(shippingFee)}</span>

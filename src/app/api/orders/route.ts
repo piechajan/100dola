@@ -6,6 +6,7 @@ import { calcOrderTotal, isPaymentAvailable, SHIPPING_LABELS, PAYMENT_LABELS } f
 import { buildOrderId, buildSpaydQrDataUrl, FUTUNATU_IBAN } from "@/lib/spayd";
 import { sendOrderConfirmation, sendOrderNotification } from "@/lib/email";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
+import { validateDiscountCode, incrementDiscountUsage } from "@/lib/discounts";
 
 function isHoneypotFilled(body: unknown): boolean {
   if (!body || typeof body !== "object") return false;
@@ -104,7 +105,28 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { subtotal, shippingFee, total, hasBulky } = calcOrderTotal(data.items, data.shippingMethod);
+  // Discount validace (server-side znovu, aby klient nepodvedl ceny)
+  let discountAmount = 0;
+  let discountCode: string | undefined;
+  if (data.discountCode) {
+    const subtotalCheck = data.items.reduce((s, i) => s + i.priceWithVat * i.qty, 0);
+    const v = await validateDiscountCode(data.discountCode, { subtotal: subtotalCheck });
+    if (v.ok) {
+      discountAmount = v.discount.amount;
+      discountCode = v.discount.code;
+    } else {
+      return NextResponse.json(
+        { error: `Slevový kód: ${v.error}` },
+        { status: 400 },
+      );
+    }
+  }
+
+  const { subtotal, shippingFee, discount, total, hasBulky } = calcOrderTotal(
+    data.items,
+    data.shippingMethod,
+    discountAmount,
+  );
 
   // Order ID
   const now = new Date();
@@ -170,6 +192,8 @@ export async function POST(req: NextRequest) {
         has_bulky: hasBulky,
         payment_method: data.paymentMethod,
         payment_method_label: PAYMENT_LABELS[data.paymentMethod],
+        discount_code: discountCode || null,
+        discount_amount: discount,
         notes: data.notes || null,
         registered_at: registeredAt,
       });
@@ -188,6 +212,10 @@ export async function POST(req: NextRequest) {
         })),
       );
       if (itemsErr) throw itemsErr;
+
+      if (discountCode) {
+        await incrementDiscountUsage(discountCode);
+      }
     } catch (e) {
       console.error("[api/orders] DB persist failed, fallback to file:", e);
       await appendOrder(record);

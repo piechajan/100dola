@@ -132,3 +132,17 @@ export interface OrderItemRow {
   qty: number;
   bulky: boolean;
 }
+
+export interface DiscountCodeRow {
+  code: string;
+  type: "percent" | "fixed";
+  value: number;
+  min_order_total: number;
+  max_uses: number | null;
+  used_count: number;
+  active: boolean;
+  valid_from: string | null;
+  valid_until: string | null;
+  description: string | null;
+  created_at: string;
+}

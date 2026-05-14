@@ -11,10 +11,18 @@ import type { OrderItemPayload, ShippingMethod, PaymentMethod } from "./schemas"
 
 export const SMALL_PACKAGE_FEE = 100; // Kč s DPH
 export const BULKY_PACKAGE_FEE = 400; // Kč s DPH
+/** Doprava zdarma nad X Kč (jen pro non-bulky non-personal). */
+export const FREE_SHIPPING_THRESHOLD = 2500;
 
-export function calcShippingFee(method: ShippingMethod, hasBulky: boolean): number {
+export function calcShippingFee(
+  method: ShippingMethod,
+  hasBulky: boolean,
+  subtotal: number = 0,
+): number {
   if (method.startsWith("personal-")) return 0;
-  return hasBulky ? BULKY_PACKAGE_FEE : SMALL_PACKAGE_FEE;
+  if (hasBulky) return BULKY_PACKAGE_FEE;
+  if (subtotal >= FREE_SHIPPING_THRESHOLD) return 0;
+  return SMALL_PACKAGE_FEE;
 }
 
 export function calcSubtotal(items: OrderItemPayload[]): number {
@@ -38,13 +46,21 @@ export function calcVatTotals(items: OrderItemPayload[]): {
 export function calcOrderTotal(
   items: OrderItemPayload[],
   shippingMethod: ShippingMethod,
-): { subtotal: number; shippingFee: number; total: number; hasBulky: boolean } {
+  discountAmount: number = 0,
+): { subtotal: number; shippingFee: number; discount: number; total: number; hasBulky: boolean } {
   const subtotal = calcSubtotal(items);
   // Bulky flag dorazí z frontend (cart store). Pokud chybí, fallback na heuristiku
   // přes cenu (kola, lyže obvykle nad 5 000 Kč) — bezpečnější dražší doprava.
   const hasBulky = items.some((i) => i.bulky === true || (i.bulky === undefined && i.priceWithVat >= 5000));
-  const shippingFee = calcShippingFee(shippingMethod, hasBulky);
-  return { subtotal, shippingFee, total: subtotal + shippingFee, hasBulky };
+  const shippingFee = calcShippingFee(shippingMethod, hasBulky, subtotal);
+  const discount = Math.min(discountAmount, subtotal);
+  return {
+    subtotal,
+    shippingFee,
+    discount,
+    total: Math.max(0, subtotal - discount + shippingFee),
+    hasBulky,
+  };
 }
 
 export const SHIPPING_LABELS: Record<ShippingMethod, string> = {

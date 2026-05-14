@@ -135,6 +135,8 @@ export const OrderPayloadSchema = z
     shippingMethod: z.enum(SHIPPING_METHODS),
     paymentMethod: z.enum(PAYMENT_METHODS),
 
+    discountCode: z.string().max(40).trim().optional(),
+
     notes: z.string().max(2000).trim().optional(),
 
     gdprConsent: z.literal(true),
