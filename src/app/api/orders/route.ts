@@ -5,6 +5,7 @@ import { OrderPayloadSchema, HONEYPOT_NAME } from "@/lib/schemas";
 import { calcOrderTotal, isPaymentAvailable, SHIPPING_LABELS, PAYMENT_LABELS } from "@/lib/orders";
 import { buildOrderId, buildSpaydQrDataUrl, FUTUNATU_IBAN } from "@/lib/spayd";
 import { sendOrderConfirmation, sendOrderNotification } from "@/lib/email";
+import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 
 function isHoneypotFilled(body: unknown): boolean {
   if (!body || typeof body !== "object") return false;
@@ -42,16 +43,30 @@ async function appendOrder(record: OrderRecord): Promise<void> {
   await fs.writeFile(ORDERS_FILE, JSON.stringify(all, null, 2), "utf-8");
 }
 
-/** Spočítá sequenční ID pro daný den (od 1 nahoru). */
+function todayPrefix(date: Date): string {
+  const yy = String(date.getFullYear()).slice(-2);
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const dd = String(date.getDate()).padStart(2, "0");
+  return `${yy}${mm}${dd}`;
+}
+
+/** Spočítá sequenční ID pro daný den (od 1 nahoru) — z DB pokud je konfigurován, jinak z file. */
 async function nextDailySeq(date: Date): Promise<number> {
+  const prefix = todayPrefix(date);
+  if (isSupabaseConfigured()) {
+    try {
+      const sb = getSupabase();
+      const { count } = await sb
+        .from("orders")
+        .select("*", { count: "exact", head: true })
+        .like("id", `${prefix}%`);
+      return (count ?? 0) + 1;
+    } catch (e) {
+      console.warn("[api/orders] nextDailySeq DB failed, falling back to file:", e);
+    }
+  }
   const all = await readOrders();
-  const todayPrefix = (() => {
-    const yy = String(date.getFullYear()).slice(-2);
-    const mm = String(date.getMonth() + 1).padStart(2, "0");
-    const dd = String(date.getDate()).padStart(2, "0");
-    return `${yy}${mm}${dd}`;
-  })();
-  const todayOrders = all.filter((o) => o.id.startsWith(todayPrefix));
+  const todayOrders = all.filter((o) => o.id.startsWith(prefix));
   return todayOrders.length + 1;
 }
 
@@ -130,7 +145,56 @@ export async function POST(req: NextRequest) {
     notes: data.notes,
   };
 
-  await appendOrder(record);
+  // Persist — Supabase preferred, file fallback
+  if (isSupabaseConfigured()) {
+    try {
+      const sb = getSupabase();
+      const { error: orderErr } = await sb.from("orders").insert({
+        id,
+        status: "pending",
+        subtotal,
+        shipping_fee: shippingFee,
+        total,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        company_name: data.companyName || null,
+        company_ico: data.companyIco || null,
+        company_dic: data.companyDic || null,
+        shipping_method: data.shippingMethod,
+        shipping_method_label: SHIPPING_LABELS[data.shippingMethod],
+        street: data.street || null,
+        city: data.city || null,
+        zip: data.zip || null,
+        zasilkovna_pickup: data.zasilkovnaPickup || null,
+        has_bulky: hasBulky,
+        payment_method: data.paymentMethod,
+        payment_method_label: PAYMENT_LABELS[data.paymentMethod],
+        notes: data.notes || null,
+        registered_at: registeredAt,
+      });
+      if (orderErr) throw orderErr;
+
+      const { error: itemsErr } = await sb.from("order_items").insert(
+        data.items.map((i) => ({
+          order_id: id,
+          product_id: i.productId,
+          slug: i.slug,
+          name: i.name,
+          price_with_vat: i.priceWithVat,
+          vat_rate: i.vatRate,
+          qty: i.qty,
+          bulky: i.bulky ?? false,
+        })),
+      );
+      if (itemsErr) throw itemsErr;
+    } catch (e) {
+      console.error("[api/orders] DB persist failed, fallback to file:", e);
+      await appendOrder(record);
+    }
+  } else {
+    await appendOrder(record);
+  }
 
   // QR code (pro QR a bank-transfer obě)
   let qrDataUrl: string | undefined;

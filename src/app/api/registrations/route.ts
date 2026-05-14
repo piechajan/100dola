@@ -167,8 +167,6 @@ export async function POST(req: NextRequest) {
   }
 
   // ── Newsletter (Hlídat akce) ──────────────────────────────────────────────
-  // MVP: file storage + welcome mail. Pro 'Hlídat akce' v patterně OMC.
-  // Po implementaci eventů v DB (fáze 2) bude tady cron pro 24h + 48h reminders.
   if (rawSource === "newsletter") {
     const parsed = NewsletterPayloadSchema.safeParse(body);
     if (!parsed.success) {
@@ -179,18 +177,53 @@ export async function POST(req: NextRequest) {
     const n = parsed.data;
     const id = n.id || crypto.randomUUID();
     const registeredAt = n.registeredAt || now;
+    const unsubToken = Array.from(crypto.getRandomValues(new Uint8Array(18)))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
 
-    // Dedup — pokud už je email v newsletteru, jen acknowledge (žádný duplicitní welcome).
+    if (useDb) {
+      const sb = getSupabase();
+      // upsert by email — pokud už existuje, jen reacknowledge bez nového welcome mailu
+      const { data: existing } = await sb
+        .from("newsletter_subscribers")
+        .select("id, unsubscribed_at")
+        .eq("email", n.email)
+        .maybeSingle();
+
+      if (existing && !existing.unsubscribed_at) {
+        return NextResponse.json({ ok: true, source: "newsletter", duplicate: true });
+      }
+
+      if (existing) {
+        // Reactivate previously unsubscribed
+        await sb
+          .from("newsletter_subscribers")
+          .update({ unsubscribed_at: null, unsubscribe_token: unsubToken, consent: n.consent })
+          .eq("id", existing.id);
+      } else {
+        const { error } = await sb.from("newsletter_subscribers").insert({
+          email: n.email,
+          consent: n.consent,
+          unsubscribe_token: unsubToken,
+          registered_at: registeredAt,
+          source: "community",
+        });
+        if (error) {
+          console.error("[api/registrations] newsletter supabase insert failed:", error);
+          return NextResponse.json({ error: "Storage error" }, { status: 500 });
+        }
+      }
+
+      Promise.allSettled([sendNewsletterConfirmation({ email: n.email, unsubscribeToken: unsubToken })]);
+      return NextResponse.json({ ok: true, source: "newsletter", id });
+    }
+
+    // Fallback: file storage
     const all = await fileReadAll();
     const existing = all.find((r) => r.source === "newsletter" && r.email === n.email);
     if (existing) {
       return NextResponse.json({ ok: true, source: "newsletter", duplicate: true });
     }
-
-    const unsubToken = Array.from(crypto.getRandomValues(new Uint8Array(18)))
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
-
     await fileAppend({
       source: "newsletter",
       id,
@@ -199,16 +232,11 @@ export async function POST(req: NextRequest) {
       consent: n.consent,
       unsubscribeToken: unsubToken,
     });
-
-    Promise.allSettled([
-      sendNewsletterConfirmation({ email: n.email, unsubscribeToken: unsubToken }),
-    ]);
-
+    Promise.allSettled([sendNewsletterConfirmation({ email: n.email, unsubscribeToken: unsubToken })]);
     return NextResponse.json({ ok: true, source: "newsletter", id });
   }
 
   // ── Lab lead ──────────────────────────────────────────────────────────────
-  // MVP: jen file storage + e-mail notif. Supabase tabulka přidám později.
   if (rawSource === "lab") {
     const parsed = LabPayloadSchema.safeParse(body);
     if (!parsed.success) {
@@ -219,21 +247,6 @@ export async function POST(req: NextRequest) {
     const l = parsed.data;
     const id = l.id || crypto.randomUUID();
     const registeredAt = l.registeredAt || now;
-
-    await fileAppend({
-      source: "lab",
-      id,
-      email: l.email,
-      registeredAt,
-      name: l.name,
-      phone: l.phone,
-      bikeBrand: l.bikeBrand,
-      bikeValue: l.bikeValue,
-      services: l.services,
-      preferredWindow: l.preferredWindow,
-      pickupInPrague: l.pickupInPrague,
-      message: l.message,
-    });
 
     const emailPayload = {
       id,
@@ -248,11 +261,55 @@ export async function POST(req: NextRequest) {
       pickupInPrague: l.pickupInPrague,
       message: l.message,
     };
+
+    if (useDb) {
+      const sb = getSupabase();
+      const { data: row, error } = await sb
+        .from("lab_leads")
+        .insert({
+          name: l.name,
+          email: l.email,
+          phone: l.phone || null,
+          bike_brand: l.bikeBrand || null,
+          bike_value: l.bikeValue || null,
+          services: l.services || null,
+          preferred_window: l.preferredWindow || null,
+          pickup_in_prague: l.pickupInPrague ?? false,
+          message: l.message || null,
+          registered_at: registeredAt,
+        })
+        .select("id")
+        .single();
+      if (error) {
+        console.error("[api/registrations] lab supabase insert failed:", error);
+        return NextResponse.json({ error: "Storage error" }, { status: 500 });
+      }
+      Promise.allSettled([
+        sendLabLeadNotification({ ...emailPayload, id: row!.id }),
+        sendLabLeadConfirmation({ ...emailPayload, id: row!.id }),
+      ]);
+      return NextResponse.json({ ok: true, source: "lab", id: row!.id });
+    }
+
+    // Fallback: file storage
+    await fileAppend({
+      source: "lab",
+      id,
+      email: l.email,
+      registeredAt,
+      name: l.name,
+      phone: l.phone,
+      bikeBrand: l.bikeBrand,
+      bikeValue: l.bikeValue,
+      services: l.services,
+      preferredWindow: l.preferredWindow,
+      pickupInPrague: l.pickupInPrague,
+      message: l.message,
+    });
     Promise.allSettled([
       sendLabLeadNotification(emailPayload),
       sendLabLeadConfirmation(emailPayload),
     ]);
-
     return NextResponse.json({ ok: true, source: "lab", id });
   }
 
