@@ -154,15 +154,15 @@ export const LAB_WHY = {
     },
     {
       title: "Materiály první ligy",
-      text: "Žádné kompromisy na fóliích, voscích, keramických krystalech. Jen značky s reálnou trvanlivostí.",
+      text: "Žádné kompromisy na fóliích (PPF), voscích a keramických coatingech. Jen značky s reálnou trvanlivostí.",
     },
     {
       title: "Dokumentace každého zásahu",
       text: "Foto před, foto po, popis co se dělalo. Klient má referenci a v případě potřeby evidenci.",
     },
     {
-      title: "Garance výsledku",
-      text: "Pokud do roka cokoliv ze zásahu odepíše (odlepená fólie, ztracený lesk), dorovnáme bez doplatku.",
+      title: "Garance na PPF",
+      text: "Na nalepenou PPF folii dáváme záruku 3 měsíce — pokud se v té době někde odlepí, opravíme bez doplatku. U ostatních zásahů ručíme za provedení podle dohody.",
     },
   ],
 };
