@@ -1,13 +1,13 @@
 const reasons = [
   {
-    emoji: "🤝",
+    emoji: "🤝🏾",
     title: "Jedeme v tempu, které sedí většině.",
-    desc: "Naše akce nejsou závody. Pokud rozdíl ve výkonnosti není diametrální, vyjedeš kopec svým tempem a nahoře tě počkáme. Vracíme se vždy spolu.",
+    desc: "Naše akce nejsou závody. Pokud rozdíl ve výkonnosti není diametrální, vyjedeš kopec svým tempem a nahoře tě počkáme. Vracíme se spolu.",
   },
   {
     emoji: "📍",
-    title: "Lokální podniky. Pokec. Přátelství.",
-    desc: "Spolupracujeme s osvědčenými kavárnami a restauracemi v regionu — vyjížďky tam buď začínají, nebo končí. Kafe, pivo, sdílení. Přátelství, která z toho rostou, k pohybu patří stejně jako kola.",
+    title: "Prověřené, lokální.",
+    desc: "Spolupracujeme s osvědčenými kavárnami a restauracemi v regionu — vyjížďky tam buď začínají, nebo končí. Kafe, pivo, pokec a sdílení. K pohybu pro nás patří stejně jako kola — a vznikají z toho přátelství.",
   },
   {
     emoji: "🏔️",
