@@ -15,9 +15,9 @@ const reasons = [
     desc: "Cyklistika, skialpy, běžky nebo turistika — záleží na sezóně a počasí. Platforma roste s komunitou.",
   },
   {
-    emoji: "🧡",
-    title: "Žádné ego. Jen kilometry.",
-    desc: "Přijď sám, odejdeš s kontakty. Komunita je základ — vybavení je bonus.",
+    emoji: "✨",
+    title: "Stylová cyklistika.",
+    desc: "Sport, který nás baví, si zaslouží péči o detaily — pěkné kolo, dobrý dres, ladící vybavení. Není to o póze, je to o radosti z celku.",
   },
 ];
 
