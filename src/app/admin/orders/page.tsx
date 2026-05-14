@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import OrderStatusActions from "@/components/shop/OrderStatusActions";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 
 export const metadata: Metadata = {
@@ -26,6 +27,7 @@ interface AdminOrder {
   has_bulky: boolean;
   paid_at: string | null;
   shipped_at: string | null;
+  tracking_number: string | null;
 }
 
 const DATA_DIR = process.env.NODE_ENV === "production" ? "/tmp" : path.join(process.cwd(), "data");
@@ -38,7 +40,7 @@ async function getAllOrders(): Promise<AdminOrder[]> {
       const { data, error } = await sb
         .from("orders")
         .select(
-          "id, registered_at, total, status, name, email, phone, shipping_method_label, payment_method_label, has_bulky, paid_at, shipped_at",
+          "id, registered_at, total, status, name, email, phone, shipping_method_label, payment_method_label, has_bulky, paid_at, shipped_at, tracking_number",
         )
         .order("registered_at", { ascending: false });
       if (error) throw error;
@@ -64,8 +66,9 @@ async function getAllOrders(): Promise<AdminOrder[]> {
         payment_method_label:
           ((o.payment as Record<string, unknown>)?.methodLabel as string) || "—",
         has_bulky: (o.hasBulky as boolean) || false,
-        paid_at: null,
-        shipped_at: null,
+        paid_at: (o.paid_at as string) || null,
+        shipped_at: (o.shipped_at as string) || null,
+        tracking_number: (o.tracking_number as string) || null,
       }))
       .sort((a: AdminOrder, b: AdminOrder) =>
         b.registered_at.localeCompare(a.registered_at),
@@ -180,7 +183,7 @@ export default async function AdminOrdersPage() {
                     <th className="text-left p-3 font-bold">Platba</th>
                     <th className="text-right p-3 font-bold">Částka</th>
                     <th className="text-center p-3 font-bold">Stav</th>
-                    <th className="text-center p-3 font-bold">Akce</th>
+                    <th className="text-left p-3 font-bold">Akce</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -214,13 +217,20 @@ export default async function AdminOrdersPage() {
                             {status.label}
                           </span>
                         </td>
-                        <td className="p-3 text-center">
+                        <td className="p-3">
+                          <OrderStatusActions
+                            orderId={o.id}
+                            currentStatus={o.status}
+                            paidAt={o.paid_at}
+                            shippedAt={o.shipped_at}
+                            trackingNumber={o.tracking_number}
+                          />
                           <Link
                             href={`/objednavka/${o.id}`}
                             target="_blank"
-                            className="text-xs font-bold text-[#3B7CF4] hover:underline"
+                            className="text-[11px] font-bold text-[#3B7CF4] hover:underline mt-2 inline-block"
                           >
-                            Detail →
+                            Detail klienta →
                           </Link>
                         </td>
                       </tr>
