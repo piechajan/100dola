@@ -105,6 +105,7 @@ const OrderItemSchema = z.object({
   priceWithVat: z.number().min(0),
   vatRate: z.number().int().min(0).max(50),
   qty: z.number().int().min(1).max(99),
+  bulky: z.boolean().optional(),
 });
 
 export const OrderPayloadSchema = z

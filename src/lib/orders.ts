@@ -40,7 +40,9 @@ export function calcOrderTotal(
   shippingMethod: ShippingMethod,
 ): { subtotal: number; shippingFee: number; total: number; hasBulky: boolean } {
   const subtotal = calcSubtotal(items);
-  const hasBulky = items.some((i) => i.priceWithVat >= 5000); // heuristika pokud bulky není v payload — fallback
+  // Bulky flag dorazí z frontend (cart store). Pokud chybí, fallback na heuristiku
+  // přes cenu (kola, lyže obvykle nad 5 000 Kč) — bezpečnější dražší doprava.
+  const hasBulky = items.some((i) => i.bulky === true || (i.bulky === undefined && i.priceWithVat >= 5000));
   const shippingFee = calcShippingFee(shippingMethod, hasBulky);
   return { subtotal, shippingFee, total: subtotal + shippingFee, hasBulky };
 }

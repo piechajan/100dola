@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart, getCartTotals } from "@/lib/cart-store";
 import { formatPrice } from "@/data/products";
+import CrossSellModal from "./CrossSellModal";
 
 export default function CartDrawer() {
   const items = useCart((s) => s.items);
@@ -12,6 +13,7 @@ export default function CartDrawer() {
   const closeDrawer = useCart((s) => s.closeDrawer);
   const setQty = useCart((s) => s.setQty);
   const remove = useCart((s) => s.remove);
+  const [showCrossSell, setShowCrossSell] = useState(false);
 
   const { subtotalWithVat, totalItems, hasBulky } = getCartTotals(items);
 
@@ -36,9 +38,10 @@ export default function CartDrawer() {
     return () => window.removeEventListener("keydown", onKey);
   }, [isOpen, closeDrawer]);
 
-  if (!isOpen) return null;
-
   return (
+    <>
+      <CrossSellModal open={showCrossSell} onClose={() => setShowCrossSell(false)} />
+      {!isOpen ? null : (
     <div className="fixed inset-0 z-[100]" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title">
       {/* Backdrop */}
       <div
@@ -183,19 +186,21 @@ export default function CartDrawer() {
                 >
                   Pokračovat v nákupu
                 </button>
-                <Link
-                  href="/kosik"
-                  onClick={closeDrawer}
+                <button
+                  type="button"
+                  onClick={() => { closeDrawer(); setShowCrossSell(true); }}
                   className="py-3 text-sm font-bold rounded-full text-white text-center bg-[#3B7CF4] hover:opacity-90 transition-opacity"
                   style={{ boxShadow: "0 4px 14px #3B7CF440" }}
                 >
                   K objednávce →
-                </Link>
+                </button>
               </div>
             </div>
           </>
         )}
       </aside>
     </div>
+      )}
+    </>
   );
 }

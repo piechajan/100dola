@@ -137,6 +137,7 @@ export default function CheckoutForm() {
         priceWithVat: i.priceWithVat,
         vatRate: i.vatRate,
         qty: i.qty,
+        bulky: i.bulky,
       })),
       name: name.trim(),
       email: email.trim(),

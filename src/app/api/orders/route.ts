@@ -89,11 +89,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Bulky detection — items nemají bulky flag, dovodíme z categoryId přes priceWithVat heuristiku.
-  // Lepší: rozšířit OrderItemSchema o bulky bool a frontend pošle. Zatím heuristika přes cenu >= 5000 Kč.
-  // (V cart-store ale bulky flag máme. Frontend ho neposílá. TODO doplnit.)
-  const hasBulky = data.items.some((i) => i.priceWithVat >= 5000);
-  const { subtotal, shippingFee, total } = calcOrderTotal(data.items, data.shippingMethod);
+  const { subtotal, shippingFee, total, hasBulky } = calcOrderTotal(data.items, data.shippingMethod);
 
   // Order ID
   const now = new Date();
