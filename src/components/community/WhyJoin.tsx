@@ -6,8 +6,8 @@ const reasons = [
   },
   {
     emoji: "📍",
-    title: "Lokální. Skutečné. Bez zbytečností.",
-    desc: "Žádné přeregistrace, žádné startovné, žádný korporátní organizátor. Jen lidi, kteří chtějí jezdit.",
+    title: "Lokální podniky. Pokec. Přátelství.",
+    desc: "Spolupracujeme s osvědčenými kavárnami a restauracemi v regionu — vyjížďky tam buď začínají, nebo končí. Kafe, pivo, sdílení. Přátelství, která z toho rostou, k pohybu patří stejně jako kola.",
   },
   {
     emoji: "🏔️",
