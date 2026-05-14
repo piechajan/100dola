@@ -227,3 +227,45 @@ export async function markInvoicePaid(id: number, paidOn?: string): Promise<Fakt
     paid_at: paidOn,
   });
 }
+
+// ─── Invoice listing s pagination ────────────────────────────────────────────
+
+export interface ListInvoicesOptions {
+  /** Filtr podle tagu (např. "100dola-sport"). */
+  tag?: string;
+  /** Filtr od data (inclusive). Formát YYYY-MM-DD. */
+  since?: string;
+  /** Filtr do data (inclusive). */
+  until?: string;
+  /** Stránka (1-based). */
+  page?: number;
+  /** Max stránek k tažení (default 20, ~400 faktur). */
+  maxPages?: number;
+  /** Status filter (např. "paid"). */
+  status?: "open" | "sent" | "overdue" | "paid" | "cancelled" | "uncollectible";
+}
+
+/**
+ * Seznam všech faktur podle filtru. Auto-paginates do `maxPages`.
+ * Pro full sync můžeš zvýšit maxPages.
+ */
+export async function listInvoices(opts: ListInvoicesOptions = {}): Promise<FakturoidInvoice[]> {
+  const maxPages = opts.maxPages || 20;
+  const all: FakturoidInvoice[] = [];
+
+  for (let page = opts.page || 1; page <= maxPages; page++) {
+    const params = new URLSearchParams();
+    if (opts.tag) params.set("tags", opts.tag);
+    if (opts.since) params.set("since", opts.since);
+    if (opts.until) params.set("until", opts.until);
+    if (opts.status) params.set("status", opts.status);
+    params.set("page", String(page));
+
+    const batch = await request<FakturoidInvoice[]>("GET", `/invoices.json?${params}`);
+    if (!batch || batch.length === 0) break;
+    all.push(...batch);
+    if (batch.length < 20) break; // last page (default per_page=20)
+  }
+
+  return all;
+}
