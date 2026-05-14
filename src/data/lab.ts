@@ -220,7 +220,7 @@ export const LAB_FAQ = [
   },
   {
     q: "Jak dlouho zásahy vydrží?",
-    a: "Lab Shield (PPF) vydrží 5+ let, Lab Glaze 1–3 roky. Voskování se doplňuje cca po 300–500 km (podle počasí), ale samotný řetěz s parafinovým voskem vydrží 2–3× déle než s běžným olejovým mazáním — z typických 3 000 km kolem 8 000–10 000 km (nezávislá data ZeroFriction Cycling). Cleanup je tradičně 1× za sezónu.",
+    a: "Záleží na podmínkách — kolik najezdíš, v jakém počasí, jak často kolo myješ, jestli silnice nebo MTB. PPF folie obecně vydrží roky, Lab Glaze měsíce až roky, voskování se doplňuje podle stylu jízdy. Co je ale doložené nezávislým testováním: řetěz s parafinovým voskem vydrží 2–3× déle než s běžným olejem (ZeroFriction Cycling). Konkrétní termín další péče doporučíme po prohlídce kola.",
   },
   {
     q: "Můžu si vybrat jen jednu věc, ne celý balíček?",
