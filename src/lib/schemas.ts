@@ -79,9 +79,74 @@ export const NewsletterPayloadSchema = z
   })
   .merge(Honeypot);
 
+// ── E-shop order ────────────────────────────────────────────────────────────
+
+export const SHIPPING_METHODS = [
+  "personal-sternberk",
+  "personal-olomouc",
+  "personal-valasske-mezirici",
+  "zasilkovna",
+  "gls",
+] as const;
+
+export const PAYMENT_METHODS = [
+  "qr",            // QR platba (SPAYD) — připraveno, klient sám naskenuje
+  "bank-transfer", // klasický převod, VS = order ID
+  "cash-pickup",   // hotovost při osobním převzetí (jen pro personal-*)
+  "card",          // Phase 1.5 přes ComGate
+  "apple-pay",     // Phase 1.5 přes ComGate
+  "google-pay",    // Phase 1.5 přes ComGate
+] as const;
+
+const OrderItemSchema = z.object({
+  productId: z.number().int().min(0),
+  slug: z.string().min(1).max(200),
+  name: z.string().min(1).max(200),
+  priceWithVat: z.number().min(0),
+  vatRate: z.number().int().min(0).max(50),
+  qty: z.number().int().min(1).max(99),
+});
+
+export const OrderPayloadSchema = z
+  .object({
+    source: z.literal("order"),
+    registeredAt: z.string().max(64).optional(),
+    items: z.array(OrderItemSchema).min(1).max(50),
+
+    // Contact
+    name: z.string().min(1).max(120).trim(),
+    email: z.email().max(254).toLowerCase(),
+    phone: z.string().min(6).max(40).trim(),
+
+    // Optional company fields (B2B)
+    companyName: z.string().max(200).trim().optional(),
+    companyIco: z.string().max(20).trim().optional(),
+    companyDic: z.string().max(20).trim().optional(),
+
+    // Shipping address (vyžadováno pro zasilkovna / gls, volitelné pro personal-*)
+    street: z.string().max(200).trim().optional(),
+    city: z.string().max(120).trim().optional(),
+    zip: z.string().max(20).trim().optional(),
+
+    // Pickup point pro Zásilkovna — zatím text, později widget integration
+    zasilkovnaPickup: z.string().max(300).trim().optional(),
+
+    shippingMethod: z.enum(SHIPPING_METHODS),
+    paymentMethod: z.enum(PAYMENT_METHODS),
+
+    notes: z.string().max(2000).trim().optional(),
+
+    gdprConsent: z.literal(true),
+  })
+  .merge(Honeypot);
+
 export type EventPayload = z.infer<typeof EventPayloadSchema>;
 export type MalagaPayload = z.infer<typeof MalagaPayloadSchema>;
 export type LabPayload = z.infer<typeof LabPayloadSchema>;
 export type NewsletterPayload = z.infer<typeof NewsletterPayloadSchema>;
+export type OrderPayload = z.infer<typeof OrderPayloadSchema>;
+export type OrderItemPayload = z.infer<typeof OrderItemSchema>;
+export type ShippingMethod = (typeof SHIPPING_METHODS)[number];
+export type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 
 export const HONEYPOT_NAME = HONEYPOT_FIELD;

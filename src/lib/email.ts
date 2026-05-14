@@ -456,3 +456,196 @@ export async function sendNewsletterConfirmation(p: {
     console.error("[email] sendNewsletterConfirmation failed:", e);
   }
 }
+
+// ── E-shop order confirmation ───────────────────────────────────────────────
+
+interface OrderEmailPayload {
+  id: string;
+  total: number;
+  subtotal: number;
+  shippingFee: number;
+  iban: string;
+  qrDataUrl?: string;
+  items: Array<{
+    productId: number;
+    slug: string;
+    name: string;
+    priceWithVat: number;
+    vatRate: number;
+    qty: number;
+  }>;
+  contact: {
+    name: string;
+    email: string;
+    phone: string;
+    companyName?: string;
+    companyIco?: string;
+    companyDic?: string;
+  };
+  shipping: {
+    method: string;
+    methodLabel: string;
+    street?: string;
+    city?: string;
+    zip?: string;
+    zasilkovnaPickup?: string;
+  };
+  payment: {
+    method: string;
+    methodLabel: string;
+  };
+  notes?: string;
+}
+
+function fmtPrice(amount: number): string {
+  return new Intl.NumberFormat("cs-CZ", { maximumFractionDigits: 0 }).format(amount) + " Kč";
+}
+
+export async function sendOrderConfirmation(order: OrderEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = `Objednávka ${order.id} přijata — 100dola sport`;
+  const firstName = order.contact.name.split(" ")[0];
+  const isPersonal = order.shipping.method.startsWith("personal-");
+
+  const itemsRows = order.items
+    .map(
+      (i) => `
+      <tr>
+        <td style="padding: 8px 0; border-bottom: 1px solid #F0F2FA;">
+          ${escapeHtml(i.name)} <span style="color: #9AA3C2;">× ${i.qty}</span>
+        </td>
+        <td style="padding: 8px 0; border-bottom: 1px solid #F0F2FA; text-align: right; font-weight: 700;">
+          ${escapeHtml(fmtPrice(i.priceWithVat * i.qty))}
+        </td>
+      </tr>`,
+    )
+    .join("");
+
+  const paymentBlock = (() => {
+    if (order.payment.method === "qr" || order.payment.method === "bank-transfer") {
+      return `
+        <div style="margin-top: 24px; padding: 20px; background: #F0F4FF; border-radius: 12px;">
+          <div style="font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #3B7CF4; font-weight: 700; margin-bottom: 10px;">Platba ${escapeHtml(order.payment.methodLabel)}</div>
+          <table style="width: 100%; font-size: 14px;">
+            <tr><td style="padding: 4px 0; color: #9AA3C2; width: 130px;">Číslo účtu</td><td style="padding: 4px 0;"><strong>2001508163/2010</strong></td></tr>
+            <tr><td style="padding: 4px 0; color: #9AA3C2;">IBAN</td><td style="padding: 4px 0;"><strong>${escapeHtml(order.iban)}</strong></td></tr>
+            <tr><td style="padding: 4px 0; color: #9AA3C2;">Variabilní symbol</td><td style="padding: 4px 0;"><strong>${escapeHtml(order.id)}</strong></td></tr>
+            <tr><td style="padding: 4px 0; color: #9AA3C2;">Částka</td><td style="padding: 4px 0;"><strong>${escapeHtml(fmtPrice(order.total))}</strong></td></tr>
+            <tr><td style="padding: 4px 0; color: #9AA3C2;">Splatnost</td><td style="padding: 4px 0;">5 pracovních dní</td></tr>
+          </table>
+          ${order.qrDataUrl
+            ? `<div style="margin-top: 16px; text-align: center;">
+                <img src="${order.qrDataUrl}" alt="QR platba" width="180" height="180" style="display: inline-block; border-radius: 8px; background: #fff; padding: 8px;" />
+                <div style="font-size: 11px; color: #9AA3C2; margin-top: 6px;">Naskenuj v bankovní aplikaci (FIO, KB, Air Bank, Revolut…)</div>
+              </div>`
+            : ""}
+        </div>`;
+    }
+    if (order.payment.method === "cash-pickup") {
+      return `
+        <div style="margin-top: 24px; padding: 18px; background: #FFF8EC; border-radius: 12px;">
+          <div style="font-size: 14px;">
+            <strong>Hotovost při převzetí</strong> — zaplatíš na místě při osobním vyzvednutí (${escapeHtml(order.shipping.methodLabel.replace("Osobní vyzvednutí — ", ""))}).
+          </div>
+        </div>`;
+    }
+    return `
+      <div style="margin-top: 24px; padding: 18px; background: #F0F4FF; border-radius: 12px;">
+        <div style="font-size: 14px;">Platba <strong>${escapeHtml(order.payment.methodLabel)}</strong> — instrukce zašleme samostatně po potvrzení.</div>
+      </div>`;
+  })();
+
+  const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 580px; margin: 0 auto; padding: 24px; color: #1a1a2e;">
+      <div style="margin-bottom: 24px;">
+        <div style="font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #3B7CF4; font-weight: 700;">100dola sport</div>
+        <h1 style="font-size: 26px; margin: 8px 0 0 0; font-weight: 800; line-height: 1.1;">Díky za objednávku, ${escapeHtml(firstName)}.</h1>
+        <div style="color: #5A6480; font-size: 14px; margin-top: 4px;">Objednávka <strong>${escapeHtml(order.id)}</strong></div>
+      </div>
+
+      <table style="width: 100%; font-size: 14px; margin-bottom: 16px;">
+        ${itemsRows}
+        <tr><td style="padding: 8px 0; color: #5A6480;">Doprava (${escapeHtml(order.shipping.methodLabel)})</td><td style="padding: 8px 0; text-align: right;">${escapeHtml(fmtPrice(order.shippingFee))}</td></tr>
+        <tr><td style="padding: 12px 0 0 0; font-size: 16px; font-weight: 800;">Celkem</td><td style="padding: 12px 0 0 0; text-align: right; font-size: 18px; font-weight: 900;">${escapeHtml(fmtPrice(order.total))}</td></tr>
+      </table>
+
+      ${paymentBlock}
+
+      <p style="font-size: 14px; line-height: 1.6; color: #5A6480; margin-top: 24px;">
+        <strong style="color: #1a1a2e;">Co bude dál:</strong><br/>
+        Mnoho položek je u externích dodavatelů. Konkrétní termín dodání upřesníme po přijetí objednávky / platby. Ozveme se ti do 24 hodin.
+      </p>
+
+      <div style="margin-top: 28px; padding: 18px; background: #F0F4FF; border-radius: 12px;">
+        <div style="font-weight: 700; margin-bottom: 4px;">100dola sport · FUTUNATU s.r.o.</div>
+        <div style="font-size: 14px;">
+          <a href="mailto:info@100dola.com" style="color: #3B7CF4; text-decoration: none;">info@100dola.com</a>
+          · <a href="tel:+420739045057" style="color: #3B7CF4; text-decoration: none;">+420 739 045 057</a>
+        </div>
+        <div style="font-size: 12px; color: #9AA3C2; margin-top: 6px;">IČO 07376766 · DIČ CZ07376766</div>
+      </div>
+
+      <div style="margin-top: 28px; font-size: 12px; color: #9AA3C2; line-height: 1.5;">
+        Tento e-mail potvrzuje, že jsme zaznamenali tvoji objednávku z 100dola.com.
+      </div>
+    </div>
+  `;
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: order.contact.email,
+      replyTo: NOTIFY_EMAIL,
+      subject,
+      html,
+    });
+  } catch (e) {
+    console.error("[email] sendOrderConfirmation failed:", e);
+  }
+}
+
+export async function sendOrderNotification(order: OrderEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = `🛒 Nová objednávka ${order.id} — ${order.contact.name} (${fmtPrice(order.total)})`;
+
+  const itemsList = order.items
+    .map((i) => `• ${i.name} × ${i.qty} = ${fmtPrice(i.priceWithVat * i.qty)}`)
+    .join("\n");
+
+  const text = [
+    `Nová objednávka — ${order.id}`,
+    ``,
+    `${order.contact.name} · ${order.contact.email} · ${order.contact.phone}`,
+    order.contact.companyName ? `Firma: ${order.contact.companyName} (IČO ${order.contact.companyIco || "—"})` : "",
+    ``,
+    `Položky:`,
+    itemsList,
+    ``,
+    `Mezisoučet: ${fmtPrice(order.subtotal)}`,
+    `Doprava (${order.shipping.methodLabel}): ${fmtPrice(order.shippingFee)}`,
+    `CELKEM: ${fmtPrice(order.total)}`,
+    ``,
+    `Doprava: ${order.shipping.methodLabel}`,
+    order.shipping.street ? `Adresa: ${order.shipping.street}, ${order.shipping.city || ""} ${order.shipping.zip || ""}` : "",
+    order.shipping.zasilkovnaPickup ? `Zásilkovna pobočka: ${order.shipping.zasilkovnaPickup}` : "",
+    ``,
+    `Platba: ${order.payment.methodLabel}`,
+    order.notes ? `\nPoznámka:\n${order.notes}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: NOTIFY_EMAIL,
+      replyTo: order.contact.email,
+      subject,
+      text,
+    });
+  } catch (e) {
+    console.error("[email] sendOrderNotification failed:", e);
+  }
+}
