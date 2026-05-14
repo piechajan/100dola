@@ -216,7 +216,7 @@ export const LAB_FAQ = [
   },
   {
     q: "Můžu si kolo nechat zavézt?",
-    a: "Ano, v rámci Prahy zařídíme svoz a vrácení. Mimo Prahu po domluvě.",
+    a: "Ano, lze to po domluvě zařídit.",
   },
   {
     q: "Jak dlouho zásahy vydrží?",
