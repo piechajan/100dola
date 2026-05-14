@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import CommunityHero from "@/components/community/CommunityHero";
 import EventListing from "@/components/community/EventListing";
 import WhyJoin from "@/components/community/WhyJoin";
+import CommunityRules from "@/components/community/CommunityRules";
 import GalleryRecap from "@/components/community/GalleryRecap";
 import CommunityFAQ from "@/components/community/CommunityFAQ";
 import { COMMUNITY_FAQ } from "@/data/community-faq";
@@ -64,6 +65,7 @@ export default function CommunityPage() {
         <CommunityHero />
         <EventListing />
         <WhyJoin />
+        <CommunityRules />
         <GalleryRecap />
         <CommunityFAQ />
         <CommunityNewsletter />
