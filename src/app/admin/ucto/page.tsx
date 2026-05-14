@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import MonthlyChart from "@/components/admin/MonthlyChart";
 import { getAccountingOverview, PROJECTS, getProject } from "@/lib/accounting";
+import { SESSION_COOKIE, verifySessionCookie } from "@/lib/accountant-auth";
 
 export const metadata: Metadata = {
   title: "Admin · Účetnictví — 100dola",
@@ -36,10 +37,19 @@ const STATUS_LABELS: Record<string, { label: string; color: string }> = {
 
 export default async function AdminAccountingPage() {
   const cookieStore = await cookies();
-  const auth = cookieStore.get("preview_auth");
-  if (auth?.value !== "100dola2025") {
-    redirect("/login?from=/admin/ucto");
+  const adminAuth = cookieStore.get("preview_auth");
+  const isAdmin = adminAuth?.value === "100dola2025";
+
+  const accountantCookie = cookieStore.get(SESSION_COOKIE);
+  const accountantSession = verifySessionCookie(accountantCookie?.value);
+  const isAccountant = Boolean(accountantSession);
+
+  if (!isAdmin && !isAccountant) {
+    redirect("/login-ucetni");
   }
+
+  // Read-only režim pro účetní (bez admin přístupu)
+  const readOnly = !isAdmin && isAccountant;
 
   const overview = await getAccountingOverview();
 
@@ -61,29 +71,46 @@ export default async function AdminAccountingPage() {
               <h1 className="text-3xl md:text-4xl font-black text-[#1a1a2e]">Účetnictví</h1>
               <p className="text-sm text-[#5A6480] mt-1.5">
                 Per-project P&L · data z Fakturoidu (slug: <code className="text-xs">futunatu</code>)
+                {readOnly && (
+                  <span className="ml-2 inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#1F4937]/10 text-[#1F4937]">
+                    read-only · {accountantSession?.email}
+                  </span>
+                )}
               </p>
             </div>
             <div className="flex gap-2 flex-wrap">
-              <Link
-                href="/admin/orders"
-                className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-full border border-[#E2E6F3] text-[#1a1a2e] hover:border-[#3B7CF4]"
-              >
-                Objednávky →
-              </Link>
-              <Link
-                href="/admin/ucto/nova-faktura"
-                className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-full bg-[#3B7CF4] text-white hover:opacity-90"
-              >
-                + Nová faktura
-              </Link>
-              <a
-                href="https://app.fakturoid.cz/futunatu"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-full bg-[#1a1a2e] text-white hover:opacity-90"
-              >
-                Fakturoid →
-              </a>
+              {!readOnly && (
+                <>
+                  <Link
+                    href="/admin/orders"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-full border border-[#E2E6F3] text-[#1a1a2e] hover:border-[#3B7CF4]"
+                  >
+                    Objednávky →
+                  </Link>
+                  <Link
+                    href="/admin/ucto/nova-faktura"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-full bg-[#3B7CF4] text-white hover:opacity-90"
+                  >
+                    + Nová faktura
+                  </Link>
+                  <a
+                    href="https://app.fakturoid.cz/futunatu"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-full bg-[#1a1a2e] text-white hover:opacity-90"
+                  >
+                    Fakturoid →
+                  </a>
+                </>
+              )}
+              {readOnly && (
+                <a
+                  href="/api/auth/accountant/logout"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-full border border-[#E2E6F3] text-[#5A6480] hover:border-[#3B7CF4]"
+                >
+                  Odhlásit
+                </a>
+              )}
             </div>
           </div>
 

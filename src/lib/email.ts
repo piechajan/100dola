@@ -650,6 +650,62 @@ export async function sendOrderNotification(order: OrderEmailPayload): Promise<v
   }
 }
 
+// ── Magic-link login pro účetní ──────────────────────────────────────────────
+
+export async function sendAccountantMagicLink(p: {
+  email: string;
+  magicUrl: string;
+}): Promise<void> {
+  if (!isEmailConfigured()) {
+    console.warn("[email] sendAccountantMagicLink: Resend not configured");
+    return;
+  }
+
+  const subject = "Přihlášení do účetnictví 100dola";
+  const text = [
+    `Dobrý den,`,
+    ``,
+    `pro přihlášení do účetního přehledu 100dola otevři tento odkaz:`,
+    p.magicUrl,
+    ``,
+    `Odkaz platí 15 minut. Po přihlášení zůstaneš přihlášen 30 dní.`,
+    ``,
+    `Pokud jsi tento e-mail neočekával, ignoruj ho.`,
+    ``,
+    `100dola`,
+  ].join("\n");
+
+  const html = `
+    <div style="font-family:system-ui,sans-serif;max-width:520px;margin:0 auto;padding:24px;color:#1a1a2e">
+      <h2 style="margin:0 0 16px;font-size:18px;">Přihlášení do účetnictví 100dola</h2>
+      <p style="margin:0 0 16px;font-size:14px;line-height:1.5;color:#5A6480">
+        Klikni na tlačítko níže. Odkaz platí <strong>15 minut</strong>.
+      </p>
+      <p style="margin:24px 0">
+        <a href="${p.magicUrl}" style="display:inline-block;background:#3B7CF4;color:#fff;text-decoration:none;padding:12px 24px;border-radius:999px;font-weight:700;font-size:14px;">
+          Otevřít účetnictví →
+        </a>
+      </p>
+      <p style="margin:24px 0 0;font-size:12px;color:#9AA3C2;line-height:1.5">
+        Po přihlášení tě budeme pamatovat 30 dní. Pokud jsi tento e-mail neočekával, ignoruj ho.
+      </p>
+    </div>
+  `;
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.email,
+      subject,
+      text,
+      html,
+    });
+  } catch (e) {
+    console.error("[email] sendAccountantMagicLink failed:", e);
+    throw e;
+  }
+}
+
 // ── Order zaplaceno — auto-detekce z Fakturoid bank sync ─────────────────────
 
 export interface OrderPaidNotificationPayload {

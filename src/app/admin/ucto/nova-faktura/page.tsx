@@ -15,7 +15,8 @@ export default async function NewInvoicePage() {
   const cookieStore = await cookies();
   const auth = cookieStore.get("preview_auth");
   if (auth?.value !== "100dola2025") {
-    redirect("/login?from=/admin/ucto/nova-faktura");
+    // Účetní nemůže vytvářet faktury → redirect na dashboard
+    redirect("/admin/ucto");
   }
 
   return (
