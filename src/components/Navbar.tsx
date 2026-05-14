@@ -73,7 +73,7 @@ export default function Navbar() {
             <img
               src="/logo-nav.png"
               alt="100dola sport"
-              style={{ height: 22, width: "auto" }}
+              style={{ height: 18, width: "auto" }}
             />
           </Link>
 
