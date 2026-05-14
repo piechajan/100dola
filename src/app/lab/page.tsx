@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import LabHero from "@/components/lab/LabHero";
 import LabIntro from "@/components/lab/LabIntro";
 import LabServices from "@/components/lab/LabServices";
+import LabUsedBrands from "@/components/lab/LabUsedBrands";
 import LabWhy from "@/components/lab/LabWhy";
 import LabProcess from "@/components/lab/LabProcess";
 import LabGallery from "@/components/lab/LabGallery";
@@ -66,6 +67,7 @@ export default function LabPage() {
         <LabHero />
         <LabIntro />
         <LabServices />
+        <LabUsedBrands />
         <LabWhy />
         <LabProcess />
         <LabGallery />
