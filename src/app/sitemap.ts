@@ -28,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/sport/vybaveni",
     "/sport/elektronika",
     "/sport/kolekce",
+    "/zasady-cookies",
   ];
 
   return routes.map((path) => ({

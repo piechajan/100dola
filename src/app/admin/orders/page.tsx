@@ -225,13 +225,21 @@ export default async function AdminOrdersPage() {
                             shippedAt={o.shipped_at}
                             trackingNumber={o.tracking_number}
                           />
-                          <Link
-                            href={`/objednavka/${o.id}`}
-                            target="_blank"
-                            className="text-[11px] font-bold text-[#3B7CF4] hover:underline mt-2 inline-block"
-                          >
-                            Detail klienta →
-                          </Link>
+                          <div className="flex gap-3 mt-2 text-[11px] font-bold">
+                            <Link
+                              href={`/admin/orders/${o.id}`}
+                              className="text-[#3B7CF4] hover:underline"
+                            >
+                              Otevřít →
+                            </Link>
+                            <Link
+                              href={`/objednavka/${o.id}`}
+                              target="_blank"
+                              className="text-[#9AA3C2] hover:text-[#3B7CF4] hover:underline"
+                            >
+                              Klientovi
+                            </Link>
+                          </div>
                         </td>
                       </tr>
                     );
