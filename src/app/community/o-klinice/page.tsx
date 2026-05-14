@@ -12,10 +12,9 @@ export const metadata: Metadata = {
 };
 
 const stats = [
-  { value: "2022", label: "rok založení" },
-  { value: "40+", label: "akcí proběhlo" },
+  { value: "2025", label: "rok založení" },
+  { value: "2", label: "sezóny" },
   { value: "6", label: "typů aktivit" },
-  { value: "300+", label: "účastníků celkem" },
 ];
 
 const principles = [
@@ -73,7 +72,7 @@ export default function OKlinicePage() {
               Komunita, ne klub.
             </h1>
             <p className="mt-6 text-lg text-white/70 max-w-2xl leading-relaxed">
-              Od roku 2022 jezdíme spolu. Začalo to pár lidmi v kavárně, dnes je nás stovky napříč Valašskem, Prahou a okolím.
+              Od roku 2025 jezdíme spolu. Začalo to pár lidmi v kavárně, dnes pravidelně vyrážíme napříč Valašskem, Prahou a okolím.
               Bez startovného, bez výsledků, bez ega.
             </p>
           </div>
@@ -82,7 +81,7 @@ export default function OKlinicePage() {
         {/* Stats */}
         <section className="bg-white py-16 md:py-20">
           <div className="max-w-[1100px] mx-auto px-6 md:px-12">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+            <div className="grid grid-cols-3 gap-8 md:gap-12 max-w-2xl mx-auto">
               {stats.map((s) => (
                 <div key={s.label} className="text-center">
                   <div className="text-4xl md:text-5xl font-black text-[#1a1a2e]">{s.value}</div>

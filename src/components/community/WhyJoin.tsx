@@ -40,16 +40,15 @@ export default function WhyJoin() {
               <span style={{ color: "#2EAA6E" }}>ve skupině.</span>
             </h2>
             <p className="mt-5 text-[#5A6480] leading-relaxed max-w-md">
-              Open Miles Clinic existuje od roku 2022. Za tu dobu proběhlo přes 40 akcí,
-              připojily se stovky lidí a vznikly desítky přátelství.
-              Stačí přijít jednou.
+              Open Miles Clinic jezdí spolu od roku 2025. Začalo to pár lidmi v kavárně,
+              dnes pravidelně vyrážíme napříč sezónami. Stačí přijít jednou.
             </p>
 
             {/* Big stat */}
             <div className="mt-10 flex gap-10">
               {[
-                { value: "40+", label: "společných akcí" },
-                { value: "3", label: "sezóny" },
+                { value: "2025", label: "rok založení" },
+                { value: "2", label: "sezóny" },
                 { value: "6", label: "typů aktivit" },
               ].map((s) => (
                 <div key={s.label}>
