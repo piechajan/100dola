@@ -41,7 +41,7 @@ export default function CommunityRules() {
         </div>
 
         <p className="mt-10 text-sm text-[#9AA3C2] text-center max-w-2xl mx-auto">
-          Pravidla nejsou zákony, ale dohoda, která drží skupinu pohromadě. Kdo jezdí poprvé, zeptá se před startem — vždycky všechno ukážeme v praxi.
+          Pravidla nejsou zákony, ale dohoda, která drží skupinu pohromadě. Kdo jede poprvé, zeptá se před startem — vždycky všechno ukážeme v praxi.
         </p>
       </div>
     </section>
