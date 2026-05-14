@@ -388,3 +388,71 @@ export async function sendLabLeadConfirmation(lead: LabLeadPayload): Promise<voi
     console.error("[email] sendLabLeadConfirmation failed:", e);
   }
 }
+
+// ── Newsletter "Hlídat akce" welcome ────────────────────────────────────────
+
+export async function sendNewsletterConfirmation(p: {
+  email: string;
+  unsubscribeToken: string;
+}): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com";
+  const unsubUrl = `${baseUrl}/api/unsubscribe?token=${encodeURIComponent(p.unsubscribeToken)}`;
+
+  const subject = "Sleduješ Open Miles Clinic — co teď?";
+  const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; color: #1a1a2e;">
+      <div style="margin-bottom: 24px;">
+        <div style="font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #2EAA6E; font-weight: 700;">Open Miles Clinic · 100dola</div>
+        <h1 style="font-size: 26px; margin: 8px 0 0 0; font-weight: 800; line-height: 1.1;">Vítej v hlídači akcí.</h1>
+      </div>
+
+      <p style="font-size: 15px; line-height: 1.6; color: #5A6480;">
+        Tvůj e-mail máme uložený. Když přidáme novou akci (kolo, gravel, MTB, skialp, turistika), pošleme ti shrnutí dřív, než se vyplní.
+      </p>
+
+      <p style="font-size: 15px; line-height: 1.6; color: #5A6480;">
+        Před každou akcí, na kterou se přihlásíš, dostaneš ještě připomínku 48 hodin předem — s aktualizovaným počasím, místem startu a tím, co si vzít.
+      </p>
+
+      <div style="margin-top: 28px; padding: 18px; background: #EDFAF3; border-radius: 12px;">
+        <div style="font-weight: 700; margin-bottom: 4px;">Open Miles Clinic</div>
+        <div style="font-size: 14px; color: #5A6480;">Sportovní komunita z Valašska · sekce 100dola</div>
+        <div style="font-size: 14px; margin-top: 8px;">
+          <a href="${baseUrl}/community" style="color: #2EAA6E; text-decoration: none;">100dola.com/community</a>
+          · <a href="https://www.instagram.com/open_miles_clinic/" style="color: #2EAA6E; text-decoration: none;">@open_miles_clinic</a>
+        </div>
+      </div>
+
+      <div style="margin-top: 28px; font-size: 12px; color: #9AA3C2; line-height: 1.5;">
+        Nechtěl/a jsi se přihlásit? <a href="${unsubUrl}" style="color: #9AA3C2;">Klikni sem a odhlas se</a> — jedním klikem, bez ptaní.
+      </div>
+    </div>
+  `;
+
+  const text = [
+    `Vítej v hlídači akcí Open Miles Clinic.`,
+    ``,
+    `Tvůj e-mail máme uložený. Když přidáme novou akci, pošleme ti shrnutí dřív, než se vyplní.`,
+    ``,
+    `Před každou akcí, na kterou se přihlásíš, dostaneš ještě připomínku 48 hodin předem.`,
+    ``,
+    `100dola.com/community · @open_miles_clinic`,
+    ``,
+    `Odhlásit: ${unsubUrl}`,
+  ].join("\n");
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.email,
+      replyTo: NOTIFY_EMAIL,
+      subject,
+      html,
+      text,
+    });
+  } catch (e) {
+    console.error("[email] sendNewsletterConfirmation failed:", e);
+  }
+}

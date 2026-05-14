@@ -69,8 +69,19 @@ export const LabPayloadSchema = z
   })
   .merge(Honeypot);
 
+export const NewsletterPayloadSchema = z
+  .object({
+    id: z.string().max(200).optional(),
+    registeredAt: z.string().max(64).optional(),
+    source: z.literal("newsletter"),
+    email: z.email().max(254).toLowerCase(),
+    consent: z.literal(true),
+  })
+  .merge(Honeypot);
+
 export type EventPayload = z.infer<typeof EventPayloadSchema>;
 export type MalagaPayload = z.infer<typeof MalagaPayloadSchema>;
 export type LabPayload = z.infer<typeof LabPayloadSchema>;
+export type NewsletterPayload = z.infer<typeof NewsletterPayloadSchema>;
 
 export const HONEYPOT_NAME = HONEYPOT_FIELD;

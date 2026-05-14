@@ -9,11 +9,13 @@ import {
   sendEventRegistrationNotification,
   sendLabLeadNotification,
   sendLabLeadConfirmation,
+  sendNewsletterConfirmation,
 } from "@/lib/email";
 import {
   EventPayloadSchema,
   MalagaPayloadSchema,
   LabPayloadSchema,
+  NewsletterPayloadSchema,
   HONEYPOT_NAME,
 } from "@/lib/schemas";
 
@@ -30,7 +32,7 @@ const DATA_DIR = process.env.NODE_ENV === "production" ? "/tmp" : path.join(proc
 const FILE = path.join(DATA_DIR, "registrations.json");
 
 interface FileRecord {
-  source: "event" | "malaga" | "lab";
+  source: "event" | "malaga" | "lab" | "newsletter";
   id: string;
   email: string;
   registeredAt: string;
@@ -162,6 +164,47 @@ export async function POST(req: NextRequest) {
       message: m.message,
     });
     return NextResponse.json({ ok: true, source: "malaga", id, fallback: true });
+  }
+
+  // ── Newsletter (Hlídat akce) ──────────────────────────────────────────────
+  // MVP: file storage + welcome mail. Pro 'Hlídat akce' v patterně OMC.
+  // Po implementaci eventů v DB (fáze 2) bude tady cron pro 24h + 48h reminders.
+  if (rawSource === "newsletter") {
+    const parsed = NewsletterPayloadSchema.safeParse(body);
+    if (!parsed.success) {
+      return invalidPayload(
+        parsed.error.issues.map((i) => ({ path: i.path.join("."), message: i.message })),
+      );
+    }
+    const n = parsed.data;
+    const id = n.id || crypto.randomUUID();
+    const registeredAt = n.registeredAt || now;
+
+    // Dedup — pokud už je email v newsletteru, jen acknowledge (žádný duplicitní welcome).
+    const all = await fileReadAll();
+    const existing = all.find((r) => r.source === "newsletter" && r.email === n.email);
+    if (existing) {
+      return NextResponse.json({ ok: true, source: "newsletter", duplicate: true });
+    }
+
+    const unsubToken = Array.from(crypto.getRandomValues(new Uint8Array(18)))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+
+    await fileAppend({
+      source: "newsletter",
+      id,
+      email: n.email,
+      registeredAt,
+      consent: n.consent,
+      unsubscribeToken: unsubToken,
+    });
+
+    Promise.allSettled([
+      sendNewsletterConfirmation({ email: n.email, unsubscribeToken: unsubToken }),
+    ]);
+
+    return NextResponse.json({ ok: true, source: "newsletter", id });
   }
 
   // ── Lab lead ──────────────────────────────────────────────────────────────
