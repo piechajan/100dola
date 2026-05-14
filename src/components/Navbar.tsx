@@ -3,6 +3,8 @@
 import { useState, useRef } from "react";
 import Link from "next/link";
 import { events, SPORT_COLORS, SPORT_ICONS } from "@/data/events";
+import CartButton from "@/components/shop/CartButton";
+import CartDrawer from "@/components/shop/CartDrawer";
 
 // ── Sport mega-menu data ──────────────────────────────────────────────────────
 
@@ -63,6 +65,8 @@ export default function Navbar() {
   };
 
   return (
+    <>
+    <CartDrawer />
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#E2E6F3]">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
         <div className="flex items-center justify-between h-20">
@@ -287,14 +291,7 @@ export default function Navbar() {
                 <circle cx="12" cy="7" r="4" />
               </svg>
             </button>
-            <button className="relative flex p-2.5 text-[#9AA3C2] hover:text-[#1a1a2e] transition-colors rounded-lg hover:bg-[#F0F2FA]">
-              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <path d="M16 10a4 4 0 0 1-8 0" />
-              </svg>
-              <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#3B7CF4]" />
-            </button>
+            <CartButton />
             <button
               className="md:hidden p-2.5 text-[#9AA3C2] hover:text-[#1a1a2e] transition-colors rounded-lg hover:bg-[#F0F2FA] ml-1"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -418,5 +415,6 @@ export default function Navbar() {
         </div>
       )}
     </nav>
+    </>
   );
 }
