@@ -164,7 +164,7 @@ export default function CartDrawer() {
               )}
 
               <div className="rounded-xl p-3 text-[11px] bg-[#F0F4FF] text-[#1a1a2e] border border-[#D6E1FB]">
-                Mnoho položek je u externích dodavatelů. Konkrétní termín dodání upřesníme po přijetí objednávky.
+                Termín dodání ti potvrdíme po zadání objednávky.
               </div>
             </div>
 

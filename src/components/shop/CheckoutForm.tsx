@@ -313,7 +313,7 @@ export default function CheckoutForm() {
         <section className="bg-white rounded-2xl border border-[#E2E6F3] p-6 md:p-7">
           <h2 className="text-lg font-black text-[#1a1a2e] mb-1">2. Doprava</h2>
           <p className="text-xs text-[#9AA3C2] mb-5">
-            Mnoho položek je u externích dodavatelů — konkrétní termín dodání upřesníme po přijetí objednávky.
+            Termín dodání ti potvrdíme po zadání objednávky.
           </p>
           <div className="space-y-2">
             {SHIPPING_OPTIONS.map((opt) => {

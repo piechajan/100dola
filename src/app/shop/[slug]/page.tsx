@@ -174,7 +174,7 @@ export default async function ProductDetailPage({
                   </div>
                 )}
                 <div className="rounded-xl p-3 text-xs bg-[#F0F4FF] text-[#1a1a2e] border border-[#D6E1FB]">
-                  Mnoho položek je u externích dodavatelů. <strong>Konkrétní termín dodání upřesníme po přijetí objednávky.</strong>
+                  <strong>Termín dodání ti potvrdíme po zadání objednávky.</strong>
                 </div>
               </div>
             </div>
