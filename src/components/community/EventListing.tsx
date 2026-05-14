@@ -21,6 +21,8 @@ interface UIEvent {
   photoPosition?: string;
   source?: "manual" | "strava";
   stravaUrl?: string;
+  stravaActivityUrl?: string;
+  isPast?: boolean;
 }
 
 const SPORT_COLORS: Record<string, string> = {
@@ -52,13 +54,14 @@ const events: UIEvent[] = [
     date: "Ne 19. dubna",
     time: "09:45",
     location: "Kavárna Chochino, Valašské Meziříčí",
-    distance: "~40 km",
-    elevation: "~400 m",
-    difficulty: "Lehká",
+    distance: "63–68 km",
+    elevation: "565–670 m",
+    difficulty: "Střední",
     capacity: 20,
-    filled: 6,
-    description: "Otevíráme sezónu. Sraz u Chochina, 2–3 hodiny v pohodovém tempu. Vhodné pro všechny, kdo se těší zpátky na kolo.",
+    filled: 13,
+    description: "Otevírali jsme sezónu. Sraz u Chochina, dvě trasy na výběr (Cappuccino / Espresso), pohodové tempo a kafe nakonec.",
     photo: "/media/season-opening.jpg",
+    isPast: true,
   },
   {
     id: 8,
@@ -66,15 +69,16 @@ const events: UIEvent[] = [
     title: "Troják — Tesák",
     sport: "Silnice",
     date: "So 2. května",
-    time: "09:00",
+    time: "09:45",
     location: "Valašské Meziříčí — Hostýnské vrchy",
     distance: "~95 km",
     elevation: "~1 400 m",
-    difficulty: "Střední",
+    difficulty: "Náročná",
     capacity: 20,
-    filled: 14,
+    filled: 9,
     description: "Klasický okruh přes Troják a Tesák. Krásné stoupání hřebenovkou, sjezdy přes valašské kopečky. Klubová sobota Open Miles Clinic.",
     photo: "/media/road-event.jpg",
+    isPast: true,
   },
   {
     id: 3,
@@ -254,6 +258,7 @@ function EventCard({ event }: { event: UIEvent }) {
   const color = SPORT_COLORS[event.sport] || "#2EAA6E";
   const icon = SPORT_ICONS[event.sport] || "🏃";
   const isStrava = event.source === "strava";
+  const isPast = event.isPast === true;
   const hasCapacity = event.capacity > 0;
   const fillPct = hasCapacity ? (event.filled / event.capacity) * 100 : 0;
   const spotsLeft = event.capacity - event.filled;
@@ -261,7 +266,11 @@ function EventCard({ event }: { event: UIEvent }) {
 
   // Wrapper props — Strava event jde externě, manuální interně
   const cardClass =
-    "group flex flex-col bg-white rounded-2xl border border-[#E2E6F3] overflow-hidden hover:border-transparent hover:shadow-xl transition-all duration-300";
+    `group flex flex-col bg-white rounded-2xl border border-[#E2E6F3] overflow-hidden transition-all duration-300 ${
+      isPast
+        ? "opacity-60 hover:opacity-100 hover:shadow-md"
+        : "hover:border-transparent hover:shadow-xl"
+    }`;
 
   const cardInner = (
     <>
@@ -272,7 +281,10 @@ function EventCard({ event }: { event: UIEvent }) {
           src={event.photo}
           alt={event.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          style={{ objectPosition: event.photoPosition ?? "center" }}
+          style={{
+            objectPosition: event.photoPosition ?? "center",
+            filter: isPast ? "grayscale(0.4)" : undefined,
+          }}
         />
         {/* Sport badge */}
         <div className="absolute top-3 left-3">
@@ -284,8 +296,13 @@ function EventCard({ event }: { event: UIEvent }) {
             {event.sport}
           </span>
         </div>
-        {/* Right top: difficulty + Strava badge */}
+        {/* Right top: difficulty + Strava badge + Proběhlo */}
         <div className="absolute top-3 right-3 flex flex-col items-end gap-2">
+          {isPast && (
+            <span className="text-[10px] font-black px-2.5 py-1.5 rounded-full bg-[#1a1a2e] text-white backdrop-blur-sm uppercase tracking-wider">
+              Proběhlo
+            </span>
+          )}
           <span className="text-[10px] font-bold px-2.5 py-1.5 rounded-full bg-black/50 text-white backdrop-blur-sm">
             {event.difficulty}
           </span>
@@ -339,7 +356,7 @@ function EventCard({ event }: { event: UIEvent }) {
                 <div className="text-[#C0C7D8]">převýšení</div>
               </div>
             )}
-            {hasCapacity && (
+            {hasCapacity && !isPast && (
               <div className="ml-auto text-right">
                 <div className="font-black" style={{ color: almostFull ? "#E8431A" : color }}>
                   {spotsLeft} míst
@@ -347,11 +364,17 @@ function EventCard({ event }: { event: UIEvent }) {
                 <div className="text-[#C0C7D8]">zbývá</div>
               </div>
             )}
+            {hasCapacity && isPast && (
+              <div className="ml-auto text-right">
+                <div className="font-black text-[#1a1a2e]">{event.filled}</div>
+                <div className="text-[#C0C7D8]">jezdců</div>
+              </div>
+            )}
           </div>
         )}
 
-        {/* Capacity bar — jen manuální */}
-        {!isStrava && hasCapacity && (
+        {/* Capacity bar — jen manuální, jen future */}
+        {!isStrava && !isPast && hasCapacity && (
           <div className="mb-4">
             <div className="h-1.5 bg-[#F0F2FA] rounded-full overflow-hidden">
               <div
@@ -372,6 +395,16 @@ function EventCard({ event }: { event: UIEvent }) {
             Detail na Stravě
             <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path d="M14 3h7v7M21 3 10 14M5 7v12a2 2 0 0 0 2 2h12" />
+            </svg>
+          </div>
+        ) : isPast ? (
+          <div
+            className="w-full py-2.5 text-sm font-bold rounded-xl transition-all group-hover:shadow-md flex items-center justify-center gap-2"
+            style={{ backgroundColor: "#F0F2FA", color: "#5A6480" }}
+          >
+            Zobrazit shrnutí
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </div>
         ) : (

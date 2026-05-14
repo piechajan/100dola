@@ -33,6 +33,8 @@ export interface Event {
   photoGallery?: string[];
   routeUrl?: string;
   mapUrl?: string;
+  stravaActivityUrl?: string;
+  isPast?: boolean;
 }
 
 export const SPORT_COLORS: Record<Sport, string> = {
@@ -110,14 +112,14 @@ Jedeme vždy v jedné skupině — tempo přizpůsobíme. Kdo chce Cappuccino, o
     sport: "Silnice",
     date: "So 2. května",
     dateISO: "2026-05-02",
-    time: "09:00",
+    time: "09:45",
     location: "Valašské Meziříčí — Hostýnské vrchy",
-    locationDetail: "Sraz u kavárny Chochino, Valašské Meziříčí",
+    locationDetail: "Sraz u kavárny Chochino, Valašské Meziříčí (kafe 9:45, výjezd ~10:00)",
     distance: "~95 km",
     elevation: "~1 400 m",
     difficulty: "Náročná",
     capacity: 20,
-    filled: 14,
+    filled: 9,
     description: "Klasický okruh přes Troják a Tesák. Krásné stoupání hřebenovkou, sjezdy přes valašské kopečky. Klubová sobota Open Miles Clinic.",
     longDescription: `Troják (933 m) a Tesák patří mezi klasické cíle valašských silničářů. Tradiční sobotní okruh Open Miles Clinic vede z Valašského Meziříčí přes hřebenovku Hostýnských vrchů.
 
@@ -134,6 +136,7 @@ Po jízdě klasika — kafe a něco dobrého v některé z místních kaváren /
     whoIsItFor: "Pro pravidelné silničáře. Tempo skupinové, ale na stoupáních se přirozeně rozjedeme — čekáme na sebe v cílech.",
     organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
     photo: "/media/road-event.jpg",
+    isPast: true,
   },
   {
     id: 1,
@@ -142,7 +145,7 @@ Po jízdě klasika — kafe a něco dobrého v některé z místních kaváren /
     sport: "Silnice",
     date: "So 16. května",
     dateISO: "2026-05-16",
-    time: "10:00",
+    time: "09:45",
     location: "Kavárna Chochino, Valašské Meziříčí",
     locationDetail: "Sraz u kavárny Chochino. Při horším počasí přesun na neděli 17. 5.",
     distance: "55 km",
