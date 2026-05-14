@@ -5,7 +5,7 @@ export const COMMUNITY_FAQ = [
   },
   {
     q: "Jak rychle jezdíte?",
-    a: "Tempo se přizpůsobuje skupině. U lehkých akcí je průměr cca 26–28 km/h, u středních 28–32. Nikdy nikoho nenecháme za sebou — vracíme se vždy celá skupina.",
+    a: "Tempo se přizpůsobuje skupině. U lehkých akcí je průměr cca 26–28 km/h, u středních 28–32. Pokud rozdíl ve výkonnosti není diametrální, vyjedeš kopec svým tempem a nahoře tě počkáme. Vracíme se vždy spolu.",
   },
   {
     q: "Stojí to něco?",

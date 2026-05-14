@@ -1,8 +1,8 @@
 const reasons = [
   {
     emoji: "🤝",
-    title: "Jedeme v tempu, které sedí všem.",
-    desc: "Naše akce nejsou závody. Jedeme spolu, čekáme na sebe a vracíme se vždy celá skupina.",
+    title: "Jedeme v tempu, které sedí většině.",
+    desc: "Naše akce nejsou závody. Pokud rozdíl ve výkonnosti není diametrální, vyjedeš kopec svým tempem a nahoře tě počkáme. Vracíme se vždy spolu.",
   },
   {
     emoji: "📍",
