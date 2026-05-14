@@ -649,3 +649,74 @@ export async function sendOrderNotification(order: OrderEmailPayload): Promise<v
     console.error("[email] sendOrderNotification failed:", e);
   }
 }
+
+// ── Order zaplaceno — auto-detekce z Fakturoid bank sync ─────────────────────
+
+export interface OrderPaidNotificationPayload {
+  orderId: string;
+  customerName: string;
+  customerEmail: string;
+  total: number;
+  invoiceNumber: string;
+}
+
+/**
+ * Posílá 2 e-maily:
+ *  1. Klientovi — „Platba dorazila, balík chystáme."
+ *  2. Adminovi — interní notif, že platba byla automaticky spárovaná.
+ */
+export async function sendOrderPaidNotification(
+  p: OrderPaidNotificationPayload,
+): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  // 1) klient
+  const customerSubject = `Platba přijata · objednávka ${p.orderId}`;
+  const customerText = [
+    `Dobrý den ${escapeHtml(p.customerName)},`,
+    ``,
+    `vaše platba dorazila — objednávku ${p.orderId} právě připravujeme k odeslání.`,
+    `Souhrn najdete v PDF faktuře (${p.invoiceNumber}), kterou jsme vám poslali zvlášť.`,
+    ``,
+    `Jakmile balík předáme dopravci, ozveme se s číslem zásilky.`,
+    ``,
+    `Díky,`,
+    `100dola sport`,
+  ].join("\n");
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.customerEmail,
+      subject: customerSubject,
+      text: customerText,
+    });
+  } catch (e) {
+    console.error("[email] sendOrderPaidNotification (klient) failed:", e);
+  }
+
+  // 2) admin
+  const adminSubject = `💸 Platba spárovaná · ${p.orderId} (${p.total} Kč)`;
+  const adminText = [
+    `Auto-detekce platby z Fakturoid bank sync:`,
+    ``,
+    `Order:    ${p.orderId}`,
+    `Klient:   ${p.customerName} · ${p.customerEmail}`,
+    `Částka:   ${p.total} Kč`,
+    `Faktura:  ${p.invoiceNumber}`,
+    ``,
+    `Status orderu byl automaticky přepnut na "paid".`,
+    `→ Připravit k odeslání: https://100dola.com/admin/orders/${p.orderId}`,
+  ].join("\n");
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: NOTIFY_EMAIL,
+      subject: adminSubject,
+      text: adminText,
+    });
+  } catch (e) {
+    console.error("[email] sendOrderPaidNotification (admin) failed:", e);
+  }
+}

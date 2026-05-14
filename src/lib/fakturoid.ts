@@ -245,6 +245,46 @@ export interface ListInvoicesOptions {
   status?: "open" | "sent" | "overdue" | "paid" | "cancelled" | "uncollectible";
 }
 
+// ─── Webhooks ────────────────────────────────────────────────────────────────
+
+export interface FakturoidWebhook {
+  id: number;
+  url: string;
+  events: string[];
+  secret_key: string;
+  payload_type: string;
+  enabled?: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface CreateWebhookInput {
+  url: string;
+  /** Fakturoid v3 podporuje např. `invoice_paid`, `invoice_sent`, `invoice_overdue`, ... */
+  events: string[];
+  /** "json" (default) nebo "form". */
+  payloadType?: "json" | "form";
+}
+
+/** Vytvoří nový webhook. Vrátí ho včetně `secret_key` (jen jednou — uložit do env!). */
+export async function createWebhook(input: CreateWebhookInput): Promise<FakturoidWebhook> {
+  return request<FakturoidWebhook>("POST", "/webhooks.json", {
+    webhook: {
+      url: input.url,
+      events: input.events,
+      payload_type: input.payloadType || "json",
+    },
+  });
+}
+
+export async function listWebhooks(): Promise<FakturoidWebhook[]> {
+  return request<FakturoidWebhook[]>("GET", "/webhooks.json");
+}
+
+export async function deleteWebhook(id: number): Promise<void> {
+  await request<null>("DELETE", `/webhooks/${id}.json`);
+}
+
 /**
  * Seznam všech faktur podle filtru. Auto-paginates do `maxPages`.
  * Pro full sync můžeš zvýšit maxPages.

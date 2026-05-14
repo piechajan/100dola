@@ -13,6 +13,7 @@ import { buildOrderId, buildSpaydQrDataUrl, FUTUNATU_IBAN } from "@/lib/spayd";
 import { sendOrderConfirmation, sendOrderNotification } from "@/lib/email";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { validateDiscountCode, incrementDiscountUsage } from "@/lib/discounts";
+import { invoiceOrder, type OrderForInvoice } from "@/lib/invoicing";
 
 function isHoneypotFilled(body: unknown): boolean {
   if (!body || typeof body !== "object") return false;
@@ -255,6 +256,39 @@ export async function POST(req: NextRequest) {
       console.error("[api/orders] QR generation failed:", e);
     }
   }
+
+  // Auto-vytvoření faktury ve Fakturoidu (fire-and-forget).
+  // Faktura má variable_symbol = order.id → Fakturoid bank sync (FIO) ji při
+  // přijaté platbě automaticky označí jako zaplacenou, webhook nám pak markne order.
+  const orderForInvoice: OrderForInvoice = {
+    id,
+    contact: {
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      companyName: data.companyName ?? null,
+      companyIco: data.companyIco ?? null,
+      companyDic: data.companyDic ?? null,
+    },
+    shipping: {
+      street: data.street ?? null,
+      city: data.city ?? null,
+      zip: data.zip ?? null,
+      methodLabel: SHIPPING_LABELS[data.shippingMethod],
+    },
+    items: data.items.map((i) => ({
+      name: i.name,
+      qty: i.qty,
+      priceWithVat: i.priceWithVat,
+      vatRate: i.vatRate,
+    })),
+    shippingFee,
+    discountCode: discountCode ?? null,
+    discountAmount: discount,
+  };
+  invoiceOrder(orderForInvoice).catch((e) =>
+    console.error("[api/orders] invoiceOrder failed:", e),
+  );
 
   // Send emails (fire-and-forget)
   const emailPayload = {

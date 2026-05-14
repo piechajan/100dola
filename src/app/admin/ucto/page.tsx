@@ -87,6 +87,20 @@ export default async function AdminAccountingPage() {
             </div>
           )}
 
+          {overview.isConfigured && !process.env.FAKTUROID_WEBHOOK_SECRET && (
+            <div className="rounded-xl p-4 mb-6 bg-blue-50 border border-blue-200 text-sm text-blue-900">
+              <strong>Auto-detekce platby není aktivní.</strong> Po povolení &bdquo;Správa webhooků přes API&ldquo; ve Fakturoid → API přístupy spusť{" "}
+              <code className="font-mono">POST /api/admin/fakturoid/setup-webhook</code>, zkopíruj <code>secretKey</code> do Vercel jako{" "}
+              <code>FAKTUROID_WEBHOOK_SECRET</code> a redeploy. Pak FIO bank sync ve Fakturoidu (Nastavení → Účty).
+            </div>
+          )}
+          {overview.isConfigured && process.env.FAKTUROID_WEBHOOK_SECRET && (
+            <div className="rounded-xl p-3 mb-6 bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <strong>Auto-detekce platby aktivní</strong> · Fakturoid bank sync → webhook → auto-status. Hotovostní platby označuj ručně.
+            </div>
+          )}
+
           {/* KPI cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
             {[
