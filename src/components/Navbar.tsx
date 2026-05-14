@@ -100,8 +100,12 @@ export default function Navbar() {
 
               {sportOpen && (
                 <div
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-white rounded-2xl border border-[#E2E6F3] overflow-hidden"
-                  style={{ width: 620, boxShadow: "0 8px 40px rgba(26,26,46,0.13)", zIndex: 50 }}
+                  className="absolute top-full left-0 mt-3 bg-white rounded-2xl border border-[#E2E6F3] overflow-hidden"
+                  style={{
+                    width: "min(620px, calc(100vw - 3rem))",
+                    boxShadow: "0 8px 40px rgba(26,26,46,0.13)",
+                    zIndex: 50,
+                  }}
                 >
                   <div className="grid grid-cols-[1fr_1px_1fr_1px_200px]">
 
