@@ -157,22 +157,6 @@ const events: UIEvent[] = [
     photo: "/media/mtb-krivoklatsko.jpg",
     photoPosition: "50% 30%",
   },
-  {
-    id: 6,
-    slug: "omc-saturday-long",
-    title: "Open Miles Clinic — Saturday Long Ride",
-    sport: "Silnice",
-    date: "So 7. června",
-    time: "07:00",
-    location: "Praha — Sázava — Praha",
-    distance: "140 km",
-    elevation: "1 600 m",
-    difficulty: "Náročná",
-    capacity: 20,
-    filled: 12,
-    description: "Dlouhá sobotní jízda přes Posázaví. Pro ty, co chtějí pořádné kilometry.",
-    photo: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&fit=crop",
-  },
 ];
 
 const FILTERS = ["Vše", "Silnice", "Gravel", "MTB", "Skialpy", "Běžky", "Turistika", "Malaga"];
