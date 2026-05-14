@@ -7,7 +7,7 @@ const reasons = [
   {
     emoji: "📍",
     title: "Prověřené, lokální.",
-    desc: "Spolupracujeme s osvědčenými kavárnami a restauracemi v regionu — vyjížďky tam buď začínají, nebo končí. Kafe, pivo, pokec a sdílení. K pohybu pro nás patří stejně jako kola — a vznikají z toho přátelství.",
+    desc: "Spolupracujeme s osvědčenými kavárnami a restauracemi v regionu — vyjížďky tam buď začínají, nebo končí. Dobré kafe, jídlo a pivo… pokec a sdílení u nás k pohybu prostě patří.",
   },
   {
     emoji: "🏔️",
