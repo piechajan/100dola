@@ -1,0 +1,130 @@
+// Centralizovaný product katalog pro e-shop.
+// Extrahováno ze ShopLayout.tsx — single source of truth pro produkty + cart.
+//
+// Cena je vždy uváděna v Kč včetně DPH (`priceWithVat`). DPH se počítá zpětně
+// z `priceWithVat` a `vatRate`. Bulky flag rozhoduje cenu dopravy.
+
+export type VatRate = 21 | 12 | 0;
+
+export interface Product {
+  id: number;
+  slug: string;
+  name: string;
+  year: string | null;
+  brand: string;
+  categoryId: string;
+  /** Cena včetně DPH v Kč (celá čísla). */
+  priceWithVat: number;
+  /** Volitelná originální cena, pro slevy. */
+  originalPriceWithVat?: number;
+  /** Sazba DPH v procentech. Default 21 (standardní). */
+  vatRate: VatRate;
+  /** Velký balík (kola, lyže, snowboardy) — dražší doprava 400 Kč místo 100 Kč. */
+  bulky: boolean;
+  badges: string[];
+  note: string;
+  photo: string;
+  specs: string[];
+}
+
+export const PRODUCTS: Product[] = [
+  {
+    id: 1,
+    name: "Scott Addict RC 10",
+    slug: "scott-addict-rc-10-2026",
+    year: "2026",
+    brand: "scott",
+    categoryId: "silnicni-aero",
+    priceWithVat: 177550,
+    vatRate: 21,
+    bulky: true,
+    badges: ["Novinka", "Doporučuje tým"],
+    note: "Kolo, na kterém jezdíme v Malaze",
+    photo: "/media/scott-addict-rc10.png",
+    specs: ["Shimano Ultegra Di2", "Syncros Carbon 40mm", "~7 kg"],
+  },
+  {
+    id: 2,
+    name: "Gregarius Q36.5 Pro Jersey",
+    slug: "q365-gregarius-pro-jersey",
+    year: null,
+    brand: "scott",
+    categoryId: "doplnky",
+    priceWithVat: 3290,
+    vatRate: 21,
+    bulky: false,
+    badges: [],
+    note: "Dres, který jedeme my",
+    photo: "https://www.q36-5.com/media/44/51/b4/1734343420/038PRO25-GregariusQ36.5ProCyclingTeamShortsSleeveJersey-1.png",
+    specs: ["112 g (vel. M)", "4 speciální materiály", "Made in Italy"],
+  },
+  {
+    id: 3,
+    name: "Magicshine Seemee R300",
+    slug: "magicshine-seemee-r300",
+    year: "2026",
+    brand: "magicshine",
+    categoryId: "osvetleni",
+    priceWithVat: 2750,
+    originalPriceWithVat: 3190,
+    vatRate: 21,
+    bulky: false,
+    badges: ["Buď vidět", "Novinka"],
+    note: "Funkce jako Garmin Varia + USB-C. Za zlomek ceny.",
+    photo: "/media/seemee-r300.jpg",
+    specs: ["Radar 140 m dozadu", "ANT+ / Bluetooth", "100 h výdrž, USB-C"],
+  },
+  {
+    id: 4,
+    name: "Dynastar M-Vertical 88 Open",
+    slug: "dynastar-m-vertical-88-open-2026",
+    year: "2026",
+    brand: "scott",
+    categoryId: "skialpy-lyze",
+    priceWithVat: 20990,
+    vatRate: 21,
+    bulky: true,
+    badges: ["Novinka"],
+    note: "Skialpová sezóna s Open Miles Clinic",
+    photo: "https://www.dynastar-lange.com/dw/image/v2/BJJZ_PRD/on/demandware.static/-/Sites-rossignol-catalog/default/dw966b7994/images/large/DANM301_000_72DPI_01.jpg",
+    specs: ["88mm waist", "1.18 kg / lyži", "Paulownia core"],
+  },
+  {
+    id: 5,
+    name: "Sponser ISO Drink Red Orange",
+    slug: "sponser-iso-drink-red-orange",
+    year: null,
+    brand: "sponser",
+    categoryId: "vyziva-iontaky",
+    priceWithVat: 650,
+    vatRate: 21,
+    bulky: false,
+    badges: ["Doporučuje tým"],
+    note: "Isotonický nápoj pro dlouhé výjezdy. Osvědčený ve Španělsku.",
+    photo: "https://sponser.com/cdn/shop/files/Isotonic_1000g_Red-Orange_2048x.png?v=1768564139",
+    specs: ["1 000 g · ~19 porcí", "Isotonický · multi-carb · elektrolyty", "Vegan · bez laktózy · bez lepku"],
+  },
+];
+
+export function getProductBySlug(slug: string): Product | undefined {
+  return PRODUCTS.find((p) => p.slug === slug);
+}
+
+export function getProductById(id: number): Product | undefined {
+  return PRODUCTS.find((p) => p.id === id);
+}
+
+/**
+ * Rozpočítá cenu vč. DPH na (bez DPH, DPH). Vstup je číslo s 2 desetinnými místy přesnosti,
+ * výstup zaokrouhleno na celé Kč podle pravidel účetnictví (cena s DPH zůstává exaktní).
+ */
+export function splitVat(priceWithVat: number, vatRate: VatRate): { withVat: number; withoutVat: number; vatAmount: number } {
+  const withoutVat = Math.round(priceWithVat / (1 + vatRate / 100));
+  const vatAmount = priceWithVat - withoutVat;
+  return { withVat: priceWithVat, withoutVat, vatAmount };
+}
+
+/** Naformátuje cenu jako "1 799 Kč" (s úzkou mezerou v tisících). */
+export function formatPrice(amount: number): string {
+  return new Intl.NumberFormat("cs-CZ", { maximumFractionDigits: 0 }).format(amount) + " Kč";
+}
