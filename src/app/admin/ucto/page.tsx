@@ -70,6 +70,12 @@ export default async function AdminAccountingPage() {
               >
                 Objednávky →
               </Link>
+              <Link
+                href="/admin/ucto/nova-faktura"
+                className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-full bg-[#3B7CF4] text-white hover:opacity-90"
+              >
+                + Nová faktura
+              </Link>
               <a
                 href="https://app.fakturoid.cz/futunatu"
                 target="_blank"
