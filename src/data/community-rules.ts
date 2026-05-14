@@ -15,7 +15,7 @@ export const COMMUNITY_RULES = [
   {
     n: 3,
     title: "Drž tempo skupiny",
-    desc: "Nezávodíme, ale držíme dohodnutý průměr. Pokud rozdíl ve výkonnosti není diametrální, počkáme na kopci a vracíme se spolu. Při větším rozdílu se domluvíme předem — nebo dojedeš vlastním tempem, bez stresu.",
+    desc: "Nezávodíme, ale držíme dohodnutý průměr. Pokud rozdíl ve výkonnosti není diametrální, počkáme na kopci a vracíme se spolu.",
   },
   {
     n: 4,
