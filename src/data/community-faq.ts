@@ -1,15 +1,15 @@
 export const COMMUNITY_FAQ = [
   {
     q: "Můžu přijít, i když nikoho neznám?",
-    a: "Jasně — polovina lidí na každé akci jezdí s námi poprvé. Na startu se přivítáme, počkáme na všechny, vyrazíme spolu. Ego necháváme doma.",
+    a: "Jasně, na každé vyjížďce je s námi někdo poprvé. Na startu dáme kafe, počkáme na všechny a vyrazíme spolu. Ego necháváme doma.",
   },
   {
     q: "Jak rychle jezdíte?",
-    a: "Tempo se přizpůsobuje skupině. U lehkých akcí je průměr cca 26–28 km/h, u středních 28–32. Pokud rozdíl ve výkonnosti není diametrální, vyjedeš kopec svým tempem a nahoře tě počkáme. Vracíme se vždy spolu.",
+    a: "Průměr 26–32 km/h dle převýšení a délky trasy. Pokud rozdíl ve výkonnosti není diametrální, vyjedeš kopec svým tempem a nahoře tě počkáme. Vracíme se spolu.",
   },
   {
     q: "Stojí to něco?",
-    a: "Pravidelné social rides jsou zdarma. U speciálních akcí (skialpy s průvodcem, gravel víkend, Malaga ride) je explicitně uvedené, kolik to stojí a co je v ceně.",
+    a: "Pravidelné social rides jsou zdarma. U speciálních akcí (skialpy s průvodcem, lavinový kurz, gravel víkend, Malaga ride) je explicitně uvedené, kolik to stojí a co je v ceně.",
   },
   {
     q: "Co když nemám správné vybavení?",

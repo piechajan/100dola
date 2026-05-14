@@ -1,9 +1,28 @@
+import Image from "next/image";
+
+// Reálné fotky z OMC silničních vyjížděk. Postupně doplníme MTB / gravel / skialp.
 const photos = [
-  { src: "https://images.unsplash.com/photo-1502904550040-7534597429ae?w=600&q=80&fit=crop", alt: "Group ride", span: "col-span-1 row-span-2" },
-  { src: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&fit=crop", alt: "Road cycling" },
-  { src: "https://images.unsplash.com/photo-1544191696-15693a5c5a38?w=600&q=80&fit=crop", alt: "Gravel" },
-  { src: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=600&q=80&fit=crop", alt: "Ski touring" },
-  { src: "https://images.unsplash.com/photo-1594737625785-a6cbdabd333c?w=600&q=80&fit=crop", alt: "MTB trail" },
+  {
+    src: "/media/community/omc-road-01-start-kavarna.jpg",
+    alt: "Start vyjížďky u kavárny — Open Miles Clinic",
+    span: "row-span-2",
+  },
+  {
+    src: "/media/community/omc-road-04-stoupani.jpg",
+    alt: "Skupina cyklistů na jarním stoupání",
+  },
+  {
+    src: "/media/community/omc-road-02-espresso.jpg",
+    alt: "Espresso po dojezdu — kavárenská kultura OMC",
+  },
+  {
+    src: "/media/community/omc-road-03-skupina-silnice.jpg",
+    alt: "Skupina jede po silnici — klasická OMC vyjížďka",
+  },
+  {
+    src: "/media/community/omc-road-05-lahev-detail.jpg",
+    alt: "Detail: hydratace na vyjížďce",
+  },
 ];
 
 export default function GalleryRecap() {
@@ -18,7 +37,7 @@ export default function GalleryRecap() {
               <span className="text-xs tracking-[0.18em] uppercase font-bold text-[#2EAA6E]">Z akcí</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-black text-[#1a1a2e]">Jak to vypadá v terénu</h2>
-            <p className="mt-2 text-sm text-[#9AA3C2]">Fotky z posledních akcí. Víc v galerii.</p>
+            <p className="mt-2 text-sm text-[#9AA3C2]">Fotky ze silničních OMC vyjížděk. Postupně doplníme MTB, gravel a skialp.</p>
           </div>
           <a
             href="/community/galerie"
@@ -38,12 +57,15 @@ export default function GalleryRecap() {
               key={i}
               className={`relative overflow-hidden rounded-2xl bg-[#F0F2FA] group cursor-pointer ${i === 0 ? "row-span-2" : ""}`}
             >
-              <img
+              <Image
                 src={photo.src}
                 alt={photo.alt}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                fill
+                sizes="(max-width: 768px) 50vw, 33vw"
+                quality={80}
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 rounded-2xl" />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 rounded-2xl pointer-events-none" />
             </div>
           ))}
         </div>
