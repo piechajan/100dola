@@ -5,14 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart, getCartTotals } from "@/lib/cart-store";
-import { formatPrice, splitVat } from "@/data/products";
+import { formatPrice } from "@/data/products";
 import {
-  SHIPPING_LABELS,
-  PAYMENT_LABELS,
   calcShippingFee,
   isPaymentAvailable,
 } from "@/lib/orders";
 import type { ShippingMethod, PaymentMethod } from "@/lib/schemas";
+import ZasilkovnaPicker from "./ZasilkovnaPicker";
 
 const accent = "#3B7CF4";
 
@@ -316,17 +315,11 @@ export default function CheckoutForm() {
           {isZasilkovna && (
             <div className="mt-4 pt-4 border-t border-[#F0F2FA]">
               <label className={labelClass}>Pobočka Zásilkovny *</label>
-              <input
-                type="text"
+              <ZasilkovnaPicker
                 value={zasilkovnaPickup}
-                onChange={(e) => setZasilkovnaPickup(e.target.value)}
+                onChange={(display) => setZasilkovnaPickup(display)}
                 required={isZasilkovna}
-                className={inputClass}
-                placeholder="Např. Olomouc, Riegrova 23"
               />
-              <p className="text-[11px] text-[#9AA3C2] mt-1.5">
-                Zatím manuálně. Brzy přidáme widget pro výběr z mapy.
-              </p>
             </div>
           )}
         </section>
