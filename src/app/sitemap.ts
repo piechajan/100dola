@@ -16,6 +16,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/community/o-klinice",
     "/o-nas",
     "/shop",
+    "/sport",
+    "/sport/cyklistika",
+    "/sport/beh",
+    "/sport/turistika",
+    "/sport/zima",
+    "/sport/obleceni",
+    "/sport/obuv",
+    "/sport/helmy",
+    "/sport/vyziva",
+    "/sport/vybaveni",
+    "/sport/elektronika",
+    "/sport/kolekce",
   ];
 
   return routes.map((path) => ({
