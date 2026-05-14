@@ -269,7 +269,7 @@ export default function LabLeadForm() {
             className="mt-1 w-4 h-4 accent-[#1F4937]"
           />
           <span className="text-sm text-[#1a1a2e]">
-            <span className="font-semibold">Mám zájem o svoz kola po Praze.</span>{" "}
+            <span className="font-semibold">Mám zájem o svoz kola.</span>{" "}
             <span className="text-[#9AA3C2]">Cenu spočítáme individuálně podle lokality a způsobu předání.</span>
           </span>
         </label>
