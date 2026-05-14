@@ -2,7 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 import { OrderPayloadSchema, HONEYPOT_NAME } from "@/lib/schemas";
-import { calcOrderTotal, isPaymentAvailable, SHIPPING_LABELS, PAYMENT_LABELS } from "@/lib/orders";
+import {
+  calcOrderTotal,
+  isPaymentAvailable,
+  isShippingAvailable,
+  SHIPPING_LABELS,
+  PAYMENT_LABELS,
+} from "@/lib/orders";
 import { buildOrderId, buildSpaydQrDataUrl, FUTUNATU_IBAN } from "@/lib/spayd";
 import { sendOrderConfirmation, sendOrderNotification } from "@/lib/email";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
@@ -101,6 +107,17 @@ export async function POST(req: NextRequest) {
   if (!isPaymentAvailable(data.paymentMethod, data.shippingMethod)) {
     return NextResponse.json(
       { error: "Platba není kompatibilní s vybranou dopravou." },
+      { status: 400 },
+    );
+  }
+
+  // Validace: Zásilkovna nepodporuje velké balíky
+  const hasBulkyInItems = data.items.some(
+    (i) => i.bulky === true || (i.bulky === undefined && i.priceWithVat >= 5000),
+  );
+  if (!isShippingAvailable(data.shippingMethod, hasBulkyInItems)) {
+    return NextResponse.json(
+      { error: "Zásilkovna nepodporuje velké balíky (kolo, lyže). Vyber osobní vyzvednutí nebo GLS." },
       { status: 400 },
     );
   }

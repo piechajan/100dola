@@ -9,6 +9,7 @@ import { formatPrice } from "@/data/products";
 import {
   calcShippingFee,
   isPaymentAvailable,
+  isShippingAvailable,
   FREE_SHIPPING_THRESHOLD,
 } from "@/lib/orders";
 import type { ShippingMethod, PaymentMethod } from "@/lib/schemas";
@@ -95,6 +96,13 @@ export default function CheckoutForm() {
       setPaymentMethod("qr");
     }
   }, [shippingMethod, paymentMethod]);
+
+  // Auto-přepni dopravu pokud košík obsahuje bulky a aktuálně je Zásilkovna
+  useEffect(() => {
+    if (!isShippingAvailable(shippingMethod, hasBulky)) {
+      setShippingMethod("gls");
+    }
+  }, [shippingMethod, hasBulky]);
 
   const shippingFee = calcShippingFee(shippingMethod, hasBulky, subtotalWithVat);
   const discountAmount = discount?.amount || 0;
@@ -316,8 +324,8 @@ export default function CheckoutForm() {
             Termín dodání ti potvrdíme po zadání objednávky.
           </p>
           <div className="space-y-2">
-            {SHIPPING_OPTIONS.map((opt) => {
-              const fee = calcShippingFee(opt.id, hasBulky);
+            {SHIPPING_OPTIONS.filter((opt) => isShippingAvailable(opt.id, hasBulky)).map((opt) => {
+              const fee = calcShippingFee(opt.id, hasBulky, subtotalWithVat);
               const active = shippingMethod === opt.id;
               return (
                 <button
@@ -340,6 +348,11 @@ export default function CheckoutForm() {
                 </button>
               );
             })}
+            {hasBulky && (
+              <div className="rounded-xl p-3 text-[11px] bg-[#FFF7ED] text-[#7A5615] border border-[#FBD38D]">
+                <strong>Velký balík v košíku</strong> (kolo, lyže). Zásilkovna není možná — vyber osobní vyzvednutí nebo GLS.
+              </div>
+            )}
           </div>
 
           {needsAddress && (

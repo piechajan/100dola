@@ -91,3 +91,13 @@ export function isPaymentAvailable(payment: PaymentMethod, shipping: ShippingMet
   }
   return true;
 }
+
+/**
+ * Která doprava je k dispozici pro stav košíku?
+ * - Zásilkovna NEPODPORUJE velké balíky (kola, lyže) — pobočky mají size limit
+ * - Vše ostatní (personal-*, gls) podporuje vše
+ */
+export function isShippingAvailable(method: ShippingMethod, hasBulky: boolean): boolean {
+  if (method === "zasilkovna" && hasBulky) return false;
+  return true;
+}
