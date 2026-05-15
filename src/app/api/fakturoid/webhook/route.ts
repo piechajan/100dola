@@ -1,17 +1,21 @@
-// Fakturoid webhook receiver — HMAC-validated.
+// Fakturoid webhook receiver — Authorization-header validated.
 //
 // Fakturoid pošle event při změně faktury (např. `invoice_paid` po sync s FIO bank).
 // My matchneme podle variable_symbol = náš order.id a updatneme orders.status na "paid".
 //
-// Setup:
-//   1. Admin vytvoří webhook přes /api/admin/fakturoid/setup-webhook (POST)
-//   2. Endpoint vrátí `secret_key` — zkopírovat do Vercel env: FAKTUROID_WEBHOOK_SECRET
-//   3. Redeploy
+// Auth model (Fakturoid v3):
+//   - V Fakturoid UI při tvorbě webhooku se do pole "Autorizace" vloží sdílený token.
+//   - Fakturoid ho při každém POST pošle jako hlavičku `Authorization: <token>`.
+//   - My ho porovnáme se FAKTUROID_WEBHOOK_SECRET (Vercel env). Žádný HMAC.
 //
-// Header signing: Fakturoid posílá `X-Fakturoid-Hmac-Sha256` (base64) — viz docs v3.
+// Setup:
+//   1. Vygeneruj random token: `openssl rand -hex 32`
+//   2. Fakturoid → Webhooky → klikni na náš webhook → Upravit → vlož do pole "Autorizace"
+//   3. Vercel env FAKTUROID_WEBHOOK_SECRET = <stejný token>
+//   4. Redeploy
 
 import { NextRequest, NextResponse } from "next/server";
-import { createHmac, timingSafeEqual } from "crypto";
+import { timingSafeEqual } from "crypto";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { sendOrderPaidNotification } from "@/lib/email";
 
@@ -42,14 +46,11 @@ interface FakturoidWebhookPayload {
   };
 }
 
-function verifySignature(rawBody: string, signature: string | null): boolean {
-  if (!WEBHOOK_SECRET || !signature) return false;
+function verifyAuthHeader(headerValue: string | null): boolean {
+  if (!WEBHOOK_SECRET || !headerValue) return false;
   try {
-    const expected = createHmac("sha256", WEBHOOK_SECRET)
-      .update(rawBody, "utf8")
-      .digest("base64");
-    const a = Buffer.from(signature);
-    const b = Buffer.from(expected);
+    const a = Buffer.from(headerValue);
+    const b = Buffer.from(WEBHOOK_SECRET);
     if (a.length !== b.length) return false;
     return timingSafeEqual(a, b);
   } catch {
@@ -65,15 +66,11 @@ export async function POST(req: NextRequest) {
 
   const rawBody = await req.text();
 
-  // Fakturoid posílá HMAC-SHA256 podpis v hlavičce
-  const sigHeader =
-    req.headers.get("X-Fakturoid-Hmac-Sha256") ||
-    req.headers.get("x-fakturoid-hmac-sha256") ||
-    req.headers.get("X-Fakturoid-Signature");
-
-  if (!verifySignature(rawBody, sigHeader)) {
-    console.warn("[fakturoid/webhook] invalid signature");
-    return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
+  // Fakturoid v3: token z pole "Autorizace" letí jako hlavička Authorization
+  const authHeader = req.headers.get("authorization");
+  if (!verifyAuthHeader(authHeader)) {
+    console.warn("[fakturoid/webhook] invalid authorization header");
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   let payload: FakturoidWebhookPayload;
