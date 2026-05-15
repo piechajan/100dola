@@ -34,7 +34,10 @@ function webhookUrl(req: NextRequest): string {
   const envBase = process.env.NEXT_PUBLIC_BASE_URL;
   if (envBase) return `${envBase.replace(/\/$/, "")}/api/fakturoid/webhook`;
   // Fallback — z hostu z requestu, ale jen pokud je 100dola.com (aby se webhook neregistroval z localhost).
-  const host = req.headers.get("host") || "100dola.com";
+  // VŽDY používej www subdoménu — apex 100dola.com redirektuje 307 na www a webhook služby
+  // při redirectu typicky neposlají Authorization header → 401.
+  let host = req.headers.get("host") || "www.100dola.com";
+  if (host === "100dola.com") host = "www.100dola.com";
   const protocol = host.startsWith("localhost") ? "http" : "https";
   return `${protocol}://${host}/api/fakturoid/webhook`;
 }
