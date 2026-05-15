@@ -117,7 +117,7 @@ const events: UIEvent[] = [
     slug: "mala-fatra-skitour",
     title: "Malá Fatra — skitour",
     sport: "Skialpy",
-    date: "So 17. května",
+    date: "So 12. prosince",
     time: "06:00",
     location: "Malá Fatra, SK",
     distance: "18 km",
@@ -125,7 +125,7 @@ const events: UIEvent[] = [
     difficulty: "Náročná",
     capacity: 12,
     filled: 7,
-    description: "Pozdní jarní skialp v hřebenu Malé Fatry. Ideální podmínky, firn a prázdné hřebeny.",
+    description: "Otevření skialpové sezóny v hřebenu Malé Fatry. První sníh, prázdné hřebeny, dlouhý den.",
     photo: "/media/krkonose-skialpy.jpg",
   },
   {
