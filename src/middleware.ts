@@ -12,7 +12,8 @@ export function middleware(request: NextRequest) {
     pathname.startsWith("/login") ||
     pathname.startsWith("/api/auth") ||
     pathname.startsWith("/api/strava-callback") ||
-    pathname.startsWith("/api/fakturoid/webhook")
+    pathname.startsWith("/api/fakturoid/webhook") ||
+    pathname.startsWith("/api/cron/")
   ) {
     return NextResponse.next();
   }
