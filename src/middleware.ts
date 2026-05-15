@@ -11,7 +11,8 @@ export function middleware(request: NextRequest) {
   if (
     pathname.startsWith("/login") ||
     pathname.startsWith("/api/auth") ||
-    pathname.startsWith("/api/strava-callback")
+    pathname.startsWith("/api/strava-callback") ||
+    pathname.startsWith("/api/fakturoid/webhook")
   ) {
     return NextResponse.next();
   }
