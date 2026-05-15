@@ -409,7 +409,7 @@ export async function sendNewsletterConfirmation(p: {
       </div>
 
       <p style="font-size: 15px; line-height: 1.6; color: #5A6480;">
-        Tvůj e-mail máme uložený. Když přidáme novou akci (kolo, gravel, MTB, skialp, turistika), pošleme ti shrnutí dřív, než se vyplní.
+        Tvůj e-mail máme uložený. Když přidáme novou akci (kolo, gravel, MTB, skialp, turistika), pošleme ti shrnutí dřív, než se naplní.
       </p>
 
       <p style="font-size: 15px; line-height: 1.6; color: #5A6480;">
@@ -434,7 +434,7 @@ export async function sendNewsletterConfirmation(p: {
   const text = [
     `Vítej v hlídači akcí Open Miles Clinic.`,
     ``,
-    `Tvůj e-mail máme uložený. Když přidáme novou akci, pošleme ti shrnutí dřív, než se vyplní.`,
+    `Tvůj e-mail máme uložený. Když přidáme novou akci, pošleme ti shrnutí dřív, než se naplní.`,
     ``,
     `Před každou akcí, na kterou se přihlásíš, dostaneš ještě připomínku 48 hodin předem.`,
     ``,
