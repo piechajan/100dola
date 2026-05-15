@@ -12,7 +12,7 @@ export const MALAGA_BRAND = {
 export const MALAGA_FACTS = {
   flightTime: "2,5 hod z Prahy",
   sunnyDays: "300+ slunečných dní",
-  baseAirportMinutes: 0,
+  baseAirportMinutes: 10,
   winterTempRange: "15–22 °C v zimě",
   seasonLabel: "říjen–květen",
   seasonMonths: 8,
