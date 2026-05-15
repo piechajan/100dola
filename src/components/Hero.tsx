@@ -25,7 +25,7 @@ const pillars = [
     href: "/malaga",
     accentColor: "#E8431A",
     photo: "/media/malaga-event.jpg",
-    photoCrop: "object-[50%_60%]",
+    photoCrop: "object-[50%_50%]",
     overlayColor: "rgba(40,15,5,0.50)",
     instagram: "https://www.instagram.com/100dola_malaga/",
   },
