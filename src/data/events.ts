@@ -35,6 +35,9 @@ export interface Event {
   mapUrl?: string;
   stravaActivityUrl?: string;
   isPast?: boolean;
+  /** Externí URL pro CTA — pokud je nastaveno, event se nepoužívá standardní /community registrační flow, ale rovnou link sem (např. ISAAC test → /isaac-test). */
+  externalUrl?: string;
+  externalCtaLabel?: string;
 }
 
 export const SPORT_COLORS: Record<Sport, string> = {
@@ -298,6 +301,50 @@ Startujeme v 7:00 ráno ze Štefanové. Lavinové vybavení je podmínkou účas
     whoIsItFor: "Zkušení skialpinisté s lavinovým kurzem. Bez zkušeností nevhodné.",
     organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
     photo: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=1400&q=85&fit=crop",
+  },
+  {
+    id: 6,
+    slug: "isaac-test-sternberk",
+    title: "Testovací jízdy ISAAC · Šternberk",
+    sport: "Silnice",
+    date: "Pá–Ne 29.–31. května",
+    dateISO: "2026-05-29",
+    time: "9:00",
+    location: "Šternberk, náměstí",
+    locationDetail: "100dola sport · Šternberk náměstí (cíl Závodu míru v neděli)",
+    distance: "Showroom",
+    elevation: "—",
+    difficulty: "Lehká",
+    capacity: 180,
+    filled: 0,
+    description: "Testovací jízdy ISAAC kol — Meson, Element, Boson, Vitron, Kaon a Torus Xplore. Road i gravel modely. Hodinová zápůjčka zdarma. Vyber si kolo a termín v rezervačním systému.",
+    longDescription: `Tři dny testovacích jízd ISAAC v centru dění — náměstí ve Šternberku, kde v neděli končí **Závod míru**. Hodinová zápůjčka zdarma, road i gravel modely.
+
+**Termíny:**
+- **Pátek 29. 5.** — 9:00 až 16:00 (7 slotů)
+- **Sobota 30. 5.** — 14:00 až 17:00 (3 sloty)
+- **Neděle 31. 5.** — 9:00 až 17:00 (8 slotů)
+
+**Co najdeš:**
+- 10 kol — Meson, Element, Boson, Vitron (road), Kaon, Torus Xplore (gravel)
+- Skupiny pohonu Ultegra Di2, 105 Di2, GRX 610/820, GRX 827 Di2
+- Velikosti M a L
+
+**Před vyzvednutím** podepíšeš krátký protokol o zápůjčce (vyrobíme my, ty jen podepíšeš + doneseš doklad totožnosti). Po dobu zápůjčky plně odpovídáš za kolo.
+
+Rezervační systém ti pošle potvrzení s odkazem do Google kalendáře a ráno v den testu připomínku.`,
+    whatToBring: [
+      "Helma (povinná)",
+      "Cyklistické oblečení",
+      "Vlastní pedály (kola jsou bez nich, nasadíme tvoje)",
+      "Cyklistické tretry vázané na tvoje pedály",
+      "Doklad totožnosti (kvůli protokolu)",
+    ],
+    whoIsItFor: "Pro každého, kdo zvažuje koupi nového road nebo gravel kola — a chce si ho zkusit než utratí 80 000 Kč a víc.",
+    organizer: { name: "Jan Piecha", role: "100dola sport" },
+    photo: "/media/sport-hero.jpg",
+    externalUrl: "/isaac-test",
+    externalCtaLabel: "Rezervovat termín",
   },
 ];
 

@@ -32,6 +32,22 @@ export default function IsaacTestPage() {
               Road a gravel modely Meson, Element, Boson, Vitron, Kaon a Torus Xplore.
               Hodinová zápůjčka zdarma — vyber si kolo a termín. Pátek 29. 5. až neděle 31. 5. 2026.
             </p>
+            <div className="mt-5 inline-flex items-start gap-2 px-4 py-3 rounded-xl bg-[#FFF1EA] border border-[#FBC9A8] text-sm text-[#9B3D17] max-w-2xl">
+              <span className="text-base">📍</span>
+              <div>
+                <strong>Šternberk, náměstí.</strong> Stánek 100dola sport — v cíli{" "}
+                <a
+                  href="https://www.zavodmiru.cz/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold underline"
+                >
+                  Závodu míru
+                </a>{" "}
+                (neděle 31. 5.). Tři dny závodního víkendu na náměstí — ty si zatím zkusíš
+                nové kolo.
+              </div>
+            </div>
             <div className="grid grid-cols-3 gap-3 mt-8 max-w-2xl">
               <div className="bg-[#F7F9FF] rounded-xl p-4">
                 <div className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold mb-1">Pátek</div>

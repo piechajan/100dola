@@ -23,6 +23,8 @@ interface UIEvent {
   stravaUrl?: string;
   stravaActivityUrl?: string;
   isPast?: boolean;
+  externalUrl?: string;
+  externalCtaLabel?: string;
 }
 
 const SPORT_COLORS: Record<string, string> = {
@@ -127,6 +129,24 @@ const events: UIEvent[] = [
     filled: 7,
     description: "Otevření skialpové sezóny v hřebenu Malé Fatry. První sníh, prázdné hřebeny, dlouhý den.",
     photo: "/media/krkonose-skialpy.jpg",
+  },
+  {
+    id: 6,
+    slug: "isaac-test-sternberk",
+    title: "Testovací jízdy ISAAC · Šternberk",
+    sport: "Silnice",
+    date: "Pá–Ne 29.–31. května",
+    time: "9:00",
+    location: "Šternberk náměstí (cíl Závodu míru)",
+    distance: "Showroom",
+    elevation: "—",
+    difficulty: "Lehká",
+    capacity: 180,
+    filled: 0,
+    description: "Tři dny testovacích jízd ISAAC v centru dění — 10 road a gravel modelů, hodinová zápůjčka zdarma. Cíl Závodu míru v neděli.",
+    photo: "/media/sport-hero.jpg",
+    externalUrl: "/isaac-test",
+    externalCtaLabel: "Rezervovat termín",
   },
   {
     id: 5,
@@ -413,7 +433,11 @@ function EventCard({ event }: { event: UIEvent }) {
             className="w-full py-2.5 text-sm font-bold rounded-xl text-white transition-all group-hover:shadow-lg"
             style={{ backgroundColor: color, boxShadow: `0 2px 8px ${color}25` }}
           >
-            {hasCapacity && spotsLeft <= 0 ? "Čekací listina" : "Přihlásit se"}
+            {event.externalCtaLabel
+              ? event.externalCtaLabel
+              : hasCapacity && spotsLeft <= 0
+              ? "Čekací listina"
+              : "Přihlásit se"}
           </button>
         )}
       </div>
@@ -430,6 +454,14 @@ function EventCard({ event }: { event: UIEvent }) {
       >
         {cardInner}
       </a>
+    );
+  }
+
+  if (event.externalUrl) {
+    return (
+      <Link href={event.externalUrl} className={cardClass}>
+        {cardInner}
+      </Link>
     );
   }
 

@@ -793,7 +793,7 @@ export interface IsaacTestEmailPayload {
   notes?: string;
 }
 
-const ISAAC_LOCATION = "100dola sport · Místo upřesníme den předem";
+const ISAAC_LOCATION = "100dola sport, náměstí Šternberk (cíl Závodu míru v neděli)";
 const BRING_LIST_TEXT = [
   "• Helma (povinná)",
   "• Cyklistické oblečení",
