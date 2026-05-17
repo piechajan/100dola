@@ -776,3 +776,99 @@ export async function sendOrderPaidNotification(
     console.error("[email] sendOrderPaidNotification (admin) failed:", e);
   }
 }
+
+// ── ISAAC test rezervace ─────────────────────────────────────────────────────
+
+export interface IsaacTestEmailPayload {
+  bike: string;
+  slotLabel: string;
+  slotStart: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  notes?: string;
+}
+
+export async function sendIsaacTestConfirmation(p: IsaacTestEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = `Rezervace testovací jízdy ISAAC — ${p.slotLabel}`;
+  const text = [
+    `Dobrý den ${escapeHtml(p.fullName)},`,
+    ``,
+    `vaše rezervace na testovací jízdu ISAAC kola je potvrzená:`,
+    ``,
+    `Kolo:    ${p.bike}`,
+    `Termín:  ${p.slotLabel}`,
+    `Délka:   1 hodina`,
+    ``,
+    `Před vyzvednutím kola podepíšete krátký protokol o zápůjčce.`,
+    `Doneste si prosím doklad totožnosti (OP / pas).`,
+    ``,
+    `Po dobu zápůjčky plně odpovídáte za kolo — zacházejte s ním prosím opatrně.`,
+    ``,
+    `Pokud byste přijít nemohl/a, ozvi se prosím co nejdříve, aby slot mohl využít někdo jiný.`,
+    ``,
+    `Jan Piecha`,
+    `100dola sport · +420 739 045 057`,
+  ].join("\n");
+
+  const html = `
+    <div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1a1a2e">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#3B7CF4;font-weight:700;margin-bottom:8px">
+        Testovací jízda ISAAC
+      </div>
+      <h2 style="margin:0 0 16px;font-size:20px">Rezervace potvrzená</h2>
+      <p style="margin:0 0 16px;font-size:14px;line-height:1.5;color:#5A6480">
+        Dobrý den ${escapeHtml(p.fullName)}, vaše rezervace je zapsaná.
+      </p>
+      <table style="width:100%;border-collapse:collapse;font-size:14px;margin:16px 0;background:#F7F9FF;border-radius:12px">
+        <tr><td style="padding:10px 14px;color:#9AA3C2;width:90px">Kolo</td><td style="padding:10px 14px;font-weight:700">${escapeHtml(p.bike)}</td></tr>
+        <tr><td style="padding:10px 14px;color:#9AA3C2;border-top:1px solid #E2E6F3">Termín</td><td style="padding:10px 14px;font-weight:700;border-top:1px solid #E2E6F3">${escapeHtml(p.slotLabel)}</td></tr>
+        <tr><td style="padding:10px 14px;color:#9AA3C2;border-top:1px solid #E2E6F3">Délka</td><td style="padding:10px 14px;border-top:1px solid #E2E6F3">1 hodina</td></tr>
+      </table>
+      <div style="background:#FFF8E7;border:1px solid #F5D78E;border-radius:12px;padding:14px;font-size:13px;color:#5A4500;line-height:1.5;margin:16px 0">
+        <strong>Před vyzvednutím:</strong> podepíšete krátký protokol o zápůjčce. Doneste si prosím doklad totožnosti (OP / pas). Po dobu zápůjčky plně odpovídáte za kolo.
+      </div>
+      <p style="margin:24px 0 0;font-size:13px;color:#9AA3C2">
+        Jan Piecha · 100dola sport · +420 739 045 057
+      </p>
+    </div>
+  `;
+
+  try {
+    await getResend().emails.send({ from: FROM_EMAIL, to: p.email, subject, text, html });
+  } catch (e) {
+    console.error("[email] sendIsaacTestConfirmation failed:", e);
+  }
+}
+
+export async function sendIsaacTestNotification(p: IsaacTestEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = `🚲 Nová ISAAC rezervace — ${p.fullName} · ${p.slotLabel}`;
+  const text = [
+    `Nová rezervace testovací jízdy ISAAC`,
+    ``,
+    `Klient:  ${p.fullName} · ${p.email} · ${p.phone}`,
+    `Kolo:    ${p.bike}`,
+    `Termín:  ${p.slotLabel}`,
+    p.notes ? `Poznámka:\n${p.notes}` : "",
+    ``,
+    `→ https://www.100dola.com/admin/isaac-test`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: NOTIFY_EMAIL,
+      replyTo: p.email,
+      subject,
+      text,
+    });
+  } catch (e) {
+    console.error("[email] sendIsaacTestNotification failed:", e);
+  }
+}

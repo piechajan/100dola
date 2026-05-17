@@ -13,7 +13,10 @@ export function middleware(request: NextRequest) {
     pathname.startsWith("/api/auth") ||
     pathname.startsWith("/api/strava-callback") ||
     pathname.startsWith("/api/fakturoid/webhook") ||
-    pathname.startsWith("/api/cron/")
+    pathname.startsWith("/api/cron/") ||
+    pathname === "/isaac-test" ||
+    pathname.startsWith("/isaac-test/") ||
+    pathname.startsWith("/api/isaac-test/")
   ) {
     return NextResponse.next();
   }
