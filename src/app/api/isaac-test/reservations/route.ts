@@ -9,7 +9,9 @@ import {
 import {
   sendIsaacTestConfirmation,
   sendIsaacTestNotification,
+  scheduleIsaacTestReminder,
 } from "@/lib/email";
+import { randomBytes } from "crypto";
 
 function honeypotTriggered(body: unknown): boolean {
   if (!body || typeof body !== "object") return false;
@@ -44,13 +46,11 @@ export async function POST(req: NextRequest) {
   }
   const data = parsed.data;
 
-  // Validate bike exists
   const bike = getBikeBySlug(data.bikeSlug);
   if (!bike) {
     return NextResponse.json({ error: "Neznámé kolo" }, { status: 400 });
   }
 
-  // Validate slot exists
   const slot = ISAAC_SLOTS.find((s) => s.slotStart === data.slotStart);
   if (!slot) {
     return NextResponse.json({ error: "Neplatný čas" }, { status: 400 });
@@ -66,27 +66,30 @@ export async function POST(req: NextRequest) {
   const sb = getSupabase();
   const label = bikeLabel(bike);
 
-  const { error } = await sb.from("isaac_test_reservations").insert({
-    bike_slug: bike.slug,
-    bike_label: label,
-    slot_start: slot.slotStart,
-    slot_end: slot.slotEnd,
-    slot_day_label: `${slot.dayLabel} ${slot.label}`,
-    full_name: data.fullName,
-    email: data.email,
-    phone: data.phone,
-    consent_responsibility: data.consentResponsibility,
-    consent_protocol: data.consentProtocol,
-    notes: data.notes || null,
-  });
+  // 1) Insert rezervace
+  const { data: inserted, error } = await sb
+    .from("isaac_test_reservations")
+    .insert({
+      bike_slug: bike.slug,
+      bike_label: label,
+      slot_start: slot.slotStart,
+      slot_end: slot.slotEnd,
+      slot_day_label: `${slot.dayLabel} ${slot.label}`,
+      full_name: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      consent_terms: data.consentTerms,
+      consent_gdpr: data.consentGdpr,
+      subscribe_newsletter: data.subscribeNewsletter ?? false,
+      notes: data.notes || null,
+    })
+    .select("id")
+    .single();
 
   if (error) {
-    // 23505 = UNIQUE constraint violation (someone booked this slot+bike already)
     if (error.code === "23505") {
       return NextResponse.json(
-        {
-          error: "Tento slot byl mezitím obsazený. Vyber prosím jiný čas.",
-        },
+        { error: "Tento slot byl mezitím obsazený. Vyber prosím jiný čas." },
         { status: 409 },
       );
     }
@@ -97,20 +100,61 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Fire-and-forget emails
+  const reservationId = inserted.id as number;
+
+  // 2) Newsletter opt-in (pokud souhlasil)
+  if (data.subscribeNewsletter) {
+    try {
+      const token = randomBytes(16).toString("hex");
+      await sb
+        .from("newsletter_subscribers")
+        .upsert(
+          {
+            email: data.email,
+            source: "isaac-test",
+            unsubscribe_token: token,
+          },
+          { onConflict: "email" },
+        );
+    } catch (e) {
+      console.warn("[isaac-test] newsletter opt-in failed:", e);
+    }
+  }
+
+  // 3) Emails
   const emailPayload = {
+    reservationId,
     bike: label,
     slotLabel: `${slot.dayLabel} · ${slot.label}`,
     slotStart: slot.slotStart,
+    slotEnd: slot.slotEnd,
     fullName: data.fullName,
     email: data.email,
     phone: data.phone,
     notes: data.notes,
   };
+
+  // Confirm (immediate) + admin notif (immediate) — fire-and-forget
   Promise.allSettled([
     sendIsaacTestConfirmation(emailPayload),
     sendIsaacTestNotification(emailPayload),
   ]);
+
+  // 4) Schedule reminder na 8:00 v den testu (Resend scheduled_at)
+  scheduleIsaacTestReminder(emailPayload)
+    .then(async (resendId) => {
+      if (resendId) {
+        try {
+          await sb
+            .from("isaac_test_reservations")
+            .update({ reminder_email_id: resendId })
+            .eq("id", reservationId);
+        } catch (e) {
+          console.warn("[isaac-test] save reminder_email_id failed:", e);
+        }
+      }
+    })
+    .catch((e) => console.warn("[isaac-test] schedule reminder failed:", e));
 
   return NextResponse.json({
     ok: true,
@@ -121,7 +165,6 @@ export async function POST(req: NextRequest) {
   });
 }
 
-// GET — dostupnost slotů (veřejné, nepotřebuje auth — pro pre-fill UI)
 export async function GET() {
   if (!isSupabaseConfigured()) {
     return NextResponse.json({ taken: [] });

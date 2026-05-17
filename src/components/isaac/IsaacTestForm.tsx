@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import type { IsaacBike, SlotDef } from "@/data/isaac-bikes";
 import { bikeLabel } from "@/data/isaac-bikes";
+import BikeGalleryModal from "./BikeGalleryModal";
 
 interface Day {
   date: string;
@@ -24,12 +26,14 @@ interface Props {
 export default function IsaacTestForm({ bikes, days }: Props) {
   const [selectedBike, setSelectedBike] = useState<string | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+  const [galleryBike, setGalleryBike] = useState<IsaacBike | null>(null);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
-  const [consentResp, setConsentResp] = useState(false);
-  const [consentProto, setConsentProto] = useState(false);
+  const [consentTerms, setConsentTerms] = useState(false);
+  const [consentGdpr, setConsentGdpr] = useState(false);
+  const [subscribeNewsletter, setSubscribeNewsletter] = useState(false);
   const [taken, setTaken] = useState<TakenSlot[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<{ ok: boolean; message: string } | null>(null);
@@ -60,8 +64,8 @@ export default function IsaacTestForm({ bikes, days }: Props) {
     fullName.trim().length >= 2 &&
     email.includes("@") &&
     phone.trim().length >= 6 &&
-    consentResp &&
-    consentProto;
+    consentTerms &&
+    consentGdpr;
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -79,8 +83,9 @@ export default function IsaacTestForm({ bikes, days }: Props) {
           email,
           phone,
           notes: notes || undefined,
-          consentResponsibility: true,
-          consentProtocol: true,
+          consentTerms: true,
+          consentGdpr: true,
+          subscribeNewsletter,
         }),
       });
       const data = await res.json();
@@ -105,8 +110,9 @@ export default function IsaacTestForm({ bikes, days }: Props) {
       setEmail("");
       setPhone("");
       setNotes("");
-      setConsentResp(false);
-      setConsentProto(false);
+      setConsentTerms(false);
+      setConsentGdpr(false);
+      setSubscribeNewsletter(false);
       // Refresh taken slots
       fetch("/api/isaac-test/reservations")
         .then((r) => r.json())
@@ -153,6 +159,7 @@ export default function IsaacTestForm({ bikes, days }: Props) {
   };
 
   return (
+    <>
     <form onSubmit={submit} className="space-y-6">
       {result && !result.ok && (
         <div className="rounded-xl p-4 bg-red-50 border border-red-200 text-sm text-red-900">
@@ -192,6 +199,7 @@ export default function IsaacTestForm({ bikes, days }: Props) {
                   setSelectedSlot(null);
                 }
               }}
+              onOpenGallery={() => setGalleryBike(b)}
             />
           ))}
         </div>
@@ -209,6 +217,7 @@ export default function IsaacTestForm({ bikes, days }: Props) {
                   setSelectedSlot(null);
                 }
               }}
+              onOpenGallery={() => setGalleryBike(b)}
             />
           ))}
         </div>
@@ -298,7 +307,7 @@ export default function IsaacTestForm({ bikes, days }: Props) {
             className="px-4 py-3 rounded-xl border border-[#E2E6F3] text-sm focus:outline-none focus:border-[#3B7CF4]"
           />
           <textarea
-            placeholder="Poznámka — výška, váha, požadavek na sedlo (volitelné)"
+            placeholder="Doplnění (volitelné)"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             rows={2}
@@ -311,25 +320,50 @@ export default function IsaacTestForm({ bikes, days }: Props) {
           <label className="flex items-start gap-3 text-sm text-[#1a1a2e] cursor-pointer">
             <input
               type="checkbox"
-              checked={consentResp}
-              onChange={(e) => setConsentResp(e.target.checked)}
+              checked={consentTerms}
+              onChange={(e) => setConsentTerms(e.target.checked)}
               className="mt-1 w-4 h-4 flex-shrink-0"
             />
             <span>
-              Beru na vědomí, že <strong>po dobu zápůjčky plně odpovídám za kolo</strong> a případné
-              poškození / ztrátu hradím v plné výši.
+              Souhlasím s{" "}
+              <Link
+                href="/isaac-test/podminky"
+                target="_blank"
+                className="text-[#3B7CF4] font-bold hover:underline"
+              >
+                podmínkami zápůjčky
+              </Link>{" "}
+              — plnou odpovědností za kolo po dobu testu a podpisem protokolu před vyzvednutím.
             </span>
           </label>
           <label className="flex items-start gap-3 text-sm text-[#1a1a2e] cursor-pointer">
             <input
               type="checkbox"
-              checked={consentProto}
-              onChange={(e) => setConsentProto(e.target.checked)}
+              checked={consentGdpr}
+              onChange={(e) => setConsentGdpr(e.target.checked)}
               className="mt-1 w-4 h-4 flex-shrink-0"
             />
             <span>
-              Souhlasím, že před vyzvednutím podepíšu <strong>protokol o zápůjčce</strong> a
-              prokážu se dokladem totožnosti.
+              Souhlasím se{" "}
+              <Link
+                href="/zasady-cookies"
+                target="_blank"
+                className="text-[#3B7CF4] font-bold hover:underline"
+              >
+                zpracováním osobních údajů
+              </Link>{" "}
+              pro účely rezervace a komunikace o ní.
+            </span>
+          </label>
+          <label className="flex items-start gap-3 text-sm text-[#5A6480] cursor-pointer">
+            <input
+              type="checkbox"
+              checked={subscribeNewsletter}
+              onChange={(e) => setSubscribeNewsletter(e.target.checked)}
+              className="mt-1 w-4 h-4 flex-shrink-0"
+            />
+            <span>
+              Chci občas dostat e-mail o nových akcích, kolech a vychytávkách 100dola sport (volitelné).
             </span>
           </label>
         </div>
@@ -358,10 +392,13 @@ export default function IsaacTestForm({ bikes, days }: Props) {
       </section>
 
       <p className="text-xs text-[#9AA3C2] text-center">
-        Po odeslání rezervace ti přijde potvrzovací e-mail. Pokud nemůžeš přijít, ozvi se prosím
-        co nejdříve, ať slot může využít někdo jiný.
+        Po odeslání rezervace ti přijde potvrzovací e-mail s odkazem do Google Kalendáře.
+        Ráno v den testu ti pošleme připomínku. Pokud nemůžeš přijít, ozvi se co nejdřív.
       </p>
     </form>
+
+    <BikeGalleryModal bike={galleryBike} onClose={() => setGalleryBike(null)} />
+    </>
   );
 }
 
@@ -369,39 +406,63 @@ function BikeCard({
   bike,
   selected,
   onSelect,
+  onOpenGallery,
 }: {
   bike: IsaacBike;
   selected: boolean;
   onSelect: () => void;
+  onOpenGallery: () => void;
 }) {
+  const hasPhotos = bike.photos.length > 0;
   return (
-    <button
-      type="button"
-      onClick={onSelect}
-      className={`flex items-center gap-3 p-3 rounded-xl text-left transition border-2 ${
+    <div
+      className={`flex items-center gap-3 p-3 rounded-xl transition border-2 ${
         selected
           ? "border-[#3B7CF4] bg-[#F7F9FF]"
           : "border-transparent bg-[#F7F9FF] hover:border-[#E2E6F3]"
       }`}
     >
-      <div
-        className="w-12 h-12 rounded-lg flex-shrink-0 border border-[#E2E6F3]"
-        style={{ backgroundColor: bike.colorHex }}
-        aria-hidden
-      />
-      <div className="min-w-0">
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          onOpenGallery();
+        }}
+        className="relative w-12 h-12 rounded-lg flex-shrink-0 border border-[#E2E6F3] overflow-hidden group/photo"
+        aria-label={`Galerie ${bike.model} ${bike.color}`}
+      >
+        {hasPhotos ? (
+          <Image
+            src={bike.photos[0]}
+            alt=""
+            fill
+            className="object-cover"
+            sizes="48px"
+          />
+        ) : (
+          <div className="w-full h-full" style={{ backgroundColor: bike.colorHex }} aria-hidden />
+        )}
+        <div className="absolute inset-0 bg-black/0 group-hover/photo:bg-black/30 transition flex items-center justify-center text-white opacity-0 group-hover/photo:opacity-100 text-[10px] font-bold">
+          {hasPhotos ? "Galerie" : "Náhled"}
+        </div>
+      </button>
+      <button
+        type="button"
+        onClick={onSelect}
+        className="flex-1 min-w-0 text-left"
+      >
         <div className="text-sm font-black text-[#1a1a2e] truncate">
           {bike.model} <span className="font-normal text-[#5A6480]">·</span> {bike.color}
         </div>
         <div className="text-xs text-[#5A6480] truncate">
           {bike.groupset} · vel. {bike.size}
         </div>
-      </div>
+      </button>
       {selected && (
-        <div className="ml-auto text-[#3B7CF4] text-lg" aria-hidden>
+        <div className="text-[#3B7CF4] text-lg flex-shrink-0" aria-hidden>
           ✓
         </div>
       )}
-    </button>
+    </div>
   );
 }

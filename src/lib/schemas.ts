@@ -146,13 +146,14 @@ export const OrderPayloadSchema = z
 export const IsaacTestPayloadSchema = z
   .object({
     bikeSlug: z.string().min(3).max(80),
-    slotStart: z.string().datetime(), // ISO timestamp
+    slotStart: z.string().datetime(),
     fullName: z.string().min(2).max(120).trim(),
     email: z.email().max(254).toLowerCase(),
     phone: z.string().min(6).max(40).trim(),
     notes: z.string().max(500).trim().optional(),
-    consentResponsibility: z.literal(true),
-    consentProtocol: z.literal(true),
+    consentTerms: z.literal(true),
+    consentGdpr: z.literal(true),
+    subscribeNewsletter: z.boolean().optional().default(false),
   })
   .merge(Honeypot);
 

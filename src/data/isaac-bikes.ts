@@ -1,6 +1,26 @@
 // ISAAC bike test fleet — pátek 29.5. až neděle 31.5. 2026.
 // Sloty po 1 hodině, kapacita 1 osoba na slot × kolo.
 
+export const ISAAC_BRAND = {
+  origin: "Geleen, jih Nizozemska",
+  founded: 2001,
+  hero: "Holandská boutique značka. Carbon rámy v monocoque konstrukci od roku 2001.",
+  bullets: [
+    "Sídlo a vývoj — Geleen, Limburg (NL). Plně inhouse návrh.",
+    "Specializace — monocoque carbon, ruční laminace, geometrie pro evropské vytrvalce.",
+    "Záběr — silnice, endurance a gravel. Modely Meson, Element, Boson, Vitron, Kaon, Torus.",
+    "Filozofie — značka pro lidi, kteří kolo otevírají, ne jen kupují. Detail před logem.",
+  ],
+  link: "https://www.isaac-cycle.com",
+} as const;
+
+export const ISAAC_BRING = [
+  { icon: "⛑", label: "Helma", required: true, hint: "povinná — bez ní jízda nemůže proběhnout" },
+  { icon: "🚴", label: "Cyklistické oblečení", required: false, hint: "trika, kraťasy / dres — dle počasí" },
+  { icon: "🪛", label: "Vlastní pedály", required: false, hint: "kola jsou bez pedálů, nasadíme tvoje SPD-SL / SPD / flatky" },
+  { icon: "👟", label: "Tretry", required: false, hint: "vázané na tvůj typ pedálů" },
+] as const;
+
 export type BikeCategory = "road" | "gravel";
 
 export interface IsaacBike {
@@ -12,8 +32,9 @@ export interface IsaacBike {
   category: BikeCategory;
   /** Barva pro vizualizaci karty (CSS hex). */
   colorHex: string;
-  /** Volitelná foto cesta v /public/media — později dodá Jan. */
-  photo?: string;
+  /** Galerie fotek v /public/media/isaac/<slug>/. První je thumbnail.
+   *  Když je array prázdná, používá se barevný chip jako fallback. */
+  photos: string[];
 }
 
 export const ISAAC_BIKES: IsaacBike[] = [
@@ -26,6 +47,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "Ultegra Di2",
     category: "road",
     colorHex: "#E8E6DD",
+    photos: [],
   },
   {
     slug: "meson-ruby-red-m",
@@ -35,6 +57,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "Ultegra Di2",
     category: "road",
     colorHex: "#9B1C2A",
+    photos: [],
   },
   {
     slug: "element-granite-grey-l",
@@ -44,6 +67,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "Ultegra Di2",
     category: "road",
     colorHex: "#5A5A5A",
+    photos: [],
   },
 
   // Road — 105 Di2
@@ -55,6 +79,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "105 Di2",
     category: "road",
     colorHex: "#E8E6DD",
+    photos: [],
   },
   {
     slug: "boson-sonic-silver-l",
@@ -64,6 +89,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "105 Di2",
     category: "road",
     colorHex: "#B8B8BE",
+    photos: [],
   },
   {
     slug: "vitron-onyx-black-m",
@@ -73,6 +99,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "105 Di2",
     category: "road",
     colorHex: "#1a1a1a",
+    photos: [],
   },
   {
     slug: "vitron-navy-blue-l",
@@ -82,6 +109,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "105 Di2",
     category: "road",
     colorHex: "#1F2D4A",
+    photos: [],
   },
 
   // Gravel
@@ -93,6 +121,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "GRX 610/820 2×12",
     category: "gravel",
     colorHex: "#0F4A8C",
+    photos: [],
   },
   {
     slug: "torus-xplore-blast-bronze-m",
@@ -102,6 +131,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "GRX 827 Di2 1×12",
     category: "gravel",
     colorHex: "#8C6A3F",
+    photos: [],
   },
   {
     slug: "torus-xplore-slade-blue-l",
@@ -111,6 +141,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "GRX 827 Di2 1×12",
     category: "gravel",
     colorHex: "#465C7E",
+    photos: [],
   },
 ];
 

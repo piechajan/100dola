@@ -779,22 +779,58 @@ export async function sendOrderPaidNotification(
 
 // ── ISAAC test rezervace ─────────────────────────────────────────────────────
 
+import { buildIcs, buildGoogleCalendarUrl } from "./isaac-calendar";
+
 export interface IsaacTestEmailPayload {
+  reservationId: number;
   bike: string;
   slotLabel: string;
   slotStart: string;
+  slotEnd: string;
   fullName: string;
   email: string;
   phone: string;
   notes?: string;
 }
 
+const ISAAC_LOCATION = "100dola sport · Místo upřesníme den předem";
+const BRING_LIST_TEXT = [
+  "• Helma (povinná)",
+  "• Cyklistické oblečení",
+  "• Vlastní pedály",
+  "• Cyklistické tretry (vázané na vaše pedály)",
+];
+
 export async function sendIsaacTestConfirmation(p: IsaacTestEmailPayload): Promise<void> {
   if (!isEmailConfigured()) return;
 
+  const eventDesc = [
+    `Kolo: ${p.bike}`,
+    `Délka: 1 hodina`,
+    ``,
+    `Co s sebou:`,
+    ...BRING_LIST_TEXT,
+    ``,
+    `Před vyzvednutím podepíšete protokol o zápůjčce (vyrobíme my, ty jen podepíšeš).`,
+    `Doneste si doklad totožnosti.`,
+    ``,
+    `Kontakt: Jan Piecha · +420 739 045 057 · piecha.jan@gmail.com`,
+  ].join("\\n");
+
+  const calEvent = {
+    uid: `isaac-${p.reservationId}@100dola.com`,
+    title: `Testovací jízda ISAAC — ${p.bike}`,
+    description: eventDesc,
+    location: ISAAC_LOCATION,
+    startIso: p.slotStart,
+    endIso: p.slotEnd,
+  };
+  const ics = buildIcs(calEvent);
+  const gcalUrl = buildGoogleCalendarUrl(calEvent);
+
   const subject = `Rezervace testovací jízdy ISAAC — ${p.slotLabel}`;
   const text = [
-    `Dobrý den ${escapeHtml(p.fullName)},`,
+    `Dobrý den ${p.fullName},`,
     ``,
     `vaše rezervace na testovací jízdu ISAAC kola je potvrzená:`,
     ``,
@@ -802,12 +838,19 @@ export async function sendIsaacTestConfirmation(p: IsaacTestEmailPayload): Promi
     `Termín:  ${p.slotLabel}`,
     `Délka:   1 hodina`,
     ``,
-    `Před vyzvednutím kola podepíšete krátký protokol o zápůjčce.`,
-    `Doneste si prosím doklad totožnosti (OP / pas).`,
+    `Co si vezměte s sebou:`,
+    ...BRING_LIST_TEXT,
     ``,
-    `Po dobu zápůjčky plně odpovídáte za kolo — zacházejte s ním prosím opatrně.`,
+    `Přidat do kalendáře:`,
+    `Google: ${gcalUrl}`,
+    `(Pro Apple / Outlook použijte přiložený .ics soubor.)`,
     ``,
-    `Pokud byste přijít nemohl/a, ozvi se prosím co nejdříve, aby slot mohl využít někdo jiný.`,
+    `Před vyzvednutím podepíšete krátký protokol o zápůjčce — vytiskneme ho za vás,`,
+    `přijdete s dokladem totožnosti. Po dobu zápůjčky plně odpovídáte za kolo.`,
+    ``,
+    `Ráno v 8:00 v den testu vám připomeneme detail e-mailem.`,
+    ``,
+    `Pokud byste přijít nemohl/a, ozvi se prosím co nejdřív.`,
     ``,
     `Jan Piecha`,
     `100dola sport · +420 739 045 057`,
@@ -827,9 +870,32 @@ export async function sendIsaacTestConfirmation(p: IsaacTestEmailPayload): Promi
         <tr><td style="padding:10px 14px;color:#9AA3C2;border-top:1px solid #E2E6F3">Termín</td><td style="padding:10px 14px;font-weight:700;border-top:1px solid #E2E6F3">${escapeHtml(p.slotLabel)}</td></tr>
         <tr><td style="padding:10px 14px;color:#9AA3C2;border-top:1px solid #E2E6F3">Délka</td><td style="padding:10px 14px;border-top:1px solid #E2E6F3">1 hodina</td></tr>
       </table>
-      <div style="background:#FFF8E7;border:1px solid #F5D78E;border-radius:12px;padding:14px;font-size:13px;color:#5A4500;line-height:1.5;margin:16px 0">
-        <strong>Před vyzvednutím:</strong> podepíšete krátký protokol o zápůjčce. Doneste si prosím doklad totožnosti (OP / pas). Po dobu zápůjčky plně odpovídáte za kolo.
+
+      <p style="margin:0 0 20px">
+        <a href="${gcalUrl}" target="_blank" style="display:inline-block;background:#3B7CF4;color:#fff;text-decoration:none;padding:10px 18px;border-radius:999px;font-weight:700;font-size:13px;">
+          📅 Přidat do Google Kalendáře
+        </a>
+        <span style="font-size:12px;color:#9AA3C2;margin-left:8px">.ics soubor v příloze pro Apple / Outlook</span>
+      </p>
+
+      <div style="background:#F7F9FF;border:1px solid #E2E6F3;border-radius:12px;padding:14px;font-size:13px;color:#1a1a2e;line-height:1.6;margin:16px 0">
+        <div style="font-weight:700;margin-bottom:6px">Co si vezměte s sebou</div>
+        <ul style="margin:0;padding-left:18px">
+          <li><strong>Helma</strong> — povinná</li>
+          <li>Cyklistické oblečení</li>
+          <li>Vlastní pedály</li>
+          <li>Tretry vázané na vaše pedály</li>
+        </ul>
       </div>
+
+      <div style="background:#FFF8E7;border:1px solid #F5D78E;border-radius:12px;padding:14px;font-size:13px;color:#5A4500;line-height:1.5;margin:16px 0">
+        <strong>Před vyzvednutím:</strong> připravíme za vás protokol o zápůjčce, jen podepíšete. Doneste si doklad totožnosti. Po dobu zápůjčky plně odpovídáte za kolo.
+      </div>
+
+      <p style="margin:0 0 16px;font-size:13px;color:#5A6480">
+        Ráno v 8:00 v den testu vám připomeneme detail e-mailem.
+      </p>
+
       <p style="margin:24px 0 0;font-size:13px;color:#9AA3C2">
         Jan Piecha · 100dola sport · +420 739 045 057
       </p>
@@ -837,7 +903,20 @@ export async function sendIsaacTestConfirmation(p: IsaacTestEmailPayload): Promi
   `;
 
   try {
-    await getResend().emails.send({ from: FROM_EMAIL, to: p.email, subject, text, html });
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.email,
+      subject,
+      text,
+      html,
+      attachments: [
+        {
+          filename: "isaac-test.ics",
+          content: Buffer.from(ics, "utf-8").toString("base64"),
+          contentType: "text/calendar; charset=utf-8; method=PUBLISH",
+        },
+      ],
+    });
   } catch (e) {
     console.error("[email] sendIsaacTestConfirmation failed:", e);
   }
@@ -870,5 +949,83 @@ export async function sendIsaacTestNotification(p: IsaacTestEmailPayload): Promi
     });
   } catch (e) {
     console.error("[email] sendIsaacTestNotification failed:", e);
+  }
+}
+
+// ── Ranní reminder v 8:00 v den testu (přes Resend scheduled_at) ─────────────
+
+export async function scheduleIsaacTestReminder(
+  p: IsaacTestEmailPayload,
+): Promise<string | null> {
+  if (!isEmailConfigured()) return null;
+
+  // 8:00 ráno v den testu (Europe/Prague = CEST UTC+2 v květnu)
+  const slotDay = p.slotStart.slice(0, 10);
+  const sendAtIso = new Date(`${slotDay}T08:00:00+02:00`).toISOString();
+
+  // Pokud je čas v minulosti (admin testuje), neschedule
+  if (new Date(sendAtIso).getTime() <= Date.now() + 60_000) {
+    console.warn(`[email] reminder time ${sendAtIso} is in the past, skipping schedule`);
+    return null;
+  }
+
+  const subject = `🚲 Připomínka: dnes testuješ ISAAC v ${p.slotLabel.split("·").pop()?.trim() || ""}`;
+  const text = [
+    `Dobré ráno ${p.fullName},`,
+    ``,
+    `dnes v ${p.slotLabel} máš testovací jízdu ISAAC.`,
+    ``,
+    `Kolo:  ${p.bike}`,
+    ``,
+    `Co si nezapomeň vzít:`,
+    ...BRING_LIST_TEXT,
+    `• Doklad totožnosti (kvůli protokolu)`,
+    ``,
+    `Připrav se 10 min předem — kolo seřídíme, nasadíme tvoje pedály, podepíšeš protokol a jedeš.`,
+    ``,
+    `Kdyby cokoliv: +420 739 045 057.`,
+    ``,
+    `Jan`,
+  ].join("\n");
+
+  const html = `
+    <div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1a1a2e">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#3B7CF4;font-weight:700;margin-bottom:8px">
+        ISAAC test · dnes
+      </div>
+      <h2 style="margin:0 0 12px;font-size:22px">Dnes v ${escapeHtml(p.slotLabel.split("·").pop()?.trim() || "")} testuješ.</h2>
+      <p style="margin:0 0 16px;font-size:14px;color:#5A6480">Kolo: <strong>${escapeHtml(p.bike)}</strong></p>
+      <div style="background:#F7F9FF;border:1px solid #E2E6F3;border-radius:12px;padding:14px;font-size:14px;color:#1a1a2e;line-height:1.7;margin:16px 0">
+        <div style="font-weight:700;margin-bottom:6px">Co si vezmi</div>
+        <ul style="margin:0;padding-left:18px">
+          <li><strong>Helma</strong> (povinná)</li>
+          <li>Cyklistické oblečení</li>
+          <li>Vlastní pedály</li>
+          <li>Tretry</li>
+          <li>Doklad totožnosti</li>
+        </ul>
+      </div>
+      <p style="margin:0;font-size:14px;color:#5A6480">
+        Připrav se 10 min předem. Kdyby cokoliv: <strong>+420 739 045 057</strong>.
+      </p>
+      <p style="margin:24px 0 0;font-size:13px;color:#9AA3C2">Jan · 100dola sport</p>
+    </div>
+  `;
+
+  try {
+    const res = await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.email,
+      subject,
+      text,
+      html,
+      scheduledAt: sendAtIso,
+    });
+    const id = (res as { data?: { id?: string } } | null)?.data?.id || null;
+    console.log(`[email] reminder scheduled for ${sendAtIso} → resendId=${id}`);
+    return id;
+  } catch (e) {
+    console.error("[email] scheduleIsaacTestReminder failed:", e);
+    return null;
   }
 }
