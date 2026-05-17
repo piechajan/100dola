@@ -12,10 +12,29 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://100dolamalaga.cz"),
-  title: "100dola — Sport. Komunita. Malaga.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com"),
+  title: {
+    default: "100dola — Sport. Komunita. Malaga.",
+    template: "%s · 100dola",
+  },
   description:
     "Vybavíme tě na sport, dostaneme tvé kolo do Malagy a propojíme tě s komunitou lidí, kteří to myslí vážně.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "cs_CZ",
+    siteName: "100dola",
+    title: "100dola — Sport. Komunita. Malaga.",
+    description:
+      "Vybavíme tě na sport, dostaneme tvé kolo do Malagy a propojíme tě s komunitou lidí, kteří to myslí vážně.",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "100dola — Sport. Komunita. Malaga.",
+    description:
+      "Sport. Komunita. Malaga. Jeden ekosystém pro aktivní lidi.",
+  },
 };
 
 export default function RootLayout({

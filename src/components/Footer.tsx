@@ -3,11 +3,11 @@ import Image from "next/image";
 
 const links: Record<string, { label: string; href: string; external?: boolean }[]> = {
   "100dola sport": [
-    { label: "Kola", href: "/shop/kola" },
-    { label: "Cyklistika", href: "/shop/cyklistika" },
-    { label: "Lyžování & Skialpy", href: "/shop/lyzovani" },
-    { label: "Běh", href: "/shop/beh" },
-    { label: "Turistika", href: "/shop/turistika" },
+    { label: "Cyklistika", href: "/sport/cyklistika" },
+    { label: "Lyžování & Skialpy", href: "/sport/zima" },
+    { label: "Běh", href: "/sport/beh" },
+    { label: "Turistika", href: "/sport/turistika" },
+    { label: "Lab — péče o kola", href: "/lab" },
     { label: "@100dolasport.cz", href: "https://www.instagram.com/100dolasport.cz/", external: true },
   ],
   "100dola malaga": [
@@ -18,16 +18,15 @@ const links: Record<string, { label: string; href: string; external?: boolean }[
     { label: "@100dola_malaga", href: "https://www.instagram.com/100dola_malaga/", external: true },
   ],
   "Open Miles Clinic": [
-    { label: "Nadcházející eventy", href: "/community/eventy" },
+    { label: "Nadcházející eventy", href: "/community" },
     { label: "O Open Miles Clinic", href: "/community/o-klinice" },
-    { label: "Galerie", href: "/community/galerie" },
+    { label: "Testovací jízdy ISAAC", href: "/isaac-test" },
     { label: "@open_miles_clinic", href: "https://www.instagram.com/open_miles_clinic/", external: true },
   ],
   "100dola": [
     { label: "O nás", href: "/o-nas" },
-    { label: "Magazín", href: "/magazin" },
-    { label: "Kontakt", href: "/kontakt" },
-    { label: "FAQ", href: "/faq" },
+    { label: "Kontakt", href: "mailto:info@100dola.com" },
+    { label: "Zásady cookies", href: "/zasady-cookies" },
   ],
 };
 
@@ -101,12 +100,33 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="text-xs text-white/25">© 2025 100dola. Všechna práva vyhrazena.</div>
-          <div className="flex gap-6 text-xs text-white/25">
-            {["Ochrana soukromí", "Obchodní podmínky", "Cookies"].map((label) => (
-              <Link key={label} href="#" className="hover:text-white/60 transition-colors">{label}</Link>
-            ))}
+        <div className="pt-8 flex flex-col gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-white/40 leading-relaxed">
+            <div>
+              <div className="font-bold text-white/60 mb-1">Provozovatel</div>
+              FUTUNATU s.r.o.<br />
+              Jan Piecha<br />
+              <a href="tel:+420739045057" className="hover:text-white/80">+420 739 045 057</a>
+            </div>
+            <div>
+              <div className="font-bold text-white/60 mb-1">Kontakt</div>
+              <a href="mailto:info@100dola.com" className="hover:text-white/80">info@100dola.com</a><br />
+              <a href="mailto:piecha.jan@gmail.com" className="hover:text-white/80">piecha.jan@gmail.com</a>
+            </div>
+            <div>
+              <div className="font-bold text-white/60 mb-1">100dola sport</div>
+              Šternberk, náměstí<br />
+              v cíli Závodu míru
+            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-white/10">
+            <div className="text-xs text-white/25">
+              © {new Date().getFullYear()} FUTUNATU s.r.o. Všechna práva vyhrazena.
+            </div>
+            <div className="flex gap-6 text-xs text-white/25">
+              <Link href="/zasady-cookies" className="hover:text-white/60 transition-colors">Zásady cookies</Link>
+              <Link href="/o-nas" className="hover:text-white/60 transition-colors">O nás</Link>
+            </div>
           </div>
         </div>
       </div>

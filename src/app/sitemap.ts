@@ -1,11 +1,13 @@
 import type { MetadataRoute } from "next";
+import { PRODUCTS } from "@/data/products";
+import { events } from "@/data/events";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://100dolamalaga.cz";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
-  const routes = [
+  const staticRoutes = [
     "",
     "/malaga",
     "/malaga/preprava",
@@ -28,19 +30,32 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/sport/vybaveni",
     "/sport/elektronika",
     "/sport/kolekce",
+    "/isaac-test",
+    "/isaac-test/podminky",
     "/zasady-cookies",
   ];
 
-  return routes.map((path) => ({
+  const productRoutes = PRODUCTS.map((p) => `/shop/${p.slug}`);
+  const eventRoutes = events
+    .filter((e) => !e.externalUrl)
+    .map((e) => `/community/event/${e.slug}`);
+
+  const allRoutes = [...staticRoutes, ...productRoutes, ...eventRoutes];
+
+  return allRoutes.map((path) => ({
     url: `${BASE_URL}${path}`,
     lastModified,
     changeFrequency:
-      path.startsWith("/malaga") || path === "/lab" ? "weekly" : "monthly",
+      path.startsWith("/malaga") || path === "/lab" || path === "/isaac-test"
+        ? "weekly"
+        : "monthly",
     priority:
-      path === "/malaga" || path === "/lab"
-        ? 0.9
-        : path.startsWith("/malaga")
-          ? 0.8
-          : 0.6,
+      path === "" || path === "/isaac-test"
+        ? 1.0
+        : path === "/malaga" || path === "/lab" || path === "/community"
+          ? 0.9
+          : path.startsWith("/malaga") || path.startsWith("/sport") || path.startsWith("/shop/")
+            ? 0.7
+            : 0.6,
   }));
 }
