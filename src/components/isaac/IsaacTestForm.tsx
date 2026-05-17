@@ -6,6 +6,8 @@ import Link from "next/link";
 import type { IsaacBike, SlotDef } from "@/data/isaac-bikes";
 import { bikeLabel } from "@/data/isaac-bikes";
 import BikeGalleryModal from "./BikeGalleryModal";
+import { trackMetaEvent } from "@/components/analytics/MetaPixel";
+import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 
 interface Day {
   date: string;
@@ -102,6 +104,16 @@ export default function IsaacTestForm({ bikes, days }: Props) {
       setResult({
         ok: true,
         message: `Rezervace potvrzena: ${data.reservation.bike}, ${data.reservation.slotLabel}.`,
+      });
+      // Analytics conversion events
+      trackMetaEvent("Lead", {
+        content_name: "ISAAC test reservation",
+        content_category: bike?.category || "bike",
+      });
+      trackGoogleEvent("generate_lead", {
+        event_category: "isaac_test",
+        event_label: data.reservation.bike,
+        value: 1,
       });
       // Reset form
       setSelectedBike(null);

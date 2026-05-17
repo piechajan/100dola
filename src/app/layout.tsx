@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import CookiesBanner from "@/components/CookiesBanner";
+import MetaPixel from "@/components/analytics/MetaPixel";
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,6 +28,8 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col font-[family-name:var(--font-inter)]">
         {children}
         <CookiesBanner />
+        <MetaPixel />
+        <GoogleAnalytics />
       </body>
     </html>
   );
