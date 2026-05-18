@@ -11,6 +11,7 @@ import {
   sendIsaacTestNotification,
   scheduleIsaacTestReminder,
 } from "@/lib/email";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { randomBytes } from "crypto";
 
 function honeypotTriggered(body: unknown): boolean {
@@ -20,6 +21,15 @@ function honeypotTriggered(body: unknown): boolean {
 }
 
 export async function POST(req: NextRequest) {
+  // Rate-limit: max 10 rezervací / 10 min / IP
+  const rl = await checkRateLimit(req, { bucket: "isaac-test", max: 10, windowSec: 600 });
+  if (!rl.ok) {
+    return NextResponse.json(
+      { error: "Příliš mnoho pokusů — zkus to za chvíli." },
+      { status: 429 },
+    );
+  }
+
   let body: unknown;
   try {
     body = await req.json();

@@ -4,6 +4,8 @@ import "./globals.css";
 import CookiesBanner from "@/components/CookiesBanner";
 import MetaPixel from "@/components/analytics/MetaPixel";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+import JsonLd from "@/components/JsonLd";
+import { organizationSchema, storeSchema, websiteSchema } from "@/lib/schema-org";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -49,6 +51,9 @@ export default function RootLayout({
         <CookiesBanner />
         <MetaPixel />
         <GoogleAnalytics />
+        <JsonLd data={organizationSchema()} />
+        <JsonLd data={websiteSchema()} />
+        <JsonLd data={storeSchema()} />
       </body>
     </html>
   );

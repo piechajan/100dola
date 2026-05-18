@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
+import { checkRateLimit } from "@/lib/rate-limit";
 import type { MalagaLeadRow, RegistrationRow } from "@/lib/supabase";
 import {
   sendMalagaLeadNotification,
@@ -69,6 +70,15 @@ async function fileReadAll(): Promise<FileRecord[]> {
 // ── POST — save registration / lead ───────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
+  // Rate-limit: max 10 odeslání / 10 min / IP (lead form + event registration)
+  const rl = await checkRateLimit(req, { bucket: "registrations", max: 10, windowSec: 600 });
+  if (!rl.ok) {
+    return NextResponse.json(
+      { error: "Příliš mnoho pokusů — zkus to za chvíli." },
+      { status: 429 },
+    );
+  }
+
   let body: unknown;
   try {
     body = await req.json();

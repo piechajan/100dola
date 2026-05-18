@@ -14,6 +14,7 @@ import { sendOrderConfirmation, sendOrderNotification } from "@/lib/email";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { validateDiscountCode, incrementDiscountUsage } from "@/lib/discounts";
 import { invoiceOrder, type OrderForInvoice } from "@/lib/invoicing";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 function isHoneypotFilled(body: unknown): boolean {
   if (!body || typeof body !== "object") return false;
@@ -79,6 +80,15 @@ async function nextDailySeq(date: Date): Promise<number> {
 }
 
 export async function POST(req: NextRequest) {
+  // Rate-limit: max 5 objednávek / 10 min / IP
+  const rl = await checkRateLimit(req, { bucket: "orders", max: 5, windowSec: 600 });
+  if (!rl.ok) {
+    return NextResponse.json(
+      { error: "Příliš mnoho pokusů — zkus to za chvíli." },
+      { status: 429 },
+    );
+  }
+
   let body: unknown;
   try {
     body = await req.json();
