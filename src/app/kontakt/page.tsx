@@ -173,32 +173,26 @@ export default function KontaktPage() {
             </div>
           </div>
 
-          {/* Foto galerie obchodu — 25 fotek, hlavní velká nahoře */}
-          <div className="mt-6">
-            <h3 className="text-sm font-black text-[#1a1a2e] mb-3">Jak to u nás vypadá</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <div className="col-span-2 md:col-span-2 md:row-span-2 relative aspect-[4/3] md:aspect-auto rounded-2xl overflow-hidden border border-[#E2E6F3] bg-[#F0F2FA]">
-                <Image
-                  src={photos[0]}
-                  alt="Obchod 100dola sport Šternberk — hlavní pohled"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  priority
-                />
-              </div>
-              {photos.slice(1).map((p, i) => (
+          {/* Foto galerie obchodu — 25 fotek (portrait 9:16 zdrojový poměr → 3:4 containers) */}
+          <div id="galerie" className="mt-8 scroll-mt-24">
+            <div className="flex items-baseline justify-between mb-3">
+              <h3 className="text-sm font-black text-[#1a1a2e]">Jak to u nás vypadá</h3>
+              <span className="text-xs text-[#9AA3C2]">{photos.length} fotek</span>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+              {photos.map((p, i) => (
                 <div
                   key={p}
-                  className="relative aspect-[4/3] rounded-xl overflow-hidden border border-[#E2E6F3] bg-[#F0F2FA]"
+                  className="relative aspect-[3/4] rounded-xl overflow-hidden border border-[#E2E6F3] bg-[#F0F2FA]"
                 >
                   <Image
                     src={p}
-                    alt={`Obchod 100dola sport Šternberk — foto ${i + 2}`}
+                    alt={`Obchod 100dola sport Šternberk — foto ${i + 1}`}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                    loading="lazy"
+                    sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    priority={i === 0}
+                    loading={i === 0 ? "eager" : "lazy"}
                   />
                 </div>
               ))}

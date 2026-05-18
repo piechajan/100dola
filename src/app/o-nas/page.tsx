@@ -100,11 +100,8 @@ export default function ONasPage() {
               <span className="w-5 h-px bg-[#7C5CBF]" />
             </div>
             <h2 className="text-3xl md:text-4xl font-black text-[#1a1a2e] mb-6">Vzniklo z frustrace.</h2>
-            <p className="text-lg text-[#5A6480] leading-relaxed mb-4">
-              Z objednávek přes anonymní e-shopy, kde nikdo neporadí. Ze stresujícího cestování s kolem na letišti. Z osamělých výjezdů bez party.
-            </p>
             <p className="text-lg text-[#5A6480] leading-relaxed">
-              Chybělo místo, kde by vše sedělo dohromady — dobrá výbava, pohodlná cesta do Malagy a skupina lidí, se kterými má smysl jet. Tak vzniklo 100dola.
+              Chybělo místo, kde by vše sedělo dohromady — dobrá výbava, kvalitní zákaznický servis a skupina lidí, se kterými má smysl jet nejen na švih po sousedství. Tak vznikal projekt 100dola.
             </p>
           </div>
         </div>
@@ -239,24 +236,39 @@ export default function ONasPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              {["/media/obchod/01-obchod.jpg", "/media/obchod/06-obchod.jpg", "/media/obchod/14-obchod.jpg", "/media/obchod/22-obchod.jpg"].map((src, i) => (
-                <div
-                  key={src}
-                  className={`relative rounded-xl overflow-hidden border border-[#E2E6F3] bg-[#F0F2FA] ${
-                    i === 0 ? "col-span-2 aspect-[16/10]" : "aspect-[4/3]"
-                  }`}
-                >
-                  <Image
-                    src={src}
-                    alt="Obchod 100dola sport Šternberk"
-                    fill
-                    className="object-cover"
-                    sizes={i === 0 ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 50vw, 25vw"}
-                    loading={i === 0 ? "eager" : "lazy"}
-                  />
+            <div>
+              {/* Lišta nad galerií */}
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-[10px] uppercase tracking-wider font-bold text-[#9AA3C2]">
+                  Pohled dovnitř
                 </div>
-              ))}
+                <Link
+                  href="/kontakt#galerie"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#3B7CF4] hover:underline"
+                >
+                  📷 Galerie prodejny — 25 fotek →
+                </Link>
+              </div>
+
+              {/* Grid 2×2, portrait containers — fotky jsou 9:16, takže 3:4 minimizuje oříznutí */}
+              <div className="grid grid-cols-2 gap-3">
+                {["/media/obchod/01-obchod.jpg", "/media/obchod/06-obchod.jpg", "/media/obchod/14-obchod.jpg", "/media/obchod/22-obchod.jpg"].map((src, i) => (
+                  <Link
+                    key={src}
+                    href="/kontakt#galerie"
+                    className="group relative aspect-[3/4] rounded-xl overflow-hidden border border-[#E2E6F3] bg-[#F0F2FA] block"
+                  >
+                    <Image
+                      src={src}
+                      alt="Obchod 100dola sport Šternberk"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                      loading={i === 0 ? "eager" : "lazy"}
+                    />
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>

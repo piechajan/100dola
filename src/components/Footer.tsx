@@ -142,6 +142,19 @@ export default function Footer() {
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                 </svg>
               </a><br />
+              <a
+                href="https://www.instagram.com/dendolf/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white/80 inline-flex items-center gap-1"
+              >
+                Denisa Piecha
+                <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} className="opacity-60">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </a><br />
               <a href={`mailto:${COMPANY.contact.email}`} className="hover:text-white/80">{COMPANY.contact.email}</a><br />
               <a href={`tel:${COMPANY.contact.phoneIntl}`} className="hover:text-white/80">{COMPANY.contact.phone}</a>
             </div>
