@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { STERNBERK_STORE } from "@/data/company";
 
 export const metadata: Metadata = {
   title: "O nás — 100dola sport, Malaga, Open Miles Clinic",
@@ -196,6 +197,66 @@ export default function ONasPage() {
                   100dola není franšíza ani agenturní projekt. Je to přirozené propojení věcí, kterými žijeme — výbava, cesta a parta.
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Najdeš nás ve Šternberku */}
+      <section className="py-20 md:py-24 bg-white">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div>
+              <div className="text-xs tracking-[0.22em] uppercase font-bold text-[#3B7CF4] mb-3">
+                Kamenná prodejna
+              </div>
+              <h2 className="text-3xl md:text-4xl font-black text-[#1a1a2e] leading-tight mb-4">
+                Najdeš nás ve Šternberku.
+              </h2>
+              <p className="text-base text-[#5A6480] leading-relaxed mb-3">
+                Nejsme jen e-shop. Máme kamenný obchod přímo v centru Šternberka —{" "}
+                <strong>{STERNBERK_STORE.streetAddress}</strong>, {STERNBERK_STORE.landmark}.
+                Stav si pro radu, na servis, vyzkoušet kolo, nebo se jen mrknout.
+              </p>
+              <p className="text-base text-[#5A6480] leading-relaxed mb-6">
+                Otevřeno po předchozí domluvě a v rámci akcí. Stačí zavolat a domluvit se,
+                kdy se nejlépe potkáme.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/kontakt"
+                  className="inline-flex items-center gap-2 px-5 py-3 text-sm font-bold rounded-full text-white transition-all hover:opacity-90"
+                  style={{ backgroundColor: "#3B7CF4", boxShadow: "0 4px 20px #3B7CF440" }}
+                >
+                  Adresa a mapa →
+                </Link>
+                <a
+                  href={`tel:+420739045057`}
+                  className="inline-flex items-center gap-2 px-5 py-3 text-sm font-bold rounded-full border border-[#E2E6F3] text-[#1a1a2e] hover:border-[#3B7CF4]"
+                >
+                  📞 +420 739 045 057
+                </a>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              {["/media/obchod/01-obchod.jpg", "/media/obchod/06-obchod.jpg", "/media/obchod/14-obchod.jpg", "/media/obchod/22-obchod.jpg"].map((src, i) => (
+                <div
+                  key={src}
+                  className={`relative rounded-xl overflow-hidden border border-[#E2E6F3] bg-[#F0F2FA] ${
+                    i === 0 ? "col-span-2 aspect-[16/10]" : "aspect-[4/3]"
+                  }`}
+                >
+                  <Image
+                    src={src}
+                    alt="Obchod 100dola sport Šternberk"
+                    fill
+                    className="object-cover"
+                    sizes={i === 0 ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 50vw, 25vw"}
+                    loading={i === 0 ? "eager" : "lazy"}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>

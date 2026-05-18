@@ -10,6 +10,7 @@ const links: Record<string, { label: string; href: string; external?: boolean }[
     { label: "Turistika", href: "/sport/turistika" },
     { label: "Lab — péče o kola", href: "/lab" },
     { label: "@100dolasport.cz", href: "https://www.instagram.com/100dolasport.cz/", external: true },
+    { label: "@100dola_lab", href: "https://www.instagram.com/100dola_lab/", external: true },
   ],
   "100dola malaga": [
     { label: "Jak to funguje", href: "/malaga" },
@@ -51,6 +52,7 @@ export default function Footer() {
               {[
                 { handle: "@100dolasport.cz", href: "https://www.instagram.com/100dolasport.cz/" },
                 { handle: "@100dola_malaga", href: "https://www.instagram.com/100dola_malaga/" },
+                { handle: "@100dola_lab", href: "https://www.instagram.com/100dola_lab/" },
                 { handle: "@open_miles_clinic", href: "https://www.instagram.com/open_miles_clinic/" },
               ].map((item) => (
                 <a
@@ -127,7 +129,19 @@ export default function Footer() {
             </div>
             <div>
               <div className="font-bold text-white/60 mb-1">Kontakt</div>
-              {COMPANY.contact.person}<br />
+              <a
+                href="https://www.instagram.com/janpiecha/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white/80 inline-flex items-center gap-1"
+              >
+                {COMPANY.contact.person}
+                <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} className="opacity-60">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </a><br />
               <a href={`mailto:${COMPANY.contact.email}`} className="hover:text-white/80">{COMPANY.contact.email}</a><br />
               <a href={`tel:${COMPANY.contact.phoneIntl}`} className="hover:text-white/80">{COMPANY.contact.phone}</a>
             </div>

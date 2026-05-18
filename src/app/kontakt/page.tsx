@@ -68,7 +68,19 @@ export default function KontaktPage() {
                 </div>
                 <div>
                   <div className="text-xs text-[#9AA3C2] uppercase tracking-wider font-bold mt-3">Vede</div>
-                  {COMPANY.contact.person}
+                  <a
+                    href="https://www.instagram.com/janpiecha/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-[#1a1a2e] hover:text-[#3B7CF4]"
+                  >
+                    {COMPANY.contact.person}
+                    <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} className="opacity-60">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                    </svg>
+                  </a>
                 </div>
               </div>
             </div>

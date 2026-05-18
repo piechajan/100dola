@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { events, SPORT_COLORS, SPORT_ICONS } from "@/data/events";
 import CartButton from "@/components/shop/CartButton";
 import CartDrawer from "@/components/shop/CartDrawer";
@@ -56,6 +57,31 @@ export default function Navbar() {
   const kalendarTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sportTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const pathname = usePathname();
+  const router = useRouter();
+
+  /**
+   * Logo behavior:
+   *  - jsem-li na homepage ("/") → smooth scroll na úplný vrch
+   *  - na jiných stránkách → standardní router.push("/") na home
+   */
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (pathname === "/") {
+      e.preventDefault();
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    } else {
+      // Necháme Link projít — Next router naviguje, ale ujistíme se že po
+      // navigaci skrolne nahoru (Next 16 to dělá by default, ale pro jistotu)
+      e.preventDefault();
+      router.push("/");
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "auto" });
+      }
+    }
+  };
+
   const openDropdown = (setter: (v: boolean) => void, timeout: React.MutableRefObject<ReturnType<typeof setTimeout> | null>) => {
     if (timeout.current) clearTimeout(timeout.current);
     setter(true);
@@ -71,8 +97,13 @@ export default function Navbar() {
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
         <div className="flex items-center justify-between h-20">
 
-          {/* Logo */}
-          <Link href="/" className="flex items-center shrink-0 mt-4 -ml-4 md:-ml-8 lg:-ml-16">
+          {/* Logo — klik na homepage scrolluje nahoru, jinde naviguje na / */}
+          <Link
+            href="/"
+            onClick={handleLogoClick}
+            className="flex items-center shrink-0 mt-4 -ml-4 md:-ml-8 lg:-ml-16"
+            aria-label="100dola sport — domů / scroll nahoru"
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/logo-nav.png"
