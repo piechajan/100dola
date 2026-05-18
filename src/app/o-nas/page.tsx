@@ -103,7 +103,7 @@ export default function ONasPage() {
               <span className="text-xs tracking-[0.18em] uppercase font-bold text-[#7C5CBF]">Proč to vzniklo</span>
               <span className="w-5 h-px bg-[#7C5CBF]" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-black text-[#1a1a2e] mb-6">Vzniklo z frustrace.</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-[#1a1a2e] mb-6">Vzniklo z praxe.</h2>
             <p className="text-lg text-[#5A6480] leading-relaxed">
               Chybělo místo, kde by vše sedělo dohromady — dobrá výbava, kvalitní zákaznický servis a skupina lidí, se kterými má smysl jet nejen na švih po sousedství. Tak vznikal projekt 100dola.
             </p>
