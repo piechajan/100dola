@@ -816,7 +816,7 @@ export async function sendIsaacTestConfirmation(p: IsaacTestEmailPayload): Promi
     `Před vyzvednutím podepíšete protokol o zápůjčce (vyrobíme my, ty jen podepíšeš).`,
     `Doneste si doklad totožnosti.`,
     ``,
-    `Kontakt: Jan Piecha · +420 739 045 057 · piecha.jan@gmail.com`,
+    `Kontakt: Jan Piecha · +420 739 045 057 · info@100dola.com`,
   ].join("\\n");
 
   const calEvent = {
@@ -1030,5 +1030,79 @@ export async function scheduleIsaacTestReminder(
   } catch (e) {
     console.error("[email] scheduleIsaacTestReminder failed:", e);
     return null;
+  }
+}
+
+// ── Kontakt formulář ─────────────────────────────────────────────────────────
+
+export interface ContactEmailPayload {
+  name: string;
+  email: string;
+  phone?: string | null;
+  topic: "general" | "sport" | "malaga" | "lab" | "community" | "store";
+  message: string;
+}
+
+const TOPIC_LABELS: Record<ContactEmailPayload["topic"], string> = {
+  general: "Obecná otázka",
+  sport: "100dola sport (kola, vybavení)",
+  malaga: "100dola Malaga (přeprava / pobyty)",
+  lab: "100dola Lab (servis kol)",
+  community: "Open Miles Clinic (akce)",
+  store: "Kamenná prodejna Šternberk",
+};
+
+export async function sendContactNotification(p: ContactEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = `📨 Nová zpráva — ${p.name} · ${TOPIC_LABELS[p.topic]}`;
+  const text = [
+    `Nová zpráva z kontaktního formuláře`,
+    ``,
+    `Téma:    ${TOPIC_LABELS[p.topic]}`,
+    `Od:      ${p.name} · ${p.email}${p.phone ? ` · ${p.phone}` : ""}`,
+    ``,
+    `Zpráva:`,
+    p.message,
+  ].join("\n");
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: NOTIFY_EMAIL,
+      replyTo: p.email,
+      subject,
+      text,
+    });
+  } catch (e) {
+    console.error("[email] sendContactNotification failed:", e);
+  }
+}
+
+export async function sendContactConfirmation(p: ContactEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = "Tvoji zprávu mám · 100dola";
+  const text = [
+    `Dobrý den ${p.name},`,
+    ``,
+    `díky za zprávu na téma "${TOPIC_LABELS[p.topic]}".`,
+    `Odpovím ti do 24 hodin (obvykle dřív).`,
+    ``,
+    `Pro rychlejší věci klidně zavolej: +420 739 045 057.`,
+    ``,
+    `Jan Piecha`,
+    `100dola`,
+  ].join("\n");
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.email,
+      subject,
+      text,
+    });
+  } catch (e) {
+    console.error("[email] sendContactConfirmation failed:", e);
   }
 }

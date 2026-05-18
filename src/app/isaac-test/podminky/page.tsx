@@ -37,8 +37,8 @@ export default function IsaacTermsPage() {
               <h2 className="text-lg font-black mb-2">1. Provozovatel</h2>
               <p className="text-[#5A6480]">
                 FUTUNATU s.r.o., Jan Piecha · IČO uvedené v patičce webu ·{" "}
-                <a href="mailto:piecha.jan@gmail.com" className="text-[#3B7CF4] hover:underline">
-                  piecha.jan@gmail.com
+                <a href="mailto:info@100dola.com" className="text-[#3B7CF4] hover:underline">
+                  info@100dola.com
                 </a>{" "}
                 ·{" "}
                 <a href="tel:+420739045057" className="text-[#3B7CF4] hover:underline">

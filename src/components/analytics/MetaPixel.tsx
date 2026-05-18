@@ -1,12 +1,11 @@
 "use client";
 
-// Meta Pixel (Facebook + Instagram) — base pageview.
-// Aktivuje se jen pokud je NEXT_PUBLIC_META_PIXEL_ID nastaven ve Vercel env.
-// Pro production-grade tracking by se mělo respektovat cookie consent banner —
-// nyní načítáme bezpodmínečně (web má cookie banner, který trackery dovoluje,
-// pokud uživatel odsouhlasí). Pokud chceš plnou consent gate, řekni.
+// Meta Pixel — načte se POUZE pokud user souhlasil s "marketing" cookies.
+// Bez NEXT_PUBLIC_META_PIXEL_ID je no-op.
 
 import Script from "next/script";
+import { useEffect, useState } from "react";
+import { readConsent, subscribeConsent } from "@/lib/cookies-consent";
 
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
@@ -18,7 +17,15 @@ declare global {
 }
 
 export default function MetaPixel() {
-  if (!PIXEL_ID) return null;
+  const [allowed, setAllowed] = useState(false);
+
+  useEffect(() => {
+    const c = readConsent();
+    setAllowed(!!c?.marketing);
+    return subscribeConsent((next) => setAllowed(!!next?.marketing));
+  }, []);
+
+  if (!PIXEL_ID || !allowed) return null;
 
   return (
     <>
@@ -53,7 +60,7 @@ export default function MetaPixel() {
   );
 }
 
-/** Tracker pro custom events — volat z client komponent po conversion. */
+/** Tracker pro custom events — spustí jen pokud je pixel načtený. */
 export function trackMetaEvent(event: string, params?: Record<string, unknown>) {
   if (typeof window === "undefined" || !window.fbq) return;
   window.fbq("track", event, params || {});

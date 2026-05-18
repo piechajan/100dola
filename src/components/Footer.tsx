@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { COMPANY, STERNBERK_STORE } from "@/data/company";
 
 const links: Record<string, { label: string; href: string; external?: boolean }[]> = {
   "100dola sport": [
@@ -25,7 +26,9 @@ const links: Record<string, { label: string; href: string; external?: boolean }[
   ],
   "100dola": [
     { label: "O nás", href: "/o-nas" },
-    { label: "Kontakt", href: "mailto:info@100dola.com" },
+    { label: "Kontakt", href: "/kontakt" },
+    { label: "Obchodní podmínky", href: "/obchodni-podminky" },
+    { label: "Ochrana osobních údajů", href: "/ochrana-osobnich-udaju" },
     { label: "Zásady cookies", href: "/zasady-cookies" },
   ],
 };
@@ -101,31 +104,42 @@ export default function Footer() {
         </div>
 
         <div className="pt-8 flex flex-col gap-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-white/40 leading-relaxed">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-white/40 leading-relaxed">
             <div>
               <div className="font-bold text-white/60 mb-1">Provozovatel</div>
-              FUTUNATU s.r.o.<br />
-              Jan Piecha<br />
-              <a href="tel:+420739045057" className="hover:text-white/80">+420 739 045 057</a>
+              {COMPANY.name}<br />
+              IČO: {COMPANY.ico} · DIČ: {COMPANY.dic}<br />
+              {COMPANY.registeredOffice.streetAddress}<br />
+              {COMPANY.registeredOffice.postalCode.replace(/(\d{3})(\d{2})/, "$1 $2")} {COMPANY.registeredOffice.addressLocality}
+            </div>
+            <div>
+              <div className="font-bold text-white/60 mb-1">Kamenná prodejna</div>
+              <a
+                href={STERNBERK_STORE.mapsLinkUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white/80 block"
+              >
+                {STERNBERK_STORE.streetAddress}<br />
+                {STERNBERK_STORE.postalCode.replace(/(\d{3})(\d{2})/, "$1 $2")} {STERNBERK_STORE.addressLocality}
+              </a>
+              <span className="text-white/30">{STERNBERK_STORE.landmark}</span>
             </div>
             <div>
               <div className="font-bold text-white/60 mb-1">Kontakt</div>
-              <a href="mailto:info@100dola.com" className="hover:text-white/80">info@100dola.com</a><br />
-              <a href="mailto:piecha.jan@gmail.com" className="hover:text-white/80">piecha.jan@gmail.com</a>
-            </div>
-            <div>
-              <div className="font-bold text-white/60 mb-1">100dola sport</div>
-              Šternberk, náměstí<br />
-              v cíli Závodu míru
+              {COMPANY.contact.person}<br />
+              <a href={`mailto:${COMPANY.contact.email}`} className="hover:text-white/80">{COMPANY.contact.email}</a><br />
+              <a href={`tel:${COMPANY.contact.phoneIntl}`} className="hover:text-white/80">{COMPANY.contact.phone}</a>
             </div>
           </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-white/10">
             <div className="text-xs text-white/25">
-              © {new Date().getFullYear()} FUTUNATU s.r.o. Všechna práva vyhrazena.
+              © {new Date().getFullYear()} {COMPANY.name}. Společnost {COMPANY.registration}.
             </div>
-            <div className="flex gap-6 text-xs text-white/25">
-              <Link href="/zasady-cookies" className="hover:text-white/60 transition-colors">Zásady cookies</Link>
-              <Link href="/o-nas" className="hover:text-white/60 transition-colors">O nás</Link>
+            <div className="flex gap-4 text-xs text-white/25 flex-wrap">
+              <Link href="/obchodni-podminky" className="hover:text-white/60 transition-colors">Obchodní podmínky</Link>
+              <Link href="/ochrana-osobnich-udaju" className="hover:text-white/60 transition-colors">Ochrana osobních údajů</Link>
+              <Link href="/zasady-cookies" className="hover:text-white/60 transition-colors">Cookies</Link>
             </div>
           </div>
         </div>
