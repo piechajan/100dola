@@ -88,7 +88,7 @@ export default function WhySection() {
               role: "Zákazník 100dola malaga",
             },
             {
-              quote: "Open Miles Clinic jsou lidi, kteří jedou. Žádné hry, žádné ego. Doporučuji každému, kdo chce jezdit ve skupině.",
+              quote: "Přesně taková skupina na Valašsku chyběla. Super lidi, krásné trasy, žádné závodění (až na výjimky hahaa), kafe a společné posezení.",
               author: "Petra V.",
               role: "Členka komunity",
             },
