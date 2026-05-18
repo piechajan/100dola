@@ -28,7 +28,7 @@ const values = [
       </svg>
     ),
     title: "Skutečná komunita",
-    desc: "Open Miles Clinic nejsou eventy na papíře. Jsou to lidi, kteří se pravidelně setkávají a jedou spolu.",
+    desc: "Jsme lidi, kteří se pravidelně setkávají a sportují společně.",
   },
   {
     icon: (
