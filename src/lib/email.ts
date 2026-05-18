@@ -391,14 +391,70 @@ export async function sendLabLeadConfirmation(lead: LabLeadPayload): Promise<voi
 
 // ── Newsletter "Hlídat akce" welcome ────────────────────────────────────────
 
+/**
+ * Double opt-in confirmation request — pošle e-mail s linkem co odběr aktivuje.
+ * Pokud `confirmationToken` chybí, fungujeme jako before (single opt-in welcome).
+ */
 export async function sendNewsletterConfirmation(p: {
   email: string;
   unsubscribeToken: string;
+  confirmationToken?: string;
 }): Promise<void> {
   if (!isEmailConfigured()) return;
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com";
   const unsubUrl = `${baseUrl}/api/unsubscribe?token=${encodeURIComponent(p.unsubscribeToken)}`;
+
+  // Double opt-in varianta — pokud máme confirmationToken, posíláme verifying email
+  if (p.confirmationToken) {
+    const confirmUrl = `${baseUrl}/api/newsletter/confirm?token=${encodeURIComponent(p.confirmationToken)}`;
+    const verifySubject = "Potvrď odběr Open Miles Clinic — 1 klik";
+    const verifyHtml = `
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; color: #1a1a2e;">
+        <div style="margin-bottom: 20px;">
+          <div style="font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #2EAA6E; font-weight: 700;">Open Miles Clinic</div>
+          <h1 style="font-size: 22px; margin: 8px 0 0 0; font-weight: 800; line-height: 1.2;">Potvrď, že ti můžeme posílat akce.</h1>
+        </div>
+        <p style="font-size: 14px; line-height: 1.6; color: #5A6480;">
+          Někdo (snad ty) tě právě přihlásil k odběru akcí Open Miles Clinic. Stačí kliknout —
+          a začneme ti posílat informace o nadcházejících vyjížďkách, akcích a komunitních eventech.
+        </p>
+        <p style="margin: 28px 0;">
+          <a href="${confirmUrl}" style="display: inline-block; background: #2EAA6E; color: white; padding: 14px 28px; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 14px;">
+            Ano, potvrzuji odběr
+          </a>
+        </p>
+        <p style="font-size: 12px; color: #9AA3C2; line-height: 1.5;">
+          Pokud jsi to nebyl/a ty, prostě tento e-mail ignoruj — odběr nebude aktivován.
+        </p>
+        <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #E2E6F3; font-size: 11px; color: #9AA3C2; word-break: break-all;">
+          Nebo zkopíruj odkaz do prohlížeče:<br>${confirmUrl}
+        </div>
+      </div>
+    `;
+    const verifyText = [
+      `Potvrď odběr Open Miles Clinic.`,
+      ``,
+      `Otevři tento odkaz a tím odběr aktivuješ:`,
+      confirmUrl,
+      ``,
+      `Pokud jsi to nebyl/a ty, e-mail ignoruj — odběr nebude aktivován.`,
+    ].join("\n");
+
+    try {
+      await getResend().emails.send({
+        from: FROM_EMAIL,
+        to: p.email,
+        replyTo: NOTIFY_EMAIL,
+        subject: verifySubject,
+        html: verifyHtml,
+        text: verifyText,
+      });
+    } catch (e) {
+      console.error("[email] sendNewsletterConfirmation (verify) failed:", e);
+    }
+    return;
+  }
 
   const subject = "Sleduješ Open Miles Clinic — co teď?";
   const html = `

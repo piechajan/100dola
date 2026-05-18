@@ -187,34 +187,46 @@ export async function POST(req: NextRequest) {
     const n = parsed.data;
     const id = n.id || crypto.randomUUID();
     const registeredAt = n.registeredAt || now;
-    const unsubToken = Array.from(crypto.getRandomValues(new Uint8Array(18)))
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
+    const randToken = () =>
+      Array.from(crypto.getRandomValues(new Uint8Array(18)))
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("");
+    const unsubToken = randToken();
+    const confirmToken = randToken();
 
     if (useDb) {
       const sb = getSupabase();
-      // upsert by email — pokud už existuje, jen reacknowledge bez nového welcome mailu
+      // upsert by email — pokud už existuje a confirmed, no-op
       const { data: existing } = await sb
         .from("newsletter_subscribers")
-        .select("id, unsubscribed_at")
+        .select("id, unsubscribed_at, confirmed")
         .eq("email", n.email)
         .maybeSingle();
 
-      if (existing && !existing.unsubscribed_at) {
+      if (existing && existing.confirmed && !existing.unsubscribed_at) {
         return NextResponse.json({ ok: true, source: "newsletter", duplicate: true });
       }
 
       if (existing) {
-        // Reactivate previously unsubscribed
+        // Reactivate or re-trigger DOI: nový confirm token, vynulovat confirmed
         await sb
           .from("newsletter_subscribers")
-          .update({ unsubscribed_at: null, unsubscribe_token: unsubToken, consent: n.consent })
+          .update({
+            unsubscribed_at: null,
+            unsubscribe_token: unsubToken,
+            confirmation_token: confirmToken,
+            confirmed: false,
+            confirmed_at: null,
+            consent: n.consent,
+          })
           .eq("id", existing.id);
       } else {
         const { error } = await sb.from("newsletter_subscribers").insert({
           email: n.email,
           consent: n.consent,
           unsubscribe_token: unsubToken,
+          confirmation_token: confirmToken,
+          confirmed: false,
           registered_at: registeredAt,
           source: "community",
         });
@@ -224,8 +236,20 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      Promise.allSettled([sendNewsletterConfirmation({ email: n.email, unsubscribeToken: unsubToken })]);
-      return NextResponse.json({ ok: true, source: "newsletter", id });
+      // Double opt-in — pošle verify e-mail s confirm linkem
+      Promise.allSettled([
+        sendNewsletterConfirmation({
+          email: n.email,
+          unsubscribeToken: unsubToken,
+          confirmationToken: confirmToken,
+        }),
+      ]);
+      return NextResponse.json({
+        ok: true,
+        source: "newsletter",
+        id,
+        pending: true,
+      });
     }
 
     // Fallback: file storage

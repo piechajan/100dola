@@ -65,6 +65,23 @@ export default function MalagaPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
       />
 
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            name: "100dola Malaga — přeprava a uskladnění kola",
+            serviceType: "Bike transport and storage",
+            description:
+              "Doprava a celosezónní uskladnění kola v Malaze. Letíš nalehko, jedeš na svém. Bez opakovaného balení a kompromisů z půjčovny.",
+            url: "https://www.100dola.com/malaga",
+            provider: { "@id": "https://www.100dola.com/#organization" },
+            areaServed: { "@type": "Country", name: "Česká republika" },
+            audience: { "@type": "Audience", audienceType: "Cyklisté" },
+          }),
+        }}
+      />
       <Navbar />
       <main className="pt-20">
         <MalagaHero />
