@@ -130,7 +130,7 @@ export default function ONasPage() {
               <div className="text-xs tracking-[0.15em] uppercase font-bold text-[#3B7CF4] mb-2">100dola sport</div>
               <h3 className="text-xl font-black text-[#1a1a2e] mb-3">Výbava od těch, co to jedou.</h3>
               <p className="text-sm text-[#5A6480] leading-relaxed mb-6">
-                Kola, lyže, skialpy, běžecké a cyklistické vybavení. Bez anonymity. Každý produkt jsme si sami vyzkoušeli nebo ho jedeme. Poradíme, doporučíme a za výběrem si stojíme.
+                Kola, lyže, skialpy, běžecké a cyklistické vybavení. Bez anonymity. Každou značku jsme si prověřili. Poradíme, doporučíme a za výběrem si stojíme.
               </p>
               <Link href="/shop" className="inline-flex items-center gap-1.5 text-sm font-bold text-[#3B7CF4] hover:gap-3 transition-all">
                 Do e-shopu
@@ -154,11 +154,11 @@ export default function ONasPage() {
 
             {/* OMC */}
             <div className="rounded-2xl border border-[#E2E6F3] p-8 hover:border-[#2EAA6E] hover:shadow-lg transition-all duration-300">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl mb-5" style={{ backgroundColor: "#2EAA6E15" }}>🤝</div>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl mb-5" style={{ backgroundColor: "#2EAA6E15" }}>🤝🏽</div>
               <div className="text-xs tracking-[0.15em] uppercase font-bold text-[#2EAA6E] mb-2">Open Miles Clinic</div>
               <h3 className="text-xl font-black text-[#1a1a2e] mb-3">Jedeme spolu. Není to jen výjezd.</h3>
               <p className="text-sm text-[#5A6480] leading-relaxed mb-6">
-                Social rides, eventy, skupinové akce. Dnes hlavně cyklistika, do budoucna i skialpy, běžky a další outdoor sporty. Komunita, která sport nesdílí na Instagramu — žije ho.
+                Social rides, eventy, skupinové akce. Dnes hlavně cyklistika, do budoucna i skialpy, běžky a další outdoor sporty.
               </p>
               <Link href="/community" className="inline-flex items-center gap-1.5 text-sm font-bold text-[#2EAA6E] hover:gap-3 transition-all">
                 Nadcházející eventy
