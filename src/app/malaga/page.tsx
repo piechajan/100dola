@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import MalagaHero from "@/components/malaga/MalagaHero";
 import MalagaHowItWorks from "@/components/malaga/MalagaHowItWorks";
 import MalagaServices from "@/components/malaga/MalagaServices";
@@ -63,15 +65,19 @@ export default function MalagaPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
       />
 
-      <MalagaHero />
-      <MalagaHowItWorks />
-      <MalagaServices />
-      <MalagaWhyOwnBike />
-      <MalagaBase />
-      <MalagaPackagesPreview />
-      <MalagaTrust />
-      <MalagaFAQPreview />
-      <MalagaFinalCTA />
+      <Navbar />
+      <main className="pt-20">
+        <MalagaHero />
+        <MalagaHowItWorks />
+        <MalagaServices />
+        <MalagaWhyOwnBike />
+        <MalagaBase />
+        <MalagaPackagesPreview />
+        <MalagaTrust />
+        <MalagaFAQPreview />
+        <MalagaFinalCTA />
+      </main>
+      <Footer />
     </>
   );
 }

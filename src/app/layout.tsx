@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import CookiesBanner from "@/components/CookiesBanner";
+import IsaacTestPopup from "@/components/IsaacTestPopup";
 import MetaPixel from "@/components/analytics/MetaPixel";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import JsonLd from "@/components/JsonLd";
@@ -48,6 +49,7 @@ export default function RootLayout({
     <html lang="cs" className={`${inter.variable} h-full`}>
       <body className="min-h-full flex flex-col font-[family-name:var(--font-inter)]">
         {children}
+        <IsaacTestPopup />
         <CookiesBanner />
         <MetaPixel />
         <GoogleAnalytics />

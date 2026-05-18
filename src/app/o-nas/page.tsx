@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { STERNBERK_STORE } from "@/data/company";
 
 export const metadata: Metadata = {
@@ -16,6 +18,8 @@ export const metadata: Metadata = {
 
 export default function ONasPage() {
   return (
+    <>
+    <Navbar />
     <main className="pt-20">
 
       {/* Hero */}
@@ -311,5 +315,7 @@ export default function ONasPage() {
       </section>
 
     </main>
+    <Footer />
+    </>
   );
 }

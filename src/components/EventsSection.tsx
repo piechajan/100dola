@@ -95,7 +95,21 @@ async function getUpcoming(): Promise<HomeEvent[]> {
     ...strava.filter((s) => !seen.has(s.title.toLowerCase().trim())),
   ].sort((a, b) => a.dateISO.localeCompare(b.dateISO));
 
-  return merged.slice(0, 3);
+  // Vždy pin Malaga eventy (Podzimní Malaga I / II) — chceme je v nejviditelnější
+  // sekci homepage, i když jsou v budoucnu daleko.
+  const malagaEvents = merged.filter((e) => e.type.includes("Malaga"));
+  const nonMalaga = merged.filter((e) => !e.type.includes("Malaga"));
+
+  // Top 2 nejbližší non-Malaga + první Malaga = 3 karty
+  const out: HomeEvent[] = [...nonMalaga.slice(0, 2)];
+  if (malagaEvents[0]) out.push(malagaEvents[0]);
+
+  // Pokud Malaga není (např. všechny už proběhly), doplň 3. non-Malaga
+  while (out.length < 3 && nonMalaga[out.length - (malagaEvents[0] ? 1 : 0)]) {
+    out.push(nonMalaga[out.length - (malagaEvents[0] ? 1 : 0)]);
+  }
+
+  return out.slice(0, 3);
 }
 
 export default async function EventsSection() {

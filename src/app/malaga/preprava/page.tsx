@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { MALAGA_BRAND, TRANSPORT_PRICES, TRANSPORT_FRAMING, ADDONS, GROUP_NOTE, EBIKE_SURCHARGE } from "@/data/malaga";
 import MalagaLeadForm from "@/components/malaga/MalagaLeadForm";
 
@@ -28,6 +30,8 @@ export default function PrepravaPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
       />
+      <Navbar />
+      <main className="pt-20">
 
       {/* Hero */}
       <section className="pt-32 pb-12 md:pt-40 md:pb-16 bg-white">
@@ -195,6 +199,8 @@ export default function PrepravaPage() {
           </div>
         </div>
       </section>
+      </main>
+      <Footer />
     </>
   );
 }
