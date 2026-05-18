@@ -38,7 +38,7 @@ const values = [
       </svg>
     ),
     title: "Zázemí na místě",
-    desc: "Malaga není jen nápad. Je to fungující servis. Kola tam jezdí. Zázemí je připravené. Je to skutečné.",
+    desc: "Nápad, dotažený do detailu. 10 min od letiště si u nás dáš kafe, sprchu a můžeš vyrazit.",
   },
 ];
 
@@ -83,7 +83,7 @@ export default function WhySection() {
               role: "Zákazník 100dola sport",
             },
             {
-              quote: "Kolo mám v Malaze od října. Přiletěl jsem třikrát, vždy bylo připravené a v pořádku. Přesně jak říkali.",
+              quote: "Kolo mám v Malaze od října. Přiletěl jsem třikrát, vždy bylo připravené a v pořádku.",
               author: "Lukáš M.",
               role: "Zákazník 100dola malaga",
             },
