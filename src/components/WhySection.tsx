@@ -78,7 +78,7 @@ export default function WhySection() {
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
             {
-              quote: "Nebyl jsem si jistý velikostí kola. Napsal jsem a dostal jsem doporučení na míru — ne obecný popis z Alzy, ale osobní zkušenost.",
+              quote: "Nebyl jsem si jistý velikostí kola a měl obavu objednat bez vyzkoušení. Napsal jsem a dostal jsem podrobný popis, jak přesně změřit všechny míry. Výběr velikosti dopadl perfektně.",
               author: "Tomáš K.",
               role: "Zákazník 100dola sport",
             },
