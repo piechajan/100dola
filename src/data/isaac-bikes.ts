@@ -15,6 +15,7 @@ export const ISAAC_BRAND = {
 } as const;
 
 export const ISAAC_BRING = [
+  { icon: "🪪", label: "Občanský průkaz", required: true, hint: "slouží jako záloha — vrátíme po odevzdání kola" },
   { icon: "⛑", label: "Helma", required: true, hint: "povinná — bez ní jízda nemůže proběhnout" },
   { icon: "🚴", label: "Cyklistické oblečení", required: false, hint: "trika, kraťasy / dres — dle počasí" },
   { icon: "🪛", label: "Vlastní pedály", required: false, hint: "kola jsou bez pedálů, nasadíme tvoje SPD-SL / SPD / flatky" },

@@ -1,38 +1,14 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PASSWORD = "100dola2025";
-const COOKIE = "preview_auth";
+// Preview wall sundán 2026-05-18 — web je veřejně dostupný.
+// Middleware nyní pouze prochází requesty; ponecháno pro budoucí potřeby
+// (např. geo-routing, A/B testy, redirecty).
 
-export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-
-  // Pustit login stránku a API bez kontroly
-  if (
-    pathname.startsWith("/login") ||
-    pathname.startsWith("/api/auth") ||
-    pathname.startsWith("/api/strava-callback") ||
-    pathname.startsWith("/api/fakturoid/webhook") ||
-    pathname.startsWith("/api/cron/") ||
-    pathname === "/isaac-test" ||
-    pathname.startsWith("/isaac-test/") ||
-    pathname.startsWith("/api/isaac-test/")
-  ) {
-    return NextResponse.next();
-  }
-
-  // Zkontrolovat cookie
-  const auth = request.cookies.get(COOKIE);
-  if (auth?.value === PASSWORD) {
-    return NextResponse.next();
-  }
-
-  // Přesměrovat na login
-  const loginUrl = request.nextUrl.clone();
-  loginUrl.pathname = "/login";
-  return NextResponse.redirect(loginUrl);
+export function middleware(_request: NextRequest) {
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|media/|routes/|logo\\.png|logo-malaga\\.png|logo-sport-box\\.png).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|media/|routes/).*)"],
 };

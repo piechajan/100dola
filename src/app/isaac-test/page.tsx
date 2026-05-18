@@ -35,17 +35,17 @@ export default function IsaacTestPage() {
             <div className="mt-5 inline-flex items-start gap-2 px-4 py-3 rounded-xl bg-[#FFF1EA] border border-[#FBC9A8] text-sm text-[#9B3D17] max-w-2xl">
               <span className="text-base">📍</span>
               <div>
-                <strong>Šternberk, náměstí.</strong> Stánek 100dola sport — v cíli{" "}
+                <strong>Obchod 100dola sport</strong>, vedle kavárny Namístě, náměstí Šternberk.
+                V neděli 31. 5. dojezd{" "}
                 <a
                   href="https://www.zavodmiru.cz/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-bold underline"
                 >
-                  Závodu míru
+                  Závodu Míru
                 </a>{" "}
-                (neděle 31. 5.). Tři dny závodního víkendu na náměstí — ty si zatím zkusíš
-                nové kolo.
+                — a ty si můžeš zkusit nové kolo.
               </div>
             </div>
             <div className="grid grid-cols-3 gap-3 mt-8 max-w-2xl">

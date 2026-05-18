@@ -793,8 +793,10 @@ export interface IsaacTestEmailPayload {
   notes?: string;
 }
 
-const ISAAC_LOCATION = "100dola sport, náměstí Šternberk (cíl Závodu míru v neděli)";
+const ISAAC_LOCATION =
+  "Obchod 100dola sport, vedle kavárny Namístě, náměstí Šternberk";
 const BRING_LIST_TEXT = [
+  "• Občanský průkaz (povinný — slouží jako záloha, vrátíme po odevzdání kola)",
   "• Helma (povinná)",
   "• Cyklistické oblečení",
   "• Vlastní pedály",
@@ -881,6 +883,7 @@ export async function sendIsaacTestConfirmation(p: IsaacTestEmailPayload): Promi
       <div style="background:#F7F9FF;border:1px solid #E2E6F3;border-radius:12px;padding:14px;font-size:13px;color:#1a1a2e;line-height:1.6;margin:16px 0">
         <div style="font-weight:700;margin-bottom:6px">Co si vezměte s sebou</div>
         <ul style="margin:0;padding-left:18px">
+          <li><strong>Občanský průkaz</strong> — povinný, slouží jako záloha (vrátíme po odevzdání kola)</li>
           <li><strong>Helma</strong> — povinná</li>
           <li>Cyklistické oblečení</li>
           <li>Vlastní pedály</li>
@@ -889,7 +892,7 @@ export async function sendIsaacTestConfirmation(p: IsaacTestEmailPayload): Promi
       </div>
 
       <div style="background:#FFF8E7;border:1px solid #F5D78E;border-radius:12px;padding:14px;font-size:13px;color:#5A4500;line-height:1.5;margin:16px 0">
-        <strong>Před vyzvednutím:</strong> připravíme za vás protokol o zápůjčce, jen podepíšete. Doneste si doklad totožnosti. Po dobu zápůjčky plně odpovídáte za kolo.
+        <strong>Před vyzvednutím:</strong> připravíme za vás protokol o zápůjčce, jen podepíšete a předáte OP jako zálohu. Po dobu zápůjčky plně odpovídáte za kolo.
       </div>
 
       <p style="margin:0 0 16px;font-size:13px;color:#5A6480">
@@ -976,12 +979,12 @@ export async function scheduleIsaacTestReminder(
     `dnes v ${p.slotLabel} máš testovací jízdu ISAAC.`,
     ``,
     `Kolo:  ${p.bike}`,
+    `Místo: ${ISAAC_LOCATION}`,
     ``,
     `Co si nezapomeň vzít:`,
     ...BRING_LIST_TEXT,
-    `• Doklad totožnosti (kvůli protokolu)`,
     ``,
-    `Připrav se 10 min předem — kolo seřídíme, nasadíme tvoje pedály, podepíšeš protokol a jedeš.`,
+    `Připrav se 10 min předem — kolo seřídíme, nasadíme tvoje pedály, podepíšeš protokol, předáš OP jako zálohu a jedeš.`,
     ``,
     `Kdyby cokoliv: +420 739 045 057.`,
     ``,
@@ -998,11 +1001,11 @@ export async function scheduleIsaacTestReminder(
       <div style="background:#F7F9FF;border:1px solid #E2E6F3;border-radius:12px;padding:14px;font-size:14px;color:#1a1a2e;line-height:1.7;margin:16px 0">
         <div style="font-weight:700;margin-bottom:6px">Co si vezmi</div>
         <ul style="margin:0;padding-left:18px">
+          <li><strong>Občanský průkaz</strong> (záloha — vrátíme po odevzdání kola)</li>
           <li><strong>Helma</strong> (povinná)</li>
           <li>Cyklistické oblečení</li>
           <li>Vlastní pedály</li>
           <li>Tretry</li>
-          <li>Doklad totožnosti</li>
         </ul>
       </div>
       <p style="margin:0;font-size:14px;color:#5A6480">

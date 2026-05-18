@@ -73,8 +73,9 @@ export default function IsaacTermsPage() {
                   dokument, který sepíšeme za tebe. Ty jen doplníš podpis.
                 </li>
                 <li>
-                  Doneste si <strong>doklad totožnosti</strong> (občanský průkaz nebo cestovní pas)
-                  pro ověření identity v protokolu.
+                  Doneste si <strong>občanský průkaz</strong> — slouží jako{" "}
+                  <strong>záloha</strong> po dobu zápůjčky a zároveň pro ověření identity v
+                  protokolu. OP ti <strong>vrátíme ihned</strong> po odevzdání kola.
                 </li>
                 <li>
                   Příjď minimálně 10 minut před začátkem slotu — kolo seřídíme a nasadíme tvoje
