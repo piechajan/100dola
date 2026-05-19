@@ -38,6 +38,11 @@ export const metadata: Metadata = {
     description:
       "Sport. Komunita. Malaga. Jeden ekosystém pro aktivní lidi.",
   },
+  verification: {
+    other: {
+      "facebook-domain-verification": "y1jp4omgb0ozsmp8hscr59q1qqdp78",
+    },
+  },
 };
 
 export default function RootLayout({
