@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -32,10 +33,20 @@ export default function IsaacTestPage() {
         <section className="bg-white border-b border-[#E2E6F3]">
           <div className="max-w-[1100px] mx-auto px-6 md:px-12 py-12 md:py-16">
             <div className="text-xs tracking-[0.22em] uppercase font-bold text-[#3B7CF4] mb-2">
-              100dola sport · Testovací jízdy
+              100dola sport
             </div>
-            <h1 className="text-3xl md:text-5xl font-black text-[#1a1a2e] leading-tight mb-4">
-              Vyzkoušej ISAAC.
+            <h1 className="flex flex-wrap items-baseline gap-3 md:gap-4 text-3xl md:text-5xl font-black text-[#1a1a2e] leading-tight mb-4">
+              <span>Vyzkoušej</span>
+              <Image
+                src="/brands/isaac.svg"
+                alt="ISAAC"
+                width={180}
+                height={60}
+                className="h-[0.85em] md:h-[0.9em] w-auto inline-block"
+                priority
+              />
+              <span aria-hidden>.</span>
+              <span className="sr-only">ISAAC.</span>
             </h1>
             <p className="text-base md:text-lg text-[#5A6480] max-w-2xl leading-relaxed">
               Road a gravel modely Meson, Element, Boson, Vitron, Kaon a Torus Xplore.

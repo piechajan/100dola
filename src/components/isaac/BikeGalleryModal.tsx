@@ -140,7 +140,13 @@ export default function BikeGalleryModal({ bike, onClose }: Props) {
                   i === index ? "border-[#3B7CF4]" : "border-transparent"
                 }`}
               >
-                <Image src={p} alt="" fill className="object-cover" sizes="64px" />
+                <Image
+                  src={p}
+                  alt={`${bike.model} ${bike.color} — náhled ${i + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="64px"
+                />
               </button>
             ))}
           </div>

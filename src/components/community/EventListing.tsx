@@ -133,7 +133,7 @@ const events: UIEvent[] = [
   {
     id: 6,
     slug: "isaac-test-sternberk",
-    title: "Testovací jízdy ISAAC · Šternberk",
+    title: "Vyzkoušej ISAAC · Šternberk",
     sport: "Silnice",
     date: "Pá–Ne 29.–31. května",
     time: "9:00",

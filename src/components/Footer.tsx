@@ -22,7 +22,7 @@ const links: Record<string, { label: string; href: string; external?: boolean }[
   "Open Miles Clinic": [
     { label: "Nadcházející eventy", href: "/community" },
     { label: "O Open Miles Clinic", href: "/community/o-klinice" },
-    { label: "Testovací jízdy ISAAC", href: "/isaac-test" },
+    { label: "Vyzkoušej ISAAC", href: "/isaac-test" },
     { label: "@open_miles_clinic", href: "https://www.instagram.com/open_miles_clinic/", external: true },
   ],
   "100dola": [

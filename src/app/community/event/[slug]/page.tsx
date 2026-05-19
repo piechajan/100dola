@@ -142,9 +142,28 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   {event.slug === "season-opening" ? (
                     <RouteMapClient accentColor={color} />
                   ) : event.mapUrl ? (
-                    <div className="rounded-xl overflow-hidden h-64">
-                      <iframe src={event.mapUrl} width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy" title={`Mapa trasy — ${event.title}`} />
-                    </div>
+                    <>
+                      <div className="rounded-xl overflow-hidden h-64 border border-[#E2E6F3]">
+                        <iframe
+                          src={event.mapUrl}
+                          width="100%"
+                          height="100%"
+                          style={{ border: 0 }}
+                          allowFullScreen
+                          loading="lazy"
+                          referrerPolicy="no-referrer-when-downgrade"
+                          title={`Mapa — ${event.title}`}
+                        />
+                      </div>
+                      <a
+                        href="https://www.google.com/maps/place/Partyz%C3%A1nsk%C3%A1+2,+785+01+%C5%A0ternberk/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 mt-3 text-xs font-bold text-[#3B7CF4] hover:underline"
+                      >
+                        📍 Navigovat (Google Mapy) →
+                      </a>
+                    </>
                   ) : (
                     <div className="rounded-xl h-52 flex items-center justify-center bg-[#F0F2FA]">
                       <div className="text-center text-[#9AA3C2]">
@@ -192,7 +211,13 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   <div className="grid grid-cols-3 gap-3">
                     {event.photoGallery.map((src, i) => (
                       <div key={i} className="aspect-square rounded-xl overflow-hidden bg-[#F0F2FA]">
-                        <img src={src} alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={src}
+                          alt={`${event.title} — fotka ${i + 1} z předchozího ročníku`}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                        />
                       </div>
                     ))}
                   </div>

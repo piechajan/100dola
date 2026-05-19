@@ -15,7 +15,10 @@ export default function IsaacTestPopup() {
     if (today >= EVENT_END_ISO) return;
 
     try {
-      if (localStorage.getItem(STORAGE_KEY)) return;
+      // sessionStorage = 1× per browser session.
+      // Když user zavře tab a vrátí se, popup se zobrazí znova.
+      // V jedné session ho ale ukáže jen jednou (po dismissu už ne).
+      if (sessionStorage.getItem(STORAGE_KEY)) return;
     } catch {
       // ignore — show popup
     }
@@ -27,7 +30,7 @@ export default function IsaacTestPopup() {
 
   function dismiss() {
     try {
-      localStorage.setItem(STORAGE_KEY, new Date().toISOString());
+      sessionStorage.setItem(STORAGE_KEY, new Date().toISOString());
     } catch {
       // ignore
     }
