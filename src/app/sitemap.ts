@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { PRODUCTS } from "@/data/products";
 import { events } from "@/data/events";
+import { ARTICLES } from "@/data/articles";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com";
 
@@ -32,6 +33,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/sport/kolekce",
     "/isaac-test",
     "/isaac-test/podminky",
+    "/clanky",
+    "/kontakt",
+    "/obchodni-podminky",
+    "/ochrana-osobnich-udaju",
     "/zasady-cookies",
   ];
 
@@ -39,8 +44,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const eventRoutes = events
     .filter((e) => !e.externalUrl)
     .map((e) => `/community/event/${e.slug}`);
+  const articleRoutes = ARTICLES.filter((a) => a.status === "published").map(
+    (a) => `/clanky/${a.slug}`,
+  );
 
-  const allRoutes = [...staticRoutes, ...productRoutes, ...eventRoutes];
+  const allRoutes = [...staticRoutes, ...productRoutes, ...eventRoutes, ...articleRoutes];
 
   return allRoutes.map((path) => ({
     url: `${BASE_URL}${path}`,

@@ -27,6 +27,7 @@ const links: Record<string, { label: string; href: string; external?: boolean }[
   ],
   "100dola": [
     { label: "O nás", href: "/o-nas" },
+    { label: "Magazín / Články", href: "/clanky" },
     { label: "Kontakt", href: "/kontakt" },
     { label: "Obchodní podmínky", href: "/obchodni-podminky" },
     { label: "Ochrana osobních údajů", href: "/ochrana-osobnich-udaju" },

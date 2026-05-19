@@ -6,10 +6,19 @@ import IsaacTestForm from "@/components/isaac/IsaacTestForm";
 import { ISAAC_BIKES, ISAAC_DAYS, ISAAC_BRAND, ISAAC_BRING } from "@/data/isaac-bikes";
 
 export const metadata: Metadata = {
-  title: "Testovací jízdy ISAAC · 100dola sport",
+  title: "Testovací jízdy ISAAC · Šternberk · víkend Závodu Míru 2026",
   description:
-    "Vyzkoušej ISAAC kola — Meson, Element, Boson, Vitron, Kaon a Torus Xplore. Road a gravel modely s Ultegra Di2, 105 Di2 a GRX. Hodinová zápůjčka zdarma, 29.–31. května 2026.",
+    "Vyzkoušej ISAAC kola během víkendu Závodu Míru ve Šternberku — Meson, Element, Boson, Vitron, Kaon, Torus Xplore. Road i gravel, hodinová zápůjčka zdarma. 29.–31. května 2026.",
   alternates: { canonical: "https://www.100dola.com/isaac-test" },
+  keywords: [
+    "ISAAC kola test",
+    "testovací jízdy Šternberk",
+    "Závod Míru Šternberk",
+    "Závod Míru 2026 dojezd",
+    "Závod Míru U23",
+    "cyklistika Šternberk",
+    "ISAAC Meson Element Boson Vitron",
+  ],
 };
 
 export const dynamic = "force-dynamic";
@@ -146,6 +155,34 @@ export default function IsaacTestPage() {
         {/* Form */}
         <section className="max-w-[1100px] mx-auto px-6 md:px-12 py-10">
           <IsaacTestForm bikes={ISAAC_BIKES} days={ISAAC_DAYS} />
+        </section>
+
+        {/* Závod Míru — teaser na článek v magazínu */}
+        <section className="max-w-[1100px] mx-auto px-6 md:px-12 pb-6">
+          <Link
+            href="/clanky/zavod-miru-2026-sternberk"
+            className="block bg-gradient-to-br from-[#FFF1EA] to-[#FFE0D0] border border-[#FBC9A8] rounded-2xl p-6 md:p-8 hover:shadow-lg transition group"
+          >
+            <div className="flex items-start gap-4">
+              <div className="text-4xl">🚴</div>
+              <div className="flex-1">
+                <div className="text-[10px] uppercase tracking-wider font-bold text-[#9B3D17] mb-2">
+                  V magazínu · událost
+                </div>
+                <h2 className="text-xl md:text-2xl font-black text-[#1a1a2e] mb-2 leading-tight">
+                  Závod Míru 2026 končí ve Šternberku — trasa, program, kde sledovat dojezd
+                </h2>
+                <p className="text-sm text-[#5A6480] leading-relaxed mb-3">
+                  Finálová etapa juniorského UCI Závodu Míru U23 vede v neděli 31. 5. 2026
+                  z Krnova do Šternberka. 130,6 km, 2 278 m, dojezd kolem 17:00. Plus
+                  všechno o tom, jak spojit dojezd s testovací jízdou ISAAC v centru.
+                </p>
+                <span className="inline-flex items-center gap-1 text-sm font-bold text-[#E8431A] group-hover:underline">
+                  Číst článek →
+                </span>
+              </div>
+            </div>
+          </Link>
         </section>
 
         {/* CTA — eshop */}
