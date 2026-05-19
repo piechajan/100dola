@@ -49,7 +49,7 @@ export const ARTICLES: Article[] = [
     category: "udalost",
     publishedAt: "2026-05-19",
     author: { name: "Jan Piecha", role: "100dola sport" },
-    image: "/media/sport-hero.jpg",
+    image: "/media/articles/zavod-miru-sternberk-hero.jpg",
     status: "published",
     readMinutes: 8,
   },

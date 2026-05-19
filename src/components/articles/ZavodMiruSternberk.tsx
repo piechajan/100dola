@@ -20,12 +20,24 @@ export default function ZavodMiruSternberk() {
     <article id="zavod-miru-sternberk" className="bg-white">
       <div className="max-w-[820px] mx-auto px-6 md:px-12 py-12 md:py-16">
         {/* Lead intro — hero už je v page wrapperu */}
-        <p className="text-lg text-[#5A6480] leading-relaxed mb-10">
+        <p className="text-lg text-[#5A6480] leading-relaxed mb-2">
           Finálová 4. etapa juniorského UCI Závodu Míru U23 vede v neděli{" "}
           <strong>31. května 2026</strong> z Krnova přes Hrubý Jeseník do cíle na centrum
           Šternberka — <strong>130,6 km, 2 278 m převýšení</strong>, předpokládaný dojezd
           kolem <strong>17:00–17:30</strong>. Tři dny předtím se peloton žene Olomouckým
           krajem přes Šumperk, Rýmařov a sjezd z Dlouhých Strání.
+        </p>
+        <p className="text-[10px] text-[#9AA3C2] mb-10">
+          Hero foto: Hlavní náměstí Šternberk —{" "}
+          <a
+            href="https://commons.wikimedia.org/wiki/File:Sternberg_-_city_center.jpg"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            Wikimedia Commons
+          </a>
+          , CC BY-SA.
         </p>
 
         {/* Quick facts box */}
@@ -200,13 +212,11 @@ export default function ZavodMiruSternberk() {
             <li>
               <strong className="text-[#1a1a2e]">Obchod 100dola sport</strong> (
               {STERNBERK_STORE.streetAddress}, {STERNBERK_STORE.landmark}): testovací
-              jízdy ISAAC, kafe, sprcha, parkování pro tvoje kolo. Stačí přijít — máme
-              otevřeno celý víkend.
+              jízdy ISAAC zdarma, otevřeno celý víkend.
             </li>
             <li>
               <strong className="text-[#1a1a2e]">TV / živé vysílání</strong>: ČT Sport
-              vysílá živě finále závodu od cca 16:00. Můžeš sledovat doma a pak přijet
-              jen na vyhlášení.
+              vysílá živě finále závodu od cca 16:00.
             </li>
           </ul>
         </section>
@@ -255,6 +265,23 @@ export default function ZavodMiruSternberk() {
                 Gotický hrad nad městem (10 min pěšky z náměstí). Otevřeno o víkendu, vstup
                 cca 150 Kč, krásný výhled na město a okolí. Možnost prohlídky interiérů.
               </p>
+            </div>
+            <div className="bg-[#F7F9FF] rounded-2xl p-5">
+              <div className="text-2xl mb-2">🛏️</div>
+              <h4 className="font-black text-[#1a1a2e] mb-1">Pension U Hradu</h4>
+              <p className="text-sm text-[#5A6480] leading-relaxed mb-2">
+                Ubytování i restaurace pod samotným hradem (Ořechová 15). Restaurace s
+                výhledem na hrad a zahrady, výborné jídlo, kamenný krb. Deluxe pokoje
+                s terasou a panoramatickým výhledem na město.
+              </p>
+              <a
+                href="https://www.pension-uhradu.cz/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-bold text-[#3B7CF4] hover:underline"
+              >
+                pension-uhradu.cz →
+              </a>
             </div>
             <div className="bg-[#F7F9FF] rounded-2xl p-5">
               <div className="text-2xl mb-2">🚴</div>
