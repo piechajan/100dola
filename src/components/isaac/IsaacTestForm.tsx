@@ -405,7 +405,15 @@ export default function IsaacTestForm({ bikes, days }: Props) {
 
       <p className="text-xs text-[#9AA3C2] text-center">
         Po odeslání rezervace ti přijde potvrzovací e-mail s odkazem do Google Kalendáře.
-        Ráno v den testu ti pošleme připomínku. Pokud nemůžeš přijít, ozvi se co nejdřív.
+        Ráno v den testu ti pošleme připomínku. Cancel link najdeš v obou mailech —
+        nebo si rezervaci{" "}
+        <Link
+          href="/isaac-test/zrusit-rezervaci"
+          className="text-[#E8431A] font-bold hover:underline"
+        >
+          zruš tady
+        </Link>
+        .
       </p>
     </form>
 

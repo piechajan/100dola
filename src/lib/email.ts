@@ -847,6 +847,8 @@ export interface IsaacTestEmailPayload {
   email: string;
   phone: string;
   notes?: string;
+  /** Cancel token — pro link na zrušení rezervace v e-mailu. */
+  cancelToken?: string;
 }
 
 const ISAAC_LOCATION =
@@ -908,7 +910,10 @@ export async function sendIsaacTestConfirmation(p: IsaacTestEmailPayload): Promi
     ``,
     `Ráno v 8:00 v den testu vám připomeneme detail e-mailem.`,
     ``,
-    `Pokud byste přijít nemohl/a, ozvi se prosím co nejdřív.`,
+    `Pokud byste přijít nemohl/a, můžete rezervaci zrušit 1 klikem:`,
+    p.cancelToken
+      ? `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com"}/api/isaac-test/cancel?token=${p.cancelToken}`
+      : `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com"}/isaac-test/zrusit-rezervaci`,
     ``,
     `Jan Piecha`,
     `100dola sport · +420 739 045 057`,
@@ -954,6 +959,14 @@ export async function sendIsaacTestConfirmation(p: IsaacTestEmailPayload): Promi
       <p style="margin:0 0 16px;font-size:13px;color:#5A6480">
         Ráno v 8:00 v den testu vám připomeneme detail e-mailem.
       </p>
+
+      ${
+        p.cancelToken
+          ? `<p style="margin:16px 0;font-size:12px;color:#9AA3C2;text-align:center;padding-top:12px;border-top:1px solid #F0F2FA">
+          Pokud nemůžete přijít, můžete <a href="${process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com"}/api/isaac-test/cancel?token=${p.cancelToken}" style="color:#E8431A;font-weight:700">zrušit rezervaci jedním klikem</a>. Slot se ihned uvolní pro další.
+        </p>`
+          : ""
+      }
 
       <p style="margin:24px 0 0;font-size:13px;color:#9AA3C2">
         Jan Piecha · 100dola sport · +420 739 045 057
@@ -1042,6 +1055,11 @@ export async function scheduleIsaacTestReminder(
     ``,
     `Připrav se 10 min předem — kolo seřídíme, nasadíme tvoje pedály, podepíšeš protokol, předáš OP jako zálohu a jedeš.`,
     ``,
+    `Kdybys to nestihl/a, zruš rezervaci 1 klikem:`,
+    p.cancelToken
+      ? `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com"}/api/isaac-test/cancel?token=${p.cancelToken}`
+      : `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com"}/isaac-test/zrusit-rezervaci`,
+    ``,
     `Kdyby cokoliv: +420 739 045 057.`,
     ``,
     `Jan`,
@@ -1067,6 +1085,13 @@ export async function scheduleIsaacTestReminder(
       <p style="margin:0;font-size:14px;color:#5A6480">
         Připrav se 10 min předem. Kdyby cokoliv: <strong>+420 739 045 057</strong>.
       </p>
+      ${
+        p.cancelToken
+          ? `<p style="margin:16px 0 0;font-size:12px;color:#9AA3C2;text-align:center;padding-top:12px;border-top:1px solid #F0F2FA">
+          Nestíháš? <a href="${process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com"}/api/isaac-test/cancel?token=${p.cancelToken}" style="color:#E8431A;font-weight:700">Zrušit rezervaci jedním klikem</a>.
+        </p>`
+          : ""
+      }
       <p style="margin:24px 0 0;font-size:13px;color:#9AA3C2">Jan · 100dola sport</p>
     </div>
   `;
@@ -1160,5 +1185,151 @@ export async function sendContactConfirmation(p: ContactEmailPayload): Promise<v
     });
   } catch (e) {
     console.error("[email] sendContactConfirmation failed:", e);
+  }
+}
+
+// ── ISAAC test cancel — confirm, notif, request-link list ────────────────────
+
+export interface IsaacCancelEmailPayload {
+  reservationId: number;
+  bike: string;
+  slotLabel: string;
+  slotStart: string;
+  slotEnd: string;
+  fullName: string;
+  email: string;
+  phone: string;
+}
+
+const SITE_BASE = process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com";
+
+export async function sendIsaacCancelConfirmation(p: IsaacCancelEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+  const subject = `Rezervace ISAAC zrušena · ${p.slotLabel}`;
+  const text = [
+    `Dobrý den ${p.fullName},`,
+    ``,
+    `vaše rezervace testovací jízdy ISAAC byla zrušena.`,
+    ``,
+    `Kolo:   ${p.bike}`,
+    `Termín: ${p.slotLabel}`,
+    ``,
+    `Slot je teď volný pro další zájemce. Pokud si to rozmyslíte, můžete si`,
+    `vybrat nový termín na ${SITE_BASE}/isaac-test.`,
+    ``,
+    `Díky,`,
+    `100dola sport`,
+  ].join("\n");
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.email,
+      subject,
+      text,
+    });
+  } catch (e) {
+    console.error("[email] sendIsaacCancelConfirmation failed:", e);
+  }
+}
+
+export async function sendIsaacCancelNotification(p: IsaacCancelEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+  const subject = `❌ ISAAC zrušeno · ${p.fullName} · ${p.slotLabel}`;
+  const text = [
+    `Klient zrušil rezervaci ISAAC testovací jízdy`,
+    ``,
+    `Klient:  ${p.fullName} · ${p.email} · ${p.phone}`,
+    `Kolo:    ${p.bike}`,
+    `Termín:  ${p.slotLabel}`,
+    ``,
+    `Slot je teď znovu dostupný.`,
+    `→ ${SITE_BASE}/admin/isaac-test`,
+  ].join("\n");
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: NOTIFY_EMAIL,
+      replyTo: p.email,
+      subject,
+      text,
+    });
+  } catch (e) {
+    console.error("[email] sendIsaacCancelNotification failed:", e);
+  }
+}
+
+export async function sendIsaacCancelLinkList(p: {
+  email: string;
+  fullName: string;
+  reservations: { id: number; bike: string; slotLabel: string; cancelToken: string }[];
+}): Promise<void> {
+  if (!isEmailConfigured()) return;
+  if (p.reservations.length === 0) return;
+
+  const subject = `Zrušení rezervace ISAAC · klikni na odkaz`;
+  const linksText = p.reservations
+    .map(
+      (r) =>
+        `  • ${r.bike} · ${r.slotLabel}\n    Zrušit: ${SITE_BASE}/api/isaac-test/cancel?token=${r.cancelToken}`,
+    )
+    .join("\n\n");
+  const text = [
+    `Dobrý den ${p.fullName || ""},`,
+    ``,
+    `vyžádal/a sis zrušení rezervace ISAAC testovací jízdy.`,
+    `Máme pro tebe ${p.reservations.length === 1 ? "tuto rezervaci" : `${p.reservations.length} aktivních rezervací`}:`,
+    ``,
+    linksText,
+    ``,
+    `Klik na link nad termínem, který chceš zrušit. Slot se okamžitě uvolní.`,
+    ``,
+    `Pokud jsi o zrušení nepožádal/a, prostě tento e-mail ignoruj — žádné rezervace se nezruší samy.`,
+    ``,
+    `Díky,`,
+    `100dola sport`,
+  ].join("\n");
+
+  const linksHtml = p.reservations
+    .map(
+      (r) => `
+      <div style="background:#F7F9FF;border:1px solid #E2E6F3;border-radius:12px;padding:14px;margin:12px 0">
+        <div style="font-weight:700;color:#1a1a2e;margin-bottom:4px">${escapeHtml(r.bike)}</div>
+        <div style="font-size:13px;color:#5A6480;margin-bottom:10px">${escapeHtml(r.slotLabel)}</div>
+        <a href="${SITE_BASE}/api/isaac-test/cancel?token=${r.cancelToken}"
+           style="display:inline-block;background:#E8431A;color:#fff;text-decoration:none;padding:10px 18px;border-radius:999px;font-weight:700;font-size:13px;">
+          Zrušit tuto rezervaci
+        </a>
+      </div>`,
+    )
+    .join("");
+
+  const html = `
+    <div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1a1a2e">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#E8431A;font-weight:700;margin-bottom:8px">
+        ISAAC test · zrušení
+      </div>
+      <h2 style="margin:0 0 12px;font-size:20px">Klikni na rezervaci, kterou chceš zrušit</h2>
+      <p style="margin:0 0 8px;font-size:14px;color:#5A6480">
+        Aktivní rezervace na ${escapeHtml(p.email)}:
+      </p>
+      ${linksHtml}
+      <p style="margin:20px 0 0;font-size:12px;color:#9AA3C2">
+        Pokud jsi o zrušení nepožádal/a, e-mail klidně ignoruj — žádné rezervace se nezruší samy.
+      </p>
+    </div>
+  `;
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.email,
+      subject,
+      text,
+      html,
+    });
+  } catch (e) {
+    console.error("[email] sendIsaacCancelLinkList failed:", e);
   }
 }

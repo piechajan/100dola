@@ -75,6 +75,7 @@ export async function POST(req: NextRequest) {
 
   const sb = getSupabase();
   const label = bikeLabel(bike);
+  const cancelToken = randomBytes(24).toString("hex");
 
   // 1) Insert rezervace
   const { data: inserted, error } = await sb
@@ -92,6 +93,7 @@ export async function POST(req: NextRequest) {
       consent_gdpr: data.consentGdpr,
       subscribe_newsletter: data.subscribeNewsletter ?? false,
       notes: data.notes || null,
+      cancel_token: cancelToken,
     })
     .select("id")
     .single();
@@ -142,6 +144,7 @@ export async function POST(req: NextRequest) {
     email: data.email,
     phone: data.phone,
     notes: data.notes,
+    cancelToken,
   };
 
   // Confirm (immediate) + admin notif (immediate) — fire-and-forget
