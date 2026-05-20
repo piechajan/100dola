@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { trackMetaEvent } from "@/components/analytics/MetaPixel";
+import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 
 export default function CommunityNewsletter() {
   const [email, setEmail] = useState("");
@@ -30,6 +32,15 @@ export default function CommunityNewsletter() {
       });
       if (!res.ok) throw new Error("Server error");
       setDone(true);
+      trackMetaEvent("Lead", {
+        content_name: "Community newsletter",
+        content_category: "newsletter",
+      });
+      trackGoogleEvent("generate_lead", {
+        event_category: "newsletter",
+        event_label: "community",
+        value: 1,
+      });
     } catch {
       setError("Něco se nepovedlo. Zkus to znovu za chvíli.");
       setSubmitting(false);

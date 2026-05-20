@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { trackMetaEvent } from "@/components/analytics/MetaPixel";
+import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 
 const TOPICS = [
   { value: "general", label: "Obecná otázka" },
@@ -51,6 +53,15 @@ export default function ContactForm() {
       setResult({
         ok: true,
         message: "Zpráva odeslána. Ozveme se ti během 24 hodin.",
+      });
+      trackMetaEvent("Lead", {
+        content_name: "Contact form",
+        content_category: topic,
+      });
+      trackGoogleEvent("generate_lead", {
+        event_category: "contact",
+        event_label: topic,
+        value: 1,
       });
       setName(""); setEmail(""); setPhone(""); setMessage("");
       setTopic("general"); setConsentGdpr(false);

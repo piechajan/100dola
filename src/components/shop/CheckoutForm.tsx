@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart, getCartTotals } from "@/lib/cart-store";
 import { formatPrice } from "@/data/products";
+import { trackMetaEvent } from "@/components/analytics/MetaPixel";
+import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 import {
   calcShippingFee,
   isPaymentAvailable,
@@ -184,6 +186,24 @@ export default function CheckoutForm() {
     setSubmitting(true);
     setError(null);
 
+    trackMetaEvent("InitiateCheckout", {
+      content_ids: items.map((i) => i.slug),
+      contents: items.map((i) => ({ id: i.slug, quantity: i.qty, item_price: i.priceWithVat })),
+      num_items: items.reduce((sum, i) => sum + i.qty, 0),
+      value: total,
+      currency: "CZK",
+    });
+    trackGoogleEvent("begin_checkout", {
+      currency: "CZK",
+      value: total,
+      items: items.map((i) => ({
+        item_id: i.slug,
+        item_name: i.name,
+        price: i.priceWithVat,
+        quantity: i.qty,
+      })),
+    });
+
     const payload = {
       source: "order" as const,
       items: items.map((i) => ({
@@ -225,6 +245,24 @@ export default function CheckoutForm() {
         setSubmitting(false);
         return;
       }
+      trackMetaEvent("Purchase", {
+        content_ids: items.map((i) => i.slug),
+        contents: items.map((i) => ({ id: i.slug, quantity: i.qty, item_price: i.priceWithVat })),
+        num_items: items.reduce((sum, i) => sum + i.qty, 0),
+        value: total,
+        currency: "CZK",
+      });
+      trackGoogleEvent("purchase", {
+        transaction_id: data.orderId,
+        currency: "CZK",
+        value: total,
+        items: items.map((i) => ({
+          item_id: i.slug,
+          item_name: i.name,
+          price: i.priceWithVat,
+          quantity: i.qty,
+        })),
+      });
       clear();
       router.push(`/objednavka/${data.orderId}`);
     } catch {

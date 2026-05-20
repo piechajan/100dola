@@ -304,6 +304,95 @@ export default function ZavodMiruSternberk() {
           </div>
         </section>
 
+        {/* Tipy kde sledovat / co vidět kolem trasy */}
+        <section className="mb-12">
+          <h3 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-4">
+            Tipy na zajímavá místa v okolí
+          </h3>
+          <p className="text-base text-[#5A6480] leading-relaxed mb-5">
+            Pokud nechceš jen čekat v cíli, kolem Šternberka je spousta míst, kde se dá
+            spojit sledování závodu s prohlídkou nebo procházkou. Sem tipy ověřené:
+          </p>
+          <div className="space-y-3">
+            {[
+              {
+                icon: "🏆",
+                name: "Cílová zóna — Radniční ulice + Horní náměstí",
+                desc: "Hlavní cíl etapy. Nejlepší atmosféra, VIP zóna, komentátoři, vyhlášení. Přijď 1–2 h před dojezdem.",
+                mapsUrl:
+                  "https://www.google.com/maps/place/Horn%C3%AD+n%C3%A1m%C4%9Bst%C3%AD,+785+01+%C5%A0ternberk/",
+              },
+              {
+                icon: "🏰",
+                name: "Hrad Šternberk",
+                desc: "Gotický hrad nad městem — 10 min pěšky z náměstí. Z hradeb krásný výhled na cílovou zónu i okolí. O víkendu otevřeno, vstup ~150 Kč.",
+                mapsUrl:
+                  "https://www.google.com/maps/place/Hrad+%C5%A0ternberk/",
+              },
+              {
+                icon: "⛪",
+                name: "Klášter a kostel Zvěstování Panny Marie",
+                desc: "Bývalý augustiniánský klášter pod hradem. Tichý a historicky zajímavý prostor pár metrů od cíle, dobrá pauza mezi závodem a vyhlášením.",
+                mapsUrl:
+                  "https://www.google.com/maps/search/Kl%C3%A1%C5%A1ter+Zv%C4%9Bstov%C3%A1n%C3%AD+Panny+Marie+%C5%A0ternberk/",
+              },
+              {
+                icon: "🌄",
+                name: "Vyhlídka Lipina",
+                desc: "Asi 5 km nad Šternberkem — panoramatický pohled na město a Hrubý Jeseník. Pokud přijedeš na kole, populární Strava segment z města nahoru.",
+                mapsUrl:
+                  "https://www.google.com/maps/place/Lipina+u+%C5%A0ternberka/",
+              },
+              {
+                icon: "🌲",
+                name: "Mariánské Údolí (Hlubočky)",
+                desc: "Lesní oblast 12 km jihovýchodně od Šternberka — kavárna v lese, procházky podél Bystřice. Klidný únik před dojezdem do města.",
+                mapsUrl:
+                  "https://www.google.com/maps/place/Mari%C3%A1nsk%C3%A9+%C3%9Adol%C3%AD,+Hlubo%C4%8Dky/",
+              },
+              {
+                icon: "🍺",
+                name: "Šternberk centrum po závodě",
+                desc: "Po vyhlášení žijí náměstí a kavárny ještě hodiny. Restaurace v centru otevřené, atmosféra výborná — Šternberk je v ten večer nejlepší cíl na pivo v kraji.",
+                mapsUrl:
+                  "https://www.google.com/maps/place/N%C3%A1m%C4%9Bst%C3%AD+%C5%A0ternberk/",
+              },
+            ].map((spot) => (
+              <div
+                key={spot.name}
+                className="bg-white border border-[#E2E6F3] rounded-2xl p-4 flex items-start gap-4"
+              >
+                <div className="text-2xl flex-shrink-0">{spot.icon}</div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-black text-[#1a1a2e] mb-1">{spot.name}</h4>
+                  <p className="text-sm text-[#5A6480] leading-relaxed mb-2">{spot.desc}</p>
+                  <a
+                    href={spot.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[#3B7CF4] hover:underline"
+                  >
+                    📍 Otevřít v Google Mapách →
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-[#9AA3C2] mt-4">
+            Detailní trasa etapy se obvykle zveřejňuje pár dní před závodem na{" "}
+            <a
+              href="https://zavodmiru.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#3B7CF4] hover:underline"
+            >
+              zavodmiru.com
+            </a>{" "}
+            — pokud chceš peloton chytit na konkrétním místě trasy mimo Šternberk,
+            zkontroluj časovou mapu těsně před dnem etapy.
+          </p>
+        </section>
+
         {/* Historie závodu */}
         <section className="mb-12">
           <h3 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-4">

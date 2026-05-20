@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { LAB_BRAND, LAB_SERVICES, LAB_CONTACT } from "@/data/lab";
+import { trackMetaEvent } from "@/components/analytics/MetaPixel";
+import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 
 const accent = LAB_BRAND.color;
 
@@ -75,6 +77,15 @@ export default function LabLeadForm() {
       });
       if (!res.ok) throw new Error("Server error");
       setDone(true);
+      trackMetaEvent("Lead", {
+        content_name: "Lab inquiry",
+        content_category: services.join(",") || "undecided",
+      });
+      trackGoogleEvent("generate_lead", {
+        event_category: "lab",
+        event_label: services.join(",") || "undecided",
+        value: 1,
+      });
     } catch {
       setError("Něco se nepovedlo. Zkus to za chvilku znovu, nebo nám napiš e-mail přímo.");
       setSubmitting(false);

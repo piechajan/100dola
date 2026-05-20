@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { MALAGA_BRAND, GROUP_NOTE, EBIKE_SURCHARGE } from "@/data/malaga";
+import { trackMetaEvent } from "@/components/analytics/MetaPixel";
+import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 
 const accent = MALAGA_BRAND.color;
 
@@ -84,6 +86,15 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
       });
       if (!res.ok) throw new Error("Server error");
       setDone(true);
+      trackMetaEvent("Lead", {
+        content_name: "Malaga inquiry",
+        content_category: intent,
+      });
+      trackGoogleEvent("generate_lead", {
+        event_category: "malaga",
+        event_label: intent,
+        value: 1,
+      });
     } catch {
       setError("Něco se nepovedlo. Zkus to za chvilku znovu, nebo nám napiš e-mail přímo.");
       setSubmitting(false);

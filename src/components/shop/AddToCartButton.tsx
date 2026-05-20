@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useCart } from "@/lib/cart-store";
 import type { Product } from "@/data/products";
+import { trackMetaEvent } from "@/components/analytics/MetaPixel";
+import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 
 interface Props {
   product: Product;
@@ -19,6 +21,26 @@ export default function AddToCartButton({ product, large }: Props) {
     setAdding(true);
     addToCart(product, qty);
     openDrawer();
+    trackMetaEvent("AddToCart", {
+      content_ids: [product.slug],
+      content_name: product.name,
+      content_type: "product",
+      value: product.priceWithVat * qty,
+      currency: "CZK",
+      contents: [{ id: product.slug, quantity: qty, item_price: product.priceWithVat }],
+    });
+    trackGoogleEvent("add_to_cart", {
+      currency: "CZK",
+      value: product.priceWithVat * qty,
+      items: [
+        {
+          item_id: product.slug,
+          item_name: product.name,
+          price: product.priceWithVat,
+          quantity: qty,
+        },
+      ],
+    });
     setTimeout(() => setAdding(false), 400);
   };
 

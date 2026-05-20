@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AddToCartButton from "@/components/shop/AddToCartButton";
+import ProductViewTracker from "@/components/shop/ProductViewTracker";
 import { PRODUCTS, getProductBySlug, splitVat, formatPrice } from "@/data/products";
 
 export function generateStaticParams() {
@@ -70,6 +71,11 @@ export default async function ProductDetailPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <ProductViewTracker
+        slug={product.slug}
+        name={product.name}
+        priceWithVat={product.priceWithVat}
       />
       <Navbar />
       <main className="pt-20 bg-[#FAFAFA]">

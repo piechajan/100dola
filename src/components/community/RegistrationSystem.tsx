@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { trackMetaEvent } from "@/components/analytics/MetaPixel";
+import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 
 export interface Participant {
   id: string;
@@ -242,6 +244,15 @@ function RegistrationModal({
     } catch {
       // localStorage may be unavailable — continue anyway
     }
+    trackMetaEvent("CompleteRegistration", {
+      content_name: "Event registration",
+      content_category: eventSlug,
+    });
+    trackGoogleEvent("sign_up", {
+      method: "event",
+      event_category: "community",
+      event_label: eventSlug,
+    });
     setTimeout(() => onSuccess(participant), 400);
   };
 
