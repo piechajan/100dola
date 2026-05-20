@@ -325,7 +325,7 @@ Hodinová zápůjčka zdarma, road i gravel modely.
 
 **Termíny:**
 - **Pátek 29. 5.** — 9:00 až 16:00 (7 slotů)
-- **Sobota 30. 5.** — 14:00 až 17:00 (3 sloty)
+- **Sobota 30. 5.** — 14:00 až 16:00 (2 sloty)
 - **Neděle 31. 5.** — 9:00 až 16:00 (7 slotů, kvůli dojezdu Závodu Míru)
 
 **Co najdeš:**

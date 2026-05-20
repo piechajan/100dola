@@ -80,7 +80,7 @@ export default function IsaacTestPopup() {
           <div className="bg-[#F7F9FF] rounded-xl p-3 mb-5 text-xs text-[#5A6480]">
             <div className="font-bold text-[#1a1a2e] mb-1">Termíny</div>
             <div>Pá 29. 5. · 9:00–16:00</div>
-            <div>So 30. 5. · 14:00–17:00</div>
+            <div>So 30. 5. · 14:00–16:00</div>
             <div>Ne 31. 5. · 9:00–16:00</div>
           </div>
 

@@ -30,7 +30,7 @@ export default function IsaacTestPage() {
       <Navbar />
       <main className="pt-20 bg-[#F7F9FF] min-h-screen pb-20">
         {/* Hero */}
-        <section className="relative border-b border-[#E2E6F3] overflow-hidden">
+        <section className="relative isolate border-b border-[#E2E6F3] overflow-hidden">
           {/* Background photo */}
           <div className="absolute inset-0 -z-10">
             <Image
@@ -42,8 +42,8 @@ export default function IsaacTestPage() {
               className="object-cover object-center"
             />
             {/* Fade overlay — text čitelnost na bílé vlevo, fotka prosvítá vpravo */}
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 to-white/35" />
-            <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-white/30 md:hidden" />
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-white/20" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white/70 via-transparent to-white/20 md:hidden" />
           </div>
 
           <div className="max-w-[1100px] mx-auto px-6 md:px-12 py-12 md:py-20 relative">
@@ -92,7 +92,7 @@ export default function IsaacTestPage() {
               <div className="bg-white/85 backdrop-blur rounded-xl p-4 border border-[#E2E6F3]/50">
                 <div className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold mb-1">Sobota</div>
                 <div className="text-sm font-black text-[#1a1a2e]">30. 5.</div>
-                <div className="text-xs text-[#5A6480]">14:00–17:00</div>
+                <div className="text-xs text-[#5A6480]">14:00–16:00</div>
               </div>
               <div className="bg-white/85 backdrop-blur rounded-xl p-4 border border-[#E2E6F3]/50">
                 <div className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold mb-1">Neděle</div>

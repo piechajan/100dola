@@ -194,8 +194,8 @@ function makeSlot(date: string, hour: number): SlotDef {
 export const ISAAC_SLOTS: SlotDef[] = [
   // Pátek 29. 5.: 9–16 (poslední slot 15–16)
   ...Array.from({ length: 7 }, (_, i) => makeSlot("2026-05-29", 9 + i)),
-  // Sobota 30. 5.: 14–17 (poslední slot 16–17)
-  ...Array.from({ length: 3 }, (_, i) => makeSlot("2026-05-30", 14 + i)),
+  // Sobota 30. 5.: 14–16 (poslední slot 15–16)
+  ...Array.from({ length: 2 }, (_, i) => makeSlot("2026-05-30", 14 + i)),
   // Neděle 31. 5.: 9–16 (poslední slot 15–16, zápůjčky končí v 16:00 kvůli dojezdu Závodu Míru)
   ...Array.from({ length: 7 }, (_, i) => makeSlot("2026-05-31", 9 + i)),
 ];
