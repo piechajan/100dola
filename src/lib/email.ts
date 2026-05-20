@@ -630,7 +630,7 @@ export async function sendOrderConfirmation(order: OrderEmailPayload): Promise<v
 
       <p style="font-size: 14px; line-height: 1.6; color: #5A6480; margin-top: 24px;">
         <strong style="color: #1a1a2e;">Co bude dál:</strong><br/>
-        Termín dodání ti potvrdíme po zadání objednávky. Ozveme se ti do 24 hodin.
+        Termín dodání ti potvrdíme po zadání platby. Ozveme se ti do 24 hodin.
       </p>
 
       <div style="margin-top: 28px; padding: 18px; background: #F0F4FF; border-radius: 12px;">
