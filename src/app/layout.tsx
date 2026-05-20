@@ -5,8 +5,10 @@ import CookiesBanner from "@/components/CookiesBanner";
 import IsaacTestPopup from "@/components/IsaacTestPopup";
 import MetaPixel from "@/components/analytics/MetaPixel";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+import MicrosoftClarity from "@/components/analytics/MicrosoftClarity";
 import JsonLd from "@/components/JsonLd";
 import { organizationSchema, storeSchema, websiteSchema } from "@/lib/schema-org";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -58,6 +60,8 @@ export default function RootLayout({
         <CookiesBanner />
         <MetaPixel />
         <GoogleAnalytics />
+        <MicrosoftClarity />
+        <SpeedInsights />
         <JsonLd data={organizationSchema()} />
         <JsonLd data={websiteSchema()} />
         <JsonLd data={storeSchema()} />
