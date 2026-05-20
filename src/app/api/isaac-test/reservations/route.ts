@@ -13,6 +13,11 @@ import {
 } from "@/lib/email";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { randomBytes } from "crypto";
+import {
+  sendMetaCapiEvent,
+  extractClientContext,
+  extractFbCookies,
+} from "@/lib/meta-capi";
 
 function honeypotTriggered(body: unknown): boolean {
   if (!body || typeof body !== "object") return false;
@@ -147,10 +152,35 @@ export async function POST(req: NextRequest) {
     cancelToken,
   };
 
+  const { clientIp, userAgent } = extractClientContext(req.headers);
+  const { fbp, fbc } = extractFbCookies(req.headers);
+  const eventSourceUrl = req.headers.get("referer") ?? "https://www.100dola.com/isaac-test";
+
   // Confirm (immediate) + admin notif (immediate) — fire-and-forget
   Promise.allSettled([
     sendIsaacTestConfirmation(emailPayload),
     sendIsaacTestNotification(emailPayload),
+    sendMetaCapiEvent({
+      eventName: "Lead",
+      eventId: `isaac-test-${reservationId}`,
+      eventSourceUrl,
+      userData: {
+        email: data.email,
+        phone: data.phone,
+        firstName: data.fullName.split(" ")[0] || undefined,
+        lastName: data.fullName.split(" ").slice(1).join(" ") || undefined,
+        country: "cz",
+        clientIp,
+        userAgent,
+        fbp,
+        fbc,
+        externalId: String(reservationId),
+      },
+      customData: {
+        content_name: "ISAAC test reservation",
+        content_category: data.bikeSlug,
+      },
+    }),
   ]);
 
   // 4) Schedule reminder na 8:00 v den testu (Resend scheduled_at)

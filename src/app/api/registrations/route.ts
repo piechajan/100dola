@@ -19,6 +19,11 @@ import {
   NewsletterPayloadSchema,
   HONEYPOT_NAME,
 } from "@/lib/schemas";
+import {
+  sendMetaCapiEvent,
+  extractClientContext,
+  extractFbCookies,
+} from "@/lib/meta-capi";
 
 // Pro lidi přemýšlející: honeypot dropme tiše (200 ok), aby bot nevěděl, že byl chycen.
 function isHoneypotFilled(body: unknown): boolean {
@@ -94,6 +99,9 @@ export async function POST(req: NextRequest) {
 
   const now = new Date().toISOString();
   const useDb = isSupabaseConfigured();
+  const { clientIp, userAgent } = extractClientContext(req.headers);
+  const { fbp, fbc } = extractFbCookies(req.headers);
+  const eventSourceUrl = req.headers.get("referer") ?? "https://www.100dola.com/";
 
   // Source decision: malaga má explicitní source, event ho nemusí mít (legacy).
   const rawSource = (body as Record<string, unknown> | null)?.source;
@@ -149,6 +157,27 @@ export async function POST(req: NextRequest) {
       Promise.allSettled([
         sendMalagaLeadNotification(lead),
         sendMalagaLeadConfirmation(lead),
+        sendMetaCapiEvent({
+          eventName: "Lead",
+          eventId: `malaga-${lead.id}`,
+          eventSourceUrl,
+          userData: {
+            email: m.email,
+            phone: m.phone || undefined,
+            firstName: m.name.split(" ")[0] || undefined,
+            lastName: m.name.split(" ").slice(1).join(" ") || undefined,
+            country: "cz",
+            clientIp,
+            userAgent,
+            fbp,
+            fbc,
+            externalId: String(lead.id),
+          },
+          customData: {
+            content_name: "Malaga inquiry",
+            content_category: m.intent,
+          },
+        }),
       ]);
 
       return NextResponse.json({ ok: true, source: "malaga", id: lead.id });
@@ -321,6 +350,27 @@ export async function POST(req: NextRequest) {
       Promise.allSettled([
         sendLabLeadNotification({ ...emailPayload, id: row!.id }),
         sendLabLeadConfirmation({ ...emailPayload, id: row!.id }),
+        sendMetaCapiEvent({
+          eventName: "Lead",
+          eventId: `lab-${row!.id}`,
+          eventSourceUrl,
+          userData: {
+            email: l.email,
+            phone: l.phone || undefined,
+            firstName: l.name.split(" ")[0] || undefined,
+            lastName: l.name.split(" ").slice(1).join(" ") || undefined,
+            country: "cz",
+            clientIp,
+            userAgent,
+            fbp,
+            fbc,
+            externalId: String(row!.id),
+          },
+          customData: {
+            content_name: "Lab inquiry",
+            content_category: l.services?.join(",") || "undecided",
+          },
+        }),
       ]);
       return NextResponse.json({ ok: true, source: "lab", id: row!.id });
     }
@@ -384,7 +434,30 @@ export async function POST(req: NextRequest) {
       }
 
       if (row) {
-        Promise.allSettled([sendEventRegistrationNotification(row as RegistrationRow)]);
+        Promise.allSettled([
+          sendEventRegistrationNotification(row as RegistrationRow),
+          sendMetaCapiEvent({
+            eventName: "CompleteRegistration",
+            eventId: `event-${e.eventSlug}-${(row as RegistrationRow).id ?? e.email}`,
+            eventSourceUrl,
+            userData: {
+              email: e.email,
+              phone: e.phone || undefined,
+              firstName: e.firstName,
+              lastName: e.lastName,
+              city: e.city || undefined,
+              country: "cz",
+              clientIp,
+              userAgent,
+              fbp,
+              fbc,
+            },
+            customData: {
+              content_name: "Event registration",
+              content_category: e.eventSlug,
+            },
+          }),
+        ]);
       }
 
       return NextResponse.json({ ok: true, source: "event", duplicate: !row });

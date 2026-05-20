@@ -15,6 +15,11 @@ import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { validateDiscountCode, incrementDiscountUsage } from "@/lib/discounts";
 import { invoiceOrder, type OrderForInvoice } from "@/lib/invoicing";
 import { checkRateLimit } from "@/lib/rate-limit";
+import {
+  sendMetaCapiEvent,
+  extractClientContext,
+  extractFbCookies,
+} from "@/lib/meta-capi";
 
 function isHoneypotFilled(body: unknown): boolean {
   if (!body || typeof body !== "object") return false;
@@ -331,9 +336,44 @@ export async function POST(req: NextRequest) {
     },
     notes: data.notes,
   };
+  const { clientIp, userAgent } = extractClientContext(req.headers);
+  const { fbp, fbc } = extractFbCookies(req.headers);
+  const eventSourceUrl = req.headers.get("referer") ?? "https://www.100dola.com/objednavka";
+
   Promise.allSettled([
     sendOrderConfirmation(emailPayload),
     sendOrderNotification(emailPayload),
+    sendMetaCapiEvent({
+      eventName: "Purchase",
+      eventId: id, // sdílené s browser pixelem pro dedup
+      eventSourceUrl,
+      userData: {
+        email: data.email,
+        phone: data.phone,
+        firstName: data.name.split(" ")[0] || undefined,
+        lastName: data.name.split(" ").slice(1).join(" ") || undefined,
+        city: data.city,
+        zip: data.zip,
+        country: "cz",
+        clientIp,
+        userAgent,
+        fbp,
+        fbc,
+        externalId: id,
+      },
+      customData: {
+        currency: "CZK",
+        value: total,
+        content_ids: data.items.map((i) => i.slug),
+        content_type: "product",
+        num_items: data.items.reduce((sum, i) => sum + i.qty, 0),
+        contents: data.items.map((i) => ({
+          id: i.slug,
+          quantity: i.qty,
+          item_price: i.priceWithVat,
+        })),
+      },
+    }),
   ]);
 
   return NextResponse.json({
