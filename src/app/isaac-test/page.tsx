@@ -30,8 +30,23 @@ export default function IsaacTestPage() {
       <Navbar />
       <main className="pt-20 bg-[#F7F9FF] min-h-screen pb-20">
         {/* Hero */}
-        <section className="bg-white border-b border-[#E2E6F3]">
-          <div className="max-w-[1100px] mx-auto px-6 md:px-12 py-12 md:py-16">
+        <section className="relative border-b border-[#E2E6F3] overflow-hidden">
+          {/* Background photo */}
+          <div className="absolute inset-0 -z-10">
+            <Image
+              src="/media/isaac-hero-store.jpg"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-center"
+            />
+            {/* Fade overlay — text čitelnost na bílé vlevo, fotka prosvítá vpravo */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 to-white/35" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-white/30 md:hidden" />
+          </div>
+
+          <div className="max-w-[1100px] mx-auto px-6 md:px-12 py-12 md:py-20 relative">
             <div className="text-xs tracking-[0.22em] uppercase font-bold text-[#3B7CF4] mb-2">
               100dola sport
             </div>
@@ -48,7 +63,7 @@ export default function IsaacTestPage() {
               <span aria-hidden>.</span>
               <span className="sr-only">ISAAC.</span>
             </h1>
-            <p className="text-base md:text-lg text-[#5A6480] max-w-2xl leading-relaxed">
+            <p className="text-base md:text-lg text-[#1a1a2e] max-w-2xl leading-relaxed">
               Road a gravel modely Meson, Element, Boson, Vitron, Kaon a Torus Xplore.
               Hodinová zápůjčka zdarma — vyber si kolo a termín. Pátek 29. 5. až neděle 31. 5. 2026.
             </p>
@@ -69,20 +84,20 @@ export default function IsaacTestPage() {
               </div>
             </div>
             <div className="grid grid-cols-3 gap-3 mt-8 max-w-2xl">
-              <div className="bg-[#F7F9FF] rounded-xl p-4">
+              <div className="bg-white/85 backdrop-blur rounded-xl p-4 border border-[#E2E6F3]/50">
                 <div className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold mb-1">Pátek</div>
                 <div className="text-sm font-black text-[#1a1a2e]">29. 5.</div>
                 <div className="text-xs text-[#5A6480]">9:00–16:00</div>
               </div>
-              <div className="bg-[#F7F9FF] rounded-xl p-4">
+              <div className="bg-white/85 backdrop-blur rounded-xl p-4 border border-[#E2E6F3]/50">
                 <div className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold mb-1">Sobota</div>
                 <div className="text-sm font-black text-[#1a1a2e]">30. 5.</div>
                 <div className="text-xs text-[#5A6480]">14:00–17:00</div>
               </div>
-              <div className="bg-[#F7F9FF] rounded-xl p-4">
+              <div className="bg-white/85 backdrop-blur rounded-xl p-4 border border-[#E2E6F3]/50">
                 <div className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold mb-1">Neděle</div>
                 <div className="text-sm font-black text-[#1a1a2e]">31. 5.</div>
-                <div className="text-xs text-[#5A6480]">9:00–17:00</div>
+                <div className="text-xs text-[#5A6480]">9:00–16:00</div>
               </div>
             </div>
           </div>

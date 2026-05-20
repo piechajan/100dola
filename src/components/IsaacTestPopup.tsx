@@ -81,7 +81,7 @@ export default function IsaacTestPopup() {
             <div className="font-bold text-[#1a1a2e] mb-1">Termíny</div>
             <div>Pá 29. 5. · 9:00–16:00</div>
             <div>So 30. 5. · 14:00–17:00</div>
-            <div>Ne 31. 5. · 9:00–17:00</div>
+            <div>Ne 31. 5. · 9:00–16:00</div>
           </div>
 
           <div className="flex flex-wrap gap-2">
