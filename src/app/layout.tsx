@@ -43,6 +43,11 @@ export const metadata: Metadata = {
   verification: {
     other: {
       "facebook-domain-verification": "2iygdzydbmasl364hh1qfhn11yjzi5",
+      // Bing Webmaster fallback — pokud import z GSC selže, nastavit
+      // BING_SITE_VERIFICATION env var (hodnota z Bing Webmaster → Add a site → HTML meta tag).
+      ...(process.env.BING_SITE_VERIFICATION
+        ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION }
+        : {}),
     },
   },
 };
