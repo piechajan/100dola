@@ -67,6 +67,35 @@ export function storeSchema() {
       latitude: 49.7311,
       longitude: 17.2978,
     },
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: "Wednesday",
+        opens: "09:30",
+        closes: "16:00",
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: "Thursday",
+        opens: "09:00",
+        closes: "17:00",
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: "Friday",
+        opens: "09:00",
+        closes: "16:00",
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: "Saturday",
+        opens: "09:00",
+        closes: "12:00",
+      },
+    ],
+    priceRange: "$$$",
+    paymentAccepted: "Cash, Credit Card, Bank Transfer, QR Code",
+    currenciesAccepted: "CZK",
     parentOrganization: { "@id": `${SITE_URL}/#organization` },
     sameAs: SAME_AS,
   };

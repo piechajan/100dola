@@ -126,7 +126,11 @@ export default function Footer() {
                 {STERNBERK_STORE.streetAddress}<br />
                 {STERNBERK_STORE.postalCode.replace(/(\d{3})(\d{2})/, "$1 $2")} {STERNBERK_STORE.addressLocality}
               </a>
-              <span className="text-white/30">{STERNBERK_STORE.landmark}</span>
+              <span className="text-white/30 block">{STERNBERK_STORE.landmark}</span>
+              <div className="mt-2 text-white/50 leading-snug">
+                St 9:30–16 · Čt 9–17 · Pá 9–16 · So 9–12<br />
+                Po, Út, Ne — po dohodě (jsme na telefonu)
+              </div>
             </div>
             <div>
               <div className="font-bold text-white/60 mb-1">Kontakt</div>
