@@ -16,6 +16,7 @@ import ZavodMiruSternberk from "@/components/articles/ZavodMiruSternberk";
 import KdeKoupitKoloSternberk from "@/components/articles/KdeKoupitKoloSternberk";
 import VoskovaniRetezu from "@/components/articles/VoskovaniRetezu";
 import KeramickaLoziska from "@/components/articles/KeramickaLoziska";
+import SocialRidesOmc from "@/components/articles/SocialRidesOmc";
 
 const SITE = "https://www.100dola.com";
 
@@ -60,6 +61,7 @@ const RENDERERS: Record<string, () => React.ReactElement> = {
   "kde-koupit-kolo-sternberk": () => <KdeKoupitKoloSternberk />,
   "voskovani-retezu": () => <VoskovaniRetezu />,
   "keramicka-loziska": () => <KeramickaLoziska />,
+  "social-rides-open-miles-clinic": () => <SocialRidesOmc />,
   // Další články se přidají postupně:
   // "voskovani-retezu": () => <VoskovaniRetezu />,
   // "keramicka-loziska": () => <KeramickaLoziska />,

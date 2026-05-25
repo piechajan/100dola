@@ -73,7 +73,7 @@ export const ARTICLES: Article[] = [
     category: "lab",
     publishedAt: "2026-05-25",
     author: { name: "Jan Piecha", role: "100dola Lab" },
-    image: "/media/lab/pinarello-dogma-hero.jpg",
+    image: "/media/articles/voskovani-retezu-hero.jpg",
     status: "published",
     readMinutes: 6,
   },
@@ -119,14 +119,13 @@ export const ARTICLES: Article[] = [
     slug: "social-rides-open-miles-clinic",
     title: "Social rides na Valašsku — proč jezdíme pod Open Miles Clinic a co tě čeká",
     summary:
-      "Tempo, které sedí. Kafe na konci. Místo závodění komunita. Vyjížďky, skialpy, MTB, turistika v Beskydech a Jeseníkách.",
+      "Tempo, které sedí. Kafe na začátku, pivo na konci. Místo závodění komunita. Silnice, gravel, MTB, skialpy a běh v Beskydech, Hostýnských vrších a Jeseníkách. Vsetín, Valašské Meziříčí, Rožnov.",
     category: "community",
-    publishedAt: "",
-    author: { name: "Open Miles Clinic", role: "Komunita" },
+    publishedAt: "2026-05-25",
+    author: { name: "Jan Piecha", role: "Open Miles Clinic" },
     image: "/media/community-hero-jedeme-spolu-9423.jpg",
-    status: "draft",
-    comingSoonHint:
-      "Jak fungují social rides Open Miles Clinic — tempo, formát, místa, kdo jezdí. Pro úplné začátečníky i závodníky.",
+    status: "published",
+    readMinutes: 8,
   },
 ];
 

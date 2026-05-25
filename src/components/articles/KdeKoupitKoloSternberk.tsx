@@ -239,7 +239,7 @@ export default function KdeKoupitKoloSternberk() {
                   </td>
                   <td className="p-4 text-[#5A6480]">
                     Top modely SCOTT Addict RC, Foil RC, ISAAC Boson SL.
-                    Dura-Ace Di2, SRAM Red AXS, hluboké karbonové disky,
+                    Dura-Ace Di2, SRAM Red AXS, hluboká karbonová kola,
                     elektronické řazení s power meterem. Rozdíl proti pásmu
                     100–200 k je v detailech — ale pokud na kole sedíte 5+
                     hodin týdně, ty detaily cítíte. Pro MTB: prémiové enduro
