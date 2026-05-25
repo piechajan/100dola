@@ -92,33 +92,68 @@ export default function VoskovaniRetezu() {
           </ul>
         </section>
 
-        {/* 2. Pro koho má smysl */}
+        {/* 2. Pro koho */}
         <section className="mb-12">
           <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-4">
-            Pro koho má voskování smysl
+            Pro koho je voskování to pravé
           </h2>
+          <p className="text-base text-[#5A6480] leading-relaxed mb-6">
+            Voskování není „pro pros". Je to péče pro každého, kdo má rád
+            své kolo a nechce ho zbytečně sjet rychleji, než musí. Pojmenováno
+            jinak — je to <strong>nadstandardní servis</strong>, který se
+            vyplatí všem těmto typům jezdců:
+          </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-white border border-[#B6E0CA] rounded-xl p-5">
-              <h3 className="font-black text-[#1F4937] mb-2">✅ Má smysl</h3>
-              <ul className="text-sm text-[#5A6480] space-y-2 list-disc list-outside ml-4">
-                <li>Silniční jezdci (vyšší tempo, vyšší zájem o čistotu)</li>
-                <li>Gravel jezdci v sušším počasí</li>
-                <li>Lidé, kteří nesnášejí špínu na lýtku a oblečení</li>
-                <li>Triatlonisti a časovkáři</li>
-                <li>Hobby cyklisti s kolem za 80+ tisíc (chrání investici)</li>
-                <li>Komutéři, kteří jezdí 5× týdně</li>
-              </ul>
+              <div className="text-2xl mb-2">🚴‍♂️</div>
+              <h3 className="font-black text-[#1F4937] mb-2">Silniční a gravel jezdci</h3>
+              <p className="text-sm text-[#5A6480] leading-relaxed">
+                Vyšší tempo, vyšší zájem o čistotu a tichý chod. Voskovaný
+                řetěz na karbon kole vypadá a zní tak, jak má.
+              </p>
             </div>
-            <div className="bg-white border border-[#FBC9A8] rounded-xl p-5">
-              <h3 className="font-black text-[#9B3D17] mb-2">⚠️ Spíš ne</h3>
-              <ul className="text-sm text-[#5A6480] space-y-2 list-disc list-outside ml-4">
-                <li>MTB / enduro v mokrém terénu (vosk se vymývá rychle)</li>
-                <li>Bikepacking s deštěm (totéž)</li>
-                <li>Jezdci, kteří najedou méně než 500 km ročně</li>
-                <li>
-                  Levná kola (E1/E2 řetězy) — soukolí je dráž než přínos
-                </li>
-              </ul>
+            <div className="bg-white border border-[#B6E0CA] rounded-xl p-5">
+              <div className="text-2xl mb-2">💎</div>
+              <h3 className="font-black text-[#1F4937] mb-2">Hobby s kvalitním kolem</h3>
+              <p className="text-sm text-[#5A6480] leading-relaxed">
+                Investovali jste 80, 120, 200 tisíc do kola — chrání soukolí
+                a prodlužuje jeho životnost dvojnásobně. Návratnost je
+                ekonomická i emocionální.
+              </p>
+            </div>
+            <div className="bg-white border border-[#B6E0CA] rounded-xl p-5">
+              <div className="text-2xl mb-2">🧼</div>
+              <h3 className="font-black text-[#1F4937] mb-2">Kdo nesnáší špínu</h3>
+              <p className="text-sm text-[#5A6480] leading-relaxed">
+                Konec černých skvrn na lýtku, kalhotách a sedlovce. Konec
+                kapek olejové pasty na kalhotách v autě. Voskovaný řetěz =
+                čistý řetěz, čistý vy.
+              </p>
+            </div>
+            <div className="bg-white border border-[#B6E0CA] rounded-xl p-5">
+              <div className="text-2xl mb-2">🏁</div>
+              <h3 className="font-black text-[#1F4937] mb-2">Triatlonisti a časovkáři</h3>
+              <p className="text-sm text-[#5A6480] leading-relaxed">
+                Měřitelná úspora 1–3 W. V triatlonu Ironman / časovce přes
+                hodinu to je rozdíl mezi PB a top 10 ve své kategorii.
+              </p>
+            </div>
+            <div className="bg-white border border-[#B6E0CA] rounded-xl p-5">
+              <div className="text-2xl mb-2">🌧️</div>
+              <h3 className="font-black text-[#1F4937] mb-2">Komutéři</h3>
+              <p className="text-sm text-[#5A6480] leading-relaxed">
+                5× týdně do práce a zpátky? Vosk zvládne 200–400 km, takže
+                doplnit ho stačí 2× ročně. Bez vás by řetěz vydržel
+                polovinu — a kalhoty by trpěly.
+              </p>
+            </div>
+            <div className="bg-white border border-[#B6E0CA] rounded-xl p-5">
+              <div className="text-2xl mb-2">🏆</div>
+              <h3 className="font-black text-[#1F4937] mb-2">Lidé, kteří chtějí maximum</h3>
+              <p className="text-sm text-[#5A6480] leading-relaxed">
+                Stejní lidé, co používají keramická ložiska, kvalitní pneumatiky
+                a jezdí na bikefitu. Voskování je standard, ne luxus.
+              </p>
             </div>
           </div>
         </section>

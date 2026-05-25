@@ -15,6 +15,7 @@ import {
 import ZavodMiruSternberk from "@/components/articles/ZavodMiruSternberk";
 import KdeKoupitKoloSternberk from "@/components/articles/KdeKoupitKoloSternberk";
 import VoskovaniRetezu from "@/components/articles/VoskovaniRetezu";
+import KeramickaLoziska from "@/components/articles/KeramickaLoziska";
 
 const SITE = "https://www.100dola.com";
 
@@ -58,6 +59,7 @@ const RENDERERS: Record<string, () => React.ReactElement> = {
   "zavod-miru-2026-sternberk": () => <ZavodMiruSternberk />,
   "kde-koupit-kolo-sternberk": () => <KdeKoupitKoloSternberk />,
   "voskovani-retezu": () => <VoskovaniRetezu />,
+  "keramicka-loziska": () => <KeramickaLoziska />,
   // Další články se přidají postupně:
   // "voskovani-retezu": () => <VoskovaniRetezu />,
   // "keramicka-loziska": () => <KeramickaLoziska />,

@@ -79,16 +79,15 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "keramicka-loziska",
-    title: "Keramická ložiska v kole — kdy jsou výhrou a kdy zbytečnou útratou",
+    title: "Keramická ložiska v kole — prémiový upgrade, který poznáte hned",
     summary:
-      "CeramicSpeed, CULT, Enduro. Reálný benefit ve watech, jak dlouho vydrží, na co si dát pozor. Pro koho má smysl a kdo si vystačí s kvalitními ocelovými.",
+      "CeramicSpeed, CULT, Enduro Bearings. Lehčí, hladší, odolnější. Reálný benefit ve watech a v plynulém roztočení. Jaké modely doporučujeme, kde mají největší dopad, jak to v 100dola Lab probíhá.",
     category: "lab",
-    publishedAt: "",
-    author: { name: "100dola Lab", role: "Servis kol" },
-    image: "/media/lab/lab-bearings.jpg",
-    status: "draft",
-    comingSoonHint:
-      "Test keramických ložisek pro headset, středové složení a kola — jaké modely, kolik watu reálně ušetří, kdy je vyměnit.",
+    publishedAt: "2026-05-25",
+    author: { name: "Jan Piecha", role: "100dola Lab" },
+    image: "/media/lab/pinarello-dogma-hero.jpg",
+    status: "published",
+    readMinutes: 7,
   },
   {
     slug: "ochrana-laku-ppf",
