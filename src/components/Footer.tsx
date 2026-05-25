@@ -131,6 +131,9 @@ export default function Footer() {
                 St 9:30–16 · Čt 9–17 · Pá 9–16 · So 9–12<br />
                 Po, Út, Ne — po dohodě (jsme na telefonu)
               </div>
+              <div className="mt-3 text-white/40 leading-snug text-[11px]">
+                Doručení & osobní předání: Vsetín, Valašské Meziříčí, Olomouc, Ostrava, Brno
+              </div>
             </div>
             <div>
               <div className="font-bold text-white/60 mb-1">Kontakt</div>

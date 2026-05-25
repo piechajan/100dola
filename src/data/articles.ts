@@ -42,6 +42,30 @@ export const CATEGORY_COLOR: Record<ArticleCategory, string> = {
 
 export const ARTICLES: Article[] = [
   {
+    slug: "cep-kompresni-vybaveni",
+    title: "CEP kompresní vybavení pro běžce — kompletní průvodce (Vsetín, Valašsko, Olomouc)",
+    summary:
+      "Co kompresní vybavení reálně dělá, jaké modely CEP máme skladem, jak vybrat velikost a komu se vyplatí. Run Socks, Calf Sleeves, Tall Compression, Recovery. 100dola sport — autorizovaný prodej.",
+    category: "sport",
+    publishedAt: "2026-05-25",
+    author: { name: "Jan Piecha", role: "100dola sport" },
+    image: "/media/community-hero-jedeme-spolu-9423.jpg",
+    status: "published",
+    readMinutes: 8,
+  },
+  {
+    slug: "velikost-kola",
+    title: "Jak vybrat správnou velikost kola — kompletní průvodce měřením doma",
+    summary:
+      "Výška, inseam, paže, trup, šířka ramen. Návod krok za krokem, orientační tabulka velikostí, kdy má smysl bikefit. Konzultace zdarma v 100dola sport — pro Šternberk, Vsetín, Valašské Meziříčí, Olomouc a okolí.",
+    category: "sport",
+    publishedAt: "2026-05-25",
+    author: { name: "Jan Piecha", role: "100dola sport" },
+    image: "/media/articles/zavod-miru-sternberk-hero.jpg",
+    status: "published",
+    readMinutes: 9,
+  },
+  {
     slug: "kde-koupit-kolo-sternberk",
     title: "Kde si koupit kolo ve Šternberku — průvodce 2026 (SCOTT, ISAAC, road & gravel)",
     summary:

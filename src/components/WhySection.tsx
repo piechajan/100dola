@@ -37,8 +37,8 @@ const values = [
         <circle cx="12" cy="10" r="3" />
       </svg>
     ),
-    title: "Kamenná prodejna Šternberk",
-    desc: "Partyzánská 2, vedle kavárny Namístě. Kola, běh, lyže, servis i bikefit pod jednou střechou. Otevřeno St–So.",
+    title: "Prodejna Šternberk + doručení",
+    desc: "Partyzánská 2, vedle kavárny Namístě. Kola, běh, lyže, servis i bikefit pod jednou střechou. Pravidelně dovážíme do Vsetína, Valašského Meziříčí, Olomouce, Ostravy i Brna.",
   },
 ];
 

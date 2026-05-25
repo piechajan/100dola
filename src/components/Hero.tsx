@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 
 const pillars = [
   {
-    tag: "100dola sport · Šternberk",
+    tag: "100dola sport · Šternberk & okolí",
     headline: "Vybav se\nna sezónu.",
-    description: "Kamenná prodejna ve Šternberku — kola, běh, lyže a skialpy vybrané lidmi, kteří sport opravdu žijí.",
+    description: "Prodejna ve Šternberku, klienti z celé Moravy. Kola, běh, lyže, skialpy — doručíme do Vsetína, Olomouce, Brna i Ostravy.",
     cta: "Do shopu",
     href: "/shop",
     accentColor: "#3B7CF4",

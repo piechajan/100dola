@@ -17,6 +17,8 @@ import KdeKoupitKoloSternberk from "@/components/articles/KdeKoupitKoloSternberk
 import VoskovaniRetezu from "@/components/articles/VoskovaniRetezu";
 import KeramickaLoziska from "@/components/articles/KeramickaLoziska";
 import SocialRidesOmc from "@/components/articles/SocialRidesOmc";
+import VelikostKola from "@/components/articles/VelikostKola";
+import CepKompresniVybaveni from "@/components/articles/CepKompresniVybaveni";
 
 const SITE = "https://www.100dola.com";
 
@@ -62,6 +64,8 @@ const RENDERERS: Record<string, () => React.ReactElement> = {
   "voskovani-retezu": () => <VoskovaniRetezu />,
   "keramicka-loziska": () => <KeramickaLoziska />,
   "social-rides-open-miles-clinic": () => <SocialRidesOmc />,
+  "velikost-kola": () => <VelikostKola />,
+  "cep-kompresni-vybaveni": () => <CepKompresniVybaveni />,
   // Další články se přidají postupně:
   // "voskovani-retezu": () => <VoskovaniRetezu />,
   // "keramicka-loziska": () => <KeramickaLoziska />,
