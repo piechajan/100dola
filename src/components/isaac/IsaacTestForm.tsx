@@ -380,8 +380,23 @@ export default function IsaacTestForm({ bikes, days }: Props) {
           </label>
         </div>
 
+        {/* Důležité info před submit */}
+        <div className="mt-6 rounded-xl bg-[#FFF9EB] border border-[#F3E1A8] p-4 text-xs text-[#5A4A1F] leading-relaxed">
+          <div className="font-black text-[#1a1a2e] mb-1.5">Než to odešleš:</div>
+          <ul className="space-y-1 list-disc list-inside marker:text-[#C9A227]">
+            <li>
+              <strong>Jedna rezervace na den</strong> — v jednom dni si můžeš zarezervovat
+              max. jeden slot (1 hodina jízdy).
+            </li>
+            <li>
+              <strong>Přijď o pár minut dřív</strong> — do hodiny se počítá i nastavení kola
+              (sedlo, pedály, řídítka).
+            </li>
+          </ul>
+        </div>
+
         {/* Summary + submit */}
-        <div className="mt-6 pt-5 border-t border-[#F0F2FA] flex items-center justify-between flex-wrap gap-4">
+        <div className="mt-5 pt-5 border-t border-[#F0F2FA] flex items-center justify-between flex-wrap gap-4">
           <div className="text-sm text-[#5A6480]">
             {bike && slot ? (
               <>

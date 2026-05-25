@@ -50,18 +50,8 @@ export default function IsaacTestPage() {
             <div className="text-xs tracking-[0.22em] uppercase font-bold text-[#3B7CF4] mb-2">
               100dola sport
             </div>
-            <h1 className="flex flex-wrap items-baseline gap-3 md:gap-4 text-3xl md:text-5xl font-black text-[#1a1a2e] leading-tight mb-4">
-              <span>Vyzkoušej</span>
-              <Image
-                src="/brands/isaac.svg"
-                alt="ISAAC"
-                width={180}
-                height={60}
-                className="h-[0.85em] md:h-[0.9em] w-auto inline-block"
-                priority
-              />
-              <span aria-hidden>.</span>
-              <span className="sr-only">ISAAC.</span>
+            <h1 className="text-3xl md:text-5xl font-black text-[#1a1a2e] leading-tight mb-4">
+              Vyzkoušej ISAAC.
             </h1>
             <p className="text-base md:text-lg text-[#1a1a2e] max-w-2xl leading-relaxed">
               Road a gravel modely Meson, Element, Boson, Vitron, Kaon a Torus Xplore.
@@ -241,11 +231,11 @@ export default function IsaacTestPage() {
               Líbí se ti kolo?
             </div>
             <h2 className="text-xl md:text-2xl font-black mb-3">
-              ISAAC kupujeme přímo od výrobce.
+              Cokoliv otestuješ ti dovezeme.
             </h2>
             <p className="text-sm text-white/70 max-w-md mx-auto mb-5">
-              Cokoliv otestuješ se dá objednat — řekneme aktuální dostupnost, velikost a termín
-              dodání. Nebo se rovnou podívej na 100dola sport.
+              Řekneme ti aktuální dostupnost, velikost a termín dodání. Konfigurace na míru,
+              nebo se rovnou podívej na 100dola sport.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Link

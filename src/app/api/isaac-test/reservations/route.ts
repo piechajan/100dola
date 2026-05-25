@@ -82,7 +82,34 @@ export async function POST(req: NextRequest) {
   const label = bikeLabel(bike);
   const cancelToken = randomBytes(24).toString("hex");
 
-  // 1) Insert rezervace
+  // 1) Jeden uživatel = max 1 rezervace v jeden den (cross-bike, cross-slot)
+  // Rozsah dne podle slot.slotStart (ISO UTC, slot je 1 h v lokálním čase).
+  const slotDate = slot.slotStart.slice(0, 10); // "2026-05-30"
+  const dayStart = `${slotDate}T00:00:00Z`;
+  const dayEnd = `${slotDate}T23:59:59Z`;
+  const normalizedPhone = data.phone.replace(/\s+/g, "");
+  const { data: existing, error: existsError } = await sb
+    .from("isaac_test_reservations")
+    .select("id, slot_day_label, email, phone")
+    .gte("slot_start", dayStart)
+    .lte("slot_start", dayEnd)
+    .neq("status", "cancelled")
+    .or(`email.eq.${data.email},phone.eq.${normalizedPhone}`)
+    .limit(1);
+
+  if (existsError) {
+    console.error("[isaac-test] duplicate-check failed:", existsError);
+  } else if (existing && existing.length > 0) {
+    return NextResponse.json(
+      {
+        error:
+          "V jeden den lze mít pouze jednu rezervaci (1 hodina jízdy). Pro tento den už od tebe rezervaci máme — pokud chceš zkusit jiný den, vyber datum níže. Pokud potřebuješ změnu, zruš původní rezervaci a vytvoř novou.",
+      },
+      { status: 409 },
+    );
+  }
+
+  // 2) Insert rezervace
   const { data: inserted, error } = await sb
     .from("isaac_test_reservations")
     .insert({
@@ -119,7 +146,7 @@ export async function POST(req: NextRequest) {
 
   const reservationId = inserted.id as number;
 
-  // 2) Newsletter opt-in (pokud souhlasil)
+  // 3) Newsletter opt-in (pokud souhlasil)
   if (data.subscribeNewsletter) {
     try {
       const token = randomBytes(16).toString("hex");
@@ -138,7 +165,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // 3) Emails
+  // 4) Emails
   const emailPayload = {
     reservationId,
     bike: label,
@@ -183,7 +210,7 @@ export async function POST(req: NextRequest) {
     }),
   ]);
 
-  // 4) Schedule reminder na 8:00 v den testu (Resend scheduled_at)
+  // 5) Schedule reminder na 8:00 v den testu (Resend scheduled_at)
   scheduleIsaacTestReminder(emailPayload)
     .then(async (resendId) => {
       if (resendId) {
@@ -210,7 +237,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   if (!isSupabaseConfigured()) {
-    return NextResponse.json({ taken: [] });
+    return NextResponse.json({ taken: [] }, { headers: { "Cache-Control": "no-store" } });
   }
   const sb = getSupabase();
   const { data, error } = await sb
@@ -219,12 +246,17 @@ export async function GET() {
     .neq("status", "cancelled");
   if (error) {
     console.error("[isaac-test] GET availability failed:", error);
-    return NextResponse.json({ taken: [] });
+    return NextResponse.json({ taken: [] }, { headers: { "Cache-Control": "no-store" } });
   }
-  return NextResponse.json({
-    taken: (data || []).map((r) => ({
-      bikeSlug: r.bike_slug as string,
-      slotStart: r.slot_start as string,
-    })),
-  });
+  return NextResponse.json(
+    {
+      taken: (data || []).map((r) => ({
+        bikeSlug: r.bike_slug as string,
+        // Postgres vrací '2026-05-29T13:00:00+00:00' — klient porovnává s
+        // '2026-05-29T13:00:00Z' z ISAAC_SLOTS, takže normalizujeme na Z formát.
+        slotStart: new Date(r.slot_start as string).toISOString().replace(/\.\d{3}Z$/, "Z"),
+      })),
+    },
+    { headers: { "Cache-Control": "no-store" } },
+  );
 }
