@@ -305,12 +305,11 @@ export default function KdeKoupitKoloSternberk() {
             Jak to u nás probíhá — od konzultace po předání
           </h2>
           <p className="text-base text-[#5A6480] leading-relaxed mb-4">
-            Jsme malý showroom — neskladujeme desítky kusů kol „jen tak pro
-            případ". Většinu modelů objednáváme přímo pod konkrétního
-            zákazníka. To má dvě výhody: dostanete <strong>nejnovější model
-            v přesně té konfiguraci, kterou chcete</strong> (velikost, barva,
-            případně úprava sedla nebo řídítek), a neplatíte za nadbytečné
-            sklady. Cena je stejná jako u velkých řetězců, často nižší.
+            Většinu modelů objednáváme přímo pod konkrétního zákazníka.
+            Díky tomu dostanete <strong>nejnovější model v přesně té
+            konfiguraci, kterou chcete</strong> — velikost, barva, případně
+            úprava sedla nebo řídítek. Cena je stejná jako u velkých řetězců,
+            často nižší, a získáte osobní servis od konzultace až po předání.
           </p>
           <div className="space-y-4 mt-6">
             <div className="flex gap-4 items-start">
@@ -580,9 +579,10 @@ export default function KdeKoupitKoloSternberk() {
               </div>
             </dl>
             <p className="text-xs text-[#5A4500] mt-5 leading-relaxed">
-              <strong>Doporučení:</strong> Před návštěvou (zejména pokud chcete
-              konkrétní kolo prohlédnout nebo zkusit) si zavolejte. Máme malou
-              prodejnu a chceme mít čas věnovat se vám naplno.
+              <strong>Doporučení:</strong> Před návštěvou nám zavolejte nebo
+              napište — domluvíme termín, který sedí vám i nám, a budeme se
+              vám moct věnovat naplno. Stejně rychle vyřešíme i dotaz na
+              dálku, pokud do Šternberku nemáte cestu.
             </p>
           </div>
         </section>
