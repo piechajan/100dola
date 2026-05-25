@@ -389,8 +389,7 @@ export default function IsaacTestForm({ bikes, days }: Props) {
               max. jeden slot (1 hodina jízdy).
             </li>
             <li>
-              <strong>Přijď o pár minut dřív</strong> — do hodiny se počítá i nastavení kola
-              (sedlo, pedály, řídítka).
+              <strong>Přijď o pár minut dřív</strong> — do hodiny se počítá i nastavení kola.
             </li>
           </ul>
         </div>
