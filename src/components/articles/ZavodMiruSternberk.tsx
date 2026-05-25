@@ -28,16 +28,16 @@ export default function ZavodMiruSternberk() {
           krajem přes Šumperk, Rýmařov a sjezd z Dlouhých Strání.
         </p>
         <p className="text-[10px] text-[#9AA3C2] mb-10">
-          Hero foto: Hlavní náměstí Šternberk —{" "}
+          Hero foto: Peloton Závodu Míru 2006, ilustrační —{" "}
           <a
-            href="https://commons.wikimedia.org/wiki/File:Sternberg_-_city_center.jpg"
+            href="https://commons.wikimedia.org/wiki/File:Friedensfahrt_2006.jpg"
             target="_blank"
             rel="noopener noreferrer"
             className="underline"
           >
             Wikimedia Commons
           </a>
-          , CC BY-SA.
+          , © Harald Weber, GFDL.
         </p>
 
         {/* Quick facts box */}

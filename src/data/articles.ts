@@ -69,14 +69,13 @@ export const ARTICLES: Article[] = [
     slug: "voskovani-retezu",
     title: "Voskování řetězů — pro koho má smysl, jak na to a kdy to nechat profesionálovi",
     summary:
-      "Vosk vs. olej. Proč voskovaný řetěz drhne méně, vydrží líp a špiní méně. Návod krok za krokem + kdy se nevyplatí.",
+      "Vosk vs. olej. Proč voskovaný řetěz drhne méně, vydrží líp a špiní méně. Silca SuperSecret, Molten Speed Wax, Squirt. Postup, ceny, kdy se vyplatí přejít z oleje. 100dola Lab Šternberk + okolí.",
     category: "lab",
-    publishedAt: "",
-    author: { name: "100dola Lab", role: "Servis kol" },
-    image: "/media/lab/lab-wax.jpg",
-    status: "draft",
-    comingSoonHint:
-      "Detailní průvodce voskováním řetězů — Silca SuperSecret vs Molten Speed Wax vs Squirt, postup ultrazvuk + vosk + dryer, kdy se vyplatí přejít z oleje.",
+    publishedAt: "2026-05-25",
+    author: { name: "Jan Piecha", role: "100dola Lab" },
+    image: "/media/lab/pinarello-dogma-hero.jpg",
+    status: "published",
+    readMinutes: 6,
   },
   {
     slug: "keramicka-loziska",

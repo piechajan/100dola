@@ -60,7 +60,14 @@ export function storeSchema() {
     areaServed: [
       { "@type": "City", name: "Šternberk" },
       { "@type": "City", name: "Olomouc" },
+      { "@type": "City", name: "Vsetín" },
+      { "@type": "City", name: "Valašské Meziříčí" },
+      { "@type": "City", name: "Ostrava" },
+      { "@type": "City", name: "Brno" },
       { "@type": "AdministrativeArea", name: "Olomoucký kraj" },
+      { "@type": "AdministrativeArea", name: "Zlínský kraj" },
+      { "@type": "AdministrativeArea", name: "Moravskoslezský kraj" },
+      { "@type": "AdministrativeArea", name: "Jihomoravský kraj" },
     ],
     knowsAbout: [
       "silniční kola",
