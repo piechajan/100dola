@@ -6,9 +6,9 @@ import Footer from "@/components/Footer";
 import { SPORT_CATEGORIES, SPORT_BRAND } from "@/data/sport-categories";
 
 export const metadata: Metadata = {
-  title: "100dola sport — vybav se na sezónu",
+  title: "Sportovní obchod Šternberk — kola, běh, ski, skialpy",
   description:
-    "Kola, oblečení, výživa a vybavení vybrané lidmi, kteří sport opravdu žijí. Cyklistika, běh, turistika, zimní sporty.",
+    "100dola sport ve Šternberku (Partyzánská 2, vedle Namístě): silniční a gravel kola, horská kola, elektrokola, běžecké vybavení, lyže a skialpy. Servis kol, bikefit, testovací jízdy.",
   alternates: { canonical: "/sport" },
 };
 

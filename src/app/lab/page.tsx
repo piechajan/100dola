@@ -14,9 +14,9 @@ import LabLeadForm from "@/components/lab/LabLeadForm";
 import { LAB_BRAND, LAB_FAQ, LAB_CONTACT } from "@/data/lab";
 
 export const metadata: Metadata = {
-  title: "100dola Lab — kultivace kola: keramická ložiska, PPF, voskování",
+  title: "Servis kol Šternberk — voskování řetězu, PPF, ložiska | 100dola Lab",
   description:
-    "Lab je dílna pro drahá kola. Keramická ložiska (rychlejší kolo), PPF ochrana laku, voskování řetězu, kompletní cleanup. Klid, řemeslo, dokumentace každého zásahu.",
+    "Servis a péče o kola ve Šternberku: voskování řetězu, PPF ochrana laku, keramická ložiska, kompletní cleanup. Dílna pro drahá kola — Partyzánská 2.",
   alternates: {
     canonical: "/lab",
   },

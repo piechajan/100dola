@@ -19,26 +19,26 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com"),
   title: {
-    default: "100dola — Sport. Komunita. Malaga.",
+    default: "100dola sport Šternberk — kola, běh, ski · servis · Malaga",
     template: "%s · 100dola",
   },
   description:
-    "Vybavíme tě na sport, dostaneme tvé kolo do Malagy a propojíme tě s komunitou lidí, kteří to myslí vážně.",
+    "Sportovní obchod ve Šternberku — silniční, gravel a horská kola, běžecké vybavení, lyže a skialpy. Servis kol, bikefit, testovací jízdy ISAAC. Přeprava kol do Malagy.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "cs_CZ",
     siteName: "100dola",
-    title: "100dola — Sport. Komunita. Malaga.",
+    title: "100dola sport Šternberk — kola, běh, ski · servis · Malaga",
     description:
-      "Vybavíme tě na sport, dostaneme tvé kolo do Malagy a propojíme tě s komunitou lidí, kteří to myslí vážně.",
+      "Sportovní obchod ve Šternberku — kola, běh, lyže, skialpy. Servis, bikefit, testovací jízdy. Přeprava kol do Malagy.",
     url: "/",
   },
   twitter: {
     card: "summary_large_image",
-    title: "100dola — Sport. Komunita. Malaga.",
+    title: "100dola sport Šternberk — kola, běh, ski",
     description:
-      "Sport. Komunita. Malaga. Jeden ekosystém pro aktivní lidi.",
+      "Sportovní obchod ve Šternberku — kola, běh, lyže, skialpy. Servis, bikefit, přeprava kol do Malagy.",
   },
   verification: {
     other: {

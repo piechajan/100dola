@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 
 const pillars = [
   {
-    tag: "100dola sport",
+    tag: "100dola sport · Šternberk",
     headline: "Vybav se\nna sezónu.",
-    description: "Kola, lyže a vybavení vybrané lidmi, kteří sport opravdu žijí.",
+    description: "Kamenná prodejna ve Šternberku — kola, běh, lyže a skialpy vybrané lidmi, kteří sport opravdu žijí.",
     cta: "Do shopu",
     href: "/shop",
     accentColor: "#3B7CF4",

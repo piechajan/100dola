@@ -50,10 +50,36 @@ export function storeSchema() {
     "@type": "SportingGoodsStore",
     "@id": `${SITE_URL}/#store`,
     name: STERNBERK_STORE.name,
+    alternateName: "100dola sport Šternberk",
+    description:
+      "Sportovní obchod ve Šternberku — silniční, gravel, horská a elektrokola (SCOTT, ISAAC, Lapierre, Ghost, NORCO, Bergamont), běžecké vybavení a kompresní výrobky CEP, lyže Dynastar a skialpy. Servis kol, bikefit, voskování řetězů, testovací jízdy.",
     image: `${SITE_URL}/media/obchod/01-obchod.jpg`,
     url: `${SITE_URL}/kontakt`,
     telephone: COMPANY.contact.phoneIntl,
     email: COMPANY.contact.email,
+    areaServed: [
+      { "@type": "City", name: "Šternberk" },
+      { "@type": "City", name: "Olomouc" },
+      { "@type": "AdministrativeArea", name: "Olomoucký kraj" },
+    ],
+    knowsAbout: [
+      "silniční kola",
+      "gravel kola",
+      "horská kola",
+      "elektrokola",
+      "servis kol",
+      "bikefit",
+      "voskování řetězu",
+      "běžecké vybavení",
+      "kompresní vybavení CEP",
+      "lyže",
+      "skialpy",
+      "ISAAC kola",
+      "SCOTT kola",
+      "Q36.5 oblečení",
+    ],
+    keywords:
+      "cyklistický obchod Šternberk, sportovní obchod Šternberk, kola Šternberk, servis kol Šternberk, běh Šternberk, lyže Šternberk, skialpy Šternberk, bikefit, ISAAC, SCOTT, Q36.5, CEP",
     address: {
       "@type": "PostalAddress",
       streetAddress: STERNBERK_STORE.streetAddress,
@@ -109,7 +135,8 @@ export function websiteSchema() {
     "@id": `${SITE_URL}/#website`,
     url: SITE_URL,
     name: "100dola",
-    description: "Sport. Komunita. Malaga.",
+    description:
+      "Sportovní obchod ve Šternberku — kola, běh, lyže, skialpy. Servis kol, bikefit, přeprava kol do Malagy, komunita Open Miles Clinic.",
     publisher: { "@id": `${SITE_URL}/#organization` },
     inLanguage: "cs-CZ",
   };

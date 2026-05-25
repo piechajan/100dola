@@ -11,6 +11,65 @@ export function generateStaticParams() {
   return SPORT_CATEGORIES.map((c) => ({ slug: c.slug }));
 }
 
+// SEO-optimalizované title pro každý sport pillar (location-first)
+const SEO_TITLES: Record<string, { title: string; description: string }> = {
+  cyklistika: {
+    title: "Cyklistický obchod Šternberk — silniční, gravel, MTB, elektrokola",
+    description:
+      "Kola SCOTT, ISAAC, Lapierre, Ghost a NORCO ve Šternberku. Silniční, gravel, horská a elektrokola. Servis kol, bikefit, testovací jízdy. Partyzánská 2.",
+  },
+  beh: {
+    title: "Běžecký obchod Šternberk — boty, oblečení, CEP, kompresní vybavení",
+    description:
+      "Běžecké boty, oblečení, výživa a kompresní vybavení CEP ve Šternberku. Konzultace běžeckého vybavení, ověřené značky pro silnici i trail.",
+  },
+  zima: {
+    title: "Lyže & skialpy Šternberk — Dynastar, skialpové vybavení",
+    description:
+      "Lyže Dynastar, skialpy, běžky a backcountry vybavení ve Šternberku. Sezónní servis lyží, konzultace skialpového vybavení.",
+  },
+  turistika: {
+    title: "Turistika & trek Šternberk — backpack vybavení, via ferraty",
+    description:
+      "Vybavení na jednodenní túry, via ferraty i vícedenní treky. Krosny, hole, oblečení do hor — 100dola sport Šternberk, Partyzánská 2.",
+  },
+  obleceni: {
+    title: "Cyklistické oblečení Šternberk — Q36.5, dresy, kalhoty, vesty",
+    description:
+      "Cyklistické dresy Q36.5, kalhoty, vesty a větrovky ve Šternberku. Oblečení, které funguje na dlouhých kilometrech.",
+  },
+  obuv: {
+    title: "Cyklotretry & běžecké boty Šternberk",
+    description:
+      "Tretry, běžecké boty a treková obuv ve Šternberku. Konzultace velikostí, ověřené značky pro každou aktivitu.",
+  },
+  helmy: {
+    title: "Cyklistické helmy Šternberk — aero, MTB, gravel",
+    description:
+      "Aero, MTB i klasické cyklistické helmy ve Šternberku. Bezpečnost a komfort pro každý styl jízdy.",
+  },
+  vyziva: {
+    title: "Sportovní výživa Šternberk — Sponser, gely, isotonické nápoje",
+    description:
+      "Sportovní výživa Sponser, gely, tyčinky a izotonické nápoje ve Šternberku. Ověřené na dlouhých výjezdech.",
+  },
+  vybaveni: {
+    title: "Cyklo vybavení & doplňky Šternberk — bidony, brašničky, GPS držáky",
+    description:
+      "Bidony, brašničky, GPS držáky, taštičky pod sedlo a další cyklo doplňky ve Šternberku.",
+  },
+  elektronika: {
+    title: "Cyklocomputery & světla Šternberk — Magicshine, GPS, senzory",
+    description:
+      "GPS cyklocomputery, světla Magicshine a senzory ve Šternberku. Chytré vybavení pro chytrou jízdu.",
+  },
+  kolekce: {
+    title: "Jarní cyklistická kolekce 2026 — Šternberk",
+    description:
+      "Road & Gravel kolekce 2026 ve Šternberku — výběr na novou sezónu od Q36.5, ISAAC, SCOTT a dalších.",
+  },
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -19,9 +78,10 @@ export async function generateMetadata({
   const { slug } = await params;
   const cat = getSportCategory(slug);
   if (!cat) return {};
+  const seo = SEO_TITLES[slug];
   return {
-    title: `${cat.label} — 100dola sport`,
-    description: cat.intro,
+    title: seo?.title ?? `${cat.label} Šternberk — 100dola sport`,
+    description: seo?.description ?? cat.intro,
     alternates: { canonical: `/sport/${cat.slug}` },
   };
 }

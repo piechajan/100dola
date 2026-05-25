@@ -37,8 +37,8 @@ const values = [
         <circle cx="12" cy="10" r="3" />
       </svg>
     ),
-    title: "Zázemí na místě",
-    desc: "Nápad, dotažený do detailu. 10 min od letiště si u nás dáš kafe, sprchu a můžeš vyrazit.",
+    title: "Kamenná prodejna Šternberk",
+    desc: "Partyzánská 2, vedle kavárny Namístě. Kola, běh, lyže, servis i bikefit pod jednou střechou. Otevřeno St–So.",
   },
 ];
 
@@ -59,7 +59,9 @@ export default function WhySection() {
             Nejsme anonymní e-shop.
             {" "}
             <br />
-            <span className="text-[#9A9A9A]">Jsme sportovci, kteří prodávají sport.</span>
+            <span className="text-[#9A9A9A]">
+              Jsme sportovci ze Šternberku, kteří prodávají sport.
+            </span>
           </h2>
         </div>
 

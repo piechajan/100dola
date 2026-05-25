@@ -6,12 +6,23 @@ import Footer from "@/components/Footer";
 import { STERNBERK_STORE } from "@/data/company";
 
 export const metadata: Metadata = {
-  title: "O nás — 100dola sport, Malaga, Open Miles Clinic",
-  description: "100dola je sportovní projekt pro cyklisty a lyžaře. Prodej kol a vybavení, přeprava kol do Malagy a komunitní cyklistické eventy pod Open Miles Clinic.",
-  keywords: ["100dola", "silniční kola", "cyklistické vybavení", "kola Malaga", "přeprava kola Španělsko", "Open Miles Clinic", "social rides Praha", "skialpy"],
+  title: "O nás — 100dola sport Šternberk | kola, běh, Malaga, OMC",
+  description:
+    "100dola sport — kamenná prodejna ve Šternberku (Partyzánská 2). Kola, běžecké a lyžařské vybavení, servis, bikefit, přeprava kol do Malagy, komunita Open Miles Clinic.",
+  keywords: [
+    "100dola sport Šternberk",
+    "cyklistický obchod Šternberk",
+    "sportovní obchod Šternberk",
+    "kola Šternberk",
+    "servis kol Šternberk",
+    "kola Malaga",
+    "přeprava kola Španělsko",
+    "Open Miles Clinic",
+    "skialpy Šternberk",
+  ],
   openGraph: {
-    title: "O nás — 100dola",
-    description: "Sportovní projekt postavený na reálné zkušenosti. Kola, Malaga, komunita.",
+    title: "O nás — 100dola sport Šternberk",
+    description: "Sportovní obchod ve Šternberku. Kola, běh, ski, Malaga, komunita.",
     images: ["/media/sport-hero.jpg"],
   },
 };
