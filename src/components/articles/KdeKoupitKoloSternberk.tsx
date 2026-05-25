@@ -21,15 +21,19 @@ export default function KdeKoupitKoloSternberk() {
     <article className="bg-white">
       <div className="max-w-[820px] mx-auto px-6 md:px-12 py-12 md:py-16">
         {/* Lead intro */}
-        <p className="text-lg text-[#5A6480] leading-relaxed mb-10">
+        <p className="text-lg text-[#5A6480] leading-relaxed mb-6">
           Šternberk leží v srdci Hané, 13 km od Olomouce, a okolní krajina je
           pro cyklistu ráj — Nízký Jeseník na sever, Litovelské Pomoraví na
-          jih, Bouzovsko na západ. Pokud uvažujete o novém kole a chcete ho
-          koupit lokálně, namísto „na klik" v anonymním e-shopu, je 100dola
-          sport jediný obchod ve Šternberku, který se specializuje na{" "}
-          <strong>prémiové silniční a gravel modely</strong> evropských a
-          severoamerických značek. Tento průvodce shrnuje, co u nás najdete,
-          jak vybírat a kolik počítat.
+          jih, Bouzovsko na západ. A kousek za městem začíná legendární kopec{" "}
+          <strong>Ecce Homo</strong> (závod automobilů a motocyklů do vrchu)
+          — tradiční tréninkový bod všech cyklistů z okolí. Pokud uvažujete o
+          novém kole a chcete ho koupit lokálně, namísto „na klik" v anonymním
+          e-shopu, je 100dola sport jediný obchod ve Šternberku, který nabízí{" "}
+          <strong>prémiová silniční, gravel, horská i elektrokola</strong>{" "}
+          evropských a severoamerických značek.
+        </p>
+        <p className="text-base text-[#5A6480] leading-relaxed mb-10">
+          Tento průvodce shrnuje, co u nás najdete, jak vybírat a kolik počítat.
         </p>
 
         {/* TOC / quick facts */}
@@ -44,10 +48,14 @@ export default function KdeKoupitKoloSternberk() {
             </li>
             <li>
               🚲 <strong>Co prodáváme:</strong> SCOTT, ISAAC, Lapierre, Ghost,
-              NORCO, Bergamont — silniční, gravel, MTB, elektrokola
+              NORCO, Bergamont — silniční, gravel, horská (MTB) a elektrokola
             </li>
             <li>
-              💸 <strong>Cenové pásmo:</strong> od ~40 000 Kč po 250 000+ Kč
+              💸 <strong>Cenové pásmo:</strong> od ~20 000 Kč po 350 000+ Kč
+            </li>
+            <li>
+              ⛰️ <strong>Lokální klasika:</strong> Ecce Homo — kopec, kam jezdí
+              trénovat všichni cyklisti z okolí
             </li>
             <li>
               🕘 <strong>Otevřeno:</strong> St 9:30–16, Čt 9–17, Pá 9–16, So 9–12
@@ -65,36 +73,45 @@ export default function KdeKoupitKoloSternberk() {
           </ul>
         </div>
 
-        {/* 1. Než vyrazíte */}
+        {/* 1. Co spolu projdeme */}
         <section className="mb-12">
           <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-4">
-            Než vyrazíte do prodejny — co si vyjasnit doma
+            Co spolu projdeme, než si vyberete
           </h2>
           <p className="text-base text-[#5A6480] leading-relaxed mb-4">
-            Nákup kola není jen o značce a barvě. Vyplatí se přijít s rámcovou
-            představou — ušetříte sobě i nám hodinu vykládání:
+            Výběr kola je individuální — neexistuje univerzální „nejlepší kolo".
+            Když přijdete, projdeme s vámi pár věcí, abychom doporučení trefili
+            přesně. Klidně přijďte „jen se podívat" — žádný tlak, raději si
+            sedneme, dáme kafe a vyjasníme:
           </p>
           <ul className="space-y-3 text-base text-[#1a1a2e] leading-relaxed list-disc list-outside ml-5 marker:text-[#3B7CF4]">
             <li>
-              <strong>Typ jízdy.</strong> Silnice (asfalt, dlouhé výjezdy)?
-              Gravel (mix asfaltu, šotoliny, lesních cest)? MTB (singletraily,
-              skoky)? Trekové kolo do města? Elektrokolo na turistiku se ženou?
-              U nás dominuje road a gravel — to je naše doma.
+              <strong>Jak chcete jezdit.</strong> Silnice (asfalt, dlouhé
+              výjezdy, kopce typu Ecce Homo)? Gravel (mix asfaltu, šotoliny,
+              lesních cest kolem Litovelského Pomoraví)? MTB (singletraily v
+              Jeseníkách)? Elektrokolo s vyšším dojezdem na celodenní výlet?
+              Nemusíte to mít vyřešené — pomůžeme zorientovat.
             </li>
             <li>
-              <strong>Realistický roční nájezd.</strong> 1 500 km ročně volá po
-              jiném kole než 10 000 km. U vyšších nájezdů má smysl
-              karbonový rám a kvalitní groupset (Shimano 105 Di2, Ultegra, GRX).
+              <strong>Kolik najedete.</strong> 1 500 km ročně volá po jiném
+              kole než 10 000 km — komponenty a rám vybíráme podle reálného
+              zatížení. Probereme to.
             </li>
             <li>
-              <strong>Rozpočtové pásmo.</strong> Kolo za 60 000 a kolo za 150 000
-              jsou jiné světy. Konkrétní čísla rozebíráme níže.
+              <strong>Jaký máte rozpočet.</strong> Tady neexistuje špatná
+              odpověď — máme kola od 20 000 do 350 000+ Kč. Vždycky najdeme
+              variantu, která má pro vaše použití smysl, ne která je nejdražší.
             </li>
             <li>
-              <strong>Výška a délka v sedu.</strong> Pro správnou velikost rámu
-              stačí výška a délka v sedu (nebo přijďte na orientační bikefit).
+              <strong>Velikost rámu.</strong> Zaměříme základní rozměry (výška,
+              délka v sedu, inseam) přímo v prodejně. Pokud chcete jít do detailu,
+              nabízíme i orientační bikefit.
             </li>
           </ul>
+          <p className="text-sm text-[#5A6480] leading-relaxed mt-5 italic">
+            Krátká zpráva, telefon nebo příchod osobně — všechno funguje.
+            Osobní konzultace je u nás zdarma a nezavazuje vás k ničemu.
+          </p>
         </section>
 
         {/* 2. Značky které doporučujeme */}
@@ -159,9 +176,10 @@ export default function KdeKoupitKoloSternberk() {
             Kolik počítat — cenová pásma 2026
           </h2>
           <p className="text-base text-[#5A6480] leading-relaxed mb-6">
-            Ceny jsou orientační pro <strong>silniční a gravel kola
-            s karbonovým rámem</strong> (alu modely u SCOTT a ISAAC začínají
-            o ~10–15 tisíc níž).
+            Pásma platí orientačně pro silniční, gravel a MTB modely.{" "}
+            <strong>Elektrokola</strong> přidávají typicky 30–60 % k ceně
+            ekvivalentního klasického kola (kvůli motoru, baterii a posílené
+            geometrii rámu).
           </p>
 
           <div className="overflow-hidden rounded-2xl border border-[#E2E6F3]">
@@ -175,50 +193,54 @@ export default function KdeKoupitKoloSternberk() {
               <tbody className="divide-y divide-[#E2E6F3]">
                 <tr>
                   <td className="p-4 align-top">
-                    <strong className="text-[#1a1a2e]">40–60 k</strong>
-                    <div className="text-[11px] text-[#9AA3C2]">vstupní karbon</div>
+                    <strong className="text-[#1a1a2e]">20–40 k</strong>
+                    <div className="text-[11px] text-[#9AA3C2]">vstup</div>
                   </td>
                   <td className="p-4 text-[#5A6480]">
-                    Karbon rám entry-level, Shimano 105 mechanika (12-rychlostní),
-                    alu kola. Reálné kolo na 5 000–10 000 km ročně. Pro
-                    začínajícího nebo hobby jezdce ideální start.
+                    Hliníkový rám, Shimano Tiagra nebo 105 (mechanická), alu
+                    kola. Solidní vstup do cyklistiky pro hobby jezdce — kolo,
+                    které vás nezklame první sezónu. Z MTB sem patří entry-level
+                    hardtaily od SCOTT a Bergamont.
                   </td>
                 </tr>
                 <tr>
                   <td className="p-4 align-top">
-                    <strong className="text-[#1a1a2e]">60–100 k</strong>
-                    <div className="text-[11px] text-[#9AA3C2]">střední pásmo</div>
+                    <strong className="text-[#1a1a2e]">40–100 k</strong>
+                    <div className="text-[11px] text-[#9AA3C2]">střední třída</div>
                   </td>
                   <td className="p-4 text-[#5A6480]">
-                    Lepší rám, Shimano 105 Di2 nebo Ultegra mechanická, lepší
-                    sada kol (často karbon), lepší pneumatiky. Tady začíná
+                    Karbonový rám entry až střední, Shimano 105 Di2 nebo Ultegra
+                    mechanická, lepší kola (často karbon entry). Tady začíná
                     cyklistika „nepřemýšlej, jen jeď" — kolo, které vás motivuje
-                    vyjet, místo aby vás odrazovalo váhou nebo chladnou
-                    geometrií.
+                    vyjet místo aby vás odrazovalo váhou. Pro MTB: kvalitní
+                    hardtail nebo entry full-suspension.
                   </td>
                 </tr>
                 <tr>
                   <td className="p-4 align-top">
-                    <strong className="text-[#1a1a2e]">100–150 k</strong>
+                    <strong className="text-[#1a1a2e]">100–200 k</strong>
                     <div className="text-[11px] text-[#9AA3C2]">prémie</div>
                   </td>
                   <td className="p-4 text-[#5A6480]">
-                    Shimano Ultegra Di2 nebo SRAM Force AXS, karbonová sada
-                    kol, lehčí rám. Rozdíl proti střednímu pásmu cítíte na
-                    výjezdech, na akceleraci a v handlingu. Tohle je „kolo
-                    na dlouho" — pravděpodobně vám vydrží 10+ let.
+                    Lehčí karbon, Shimano Ultegra Di2 nebo SRAM Force AXS,
+                    karbonová sada kol, lepší pneumatiky a sedlo. Rozdíl proti
+                    střednímu pásmu cítíte na výjezdech, v akceleraci a
+                    v handlingu. „Kolo na dlouho" — pravděpodobně vám vydrží
+                    10+ let. Pro MTB: serious full-suspension trail/enduro.
                   </td>
                 </tr>
                 <tr>
                   <td className="p-4 align-top">
-                    <strong className="text-[#1a1a2e]">150+ k</strong>
+                    <strong className="text-[#1a1a2e]">200–350+ k</strong>
                     <div className="text-[11px] text-[#9AA3C2]">top</div>
                   </td>
                   <td className="p-4 text-[#5A6480]">
                     Top modely SCOTT Addict RC, Foil RC, ISAAC Boson SL.
-                    Dura-Ace Di2, Red AXS, hluboké karbon disky. Rozdíl
-                    proti pásmu 100k je v detailech — ale pokud na nich
-                    sedíte 5 hodin v týdnu, ty detaily vidíte i cítíte.
+                    Dura-Ace Di2, SRAM Red AXS, hluboké karbonové disky,
+                    elektronické řazení s power meterem. Rozdíl proti pásmu
+                    100–200 k je v detailech — ale pokud na kole sedíte 5+
+                    hodin týdně, ty detaily cítíte. Pro MTB: prémiové enduro
+                    a XC race kola.
                   </td>
                 </tr>
               </tbody>
@@ -252,7 +274,7 @@ export default function KdeKoupitKoloSternberk() {
             <li>
               <strong>Hodnota při prodeji.</strong> SCOTT Addict z roku 2020
               se dnes prodává za 60 % původní ceny. Kolo z nejmenované
-              značky za 30 % původní ceny — pokud ho vůbec někdo koupí.
+              značky za 30 % — pokud ho vůbec někdo koupí.
             </li>
             <li>
               <strong>Jezdíte raději.</strong> Tohle je nejdůležitější. Hezké,
@@ -290,6 +312,88 @@ export default function KdeKoupitKoloSternberk() {
               , domluvíme se na termínu, který sedí.
             </li>
           </ul>
+        </section>
+
+        {/* Lokální tipy */}
+        <section className="mb-12">
+          <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-4">
+            Kde se ve Šternberku jezdí
+          </h2>
+          <p className="text-base text-[#5A6480] leading-relaxed mb-6">
+            Když se rozhodujete pro nové kolo, pomáhá vědět, kde ho budete
+            reálně mlátit. Tady je rychlý přehled tras, na kterých nás potkáte:
+          </p>
+
+          <div className="space-y-4">
+            <div className="bg-white border border-[#E2E6F3] rounded-2xl p-5">
+              <div className="flex items-baseline gap-3 mb-2">
+                <h3 className="text-lg font-black text-[#1a1a2e]">
+                  Ecce Homo
+                </h3>
+                <span className="text-xs uppercase tracking-wider font-bold text-[#E8431A]">
+                  Lokální klasika
+                </span>
+              </div>
+              <p className="text-sm text-[#5A6480] leading-relaxed">
+                Slavný kopec mezi Šternberkem a Domašovem, kde se od roku 1905
+                jezdí <strong>závody automobilů a motocyklů do vrchu</strong>{" "}
+                (Mistrovství Evropy v závodech do vrchu, FIA EHCC). Pro cyklistu
+                je to <strong>tréninkový bod číslo jedna</strong> —
+                7,7 km dlouhá serpentina, ~340 m převýšení, průměrný sklon
+                4,4 %. Téměř každý vážnější cyklista z okolí má na Stravě
+                segment „Ecce Homo" — perfektní benchmark pro hodinové
+                intervaly nebo „pojedu jen tak nahoru a zpátky".
+              </p>
+            </div>
+
+            <div className="bg-white border border-[#E2E6F3] rounded-2xl p-5">
+              <h3 className="text-lg font-black text-[#1a1a2e] mb-2">
+                Nízký Jeseník — silnice a gravel
+              </h3>
+              <p className="text-sm text-[#5A6480] leading-relaxed">
+                Směrem na sever od Šternberku se rozkládá Nízký Jeseník —
+                klidné silnice s rolling hills, ideální pro silniční výjezdy
+                100+ km. Pro gravel jezdce: lesní cesty kolem Bruntálu,
+                přejezdy přes pláně Hrubého Jeseníku.
+              </p>
+            </div>
+
+            <div className="bg-white border border-[#E2E6F3] rounded-2xl p-5">
+              <h3 className="text-lg font-black text-[#1a1a2e] mb-2">
+                Litovelské Pomoraví — gravel
+              </h3>
+              <p className="text-sm text-[#5A6480] leading-relaxed">
+                Směrem na jih a jihozápad. Říční terasy, lužní lesy, lesní
+                a polní cesty. Klidná oblast, kde potkáte kola, ne auta.
+                Ideální celodenní gravel okruh 60–80 km.
+              </p>
+            </div>
+
+            <div className="bg-white border border-[#E2E6F3] rounded-2xl p-5">
+              <h3 className="text-lg font-black text-[#1a1a2e] mb-2">
+                Hrubý Jeseník — MTB & enduro
+              </h3>
+              <p className="text-sm text-[#5A6480] leading-relaxed">
+                Hodinu autem na sever a jste v Hrubém Jeseníku — Praděd
+                (1 491 m), Dlouhé Stráně, technické singletraily. Pro MTB
+                jezdce ráj, pro elektrokola s vyšším dojezdem také.
+              </p>
+            </div>
+
+            <div className="bg-white border border-[#E2E6F3] rounded-2xl p-5">
+              <h3 className="text-lg font-black text-[#1a1a2e] mb-2">
+                Závod Míru — UCI U23 stage race
+              </h3>
+              <p className="text-sm text-[#5A6480] leading-relaxed">
+                Šternberk je tradičně cílovým městem některé etapy{" "}
+                <Link href="/clanky/zavod-miru-2026-sternberk" className="text-[#3B7CF4] font-bold hover:underline">
+                  Závodu Míru U23
+                </Link>
+                . Pro místní cyklisty je to každoroční svátek a dobrý důvod,
+                proč se na jaře dostat zpátky do formy.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* 6. Co dostanete v 100dola */}
