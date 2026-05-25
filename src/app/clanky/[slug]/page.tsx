@@ -13,6 +13,7 @@ import {
   getRelatedArticles,
 } from "@/data/articles";
 import ZavodMiruSternberk from "@/components/articles/ZavodMiruSternberk";
+import KdeKoupitKoloSternberk from "@/components/articles/KdeKoupitKoloSternberk";
 
 const SITE = "https://www.100dola.com";
 
@@ -54,6 +55,7 @@ export async function generateMetadata({
 
 const RENDERERS: Record<string, () => React.ReactElement> = {
   "zavod-miru-2026-sternberk": () => <ZavodMiruSternberk />,
+  "kde-koupit-kolo-sternberk": () => <KdeKoupitKoloSternberk />,
   // Další články se přidají postupně:
   // "voskovani-retezu": () => <VoskovaniRetezu />,
   // "keramicka-loziska": () => <KeramickaLoziska />,
