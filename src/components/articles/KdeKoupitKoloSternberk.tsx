@@ -93,9 +93,12 @@ export default function KdeKoupitKoloSternberk() {
               Nemusíte to mít vyřešené — pomůžeme zorientovat.
             </li>
             <li>
-              <strong>Kolik najedete.</strong> 1 500 km ročně volá po jiném
-              kole než 10 000 km — komponenty a rám vybíráme podle reálného
-              zatížení. Probereme to.
+              <strong>Co od kola čekáte.</strong> Trénink na závody? Víkendové
+              vyjížďky pro radost? Cestování na kole? Karbonový rám a kvalitní
+              groupset dávají smysl v obou případech — i u nižších nájezdů.
+              Roční kilometráž není limit, je to spíš ukazatel intenzity
+              používání. I hobby jezdec si zaslouží kolo, na které se těší
+              a které mu dělá radost už jen tím, jak vypadá v garáži.
             </li>
             <li>
               <strong>Jaký máte rozpočet.</strong> Tady neexistuje špatná
@@ -251,25 +254,32 @@ export default function KdeKoupitKoloSternberk() {
         {/* 4. Proč boutique značka */}
         <section className="mb-12">
           <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-4">
-            Proč boutique značka místo supermarketu
+            Proč prémiové kolo má smysl — i pro hobby jezdce
           </h2>
           <p className="text-base text-[#5A6480] leading-relaxed mb-4">
-            Nejdražší část kola je rám. A na rámu se sázení na nízkou cenu
-            podepíše nejvíc — geometrií, kvalitou karbonu a životností. Kolo
-            za 25 tisíc z hyper­marketu dělá v zásadě totéž co kolo za 60 tisíc
-            od SCOTTu, ale:
+            Rozdíl mezi kolem za 25 tisíc z hypermarketu a kolem za 80 tisíc
+            od SCOTTu není v tom, že obě „jezdí". Jezdit jezdí obě — rozdíl
+            je v <em>jak</em>:
           </p>
           <ul className="space-y-3 text-base text-[#1a1a2e] leading-relaxed list-disc list-outside ml-5 marker:text-[#3B7CF4]">
             <li>
-              <strong>Geometrie sedí.</strong> SCOTT a ISAAC mají
-              prošlapané rozměry — víte, že L bude L. U levných značek se
-              často „M" jednoho výrobce chová jako „L" jiného.
+              <strong>Karbonový rám = jiný zážitek.</strong> Lehčí kolo
+              akceleruje rychleji, snadněji ho zvedáte přes obrubník i do
+              auta. Karbon tlumí drobné vibrace — po dvouhodinové jízdě
+              nemáte rozbolavělé ruce. To není „výkonnostní" benefit, to je
+              čistě pohodlí, které si užije i víkendový jezdec.
             </li>
             <li>
-              <strong>Komponenty se dají servisovat.</strong> Shimano 105
-              Di2 z roku 2026 budete moci servisovat i v roce 2036. Levnější
-              značky používají proprietární komponenty, které za 5 let
-              nikdo neopraví.
+              <strong>Geometrie sedí.</strong> SCOTT a ISAAC mají rámy
+              navržené tak, aby seděly na evropskou postavu. U levných
+              značek často „M" jednoho výrobce odpovídá „L" jiného a po
+              dvou letech zjistíte, že máte na kole špatný posaz.
+            </li>
+            <li>
+              <strong>Komponenty se dají servisovat.</strong> Shimano 105 Di2
+              z roku 2026 budete moci servisovat i v roce 2036. Levné značky
+              používají proprietární komponenty, které za 5 let nikdo neopraví
+              — pak se kolo vyhazuje, ne opravuje.
             </li>
             <li>
               <strong>Hodnota při prodeji.</strong> SCOTT Addict z roku 2020
@@ -277,41 +287,93 @@ export default function KdeKoupitKoloSternberk() {
               značky za 30 % — pokud ho vůbec někdo koupí.
             </li>
             <li>
-              <strong>Jezdíte raději.</strong> Tohle je nejdůležitější. Hezké,
-              kvalitní kolo vás táhne ven. Levný kompromis máte v garáži a
-              vždycky najdete důvod proč nejet.
+              <strong>Kolo, na které se těšíte.</strong> Tohle je
+              <strong> nejdůležitější</strong> a často nepojmenované.
+              Pěkné, kvalitní kolo vás <em>táhne ven</em> — i když máte volný
+              jen jeden víkendový dopolední čas. Levný kompromis stojí
+              v garáži a vždycky najdete důvod, proč nejet. Jeden ze
+              spoluvlastníků 100dola sport je sám hobby jezdec — a jezdí
+              na karbonovém SCOTTu, protože dobré kolo není o kilometrech,
+              ale o tom, jak vás baví ho používat.
             </li>
           </ul>
         </section>
 
-        {/* 5. Test ride */}
+        {/* 5. Jak u nás výběr probíhá */}
         <section className="mb-12">
           <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-4">
-            Vyzkoušet si kolo před nákupem
+            Jak to u nás probíhá — od konzultace po předání
           </h2>
           <p className="text-base text-[#5A6480] leading-relaxed mb-4">
-            Vybírat kolo bez vyzkoušení je jako kupovat boty online — někdy
-            to vyjde, většinou ne úplně. Před pořízením kola za 60 000+ Kč si
-            domluvte zkušební jízdu:
+            Jsme malý showroom — neskladujeme desítky kusů kol „jen tak pro
+            případ". Většinu modelů objednáváme přímo pod konkrétního
+            zákazníka. To má dvě výhody: dostanete <strong>nejnovější model
+            v přesně té konfiguraci, kterou chcete</strong> (velikost, barva,
+            případně úprava sedla nebo řídítek), a neplatíte za nadbytečné
+            sklady. Cena je stejná jako u velkých řetězců, často nižší.
           </p>
-          <ul className="space-y-3 text-base text-[#1a1a2e] leading-relaxed list-disc list-outside ml-5 marker:text-[#3B7CF4]">
-            <li>
-              <strong>ISAAC fleet</strong> — pořádáme pravidelně víkendy
-              zkušebních jízd s celou paletou ISAAC modelů (Meson, Element,
-              Boson, Vitron, Kaon, Torus Xplore).{" "}
-              <Link href="/isaac-test" className="text-[#3B7CF4] font-bold hover:underline">
-                Nejbližší termíny →
-              </Link>
-            </li>
-            <li>
-              <strong>SCOTT a další značky</strong> — individuální zkušební
-              jízda po dohodě. Stačí{" "}
-              <Link href="/kontakt" className="text-[#3B7CF4] font-bold hover:underline">
-                zavolat nebo napsat
-              </Link>
-              , domluvíme se na termínu, který sedí.
-            </li>
-          </ul>
+          <div className="space-y-4 mt-6">
+            <div className="flex gap-4 items-start">
+              <div className="w-8 h-8 rounded-full bg-[#3B7CF4] text-white text-sm font-black flex items-center justify-center flex-shrink-0">1</div>
+              <div>
+                <h3 className="font-black text-[#1a1a2e] mb-1">Konzultace</h3>
+                <p className="text-sm text-[#5A6480] leading-relaxed">
+                  Telefon, e-mail nebo osobně — projdeme, na co kolo chcete,
+                  jaké máte představy a rozpočet. Zdarma, nezávazně.
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-8 h-8 rounded-full bg-[#3B7CF4] text-white text-sm font-black flex items-center justify-center flex-shrink-0">2</div>
+              <div>
+                <h3 className="font-black text-[#1a1a2e] mb-1">Výběr 2–3 modelů</h3>
+                <p className="text-sm text-[#5A6480] leading-relaxed">
+                  Doporučíme konkrétní modely, které pro vaše použití dávají
+                  smysl. Probereme rozdíly, ceny, dostupnost.
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-8 h-8 rounded-full bg-[#3B7CF4] text-white text-sm font-black flex items-center justify-center flex-shrink-0">3</div>
+              <div>
+                <h3 className="font-black text-[#1a1a2e] mb-1">Zkušební jízda — pokud je možnost</h3>
+                <p className="text-sm text-[#5A6480] leading-relaxed">
+                  Pokud máme zrovna v showroomu vybraný model nebo blízkého
+                  sourozence ve vaší velikosti, domluvíme krátkou jízdu. Pro
+                  ISAAC fleet pořádáme příležitostně víkendy hromadných
+                  zkušebních jízd — například{" "}
+                  <Link href="/isaac-test" className="text-[#3B7CF4] font-bold hover:underline">
+                    víkend Závodu Míru 2026
+                  </Link>
+                  , kde si projedete celé spektrum modelů na jednom místě.
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-8 h-8 rounded-full bg-[#3B7CF4] text-white text-sm font-black flex items-center justify-center flex-shrink-0">4</div>
+              <div>
+                <h3 className="font-black text-[#1a1a2e] mb-1">Objednávka & příprava</h3>
+                <p className="text-sm text-[#5A6480] leading-relaxed">
+                  Kolo objednáme, postavíme, seřídíme a zkalibrujeme. Termíny
+                  závisí na modelu — obvykle 2–6 týdnů. Pošleme update,
+                  kdykoliv je posun.
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-8 h-8 rounded-full bg-[#3B7CF4] text-white text-sm font-black flex items-center justify-center flex-shrink-0">5</div>
+              <div>
+                <h3 className="font-black text-[#1a1a2e] mb-1">Předání — u nás nebo u vás</h3>
+                <p className="text-sm text-[#5A6480] leading-relaxed">
+                  Buďto si pro kolo přijedete do Šternberku (Partyzánská 2),
+                  nebo vám ho doručíme. <strong>Pravidelně jezdíme do
+                  Olomouce, Vsetína, Valašského Meziříčí, Ostravy a Brna</strong>{" "}
+                  — osobní předání s krátkou instruktáží je často zdarma nebo
+                  za symbolický příspěvek. Domluvíme se podle vaší lokality.
+                </p>
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* Lokální tipy */}
