@@ -272,6 +272,25 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // Uložit payment metadata snapshot pro pozdější reminder e-mail
+  // (vyžaduje migraci 011_orders_payment_lifecycle.sql — pokud sloupce ještě
+  // neexistují, UPDATE selže a my pokračujeme bez chyby).
+  if (isSupabaseConfigured()) {
+    try {
+      const sb = getSupabase();
+      await sb
+        .from("orders")
+        .update({
+          iban: FUTUNATU_IBAN,
+          variable_symbol: id,
+          qr_data_url: qrDataUrl ?? null,
+        })
+        .eq("id", id);
+    } catch (e) {
+      console.warn("[api/orders] payment metadata snapshot update skipped:", e);
+    }
+  }
+
   // Auto-vytvoření faktury ve Fakturoidu (fire-and-forget).
   // Faktura má variable_symbol = order.id → Fakturoid bank sync (FIO) ji při
   // přijaté platbě automaticky označí jako zaplacenou, webhook nám pak markne order.

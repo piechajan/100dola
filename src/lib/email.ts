@@ -633,6 +633,13 @@ export async function sendOrderConfirmation(order: OrderEmailPayload): Promise<v
         Termín dodání ti potvrdíme po zadání platby. Ozveme se ti do 24 hodin.
       </p>
 
+      <div style="margin-top: 16px; padding: 14px 16px; background: #FFF8E7; border: 1px solid #F5D78E; border-radius: 12px; font-size: 13px; color: #5A4500; line-height: 1.5;">
+        <strong style="color: #1a1a2e;">Splatnost 7 dní.</strong>
+        Pokud platbu neobdržíme do 7 dnů od objednávky, objednávka bude
+        automaticky stornována a zboží uvolněno pro další zájemce. Den 2 ti
+        pošleme připomínku, kdybys náhodou zapomněl/a.
+      </div>
+
       <div style="margin-top: 28px; padding: 18px; background: #F0F4FF; border-radius: 12px;">
         <div style="font-weight: 700; margin-bottom: 4px;">100dola sport · FUTUNATU s.r.o.</div>
         <div style="font-size: 14px;">
@@ -1331,5 +1338,174 @@ export async function sendIsaacCancelLinkList(p: {
     });
   } catch (e) {
     console.error("[email] sendIsaacCancelLinkList failed:", e);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Order payment reminders & auto-cancel (cron)
+// ─────────────────────────────────────────────────────────────────────
+
+interface OrderReminderPayload {
+  id: string;
+  total: number;
+  iban: string;
+  variableSymbol?: string;
+  qrDataUrl?: string;
+  contact: { name: string; email: string };
+  daysOld: number;
+  expiresInDays: number;
+}
+
+/** Den 2 — připomínka klientovi že platba nedorazila. */
+export async function sendOrderPaymentReminder(p: OrderReminderPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+  const firstName = p.contact.name.split(" ")[0];
+  const subject = `Připomínka platby — objednávka ${p.id} · 100dola sport`;
+
+  const text = [
+    `Dobrý den ${firstName},`,
+    "",
+    `připomínáme, že jsme zatím neobdrželi platbu za vaši objednávku ${p.id}.`,
+    `Splatnost vyprší za ${p.expiresInDays} dní — pak bude objednávka automaticky stornována.`,
+    "",
+    `Částka: ${fmtPrice(p.total)}`,
+    `IBAN: ${p.iban}`,
+    p.variableSymbol ? `Variabilní symbol: ${p.variableSymbol}` : "",
+    "",
+    "Pokud jste už zaplatili, prosím ignorujte tento e-mail — bankovní převody se",
+    "občas zpracovávají i 24-48 hodin.",
+    "",
+    "100dola sport · +420 739 045 057 · info@100dola.com",
+  ].filter(Boolean).join("\n");
+
+  const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 560px; margin: 0 auto; padding: 32px 24px; color: #1a1a2e;">
+      <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #E8A020; font-weight: 700; margin-bottom: 8px;">
+        Připomínka platby
+      </div>
+      <h1 style="font-size: 22px; margin: 4px 0 16px 0; font-weight: 800;">Objednávka ${escapeHtml(p.id)} čeká na platbu</h1>
+      <p style="font-size: 14px; line-height: 1.6; color: #5A6480;">
+        Dobrý den ${escapeHtml(firstName)}, připomínáme, že jsme zatím neobdrželi platbu
+        za vaši objednávku. <strong>Splatnost vyprší za ${p.expiresInDays} dní</strong> —
+        po té bude objednávka automaticky stornována a zboží uvolněno pro další zájemce.
+      </p>
+
+      <div style="margin-top: 20px; padding: 16px; background: #F0F4FF; border-radius: 12px;">
+        <table style="width: 100%; font-size: 14px;">
+          <tr><td style="color: #5A6480; padding: 4px 0;">Částka</td><td style="text-align: right; font-weight: 800;">${escapeHtml(fmtPrice(p.total))}</td></tr>
+          <tr><td style="color: #5A6480; padding: 4px 0;">IBAN</td><td style="text-align: right; font-family: 'SF Mono', monospace; font-size: 12px;">${escapeHtml(p.iban)}</td></tr>
+          ${p.variableSymbol ? `<tr><td style="color: #5A6480; padding: 4px 0;">Variabilní symbol</td><td style="text-align: right; font-family: 'SF Mono', monospace;">${escapeHtml(p.variableSymbol)}</td></tr>` : ""}
+        </table>
+      </div>
+
+      ${p.qrDataUrl ? `<div style="text-align: center; margin-top: 20px;"><img src="${p.qrDataUrl}" alt="QR platba" style="width: 200px; height: 200px;"/><div style="font-size: 12px; color: #9AA3C2; margin-top: 6px;">QR platba</div></div>` : ""}
+
+      <p style="font-size: 13px; color: #9AA3C2; line-height: 1.5; margin-top: 24px;">
+        Pokud jste už zaplatili, prosím ignorujte tento e-mail — bankovní převody
+        se občas zpracovávají i 24-48 hodin a my párujeme platby ručně.
+      </p>
+
+      <div style="margin-top: 28px; padding: 16px; background: #F0F4FF; border-radius: 12px; font-size: 13px;">
+        <strong>100dola sport · FUTUNATU s.r.o.</strong><br/>
+        <a href="mailto:info@100dola.com" style="color: #3B7CF4;">info@100dola.com</a> · <a href="tel:+420739045057" style="color: #3B7CF4;">+420 739 045 057</a>
+      </div>
+    </div>
+  `;
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.contact.email,
+      replyTo: NOTIFY_EMAIL,
+      subject,
+      text,
+      html,
+    });
+  } catch (e) {
+    console.error("[email] sendOrderPaymentReminder failed:", e);
+  }
+}
+
+/** Den 2 — interní notif Janovi: tahle objednávka čeká na platbu. */
+export async function sendOrderPaymentReminderAdmin(p: OrderReminderPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+  const subject = `[Připomínka] Objednávka ${p.id} čeká ${p.daysOld} dní na platbu`;
+  const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 480px; margin: 0 auto; padding: 24px; color: #1a1a2e;">
+      <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #E8A020; font-weight: 700;">Reminder · Den ${p.daysOld}</div>
+      <h2 style="margin: 4px 0 12px 0;">Objednávka ${escapeHtml(p.id)}</h2>
+      <p style="font-size: 14px; color: #5A6480; line-height: 1.6;">
+        Klient <strong>${escapeHtml(p.contact.name)}</strong> (${escapeHtml(p.contact.email)})
+        zatím nezaplatil. Částka <strong>${escapeHtml(fmtPrice(p.total))}</strong>.
+        Splatnost vyprší za ${p.expiresInDays} dní.
+      </p>
+      <p style="font-size: 13px; color: #9AA3C2;">
+        Klient dnes dostal automatickou připomínku.
+        Detail: <a href="${process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com"}/admin/orders" style="color: #3B7CF4;">admin/orders</a>
+      </p>
+    </div>
+  `;
+  try {
+    await getResend().emails.send({ from: FROM_EMAIL, to: NOTIFY_EMAIL, subject, html });
+  } catch (e) {
+    console.error("[email] sendOrderPaymentReminderAdmin failed:", e);
+  }
+}
+
+interface OrderAutoCancelPayload {
+  id: string;
+  total: number;
+  contact: { name: string; email: string };
+}
+
+/** Den 7+ — objednávka stornována, info klientovi. */
+export async function sendOrderAutoCancelCustomer(p: OrderAutoCancelPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+  const subject = `Objednávka ${p.id} stornována (vypršela splatnost) — 100dola sport`;
+  const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 560px; margin: 0 auto; padding: 32px 24px; color: #1a1a2e;">
+      <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #9AA3C2; font-weight: 700;">Storno</div>
+      <h1 style="font-size: 22px; margin: 4px 0 16px 0; font-weight: 800;">Objednávka ${escapeHtml(p.id)} byla automaticky stornována</h1>
+      <p style="font-size: 14px; line-height: 1.6; color: #5A6480;">
+        Dobrý den ${escapeHtml(p.contact.name.split(" ")[0])}, neobdrželi jsme platbu za
+        objednávku <strong>${escapeHtml(p.id)}</strong> v lhůtě splatnosti (7 dní), takže
+        ji systém automaticky stornoval a zboží uvolnil.
+      </p>
+      <p style="font-size: 14px; line-height: 1.6; color: #5A6480;">
+        Pokud máte stále zájem, můžete objednávku zopakovat — nebo nám napsat a
+        dohodneme se individuálně.
+      </p>
+      <div style="margin-top: 28px; padding: 16px; background: #F0F4FF; border-radius: 12px; font-size: 13px;">
+        <strong>100dola sport · FUTUNATU s.r.o.</strong><br/>
+        <a href="mailto:info@100dola.com" style="color: #3B7CF4;">info@100dola.com</a> · <a href="tel:+420739045057" style="color: #3B7CF4;">+420 739 045 057</a>
+      </div>
+    </div>
+  `;
+  try {
+    await getResend().emails.send({ from: FROM_EMAIL, to: p.contact.email, replyTo: NOTIFY_EMAIL, subject, html });
+  } catch (e) {
+    console.error("[email] sendOrderAutoCancelCustomer failed:", e);
+  }
+}
+
+/** Den 7+ — interní info Janovi: storno proběhlo. */
+export async function sendOrderAutoCancelAdmin(p: OrderAutoCancelPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+  const subject = `[Auto-storno] Objednávka ${p.id} — nezaplaceno`;
+  const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 480px; margin: 0 auto; padding: 24px; color: #1a1a2e;">
+      <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #9AA3C2; font-weight: 700;">Auto-storno</div>
+      <h2 style="margin: 4px 0 12px 0;">Objednávka ${escapeHtml(p.id)}</h2>
+      <p style="font-size: 14px; color: #5A6480; line-height: 1.6;">
+        Klient <strong>${escapeHtml(p.contact.name)}</strong> (${escapeHtml(p.contact.email)})
+        nezaplatil v lhůtě 7 dní. Částka <strong>${escapeHtml(fmtPrice(p.total))}</strong>.
+        Objednávka byla automaticky stornována (status: cancelled).
+      </p>
+    </div>
+  `;
+  try {
+    await getResend().emails.send({ from: FROM_EMAIL, to: NOTIFY_EMAIL, subject, html });
+  } catch (e) {
+    console.error("[email] sendOrderAutoCancelAdmin failed:", e);
   }
 }

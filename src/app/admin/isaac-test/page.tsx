@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import IsaacReservationActions from "@/components/admin/IsaacReservationActions";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { ISAAC_BIKES, ISAAC_DAYS } from "@/data/isaac-bikes";
 
@@ -178,6 +179,7 @@ export default async function AdminIsaacTestPage() {
                     <th className="text-left p-3 font-bold">Kontakt</th>
                     <th className="text-left p-3 font-bold">Pozn.</th>
                     <th className="text-center p-3 font-bold">Status</th>
+                    <th className="text-left p-3 font-bold">Akce</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -212,6 +214,13 @@ export default async function AdminIsaacTestPage() {
                         >
                           {r.status}
                         </span>
+                      </td>
+                      <td className="p-3">
+                        <IsaacReservationActions
+                          id={r.id}
+                          status={r.status}
+                          customerName={r.full_name}
+                        />
                       </td>
                     </tr>
                   ))}
