@@ -47,13 +47,20 @@ export default function IsaacTestForm({ bikes, days }: Props) {
       .catch(() => setTaken([]));
   }, []);
 
+  // Normalizace formátu slotStart — API vrací "2026-05-29T07:00:00Z",
+  // ISAAC_SLOTS generuje "2026-05-29T07:00:00.000Z" (přes toISOString).
+  // Sjednotíme oba na ISO bez milisekund.
+  function normSlot(s: string): string {
+    return s.replace(/\.\d{3}Z$/, "Z");
+  }
+
   const takenSet = useMemo(
-    () => new Set(taken.map((t) => `${t.bikeSlug}::${t.slotStart}`)),
+    () => new Set(taken.map((t) => `${t.bikeSlug}::${normSlot(t.slotStart)}`)),
     [taken],
   );
 
   function isSlotTaken(bikeSlug: string, slotStart: string): boolean {
-    return takenSet.has(`${bikeSlug}::${slotStart}`);
+    return takenSet.has(`${bikeSlug}::${normSlot(slotStart)}`);
   }
 
   const bike = bikes.find((b) => b.slug === selectedBike);
@@ -257,22 +264,36 @@ export default function IsaacTestForm({ bikes, days }: Props) {
                 {day.slots.map((s) => {
                   const isTaken = selectedBike ? isSlotTaken(selectedBike, s.slotStart) : false;
                   const isSelected = selectedSlot === s.slotStart;
+                  const isDisabled = !selectedBike || isTaken;
                   return (
                     <button
                       key={s.slotStart}
                       type="button"
-                      disabled={!selectedBike || isTaken}
-                      onClick={() => setSelectedSlot(s.slotStart)}
-                      className={`w-full px-3 py-2.5 rounded-lg text-sm font-bold text-left transition border ${
+                      disabled={isDisabled}
+                      aria-disabled={isDisabled}
+                      onClick={(e) => {
+                        if (isDisabled) {
+                          e.preventDefault();
+                          return;
+                        }
+                        setSelectedSlot(s.slotStart);
+                      }}
+                      className={`w-full px-3 py-2.5 rounded-lg text-sm font-bold text-left transition border flex items-center justify-between ${
                         isSelected
-                          ? "bg-[#3B7CF4] text-white border-[#3B7CF4]"
+                          ? "bg-[#3B7CF4] text-white border-[#3B7CF4] shadow-md"
                           : isTaken
-                          ? "bg-[#F0F2FA] text-[#9AA3C2] border-transparent line-through cursor-not-allowed"
-                          : "bg-[#F7F9FF] text-[#1a1a2e] border-[#E2E6F3] hover:border-[#3B7CF4]"
+                          ? "bg-[#F7F9FF] text-[#C5CADC] border-transparent opacity-40 line-through cursor-not-allowed pointer-events-none select-none"
+                          : selectedBike
+                          ? "bg-white text-[#1a1a2e] border-[#3B7CF4]/30 hover:border-[#3B7CF4] hover:bg-[#F0F4FF] shadow-sm cursor-pointer"
+                          : "bg-[#F7F9FF] text-[#9AA3C2] border-[#E2E6F3] cursor-not-allowed"
                       }`}
                     >
-                      {s.label}
-                      {isTaken && <span className="ml-2 text-[10px] uppercase">obsazeno</span>}
+                      <span>{s.label}</span>
+                      {isTaken && (
+                        <span className="text-[9px] uppercase tracking-wider font-bold no-underline">
+                          obsazeno
+                        </span>
+                      )}
                     </button>
                   );
                 })}
