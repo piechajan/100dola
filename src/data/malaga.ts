@@ -99,7 +99,7 @@ export const PACKAGES: Package[] = [
     priceFromEur: 559,
     priceEbikeFromEur: 659,
     whatsIncluded: [
-      "Doprava CZ → Malaga (one-way)",
+      "Doprava CZ → Malaga → CZ (round trip)",
       "Skladování 6 měsíců (např. listopad–duben)",
       "Předání připraveného kola v Malaze",
     ],
