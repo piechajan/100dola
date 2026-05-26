@@ -159,7 +159,7 @@ export default async function OrderConfirmationPage({
                 <h2 className="text-base font-black text-[#1a1a2e] mb-3">Co bude dál</h2>
                 <p className="text-sm text-[#5A6480] leading-relaxed">
                   Mnoho položek máme u externích dodavatelů — konkrétní termín dodání ti upřesníme po přijetí objednávky / platby.
-                  Ozveme se ti do <strong className="text-[#1a1a2e]">24 hodin</strong> na e-mail nebo telefon.
+                  Ozveme se ti do <strong className="text-[#1a1a2e]">48 hodin</strong> na e-mail nebo telefon.
                 </p>
               </section>
 

@@ -136,7 +136,7 @@ export async function sendMalagaLeadConfirmation(lead: MalagaLeadRow): Promise<v
       </div>
 
       <p style="font-size: 15px; line-height: 1.6; color: #5A6480;">
-        Mám tvoji zprávu. Ozvu se ti do 24 hodin s konkrétním dalším krokem — termín, cena na míru, co potřebuju vědět.
+        Mám tvoji zprávu. Ozvu se ti do 48 hodin s konkrétním dalším krokem — termín, cena na míru, co potřebuju vědět.
       </p>
 
       <p style="font-size: 15px; line-height: 1.6; color: #5A6480;">
@@ -162,7 +162,7 @@ export async function sendMalagaLeadConfirmation(lead: MalagaLeadRow): Promise<v
   const text = [
     `Díky za poptávku, ${lead.name.split(" ")[0]}.`,
     ``,
-    `Mám tvoji zprávu. Ozvu se ti do 24 hodin s konkrétním dalším krokem — termín, cena na míru, co potřebuju vědět.`,
+    `Mám tvoji zprávu. Ozvu se ti do 48 hodin s konkrétním dalším krokem — termín, cena na míru, co potřebuju vědět.`,
     ``,
     `Pokud spěcháš, klidně mi napiš nebo zavolej:`,
     `info@100dola.com`,
@@ -340,7 +340,7 @@ export async function sendLabLeadConfirmation(lead: LabLeadPayload): Promise<voi
       </div>
 
       <p style="font-size: 15px; line-height: 1.6; color: #5A6480;">
-        Mám tvoji poptávku. Ozvu se ti do 24 hodin s konkrétním termínem, finální cenou po prohlídce kola a tím, co si máš s sebou připravit.
+        Mám tvoji poptávku. Ozvu se ti do 48 hodin s konkrétním termínem, finální cenou po prohlídce kola a tím, co si máš s sebou připravit.
       </p>
 
       <p style="font-size: 15px; line-height: 1.6; color: #5A6480;">
@@ -366,7 +366,7 @@ export async function sendLabLeadConfirmation(lead: LabLeadPayload): Promise<voi
   const text = [
     `Díky za poptávku, ${firstName}.`,
     ``,
-    `Mám tvoji zprávu. Ozvu se ti do 24 hodin s konkrétním termínem, finální cenou po prohlídce kola a tím, co si máš s sebou připravit.`,
+    `Mám tvoji zprávu. Ozvu se ti do 48 hodin s konkrétním termínem, finální cenou po prohlídce kola a tím, co si máš s sebou připravit.`,
     ``,
     `Pokud spěcháš, klidně mi napiš nebo zavolej:`,
     `info@100dola.com`,
@@ -630,7 +630,7 @@ export async function sendOrderConfirmation(order: OrderEmailPayload): Promise<v
 
       <p style="font-size: 14px; line-height: 1.6; color: #5A6480; margin-top: 24px;">
         <strong style="color: #1a1a2e;">Co bude dál:</strong><br/>
-        Termín dodání ti potvrdíme po zadání platby. Ozveme se ti do 24 hodin.
+        Termín dodání ti potvrdíme po zadání platby. Ozveme se ti do 48 hodin.
       </p>
 
       <div style="margin-top: 16px; padding: 14px 16px; background: #FFF8E7; border: 1px solid #F5D78E; border-radius: 12px; font-size: 13px; color: #5A4500; line-height: 1.5;">
@@ -1175,7 +1175,7 @@ export async function sendContactConfirmation(p: ContactEmailPayload): Promise<v
     `Dobrý den ${p.name},`,
     ``,
     `díky za zprávu na téma "${TOPIC_LABELS[p.topic]}".`,
-    `Odpovím ti do 24 hodin (obvykle dřív).`,
+    `Odpovím ti do 48 hodin (obvykle dřív).`,
     ``,
     `Pro rychlejší věci klidně zavolej: +420 739 045 057.`,
     ``,

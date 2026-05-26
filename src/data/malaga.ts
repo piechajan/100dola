@@ -67,7 +67,7 @@ export const TRANSPORT_PRICES: PriceEntry[] = [
 export const STORAGE_PRICES: PriceEntry[] = [
   {
     label: "Skladování — měsíčně",
-    priceFromEur: 70,
+    priceFromEur: 69,
     unit: "za kolo / měsíc",
     note: "Bez závazku délky, fakturace po měsících.",
   },
@@ -96,11 +96,11 @@ export const PACKAGES: Package[] = [
     id: "basic",
     name: "Basic",
     tagline: "Praktické, cenově vědomé. Vlastní kolo v Malaze bez zbytečného servisu navíc.",
-    priceFromEur: 849,
-    priceEbikeFromEur: 949,
+    priceFromEur: 559,
+    priceEbikeFromEur: 659,
     whatsIncluded: [
       "Doprava CZ → Malaga (one-way)",
-      "Skladování celou sezónu (8 měsíců, říjen–květen)",
+      "Skladování 6 měsíců (např. listopad–duben)",
       "Předání připraveného kola v Malaze",
     ],
     whatYouDo: [
@@ -138,7 +138,7 @@ export const ADDONS: PriceEntry[] = [
   },
   {
     label: "Návrat kola do ČR po sezóně",
-    priceFromEur: 199,
+    priceFromEur: 145,
     unit: "za kolo",
     note: "Doplněk k Basic. U Round-trip varianty je v ceně.",
   },
@@ -218,8 +218,8 @@ export const WHY_OWN_BIKE: { title: string; body: string }[] = [
 export const TRUST_FACTS: { icon: string; text: string }[] = [
   { icon: "🔒", text: "Pojištění během transportu" },
   { icon: "📦", text: "Monitorovaný a zabezpečený sklad" },
-  { icon: "🛠", text: "Servisní zázemí na místě" },
-  { icon: "📍", text: "0 minut od letiště Malaga (AGP)" },
+  { icon: "🛠", text: "Servisní zázemí na místě — sprcha, kafe, šatna pro tebe" },
+  { icon: "📍", text: "10 minut od letiště Malaga (AGP)" },
   { icon: "🇨🇿", text: "Komunikace v češtině, smlouva v češtině" },
 ];
 
@@ -286,7 +286,7 @@ export const HERO_COPY = {
 
 export const FINAL_CTA_COPY = {
   h2: "Začneš poptávkou. Nemusíš vědět všechno.",
-  body: "Napiš nám, co plánuješ. Ozveme se do 24 hodin s konkrétním dalším krokem.",
+  body: "Napiš nám, co plánuješ. Ozveme se do 48 hodin s konkrétním dalším krokem.",
   cta: "Poslat poptávku",
   email: "info@100dola.com",
   phone: "+420 739 045 057",

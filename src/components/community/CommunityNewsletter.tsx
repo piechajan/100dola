@@ -60,7 +60,7 @@ export default function CommunityNewsletter() {
           </h2>
 
           <p className="text-white/40 mb-8 leading-relaxed">
-            Nové akce ti pošleme do 24 h po zveřejnění. Před akcí, na kterou se přihlásíš, dostaneš ještě připomínku 48 h předem. Žádný spam, kdykoliv se odhlásíš.
+            Nové akce ti pošleme do 48 h po zveřejnění. Před akcí, na kterou se přihlásíš, dostaneš ještě připomínku 48 h předem. Žádný spam, kdykoliv se odhlásíš.
           </p>
 
           {done ? (

@@ -9,7 +9,7 @@ export const ISAAC_BRAND = {
     "Sídlo a vývoj — Geleen, Limburg (NL). Plně inhouse návrh.",
     "Specializace — monocoque carbon, ruční laminace, geometrie pro evropské vytrvalce.",
     "Záběr — silnice, endurance a gravel. Modely Meson, Element, Boson, Vitron, Kaon, Torus.",
-    "Filozofie — značka pro lidi, kteří kolo otevírají, ne jen kupují. Detail před logem.",
+    "Filozofie — značka pro lidi, kteří kolo žijí, ne jen vlastní. Důraz na detaily nad nápadné logo.",
   ],
   link: "https://www.isaac-cycle.com",
 } as const;

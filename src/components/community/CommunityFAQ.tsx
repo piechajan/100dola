@@ -65,7 +65,7 @@ export default function CommunityFAQ() {
           <a href="mailto:info@100dola.com" className="text-[#2EAA6E] font-bold hover:underline">
             Napiš nám
           </a>
-          {" "}— odpovíme do 24 hodin.
+          {" "}— odpovíme do 48 hodin.
         </p>
       </div>
     </section>

@@ -114,7 +114,7 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
         </div>
         <div className="font-black text-lg text-[#1a1a2e] mb-1">Poptávka odeslaná!</div>
         <div className="text-sm text-[#5A6480] max-w-md mx-auto">
-          Ozveme se ti do 24 hodin s konkrétním dalším krokem. Pokud spěcháš, napiš rovnou na{" "}
+          Ozveme se ti do 48 hodin s konkrétním dalším krokem. Pokud spěcháš, napiš rovnou na{" "}
           <a href="mailto:info@100dola.com" className="underline" style={{ color: accent }}>
             info@100dola.com
           </a>{" "}
@@ -356,7 +356,7 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
         </button>
 
         <p className="text-[11px] text-[#9AA3C2] text-center leading-relaxed">
-          Ozveme se ti do 24 hodin. Konkrétní cenu pošleme podle termínu, počtu kol a způsobu předání.
+          Ozveme se ti do 48 hodin. Konkrétní cenu pošleme podle termínu, počtu kol a způsobu předání.
         </p>
       </div>
     </form>

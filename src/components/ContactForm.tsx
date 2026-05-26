@@ -52,7 +52,7 @@ export default function ContactForm() {
       }
       setResult({
         ok: true,
-        message: "Zpráva odeslána. Ozveme se ti během 24 hodin.",
+        message: "Zpráva odeslána. Ozveme se ti během 48 hodin.",
       });
       trackMetaEvent("Lead", {
         content_name: "Contact form",

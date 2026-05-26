@@ -169,7 +169,7 @@ export default function BalickyPage() {
 
           <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-5">
             <div className="text-sm text-[#5A6480] leading-relaxed rounded-2xl p-5 bg-white border border-[#E2E6F3]">
-              <span className="font-bold text-[#1a1a2e]">Konečnou cenu</span> stanovíme podle termínu, počtu kol a způsobu předání. Pošleme nabídku do 24 hodin po vyplnění poptávky.
+              <span className="font-bold text-[#1a1a2e]">Konečnou cenu</span> stanovíme podle termínu, počtu kol a způsobu předání. Pošleme nabídku do 48 hodin po vyplnění poptávky.
             </div>
             <div
               className="text-sm leading-relaxed rounded-2xl p-5"

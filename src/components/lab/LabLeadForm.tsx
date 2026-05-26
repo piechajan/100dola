@@ -105,7 +105,7 @@ export default function LabLeadForm() {
         </div>
         <div className="font-black text-lg text-[#1a1a2e] mb-1">Poptávka odeslaná!</div>
         <div className="text-sm text-[#5A6480] max-w-md mx-auto">
-          Ozveme se ti do 24 hodin s konkrétním termínem a finální cenou po prohlídce kola. Pokud spěcháš, napiš rovnou na{" "}
+          Ozveme se ti do 48 hodin s konkrétním termínem a finální cenou po prohlídce kola. Pokud spěcháš, napiš rovnou na{" "}
           <a href={`mailto:${LAB_CONTACT.email}`} className="underline" style={{ color: accent }}>
             {LAB_CONTACT.email}
           </a>{" "}
@@ -313,7 +313,7 @@ export default function LabLeadForm() {
         </button>
 
         <p className="text-[11px] text-[#9AA3C2] text-center leading-relaxed">
-          Ozveme se ti do 24 hodin. Konkrétní cenu pošleme po krátké prohlídce kola — bez překvapení.
+          Ozveme se ti do 48 hodin. Konkrétní cenu pošleme po krátké prohlídce kola — bez překvapení.
         </p>
       </div>
     </form>

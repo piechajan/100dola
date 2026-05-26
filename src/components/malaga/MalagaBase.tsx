@@ -26,7 +26,7 @@ export default function MalagaBase() {
             Malaga jako tvoje<br />cyklistická základna.
           </h2>
           <p className="mt-5 text-[#5A6480] text-lg leading-relaxed max-w-xl">
-            Z Prahy 2,5 hodiny letu. 0 minut od letiště do naší základny. A pak už jen
+            Z Prahy 2,5 hodiny letu. 10 minut od letiště do naší základny. A pak už jen
             silnice, výhledy a kafe.
           </p>
         </div>
