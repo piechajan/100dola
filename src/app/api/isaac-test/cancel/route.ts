@@ -9,64 +9,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { checkRateLimit } from "@/lib/rate-limit";
-import {
-  sendIsaacCancelConfirmation,
-  sendIsaacCancelNotification,
-  sendIsaacCancelLinkList,
-} from "@/lib/email";
-import { cancelScheduledResendEmail } from "@/lib/email-scheduled";
-
-interface ReservationRow {
-  id: number;
-  bike_label: string;
-  slot_start: string;
-  slot_end: string;
-  slot_day_label: string;
-  full_name: string;
-  email: string;
-  phone: string;
-  status: string;
-  cancel_token: string | null;
-  reminder_email_id: string | null;
-}
-
-async function cancelReservation(row: ReservationRow): Promise<void> {
-  if (!isSupabaseConfigured()) return;
-  const sb = getSupabase();
-
-  // Update DB → status = cancelled
-  await sb
-    .from("isaac_test_reservations")
-    .update({
-      status: "cancelled",
-      cancelled_at: new Date().toISOString(),
-      cancel_token: null, // invalidate single-use
-    })
-    .eq("id", row.id);
-
-  // Pokud byl naschedule reminder e-mail, zrušit ho v Resend
-  if (row.reminder_email_id) {
-    await cancelScheduledResendEmail(row.reminder_email_id).catch((e) =>
-      console.warn(`[isaac-cancel] failed to cancel scheduled reminder ${row.reminder_email_id}:`, e),
-    );
-  }
-
-  // Notif e-maily — fire-and-forget
-  const payload = {
-    reservationId: row.id,
-    bike: row.bike_label,
-    slotLabel: row.slot_day_label,
-    slotStart: row.slot_start,
-    slotEnd: row.slot_end,
-    fullName: row.full_name,
-    email: row.email,
-    phone: row.phone,
-  };
-  Promise.allSettled([
-    sendIsaacCancelConfirmation(payload),
-    sendIsaacCancelNotification(payload),
-  ]);
-}
+import { sendIsaacCancelLinkList } from "@/lib/email";
+import { cancelReservation } from "@/lib/isaac-cancel";
 
 export async function GET(req: NextRequest) {
   const token = req.nextUrl.searchParams.get("token");
@@ -98,7 +42,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(`${baseUrl}/isaac-test/zruseno?status=already`);
   }
 
-  await cancelReservation(row as ReservationRow);
+  await cancelReservation(row);
 
   const slotDay = encodeURIComponent(row.slot_day_label);
   return NextResponse.redirect(

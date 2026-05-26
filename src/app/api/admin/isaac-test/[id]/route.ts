@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
+import { cancelReservation, loadCancelableReservation } from "@/lib/isaac-cancel";
 
 async function checkAuth(): Promise<boolean> {
   const cookieStore = await cookies();
@@ -66,6 +67,18 @@ export async function PATCH(
     );
   }
 
+  // Pro cancelled použij plný cancelReservation flow:
+  // (1) DB update + invalidate token, (2) zruš scheduled reminder, (3) e-maily klientovi i adminovi
+  if (body.status === "cancelled") {
+    const row = await loadCancelableReservation(rid);
+    if (!row) {
+      return NextResponse.json({ error: "Rezervace nenalezena" }, { status: 404 });
+    }
+    await cancelReservation(row);
+    return NextResponse.json({ ok: true });
+  }
+
+  // Ostatní statusy — jen prostý update
   const sb = getSupabase();
   const { error } = await sb
     .from("isaac_test_reservations")
