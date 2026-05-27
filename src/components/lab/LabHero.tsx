@@ -12,18 +12,18 @@ export default function LabHero() {
         alt="Pinarello Dogma — 100dola Lab kultivace stroje"
         fill
         sizes="100vw"
-        quality={75}
+        quality={80}
         priority
         fetchPriority="high"
-        className="object-cover opacity-65"
+        className="object-cover opacity-85"
       />
 
-      {/* Left-to-right dark gradient for text legibility */}
+      {/* Left-to-right dark gradient for text legibility — lighter so the bike shows through */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(to right, rgba(10,18,14,0.86) 0%, rgba(10,18,14,0.55) 55%, rgba(10,18,14,0.1) 100%)",
+            "linear-gradient(to right, rgba(10,18,14,0.72) 0%, rgba(10,18,14,0.35) 55%, rgba(10,18,14,0) 100%)",
         }}
       />
 

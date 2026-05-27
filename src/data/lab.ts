@@ -18,7 +18,7 @@ export const LAB_HERO = {
   eyebrow: "100dola Lab — kultivace stroje",
   h1Line1: "Tichý posun.",
   h1Line2: "Vyladěné kolo.",
-  sub: "Keramická ložiska, ochrana laku, voskování řetězu, kompletní cleanup. Kolo, co jezdí dál, déle — a o pár wattů rychleji.",
+  sub: "Keramická ložiska, ochrana laku, voskování řetězu. O pár wattů rychleji.",
   ctaPrimary: "Naceň úpravu mého kola",
   ctaSecondary: "Co všechno Lab umí",
   image: "/media/lab/pinarello-dogma-hero.jpg",
