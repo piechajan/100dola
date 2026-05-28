@@ -38,6 +38,10 @@ export interface IsaacBike {
   photos: string[];
 }
 
+function photoPaths(slug: string, count: number): string[] {
+  return Array.from({ length: count }, (_, i) => `/media/isaac/${slug}/${String(i + 1).padStart(2, "0")}.jpg`);
+}
+
 export const ISAAC_BIKES: IsaacBike[] = [
   // Road — Ultegra Di2
   {
@@ -48,7 +52,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "Ultegra Di2",
     category: "road",
     colorHex: "#E8E6DD",
-    photos: [],
+    photos: photoPaths("meson-mineral-white-l", 3),
   },
   {
     slug: "meson-ruby-red-m",
@@ -58,7 +62,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "Ultegra Di2",
     category: "road",
     colorHex: "#9B1C2A",
-    photos: [],
+    photos: photoPaths("meson-ruby-red-m", 4),
   },
   {
     slug: "element-granite-grey-l",
@@ -68,7 +72,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "Ultegra Di2",
     category: "road",
     colorHex: "#5A5A5A",
-    photos: [],
+    photos: photoPaths("element-granite-grey-l", 5),
   },
 
   // Road — 105 Di2
@@ -80,7 +84,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "105 Di2",
     category: "road",
     colorHex: "#E8E6DD",
-    photos: [],
+    photos: photoPaths("boson-mineral-white-m", 3),
   },
   {
     slug: "boson-sonic-silver-l",
@@ -90,7 +94,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "105 Di2",
     category: "road",
     colorHex: "#B8B8BE",
-    photos: [],
+    photos: photoPaths("boson-sonic-silver-l", 2),
   },
   {
     slug: "vitron-navy-blue-l",
@@ -100,7 +104,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "105 Di2",
     category: "road",
     colorHex: "#1F2D4A",
-    photos: [],
+    photos: photoPaths("vitron-navy-blue-l", 2),
   },
 
   // Gravel
@@ -112,7 +116,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "GRX 827 Di2 1×12",
     category: "gravel",
     colorHex: "#8C6A3F",
-    photos: [],
+    photos: photoPaths("torus-xplore-blast-bronze-m", 2),
   },
   {
     slug: "torus-xplore-slade-blue-l",
@@ -122,7 +126,7 @@ export const ISAAC_BIKES: IsaacBike[] = [
     groupset: "GRX 827 Di2 1×12",
     category: "gravel",
     colorHex: "#465C7E",
-    photos: [],
+    photos: photoPaths("torus-xplore-slade-blue-l", 4),
   },
 ];
 
