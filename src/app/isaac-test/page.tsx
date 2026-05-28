@@ -9,7 +9,7 @@ import { ISAAC_BIKES, ISAAC_DAYS, ISAAC_BRAND, ISAAC_BRING } from "@/data/isaac-
 export const metadata: Metadata = {
   title: "Testovací jízdy ISAAC · Šternberk · víkend Závodu Míru 2026",
   description:
-    "Vyzkoušej ISAAC kola během víkendu Závodu Míru ve Šternberku — Meson, Element, Boson, Vitron, Kaon, Torus Xplore. Road i gravel, hodinová zápůjčka zdarma. 29.–31. května 2026.",
+    "Vyzkoušej ISAAC kola během víkendu Závodu Míru ve Šternberku — Meson, Element, Boson, Vitron, Torus Xplore. Road i gravel, hodinová zápůjčka zdarma. 29. 5. – 1. 6. 2026.",
   alternates: { canonical: "https://www.100dola.com/isaac-test" },
   keywords: [
     "ISAAC kola test",
@@ -54,8 +54,8 @@ export default function IsaacTestPage() {
               Vyzkoušej ISAAC.
             </h1>
             <p className="text-base md:text-lg text-[#1a1a2e] max-w-2xl leading-relaxed">
-              Road a gravel modely Meson, Element, Boson, Vitron, Kaon a Torus Xplore.
-              Hodinová zápůjčka zdarma — vyber si kolo a termín. Pátek 29. 5. až neděle 31. 5. 2026.
+              Road a gravel modely Meson, Element, Boson, Vitron a Torus Xplore.
+              Hodinová zápůjčka zdarma — vyber si kolo a termín. Pátek 29. 5. až pondělí 1. 6. 2026.
             </p>
             <div className="mt-5 inline-flex items-start gap-2 px-4 py-3 rounded-xl bg-[#FFF1EA] border border-[#FBC9A8] text-sm text-[#9B3D17] max-w-2xl">
               <span className="text-base">📍</span>

@@ -8,7 +8,7 @@ export const ISAAC_BRAND = {
   bullets: [
     "Sídlo a vývoj — Geleen, Limburg (NL). Plně inhouse návrh.",
     "Specializace — monocoque carbon, ruční laminace, geometrie pro evropské vytrvalce.",
-    "Záběr — silnice, endurance a gravel. Modely Meson, Element, Boson, Vitron, Kaon, Torus.",
+    "Záběr — silnice, endurance a gravel. Modely Meson, Element, Boson, Vitron, Torus.",
     "Filozofie — značka pro lidi, kteří kolo žijí, ne jen vlastní. Důraz na detaily nad nápadné logo.",
   ],
   link: "https://www.isaac-cycle.com",
@@ -93,16 +93,6 @@ export const ISAAC_BIKES: IsaacBike[] = [
     photos: [],
   },
   {
-    slug: "vitron-onyx-black-m",
-    model: "Vitron",
-    color: "Onyx Black",
-    size: "M",
-    groupset: "105 Di2",
-    category: "road",
-    colorHex: "#1a1a1a",
-    photos: [],
-  },
-  {
     slug: "vitron-navy-blue-l",
     model: "Vitron",
     color: "Navy Blue",
@@ -114,16 +104,6 @@ export const ISAAC_BIKES: IsaacBike[] = [
   },
 
   // Gravel
-  {
-    slug: "kaon-sapphire-blue-l",
-    model: "Kaon",
-    color: "Sapphire Blue",
-    size: "L",
-    groupset: "GRX 610/820 2×12",
-    category: "gravel",
-    colorHex: "#0F4A8C",
-    photos: [],
-  },
   {
     slug: "torus-xplore-blast-bronze-m",
     model: "Torus Xplore",
@@ -175,6 +155,7 @@ const DAY_LABELS: Record<string, string> = {
   "2026-05-29": "Pátek 29. 5.",
   "2026-05-30": "Sobota 30. 5.",
   "2026-05-31": "Neděle 31. 5.",
+  "2026-06-01": "Pondělí 1. 6.",
 };
 
 function makeSlot(date: string, hour: number): SlotDef {
@@ -198,6 +179,8 @@ export const ISAAC_SLOTS: SlotDef[] = [
   ...Array.from({ length: 2 }, (_, i) => makeSlot("2026-05-30", 14 + i)),
   // Neděle 31. 5.: 9–16 (poslední slot 15–16, zápůjčky končí v 16:00 kvůli dojezdu Závodu Míru)
   ...Array.from({ length: 7 }, (_, i) => makeSlot("2026-05-31", 9 + i)),
+  // Pondělí 1. 6.: 9–16 (poslední slot 15–16)
+  ...Array.from({ length: 7 }, (_, i) => makeSlot("2026-06-01", 9 + i)),
 ];
 
 export const ISAAC_DAYS: { date: string; label: string; slots: SlotDef[] }[] = [
@@ -215,5 +198,10 @@ export const ISAAC_DAYS: { date: string; label: string; slots: SlotDef[] }[] = [
     date: "2026-05-31",
     label: "Neděle 31. 5.",
     slots: ISAAC_SLOTS.filter((s) => s.date === "2026-05-31"),
+  },
+  {
+    date: "2026-06-01",
+    label: "Pondělí 1. 6.",
+    slots: ISAAC_SLOTS.filter((s) => s.date === "2026-06-01"),
   },
 ];

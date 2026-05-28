@@ -9,10 +9,10 @@ import {
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
-// Časový rámec ISAAC víkendu (29.-31. 5. 2026)
+// Časový rámec ISAAC eventu (29. 5. – 1. 6. 2026)
 const EVENT_START_DATE = "2026-05-29"; // Pá
-const EVENT_END_DATE = "2026-05-31"; // Ne
-const POST_EVENT_REPORT_DATE = "2026-06-01"; // Po
+const EVENT_END_DATE = "2026-06-01"; // Po
+const POST_EVENT_REPORT_DATE = "2026-06-02"; // Út
 
 interface ReservationRow {
   id: number;

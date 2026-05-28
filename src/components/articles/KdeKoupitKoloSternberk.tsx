@@ -150,7 +150,7 @@ export default function KdeKoupitKoloSternberk() {
                 Méně známá značka, kterou jsme zařadili záměrně —{" "}
                 <strong>karbonové rámy v poměru kvalita/cena lepší než
                 u větších značek</strong>. Modely Meson a Element pro silnici,
-                Boson aero, Vitron endurance, Kaon a Torus Xplore pro gravel.
+                Boson aero, Vitron endurance a Torus Xplore pro gravel.
                 Pokud chcete kolo, které nepotkáte na každé vyjížďce,
                 je ISAAC volba pro vás.{" "}
                 <Link href="/isaac-test" className="text-[#3B7CF4] font-bold hover:underline">

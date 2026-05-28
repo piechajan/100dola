@@ -32,8 +32,8 @@ export const STERNBERK_STORE = {
   addressCountry: "CZ",
   addressRegion: "Olomoucký kraj",
   landmark: "vedle kavárny Namístě",
-  // Otevírací hodiny — Jan upřesní v dashboardu/datech. Pro teď jen víkend
-  // ISAAC testu (29.–31. 5. 2026), jinak otevřeno na požádání.
+  // Otevírací hodiny — Jan upřesní v dashboardu/datech. Pro teď jen ISAAC event
+  // (29. 5. – 1. 6. 2026), jinak otevřeno na požádání.
   hoursNote: "Otevřeno během akcí a po předchozí domluvě.",
   hoursStructured: [],
   mapsEmbedUrl:

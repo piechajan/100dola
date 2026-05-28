@@ -52,7 +52,7 @@ export default function IsaacTermsPage() {
               <h2 className="text-lg font-black mb-2">2. Předmět a doba zápůjčky</h2>
               <p className="text-[#5A6480]">
                 Bezplatná testovací zápůjčka jednoho vybraného jízdního kola značky ISAAC
-                v rozsahu 1 hodiny (60 minut), v rámci akce 29.–31. května 2026.
+                v rozsahu 1 hodiny (60 minut), v rámci akce 29. května – 1. června 2026.
                 Konkrétní model, čas a místo si volíš v rezervačním formuláři.
               </p>
             </section>

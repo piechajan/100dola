@@ -66,14 +66,14 @@ export default function IsaacTestPopup() {
 
         <div className="p-6 md:p-8">
           <div className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#E8431A] mb-2">
-            29.–31. května · Šternberk
+            29. 5. – 1. 6. · Šternberk
           </div>
           <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] leading-tight mb-2">
             Vyzkoušej ISAAC zdarma.
           </h2>
           <p className="text-sm text-[#5A6480] leading-relaxed mb-5">
             Tři dny testovacích jízd v obchodě 100dola sport ve Šternberku —{" "}
-            <strong>10 road a gravel modelů</strong> (Meson, Element, Boson, Vitron, Kaon,
+            <strong>8 road a gravel modelů</strong> (Meson, Element, Boson, Vitron,
             Torus Xplore). Hodinová zápůjčka zdarma. V neděli dojezd Závodu Míru přímo na náměstí.
           </p>
 
@@ -82,6 +82,7 @@ export default function IsaacTestPopup() {
             <div>Pá 29. 5. · 9:00–16:00</div>
             <div>So 30. 5. · 14:00–16:00</div>
             <div>Ne 31. 5. · 9:00–16:00</div>
+            <div>Po 1. 6. · 9:00–16:00</div>
           </div>
 
           <div className="flex flex-wrap gap-2">

@@ -232,7 +232,7 @@ export default function ZavodMiruSternberk() {
           <p className="text-sm text-white/70 max-w-md mb-5">
             Tři dny ISAAC testovacích jízd v obchodě 100dola sport — pátek od 9:00,
             sobota od 14:00, neděle od 9:00. Hodinová zápůjčka zdarma, road i gravel,
-            10 kol na výběr. V neděli si zajezdíš dopoledne a odpoledne chytíš dojezd
+            8 kol na výběr. V neděli si zajezdíš dopoledne a odpoledne chytíš dojezd
             peletonu.
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
@@ -301,7 +301,7 @@ export default function ZavodMiruSternberk() {
               <h4 className="font-black text-[#1a1a2e] mb-1">Test ISAAC kola</h4>
               <p className="text-sm text-[#5A6480] leading-relaxed">
                 Hodinová zápůjčka zdarma — silnice nebo gravel. Vyber si Meson, Element,
-                Boson, Vitron, Kaon nebo Torus Xplore. Vyzkoušíš si kolo, na které sis sám
+                Boson, Vitron nebo Torus Xplore. Vyzkoušíš si kolo, na které sis sám
                 netroufnul přijet objednat naslepo.
               </p>
             </div>

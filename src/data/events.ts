@@ -307,7 +307,7 @@ Startujeme v 7:00 ráno ze Štefanové. Lavinové vybavení je podmínkou účas
     slug: "isaac-test-sternberk",
     title: "Vyzkoušej ISAAC · Šternberk",
     sport: "Silnice",
-    date: "Pá–Ne 29.–31. května",
+    date: "Pá–Po 29. 5. – 1. 6.",
     dateISO: "2026-05-29",
     time: "9:00",
     location: "Obchod 100dola sport, Šternberk",
@@ -318,8 +318,8 @@ Startujeme v 7:00 ráno ze Štefanové. Lavinové vybavení je podmínkou účas
     difficulty: "Lehká",
     capacity: 180,
     filled: 0,
-    description: "Testovací jízdy ISAAC kol — Meson, Element, Boson, Vitron, Kaon a Torus Xplore. Road i gravel modely. Hodinová zápůjčka zdarma. Vyber si kolo a termín v rezervačním systému.",
-    longDescription: `Tři dny testovacích jízd ISAAC v obchodě 100dola sport, vedle kavárny Namístě na náměstí ve Šternberku. V **neděli 31. 5. dojezd Závodu Míru** přímo na náměstí — a ty si můžeš zkusit nové kolo.
+    description: "Testovací jízdy ISAAC kol — Meson, Element, Boson, Vitron a Torus Xplore. Road i gravel modely. Hodinová zápůjčka zdarma. Vyber si kolo a termín v rezervačním systému.",
+    longDescription: `Čtyři dny testovacích jízd ISAAC v obchodě 100dola sport, vedle kavárny Namístě na náměstí ve Šternberku. V **neděli 31. 5. dojezd Závodu Míru** přímo na náměstí — a ty si můžeš zkusit nové kolo.
 
 Hodinová zápůjčka zdarma, road i gravel modely.
 
@@ -327,9 +327,10 @@ Hodinová zápůjčka zdarma, road i gravel modely.
 - **Pátek 29. 5.** — 9:00 až 16:00 (7 slotů)
 - **Sobota 30. 5.** — 14:00 až 16:00 (2 sloty)
 - **Neděle 31. 5.** — 9:00 až 16:00 (7 slotů, kvůli dojezdu Závodu Míru)
+- **Pondělí 1. 6.** — 9:00 až 16:00 (7 slotů)
 
 **Co najdeš:**
-- 10 kol — Meson, Element, Boson, Vitron (road), Kaon, Torus Xplore (gravel)
+- 8 kol — Meson, Element, Boson, Vitron (road), Torus Xplore (gravel)
 - Skupiny pohonu Ultegra Di2, 105 Di2, GRX 610/820, GRX 827 Di2
 - Velikosti M a L
 

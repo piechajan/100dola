@@ -79,7 +79,7 @@ export default async function AdminIsaacTestPage() {
                 ISAAC test rezervace
               </h1>
               <p className="text-sm text-[#5A6480] mt-1.5">
-                {reservedCount}/{totalSlots} slotů obsazeno · 29.–31. 5. 2026
+                {reservedCount}/{totalSlots} slotů obsazeno · 29. 5. – 1. 6. 2026
               </p>
             </div>
             <div className="flex gap-2 flex-wrap">
