@@ -114,15 +114,7 @@ export default function BikeGalleryModal({ bike, onClose }: Props) {
                 aria-hidden
               />
               <p className="text-sm text-[#5A6480] max-w-xs">
-                Fotky tohoto modelu doplníme — zatím barevný náhled.{" "}
-                <a
-                  href="https://www.isaac-cycle.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-bold text-[#3B7CF4] hover:underline"
-                >
-                  isaac-cycle.com →
-                </a>
+                Fotky tohoto modelu doplníme — zatím barevný náhled.
               </p>
             </div>
           )}
