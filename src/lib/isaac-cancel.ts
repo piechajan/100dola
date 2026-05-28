@@ -76,7 +76,14 @@ export async function cancelReservation(
     );
   }
 
-  // 3) Notif e-maily — fire-and-forget
+  // 3) Detekuj late cancel — pokud cancel přijde ≤ 6 h před slot_start, reminder
+  // mohl být už odeslán (cron schedule v Resendu nelze garantovaně zrušit).
+  // Klient by mohl dostat reminder + storno → potřebuje vysvětlení.
+  const slotStartMs = new Date(row.slot_start).getTime();
+  const sixHoursMs = 6 * 60 * 60 * 1000;
+  const lateCancel = Date.now() > slotStartMs - sixHoursMs;
+
+  // 4) Notif e-maily — fire-and-forget
   const payload = {
     reservationId: row.id,
     bike: row.bike_label,
@@ -86,6 +93,7 @@ export async function cancelReservation(
     fullName: row.full_name,
     email: row.email,
     phone: row.phone,
+    lateCancel,
   };
   Promise.allSettled([
     sendIsaacCancelConfirmation(payload),

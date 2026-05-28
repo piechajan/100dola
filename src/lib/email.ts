@@ -1206,6 +1206,8 @@ export interface IsaacCancelEmailPayload {
   fullName: string;
   email: string;
   phone: string;
+  /** True pokud rezervace stornovaná po odeslání ranní upomínky — text vysvětlí potenciální zmatek. */
+  lateCancel?: boolean;
 }
 
 const SITE_BASE = process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com";
@@ -1221,12 +1223,17 @@ export async function sendIsaacCancelConfirmation(p: IsaacCancelEmailPayload): P
     `Kolo:   ${p.bike}`,
     `Termín: ${p.slotLabel}`,
     ``,
+    p.lateCancel
+      ? `Pokud vám dnes ráno přišla připomínka, omlouváme se za zmatek — odešla se\nautomaticky před tím, než systém zaznamenal storno. Můžete ji ignorovat.\n`
+      : "",
     `Slot je teď volný pro další zájemce. Pokud si to rozmyslíte, můžete si`,
     `vybrat nový termín na ${SITE_BASE}/isaac-test.`,
     ``,
     `Díky,`,
     `100dola sport`,
-  ].join("\n");
+  ]
+    .filter(Boolean)
+    .join("\n");
 
   try {
     await getResend().emails.send({
