@@ -1509,3 +1509,212 @@ export async function sendOrderAutoCancelAdmin(p: OrderAutoCancelPayload): Promi
     console.error("[email] sendOrderAutoCancelAdmin failed:", e);
   }
 }
+
+// ─────────────────────────────────────────────────────────────────────
+// ISAAC test — daily summary, end-of-event report, no-show notif
+// ─────────────────────────────────────────────────────────────────────
+
+interface DailySummaryRow {
+  slotLabel: string;
+  slotStart: string;
+  bike: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  notes: string | null;
+  status: string;
+}
+
+/** Ranní summary Janovi v 7:00 v den testu — kdo dnes přijde. */
+export async function sendIsaacDailySummary(p: {
+  dateLabel: string; // "Pátek 29. 5. 2026"
+  rows: DailySummaryRow[];
+  totalSlots: number;
+}): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const reserved = p.rows.filter((r) => r.status === "reserved");
+  const cancelled = p.rows.filter((r) => r.status === "cancelled");
+  const subject = `🚲 ISAAC den ${p.dateLabel} — ${reserved.length} rezervací`;
+
+  const text = [
+    `ISAAC test ${p.dateLabel}`,
+    ``,
+    `Rezervací: ${reserved.length} / ${p.totalSlots} slotů`,
+    cancelled.length > 0 ? `Zrušené: ${cancelled.length}` : "",
+    ``,
+    `Plán dne (časově):`,
+    ...reserved
+      .sort((a, b) => a.slotStart.localeCompare(b.slotStart))
+      .map(
+        (r, i) =>
+          `${i + 1}. ${r.slotLabel}\n   ${r.bike}\n   ${r.fullName} · ${r.email} · ${r.phone}${r.notes ? `\n   Pozn.: ${r.notes}` : ""}`,
+      ),
+    ``,
+    `→ https://www.100dola.com/admin/isaac-test`,
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+
+  const tableRows = reserved
+    .sort((a, b) => a.slotStart.localeCompare(b.slotStart))
+    .map(
+      (r) => `
+      <tr>
+        <td style="padding: 8px 10px; border-bottom: 1px solid #F0F2FA; font-weight: 700; white-space: nowrap;">${escapeHtml(r.slotLabel)}</td>
+        <td style="padding: 8px 10px; border-bottom: 1px solid #F0F2FA;">${escapeHtml(r.bike)}</td>
+        <td style="padding: 8px 10px; border-bottom: 1px solid #F0F2FA;">
+          ${escapeHtml(r.fullName)}<br/>
+          <span style="font-size: 11px; color: #9AA3C2;">${escapeHtml(r.email)} · ${escapeHtml(r.phone)}</span>
+          ${r.notes ? `<br/><span style="font-size: 11px; color: #E8A020;">Pozn.: ${escapeHtml(r.notes)}</span>` : ""}
+        </td>
+      </tr>`,
+    )
+    .join("");
+
+  const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 720px; margin: 0 auto; padding: 24px; color: #1a1a2e;">
+      <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #3B7CF4; font-weight: 700;">ISAAC test — denní plán</div>
+      <h1 style="margin: 4px 0 16px 0; font-size: 24px;">${escapeHtml(p.dateLabel)}</h1>
+      <p style="font-size: 14px; color: #5A6480;">
+        <strong>${reserved.length}</strong> rezervací z ${p.totalSlots} slotů
+        ${cancelled.length > 0 ? ` · <strong style="color: #9AA3C2;">${cancelled.length} zrušených</strong>` : ""}
+      </p>
+
+      ${
+        reserved.length === 0
+          ? '<p style="padding: 14px; background: #F0F4FF; border-radius: 12px; font-size: 14px; color: #5A6480;">Žádné rezervace na dnešek.</p>'
+          : `<table style="width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px;">
+              <thead>
+                <tr style="background: #F7F9FF;">
+                  <th style="padding: 10px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #9AA3C2;">Čas</th>
+                  <th style="padding: 10px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #9AA3C2;">Kolo</th>
+                  <th style="padding: 10px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #9AA3C2;">Klient</th>
+                </tr>
+              </thead>
+              <tbody>${tableRows}</tbody>
+            </table>`
+      }
+
+      <p style="margin-top: 24px; font-size: 13px;">
+        <a href="https://www.100dola.com/admin/isaac-test" style="color: #3B7CF4; font-weight: 700;">→ Otevřít admin (změny, walk-in, stornování)</a>
+      </p>
+    </div>
+  `;
+
+  try {
+    await getResend().emails.send({ from: FROM_EMAIL, to: NOTIFY_EMAIL, subject, text, html });
+  } catch (e) {
+    console.error("[email] sendIsaacDailySummary failed:", e);
+  }
+}
+
+interface EventReportRow {
+  date: string;
+  reserved: number;
+  completed: number;
+  no_show: number;
+  cancelled: number;
+}
+
+/** Souhrnný report po skončení akce (1. den po skončení). */
+export async function sendIsaacEventReport(p: {
+  totalReservations: number;
+  totalCompleted: number;
+  totalNoShow: number;
+  totalCancelled: number;
+  byDay: EventReportRow[];
+  topBikes: Array<{ bike: string; count: number }>;
+  newsletterOptIns: number;
+  uniqueEmails: number;
+}): Promise<void> {
+  if (!isEmailConfigured()) return;
+  const subject = `📊 ISAAC víkend — souhrn (${p.totalReservations} rezervací)`;
+
+  const text = [
+    `ISAAC víkend Závodu Míru — souhrn`,
+    ``,
+    `Celkem: ${p.totalReservations} rezervací`,
+    `Dokončeno: ${p.totalCompleted}`,
+    `No-show:  ${p.totalNoShow}`,
+    `Zrušeno:  ${p.totalCancelled}`,
+    `Unikátní e-maily: ${p.uniqueEmails}`,
+    `Newsletter opt-in: ${p.newsletterOptIns}`,
+    ``,
+    `Po dnech:`,
+    ...p.byDay.map(
+      (d) =>
+        `${d.date}: ${d.reserved + d.completed + d.no_show} rezervací (${d.completed} dokončeno, ${d.no_show} no-show, ${d.cancelled} zrušeno)`,
+    ),
+    ``,
+    `Top kola:`,
+    ...p.topBikes.map((b, i) => `${i + 1}. ${b.bike} — ${b.count}×`),
+    ``,
+    `→ https://www.100dola.com/admin/isaac-test`,
+  ].join("\n");
+
+  const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; color: #1a1a2e;">
+      <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #2EAA6E; font-weight: 700;">ISAAC víkend — souhrn</div>
+      <h1 style="margin: 4px 0 16px 0; font-size: 22px;">Co máš za sebou</h1>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+        <div style="background: #F0F4FF; border-radius: 12px; padding: 14px;">
+          <div style="font-size: 11px; color: #9AA3C2; text-transform: uppercase;">Celkem</div>
+          <div style="font-size: 28px; font-weight: 900;">${p.totalReservations}</div>
+        </div>
+        <div style="background: #EDFAF3; border-radius: 12px; padding: 14px;">
+          <div style="font-size: 11px; color: #9AA3C2; text-transform: uppercase;">Dokončeno</div>
+          <div style="font-size: 28px; font-weight: 900; color: #2EAA6E;">${p.totalCompleted}</div>
+        </div>
+        <div style="background: #FFF8E7; border-radius: 12px; padding: 14px;">
+          <div style="font-size: 11px; color: #9AA3C2; text-transform: uppercase;">No-show</div>
+          <div style="font-size: 28px; font-weight: 900; color: #E8A020;">${p.totalNoShow}</div>
+        </div>
+        <div style="background: #FCEFEA; border-radius: 12px; padding: 14px;">
+          <div style="font-size: 11px; color: #9AA3C2; text-transform: uppercase;">Zrušeno</div>
+          <div style="font-size: 28px; font-weight: 900; color: #E8431A;">${p.totalCancelled}</div>
+        </div>
+      </div>
+
+      <h2 style="font-size: 14px; margin: 24px 0 8px;">Newsletter & leads</h2>
+      <p style="font-size: 13px; color: #5A6480;">
+        <strong>${p.uniqueEmails}</strong> unikátních e-mailů ·
+        <strong>${p.newsletterOptIns}</strong> opt-in newsletter
+      </p>
+
+      <h2 style="font-size: 14px; margin: 24px 0 8px;">Top kola</h2>
+      <ol style="font-size: 13px; color: #5A6480; line-height: 1.8; padding-left: 20px;">
+        ${p.topBikes.map((b) => `<li><strong>${escapeHtml(b.bike)}</strong> — ${b.count}×</li>`).join("")}
+      </ol>
+
+      <h2 style="font-size: 14px; margin: 24px 0 8px;">Po dnech</h2>
+      <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+        <thead><tr style="background: #F7F9FF;"><th style="padding: 8px; text-align: left;">Den</th><th>Rez.</th><th>Done</th><th>NoShow</th><th>Storno</th></tr></thead>
+        <tbody>
+          ${p.byDay
+            .map(
+              (d) => `<tr style="border-top: 1px solid #F0F2FA;">
+                <td style="padding: 8px;">${escapeHtml(d.date)}</td>
+                <td style="padding: 8px; text-align: center;">${d.reserved + d.completed + d.no_show}</td>
+                <td style="padding: 8px; text-align: center; color: #2EAA6E;">${d.completed}</td>
+                <td style="padding: 8px; text-align: center; color: #E8A020;">${d.no_show}</td>
+                <td style="padding: 8px; text-align: center; color: #9AA3C2;">${d.cancelled}</td>
+              </tr>`,
+            )
+            .join("")}
+        </tbody>
+      </table>
+
+      <p style="margin-top: 24px; font-size: 13px;">
+        <a href="https://www.100dola.com/admin/isaac-test" style="color: #3B7CF4; font-weight: 700;">→ Otevřít admin</a>
+      </p>
+    </div>
+  `;
+
+  try {
+    await getResend().emails.send({ from: FROM_EMAIL, to: NOTIFY_EMAIL, subject, text, html });
+  } catch (e) {
+    console.error("[email] sendIsaacEventReport failed:", e);
+  }
+}

@@ -7,6 +7,14 @@
     {
       "path": "/api/cron/orders-cleanup",
       "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/cron/isaac-test-daily",
+      "schedule": "0 4 * * *"
+    },
+    {
+      "path": "/api/cron/isaac-test-daily",
+      "schedule": "0 20 * * *"
     }
   ]
 }

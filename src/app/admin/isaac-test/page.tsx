@@ -5,8 +5,9 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import IsaacReservationActions from "@/components/admin/IsaacReservationActions";
+import IsaacWalkInForm from "@/components/admin/IsaacWalkInForm";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
-import { ISAAC_BIKES, ISAAC_DAYS } from "@/data/isaac-bikes";
+import { ISAAC_BIKES, ISAAC_DAYS, ISAAC_SLOTS } from "@/data/isaac-bikes";
 
 export const metadata: Metadata = {
   title: "Admin · ISAAC test rezervace — 100dola",
@@ -96,6 +97,11 @@ export default async function AdminIsaacTestPage() {
                 Veřejná stránka ↗
               </Link>
             </div>
+          </div>
+
+          {/* Walk-in tlačítko/form */}
+          <div className="mb-8">
+            <IsaacWalkInForm bikes={ISAAC_BIKES} slots={ISAAC_SLOTS} />
           </div>
 
           {/* Matrix přehled — kola × dny */}
