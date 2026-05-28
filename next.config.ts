@@ -26,7 +26,9 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   images: {
-    qualities: [75, 85, 90],
+    qualities: [70, 75, 85, 90],
+    // AVIF + WebP — prohlížeč si vybere; AVIF je ~30-50% menší proti JPEG.
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "asset.scott-sports.com" },

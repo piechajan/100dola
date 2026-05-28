@@ -76,6 +76,7 @@ export default function BikeGalleryModal({ bike, onClose }: Props) {
                 fill
                 className="object-contain"
                 sizes="(max-width: 768px) 100vw, 768px"
+                quality={75}
                 priority
               />
               {bike.photos.length > 1 && (
@@ -138,6 +139,7 @@ export default function BikeGalleryModal({ bike, onClose }: Props) {
                   fill
                   className="object-cover"
                   sizes="64px"
+                  quality={70}
                 />
               </button>
             ))}

@@ -493,6 +493,7 @@ function BikeCard({
             fill
             className="object-cover"
             sizes="48px"
+            quality={70}
           />
         ) : (
           <div className="w-full h-full" style={{ backgroundColor: bike.colorHex }} aria-hidden />
