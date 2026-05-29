@@ -39,6 +39,8 @@ export default function IsaacTestForm({ bikes, days }: Props) {
   const [taken, setTaken] = useState<TakenSlot[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<{ ok: boolean; message: string } | null>(null);
+  // Now-ticker — re-renderuje každou minutu, aby uplynulé sloty získaly fade
+  const [now, setNow] = useState<number>(() => Date.now());
 
   useEffect(() => {
     fetch("/api/isaac-test/reservations")
@@ -46,6 +48,24 @@ export default function IsaacTestForm({ bikes, days }: Props) {
       .then((d) => setTaken(d.taken || []))
       .catch(() => setTaken([]));
   }, []);
+
+  useEffect(() => {
+    // Tick každou minutu — fade past slots in real-time
+    const id = setInterval(() => setNow(Date.now()), 60_000);
+    return () => clearInterval(id);
+  }, []);
+
+  function isSlotInPast(slotStart: string): boolean {
+    return new Date(slotStart).getTime() <= now;
+  }
+
+  // Auto-deselect slot který právě uplynul
+  useEffect(() => {
+    if (selectedSlot && isSlotInPast(selectedSlot)) {
+      setSelectedSlot(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [now, selectedSlot]);
 
   // Normalizace formátu slotStart — API vrací "2026-05-29T07:00:00Z",
   // ISAAC_SLOTS generuje "2026-05-29T07:00:00.000Z" (přes toISOString).
@@ -262,9 +282,10 @@ export default function IsaacTestForm({ bikes, days }: Props) {
               <div className="text-sm font-black text-[#1a1a2e] mb-2">{day.label}</div>
               <div className="space-y-1.5">
                 {day.slots.map((s) => {
+                  const isPast = isSlotInPast(s.slotStart);
                   const isTaken = selectedBike ? isSlotTaken(selectedBike, s.slotStart) : false;
                   const isSelected = selectedSlot === s.slotStart;
-                  const isDisabled = !selectedBike || isTaken;
+                  const isDisabled = !selectedBike || isTaken || isPast;
                   return (
                     <button
                       key={s.slotStart}
@@ -281,6 +302,8 @@ export default function IsaacTestForm({ bikes, days }: Props) {
                       className={`w-full px-3 py-2.5 rounded-lg text-sm font-bold text-left transition border flex items-center justify-between ${
                         isSelected
                           ? "bg-[#3B7CF4] text-white border-[#3B7CF4] shadow-md"
+                          : isPast
+                          ? "bg-[#F7F9FF] text-[#C5CADC] border-transparent opacity-30 line-through cursor-not-allowed pointer-events-none select-none"
                           : isTaken
                           ? "bg-[#F7F9FF] text-[#C5CADC] border-transparent opacity-40 line-through cursor-not-allowed pointer-events-none select-none"
                           : selectedBike
@@ -289,11 +312,15 @@ export default function IsaacTestForm({ bikes, days }: Props) {
                       }`}
                     >
                       <span>{s.label}</span>
-                      {isTaken && (
+                      {isPast ? (
+                        <span className="text-[9px] uppercase tracking-wider font-bold no-underline">
+                          uplynulo
+                        </span>
+                      ) : isTaken ? (
                         <span className="text-[9px] uppercase tracking-wider font-bold no-underline">
                           obsazeno
                         </span>
-                      )}
+                      ) : null}
                     </button>
                   );
                 })}

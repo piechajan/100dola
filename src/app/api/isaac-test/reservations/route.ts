@@ -71,6 +71,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Neplatný čas" }, { status: 400 });
   }
 
+  // Slot už uplynul — backend hard-block (UI to fade-uje, ale i tak guard)
+  if (new Date(slot.slotStart).getTime() <= Date.now()) {
+    return NextResponse.json(
+      { error: "Tento termín už uplynul. Vyber prosím jiný čas." },
+      { status: 400 },
+    );
+  }
+
   if (!isSupabaseConfigured()) {
     return NextResponse.json(
       { error: "DB momentálně nedostupná, zkus to za chvíli" },
