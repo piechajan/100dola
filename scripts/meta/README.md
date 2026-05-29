@@ -40,18 +40,22 @@ bash scripts/meta/launch-isaac-cold.sh
 - ❌ `pages_read_engagement` — vyžaduje App Review (TODO)
 - ❌ `instagram_basic` — vyžaduje App Review (TODO)
 
-## Co token zatím NEUMÍ a vyžaduje App Review
+## Co token NEUMÍ — záměrně nedoplňujeme
 
-Pro **plnou automatizaci** boost campaign z command-line (bez UI klikání) potřebujeme:
+Pro programmatic boost existujícího IG/FB postu přes API by se musely povolit `pages_read_engagement`, `instagram_business_basic` atd. — Meta to ale od 2025/2026 dělá **jen pro Tech Providers** (irreversible status, annual reviews, business+access verification).
 
-1. **App Review submit** pro:
-   - `pages_read_engagement` (číst FB page posts)
-   - `pages_manage_posts` (publish posts)
-   - `instagram_basic` (fetch IG media)
-   - `instagram_content_publish` (publish IG posts)
-   - `ads_management_standard` Advanced Access
+**Pro single business (Futunatu) to není worth it** — workaround = manual Promote v IG/FB UI = 2 kliky. Detaily v memory `project_meta_tech_provider_decision.md`.
 
-Review trvá 5-15 dní. Po schválení skript `boost-existing-post.sh` bude fungovat plně.
+Co tedy automatizujeme přes API:
+- Campaigns, ad sets, ads (create/update/pause)
+- Custom audiences (Web 30d, IG engagement, FB engagement)
+- Custom conversions
+- Insights/reporting
+- CAPI events (server-side)
+
+Co necháváme v UI:
+- Boost existujícího postu
+- Upload kreativy do nové ad (Ads Manager → Create Ad)
 
 ## Roadmap skriptů
 
@@ -59,10 +63,11 @@ Review trvá 5-15 dní. Po schválení skript `boost-existing-post.sh` bude fung
 - [x] `status.sh` — current state overview
 - [x] `audit.sh` — daily health check
 - [x] `launch-isaac-cold.sh` — activate Cold ad set
-- [ ] `boost-existing-post.sh` — boost IG/FB post (čeká App Review)
 - [ ] `create-campaign.sh` — bootstrap new campaign from template
-- [ ] `clone-for-malaga.sh` — duplicate ISAAC campaign → Malaga creative
-- [ ] `report-weekly.sh` — týdenní report do mailu
+- [ ] `clone-for-malaga.sh` — duplicate ISAAC campaign struktura → Malaga (creative manual upload)
+- [ ] `report-weekly.sh` — týdenní report do mailu (Vercel cron + Resend)
+
+**NE** boost-existing-post.sh — nedělá smysl bez Tech Provider (viz výše).
 
 ## Lessons learned (z ISAAC eventu 28. 5. 2026)
 
