@@ -89,6 +89,8 @@ export async function POST(req: NextRequest) {
   const sb = getSupabase();
   const label = bikeLabel(bike);
   const cancelToken = randomBytes(24).toString("hex");
+  const { clientIp, userAgent } = extractClientContext(req.headers);
+  const { fbp, fbc } = extractFbCookies(req.headers);
 
   // 1) Jeden uživatel = max 1 rezervace v jeden den (cross-bike, cross-slot)
   // Rozsah dne podle slot.slotStart (ISO UTC, slot je 1 h v lokálním čase).
@@ -118,6 +120,16 @@ export async function POST(req: NextRequest) {
   }
 
   // 2) Insert rezervace
+  // Server-side fallback pro fbp/fbc (klient mohl mít blokované JS/sessionStorage).
+  const attribution =
+    data.attribution || fbp || fbc
+      ? {
+          ...(data.attribution || {}),
+          ...(fbp && !data.attribution?.fbp ? { fbp } : {}),
+          ...(fbc && !data.attribution?.fbc ? { fbc } : {}),
+        }
+      : null;
+
   const { data: inserted, error } = await sb
     .from("isaac_test_reservations")
     .insert({
@@ -134,6 +146,7 @@ export async function POST(req: NextRequest) {
       subscribe_newsletter: data.subscribeNewsletter ?? false,
       notes: data.notes || null,
       cancel_token: cancelToken,
+      attribution,
     })
     .select("id")
     .single();
@@ -187,8 +200,6 @@ export async function POST(req: NextRequest) {
     cancelToken,
   };
 
-  const { clientIp, userAgent } = extractClientContext(req.headers);
-  const { fbp, fbc } = extractFbCookies(req.headers);
   const eventSourceUrl = req.headers.get("referer") ?? "https://www.100dola.com/isaac-test";
 
   // Confirm (immediate) + admin notif (immediate) — fire-and-forget

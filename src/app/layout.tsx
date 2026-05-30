@@ -6,6 +6,7 @@ import IsaacTestPopup from "@/components/IsaacTestPopup";
 import MetaPixel from "@/components/analytics/MetaPixel";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import MicrosoftClarity from "@/components/analytics/MicrosoftClarity";
+import AttributionTracker from "@/components/analytics/AttributionTracker";
 import JsonLd from "@/components/JsonLd";
 import { organizationSchema, storeSchema, websiteSchema } from "@/lib/schema-org";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -66,6 +67,7 @@ export default function RootLayout({
         <MetaPixel />
         <GoogleAnalytics />
         <MicrosoftClarity />
+        <AttributionTracker />
         <SpeedInsights />
         <JsonLd data={organizationSchema()} />
         <JsonLd data={websiteSchema()} />

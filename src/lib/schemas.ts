@@ -12,6 +12,25 @@ const Honeypot = z.object({
     .nullable(),
 });
 
+// Attribution snapshot z klienta — fbp/fbc cookies + UTM tagy z landing URL.
+// Volitelné, server ho ukládá do JSONB sloupce `attribution` pro pozdější analýzu zdroje.
+export const AttributionSchema = z
+  .object({
+    fbp: z.string().max(200).optional(),
+    fbc: z.string().max(400).optional(),
+    utm_source: z.string().max(200).optional(),
+    utm_medium: z.string().max(200).optional(),
+    utm_campaign: z.string().max(200).optional(),
+    utm_content: z.string().max(200).optional(),
+    utm_term: z.string().max(200).optional(),
+    fbclid: z.string().max(400).optional(),
+    gclid: z.string().max(400).optional(),
+    landing_url: z.string().max(2000).optional(),
+    landing_referrer: z.string().max(2000).optional(),
+    landing_at: z.string().max(64).optional(),
+  })
+  .partial();
+
 export const EventPayloadSchema = z
   .object({
     id: z.string().max(200).optional(),
@@ -165,6 +184,7 @@ export const IsaacTestPayloadSchema = z
     consentTerms: z.literal(true),
     consentGdpr: z.literal(true),
     subscribeNewsletter: z.boolean().optional().default(false),
+    attribution: AttributionSchema.optional(),
   })
   .merge(Honeypot);
 

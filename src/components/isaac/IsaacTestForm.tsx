@@ -8,6 +8,7 @@ import { bikeLabel } from "@/data/isaac-bikes";
 import BikeGalleryModal from "./BikeGalleryModal";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
+import { getAttribution } from "@/lib/attribution";
 
 interface Day {
   date: string;
@@ -115,6 +116,7 @@ export default function IsaacTestForm({ bikes, days }: Props) {
           consentTerms: true,
           consentGdpr: true,
           subscribeNewsletter,
+          attribution: getAttribution(),
         }),
       });
       const data = await res.json();
