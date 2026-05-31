@@ -24,7 +24,8 @@ export default function ZavodMiruSternberk() {
           Finálová 4. etapa juniorského UCI Závodu Míru U23 vede v neděli{" "}
           <strong>31. května 2026</strong> z Krnova přes Hrubý Jeseník do cíle na centrum
           Šternberka — <strong>130,6 km, 2 278 m převýšení</strong>, předpokládaný dojezd
-          kolem <strong>17:00–17:30</strong>. Tři dny předtím se peloton žene Olomouckým
+          v <strong>15:10</strong>, slavnostní vyhlášení v 15:25 na Hlavním náměstí.
+          Tři dny předtím se peloton žene Olomouckým
           krajem přes Šumperk, Rýmařov a sjezd z Dlouhých Strání.
         </p>
         <p className="text-[10px] text-[#9AA3C2] mb-10">
@@ -60,7 +61,7 @@ export default function ZavodMiruSternberk() {
             </div>
             <div>
               <dt className="text-[#9B3D17] mb-0.5">Předpokládaný dojezd</dt>
-              <dd className="font-black text-[#1a1a2e]">17:00–17:30</dd>
+              <dd className="font-black text-[#1a1a2e]">15:10</dd>
             </div>
           </dl>
         </div>
@@ -188,9 +189,12 @@ export default function ZavodMiruSternberk() {
             a chce zaútočit, tahle etapa je poslední možnost.
           </p>
           <p className="text-base text-[#5A6480] leading-relaxed">
-            Dojezd se očekává <strong>mezi 17:00 a 17:30</strong>. Doporučujeme přijet do
-            centra Šternberka <strong>aspoň hodinu předem</strong> — parkování je
-            omezené, ulice kolem trasy uzavřené, ale atmosféra na náměstí stojí za to.
+            Oficiální program na Hlavním náměstí: <strong>14:10</strong> zahajovací
+            ceremoniál, <strong>14:30</strong> první průjezd cílem (celkem 4×),{" "}
+            <strong>15:10</strong> předpokládaný cíl etapy, <strong>15:25</strong>{" "}
+            slavnostní vyhlášení výsledků. Doporučujeme přijet do centra Šternberka{" "}
+            <strong>aspoň hodinu předem</strong> — parkování je omezené, ulice kolem
+            trasy uzavřené, ale atmosféra na náměstí stojí za to.
           </p>
         </section>
 
@@ -216,7 +220,7 @@ export default function ZavodMiruSternberk() {
             </li>
             <li>
               <strong className="text-[#1a1a2e]">TV / živé vysílání</strong>: ČT Sport
-              vysílá živě finále závodu od cca 16:00.
+              živé vysílání finále závodu kolem dojezdu (přesný čas najdeš v TV programu).
             </li>
           </ul>
         </section>

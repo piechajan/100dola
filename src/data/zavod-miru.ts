@@ -1,5 +1,6 @@
 // Závod Míru U23 2026 — data pro SEO článek na /isaac-test.
-// Source: https://zavodmiru.com/cs/etapy
+// Source: https://zavodmiru.com/cs/etapy + oficiální harmonogram města Šternberka
+//   (sternberk.eu/aktuality/zavod-miru-projede-v-nedeli-sternberkem)
 
 export const ZAVOD_MIRU_2026 = {
   name: "Závod Míru U23 2026",
@@ -55,7 +56,20 @@ export const ZAVOD_MIRU_2026 = {
       distanceKm: 130.6,
       elevationM: 2278,
       isFinal: true,
-      expectedArrival: "17:00–17:30",
+      // Oficiální harmonogram města Šternberka:
+      //   14:10 zahajovací ceremoniál na Hlavním náměstí
+      //   14:25 doprovodný program na podiu
+      //   14:30 první průjezd cílem (celkem 4×)
+      //   15:10 předpokládaný cíl etapy
+      //   15:25 slavnostní vyhlášení výsledků na Hlavním náměstí
+      expectedArrival: "15:10",
+      schedule: {
+        openingCeremony: "14:10",
+        stagePodium: "14:25",
+        firstPass: "14:30",
+        expectedFinish: "15:10",
+        awardsCeremony: "15:25",
+      },
     },
   ],
   history: {

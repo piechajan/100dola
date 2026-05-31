@@ -181,7 +181,9 @@ export const ISAAC_SLOTS: SlotDef[] = [
   ...Array.from({ length: 7 }, (_, i) => makeSlot("2026-05-29", 9 + i)),
   // Sobota 30. 5.: 14–16 (poslední slot 15–16)
   ...Array.from({ length: 2 }, (_, i) => makeSlot("2026-05-30", 14 + i)),
-  // Neděle 31. 5.: 9–16 (poslední slot 15–16, zápůjčky končí v 16:00 kvůli dojezdu Závodu Míru)
+  // Neděle 31. 5.: 9–16 (poslední slot 15–16). Závod Míru přijíždí v 15:10,
+  //   vyhlášení 15:25 — zákazníci si dopoledne zajedou a odpoledne chytí dojezd
+  //   na náměstí. Zápůjčky končí v 16:00 = po vyhlášení.
   ...Array.from({ length: 7 }, (_, i) => makeSlot("2026-05-31", 9 + i)),
   // Pondělí 1. 6.: 9–16 (poslední slot 15–16)
   ...Array.from({ length: 7 }, (_, i) => makeSlot("2026-06-01", 9 + i)),
