@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prepare": "husky",
+    "lint:content": "bash ./scripts/lint-content-refs.sh"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.3",
@@ -30,7 +32,17 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.6",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --max-warnings 0"
+    ],
+    "*.{js,mjs}": [
+      "eslint --max-warnings 0"
+    ]
   }
 }

@@ -269,11 +269,19 @@ export default function ZavodMiruSternberk() {
             <div className="bg-[#F7F9FF] rounded-2xl p-5">
               <div className="text-2xl mb-2">☕</div>
               <h4 className="font-black text-[#1a1a2e] mb-1">Kavárna Namístě</h4>
-              <p className="text-sm text-[#5A6480] leading-relaxed">
+              <p className="text-sm text-[#5A6480] leading-relaxed mb-2">
                 Hned vedle našeho obchodu. Specialty kafe, domácí limonády, snídaně. Bistro
                 NAMÍSTĚ patří mezi nejlépe hodnocené kavárny olomouckého regionu (Gault
                 Millau). Skvělé místo, kde počkat na dojezd.
               </p>
+              <a
+                href="https://jsinamiste.cz/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-bold text-[#3B7CF4] hover:underline"
+              >
+                jsinamiste.cz →
+              </a>
             </div>
             <div className="bg-[#F7F9FF] rounded-2xl p-5">
               <div className="text-2xl mb-2">🏰</div>

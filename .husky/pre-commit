@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+# Pre-commit safety gate — drží commity v produkčně-kompatibilním stavu.
+# Sekvenční fail-fast: lint-staged → tsc full project → content reference linter
+
+set -e
+
+# 1. lint-staged: ESLint na staged .ts/.tsx (rychlé, jen změněné soubory)
+npx lint-staged
+
+# 2. TypeScript typecheck (celý project — chytí cross-file dependencies)
+echo "→ tsc --noEmit (full project)…"
+npx tsc --noEmit
+
+# 3. Content reference linter (klíčové konstanty napříč repo)
+echo "→ content reference linter…"
+bash ./scripts/lint-content-refs.sh
+
+echo "✓ pre-commit checks passed"

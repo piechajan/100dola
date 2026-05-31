@@ -121,7 +121,7 @@ export default async function ArticleDetailPage({
           "@type": "SportsEvent",
           name: "Závod Míru U23 2026",
           description:
-            "73. ročník mezinárodního cyklistického závodu Závod Míru U23, 28.–31. května 2026 v Olomouckém kraji. Finále neděle 31. 5. ve Šternberku.",
+            "13. ročník mezinárodního cyklistického závodu Závod Míru U23 (UCI Europe Tour 2.2U), 28.–31. května 2026 v Olomouckém kraji. Finále v neděli 31. 5. ve Šternberku, dojezd 15:10.",
           startDate: "2026-05-28",
           endDate: "2026-05-31",
           eventStatus: "https://schema.org/EventScheduled",

@@ -4,10 +4,17 @@
 
 export const ZAVOD_MIRU_2026 = {
   name: "Závod Míru U23 2026",
-  edition: "73. ročník",
+  // 13. ročník mládežnické U23 verze (od 2014). Pozor: hlavní elitní
+  // Course de la Paix Praha-Berlín-Varšava skončil 2006 po 73 ročnících
+  // — NEZAMĚŇOVAT s U23.
+  edition: "13. ročník",
   dates: { from: "2026-05-28", to: "2026-05-31" },
-  category: "UCI 2.Ncup (Nations' Cup U23)",
+  // Per oficiální tisková zpráva města Šternberka 2026.
+  category: "UCI Europe Tour 2.2U",
   organizer: "Asociace Závodu Míru",
+  president: "Robert Kolář",
+  sportingDirector: "Leopold König",
+  teams: { confirmed: 21, capacity: 22 },
   officialSite: "https://zavodmiru.com",
   totalDistance: 530.8, // 112.2 + 155.6 + 132.4 + 130.6
   totalElevation: 9454, // 1809 + 2403 + 2964 + 2278
@@ -76,7 +83,7 @@ export const ZAVOD_MIRU_2026 = {
     firstYear: 1948,
     legends: ["Jan Veselý", "Vlastimil Moravec", "Sergej Suchorucenkov", "Olaf Ludwig", "Uwe Ampler"],
     note:
-      "Závod Míru má v Česku jednu z nejdelších tradic v Evropě. Hlavní elitní ročník (Course de la Paix Praha–Berlín–Varšava) skončil 2006. Od 2013 se nepřetržitě jede mládežnická U23 verze v Olomouckém kraji.",
+      "Závod Míru má v Česku jednu z nejdelších tradic v Evropě. Hlavní elitní ročník (Course de la Paix Praha–Berlín–Varšava) skončil 2006 po 73 ročnících. Od 2014 se nepřetržitě jede mládežnická U23 verze v Olomouckém kraji — letošek je 13. ročník U23 série.",
   },
 };
 
