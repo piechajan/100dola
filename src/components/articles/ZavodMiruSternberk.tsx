@@ -488,7 +488,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "V kolik hodin dojede peloton 31. května?",
-    a: "Předpokládaný dojezd je mezi 17:00 a 17:30. Start v Krnově je v poledne, etapa má 130,6 km a 2 278 m převýšení. Přesný čas se může posunout o ±15 minut podle průměrné rychlosti pelotonu. Doporučujeme přijet aspoň hodinu předem.",
+    a: "Předpokládaný dojezd je v 15:10, slavnostní vyhlášení v 15:25 na Hlavním náměstí (dle oficiálního harmonogramu města Šternberka). Před tím ve 14:10 zahajovací ceremoniál, ve 14:30 první průjezd cílem (celkem 4×). Doporučujeme přijet aspoň hodinu předem.",
   },
   {
     q: "Kde zaparkovat?",

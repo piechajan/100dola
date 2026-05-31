@@ -81,7 +81,7 @@ export const ARTICLES: Article[] = [
     slug: "zavod-miru-2026-sternberk",
     title: "Závod Míru 2026 končí ve Šternberku — trasa, program, kde sledovat dojezd",
     summary:
-      "Finálová etapa 73. ročníku Závodu Míru U23 vede v neděli 31. 5. 2026 z Krnova do Šternberka. 130,6 km, 2 278 m, dojezd kolem 17:00. Plus testovací jízdy ISAAC v obchodě 100dola sport — celý víkend, zdarma.",
+      "Finálová etapa 73. ročníku Závodu Míru U23 vede v neděli 31. 5. 2026 z Krnova do Šternberka. 130,6 km, 2 278 m, dojezd 15:10 (vyhlášení 15:25). Plus testovací jízdy ISAAC v obchodě 100dola sport — celý víkend, zdarma.",
     category: "udalost",
     publishedAt: "2026-05-19",
     author: { name: "Jan Piecha", role: "100dola sport" },

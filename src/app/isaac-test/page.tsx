@@ -213,7 +213,7 @@ export default function IsaacTestPage() {
                 </h2>
                 <p className="text-sm text-[#5A6480] leading-relaxed mb-3">
                   Finálová etapa juniorského UCI Závodu Míru U23 vede v neděli 31. 5. 2026
-                  z Krnova do Šternberka. 130,6 km, 2 278 m, dojezd kolem 17:00. Plus
+                  z Krnova do Šternberka. 130,6 km, 2 278 m, dojezd 15:10. Plus
                   všechno o tom, jak spojit dojezd s testovací jízdou ISAAC v centru.
                 </p>
                 <span className="inline-flex items-center gap-1 text-sm font-bold text-[#E8431A] group-hover:underline">
