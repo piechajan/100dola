@@ -194,7 +194,7 @@ export default function Navbar() {
                           Výběr
                         </div>
                         <Link
-                          href="/sport/kolekce"
+                          href="/shop"
                           className="block rounded-xl overflow-hidden group"
                           onClick={() => setSportOpen(false)}
                         >
@@ -203,11 +203,11 @@ export default function Navbar() {
                             style={{ background: "linear-gradient(135deg, #1a1a2e 0%, #3B7CF4 100%)" }}
                           >
                             <div className="absolute inset-0 opacity-10 text-[80px] flex items-center justify-center select-none">
-                              🚴
+                              🛒
                             </div>
                             <div className="relative">
-                              <div className="text-[10px] text-white/60 font-semibold uppercase tracking-wider">Jarní kolekce</div>
-                              <div className="text-sm font-black text-white leading-tight">Road & Gravel<br />2025</div>
+                              <div className="text-[10px] text-white/60 font-semibold uppercase tracking-wider">E-shop</div>
+                              <div className="text-sm font-black text-white leading-tight">Kola, oblečení<br />a doplňky</div>
                             </div>
                           </div>
                         </Link>
@@ -217,7 +217,7 @@ export default function Navbar() {
                         className="mt-3 flex items-center justify-between text-xs font-bold text-[#3B7CF4] hover:text-[#2563cc] transition-colors px-1"
                         onClick={() => setSportOpen(false)}
                       >
-                        Celý obchod
+                        Prodejna ve Šternberku
                         <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                           <path d="M5 12h14M12 5l7 7-7 7" />
                         </svg>
@@ -228,6 +228,9 @@ export default function Navbar() {
               )}
             </div>
 
+            <Link href="/shop" className="text-[#5A6480] hover:text-[#3B7CF4] transition-colors duration-150">
+              E-shop
+            </Link>
             <Link href="/malaga" className="text-[#5A6480] hover:text-[#E8431A] transition-colors duration-150">
               Malaga
             </Link>
@@ -395,10 +398,11 @@ export default function Navbar() {
             </div>
 
             {[
-              { label: "Malaga", href: "/malaga", color: "#E8431A" },
-              { label: "Lab", href: "/lab", color: "#1F4937" },
-              { label: "Social rides", href: "/community", color: "#2EAA6E" },
-              { label: "O nás", href: "/o-nas", color: "#1a1a2e" },
+              { label: "E-shop", href: "/shop" },
+              { label: "Malaga", href: "/malaga" },
+              { label: "Lab", href: "/lab" },
+              { label: "Social rides", href: "/community" },
+              { label: "O nás", href: "/o-nas" },
             ].map((item) => (
               <Link
                 key={item.href}
@@ -433,6 +437,7 @@ export default function Navbar() {
                         href={`/community/event/${event.slug}`}
                         className="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-[#F0F2FA] transition-colors"
                         onClick={() => { setMenuOpen(false); setMobileKalendarOpen(false); }}
+                        style={{ borderLeft: `3px solid ${color}` }}
                       >
                         <span className="text-sm">{icon}</span>
                         <div>
