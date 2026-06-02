@@ -3,9 +3,82 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useCart, getCartTotals } from "@/lib/cart-store";
+import { useCart, getCartTotals, type CartItem } from "@/lib/cart-store";
 import { formatPrice } from "@/data/products";
 import CrossSellModal from "./CrossSellModal";
+
+function CartItemRow({
+  item,
+  setQty,
+  remove,
+  closeDrawer,
+}: {
+  item: CartItem;
+  setQty: (productId: number, qty: number) => void;
+  remove: (productId: number) => void;
+  closeDrawer: () => void;
+}) {
+  return (
+    <div className="flex gap-3">
+      <div className="relative w-20 h-20 rounded-xl bg-[#F0F2FA] overflow-hidden shrink-0">
+        <Image
+          src={item.photo}
+          alt={item.name}
+          fill
+          sizes="80px"
+          className="object-contain p-1"
+        />
+      </div>
+      <div className="flex-1 min-w-0">
+        <Link
+          href={`/shop/${item.slug}`}
+          onClick={closeDrawer}
+          className="text-sm font-bold text-[#1a1a2e] hover:text-[#3B7CF4] line-clamp-2 transition-colors block"
+        >
+          {item.name}
+        </Link>
+        {item.bulky && (
+          <div className="text-[10px] text-[#9AA3C2] mt-0.5">Velký balík (doprava 400 Kč)</div>
+        )}
+        <div className="mt-2 flex items-center justify-between gap-3">
+          <div className="inline-flex items-center border border-[#E2E6F3] rounded-full overflow-hidden">
+            <button
+              type="button"
+              onClick={() => setQty(item.productId, item.qty - 1)}
+              aria-label="Snížit množství"
+              className="w-7 h-7 flex items-center justify-center text-[#5A6480] hover:bg-[#F0F2FA] disabled:opacity-30"
+              disabled={item.qty <= 1}
+            >
+              −
+            </button>
+            <span className="w-7 text-center text-xs font-bold text-[#1a1a2e]">{item.qty}</span>
+            <button
+              type="button"
+              onClick={() => setQty(item.productId, item.qty + 1)}
+              aria-label="Zvýšit množství"
+              className="w-7 h-7 flex items-center justify-center text-[#5A6480] hover:bg-[#F0F2FA]"
+            >
+              +
+            </button>
+          </div>
+          <div className="text-sm font-black text-[#1a1a2e]">
+            {formatPrice(item.priceWithVat * item.qty)}
+          </div>
+        </div>
+      </div>
+      <button
+        type="button"
+        onClick={() => remove(item.productId)}
+        aria-label="Odebrat z košíku"
+        className="p-1 self-start text-[#C0C7D8] hover:text-[#E8431A] transition-colors"
+      >
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+        </svg>
+      </button>
+    </div>
+  );
+}
 
 export default function CartDrawer() {
   const items = useCart((s) => s.items);
@@ -95,68 +168,60 @@ export default function CartDrawer() {
           </div>
         ) : (
           <>
-            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
-              {items.map((item) => (
-                <div key={item.productId} className="flex gap-3 pb-4 border-b border-[#F0F2FA] last:border-b-0">
-                  <div className="relative w-20 h-20 rounded-xl bg-[#F0F2FA] overflow-hidden shrink-0">
-                    <Image
-                      src={item.photo}
-                      alt={item.name}
-                      fill
-                      sizes="80px"
-                      className="object-contain p-1"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <Link
-                      href={`/shop/${item.slug}`}
-                      onClick={closeDrawer}
-                      className="text-sm font-bold text-[#1a1a2e] hover:text-[#3B7CF4] line-clamp-2 transition-colors block"
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-6">
+              {(() => {
+                const own = items.filter((i) => (i.fulfillment ?? "own") === "own");
+                const sup = items.filter((i) => i.fulfillment === "supplier");
+                const sections: Array<{ label: string; sub: string; bg: string; chip: string; arr: typeof items }> = [];
+                if (own.length > 0) {
+                  sections.push({
+                    label: "Skladem na Šternberku",
+                    sub: "Odesíláme do 2 pracovních dnů",
+                    bg: "#F0F4FF",
+                    chip: "#3B7CF4",
+                    arr: own,
+                  });
+                }
+                if (sup.length > 0) {
+                  sections.push({
+                    label: "Objednáváme u dodavatele",
+                    sub: "Dodání obvykle 5-10 pracovních dnů",
+                    bg: "#FFF7ED",
+                    chip: "#E8A020",
+                    arr: sup,
+                  });
+                }
+                return sections.map((section) => (
+                  <div key={section.label}>
+                    <div
+                      className="flex items-baseline justify-between gap-2 mb-3 pb-2 border-b border-[#E2E6F3]"
                     >
-                      {item.name}
-                    </Link>
-                    {item.bulky && (
-                      <div className="text-[10px] text-[#9AA3C2] mt-0.5">Velký balík (doprava 400 Kč)</div>
-                    )}
-                    <div className="mt-2 flex items-center justify-between gap-3">
-                      <div className="inline-flex items-center border border-[#E2E6F3] rounded-full overflow-hidden">
-                        <button
-                          type="button"
-                          onClick={() => setQty(item.productId, item.qty - 1)}
-                          aria-label="Snížit množství"
-                          className="w-7 h-7 flex items-center justify-center text-[#5A6480] hover:bg-[#F0F2FA] disabled:opacity-30"
-                          disabled={item.qty <= 1}
-                        >
-                          −
-                        </button>
-                        <span className="w-7 text-center text-xs font-bold text-[#1a1a2e]">{item.qty}</span>
-                        <button
-                          type="button"
-                          onClick={() => setQty(item.productId, item.qty + 1)}
-                          aria-label="Zvýšit množství"
-                          className="w-7 h-7 flex items-center justify-center text-[#5A6480] hover:bg-[#F0F2FA]"
-                        >
-                          +
-                        </button>
+                      <div className="flex items-center gap-2">
+                        <span
+                          className="w-1.5 h-1.5 rounded-full"
+                          style={{ backgroundColor: section.chip }}
+                        />
+                        <h3 className="text-xs font-black uppercase tracking-wider text-[#1a1a2e]">
+                          {section.label}
+                        </h3>
+                        <span className="text-[10px] text-[#9AA3C2]">({section.arr.length})</span>
                       </div>
-                      <div className="text-sm font-black text-[#1a1a2e]">
-                        {formatPrice(item.priceWithVat * item.qty)}
-                      </div>
+                      <span className="text-[10px] text-[#9AA3C2]">{section.sub}</span>
+                    </div>
+                    <div className="space-y-3">
+                      {section.arr.map((item) => (
+                        <CartItemRow
+                          key={item.productId}
+                          item={item}
+                          setQty={setQty}
+                          remove={remove}
+                          closeDrawer={closeDrawer}
+                        />
+                      ))}
                     </div>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => remove(item.productId)}
-                    aria-label="Odebrat z košíku"
-                    className="p-1 self-start text-[#C0C7D8] hover:text-[#E8431A] transition-colors"
-                  >
-                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                    </svg>
-                  </button>
-                </div>
-              ))}
-
+                ));
+              })()}
               {hasBulky && (
                 <div className="rounded-xl p-3 text-[11px] bg-[#FFF7ED] text-[#7A5615] border border-[#FBD38D]">
                   V košíku máš velký balík (kolo, lyže). Doprava bude 400 Kč.
