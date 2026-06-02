@@ -27,6 +27,7 @@ type BrandRowData = {
   brand_name: string;
   brand_slug: string;
   is_enabled: boolean;
+  is_public: boolean;
   default_order_flow: string;
   import_filter: Record<string, unknown> | null;
 };
@@ -61,7 +62,7 @@ export default async function AdminSuppliersPage() {
     sb
       .from("supplier_brands")
       .select(
-        "id, supplier_id, external_id, brand_name, brand_slug, is_enabled, default_order_flow, import_filter",
+        "id, supplier_id, external_id, brand_name, brand_slug, is_enabled, is_public, default_order_flow, import_filter",
       )
       .order("brand_name"),
     sb
@@ -167,7 +168,7 @@ export default async function AdminSuppliersPage() {
                     <th className="text-left p-3 font-bold">Order flow</th>
                     <th className="text-left p-3 font-bold">Aktivních produktů</th>
                     <th className="text-left p-3 font-bold">Filter</th>
-                    <th className="text-left p-3 font-bold">Stav</th>
+                    <th className="text-left p-3 font-bold">Import / Web</th>
                     <th className="text-left p-3 font-bold">Akce</th>
                   </tr>
                 </thead>

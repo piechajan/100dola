@@ -6,11 +6,17 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AddToCartButton from "@/components/shop/AddToCartButton";
 import ProductViewTracker from "@/components/shop/ProductViewTracker";
-import { PRODUCTS, getProductBySlug, splitVat, formatPrice } from "@/data/products";
+import { PRODUCTS, splitVat, formatPrice } from "@/data/products";
+import { getProductBySlugMerged, getShopProducts } from "@/lib/shop/get-products";
 
+// Generate static params jen pro statické produkty — supplier slugy obsluhujeme
+// dynamicky (jejich katalog je větší a mění se).
 export function generateStaticParams() {
   return PRODUCTS.map((p) => ({ slug: p.slug }));
 }
+
+export const dynamicParams = true;
+export const revalidate = 3600;
 
 export async function generateMetadata({
   params,
@@ -18,7 +24,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlugMerged(slug);
   if (!product) return {};
   return {
     title: `${product.name}${product.year ? ` ${product.year}` : ""} — 100dola sport`,
@@ -44,11 +50,14 @@ export default async function ProductDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const all = await getShopProducts();
+  const product = all.find((p) => p.slug === slug);
   if (!product) notFound();
 
   const { withoutVat, vatAmount } = splitVat(product.priceWithVat, product.vatRate);
-  const related = PRODUCTS.filter((p) => p.id !== product.id && p.categoryId === product.categoryId).slice(0, 3);
+  const related = all
+    .filter((p) => p.id !== product.id && p.categoryId === product.categoryId)
+    .slice(0, 3);
 
   const productJsonLd = {
     "@context": "https://schema.org",

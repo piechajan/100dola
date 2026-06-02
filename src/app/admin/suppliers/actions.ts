@@ -20,6 +20,16 @@ export async function toggleBrand(brandId: string, enable: boolean): Promise<voi
   revalidatePath("/admin/suppliers");
 }
 
+export async function toggleBrandPublic(brandId: string, isPublic: boolean): Promise<void> {
+  await requireAdmin();
+  const sb = getServiceSupabase();
+  await sb.from("supplier_brands").update({ is_public: isPublic }).eq("id", brandId);
+  // public katalog je revaliduj — /shop a každý slug v /shop/[slug]
+  revalidatePath("/admin/suppliers");
+  revalidatePath("/shop");
+  revalidatePath("/shop/[slug]", "page");
+}
+
 export async function runImport(brandId: string): Promise<{ ok: boolean; message: string }> {
   await requireAdmin();
   const sb = getServiceSupabase();

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ShopLayout from "@/components/shop/ShopLayout";
+import { getShopProducts } from "@/lib/shop/get-products";
 
 export const metadata: Metadata = {
   title: "E-shop — 100dola sport",
@@ -14,12 +15,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ShopPage() {
+// Revaliduj merged katalog každou hodinu — supplier_products se mění denně cronem,
+// vlastní static PRODUCTS jsou v gitu.
+export const revalidate = 3600;
+
+export default async function ShopPage() {
+  const products = await getShopProducts();
   return (
     <>
       <Navbar />
       <main className="pt-20">
-        <ShopLayout />
+        <ShopLayout products={products} />
       </main>
       <Footer />
     </>

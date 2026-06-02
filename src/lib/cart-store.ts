@@ -13,6 +13,12 @@ export interface CartItem {
   bulky: boolean;
   photo: string;
   qty: number;
+  /** "own" — skladem u nás; "supplier" — objednáme u dodavatele. Default "own". */
+  fulfillment?: "own" | "supplier";
+  /** UUID supplier_products pro hand-off dodavateli. */
+  supplierProductId?: string;
+  /** Brand slug (pro mail Janovi: „Sportimport / ISAAC / Boson…"). */
+  brand?: string;
 }
 
 interface CartState {
@@ -61,6 +67,9 @@ export const useCart = create<CartState>()(
                 bulky: product.bulky,
                 photo: product.photo,
                 qty,
+                fulfillment: product.fulfillment ?? "own",
+                supplierProductId: product.supplierProductId,
+                brand: product.brand,
               },
             ],
             lastAddedAt: Date.now(),

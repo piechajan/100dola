@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { toggleBrand, runImport } from "./actions";
+import { toggleBrand, toggleBrandPublic, runImport } from "./actions";
 
 type Brand = {
   id: string;
@@ -9,6 +9,7 @@ type Brand = {
   brand_name: string;
   brand_slug: string;
   is_enabled: boolean;
+  is_public: boolean;
   default_order_flow: string;
   import_filter: Record<string, unknown> | null;
 };
@@ -50,22 +51,42 @@ export default function BrandRow({
         {filterText}
       </td>
       <td className="p-3">
-        <button
-          type="button"
-          disabled={isPending}
-          onClick={() =>
-            startTransition(async () => {
-              await toggleBrand(brand.id, !brand.is_enabled);
-            })
-          }
-          className={`px-3 py-1 rounded-full text-xs font-bold ${
-            brand.is_enabled
-              ? "bg-[#D1FAE5] text-[#065F46] hover:bg-[#A7F3D0]"
-              : "bg-[#F7F9FF] text-[#5A6480] hover:bg-[#E2E6F3]"
-          } disabled:opacity-50`}
-        >
-          {brand.is_enabled ? "Zapnuto" : "Vypnuto"}
-        </button>
+        <div className="flex flex-col gap-1">
+          <button
+            type="button"
+            disabled={isPending}
+            onClick={() =>
+              startTransition(async () => {
+                await toggleBrand(brand.id, !brand.is_enabled);
+              })
+            }
+            title="Import: cron stahuje data z feedu do DB"
+            className={`px-3 py-1 rounded-full text-xs font-bold ${
+              brand.is_enabled
+                ? "bg-[#D1FAE5] text-[#065F46] hover:bg-[#A7F3D0]"
+                : "bg-[#F7F9FF] text-[#5A6480] hover:bg-[#E2E6F3]"
+            } disabled:opacity-50`}
+          >
+            Import: {brand.is_enabled ? "Zap" : "Vyp"}
+          </button>
+          <button
+            type="button"
+            disabled={isPending}
+            onClick={() =>
+              startTransition(async () => {
+                await toggleBrandPublic(brand.id, !brand.is_public);
+              })
+            }
+            title="Veřejně: zobrazit produkty na /shop"
+            className={`px-3 py-1 rounded-full text-xs font-bold ${
+              brand.is_public
+                ? "bg-[#DBEAFE] text-[#1E3A8A] hover:bg-[#BFDBFE]"
+                : "bg-[#F7F9FF] text-[#5A6480] hover:bg-[#E2E6F3]"
+            } disabled:opacity-50`}
+          >
+            Web: {brand.is_public ? "Zap" : "Vyp"}
+          </button>
+        </div>
       </td>
       <td className="p-3">
         <div className="flex flex-col gap-1">

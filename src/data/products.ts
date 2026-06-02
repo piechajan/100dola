@@ -6,6 +6,14 @@
 
 export type VatRate = 21 | 12 | 0;
 
+/**
+ * Fulfillment kind:
+ *  - "own" — máme skladem na Šternberku, posíláme sami
+ *  - "supplier" — Sportimport (nebo jiný dodavatel) → po objednávce zákazníka
+ *    pošleme objednávku dodavateli mailem nebo přes jejich API
+ */
+export type Fulfillment = "own" | "supplier";
+
 export interface Product {
   id: number;
   slug: string;
@@ -25,6 +33,10 @@ export interface Product {
   note: string;
   photo: string;
   specs: string[];
+  /** Default "own". Supplier produkty mají "supplier". */
+  fulfillment?: Fulfillment;
+  /** Pokud supplier — UUID v supplier_products. */
+  supplierProductId?: string;
 }
 
 export const PRODUCTS: Product[] = [

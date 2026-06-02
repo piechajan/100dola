@@ -279,7 +279,9 @@ function BrandTile({
 }
 
 // ─── Main layout ──────────────────────────────────────────────────────────────
-export default function ShopLayout() {
+export default function ShopLayout({ products }: { products?: Product[] } = {}) {
+  const catalog: Product[] = products && products.length > 0 ? products : PRODUCTS;
+
   // "vse" = žádný category filter — zobrazí vše
   const [activeTab, setActiveTab] = useState<string>("vse");
   const [activeSub, setActiveSub] = useState<string | null>(null);
@@ -290,7 +292,7 @@ export default function ShopLayout() {
     : null;
 
   const filteredProducts = useMemo(() => {
-    return PRODUCTS.filter((p) => {
+    return catalog.filter((p) => {
       // Kategorie
       const inCategory = activeCategory
         ? activeSub
@@ -303,7 +305,7 @@ export default function ShopLayout() {
 
       return inCategory && inBrand;
     });
-  }, [activeSub, activeBrand, activeCategory]);
+  }, [activeSub, activeBrand, activeCategory, catalog]);
 
   const tabs = [
     { id: "vse", label: "Vše", icon: "🛍️", color: "#1a1a2e" },
