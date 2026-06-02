@@ -1,9 +1,18 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { categories, BRANDS, type TopCategory, type SubCategory } from "@/data/categories";
+import {
+  categories,
+  BRANDS,
+  GENDERS,
+  USE_CASES,
+  type TopCategory,
+  type SubCategory,
+  type Gender,
+  type UseCase,
+} from "@/data/categories";
 import { PRODUCTS, formatPrice, splitVat, type Product } from "@/data/products";
 import { useCart } from "@/lib/cart-store";
 
@@ -286,6 +295,8 @@ export default function ShopLayout({ products }: { products?: Product[] } = {}) 
   const [activeTab, setActiveTab] = useState<string>("vse");
   const [activeSub, setActiveSub] = useState<string | null>(null);
   const [activeBrand, setActiveBrand] = useState<string | null>(null);
+  const [activeGender, setActiveGender] = useState<Gender | null>(null);
+  const [activeUseCase, setActiveUseCase] = useState<UseCase | null>(null);
 
   const activeCategory = activeTab !== "vse"
     ? categories.find((c) => c.id === activeTab) ?? null
@@ -298,14 +309,36 @@ export default function ShopLayout({ products }: { products?: Product[] } = {}) 
         ? activeSub
           ? p.categoryId === activeSub || p.categoryId.startsWith(activeSub + "-")
           : getCategorySubIds(activeCategory).includes(p.categoryId)
-        : true; // "Vše" — bez category filtru
+        : true;
 
       // Značka
       const inBrand = activeBrand ? p.brand === activeBrand : true;
 
-      return inCategory && inBrand;
+      // Pohlaví — unisex zobrazujeme i když uživatel vybere M/F/K
+      const inGender = activeGender
+        ? p.gender === activeGender || p.gender === "U" || !p.gender
+        : true;
+
+      // Úroveň výkonu
+      const inUseCase = activeUseCase ? p.useCase === activeUseCase : true;
+
+      return inCategory && inBrand && inGender && inUseCase;
     });
-  }, [activeSub, activeBrand, activeCategory, catalog]);
+  }, [activeSub, activeBrand, activeCategory, activeGender, activeUseCase, catalog]);
+
+  // Initial state z URL (?brand=isaac&gender=M&useCase=race&cat=kola)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const sp = new URLSearchParams(window.location.search);
+    const b = sp.get("brand");
+    if (b && BRANDS.some((br) => br.id === b)) setActiveBrand(b);
+    const g = sp.get("gender");
+    if (g === "M" || g === "F" || g === "K") setActiveGender(g);
+    const u = sp.get("useCase");
+    if (u === "leisure" || u === "performance" || u === "race") setActiveUseCase(u);
+    const cat = sp.get("cat");
+    if (cat && categories.some((c) => c.id === cat)) setActiveTab(cat);
+  }, []);
 
   const tabs = [
     { id: "vse", label: "Vše", icon: "🛍️", color: "#1a1a2e" },
@@ -392,6 +425,72 @@ export default function ShopLayout({ products }: { products?: Product[] } = {}) 
               active={activeBrand === brand.id}
               onClick={() => setActiveBrand(activeBrand === brand.id ? null : brand.id)}
             />
+          ))}
+        </div>
+
+        {/* ── Gender filter pills ── */}
+        <div className="flex items-center gap-2 flex-wrap mb-4">
+          <span className="text-xs font-bold text-[#9AA3C2] tracking-wider uppercase shrink-0">
+            Pohlaví:
+          </span>
+          <button
+            onClick={() => setActiveGender(null)}
+            className="px-3 py-1.5 rounded-full text-xs font-bold border transition-all duration-150"
+            style={
+              activeGender === null
+                ? { backgroundColor: "#1a1a2e", color: "#fff", borderColor: "#1a1a2e" }
+                : { backgroundColor: "#fff", color: "#5A6480", borderColor: "#E2E6F3" }
+            }
+          >
+            Vše
+          </button>
+          {GENDERS.filter((g) => g.id !== "U").map((g) => (
+            <button
+              key={g.id}
+              onClick={() => setActiveGender(activeGender === g.id ? null : g.id)}
+              className="px-3 py-1.5 rounded-full text-xs font-bold border transition-all duration-150 shrink-0 flex items-center gap-1.5"
+              style={
+                activeGender === g.id
+                  ? { backgroundColor: "#1a1a2e", color: "#fff", borderColor: "#1a1a2e" }
+                  : { backgroundColor: "#fff", color: "#5A6480", borderColor: "#E2E6F3" }
+              }
+            >
+              <span>{g.icon}</span>
+              {g.label}
+            </button>
+          ))}
+        </div>
+
+        {/* ── Use-case filter pills ── */}
+        <div className="flex items-center gap-2 flex-wrap mb-8">
+          <span className="text-xs font-bold text-[#9AA3C2] tracking-wider uppercase shrink-0">
+            Úroveň:
+          </span>
+          <button
+            onClick={() => setActiveUseCase(null)}
+            className="px-3 py-1.5 rounded-full text-xs font-bold border transition-all duration-150"
+            style={
+              activeUseCase === null
+                ? { backgroundColor: "#1a1a2e", color: "#fff", borderColor: "#1a1a2e" }
+                : { backgroundColor: "#fff", color: "#5A6480", borderColor: "#E2E6F3" }
+            }
+          >
+            Vše
+          </button>
+          {USE_CASES.map((u) => (
+            <button
+              key={u.id}
+              onClick={() => setActiveUseCase(activeUseCase === u.id ? null : u.id)}
+              title={u.description}
+              className="px-3 py-1.5 rounded-full text-xs font-bold border transition-all duration-150 shrink-0"
+              style={
+                activeUseCase === u.id
+                  ? { backgroundColor: "#1a1a2e", color: "#fff", borderColor: "#1a1a2e" }
+                  : { backgroundColor: "#fff", color: "#5A6480", borderColor: "#E2E6F3" }
+              }
+            >
+              {u.label}
+            </button>
           ))}
         </div>
 

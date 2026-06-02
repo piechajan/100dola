@@ -14,17 +14,18 @@ export interface TopCategory {
 }
 
 export const BRANDS = [
-  { id: "scott",       name: "Scott",       logo: "/brands/scott.svg" },
-  { id: "isaac",       name: "Isaac",       logo: "/brands/isaac.svg" },
-  { id: "lapierre",    name: "Lapierre",    logo: "/brands/lapierre.svg" },
-  { id: "ghost",       name: "Ghost",       logo: "/brands/ghost.svg" },
-  { id: "pells",       name: "Pells",       logo: "/brands/pells.svg" },
-  { id: "look",        name: "Look",        logo: "/brands/look.svg" },
-  { id: "syncros",     name: "Syncros",     logo: "/brands/syncros.svg" },
-  { id: "continental", name: "Continental", logo: "/brands/continental.svg" },
-  { id: "magicshine",  name: "MagicShine",  logo: "/brands/magicshine.png" },
-  { id: "muc-off",     name: "Muc-Off",     logo: "/brands/muc-off.png" },
-  { id: "sponser",     name: "Sponser",     logo: "/brands/sponser.png" },
+  { id: "scott",       name: "Scott",        logo: "/brands/scott.svg" },
+  { id: "isaac",       name: "Isaac",        logo: "/brands/isaac.svg" },
+  { id: "lapierre",    name: "Lapierre",     logo: "/brands/lapierre.svg" },
+  { id: "ghost",       name: "Ghost",        logo: "/brands/ghost.svg" },
+  { id: "pells",       name: "Pells",        logo: "/brands/pells.svg" },
+  { id: "look",        name: "Look",         logo: "/brands/look.svg" },
+  { id: "syncros",     name: "Syncros",      logo: "/brands/syncros.svg" },
+  { id: "ffwd",        name: "FFWD",         logo: "/brands/ffwd.svg" },
+  { id: "continental", name: "Continental",  logo: "/brands/continental.svg" },
+  { id: "magicshine",  name: "MagicShine",   logo: "/brands/magicshine.png" },
+  { id: "muc-off",     name: "Muc-Off",      logo: "/brands/muc-off.png" },
+  { id: "sponser",     name: "Sponser",      logo: "/brands/sponser.png" },
 ] as const;
 
 export type BrandId = typeof BRANDS[number]["id"];
@@ -35,7 +36,7 @@ export const categories: TopCategory[] = [
     name: "Kola",
     icon: "🚴",
     color: "#3B7CF4",
-    description: "Silniční, MTB, gravel i elektrokola od prověřených značek.",
+    description: "Silniční, MTB, gravel, triatlonové i elektrokola od prověřených značek.",
     subcategories: [
       {
         id: "silnicni",
@@ -43,6 +44,7 @@ export const categories: TopCategory[] = [
         children: [
           { id: "silnicni-endurance", name: "Endurance" },
           { id: "silnicni-aero", name: "Aero" },
+          { id: "silnicni-race", name: "Race" },
         ],
       },
       {
@@ -62,10 +64,30 @@ export const categories: TopCategory[] = [
         ],
       },
       {
+        id: "triatlon",
+        name: "Triatlon / TT",
+        children: [],
+      },
+      {
         id: "elektro",
         name: "Elektrokola",
         children: [],
       },
+    ],
+  },
+  {
+    id: "obleceni",
+    name: "Oblečení",
+    icon: "👕",
+    color: "#1F4937",
+    description: "Dresy, kalhoty, bundy a doplňky pro každé počasí.",
+    subcategories: [
+      { id: "obleceni-dresy", name: "Dresy", children: [] },
+      { id: "obleceni-kalhoty", name: "Kalhoty & laclové", children: [] },
+      { id: "obleceni-bundy", name: "Bundy & vesty", children: [] },
+      { id: "obleceni-spodni", name: "Spodní prádlo", children: [] },
+      { id: "obleceni-zima", name: "Zimní vrstvy", children: [] },
+      { id: "obleceni-rukavice-ponozky", name: "Rukavice & ponožky", children: [] },
     ],
   },
   {
@@ -221,7 +243,53 @@ export const categories: TopCategory[] = [
           { id: "plastre-mtb", name: "MTB" },
         ],
       },
+      {
+        id: "vyplety",
+        name: "Výplety & ráfky",
+        children: [
+          { id: "vyplety-silnicni", name: "Silniční" },
+          { id: "vyplety-gravel", name: "Gravel" },
+          { id: "vyplety-mtb", name: "MTB" },
+          { id: "vyplety-triatlon", name: "Triatlon / TT" },
+        ],
+      },
+      {
+        id: "wattmetry",
+        name: "Wattmetry",
+        children: [],
+      },
     ],
+  },
+];
+
+// ─── Orthogonal taxonomies (filtry napříč kategoriemi) ───────────────────────
+
+export type Gender = "M" | "F" | "K" | "U"; // muž / žena / dítě / unisex
+
+export const GENDERS: { id: Gender; label: string; icon: string }[] = [
+  { id: "M", label: "Pánské", icon: "👨" },
+  { id: "F", label: "Dámské", icon: "👩" },
+  { id: "K", label: "Dětské", icon: "🧒" },
+  { id: "U", label: "Unisex", icon: "🧍" },
+];
+
+export type UseCase = "leisure" | "performance" | "race";
+
+export const USE_CASES: { id: UseCase; label: string; description: string }[] = [
+  {
+    id: "leisure",
+    label: "Pohodlné",
+    description: "Vyjížďky, dojíždění, rekreační kilometráž.",
+  },
+  {
+    id: "performance",
+    label: "Výkonnostní",
+    description: "Trénink, dlouhé jízdy, sportovní použití.",
+  },
+  {
+    id: "race",
+    label: "Závodní",
+    description: "Maximální výkon, závody, race-day výbava.",
   },
 ];
 

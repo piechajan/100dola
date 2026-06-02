@@ -130,9 +130,12 @@ export default async function ProductDetailPage({
 
             {/* Right column */}
             <div>
-              <div className="text-xs text-[#9AA3C2] uppercase tracking-wider mb-2">
+              <Link
+                href={`/shop?brand=${encodeURIComponent(product.brand)}`}
+                className="inline-block text-xs text-[#9AA3C2] uppercase tracking-wider mb-2 hover:text-[#1a1a2e] transition-colors"
+              >
                 {product.brand}
-              </div>
+              </Link>
               <h1 className="text-3xl md:text-4xl font-black text-[#1a1a2e] leading-tight">
                 {product.name}
                 {product.year && (

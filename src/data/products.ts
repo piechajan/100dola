@@ -14,6 +14,8 @@ export type VatRate = 21 | 12 | 0;
  */
 export type Fulfillment = "own" | "supplier";
 
+import type { Gender, UseCase } from "./categories";
+
 export interface Product {
   id: number;
   slug: string;
@@ -37,6 +39,10 @@ export interface Product {
   fulfillment?: Fulfillment;
   /** Pokud supplier — UUID v supplier_products. */
   supplierProductId?: string;
+  /** Orthogonal filtr (napříč kategoriemi). Default "U" unisex. */
+  gender?: Gender;
+  /** Orthogonal filtr (napříč kategoriemi). Default null = neuvedeno. */
+  useCase?: UseCase | null;
 }
 
 export const PRODUCTS: Product[] = [
