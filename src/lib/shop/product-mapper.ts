@@ -64,7 +64,8 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
   const price = Math.round(Number(row.price_czk_retail ?? 0));
   const slug = row.public_slug || defaultPublicSlug(row);
   const badges = row.public_badges ?? [];
-  const photo = row.main_image_url || row.image_urls?.[0] || "/media/sport-hero.jpg";
+  const rawPhoto = row.main_image_url || row.image_urls?.[0] || "/media/sport-hero.jpg";
+  const photo = wrapSupplierImage(rawPhoto);
 
   const props = (row.properties ?? {}) as Record<string, unknown>;
 
@@ -218,6 +219,29 @@ function isBulkyBySlugOrCategory(brand: string, categoryId: string): boolean {
   if (categoryId.startsWith("vyplety")) return true; // wheelsets = big box
   if (brand === "isaac") return true;
   return false;
+}
+
+/**
+ * Supplier image URLs běží přes /api/img proxy — proxy:
+ *  - vyřeší chybějící Content-Type ze Sportimport
+ *  - přidá 1y immutable cache → Vercel edge cache
+ *  - Next/Image pak může bezpečně optimalizovat (AVIF/WebP/resize)
+ *
+ * Vlastní static fotky (/media/...) zůstávají nedotčené.
+ */
+const SUPPLIER_HOSTS_FOR_PROXY = ["www.sportimport.cz", "www.alecko.cz"];
+
+export function wrapSupplierImage(url: string): string {
+  if (!url || !url.startsWith("http")) return url;
+  try {
+    const u = new URL(url);
+    if (SUPPLIER_HOSTS_FOR_PROXY.includes(u.hostname)) {
+      return `/api/img?u=${encodeURIComponent(url)}`;
+    }
+  } catch {
+    // ignore
+  }
+  return url;
 }
 
 function stripHtml(html: string): string {

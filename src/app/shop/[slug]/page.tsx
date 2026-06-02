@@ -9,16 +9,6 @@ import ProductViewTracker from "@/components/shop/ProductViewTracker";
 import { PRODUCTS, splitVat, formatPrice } from "@/data/products";
 import { getProductBySlugMerged, getShopProducts } from "@/lib/shop/get-products";
 
-const SUPPLIER_IMAGE_HOSTS = ["www.sportimport.cz", "www.alecko.cz"];
-function isSupplierImage(url: string): boolean {
-  if (!url || !url.startsWith("http")) return false;
-  try {
-    return SUPPLIER_IMAGE_HOSTS.includes(new URL(url).hostname);
-  } catch {
-    return false;
-  }
-}
-
 // Generate static params jen pro statické produkty — supplier slugy obsluhujeme
 // dynamicky (jejich katalog je větší a mění se).
 export function generateStaticParams() {
@@ -122,7 +112,6 @@ export default async function ProductDetailPage({
                 sizes="(max-width: 1024px) 100vw, 60vw"
                 className="object-contain p-8"
                 priority
-                unoptimized={isSupplierImage(product.photo)}
               />
               {product.badges.length > 0 && (
                 <div className="absolute top-5 left-5 flex flex-col gap-2">
@@ -234,7 +223,6 @@ export default async function ProductDetailPage({
                         fill
                         className="object-contain p-4"
                         sizes="33vw"
-                        unoptimized={isSupplierImage(p.photo)}
                       />
                     </div>
                     <div className="p-4 flex flex-col flex-1">
