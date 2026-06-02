@@ -90,6 +90,8 @@ export async function importBrand(
     // 3. Fetch + filter
     const products = await adapter.fetchFeed(brandExternalId, {
       filter: brand.import_filter ?? undefined,
+      // 5 min pro velké feedy (ALE má 800+ položek, XML přes 10 MB)
+      timeoutMs: 300_000,
     });
 
     if (adapter.validateFeed) {
