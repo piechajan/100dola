@@ -14,6 +14,7 @@ import { sendOrderConfirmation, sendOrderNotification } from "@/lib/email";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { validateDiscountCode, incrementDiscountUsage } from "@/lib/discounts";
 import { invoiceOrder, type OrderForInvoice } from "@/lib/invoicing";
+import { recordProductPairs } from "@/lib/shop/pair-counts";
 import { checkRateLimit } from "@/lib/rate-limit";
 import {
   sendMetaCapiEvent,
@@ -248,6 +249,14 @@ export async function POST(req: NextRequest) {
 
       if (discountCode) {
         await incrementDiscountUsage(discountCode);
+      }
+
+      // Behavioral recommendations pipeline — uložit páry produktů
+      // z jedné objednávky (n choose 2 unikátní kombinace).
+      try {
+        await recordProductPairs(sb, data.items.map((i) => i.slug));
+      } catch (pairErr) {
+        console.warn("[api/orders] pair counts update failed:", pairErr);
       }
     } catch (e) {
       console.error("[api/orders] DB persist failed, fallback to file:", e);

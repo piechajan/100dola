@@ -18,6 +18,7 @@ import {
   getAllCategoryPaths,
   productInResolvedCategory,
 } from "@/lib/shop/category-resolver";
+import { recommendForProduct } from "@/lib/shop/recommendations";
 
 export const dynamicParams = true;
 export const revalidate = 3600;
@@ -103,9 +104,8 @@ export default async function ShopCatchAllPage({
 
 function renderProduct(product: Product, all: Product[]) {
   const { withoutVat, vatAmount } = splitVat(product.priceWithVat, product.vatRate);
-  const related = all
-    .filter((p) => p.id !== product.id && p.categoryId === product.categoryId)
-    .slice(0, 3);
+  // Rule-based + synergy mapping. Behavioral pipeline později.
+  const related = recommendForProduct(product, all, 4);
 
   const productJsonLd = {
     "@context": "https://schema.org",
