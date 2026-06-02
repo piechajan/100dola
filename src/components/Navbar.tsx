@@ -7,6 +7,7 @@ import { events, SPORT_COLORS, SPORT_ICONS } from "@/data/events";
 import CartButton from "@/components/shop/CartButton";
 import CartDrawer from "@/components/shop/CartDrawer";
 import SearchBar from "@/components/shop/SearchBar";
+import WishlistNavButton from "@/components/shop/WishlistNavButton";
 
 // ── Sport mega-menu data ──────────────────────────────────────────────────────
 
@@ -326,6 +327,7 @@ export default function Navbar() {
             <div className="md:hidden">
               <SearchBar variant="mobile" />
             </div>
+            <WishlistNavButton />
             <CartButton />
             <button
               className="md:hidden p-2.5 text-[#9AA3C2] hover:text-[#1a1a2e] transition-colors rounded-lg hover:bg-[#F0F2FA] ml-1"

@@ -9,6 +9,8 @@ import AddToCartButton from "@/components/shop/AddToCartButton";
 import ProductViewTracker from "@/components/shop/ProductViewTracker";
 import PDPGallery from "@/components/shop/PDPGallery";
 import ConfiguratorUI from "@/components/shop/ConfiguratorUI";
+import WishlistButton from "@/components/shop/WishlistButton";
+import RecentlyViewedSection from "@/components/shop/RecentlyViewedSection";
 import { PRODUCTS, splitVat, formatPrice, type Product } from "@/data/products";
 import { getProductBySlugMerged, getShopProducts } from "@/lib/shop/get-products";
 import {
@@ -131,6 +133,9 @@ function renderProduct(product: Product, all: Product[]) {
         slug={product.slug}
         name={product.name}
         priceWithVat={product.priceWithVat}
+        id={product.id}
+        brand={product.brand}
+        photo={product.photo}
       />
       <Navbar />
       <main className="pt-20 bg-[#FAFAFA]">
@@ -152,12 +157,25 @@ function renderProduct(product: Product, all: Product[]) {
             />
 
             <div>
-              <Link
-                href={`/shop?brand=${encodeURIComponent(product.brand)}`}
-                className="inline-block text-xs text-[#9AA3C2] uppercase tracking-wider mb-2 hover:text-[#1a1a2e] transition-colors"
-              >
-                {product.brand}
-              </Link>
+              <div className="flex items-start justify-between gap-3">
+                <Link
+                  href={`/shop?brand=${encodeURIComponent(product.brand)}`}
+                  className="inline-block text-xs text-[#9AA3C2] uppercase tracking-wider mb-2 hover:text-[#1a1a2e] transition-colors"
+                >
+                  {product.brand}
+                </Link>
+                <WishlistButton
+                  size="large"
+                  item={{
+                    id: product.id,
+                    slug: product.slug,
+                    name: product.name,
+                    brand: product.brand,
+                    priceWithVat: product.priceWithVat,
+                    photo: product.photo,
+                  }}
+                />
+              </div>
               <h1 className="text-3xl md:text-4xl font-black text-[#1a1a2e] leading-tight">
                 {product.name}
                 {product.year && (
@@ -233,6 +251,8 @@ function renderProduct(product: Product, all: Product[]) {
             </div>
           </div>
         </section>
+
+        <RecentlyViewedSection excludeId={product.id} />
 
         {related.length > 0 && (
           <section className="bg-white py-12 md:py-16 border-t border-[#E2E6F3]">

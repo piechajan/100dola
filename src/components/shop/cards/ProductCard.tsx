@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/lib/cart-store";
 import { splitVat, formatPrice, type Product } from "@/data/products";
+import WishlistButton from "@/components/shop/WishlistButton";
 
 const BADGE_COLORS: Record<string, string> = {
   "Doporučuje tým": "#E8431A",
@@ -49,6 +50,18 @@ export default function ProductCard({ product }: { product: Product }) {
             ))}
           </div>
         )}
+        <div className="absolute top-2 right-2 z-10">
+          <WishlistButton
+            item={{
+              id: product.id,
+              slug: product.slug,
+              name: product.name,
+              brand: product.brand,
+              priceWithVat: product.priceWithVat,
+              photo: product.photo,
+            }}
+          />
+        </div>
       </div>
 
       <div className="p-4 flex flex-col flex-1">
