@@ -13,89 +13,6 @@ const BADGE_COLORS: Record<string, string> = {
   "Buď vidět": "#3B7CF4",
 };
 
-// ─── Local (legacy, inline) — TO BE REMOVED, kept jen pro porovnání ─────────
-const _LEGACY_PRODUCTS_REMOVED = [
-  {
-    id: 1,
-    name: "Scott Addict RC 10",
-    slug: "scott-addict-rc-10-2026",
-    year: "2026",
-    brand: "scott",
-    categoryId: "silnicni-aero",
-    price: 177550,
-    badges: ["Novinka", "Doporučuje tým"],
-    note: "Kolo, na kterém jezdíme v Malaze",
-    photo: "/media/scott-addict-rc10.png",
-    specs: ["Shimano Ultegra Di2", "Syncros Carbon 40mm", "~7 kg"],
-  },
-  {
-    id: 2,
-    name: "Gregarius Q36.5 Pro Jersey",
-    slug: "q365-gregarius-pro-jersey",
-    year: null,
-    brand: "scott",
-    categoryId: "doplnky",
-    price: 3290,
-    badges: [] as string[],
-    note: "Dres, který jedeme my",
-    photo: "https://www.q36-5.com/media/44/51/b4/1734343420/038PRO25-GregariusQ36.5ProCyclingTeamShortsSleeveJersey-1.png",
-    specs: ["112 g (vel. M)", "4 speciální materiály", "Made in Italy"],
-  },
-  {
-    id: 3,
-    name: "Magicshine Seemee R300",
-    slug: "magicshine-seemee-r300",
-    year: "2026",
-    brand: "magicshine",
-    categoryId: "osvetleni",
-    price: 2750,
-    originalPrice: 3190,
-    badges: ["Buď vidět", "Novinka"],
-    note: "Funkce jako Garmin Varia + USB-C. Za zlomek ceny.",
-    photo: "/media/seemee-r300.jpg",
-    specs: ["Radar 140 m dozadu", "ANT+ / Bluetooth", "100 h výdrž, USB-C"],
-  },
-  {
-    id: 4,
-    name: "Dynastar M-Vertical 88 Open",
-    slug: "dynastar-m-vertical-88-open-2026",
-    year: "2026",
-    brand: "scott",
-    categoryId: "skialpy-lyze",
-    price: 20990,
-    badges: ["Novinka"],
-    note: "Skialpová sezóna s Open Miles Clinic",
-    photo: "https://www.dynastar-lange.com/dw/image/v2/BJJZ_PRD/on/demandware.static/-/Sites-rossignol-catalog/default/dw966b7994/images/large/DANM301_000_72DPI_01.jpg",
-    specs: ["88mm waist", "1.18 kg / lyži", "Paulownia core"],
-  },
-  {
-    id: 5,
-    name: "Sponser ISO Drink Red Orange",
-    slug: "sponser-iso-drink-red-orange",
-    year: null,
-    brand: "sponser",
-    categoryId: "vyziva-iontaky",
-    price: 650,
-    badges: ["Doporučuje tým"],
-    note: "Isotonický nápoj pro dlouhé výjezdy. Osvědčený ve Španělsku.",
-    photo: "https://sponser.com/cdn/shop/files/Isotonic_1000g_Red-Orange_2048x.png?v=1768564139",
-    specs: ["1 000 g · ~19 porcí", "Isotonický · multi-carb · elektrolyty", "Vegan · bez laktózy · bez lepku"],
-  },
-  {
-    id: 6,
-    name: "Muc-Off Nano Tech Bike Cleaner",
-    slug: "muc-off-nano-tech-bike-cleaner",
-    year: null,
-    brand: "muc-off",
-    categoryId: "pece-myti",
-    price: 360,
-    badges: [],
-    note: "Ružovka. Nejprodávanější čistič na kolo — nanotechnologie, šetrná k plášťům i brzdám.",
-    photo: "https://cdn.myshoptet.com/usr/www.halbich.cz/user/shop/big/9140_green.png",
-    specs: ["1 litr · pH neutrální", "Bezpečný pro karbon, disk, plášť", "Biologicky odbouratelný"],
-  },
-];
-
 
 // ─── Collect all sub-ids for a top-level category ────────────────────────────
 function getAllSubIds(sub: SubCategory): string[] {
@@ -264,6 +181,54 @@ function ProductCard({ product }: { product: Product }) {
   );
 }
 
+// ─── Brand chip — small inline logo button ───────────────────────────────────
+function BrandChip({
+  brand,
+  active,
+  onClick,
+}: {
+  brand: { id: string; name: string; logo: string };
+  active: boolean;
+  onClick: () => void;
+}) {
+  const [logoFailed, setLogoFailed] = useState(false);
+  const baseStyle = active
+    ? { backgroundColor: "#1a1a2e", color: "#fff", borderColor: "#1a1a2e" }
+    : { backgroundColor: "#fff", color: "#5A6480", borderColor: "#E2E6F3" };
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={brand.name}
+      aria-label={brand.name}
+      aria-pressed={active}
+      className="px-3 py-1.5 rounded-full text-xs font-bold border transition-all duration-150 shrink-0 flex items-center justify-center"
+      style={{ ...baseStyle, minHeight: 30, minWidth: 56 }}
+    >
+      {!logoFailed ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={brand.logo}
+          alt={brand.name}
+          className="object-contain"
+          style={{
+            height: 16,
+            maxWidth: 80,
+            filter: active ? "brightness(0) invert(1)" : "brightness(0)",
+            opacity: active ? 1 : 0.75,
+          }}
+          onError={() => setLogoFailed(true)}
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <span>{brand.name}</span>
+      )}
+    </button>
+  );
+}
+
 // ─── Brand tile — logo with text fallback ────────────────────────────────────
 function BrandTile({
   brand,
@@ -288,6 +253,7 @@ function BrandTile({
       }}
     >
       {!logoFailed ? (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={brand.logo}
           alt={brand.name}
@@ -337,7 +303,7 @@ export default function ShopLayout() {
 
       return inCategory && inBrand;
     });
-  }, [activeTab, activeSub, activeBrand, activeCategory]);
+  }, [activeSub, activeBrand, activeCategory]);
 
   const tabs = [
     { id: "vse", label: "Vše", icon: "🛍️", color: "#1a1a2e" },
@@ -418,18 +384,12 @@ export default function ShopLayout() {
             Vše
           </button>
           {BRANDS.map((brand) => (
-            <button
+            <BrandChip
               key={brand.id}
+              brand={brand}
+              active={activeBrand === brand.id}
               onClick={() => setActiveBrand(activeBrand === brand.id ? null : brand.id)}
-              className="px-3 py-1.5 rounded-full text-xs font-bold border transition-all duration-150 shrink-0"
-              style={
-                activeBrand === brand.id
-                  ? { backgroundColor: "#1a1a2e", color: "#fff", borderColor: "#1a1a2e" }
-                  : { backgroundColor: "#fff", color: "#5A6480", borderColor: "#E2E6F3" }
-              }
-            >
-              {brand.name}
-            </button>
+            />
           ))}
         </div>
 
