@@ -9,40 +9,42 @@ import CartDrawer from "@/components/shop/CartDrawer";
 
 // ── Sport mega-menu data ──────────────────────────────────────────────────────
 
+// Mega-menu vede přímo do /shop kategoriálních URL (server-rendered, SEO friendly)
+// Stará info-stránka kamenné prodejny: /sport — odkaz dole pod featured tile.
 const SPORT_BY_ACTIVITY = [
   {
-    label: "Cyklistika",
+    label: "Silniční kola",
     icon: "🚴",
-    href: "/sport/cyklistika",
-    sub: ["Road & Gravel", "MTB", "Triatlon"],
+    href: "/shop/kola/silnicni",
+    sub: ["Endurance", "Aero", "Race"],
   },
   {
-    label: "Běh & Trail",
-    icon: "🏃",
-    href: "/sport/beh",
-    sub: ["Road running", "Trail & Ultra"],
+    label: "Gravel",
+    icon: "🌄",
+    href: "/shop/kola/gravel",
+    sub: ["Jednopřevodník", "Dvoupřevodník"],
   },
   {
-    label: "Turistika & Trek",
-    icon: "🥾",
-    href: "/sport/turistika",
-    sub: ["Jednodenní túry", "Via ferrata"],
+    label: "MTB",
+    icon: "⛰️",
+    href: "/shop/kola/mtb",
+    sub: ["Pevná vidlice", "Celoodpružená"],
   },
   {
-    label: "Zimní sporty",
-    icon: "⛷️",
-    href: "/sport/zima",
-    sub: ["Skialpy", "Běžky & Skitouring"],
+    label: "Triatlon / TT",
+    icon: "🏊",
+    href: "/shop/kola/triatlon",
+    sub: ["TT geometrie"],
   },
 ];
 
 const SPORT_BY_CATEGORY = [
-  { label: "Oblečení", icon: "👕", href: "/sport/obleceni" },
-  { label: "Obuv", icon: "👟", href: "/sport/obuv" },
-  { label: "Helmy & přilby", icon: "⛑️", href: "/sport/helmy" },
-  { label: "Výživa & doplňky", icon: "⚡", href: "/sport/vyziva" },
-  { label: "Vybavení & doplňky", icon: "🎒", href: "/sport/vybaveni" },
-  { label: "Elektronika & GPS", icon: "📡", href: "/sport/elektronika" },
+  { label: "Oblečení", icon: "👕", href: "/shop/obleceni" },
+  { label: "Dresy", icon: "🎽", href: "/shop/obleceni/obleceni-dresy" },
+  { label: "Helmy", icon: "⛑️", href: "/shop/doplnky/helmy" },
+  { label: "Výplety & ráfky", icon: "⚙️", href: "/shop/doplnky/vyplety" },
+  { label: "Wattmetry", icon: "📡", href: "/shop/doplnky/wattmetry" },
+  { label: "Výživa", icon: "⚡", href: "/shop/vyziva" },
 ];
 
 // ── Component ─────────────────────────────────────────────────────────────────

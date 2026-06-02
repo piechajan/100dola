@@ -288,12 +288,29 @@ function BrandTile({
 }
 
 // ─── Main layout ──────────────────────────────────────────────────────────────
-export default function ShopLayout({ products }: { products?: Product[] } = {}) {
+export interface ShopHeading {
+  title: string;
+  description: string;
+  pathSlugs: string[];
+  count: number;
+}
+
+export default function ShopLayout({
+  products,
+  initialCategoryId,
+  initialSubId,
+  heading,
+}: {
+  products?: Product[];
+  initialCategoryId?: string;
+  initialSubId?: string | null;
+  heading?: ShopHeading;
+} = {}) {
   const catalog: Product[] = products && products.length > 0 ? products : PRODUCTS;
 
   // "vse" = žádný category filter — zobrazí vše
-  const [activeTab, setActiveTab] = useState<string>("vse");
-  const [activeSub, setActiveSub] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<string>(initialCategoryId ?? "vse");
+  const [activeSub, setActiveSub] = useState<string | null>(initialSubId ?? null);
   const [activeBrand, setActiveBrand] = useState<string | null>(null);
   const [activeGender, setActiveGender] = useState<Gender | null>(null);
   const [activeUseCase, setActiveUseCase] = useState<UseCase | null>(null);
@@ -346,11 +363,35 @@ export default function ShopLayout({ products }: { products?: Product[] } = {}) 
     { id: "znacky", label: "Značky", icon: "🏷️", color: "#1a1a2e" },
   ];
 
+  function productLabel(n: number): string {
+    if (n === 1) return "produkt";
+    if (n >= 2 && n <= 4) return "produkty";
+    return "produktů";
+  }
+
   const isBrandView = activeTab === "znacky";
 
   function handleTabChange(id: string) {
     setActiveTab(id);
     setActiveSub(null);
+    // Naviguj na kategoriální URL pro lepší shareability + SEO
+    if (typeof window !== "undefined") {
+      if (id === "vse" || id === "znacky") {
+        window.history.pushState({}, "", "/shop");
+      } else {
+        window.history.pushState({}, "", `/shop/${id}`);
+      }
+    }
+  }
+
+  function handleSubChange(subId: string | null) {
+    setActiveSub(subId);
+    if (typeof window !== "undefined" && activeCategory) {
+      const url = subId
+        ? `/shop/${activeCategory.id}/${subId}`
+        : `/shop/${activeCategory.id}`;
+      window.history.pushState({}, "", url);
+    }
   }
 
   return (
@@ -359,18 +400,57 @@ export default function ShopLayout({ products }: { products?: Product[] } = {}) 
       {/* ── Page header ── */}
       <div className="bg-white border-b border-[#E2E6F3]">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-10 md:py-14">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="w-5 h-px bg-[#E8431A]" />
-            <span className="text-xs tracking-[0.18em] uppercase font-bold text-[#E8431A]">
-              100dola sport
-            </span>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-black text-[#1a1a2e] leading-tight">
-            E-shop
-          </h1>
-          <p className="mt-2 text-sm text-[#5A6480] max-w-lg">
-            Kola, výbava, výživa, zimní sport — každý produkt jsme si sami vyzkoušeli nebo ho jedeme.
-          </p>
+          {heading ? (
+            <>
+              <nav className="flex items-center gap-1.5 text-[11px] text-[#9AA3C2] mb-4">
+                <Link href="/shop" className="hover:text-[#3B7CF4] transition-colors">E-shop</Link>
+                {heading.pathSlugs.map((slugId, i) => {
+                  const partialPath = heading.pathSlugs.slice(0, i + 1).join("/");
+                  const isLast = i === heading.pathSlugs.length - 1;
+                  const cat = i === 0
+                    ? categories.find((c) => c.id === slugId)?.name
+                    : i === 1
+                      ? categories.find((c) => c.id === heading.pathSlugs[0])?.subcategories.find((s) => s.id === slugId)?.name
+                      : categories.find((c) => c.id === heading.pathSlugs[0])?.subcategories.find((s) => s.id === heading.pathSlugs[1])?.children?.find((c) => c.id === slugId)?.name;
+                  return (
+                    <span key={slugId} className="flex items-center gap-1.5">
+                      <span>/</span>
+                      {isLast ? (
+                        <span className="text-[#5A6480] font-semibold">{cat ?? slugId}</span>
+                      ) : (
+                        <Link href={`/shop/${partialPath}`} className="hover:text-[#3B7CF4] transition-colors">{cat ?? slugId}</Link>
+                      )}
+                    </span>
+                  );
+                })}
+              </nav>
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-5 h-px bg-[#E8431A]" />
+                <span className="text-xs tracking-[0.18em] uppercase font-bold text-[#E8431A]">
+                  {heading.count} {productLabel(heading.count)}
+                </span>
+              </div>
+              <h1 className="text-4xl md:text-5xl font-black text-[#1a1a2e] leading-tight">
+                {heading.title}
+              </h1>
+              <p className="mt-2 text-sm text-[#5A6480] max-w-lg">{heading.description}</p>
+            </>
+          ) : (
+            <>
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-5 h-px bg-[#E8431A]" />
+                <span className="text-xs tracking-[0.18em] uppercase font-bold text-[#E8431A]">
+                  100dola sport
+                </span>
+              </div>
+              <h1 className="text-4xl md:text-5xl font-black text-[#1a1a2e] leading-tight">
+                E-shop
+              </h1>
+              <p className="mt-2 text-sm text-[#5A6480] max-w-lg">
+                Kola, výbava, výživa, zimní sport — každý produkt jsme si sami vyzkoušeli nebo ho jedeme.
+              </p>
+            </>
+          )}
         </div>
       </div>
 
@@ -524,7 +604,7 @@ export default function ShopLayout({ products }: { products?: Product[] } = {}) 
                   </div>
                   {activeSub && (
                     <button
-                      onClick={() => setActiveSub(null)}
+                      onClick={() => handleSubChange(null)}
                       className="text-xs font-bold text-[#9AA3C2] hover:text-[#1a1a2e] flex items-center gap-1 transition-colors"
                     >
                       <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -542,7 +622,7 @@ export default function ShopLayout({ products }: { products?: Product[] } = {}) 
                       sub={sub}
                       color={activeCategory.color}
                       active={activeSub === sub.id}
-                      onClick={() => setActiveSub(activeSub === sub.id ? null : sub.id)}
+                      onClick={() => handleSubChange(activeSub === sub.id ? null : sub.id)}
                     />
                   ))}
                 </div>

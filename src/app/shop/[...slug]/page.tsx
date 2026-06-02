@@ -4,38 +4,56 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ShopLayout from "@/components/shop/ShopLayout";
 import AddToCartButton from "@/components/shop/AddToCartButton";
 import ProductViewTracker from "@/components/shop/ProductViewTracker";
-import { PRODUCTS, splitVat, formatPrice } from "@/data/products";
+import { PRODUCTS, splitVat, formatPrice, type Product } from "@/data/products";
 import { getProductBySlugMerged, getShopProducts } from "@/lib/shop/get-products";
-
-// Generate static params jen pro statické produkty — supplier slugy obsluhujeme
-// dynamicky (jejich katalog je větší a mění se).
-export function generateStaticParams() {
-  return PRODUCTS.map((p) => ({ slug: p.slug }));
-}
+import {
+  resolveCategoryPath,
+  getAllCategoryPaths,
+  productInResolvedCategory,
+} from "@/lib/shop/category-resolver";
 
 export const dynamicParams = true;
 export const revalidate = 3600;
 
+export function generateStaticParams() {
+  const products = PRODUCTS.map((p) => ({ slug: [p.slug] }));
+  const cats = getAllCategoryPaths().map((slugs) => ({ slug: slugs }));
+  return [...products, ...cats];
+}
+
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string[] }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = await getProductBySlugMerged(slug);
-  if (!product) return {};
-  return {
-    title: `${product.name}${product.year ? ` ${product.year}` : ""} — 100dola sport`,
-    description: product.note || `${product.name} — ${product.specs.slice(0, 2).join(", ")}`,
-    openGraph: {
-      title: product.name,
-      description: product.note,
-      images: [product.photo],
-    },
-    alternates: { canonical: `/shop/${slug}` },
-  };
+  if (slug.length === 1) {
+    const product = await getProductBySlugMerged(slug[0]);
+    if (product) {
+      return {
+        title: `${product.name}${product.year ? ` ${product.year}` : ""} — 100dola sport`,
+        description: product.note || `${product.name} — ${product.specs.slice(0, 2).join(", ")}`,
+        openGraph: {
+          title: product.name,
+          description: product.note,
+          images: [product.photo],
+        },
+        alternates: { canonical: `/shop/${slug[0]}` },
+      };
+    }
+  }
+  const resolved = resolveCategoryPath(slug);
+  if (resolved) {
+    return {
+      title: `${resolved.title} — 100dola sport`,
+      description: resolved.description,
+      alternates: { canonical: `/shop/${resolved.pathSlugs.join("/")}` },
+    };
+  }
+  return {};
 }
 
 const BADGE_COLORS: Record<string, string> = {
@@ -44,16 +62,47 @@ const BADGE_COLORS: Record<string, string> = {
   "Buď vidět": "#3B7CF4",
 };
 
-export default async function ProductDetailPage({
+export default async function ShopCatchAllPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string[] }>;
 }) {
   const { slug } = await params;
-  const all = await getShopProducts();
-  const product = all.find((p) => p.slug === slug);
-  if (!product) notFound();
 
+  if (slug.length === 1) {
+    const all = await getShopProducts();
+    const product = all.find((p) => p.slug === slug[0]);
+    if (product) return renderProduct(product, all);
+  }
+
+  const resolved = resolveCategoryPath(slug);
+  if (!resolved) notFound();
+
+  const all = await getShopProducts();
+  const inCategory = all.filter((p) => productInResolvedCategory(resolved, p.categoryId));
+
+  return (
+    <>
+      <Navbar />
+      <main className="pt-20">
+        <ShopLayout
+          products={all}
+          initialCategoryId={resolved.top.id}
+          initialSubId={resolved.sub?.id ?? resolved.child?.id ?? null}
+          heading={{
+            title: resolved.title,
+            description: resolved.description,
+            pathSlugs: resolved.pathSlugs,
+            count: inCategory.length,
+          }}
+        />
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+function renderProduct(product: Product, all: Product[]) {
   const { withoutVat, vatAmount } = splitVat(product.priceWithVat, product.vatRate);
   const related = all
     .filter((p) => p.id !== product.id && p.categoryId === product.categoryId)
@@ -88,22 +137,16 @@ export default async function ProductDetailPage({
       />
       <Navbar />
       <main className="pt-20 bg-[#FAFAFA]">
-
-        {/* Breadcrumb */}
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 pt-8">
           <div className="flex items-center gap-2 text-xs text-[#9AA3C2]">
-            <Link href="/sport" className="hover:text-[#3B7CF4]">100dola sport</Link>
-            <span>/</span>
-            <Link href="/shop" className="hover:text-[#3B7CF4]">Shop</Link>
+            <Link href="/shop" className="hover:text-[#3B7CF4]">E-shop</Link>
             <span>/</span>
             <span className="text-[#5A6480]">{product.name}</span>
           </div>
         </div>
 
-        {/* Product main */}
         <section className="max-w-[1200px] mx-auto px-6 md:px-12 py-10 md:py-14">
           <div className="grid lg:grid-cols-[1fr_440px] gap-10 md:gap-12">
-            {/* Image */}
             <div className="bg-white rounded-3xl border border-[#E2E6F3] aspect-square relative overflow-hidden">
               <Image
                 src={product.photo}
@@ -128,7 +171,6 @@ export default async function ProductDetailPage({
               )}
             </div>
 
-            {/* Right column */}
             <div>
               <Link
                 href={`/shop?brand=${encodeURIComponent(product.brand)}`}
@@ -147,7 +189,6 @@ export default async function ProductDetailPage({
                 <p className="mt-4 text-sm italic text-[#E8431A] font-medium">{product.note}</p>
               )}
 
-              {/* Price */}
               <div className="mt-6 pb-6 border-b border-[#E2E6F3]">
                 {product.originalPriceWithVat && (
                   <div className="text-sm text-[#9A9A9A] line-through mb-1">
@@ -167,7 +208,6 @@ export default async function ProductDetailPage({
                 </div>
               </div>
 
-              {/* Specs */}
               {product.specs.length > 0 && (
                 <ul className="mt-6 space-y-2">
                   {product.specs.map((s) => (
@@ -179,27 +219,30 @@ export default async function ProductDetailPage({
                 </ul>
               )}
 
-              {/* Add to cart */}
               <div className="mt-8">
                 <AddToCartButton product={product} large />
               </div>
 
-              {/* Delivery + bulky info */}
               <div className="mt-6 space-y-2">
                 {product.bulky && (
                   <div className="rounded-xl p-3 text-xs bg-[#FFF7ED] text-[#7A5615] border border-[#FBD38D]">
                     <strong>Velký balík.</strong> Doprava 400 Kč. Osobní vyzvednutí (Šternberk / Olomouc / Valašské Meziříčí) zdarma.
                   </div>
                 )}
-                <div className="rounded-xl p-3 text-xs bg-[#F0F4FF] text-[#1a1a2e] border border-[#D6E1FB]">
-                  <strong>Termín dodání ti potvrdíme po zadání objednávky.</strong>
-                </div>
+                {product.fulfillment === "supplier" ? (
+                  <div className="rounded-xl p-3 text-xs bg-[#F0F4FF] text-[#1a1a2e] border border-[#D6E1FB]">
+                    <strong>Objednáváme od dodavatele.</strong> Dodání obvykle 5-10 pracovních dnů. Přesný termín potvrdíme po objednávce.
+                  </div>
+                ) : (
+                  <div className="rounded-xl p-3 text-xs bg-[#F0F4FF] text-[#1a1a2e] border border-[#D6E1FB]">
+                    <strong>Skladem na Šternberku.</strong> Odesíláme do 2 pracovních dnů.
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </section>
 
-        {/* Related */}
         {related.length > 0 && (
           <section className="bg-white py-12 md:py-16 border-t border-[#E2E6F3]">
             <div className="max-w-[1200px] mx-auto px-6 md:px-12">
