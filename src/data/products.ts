@@ -47,8 +47,31 @@ export interface Product {
   gallery?: string[];
   /** Supplier konfigurátor — ISAAC kola → 'Sestavit' CTA místo 'Do košíku'. */
   hasConfigurator?: boolean;
+  /** Konfigurátor data ze supplier_products.configurator_schema (jen pro PDP). */
+  configuratorSchema?: ConfiguratorSchema;
   /** Barva v human-readable formě (např. „Mineral White") — z supplier properties. */
   color?: string;
+}
+
+/**
+ * Sportimport configurator schema (rozparsovaný PHP-serialized payload).
+ *  - options: jednotlivé volby (Kompletace, Velikost, Sada, Kola, Náboje…)
+ *  - tags:   konkrétní hodnoty per option s price modifier v Kč
+ */
+export interface ConfiguratorSchema {
+  configuratorName?: string;
+  configuratorExternalId?: string;
+  options: Array<{
+    name: string;
+    externalId: string;
+  }>;
+  tags: Array<{
+    name: string;
+    externalId: string;
+    isAvailable: boolean;
+    optionExternalId: string;
+    priceModifierCzk: number;
+  }>;
 }
 
 export const PRODUCTS: Product[] = [

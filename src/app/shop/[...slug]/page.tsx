@@ -8,6 +8,7 @@ import ShopLayout from "@/components/shop/ShopLayout";
 import AddToCartButton from "@/components/shop/AddToCartButton";
 import ProductViewTracker from "@/components/shop/ProductViewTracker";
 import PDPGallery from "@/components/shop/PDPGallery";
+import ConfiguratorUI from "@/components/shop/ConfiguratorUI";
 import { PRODUCTS, splitVat, formatPrice, type Product } from "@/data/products";
 import { getProductBySlugMerged, getShopProducts } from "@/lib/shop/get-products";
 import {
@@ -206,28 +207,8 @@ function renderProduct(product: Product, all: Product[]) {
               )}
 
               <div className="mt-8">
-                {product.hasConfigurator ? (
-                  <div className="rounded-2xl border-2 border-dashed border-[#3B7CF4]/30 p-5 bg-[#F0F4FF]">
-                    <div className="text-[10px] uppercase tracking-wider font-bold text-[#3B7CF4] mb-2">
-                      Custom kolo
-                    </div>
-                    <h3 className="text-base font-black text-[#1a1a2e] mb-1">
-                      Sestav si kolo na míru
-                    </h3>
-                    <p className="text-xs text-[#5A6480] leading-relaxed mb-4">
-                      Vyber si sadu, výplety, kohouty a další komponenty. Cena se aktualizuje
-                      podle volby. Configurator připravujeme — zatím se ozvi a poradíme přímo.
-                    </p>
-                    <a
-                      href="mailto:piecha.jan@gmail.com?subject=Konfigurace%20kola%20-%20"
-                      className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[#1a1a2e] text-white text-sm font-bold hover:opacity-90 transition-opacity"
-                    >
-                      Domluvit konfiguraci
-                    </a>
-                    <div className="mt-3">
-                      <AddToCartButton product={product} />
-                    </div>
-                  </div>
+                {product.hasConfigurator && product.configuratorSchema ? (
+                  <ConfiguratorUI product={product} schema={product.configuratorSchema} />
                 ) : (
                   <AddToCartButton product={product} large />
                 )}

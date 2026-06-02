@@ -1,4 +1,4 @@
-import type { Product } from "@/data/products";
+import type { Product, ConfiguratorSchema } from "@/data/products";
 import type { Gender, UseCase } from "@/data/categories";
 
 /**
@@ -23,6 +23,7 @@ export type SupplierProductRow = {
   public_badges: string[] | null;
   variants: unknown;
   is_active: boolean;
+  configurator_schema?: unknown;
 };
 
 /**
@@ -118,7 +119,37 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
     useCase,
     gallery: gallery.length > 1 ? gallery : undefined,
     hasConfigurator: row.has_configurator,
+    configuratorSchema: parseConfiguratorSchema(row.configurator_schema),
     color,
+  };
+}
+
+function parseConfiguratorSchema(raw: unknown): ConfiguratorSchema | undefined {
+  if (!raw || typeof raw !== "object") return undefined;
+  const r = raw as Record<string, unknown>;
+  const opts = Array.isArray(r.options) ? r.options : [];
+  const tgs = Array.isArray(r.tags) ? r.tags : [];
+  if (opts.length === 0) return undefined;
+  return {
+    configuratorName: typeof r.configuratorName === "string" ? r.configuratorName : undefined,
+    configuratorExternalId: typeof r.configuratorExternalId === "string" ? r.configuratorExternalId : undefined,
+    options: opts.map((o) => {
+      const opt = o as Record<string, unknown>;
+      return {
+        name: String(opt.name ?? ""),
+        externalId: String(opt.externalId ?? ""),
+      };
+    }),
+    tags: tgs.map((t) => {
+      const tag = t as Record<string, unknown>;
+      return {
+        name: String(tag.name ?? ""),
+        externalId: String(tag.externalId ?? ""),
+        isAvailable: Boolean(tag.isAvailable),
+        optionExternalId: String(tag.optionExternalId ?? ""),
+        priceModifierCzk: Number(tag.priceModifierCzk ?? 0),
+      };
+    }),
   };
 }
 
