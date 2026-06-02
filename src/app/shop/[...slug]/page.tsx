@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import ShopLayout from "@/components/shop/ShopLayout";
 import AddToCartButton from "@/components/shop/AddToCartButton";
 import ProductViewTracker from "@/components/shop/ProductViewTracker";
+import PDPGallery from "@/components/shop/PDPGallery";
 import { PRODUCTS, splitVat, formatPrice, type Product } from "@/data/products";
 import { getProductBySlugMerged, getShopProducts } from "@/lib/shop/get-products";
 import {
@@ -56,11 +57,6 @@ export async function generateMetadata({
   return {};
 }
 
-const BADGE_COLORS: Record<string, string> = {
-  "Doporučuje tým": "#E8431A",
-  "Novinka": "#2EAA6E",
-  "Buď vidět": "#3B7CF4",
-};
 
 export default async function ShopCatchAllPage({
   params,
@@ -147,29 +143,12 @@ function renderProduct(product: Product, all: Product[]) {
 
         <section className="max-w-[1200px] mx-auto px-6 md:px-12 py-10 md:py-14">
           <div className="grid lg:grid-cols-[1fr_440px] gap-10 md:gap-12">
-            <div className="bg-white rounded-3xl border border-[#E2E6F3] aspect-square relative overflow-hidden">
-              <Image
-                src={product.photo}
-                alt={product.name}
-                fill
-                sizes="(max-width: 1024px) 100vw, 60vw"
-                className="object-contain p-8"
-                priority
-              />
-              {product.badges.length > 0 && (
-                <div className="absolute top-5 left-5 flex flex-col gap-2">
-                  {product.badges.map((b) => (
-                    <span
-                      key={b}
-                      className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full text-white"
-                      style={{ backgroundColor: BADGE_COLORS[b] ?? "#1a1a1a" }}
-                    >
-                      {b}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
+            <PDPGallery
+              mainPhoto={product.photo}
+              gallery={product.gallery}
+              alt={product.name}
+              badges={product.badges}
+            />
 
             <div>
               <Link
@@ -184,6 +163,13 @@ function renderProduct(product: Product, all: Product[]) {
                   <span className="text-[#9AA3C2] font-medium ml-2">{product.year}</span>
                 )}
               </h1>
+
+              {product.color && (
+                <div className="mt-2 flex items-center gap-2 text-sm text-[#5A6480]">
+                  <span className="text-xs uppercase tracking-wider text-[#9AA3C2] font-bold">Barva:</span>
+                  <span className="font-semibold capitalize">{product.color}</span>
+                </div>
+              )}
 
               {product.note && (
                 <p className="mt-4 text-sm italic text-[#E8431A] font-medium">{product.note}</p>
@@ -220,7 +206,31 @@ function renderProduct(product: Product, all: Product[]) {
               )}
 
               <div className="mt-8">
-                <AddToCartButton product={product} large />
+                {product.hasConfigurator ? (
+                  <div className="rounded-2xl border-2 border-dashed border-[#3B7CF4]/30 p-5 bg-[#F0F4FF]">
+                    <div className="text-[10px] uppercase tracking-wider font-bold text-[#3B7CF4] mb-2">
+                      Custom kolo
+                    </div>
+                    <h3 className="text-base font-black text-[#1a1a2e] mb-1">
+                      Sestav si kolo na míru
+                    </h3>
+                    <p className="text-xs text-[#5A6480] leading-relaxed mb-4">
+                      Vyber si sadu, výplety, kohouty a další komponenty. Cena se aktualizuje
+                      podle volby. Configurator připravujeme — zatím se ozvi a poradíme přímo.
+                    </p>
+                    <a
+                      href="mailto:piecha.jan@gmail.com?subject=Konfigurace%20kola%20-%20"
+                      className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[#1a1a2e] text-white text-sm font-bold hover:opacity-90 transition-opacity"
+                    >
+                      Domluvit konfiguraci
+                    </a>
+                    <div className="mt-3">
+                      <AddToCartButton product={product} />
+                    </div>
+                  </div>
+                ) : (
+                  <AddToCartButton product={product} large />
+                )}
               </div>
 
               <div className="mt-6 space-y-2">

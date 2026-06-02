@@ -88,6 +88,16 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
     specs.push("Konfigurátor: výbava na míru");
   }
 
+  // Gallery: všechny image_urls proxied. Duplicate filter (main je často první).
+  const galleryRaw = row.image_urls ?? [];
+  const gallerySet = new Set<string>();
+  if (row.main_image_url) gallerySet.add(row.main_image_url);
+  for (const u of galleryRaw) gallerySet.add(u);
+  const gallery = Array.from(gallerySet).map((u) => wrapSupplierImage(u));
+
+  const colorRaw = props["Barva"];
+  const color = typeof colorRaw === "string" && colorRaw.trim() ? colorRaw.trim() : undefined;
+
   return {
     id: supplierIdToNumeric(row.id),
     slug,
@@ -106,6 +116,9 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
     supplierProductId: row.id,
     gender,
     useCase,
+    gallery: gallery.length > 1 ? gallery : undefined,
+    hasConfigurator: row.has_configurator,
+    color,
   };
 }
 
@@ -236,7 +249,9 @@ export function wrapSupplierImage(url: string): string {
   try {
     const u = new URL(url);
     if (SUPPLIER_HOSTS_FOR_PROXY.includes(u.hostname)) {
-      return `/api/img?u=${encodeURIComponent(url)}`;
+      // base64url path → žádný query string → Next/Image local optimizer OK
+      const encoded = Buffer.from(url, "utf-8").toString("base64url");
+      return `/api/img/${encoded}`;
     }
   } catch {
     // ignore

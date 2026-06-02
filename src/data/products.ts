@@ -43,6 +43,12 @@ export interface Product {
   gender?: Gender;
   /** Orthogonal filtr (napříč kategoriemi). Default null = neuvedeno. */
   useCase?: UseCase | null;
+  /** Volitelné další fotky pro PDP galerii (carousel + thumbs). */
+  gallery?: string[];
+  /** Supplier konfigurátor — ISAAC kola → 'Sestavit' CTA místo 'Do košíku'. */
+  hasConfigurator?: boolean;
+  /** Barva v human-readable formě (např. „Mineral White") — z supplier properties. */
+  color?: string;
 }
 
 export const PRODUCTS: Product[] = [

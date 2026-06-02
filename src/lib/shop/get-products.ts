@@ -54,7 +54,7 @@ export async function getShopProducts(): Promise<Product[]> {
     const { data: rows, error: pErr } = await sb
       .from("supplier_products")
       .select(
-        "id, brand_id, name, sku, ean, description_html, price_czk_retail, main_image_url, image_urls, properties, raw_category_path, has_configurator, is_public_override, public_slug, public_category_id, public_badges, variants, is_active",
+        "id, brand_id, name, sku, ean, description_html, price_czk_retail, main_image_url, image_urls, properties, raw_category_path, has_configurator, is_public_override, public_slug, public_category_id, public_badges, variants, is_active, configurator_schema",
       )
       .in("brand_id", brandIds)
       .eq("is_active", true);
