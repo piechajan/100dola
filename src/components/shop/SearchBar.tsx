@@ -19,7 +19,7 @@ function formatPrice(n: number): string {
   return new Intl.NumberFormat("cs-CZ", { maximumFractionDigits: 0 }).format(n) + " Kč";
 }
 
-export default function SearchBar() {
+export default function SearchBar({ variant = "desktop" }: { variant?: "desktop" | "mobile" } = {}) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [hits, setHits] = useState<SearchHit[]>([]);
@@ -115,6 +115,91 @@ export default function SearchBar() {
     );
   }
 
+  // Mobile: fullscreen overlay
+  if (variant === "mobile") {
+    return (
+      <div className="fixed inset-0 z-[100] bg-white flex flex-col">
+        <div className="flex items-center gap-2 p-3 border-b border-[#E2E6F3]">
+          <button
+            type="button"
+            onClick={() => { setIsOpen(false); setQuery(""); }}
+            aria-label="Zavřít vyhledávání"
+            className="p-2 text-[#5A6480] hover:text-[#1a1a2e]"
+          >
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <div className="flex items-center gap-2 flex-1 bg-[#F0F2FA] rounded-full px-4 py-2">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} className="text-[#9AA3C2]">
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder="Hledat kola, oblečení, doplňky..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="bg-transparent text-base flex-1 outline-none placeholder:text-[#9AA3C2]"
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
+            />
+            {query && (
+              <button
+                type="button"
+                onClick={() => setQuery("")}
+                aria-label="Vymazat"
+                className="text-[#9AA3C2] hover:text-[#1a1a2e] p-0.5"
+              >
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path d="M18 6 6 18M6 6l12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
+        </div>
+        <div ref={containerRef} className="flex-1 overflow-y-auto">
+          {query.trim().length < 2 ? (
+            <div className="p-8 text-center text-sm text-[#9AA3C2]">
+              Zadej alespoň 2 znaky.
+            </div>
+          ) : loading && hits.length === 0 ? (
+            <div className="p-8 text-center text-sm text-[#9AA3C2]">Hledám…</div>
+          ) : hits.length === 0 ? (
+            <div className="p-8 text-center text-sm text-[#9AA3C2]">
+              Nic jsem nenašel. Zkus jiné slovo.
+            </div>
+          ) : (
+            <div>
+              {hits.map((hit, i) => (
+                <Link
+                  key={hit.id}
+                  href={`/shop/${hit.slug}`}
+                  onClick={() => { setIsOpen(false); setQuery(""); }}
+                  className={`flex items-center gap-3 px-4 py-3 border-b border-[#F0F2FA] active:bg-[#F5F7FF] ${
+                    i === activeIdx ? "bg-[#F5F7FF]" : ""
+                  }`}
+                >
+                  <div className="relative w-14 h-14 rounded-lg bg-[#F0F2FA] overflow-hidden shrink-0">
+                    <Image src={hit.photo} alt={hit.name} fill sizes="56px" className="object-contain p-1" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold">{hit.brand}</div>
+                    <div className="text-sm font-bold text-[#1a1a2e] line-clamp-2">{hit.name}</div>
+                    <div className="text-sm font-black text-[#1a1a2e] mt-0.5">{formatPrice(hit.priceWithVat)}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Desktop: inline expand + dropdown
   return (
     <div ref={containerRef} className="relative">
       <div className="flex items-center gap-2 bg-[#F0F2FA] rounded-full px-3 py-1.5">
