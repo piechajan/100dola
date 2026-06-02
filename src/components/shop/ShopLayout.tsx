@@ -190,6 +190,25 @@ function ProductCard({ product }: { product: Product }) {
   );
 }
 
+// ─── Active filter chip s × tlačítkem ────────────────────────────────────────
+function ActiveFilterChip({ label, onClear }: { label: string; onClear: () => void }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 rounded-full text-xs font-bold bg-[#1a1a2e] text-white">
+      {label}
+      <button
+        type="button"
+        onClick={onClear}
+        className="w-4 h-4 rounded-full flex items-center justify-center hover:bg-white/15 transition-colors"
+        aria-label={`Odstranit filtr ${label}`}
+      >
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3}>
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      </button>
+    </span>
+  );
+}
+
 // ─── Brand chip — small inline logo button ───────────────────────────────────
 function BrandChip({
   brand,
@@ -315,6 +334,20 @@ export default function ShopLayout({
   const [activeGender, setActiveGender] = useState<Gender | null>(null);
   const [activeUseCase, setActiveUseCase] = useState<UseCase | null>(null);
 
+  // Cenový rozsah — počítáme min/max z catalog
+  const priceBounds = useMemo(() => {
+    if (catalog.length === 0) return { min: 0, max: 200000 };
+    const prices = catalog.map((p) => p.priceWithVat);
+    return { min: 0, max: Math.max(...prices, 1000) };
+  }, [catalog]);
+  const [priceMin, setPriceMin] = useState<number>(priceBounds.min);
+  const [priceMax, setPriceMax] = useState<number>(priceBounds.max);
+  const priceFilterActive = priceMin > priceBounds.min || priceMax < priceBounds.max;
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const PAGE_SIZE = 24;
+
   const activeCategory = activeTab !== "vse"
     ? categories.find((c) => c.id === activeTab) ?? null
     : null;
@@ -339,9 +372,35 @@ export default function ShopLayout({
       // Úroveň výkonu
       const inUseCase = activeUseCase ? p.useCase === activeUseCase : true;
 
-      return inCategory && inBrand && inGender && inUseCase;
+      // Cena
+      const inPrice = p.priceWithVat >= priceMin && p.priceWithVat <= priceMax;
+
+      return inCategory && inBrand && inGender && inUseCase && inPrice;
     });
-  }, [activeSub, activeBrand, activeCategory, activeGender, activeUseCase, catalog]);
+  }, [activeSub, activeBrand, activeCategory, activeGender, activeUseCase, catalog, priceMin, priceMax]);
+
+  // Reset page na 1 když se mění filtry
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeSub, activeBrand, activeTab, activeGender, activeUseCase, priceMin, priceMax]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / PAGE_SIZE));
+  const paginatedProducts = useMemo(
+    () => filteredProducts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE),
+    [filteredProducts, currentPage],
+  );
+
+  const hasActiveFilters =
+    activeBrand !== null || activeGender !== null || activeUseCase !== null || activeSub !== null || priceFilterActive;
+
+  function clearAllFilters() {
+    setActiveBrand(null);
+    setActiveGender(null);
+    setActiveUseCase(null);
+    if (activeSub) handleSubChange(null);
+    setPriceMin(priceBounds.min);
+    setPriceMax(priceBounds.max);
+  }
 
   // Initial state z URL (?brand=isaac&gender=M&useCase=race&cat=kola)
   useEffect(() => {
@@ -574,6 +633,96 @@ export default function ShopLayout({
           ))}
         </div>
 
+        {/* ── Cenový filter ── */}
+        <div className="flex items-center gap-3 flex-wrap mb-4">
+          <span className="text-xs font-bold text-[#9AA3C2] tracking-wider uppercase shrink-0">
+            Cena:
+          </span>
+          <div className="flex items-center gap-2 flex-1 min-w-[260px] max-w-md">
+            <input
+              type="number"
+              value={priceMin}
+              onChange={(e) => {
+                const v = Math.max(priceBounds.min, Math.min(priceMax - 1, Number(e.target.value) || 0));
+                setPriceMin(v);
+              }}
+              min={priceBounds.min}
+              max={priceMax - 1}
+              step={100}
+              className="w-24 px-2 py-1 text-xs text-right rounded-lg border border-[#E2E6F3] focus:outline-none focus:border-[#3B7CF4]"
+            />
+            <span className="text-xs text-[#9AA3C2]">–</span>
+            <input
+              type="number"
+              value={priceMax}
+              onChange={(e) => {
+                const v = Math.min(priceBounds.max, Math.max(priceMin + 1, Number(e.target.value) || priceBounds.max));
+                setPriceMax(v);
+              }}
+              min={priceMin + 1}
+              max={priceBounds.max}
+              step={100}
+              className="w-24 px-2 py-1 text-xs text-right rounded-lg border border-[#E2E6F3] focus:outline-none focus:border-[#3B7CF4]"
+            />
+            <span className="text-xs text-[#9AA3C2]">Kč</span>
+          </div>
+          {priceFilterActive && (
+            <button
+              type="button"
+              onClick={() => { setPriceMin(priceBounds.min); setPriceMax(priceBounds.max); }}
+              className="text-[11px] text-[#9AA3C2] hover:text-[#1a1a2e] underline"
+            >
+              reset
+            </button>
+          )}
+        </div>
+
+        {/* ── Active filters bar ── */}
+        {hasActiveFilters && (
+          <div className="flex items-center gap-2 flex-wrap mb-8 pb-4 border-b border-[#E2E6F3]">
+            <span className="text-xs font-bold text-[#5A6480] tracking-wider uppercase shrink-0">
+              Aktivní:
+            </span>
+            {activeBrand && (
+              <ActiveFilterChip
+                label={BRANDS.find((b) => b.id === activeBrand)?.name ?? activeBrand}
+                onClear={() => setActiveBrand(null)}
+              />
+            )}
+            {activeGender && (
+              <ActiveFilterChip
+                label={GENDERS.find((g) => g.id === activeGender)?.label ?? activeGender}
+                onClear={() => setActiveGender(null)}
+              />
+            )}
+            {activeUseCase && (
+              <ActiveFilterChip
+                label={USE_CASES.find((u) => u.id === activeUseCase)?.label ?? activeUseCase}
+                onClear={() => setActiveUseCase(null)}
+              />
+            )}
+            {activeSub && activeCategory && (
+              <ActiveFilterChip
+                label={activeCategory.subcategories.find((s) => s.id === activeSub)?.name ?? activeSub}
+                onClear={() => handleSubChange(null)}
+              />
+            )}
+            {priceFilterActive && (
+              <ActiveFilterChip
+                label={`${priceMin.toLocaleString("cs-CZ")} – ${priceMax.toLocaleString("cs-CZ")} Kč`}
+                onClear={() => { setPriceMin(priceBounds.min); setPriceMax(priceBounds.max); }}
+              />
+            )}
+            <button
+              type="button"
+              onClick={clearAllFilters}
+              className="ml-auto text-[11px] font-bold text-[#9AA3C2] hover:text-[#1a1a2e] underline"
+            >
+              Vymazat vše
+            </button>
+          </div>
+        )}
+
         {/* ── Značky view ── */}
         {isBrandView ? (
           <div>
@@ -650,19 +799,88 @@ export default function ShopLayout({
             {/* ── Products grid ── */}
             {filteredProducts.length > 0 ? (
               <div>
-                <div className="text-sm text-[#9AA3C2] font-medium mb-4">
-                  {filteredProducts.length}{" "}
-                  {filteredProducts.length === 1
-                    ? "produkt"
-                    : filteredProducts.length < 5
-                    ? "produkty"
-                    : "produktů"}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="text-sm text-[#9AA3C2] font-medium">
+                    {filteredProducts.length}{" "}
+                    {filteredProducts.length === 1
+                      ? "produkt"
+                      : filteredProducts.length < 5
+                      ? "produkty"
+                      : "produktů"}
+                    {totalPages > 1 && (
+                      <span className="ml-2 text-[#1a1a2e]">
+                        · strana {currentPage} z {totalPages}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {filteredProducts.map((p) => (
+                  {paginatedProducts.map((p) => (
                     <ProductCard key={p.id} product={p} />
                   ))}
                 </div>
+
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-2 mt-10">
+                    <button
+                      type="button"
+                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                      className="px-3 py-1.5 rounded-full text-sm font-bold bg-white border border-[#E2E6F3] text-[#5A6480] disabled:opacity-30 hover:border-[#3B7CF4]/40"
+                    >
+                      ← Předchozí
+                    </button>
+                    {Array.from({ length: totalPages }).slice(0, 7).map((_, i) => {
+                      // První, poslední, aktuální ± 1
+                      const pageNum = i + 1;
+                      const showNum =
+                        pageNum === 1 ||
+                        pageNum === totalPages ||
+                        Math.abs(pageNum - currentPage) <= 1;
+                      if (!showNum && totalPages > 7) return null;
+                      const isActive = pageNum === currentPage;
+                      return (
+                        <button
+                          key={pageNum}
+                          type="button"
+                          onClick={() => setCurrentPage(pageNum)}
+                          className={`min-w-[36px] px-2 py-1.5 rounded-full text-sm font-bold ${
+                            isActive
+                              ? "bg-[#1a1a2e] text-white"
+                              : "bg-white border border-[#E2E6F3] text-[#5A6480] hover:border-[#3B7CF4]/40"
+                          }`}
+                        >
+                          {pageNum}
+                        </button>
+                      );
+                    })}
+                    <button
+                      type="button"
+                      onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                      disabled={currentPage === totalPages}
+                      className="px-3 py-1.5 rounded-full text-sm font-bold bg-white border border-[#E2E6F3] text-[#5A6480] disabled:opacity-30 hover:border-[#3B7CF4]/40"
+                    >
+                      Další →
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : hasActiveFilters ? (
+              <div className="py-20 text-center">
+                <div className="text-4xl mb-4">🔎</div>
+                <h3 className="text-lg font-black text-[#1a1a2e] mb-2">
+                  Žádný produkt neodpovídá filtrům
+                </h3>
+                <p className="text-sm text-[#9AA3C2] max-w-sm mx-auto mb-6">
+                  Zkus zrušit některý z aktivních filtrů, nebo se vrátit na hlavní katalog.
+                </p>
+                <button
+                  type="button"
+                  onClick={clearAllFilters}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold rounded-full bg-[#1a1a2e] text-white hover:opacity-90"
+                >
+                  Vymazat všechny filtry
+                </button>
               </div>
             ) : (
               <div className="py-20 text-center">
