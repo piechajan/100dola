@@ -11,6 +11,9 @@ import PDPGallery from "@/components/shop/PDPGallery";
 import ConfiguratorUI from "@/components/shop/ConfiguratorUI";
 import WishlistButton from "@/components/shop/WishlistButton";
 import RecentlyViewedSection from "@/components/shop/RecentlyViewedSection";
+import ReviewsSection from "@/components/shop/ReviewsSection";
+import Stars from "@/components/shop/Stars";
+import { getReviewAggregate, getPublicReviews } from "@/lib/shop/reviews";
 import { PRODUCTS, splitVat, formatPrice, type Product } from "@/data/products";
 import { getProductBySlugMerged, getShopProducts } from "@/lib/shop/get-products";
 import {
@@ -72,7 +75,13 @@ export default async function ShopCatchAllPage({
   if (slug.length === 1) {
     const all = await getShopProducts();
     const product = all.find((p) => p.slug === slug[0]);
-    if (product) return renderProduct(product, all);
+    if (product) {
+      const [aggregate, reviews] = await Promise.all([
+        getReviewAggregate(product.slug),
+        getPublicReviews(product.slug, 20),
+      ]);
+      return renderProduct(product, all, aggregate, reviews);
+    }
   }
 
   const resolved = resolveCategoryPath(slug);
@@ -102,12 +111,18 @@ export default async function ShopCatchAllPage({
   );
 }
 
-function renderProduct(product: Product, all: Product[]) {
+function renderProduct(
+  product: Product,
+  all: Product[],
+  aggregate: Awaited<ReturnType<typeof getReviewAggregate>> = null,
+  reviews: Awaited<ReturnType<typeof getPublicReviews>> = [],
+) {
   const { withoutVat, vatAmount } = splitVat(product.priceWithVat, product.vatRate);
   // Rule-based + synergy mapping. Behavioral pipeline později.
   const related = recommendForProduct(product, all, 4);
 
-  const productJsonLd = {
+  // Schema.org Product + AggregateRating
+  const baseSchema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
@@ -122,6 +137,16 @@ function renderProduct(product: Product, all: Product[]) {
       url: `https://www.100dola.com/shop/${product.slug}`,
     },
   };
+  if (aggregate && aggregate.rating_count > 0 && aggregate.rating_avg !== null) {
+    baseSchema.aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: Number(aggregate.rating_avg),
+      reviewCount: aggregate.rating_count,
+      bestRating: 5,
+      worstRating: 1,
+    };
+  }
+  const productJsonLd = baseSchema;
 
   return (
     <>
@@ -182,6 +207,19 @@ function renderProduct(product: Product, all: Product[]) {
                   <span className="text-[#9AA3C2] font-medium ml-2">{product.year}</span>
                 )}
               </h1>
+
+              {aggregate && aggregate.rating_count > 0 && (
+                <a href="#reviews" className="mt-2 inline-flex items-center gap-2 hover:opacity-80">
+                  <Stars value={Number(aggregate.rating_avg ?? 0)} size="small" />
+                  <span className="text-xs font-bold text-[#1a1a2e]">
+                    {Number(aggregate.rating_avg ?? 0).toFixed(1)}
+                  </span>
+                  <span className="text-xs text-[#9AA3C2]">
+                    ({aggregate.rating_count}{" "}
+                    {aggregate.rating_count === 1 ? "recenze" : aggregate.rating_count < 5 ? "recenze" : "recenzí"})
+                  </span>
+                </a>
+              )}
 
               {product.color && (
                 <div className="mt-2 flex items-center gap-2 text-sm text-[#5A6480]">
@@ -251,6 +289,15 @@ function renderProduct(product: Product, all: Product[]) {
             </div>
           </div>
         </section>
+
+        <div id="reviews">
+          <ReviewsSection
+            productSlug={product.slug}
+            productName={product.name}
+            aggregate={aggregate}
+            reviews={reviews}
+          />
+        </div>
 
         <RecentlyViewedSection excludeId={product.id} />
 
