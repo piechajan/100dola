@@ -69,7 +69,11 @@ export async function getShopProducts(): Promise<Product[]> {
         const override = (r as { is_public_override: boolean | null }).is_public_override;
         if (override === false) return false;
         if (override === true) return true;
-        return true; // brand je is_public=true, default honor
+        // Default honor brand visibility, ale skryjeme produkty bez fotky
+        // (jinak by se použilo zavádějící hero foto).
+        const row = r as { main_image_url: string | null; image_urls: string[] | null };
+        const hasPhoto = !!row.main_image_url || (row.image_urls && row.image_urls.length > 0);
+        return hasPhoto;
       })
       .map((r) => {
         const brand = brandMap.get((r as { brand_id: string }).brand_id);

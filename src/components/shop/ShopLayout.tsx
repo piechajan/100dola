@@ -82,6 +82,18 @@ function SubCatCard({
   );
 }
 
+// ─── Supplier image detection (skip Next optimizer kvůli chybějícímu Content-Type) ─
+const SUPPLIER_IMAGE_HOSTS = ["www.sportimport.cz", "www.alecko.cz"];
+function isSupplierImage(url: string): boolean {
+  if (!url || !url.startsWith("http")) return false;
+  try {
+    const u = new URL(url);
+    return SUPPLIER_IMAGE_HOSTS.includes(u.hostname);
+  } catch {
+    return false;
+  }
+}
+
 // ─── Product card ─────────────────────────────────────────────────────────────
 function ProductCard({ product }: { product: Product }) {
   const addToCart = useCart((s) => s.add);
@@ -108,6 +120,7 @@ function ProductCard({ product }: { product: Product }) {
           fill
           className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          unoptimized={isSupplierImage(product.photo)}
         />
         {product.badges.length > 0 && (
           <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5">

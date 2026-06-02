@@ -137,8 +137,16 @@ function inferCategoryByBrand(
  *  Vitron → silniční aero
  *  Meson  → silniční race
  *  Element, Kaon, Torus → gravel
+ *
+ * Doplňky a náhradní díly (patky, kryty, zámky, šrouby) → doplňky
+ * — i když mají v názvu „pro model TORUS / Boson / Meson".
  */
 function inferIsaacCategory(lowerName: string): string {
+  // 1) Detekce náhradních dílů / doplňků (před model match)
+  if (/\b(patka|kryt|silikon|n[áa]hradn|z[áa]mek|š?roub|adapter|sada|příslušenstv)/i.test(lowerName)) {
+    return "doplnky"; // top-level „Doplňky" — ne „Kola"
+  }
+  // 2) Skutečná kola podle modelu
   if (/\bboson\b/.test(lowerName)) return "triatlon";
   if (/\bvitron\b/.test(lowerName)) return "silnicni-aero";
   if (/\bmeson\b/.test(lowerName)) return "silnicni-race";

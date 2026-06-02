@@ -37,6 +37,9 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "sponser.com" },
       { protocol: "https", hostname: "cdn.myshoptet.com" },
       { protocol: "https", hostname: "a.storyblok.com" },
+      // Supplier CDNs — supplier_products feedy (Sportimport, alecko)
+      { protocol: "https", hostname: "www.sportimport.cz" },
+      { protocol: "https", hostname: "www.alecko.cz" },
     ],
   },
   async headers() {
