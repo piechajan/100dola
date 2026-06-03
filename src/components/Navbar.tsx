@@ -8,6 +8,7 @@ import CartButton from "@/components/shop/CartButton";
 import CartDrawer from "@/components/shop/CartDrawer";
 import SearchBar from "@/components/shop/SearchBar";
 import WishlistNavButton from "@/components/shop/WishlistNavButton";
+import TopPromoBar from "@/components/TopPromoBar";
 
 // ── Sport mega-menu data ──────────────────────────────────────────────────────
 
@@ -97,7 +98,9 @@ export default function Navbar() {
   return (
     <>
     <CartDrawer />
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#E2E6F3]">
+    <div className="fixed top-0 left-0 right-0 z-50">
+      <TopPromoBar />
+    <nav className="bg-white border-b border-[#E2E6F3]">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
         <div className="flex items-center justify-between h-20">
 
@@ -454,6 +457,7 @@ export default function Navbar() {
         </div>
       )}
     </nav>
+    </div>
     </>
   );
 }
