@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
+import { logCronRun } from "@/lib/cron-monitor";
 import {
   sendOrderPaymentReminder,
   sendOrderPaymentReminderAdmin,
@@ -38,10 +39,11 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  if (!isSupabaseConfigured()) {
-    return NextResponse.json({ error: "DB nedostupná" }, { status: 503 });
-  }
-  const sb = getSupabase();
+  return logCronRun("orders-cleanup", "0 8 * * *", async () => {
+    if (!isSupabaseConfigured()) {
+      return NextResponse.json({ error: "DB nedostupná" }, { status: 503 });
+    }
+    const sb = getSupabase();
 
   const now = Date.now();
   const reminderThreshold = new Date(now - REMINDER_DAY * 24 * 60 * 60 * 1000).toISOString();
@@ -140,10 +142,11 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({
-    ok: true,
-    cancelled: cancelledCount,
-    reminded: remindedCount,
-    ranAt: new Date().toISOString(),
+    return NextResponse.json({
+      ok: true,
+      cancelled: cancelledCount,
+      reminded: remindedCount,
+      ranAt: new Date().toISOString(),
+    });
   });
 }

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServiceSupabase, importBrand, type ImportResult } from "@/lib/suppliers/importer";
+import { logCronRun } from "@/lib/cron-monitor";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300; // 5 min — ALE s 923 items může trvat
@@ -22,14 +23,18 @@ export async function GET(req: NextRequest) {
     }
   }
 
+  return logCronRun("import-supplier-feeds", "0 3 * * *", async () => {
   // Master kill switch
   if (process.env.ENABLE_SUPPLIER_IMPORTS !== "true") {
-    return NextResponse.json({
-      ok: true,
-      skipped: true,
-      reason: "ENABLE_SUPPLIER_IMPORTS != 'true' — feature flag off",
-      ranAt: new Date().toISOString(),
-    });
+    return NextResponse.json(
+      {
+        ok: true,
+        skipped: true,
+        reason: "ENABLE_SUPPLIER_IMPORTS != 'true' — feature flag off",
+        ranAt: new Date().toISOString(),
+      },
+      { headers: { "x-cron-status": "gated" } },
+    );
   }
 
   const supabase = getServiceSupabase();
@@ -73,5 +78,6 @@ export async function GET(req: NextRequest) {
     brandsProcessed: brands.length,
     results,
     ranAt: new Date().toISOString(),
+  });
   });
 }

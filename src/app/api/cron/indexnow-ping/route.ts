@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { PRODUCTS } from "@/data/products";
 import { events } from "@/data/events";
 import { ARTICLES } from "@/data/articles";
+import { logCronRun } from "@/lib/cron-monitor";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com";
 const HOST = new URL(BASE_URL).host;
@@ -66,28 +67,30 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  const urlList = buildUrlList();
+  return logCronRun("indexnow-ping", "0 5 * * 1", async () => {
+    const urlList = buildUrlList();
 
-  const body = {
-    host: HOST,
-    key: INDEXNOW_KEY,
-    keyLocation: `${BASE_URL}/${INDEXNOW_KEY}.txt`,
-    urlList,
-  };
+    const body = {
+      host: HOST,
+      key: INDEXNOW_KEY,
+      keyLocation: `${BASE_URL}/${INDEXNOW_KEY}.txt`,
+      urlList,
+    };
 
-  const res = await fetch(INDEXNOW_ENDPOINT, {
-    method: "POST",
-    headers: { "Content-Type": "application/json; charset=utf-8" },
-    body: JSON.stringify(body),
-  });
+    const res = await fetch(INDEXNOW_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      body: JSON.stringify(body),
+    });
 
-  const text = await res.text();
+    const text = await res.text();
 
-  return NextResponse.json({
-    ok: res.ok,
-    status: res.status,
-    submittedCount: urlList.length,
-    response: text.slice(0, 500),
-    ranAt: new Date().toISOString(),
+    return NextResponse.json({
+      ok: res.ok,
+      status: res.status,
+      submittedCount: urlList.length,
+      response: text.slice(0, 500),
+      ranAt: new Date().toISOString(),
+    });
   });
 }

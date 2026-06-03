@@ -5,6 +5,7 @@ import {
   sendIsaacDailySummary,
   sendIsaacEventReport,
 } from "@/lib/email";
+import { logCronRun } from "@/lib/cron-monitor";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -47,10 +48,11 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  if (!isSupabaseConfigured()) {
-    return NextResponse.json({ error: "DB nedostupná" }, { status: 503 });
-  }
-  const sb = getSupabase();
+  return logCronRun("isaac-test-daily", "0 4,20 * * *", async () => {
+    if (!isSupabaseConfigured()) {
+      return NextResponse.json({ error: "DB nedostupná" }, { status: 503 });
+    }
+    const sb = getSupabase();
 
   const today = dateInPragueTimezone();
   const ran: string[] = [];
@@ -178,10 +180,11 @@ export async function GET(req: NextRequest) {
     ran.push(`event-report=${totalReservations} rezervací`);
   }
 
-  return NextResponse.json({
-    ok: true,
-    today,
-    ran,
-    ranAt: new Date().toISOString(),
+    return NextResponse.json({
+      ok: true,
+      today,
+      ran,
+      ranAt: new Date().toISOString(),
+    });
   });
 }

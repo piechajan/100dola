@@ -84,3 +84,50 @@ export function withCronLog<TBody extends CronResult>(
     }
   };
 }
+
+/**
+ * Non-invasive variant — handler vrací Response/NextResponse přímo.
+ * Logger inspektuje response.status pro success/fail a HTTP status uloží
+ * do result_json. Vhodné když cron handler je už komplexní a refactor
+ * by byl riskantní (orders-cleanup, sync-paid-invoices, ...).
+ *
+ * Usage:
+ *   export async function GET(req) {
+ *     // auth check…
+ *     return logCronRun("orders-cleanup", "0 8 * * *", async () => {
+ *       // …existing body that returns NextResponse…
+ *     });
+ *   }
+ */
+export async function logCronRun<T extends Response>(
+  cronName: string,
+  schedule: string,
+  handler: () => Promise<T>,
+): Promise<T> {
+  const startedAt = Date.now();
+  const runId = await logStart(cronName, schedule);
+  try {
+    const result = await handler();
+    // Handler může vrátit response s X-Cron-Status: no_op|gated|failed pro nuance
+    const headerStatus = result.headers.get("x-cron-status") as CronStatus | null;
+    const validStatuses: CronStatus[] = ["success", "failed", "no_op", "gated"];
+    const status: CronStatus =
+      headerStatus && validStatuses.includes(headerStatus)
+        ? headerStatus
+        : result.ok
+          ? "success"
+          : "failed";
+    await logFinish(
+      runId,
+      status,
+      startedAt,
+      status === "failed" ? `HTTP ${result.status}` : null,
+      { httpStatus: result.status },
+    );
+    return result;
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    await logFinish(runId, "failed", startedAt, message, null);
+    throw err;
+  }
+}

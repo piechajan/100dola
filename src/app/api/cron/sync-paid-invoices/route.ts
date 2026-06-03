@@ -8,6 +8,7 @@
 // nedoletí (např. neemit pro určité typy mark-paid akcí).
 
 import { NextRequest, NextResponse } from "next/server";
+import { logCronRun } from "@/lib/cron-monitor";
 import { listInvoices, isFakturoidConfigured } from "@/lib/fakturoid";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { sendOrderPaidNotification } from "@/lib/email";
@@ -130,19 +131,27 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const startedAt = new Date().toISOString();
-  const stats = await syncPaidInvoices();
-  const finishedAt = new Date().toISOString();
+  // Pouze logujeme reálné cron runs, ne ad-hoc admin spuštění (nepleť stats)
+  if (!isCron) {
+    const startedAt = new Date().toISOString();
+    const stats = await syncPaidInvoices();
+    const finishedAt = new Date().toISOString();
+    return NextResponse.json({ ok: true, startedAt, finishedAt, triggeredBy: "admin", stats });
+  }
 
-  console.log(
-    `[cron/sync-paid] ${stats.invoicesScanned} invoices scanned, ${stats.ordersUpdated} orders updated`,
-  );
-
-  return NextResponse.json({
-    ok: true,
-    startedAt,
-    finishedAt,
-    triggeredBy: isCron ? "cron" : "admin",
-    stats,
+  return logCronRun("sync-paid-invoices", "0 6 * * *", async () => {
+    const startedAt = new Date().toISOString();
+    const stats = await syncPaidInvoices();
+    const finishedAt = new Date().toISOString();
+    console.log(
+      `[cron/sync-paid] ${stats.invoicesScanned} invoices scanned, ${stats.ordersUpdated} orders updated`,
+    );
+    return NextResponse.json({
+      ok: true,
+      startedAt,
+      finishedAt,
+      triggeredBy: "cron",
+      stats,
+    });
   });
 }
