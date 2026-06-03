@@ -72,10 +72,10 @@ const products = [
     name: "Pinarello Dogma GR",
     year: "2026",
     category: "Gravel · závodní",
-    price: "349 990 Kč",
+    price: "339 900 Kč",
     badges: ["Novinka", "Doporučuje tým"],
     note: "Top-tier gravel závodní stroj. Velikost L.",
-    photo: "/media/pinarello-dogma-gr.png",
+    photo: "/media/pinarello-dogma-gr.webp",
     specs: ["SRAM Red XPLR AXS 1×13", "Princeton GRIT 4540 DB", "TorayCa M40X carbon"],
   },
   {
