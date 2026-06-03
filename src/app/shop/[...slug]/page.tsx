@@ -22,6 +22,8 @@ import {
   productInResolvedCategory,
 } from "@/lib/shop/category-resolver";
 import { recommendForProduct } from "@/lib/shop/recommendations";
+import { breadcrumbSchema, itemListSchema, jsonLdString } from "@/lib/seo/schema-helpers";
+import { categories } from "@/data/categories";
 
 export const dynamicParams = true;
 export const revalidate = 3600;
@@ -90,8 +92,39 @@ export default async function ShopCatchAllPage({
   const all = await getShopProducts();
   const inCategory = all.filter((p) => productInResolvedCategory(resolved, p.categoryId));
 
+  // Schema.org BreadcrumbList + ItemList pro category page
+  const breadcrumbs = [
+    { name: "E-shop", url: "/shop" },
+    ...resolved.pathSlugs.map((slugId, i) => {
+      const partialPath = resolved.pathSlugs.slice(0, i + 1).join("/");
+      const name =
+        i === 0
+          ? categories.find((c) => c.id === slugId)?.name ?? slugId
+          : i === 1
+            ? categories
+                .find((c) => c.id === resolved.pathSlugs[0])
+                ?.subcategories.find((s) => s.id === slugId)?.name ?? slugId
+            : categories
+                .find((c) => c.id === resolved.pathSlugs[0])
+                ?.subcategories.find((s) => s.id === resolved.pathSlugs[1])
+                ?.children?.find((c) => c.id === slugId)?.name ?? slugId;
+      return { name, url: `/shop/${partialPath}` };
+    }),
+  ];
+  const breadcrumbLd = breadcrumbSchema(breadcrumbs);
+  const itemListLd = itemListSchema({
+    name: resolved.title,
+    description: resolved.description,
+    items: inCategory.slice(0, 30).map((p) => ({
+      url: `/shop/${p.slug}`,
+      name: p.name,
+    })),
+  });
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(breadcrumbLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(itemListLd) }} />
       <Navbar />
       <main className="pt-20">
         <ShopLayout
@@ -148,11 +181,23 @@ function renderProduct(
   }
   const productJsonLd = baseSchema;
 
+  // BreadcrumbList pro PDP: E-shop / <product name>
+  // (kategorie path není u supplier produktů spolehlivě dostupný, takže
+  //  použijeme jednoduchý 2-level breadcrumb)
+  const pdpBreadcrumbLd = breadcrumbSchema([
+    { name: "E-shop", url: "/shop" },
+    { name: product.name },
+  ]);
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdString(pdpBreadcrumbLd) }}
       />
       <ProductViewTracker
         slug={product.slug}
