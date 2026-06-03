@@ -1,11 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/lib/cart-store";
 import { splitVat, formatPrice, type Product } from "@/data/products";
 import WishlistButton from "@/components/shop/WishlistButton";
 import { isProxiedImage } from "@/lib/shop/image-utils";
+import QuickViewModal from "@/components/shop/QuickViewModal";
 
 const BADGE_COLORS: Record<string, string> = {
   "Doporučuje tým": "#E8431A",
@@ -17,6 +19,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const addToCart = useCart((s) => s.add);
   const openDrawer = useCart((s) => s.openDrawer);
   const { withoutVat, vatAmount } = splitVat(product.priceWithVat, product.vatRate);
+  const [quickViewOpen, setQuickViewOpen] = useState(false);
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -25,7 +28,15 @@ export default function ProductCard({ product }: { product: Product }) {
     openDrawer();
   };
 
+  function handleQuickView(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    setQuickViewOpen(true);
+  }
+
   return (
+    <>
+    <QuickViewModal product={product} open={quickViewOpen} onClose={() => setQuickViewOpen(false)} />
     <Link
       href={`/shop/${product.slug}`}
       className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-[#E8E8E8] hover:border-[#E8431A]/20 hover:shadow-lg transition-all duration-200"
@@ -52,7 +63,7 @@ export default function ProductCard({ product }: { product: Product }) {
             ))}
           </div>
         )}
-        <div className="absolute top-2 right-2 z-10">
+        <div className="absolute top-2 right-2 z-10 flex flex-col gap-1.5">
           <WishlistButton
             item={{
               id: product.id,
@@ -63,6 +74,17 @@ export default function ProductCard({ product }: { product: Product }) {
               photo: product.photo,
             }}
           />
+          <button
+            type="button"
+            onClick={handleQuickView}
+            aria-label="Rychlý náhled"
+            className="hidden md:block p-1.5 rounded-full bg-white/80 backdrop-blur-sm text-[#9AA3C2] hover:text-[#3B7CF4] hover:bg-white transition-all opacity-0 group-hover:opacity-100"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2}>
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </button>
         </div>
       </div>
 
@@ -161,5 +183,6 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
       </div>
     </Link>
+    </>
   );
 }
