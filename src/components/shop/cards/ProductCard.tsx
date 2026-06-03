@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useCart } from "@/lib/cart-store";
 import { splitVat, formatPrice, type Product } from "@/data/products";
 import WishlistButton from "@/components/shop/WishlistButton";
+import { isProxiedImage } from "@/lib/shop/image-utils";
 
 const BADGE_COLORS: Record<string, string> = {
   "Doporučuje tým": "#E8431A",
@@ -36,6 +37,7 @@ export default function ProductCard({ product }: { product: Product }) {
           fill
           className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          unoptimized={isProxiedImage(product.photo)}
         />
         {product.badges.length > 0 && (
           <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5">

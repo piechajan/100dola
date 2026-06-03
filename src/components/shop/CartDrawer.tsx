@@ -27,6 +27,7 @@ function CartItemRow({
           fill
           sizes="80px"
           className="object-contain p-1"
+          unoptimized={item.photo.startsWith("/api/img/")}
         />
       </div>
       <div className="flex-1 min-w-0">
