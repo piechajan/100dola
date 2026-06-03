@@ -166,6 +166,12 @@ export default async function AdminHubPage() {
       description: "Editor eventů Open Miles Clinic — datum, kapacita, popis, foto. Frontend zatím čte z data/events.ts (swap přijde).",
       emoji: "📅",
     },
+    {
+      href: "/admin/newsletter",
+      label: "Newsletter",
+      description: "Vytvořit/editovat newsletter kampaň + test-send. „Send to all“ zatím čeká na subscriber model s GDPR opt-inem.",
+      emoji: "✉️",
+    },
   ];
 
   return (
