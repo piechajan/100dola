@@ -1,8 +1,13 @@
+import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
+import { withCronLog } from "@/lib/cron-monitor";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+const CRON_NAME = "dmarc-check";
+const SCHEDULE = "0 4 * * *";
 
 /**
  * Denní DMARC health check (Vercel cron 04:00 UTC):
@@ -38,13 +43,16 @@ export async function GET(request: Request) {
   const auth = request.headers.get("authorization");
   const expected = `Bearer ${process.env.CRON_SECRET ?? ""}`;
   if (!process.env.CRON_SECRET || auth !== expected) {
-    return Response.json({ ok: false, error: "unauthorized" }, { status: 401 });
+    return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
   }
+  return withCronLog(CRON_NAME, SCHEDULE, runDmarcCheck)();
+}
 
+async function runDmarcCheck() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) {
-    return Response.json({ ok: false, error: "no_env" }, { status: 500 });
+    return { ok: false, status: "failed" as const, error: "no_env" };
   }
 
   const sb = createClient(url, key, {
@@ -105,24 +113,25 @@ export async function GET(request: Request) {
   }
 
   if (alerts.length === 0) {
-    return Response.json({
+    return {
       ok: true,
+      status: "no_op" as const,
       sentAlert: false,
       passRate,
       totalMessages,
       reportsLast7d: reportRows.length,
-    });
+    };
   }
 
   // Send alert
   const resendKey = process.env.RESEND_API_KEY;
   if (!resendKey) {
-    return Response.json({
+    return {
       ok: true,
       sentAlert: false,
       reason: "no_resend_key",
       alerts,
-    });
+    };
   }
 
   const resend = new Resend(resendKey);
@@ -150,12 +159,12 @@ export async function GET(request: Request) {
     html,
   });
 
-  return Response.json({
+  return {
     ok: true,
     sentAlert: true,
     passRate,
     alerts,
-  });
+  };
 }
 
 function escapeHtml(s: string): string {

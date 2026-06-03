@@ -1,8 +1,13 @@
+import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
+import { withCronLog } from "@/lib/cron-monitor";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+const CRON_NAME = "stock-notify";
+const SCHEDULE = "0 9 * * *";
 
 /**
  * Daily cron — pro každý pending stock_notification:
@@ -15,13 +20,17 @@ export async function GET(request: Request) {
   const auth = request.headers.get("authorization");
   const expected = `Bearer ${process.env.CRON_SECRET ?? ""}`;
   if (!process.env.CRON_SECRET || auth !== expected) {
-    return Response.json({ ok: false, error: "unauthorized" }, { status: 401 });
+    return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
   }
 
+  return withCronLog(CRON_NAME, SCHEDULE, runStockNotify)();
+}
+
+async function runStockNotify() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) {
-    return Response.json({ ok: false, error: "no_env" }, { status: 500 });
+    return { ok: false, status: "failed" as const, error: "no_env" };
   }
 
   const sb = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
@@ -35,7 +44,7 @@ export async function GET(request: Request) {
 
   const rows = notifications ?? [];
   if (rows.length === 0) {
-    return Response.json({ ok: true, checked: 0, sent: 0 });
+    return { ok: true, status: "no_op" as const, checked: 0, sent: 0 };
   }
 
   const productIds = Array.from(new Set(rows.map((r) => r.supplier_product_id)));
@@ -120,7 +129,7 @@ export async function GET(request: Request) {
     }
   }
 
-  return Response.json({ ok: true, checked, sent });
+  return { ok: true, checked, sent };
 }
 
 function escapeHtml(s: string): string {

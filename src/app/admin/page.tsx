@@ -38,6 +38,7 @@ export default async function AdminHubPage() {
     activeIsaacReg: number;
     recentDmarcReports: number;
     pricingProposals: number;
+    cronFailures7d: number;
   } = {
     pendingOrders: 0,
     pendingReviews: 0,
@@ -45,20 +46,24 @@ export default async function AdminHubPage() {
     activeIsaacReg: 0,
     recentDmarcReports: 0,
     pricingProposals: 0,
+    cronFailures7d: 0,
   };
 
   if (url && key) {
     const sb = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
     // eslint-disable-next-line react-hooks/purity
     const since30d = new Date(Date.now() - 30 * 24 * 3600 * 1000).toISOString();
+    // eslint-disable-next-line react-hooks/purity
+    const since7d = new Date(Date.now() - 7 * 24 * 3600 * 1000).toISOString();
 
-    const [orders, reviews, stock, isaac, dmarc, pricing] = await Promise.all([
+    const [orders, reviews, stock, isaac, dmarc, pricing, cronFails] = await Promise.all([
       sb.from("orders").select("id", { count: "exact", head: true }).in("status", ["pending", "paid"]),
       sb.from("product_reviews").select("id", { count: "exact", head: true }).eq("status", "pending"),
       sb.from("stock_notifications").select("id", { count: "exact", head: true }).is("notified_at", null).is("unsubscribed_at", null),
       sb.from("isaac_registrations").select("id", { count: "exact", head: true }).is("cancelled_at", null),
       sb.from("dmarc_reports").select("id", { count: "exact", head: true }).gte("date_range_end", since30d),
       sb.from("price_proposals").select("id", { count: "exact", head: true }).eq("status", "pending"),
+      sb.from("cron_runs").select("id", { count: "exact", head: true }).eq("status", "failed").gte("started_at", since7d),
     ]);
 
     counts = {
@@ -68,6 +73,7 @@ export default async function AdminHubPage() {
       activeIsaacReg: isaac.count ?? 0,
       recentDmarcReports: dmarc.count ?? 0,
       pricingProposals: pricing.count ?? 0,
+      cronFailures7d: cronFails.count ?? 0,
     };
   }
 
@@ -144,6 +150,15 @@ export default async function AdminHubPage() {
       label: "Audit log",
       description: "Kdo dělal co, kdy — přehled admin akcí",
       emoji: "🔍",
+    },
+    {
+      href: "/admin/cron-monitoring",
+      label: "Cron monitoring",
+      description: "Healthcheck všech background jobs (runs, failures, stale)",
+      emoji: "⏱️",
+      count: counts.cronFailures7d,
+      countLabel: "failů (7d)",
+      badge: counts.cronFailures7d > 0 ? { text: "Fail", color: "#FEE2E2" } : undefined,
     },
   ];
 
