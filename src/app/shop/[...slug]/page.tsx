@@ -393,7 +393,7 @@ function renderProduct(
                   </div>
                 ) : (
                   <div className="rounded-xl p-3 text-xs bg-[#F0F4FF] text-[#1a1a2e] border border-[#D6E1FB]">
-                    <strong>Skladem na Šternberku.</strong> Odesíláme do 2 pracovních dnů.
+                    <strong>Skladem na Šternberku.</strong> Termín expedice potvrdíme po objednávce (obvykle do týdne).
                   </div>
                 )}
               </div>

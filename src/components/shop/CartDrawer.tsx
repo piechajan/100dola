@@ -179,7 +179,7 @@ export default function CartDrawer() {
                 if (own.length > 0) {
                   sections.push({
                     label: "Skladem na Šternberku",
-                    sub: "Odesíláme do 2 pracovních dnů",
+                    sub: "Termín expedice potvrdíme po objednávce",
                     bg: "#F0F4FF",
                     chip: "#3B7CF4",
                     arr: own,
