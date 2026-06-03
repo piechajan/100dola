@@ -24,6 +24,8 @@ export type SupplierProductRow = {
   variants: unknown;
   is_active: boolean;
   configurator_schema?: unknown;
+  local_image_url?: string | null;
+  local_image_urls?: string[] | null;
 };
 
 /**
@@ -65,8 +67,10 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
   const price = Math.round(Number(row.price_czk_retail ?? 0));
   const slug = row.public_slug || defaultPublicSlug(row);
   const badges = row.public_badges ?? [];
-  const rawPhoto = row.main_image_url || row.image_urls?.[0] || "/media/sport-hero.jpg";
-  const photo = wrapSupplierImage(rawPhoto);
+  // Prefer Supabase Storage URL (instant CDN), fallback na proxy /api/img/
+  const photo =
+    row.local_image_url
+    || wrapSupplierImage(row.main_image_url || row.image_urls?.[0] || "/media/sport-hero.jpg");
 
   const props = (row.properties ?? {}) as Record<string, unknown>;
 
@@ -89,12 +93,22 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
     specs.push("Konfigurátor: výbava na míru");
   }
 
-  // Gallery: všechny image_urls proxied. Duplicate filter (main je často první).
-  const galleryRaw = row.image_urls ?? [];
-  const gallerySet = new Set<string>();
-  if (row.main_image_url) gallerySet.add(row.main_image_url);
-  for (const u of galleryRaw) gallerySet.add(u);
-  const gallery = Array.from(gallerySet).map((u) => wrapSupplierImage(u));
+  // Gallery: prefer Supabase Storage local_image_urls (jen hero migrovaný v Phase A;
+  // pokud chybí zbytek, fallback na proxy pro každé další image_urls).
+  let gallery: string[] = [];
+  if (row.local_image_urls && row.local_image_urls.length > 0) {
+    gallery = [...row.local_image_urls];
+    // Doplň zbylé Sportimport image_urls které se ještě nemigrovaly (přes proxy)
+    const localCount = row.local_image_urls.length;
+    const remoteRest = (row.image_urls ?? []).slice(localCount);
+    for (const u of remoteRest) gallery.push(wrapSupplierImage(u));
+  } else {
+    const galleryRaw = row.image_urls ?? [];
+    const gallerySet = new Set<string>();
+    if (row.main_image_url) gallerySet.add(row.main_image_url);
+    for (const u of galleryRaw) gallerySet.add(u);
+    gallery = Array.from(gallerySet).map((u) => wrapSupplierImage(u));
+  }
 
   const colorRaw = props["Barva"];
   const color = typeof colorRaw === "string" && colorRaw.trim() ? colorRaw.trim() : undefined;
