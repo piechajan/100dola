@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { isProxiedImage } from "@/lib/shop/image-utils";
 
 interface BadgeColor {
   [key: string]: string;
@@ -41,7 +42,7 @@ export default function PDPGallery({ mainPhoto, gallery, alt, badges = [] }: PDP
           sizes="(max-width: 1024px) 100vw, 60vw"
           className="object-contain p-8"
           priority
-          unoptimized={currentImage.startsWith("/api/img/")}
+          unoptimized={isProxiedImage(currentImage)}
         />
         {badges.length > 0 && (
           <div className="absolute top-5 left-5 flex flex-col gap-2 z-10">
@@ -106,7 +107,7 @@ export default function PDPGallery({ mainPhoto, gallery, alt, badges = [] }: PDP
                 fill
                 sizes="100px"
                 className="object-contain p-1"
-                unoptimized={url.startsWith("/api/img/")}
+                unoptimized={isProxiedImage(url)}
               />
             </button>
           ))}

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { isProxiedImage } from "@/lib/shop/image-utils";
 import { useRecentlyViewed } from "@/lib/recently-viewed-store";
 
 function formatPrice(n: number): string {
@@ -36,7 +37,7 @@ export default function RecentlyViewedSection({ excludeId }: { excludeId?: numbe
               className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-[#E2E6F3] hover:border-[#3B7CF4]/40 hover:shadow-md transition-all"
             >
               <div className="relative aspect-square bg-white">
-                <Image src={p.photo} alt={p.name} fill className="object-contain p-3" sizes="200px" unoptimized={p.photo.startsWith("/api/img/")} />
+                <Image src={p.photo} alt={p.name} fill className="object-contain p-3" sizes="200px" unoptimized={isProxiedImage(p.photo)} />
               </div>
               <div className="p-3 flex flex-col flex-1">
                 <div className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold">{p.brand}</div>

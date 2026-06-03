@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo } from "react";
 import Image from "next/image";
+import { isProxiedImage } from "@/lib/shop/image-utils";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-store";
 import { PRODUCTS, formatPrice } from "@/data/products";
@@ -102,7 +103,7 @@ export default function CrossSellModal({ open, onClose }: Props) {
                   className="flex items-center gap-4 p-3 rounded-2xl border border-[#E2E6F3] hover:border-[#3B7CF4]/40 transition-colors"
                 >
                   <div className="relative w-16 h-16 rounded-xl bg-[#F0F2FA] overflow-hidden shrink-0">
-                    <Image src={p.photo} alt={p.name} fill sizes="64px" className="object-contain p-1" unoptimized={p.photo.startsWith("/api/img/")} />
+                    <Image src={p.photo} alt={p.name} fill sizes="64px" className="object-contain p-1" unoptimized={isProxiedImage(p.photo)} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-bold text-[#1a1a2e] leading-tight">{p.name}</div>

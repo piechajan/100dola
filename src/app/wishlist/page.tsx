@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { isProxiedImage } from "@/lib/shop/image-utils";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useWishlist } from "@/lib/wishlist-store";
@@ -67,7 +68,7 @@ export default function WishlistPage() {
                       fill
                       className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      unoptimized={p.photo.startsWith("/api/img/")}
+                      unoptimized={isProxiedImage(p.photo)}
                     />
                   </Link>
                   <div className="p-4 flex flex-col flex-1">

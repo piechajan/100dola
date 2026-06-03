@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { isProxiedImage } from "@/lib/shop/image-utils";
 import Link from "next/link";
 import { useCart, getCartTotals, type CartItem } from "@/lib/cart-store";
 import { formatPrice } from "@/data/products";
@@ -27,7 +28,7 @@ function CartItemRow({
           fill
           sizes="80px"
           className="object-contain p-1"
-          unoptimized={item.photo.startsWith("/api/img/")}
+          unoptimized={isProxiedImage(item.photo)}
         />
       </div>
       <div className="flex-1 min-w-0">

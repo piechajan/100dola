@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { isProxiedImage } from "@/lib/shop/image-utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart, getCartTotals } from "@/lib/cart-store";
@@ -503,7 +504,7 @@ export default function CheckoutForm() {
             {items.map((item) => (
               <div key={item.productId} className="flex gap-3">
                 <div className="relative w-14 h-14 rounded-lg bg-[#F0F2FA] overflow-hidden shrink-0">
-                  <Image src={item.photo} alt={item.name} fill sizes="56px" className="object-contain p-1" unoptimized={item.photo.startsWith("/api/img/")} />
+                  <Image src={item.photo} alt={item.name} fill sizes="56px" className="object-contain p-1" unoptimized={isProxiedImage(item.photo)} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-xs font-bold text-[#1a1a2e] leading-tight line-clamp-2">{item.name}</div>

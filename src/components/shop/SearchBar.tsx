@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { isProxiedImage } from "@/lib/shop/image-utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -183,7 +184,7 @@ export default function SearchBar({ variant = "desktop" }: { variant?: "desktop"
                   }`}
                 >
                   <div className="relative w-14 h-14 rounded-lg bg-[#F0F2FA] overflow-hidden shrink-0">
-                    <Image src={hit.photo} alt={hit.name} fill sizes="56px" className="object-contain p-1" unoptimized={hit.photo.startsWith("/api/img/")} />
+                    <Image src={hit.photo} alt={hit.name} fill sizes="56px" className="object-contain p-1" unoptimized={isProxiedImage(hit.photo)} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold">{hit.brand}</div>
@@ -256,7 +257,7 @@ export default function SearchBar({ variant = "desktop" }: { variant?: "desktop"
                       fill
                       sizes="48px"
                       className="object-contain p-1"
-                      unoptimized={hit.photo.startsWith("/api/img/")}
+                      unoptimized={isProxiedImage(hit.photo)}
                     />
                   </div>
                   <div className="flex-1 min-w-0">

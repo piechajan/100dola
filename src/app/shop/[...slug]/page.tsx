@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { isProxiedImage } from "@/lib/shop/image-utils";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
@@ -372,7 +373,7 @@ function renderProduct(
                         fill
                         className="object-contain p-4"
                         sizes="33vw"
-                        unoptimized={p.photo.startsWith("/api/img/")}
+                        unoptimized={isProxiedImage(p.photo)}
                       />
                     </div>
                     <div className="p-4 flex flex-col flex-1">
