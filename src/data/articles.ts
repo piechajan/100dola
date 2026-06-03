@@ -140,6 +140,66 @@ export const ARTICLES: Article[] = [
       "Kompletní průvodce přepravou kola do Malagy — náš box, ne aviační kufry, sezónní uskladnění, Basic vs. Exclusive balíček.",
   },
   {
+    slug: "doprava-kola-do-malagy",
+    title: "Doprava kola do Malagy: jak to funguje krok za krokem",
+    summary:
+      "Sběr v Šternberku / Olomouci / Valašském Meziříčí / Praze. Fyzický transport dodávkou. Sklad v Malaze 10 minut od letiště. Pojištění, ceník, srovnání s půjčovnou. Realistický návod od Jana, který to dělá od 2024.",
+    category: "malaga",
+    publishedAt: "2026-06-03",
+    author: { name: "Jan Piecha", role: "100dola Malaga" },
+    image: "/media/malaga-event.jpg",
+    status: "published",
+    readMinutes: 10,
+  },
+  {
+    slug: "vlastni-kolo-malaga-vs-pujcovna",
+    title: "Vlastní kolo v Malaze vs půjčovna — kdy se vyplatí co",
+    summary:
+      "Konkrétní rozpočet pro 3 typické profily cyklistů. Cena, fit, tréninková kontinuita. Půjčovna nebo vlastní kolo? Záleží jak často jezdíš — máme to spočítané.",
+    category: "malaga",
+    publishedAt: "2026-06-03",
+    author: { name: "Jan Piecha", role: "100dola Malaga" },
+    image: "/media/malaga-event.jpg",
+    status: "published",
+    readMinutes: 7,
+  },
+  {
+    slug: "bikefit-sternberk",
+    title: "Bikefit ve Šternberku — co měříme, kolik to stojí a kdy ho potřebuješ",
+    summary:
+      "Nastavení kola na míru. 90–120 minut, basic 2 500 Kč / full s motion capture 4 500 Kč. Statické rozměry, výška sedla, reach, cleat alignment, video analýza. Šternberk pro Olomoucký kraj, Valašsko, Jeseníky.",
+    category: "sport",
+    publishedAt: "2026-06-03",
+    author: { name: "Jan Piecha", role: "100dola sport" },
+    image: "/media/sport-hero.jpg",
+    status: "published",
+    readMinutes: 6,
+  },
+  {
+    slug: "isaac-boson-vitron-meson",
+    title: "ISAAC Meson, Vitron, Element, Boson — komu které kolo pasuje",
+    summary:
+      "Holandský karbon ISAAC v Česku. Race / aero / endurance / triatlon / gravel — 6 modelů, různé profily jezdců. Naše zkušenosti z ISAAC testovacího víkendu, custom konfigurátor přímo na webu.",
+    category: "sport",
+    publishedAt: "2026-06-03",
+    author: { name: "Jan Piecha", role: "100dola sport" },
+    image: "/media/isaac-hero-store.jpg",
+    status: "published",
+    readMinutes: 8,
+  },
+  {
+    slug: "strava-segmenty-sternberk-olomoucky-kraj",
+    title: "Strava segmenty v Olomouckém kraji — 5 tras které musíš jet + náš klub",
+    summary:
+      "Šternberk → Pradědsko, Sovinec stoupání, Velký Kosíř, Velká Kotlina gravel, Hostýnské vrchy. Plus jak najít aktivní cyklisty a jak se zapojit do Open Miles Clinic.",
+    category: "community",
+    publishedAt: "2026-06-03",
+    author: { name: "Jan Piecha", role: "Open Miles Clinic" },
+    image: "/media/community-hero-jedeme-spolu-9423.jpg",
+    status: "published",
+    readMinutes: 6,
+  },
+  {
     slug: "social-rides-open-miles-clinic",
     title: "Social rides na Valašsku — proč jezdíme pod Open Miles Clinic a co tě čeká",
     summary:

@@ -19,6 +19,11 @@ import KeramickaLoziska from "@/components/articles/KeramickaLoziska";
 import SocialRidesOmc from "@/components/articles/SocialRidesOmc";
 import VelikostKola from "@/components/articles/VelikostKola";
 import CepKompresniVybaveni from "@/components/articles/CepKompresniVybaveni";
+import DopravaKolaMalaga from "@/components/articles/DopravaKolaMalaga";
+import VlastniKoloVsPujcovna from "@/components/articles/VlastniKoloVsPujcovna";
+import BikefitSternberk from "@/components/articles/BikefitSternberk";
+import IsaacBosonVitronMeson from "@/components/articles/IsaacBosonVitronMeson";
+import StravaSegmentSternberk from "@/components/articles/StravaSegmentSternberk";
 
 const SITE = "https://www.100dola.com";
 
@@ -66,10 +71,12 @@ const RENDERERS: Record<string, () => React.ReactElement> = {
   "social-rides-open-miles-clinic": () => <SocialRidesOmc />,
   "velikost-kola": () => <VelikostKola />,
   "cep-kompresni-vybaveni": () => <CepKompresniVybaveni />,
-  // Další články se přidají postupně:
-  // "voskovani-retezu": () => <VoskovaniRetezu />,
-  // "keramicka-loziska": () => <KeramickaLoziska />,
-  // ...
+  // 2026-06-03 — top 5 ROI articles
+  "doprava-kola-do-malagy": () => <DopravaKolaMalaga />,
+  "vlastni-kolo-malaga-vs-pujcovna": () => <VlastniKoloVsPujcovna />,
+  "bikefit-sternberk": () => <BikefitSternberk />,
+  "isaac-boson-vitron-meson": () => <IsaacBosonVitronMeson />,
+  "strava-segmenty-sternberk-olomoucky-kraj": () => <StravaSegmentSternberk />,
 };
 
 export default async function ArticleDetailPage({
