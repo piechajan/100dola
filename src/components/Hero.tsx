@@ -20,7 +20,7 @@ const pillars = [
   {
     tag: "100dola malaga",
     headline: "Kolo tam\npošleme.",
-    description: "Přeprava a uskladnění kol v Malaze. Přiletíš jen s příručákem a jedeš.",
+    description: "Přeprava a uskladnění kol v Malaze. Přiletíš s příručákem a jedeš — sólo nebo na skupinovém výjezdu s naší partou.",
     cta: "Jak to funguje",
     href: "/malaga",
     accentColor: "#E8431A",
