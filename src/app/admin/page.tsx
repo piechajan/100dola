@@ -160,6 +160,12 @@ export default async function AdminHubPage() {
       countLabel: "failů (7d)",
       badge: counts.cronFailures7d > 0 ? { text: "Fail", color: "#FEE2E2" } : undefined,
     },
+    {
+      href: "/admin/events",
+      label: "Events (community)",
+      description: "Editor eventů Open Miles Clinic — datum, kapacita, popis, foto. Frontend zatím čte z data/events.ts (swap přijde).",
+      emoji: "📅",
+    },
   ];
 
   return (
