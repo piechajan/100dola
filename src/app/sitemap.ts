@@ -3,8 +3,52 @@ import { PRODUCTS } from "@/data/products";
 import { events } from "@/data/events";
 import { ARTICLES } from "@/data/articles";
 import { getAllCategoryPaths } from "@/lib/shop/category-resolver";
+import { createClient } from "@supabase/supabase-js";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com";
+
+// Sitemap revaliduje 1x denně — supplier produkty se mění s feed importem
+export const revalidate = 86400;
+
+async function fetchSupplierSlugs(): Promise<string[]> {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) return [];
+  try {
+    const sb = createClient(url, key, {
+      auth: { persistSession: false, autoRefreshToken: false },
+    });
+    const { data: brands } = await sb
+      .from("supplier_brands")
+      .select("id")
+      .eq("is_public", true);
+    if (!brands || brands.length === 0) return [];
+    const brandIds = brands.map((b) => b.id);
+    const { data: products } = await sb
+      .from("supplier_products")
+      .select("public_slug, sku, id")
+      .in("brand_id", brandIds)
+      .eq("is_active", true)
+      .not("main_image_url", "is", null);
+    const slugs: string[] = [];
+    for (const p of products ?? []) {
+      const row = p as { public_slug: string | null; sku: string | null; id: string };
+      if (row.public_slug) {
+        slugs.push(row.public_slug);
+      } else if (row.sku) {
+        slugs.push(
+          row.sku.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
+        );
+      } else {
+        slugs.push(`produkt-${row.id.slice(0, 8)}`);
+      }
+    }
+    return slugs;
+  } catch (e) {
+    console.warn("[sitemap] supplier fetch failed:", e);
+    return [];
+  }
+}
 
 /**
  * Sitemap pro Google / Bing.
@@ -23,7 +67,7 @@ interface Entry {
   changefreq: MetadataRoute.Sitemap[number]["changeFrequency"];
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
   const entries: Entry[] = [];
 
@@ -80,6 +124,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // ─── Produktové PDP (statické) ─────────────────────────────────────────────
   for (const p of PRODUCTS) {
     entries.push({ path: `/shop/${p.slug}`, priority: 0.7, changefreq: "weekly" });
+  }
+
+  // ─── Supplier produkty (z DB, prefer is_public brands + active) ───────────
+  const supplierSlugs = await fetchSupplierSlugs();
+  for (const slug of supplierSlugs) {
+    entries.push({ path: `/shop/${slug}`, priority: 0.6, changefreq: "weekly" });
   }
 
   // ─── Eventy ────────────────────────────────────────────────────────────────

@@ -8,7 +8,7 @@ const pillars = [
   {
     tag: "100dola sport · Šternberk & okolí",
     headline: "Vybav se\nna sezónu.",
-    description: "Prodejna ve Šternberku, klienti z celé Moravy. Kola, běh, lyže, skialpy — doručíme do Vsetína, Olomouce, Brna i Ostravy.",
+    description: "Prodejna Šternberk + showroom Valašské Meziříčí. Doručujeme po celé ČR. Složené kolo osobně do Vsetína, Olomouce, Ostravy (i jinam po domluvě).",
     cta: "Do shopu",
     href: "/shop",
     accentColor: "#3B7CF4",
@@ -32,7 +32,7 @@ const pillars = [
   {
     tag: "Open Miles Clinic",
     headline: "Jedeme\nspolu.",
-    description: "Social rides, eventy a komunita. Cyklistika, skialpy, běh, turistika.",
+    description: "Social rides, eventy a komunita. Cyklistika, skialpy, běh, turistika. Sportem to nekončí.",
     cta: "Nadcházející eventy",
     href: "/community",
     accentColor: "#2EAA6E",

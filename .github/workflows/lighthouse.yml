@@ -1,0 +1,59 @@
+name: Lighthouse CI
+
+on:
+  # Weekly Monday 04:00 UTC — captures perf trend bez per-PR overhead
+  schedule:
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
+
+jobs:
+  lighthouse:
+    name: Lighthouse audit (prod)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install Lighthouse CLI
+        run: npm install -g lighthouse@latest
+
+      - name: Run Lighthouse on 5 hot URLs
+        run: |
+          mkdir -p reports
+          for slug in "" "/shop" "/malaga" "/lab" "/clanky/doprava-kola-do-malagy"; do
+            name=$(echo "$slug" | sed 's|/|_|g; s|^_||; s|^$|home|')
+            echo "→ Auditing https://www.100dola.com${slug}"
+            lighthouse "https://www.100dola.com${slug}" \
+              --output=json --output=html \
+              --output-path="reports/${name}" \
+              --chrome-flags="--headless --no-sandbox" \
+              --quiet || echo "  ⚠ Lighthouse failed for ${slug}"
+          done
+
+      - name: Extract Core Web Vitals scores
+        run: |
+          echo "## Lighthouse scores ($(date -u +%Y-%m-%d))" > $GITHUB_STEP_SUMMARY
+          echo "| URL | Performance | LCP | CLS | TBT | SI |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|---:|---:|---:|---:|---:|" >> $GITHUB_STEP_SUMMARY
+          for report in reports/*.report.json; do
+            name=$(basename "$report" .report.json)
+            url=$(jq -r '.finalUrl // .requestedUrl' "$report")
+            perf=$(jq -r '(.categories.performance.score * 100) | round' "$report")
+            lcp=$(jq -r '.audits["largest-contentful-paint"].displayValue' "$report")
+            cls=$(jq -r '.audits["cumulative-layout-shift"].displayValue' "$report")
+            tbt=$(jq -r '.audits["total-blocking-time"].displayValue' "$report")
+            si=$(jq -r '.audits["speed-index"].displayValue' "$report")
+            echo "| ${url} | ${perf} | ${lcp} | ${cls} | ${tbt} | ${si} |" >> $GITHUB_STEP_SUMMARY
+          done
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: reports/
+          retention-days: 30
