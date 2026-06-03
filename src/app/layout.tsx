@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import CookiesBanner from "@/components/CookiesBanner";
+import ContactBubble from "@/components/ContactBubble";
 import IsaacTestPopup from "@/components/IsaacTestPopup";
 import MetaPixel from "@/components/analytics/MetaPixel";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
@@ -77,6 +78,7 @@ export default async function RootLayout({
           {children}
           <IsaacTestPopup />
         </EventsProvider>
+        <ContactBubble />
         <CookiesBanner />
         <MetaPixel />
         <GoogleAnalytics />

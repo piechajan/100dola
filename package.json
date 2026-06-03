@@ -11,6 +11,7 @@
     "lint:content": "bash ./scripts/lint-content-refs.sh"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.100.1",
     "@supabase/supabase-js": "^2.105.3",
     "@types/leaflet": "^1.9.21",
     "@vercel/speed-insights": "^2.0.0",

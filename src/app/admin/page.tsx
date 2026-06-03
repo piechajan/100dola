@@ -39,6 +39,7 @@ export default async function AdminHubPage() {
     recentDmarcReports: number;
     pricingProposals: number;
     cronFailures7d: number;
+    newMessages: number;
   } = {
     pendingOrders: 0,
     pendingReviews: 0,
@@ -47,6 +48,7 @@ export default async function AdminHubPage() {
     recentDmarcReports: 0,
     pricingProposals: 0,
     cronFailures7d: 0,
+    newMessages: 0,
   };
 
   if (url && key) {
@@ -56,7 +58,7 @@ export default async function AdminHubPage() {
     // eslint-disable-next-line react-hooks/purity
     const since7d = new Date(Date.now() - 7 * 24 * 3600 * 1000).toISOString();
 
-    const [orders, reviews, stock, isaac, dmarc, pricing, cronFails] = await Promise.all([
+    const [orders, reviews, stock, isaac, dmarc, pricing, cronFails, messages] = await Promise.all([
       sb.from("orders").select("id", { count: "exact", head: true }).in("status", ["pending", "paid"]),
       sb.from("product_reviews").select("id", { count: "exact", head: true }).eq("status", "pending"),
       sb.from("stock_notifications").select("id", { count: "exact", head: true }).is("notified_at", null).is("unsubscribed_at", null),
@@ -64,6 +66,7 @@ export default async function AdminHubPage() {
       sb.from("dmarc_reports").select("id", { count: "exact", head: true }).gte("date_range_end", since30d),
       sb.from("price_proposals").select("id", { count: "exact", head: true }).eq("status", "pending"),
       sb.from("cron_runs").select("id", { count: "exact", head: true }).eq("status", "failed").gte("started_at", since7d),
+      sb.from("contact_messages").select("id", { count: "exact", head: true }).eq("status", "new"),
     ]);
 
     counts = {
@@ -74,6 +77,7 @@ export default async function AdminHubPage() {
       recentDmarcReports: dmarc.count ?? 0,
       pricingProposals: pricing.count ?? 0,
       cronFailures7d: cronFails.count ?? 0,
+      newMessages: messages.count ?? 0,
     };
   }
 
@@ -171,6 +175,15 @@ export default async function AdminHubPage() {
       label: "Newsletter",
       description: "Vytvořit/editovat newsletter kampaň + test-send. „Send to all“ zatím čeká na subscriber model s GDPR opt-inem.",
       emoji: "✉️",
+    },
+    {
+      href: "/admin/messages",
+      label: "Inbox (chat widget)",
+      description: "Zprávy z bubliny Napiš nám. Každá obsahuje AI návrh odpovědi (Claude Haiku).",
+      emoji: "💬",
+      count: counts.newMessages,
+      countLabel: "nových",
+      badge: counts.newMessages > 0 ? { text: "New", color: "#FEF3C7" } : undefined,
     },
   ];
 
