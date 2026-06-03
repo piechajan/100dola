@@ -6,6 +6,7 @@ import { isProxiedImage } from "@/lib/shop/image-utils";
 import Link from "next/link";
 import { useCart, getCartTotals, type CartItem } from "@/lib/cart-store";
 import { formatPrice } from "@/data/products";
+import { FREE_SHIPPING_THRESHOLD } from "@/lib/orders";
 import CrossSellModal from "./CrossSellModal";
 
 function CartItemRow({
@@ -229,6 +230,38 @@ export default function CartDrawer() {
                   V košíku máš velký balík (kolo, lyže). Doprava bude 400 Kč.
                 </div>
               )}
+
+              {/* Free shipping progress (jen pro non-bulky, non-personal) */}
+              {!hasBulky && (() => {
+                const remaining = FREE_SHIPPING_THRESHOLD - subtotalWithVat;
+                const pct = Math.min(100, Math.round((subtotalWithVat / FREE_SHIPPING_THRESHOLD) * 100));
+                if (remaining <= 0) {
+                  return (
+                    <div className="rounded-xl p-3 bg-[#D1FAE5] border border-[#A7F3D0]">
+                      <div className="flex items-center gap-2 text-xs font-bold text-[#065F46]">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3}>
+                          <path d="M20 6 9 17l-5-5" />
+                        </svg>
+                        Máš dopravu zdarma!
+                      </div>
+                    </div>
+                  );
+                }
+                return (
+                  <div className="rounded-xl p-3 bg-[#F0F4FF] border border-[#D6E1FB]">
+                    <div className="flex items-center justify-between text-[11px] font-bold text-[#1a1a2e] mb-1.5">
+                      <span>Do dopravy zdarma chybí</span>
+                      <span className="text-[#3B7CF4]">{formatPrice(remaining)}</span>
+                    </div>
+                    <div className="h-1.5 rounded-full bg-white overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-gradient-to-r from-[#3B7CF4] to-[#2EAA6E] transition-all duration-300"
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                  </div>
+                );
+              })()}
 
               <div className="rounded-xl p-3 text-[11px] bg-[#F0F4FF] text-[#1a1a2e] border border-[#D6E1FB]">
                 Termín dodání ti potvrdíme po zadání objednávky.

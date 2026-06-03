@@ -89,6 +89,39 @@ export default function ProductCard({ product }: { product: Product }) {
           <p className="text-[11px] text-[#E8431A] mt-2 font-medium italic">{product.note}</p>
         )}
 
+        {/* Velikosti dots (PLP preview) */}
+        {(() => {
+          const sized = (product.variants ?? []).filter(
+            (v) => v.size && v.size.trim() && !/^one\s*size$|^uni$/i.test(v.size),
+          );
+          if (sized.length === 0) return null;
+          const visible = sized.slice(0, 7);
+          const extra = sized.length - visible.length;
+          return (
+            <div className="mt-2 flex items-center gap-1 flex-wrap">
+              <span className="text-[9px] uppercase tracking-wider text-[#9A9A9A] font-bold mr-1">
+                Velikosti:
+              </span>
+              {visible.map((v) => (
+                <span
+                  key={v.externalId ?? v.size}
+                  className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                    v.isInStock
+                      ? "bg-[#F4F4F4] text-[#1a1a2e]"
+                      : "bg-white text-[#9AA3C2] border border-dashed border-[#E2E6F3]"
+                  }`}
+                  title={v.isInStock ? "Skladem" : "Na objednávku"}
+                >
+                  {v.size}
+                </span>
+              ))}
+              {extra > 0 && (
+                <span className="text-[10px] text-[#9AA3C2]">+{extra}</span>
+              )}
+            </div>
+          );
+        })()}
+
         <div className="flex items-center justify-between mt-auto pt-3 border-t border-[#F4F4F4] mt-3">
           <div>
             {product.originalPriceWithVat && (
