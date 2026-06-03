@@ -132,21 +132,33 @@
 
 ---
 
-## 📋 Hotovo dnes 2026-06-03 (souhrnný approval log)
+## 📋 Hotovo dnes 2026-06-03
 
-- ✅ DMARC Phase 2 flipped (Jan + Claude)
-- ✅ Admin magic-link auth + audit log
-- ✅ 5 SEO článků (top ROI)
-- ✅ E2E Playwright CI
-- ✅ Supabase Storage migration (758 supplier fotek)
+- ✅ DMARC Phase 2 flipped
+- ✅ Admin magic-link auth + audit log + `/admin/audit`
+- ✅ 5 SEO článků + per-article hero diversification
+- ✅ E2E Playwright CI (denně 06:00 UTC + push)
+- ✅ Supabase Storage migration (758 supplier fotek, full gallery)
+- ✅ Next/Image AVIF/WebP optimizer pro Storage URLs
 - ✅ PDP variant selector + color filter + sort dropdown
-- ✅ Mobile sticky CTA + free shipping bar
-- ✅ Top promo bar + FFWD logo fix
-- ✅ Restock notify pipeline
+- ✅ Mobile sticky CTA + free shipping bar + top promo bar
+- ✅ FFWD logo fix (oficiální z ffwdwheels.cz)
+- ✅ Restock notify pipeline (signup + cron 09:00 + email + `/admin/stock-notifications`)
+- ✅ Quick view modal na PLP karty (hover 👁 ikona)
+- ✅ PDP color visualization (swatch + label)
+- ✅ Search relevance (color + properties match)
 - ✅ Per-page SEO (BreadcrumbList, ItemList, extended Product schema)
 - ✅ Reviews full pipeline (submit + moderation + display)
 - ✅ Wishlist + Recently viewed
-- ✅ Recommendations hybrid (rule + behavioral)
+- ✅ Recommendations hybrid (rule + behavioral pair_counts)
+- ✅ DMARC parser + dashboard + daily auto-check
 - ✅ Doplněn event Dušná — Soláň
 
-**Commits dnes:** 25+ (od `9b2f314` brand chips po `6de17d6` restock notify)
+**Commits dnes:** 35+ (od `9b2f314` brand chips po `0f79567` article hero)
+
+## 🔵 Připraveno scaffolding (NESPUŠTĚNO — čekají rozhodnutí)
+
+- **Admin Events editor** — events jsou v data/events.ts (static). Až řekneš „chci CRUD" → migrace + admin UI
+- **B2B kluby Phase 1** (migrace 017 ready)
+- **Variants Phase 5 admin UI** (migrace 018 ready, override mapping)
+- **Pricing watchlist live** (env flag ENABLE_PRICE_WATCHLIST=false → off)
