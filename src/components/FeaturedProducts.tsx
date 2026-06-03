@@ -68,6 +68,17 @@ const products = [
     specs: ["1 000 g · ~19 porcí", "Multi-carb · elektrolyty", "Vegan · bez laktózy"],
   },
   {
+    id: 7,
+    name: "Pinarello Dogma GR",
+    year: "2026",
+    category: "Gravel · závodní",
+    price: "349 990 Kč",
+    badges: ["Novinka", "Doporučuje tým"],
+    note: "Top-tier gravel závodní stroj. Velikost L.",
+    photo: "/media/pinarello-dogma-gr.png",
+    specs: ["SRAM Red XPLR AXS 1×13", "Princeton GRIT 4540 DB", "TorayCa M40X carbon"],
+  },
+  {
     id: 6,
     name: "Muc-Off Nano Tech Bike Cleaner",
     year: null,

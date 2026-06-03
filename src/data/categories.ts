@@ -22,6 +22,7 @@ export const BRANDS = [
   { id: "look",        name: "Look",         logo: "/brands/look.svg" },
   { id: "syncros",     name: "Syncros",      logo: "/brands/syncros.svg" },
   { id: "ffwd",        name: "FFWD",         logo: "/brands/ffwd.svg" },
+  { id: "pinarello",   name: "Pinarello",    logo: "/brands/pinarello.svg" },
   { id: "continental", name: "Continental",  logo: "/brands/continental.svg" },
   { id: "magicshine",  name: "MagicShine",   logo: "/brands/magicshine.png" },
   { id: "muc-off",     name: "Muc-Off",      logo: "/brands/muc-off.png" },

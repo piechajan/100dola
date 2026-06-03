@@ -162,6 +162,28 @@ export const PRODUCTS: Product[] = [
     photo: "https://sponser.com/cdn/shop/files/Isotonic_1000g_Red-Orange_2048x.png?v=1768564139",
     specs: ["1 000 g · ~19 porcí", "Isotonický · multi-carb · elektrolyty", "Vegan · bez laktózy · bez lepku"],
   },
+  {
+    id: 6,
+    name: "Pinarello Dogma GR",
+    slug: "pinarello-dogma-gr-sram-red-xplr-axs-2026",
+    year: "2026",
+    brand: "pinarello",
+    categoryId: "gravel",
+    priceWithVat: 349990,
+    vatRate: 21,
+    bulky: true,
+    badges: ["Novinka", "Doporučuje tým"],
+    note: "Top-tier gravel závodní stroj. Velikost L.",
+    photo: "/media/pinarello-dogma-gr.png",
+    specs: ["SRAM Red XPLR AXS 1×13", "Princeton GRIT 4540 DB · Vittoria Terreno T30 40", "TorayCa M40X carbon · TiCR cable routing"],
+    gender: "M",
+    useCase: "race",
+    color: "Černá / matná",
+    colorFamily: "black",
+    variants: [
+      { size: "L", sku: "PIN-DGR-L", isInStock: true },
+    ],
+  },
 ];
 
 export function getProductBySlug(slug: string): Product | undefined {
