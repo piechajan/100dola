@@ -10,6 +10,7 @@ import {
   type Gender,
   type UseCase,
 } from "@/data/categories";
+import { COLOR_FAMILIES } from "@/lib/shop/colors";
 import { PRODUCTS, type Product } from "@/data/products";
 import { getCategorySubIds, productLabel } from "@/lib/shop/category-utils";
 import ProductCard from "@/components/shop/cards/ProductCard";
@@ -44,6 +45,7 @@ export default function ShopLayout({
   const [activeBrand, setActiveBrand] = useState<string | null>(null);
   const [activeGender, setActiveGender] = useState<Gender | null>(null);
   const [activeUseCase, setActiveUseCase] = useState<UseCase | null>(null);
+  const [activeColor, setActiveColor] = useState<string | null>(null);
 
   // Cenový rozsah — počítáme min/max z catalog
   const priceBounds = useMemo(() => {
@@ -86,14 +88,17 @@ export default function ShopLayout({
       // Cena
       const inPrice = p.priceWithVat >= priceMin && p.priceWithVat <= priceMax;
 
-      return inCategory && inBrand && inGender && inUseCase && inPrice;
+      // Barva (rodina)
+      const inColor = activeColor ? p.colorFamily === activeColor : true;
+
+      return inCategory && inBrand && inGender && inUseCase && inPrice && inColor;
     });
-  }, [activeSub, activeBrand, activeCategory, activeGender, activeUseCase, catalog, priceMin, priceMax]);
+  }, [activeSub, activeBrand, activeCategory, activeGender, activeUseCase, activeColor, catalog, priceMin, priceMax]);
 
   // Reset page na 1 když se mění filtry
   useEffect(() => {
     setCurrentPage(1);
-  }, [activeSub, activeBrand, activeTab, activeGender, activeUseCase, priceMin, priceMax]);
+  }, [activeSub, activeBrand, activeTab, activeGender, activeUseCase, activeColor, priceMin, priceMax]);
 
   const totalPages = Math.max(1, Math.ceil(filteredProducts.length / PAGE_SIZE));
   const paginatedProducts = useMemo(
@@ -102,12 +107,13 @@ export default function ShopLayout({
   );
 
   const hasActiveFilters =
-    activeBrand !== null || activeGender !== null || activeUseCase !== null || activeSub !== null || priceFilterActive;
+    activeBrand !== null || activeGender !== null || activeUseCase !== null || activeSub !== null || activeColor !== null || priceFilterActive;
 
   function clearAllFilters() {
     setActiveBrand(null);
     setActiveGender(null);
     setActiveUseCase(null);
+    setActiveColor(null);
     if (activeSub) handleSubChange(null);
     setPriceMin(priceBounds.min);
     setPriceMax(priceBounds.max);
@@ -338,6 +344,48 @@ export default function ShopLayout({
           ))}
         </div>
 
+        {/* ── Barva filter (rodiny) ── */}
+        <div className="flex items-center gap-2 flex-wrap mb-4">
+          <span className="text-xs font-bold text-[#9AA3C2] tracking-wider uppercase shrink-0">
+            Barva:
+          </span>
+          <button
+            onClick={() => setActiveColor(null)}
+            className="px-3 py-1.5 rounded-full text-xs font-bold border transition-all duration-150"
+            style={
+              activeColor === null
+                ? { backgroundColor: "#1a1a2e", color: "#fff", borderColor: "#1a1a2e" }
+                : { backgroundColor: "#fff", color: "#5A6480", borderColor: "#E2E6F3" }
+            }
+          >
+            Vše
+          </button>
+          {COLOR_FAMILIES.map((c) => {
+            const active = activeColor === c.id;
+            const isGradient = c.hex.startsWith("linear-gradient");
+            return (
+              <button
+                key={c.id}
+                type="button"
+                title={c.label}
+                onClick={() => setActiveColor(active ? null : c.id)}
+                className="px-3 py-1.5 rounded-full text-xs font-bold border transition-all duration-150 shrink-0 flex items-center gap-2"
+                style={
+                  active
+                    ? { backgroundColor: "#1a1a2e", color: "#fff", borderColor: "#1a1a2e" }
+                    : { backgroundColor: "#fff", color: "#5A6480", borderColor: "#E2E6F3" }
+                }
+              >
+                <span
+                  className="inline-block w-3.5 h-3.5 rounded-full border border-[#E2E6F3]"
+                  style={isGradient ? { background: c.hex } : { backgroundColor: c.hex }}
+                />
+                {c.label}
+              </button>
+            );
+          })}
+        </div>
+
         {/* ── Cenový filter ── */}
         <div className="flex items-center gap-3 flex-wrap mb-4">
           <span className="text-xs font-bold text-[#9AA3C2] tracking-wider uppercase shrink-0">
@@ -404,6 +452,12 @@ export default function ShopLayout({
               <ActiveFilterChip
                 label={USE_CASES.find((u) => u.id === activeUseCase)?.label ?? activeUseCase}
                 onClear={() => setActiveUseCase(null)}
+              />
+            )}
+            {activeColor && (
+              <ActiveFilterChip
+                label={COLOR_FAMILIES.find((c) => c.id === activeColor)?.label ?? activeColor}
+                onClear={() => setActiveColor(null)}
               />
             )}
             {activeSub && activeCategory && (

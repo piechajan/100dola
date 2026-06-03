@@ -11,6 +11,7 @@ import PDPGallery from "@/components/shop/PDPGallery";
 import ConfiguratorUI from "@/components/shop/ConfiguratorUI";
 import WishlistButton from "@/components/shop/WishlistButton";
 import RecentlyViewedSection from "@/components/shop/RecentlyViewedSection";
+import VariantSelector from "@/components/shop/VariantSelector";
 import ReviewsSection from "@/components/shop/ReviewsSection";
 import Stars from "@/components/shop/Stars";
 import { getReviewAggregate, getPublicReviews } from "@/lib/shop/reviews";
@@ -306,6 +307,8 @@ function renderProduct(
                   ))}
                 </ul>
               )}
+
+              {!product.hasConfigurator && <VariantSelector product={product} />}
 
               <div className="mt-8">
                 {product.hasConfigurator && product.configuratorSchema ? (

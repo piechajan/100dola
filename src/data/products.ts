@@ -45,12 +45,23 @@ export interface Product {
   useCase?: UseCase | null;
   /** Volitelné další fotky pro PDP galerii (carousel + thumbs). */
   gallery?: string[];
+  /** Variants per size/color z DB (Sportimport feed). Default undef. */
+  variants?: Array<{
+    externalId?: string;
+    sku?: string;
+    size?: string;
+    color?: string;
+    isInStock?: boolean;
+    availability?: string;
+  }>;
   /** Supplier konfigurátor — ISAAC kola → 'Sestavit' CTA místo 'Do košíku'. */
   hasConfigurator?: boolean;
   /** Konfigurátor data ze supplier_products.configurator_schema (jen pro PDP). */
   configuratorSchema?: ConfiguratorSchema;
   /** Barva v human-readable formě (např. „Mineral White") — z supplier properties. */
   color?: string;
+  /** Normalizovaná barvená rodina pro filter chip (black/white/red/...). */
+  colorFamily?: string;
 }
 
 /**

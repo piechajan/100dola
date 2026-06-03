@@ -1,5 +1,6 @@
 import type { Product, ConfiguratorSchema } from "@/data/products";
 import type { Gender, UseCase } from "@/data/categories";
+import { colorFamilyId } from "@/lib/shop/colors";
 
 /**
  * Supplier product row (subset z DB), zploštěný do shopu jako Product.
@@ -112,6 +113,7 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
 
   const colorRaw = props["Barva"];
   const color = typeof colorRaw === "string" && colorRaw.trim() ? colorRaw.trim() : undefined;
+  const colorFamily = colorFamilyId(color) ?? undefined;
 
   return {
     id: supplierIdToNumeric(row.id),
@@ -132,9 +134,13 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
     gender,
     useCase,
     gallery: gallery.length > 1 ? gallery : undefined,
+    variants: Array.isArray(row.variants) && row.variants.length > 0
+      ? (row.variants as Product["variants"])
+      : undefined,
     hasConfigurator: row.has_configurator,
     configuratorSchema: parseConfiguratorSchema(row.configurator_schema),
     color,
+    colorFamily,
   };
 }
 
