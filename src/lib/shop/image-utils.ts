@@ -7,18 +7,16 @@
  * a resize — soubory přicházejí v originální velikosti (typicky 200-500 KB JPEG).
  */
 /**
- * Detekuje URL ze "instant CDN" zdroje:
- *   • /api/img/<base64>            — local proxy s 1y edge cache
- *   • <project>.supabase.co/storage — Supabase Storage CDN
+ * Detekuje URL kde MUSÍME bypass Next/Image optimizer (unoptimized=true):
+ *   • /api/img/<base64> — local proxy. Next 16 odmítá s 400 INVALID_IMAGE_OPTIMIZE_REQUEST
+ *     i s localPatterns whitelistem → unoptimized je jediná cesta.
  *
- * Tyto URL bypassujeme Next/Image optimizer (unoptimized=true) protože:
- *   1. Supabase Storage už je samo CDN s 1y cache
- *   2. Proxy přes Vercel optimizer by přidal jen cold-start overhead
- *   3. Aktuální Next 16 navíc odmítá local /api/* URL i s localPatterns
+ * Supabase Storage URLs (`*.supabase.co/storage/v1/object/public/...`)
+ * PROŠLY remotePatterns ve next.config.ts a Vercel optimizer je dokáže
+ * stáhnout + AVIF/WebP + resize per device. Po Storage migraci proto
+ * tyto URL **NEbypassujeme** — dostaneme menší obrázky a lepší LCP.
  */
 export function isProxiedImage(src: string): boolean {
   if (typeof src !== "string") return false;
-  if (src.startsWith("/api/img/")) return true;
-  if (src.includes(".supabase.co/storage/v1/object/public/")) return true;
-  return false;
+  return src.startsWith("/api/img/");
 }

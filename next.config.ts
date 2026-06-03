@@ -48,6 +48,9 @@ const nextConfig: NextConfig = {
       // Supplier CDNs — supplier_products feedy (Sportimport, alecko)
       { protocol: "https", hostname: "www.sportimport.cz" },
       { protocol: "https", hostname: "www.alecko.cz" },
+      // Supabase Storage bucket 'supplier-images' — migrované fotky.
+      // Vercel optimizer si je stáhne + AVIF/WebP + resize per device.
+      { protocol: "https", hostname: "ngglervufcwkjnmtxgud.supabase.co" },
     ],
   },
   async headers() {
