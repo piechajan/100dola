@@ -17,7 +17,9 @@ test.describe("Shop smoke", () => {
   test("homepage /shop loads + has filter chips", async ({ page }) => {
     await page.goto("/shop");
     await expect(page).toHaveTitle(/E-shop/i);
-    // Brand strip má být viditelný (alespoň 1 brand chip)
+    // Filtry jsou pod toggle tlačítkem — klik rozbalí panel se Značka/Pohlaví/…
+    await page.getByRole("button", { name: /^Filtry/i }).click();
+    // Brand chip musí být po rozbalení viditelný
     const brandChips = page.locator('button[aria-label="ISAAC"], button[aria-label="Scott"]');
     await expect(brandChips.first()).toBeVisible({ timeout: 10_000 });
   });
