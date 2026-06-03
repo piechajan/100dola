@@ -37,6 +37,13 @@ export interface Product {
   specs: string[];
   /** Default "own". Supplier produkty mají "supplier". */
   fulfillment?: Fulfillment;
+  /**
+   * Stav skladu pro PDP callout. Default "in_stock" = "Skladem na Šternberku".
+   * "on_request" = žádný stock callout (kolo není fyzicky ve Šternberku, dostupnost se ověřuje).
+   */
+  stockStatus?: "in_stock" | "on_request";
+  /** Volitelný callout o dovozu — např. pro stroje s individuálním předáním. */
+  deliveryNote?: string;
   /** Pokud supplier — UUID v supplier_products. */
   supplierProductId?: string;
   /** Orthogonal filtr (napříč kategoriemi). Default "U" unisex. */
@@ -183,6 +190,8 @@ export const PRODUCTS: Product[] = [
     variants: [
       { size: "L", sku: "PIN-DGR-L", isInStock: true },
     ],
+    stockStatus: "on_request",
+    deliveryNote: "Osobní dovoz po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín a místo předání dohodneme.",
   },
 ];
 

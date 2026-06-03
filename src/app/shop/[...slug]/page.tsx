@@ -392,14 +392,21 @@ function renderProduct(
                     <strong>Velký balík.</strong> Doprava zdarma (objednávka nad 2 500 Kč). Osobní vyzvednutí (Šternberk / Olomouc / Valašské Meziříčí) zdarma.
                   </div>
                 )}
-                {product.fulfillment === "supplier" ? (
+                {product.deliveryNote && (
                   <div className="rounded-xl p-3 text-xs bg-[#F0F4FF] text-[#1a1a2e] border border-[#D6E1FB]">
-                    <strong>Objednáváme od dodavatele.</strong> Dodání obvykle 5-10 pracovních dnů. Přesný termín potvrdíme po objednávce.
+                    <strong>Osobní dovoz.</strong> {product.deliveryNote}
                   </div>
-                ) : (
-                  <div className="rounded-xl p-3 text-xs bg-[#F0F4FF] text-[#1a1a2e] border border-[#D6E1FB]">
-                    <strong>Skladem na Šternberku.</strong> Termín expedice potvrdíme po objednávce (obvykle do týdne).
-                  </div>
+                )}
+                {product.stockStatus !== "on_request" && (
+                  product.fulfillment === "supplier" ? (
+                    <div className="rounded-xl p-3 text-xs bg-[#F0F4FF] text-[#1a1a2e] border border-[#D6E1FB]">
+                      <strong>Objednáváme od dodavatele.</strong> Dodání obvykle 5-10 pracovních dnů. Přesný termín potvrdíme po objednávce.
+                    </div>
+                  ) : (
+                    <div className="rounded-xl p-3 text-xs bg-[#F0F4FF] text-[#1a1a2e] border border-[#D6E1FB]">
+                      <strong>Skladem na Šternberku.</strong> Termín expedice potvrdíme po objednávce (obvykle do týdne).
+                    </div>
+                  )
                 )}
               </div>
             </div>
