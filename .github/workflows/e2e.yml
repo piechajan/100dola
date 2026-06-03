@@ -1,0 +1,50 @@
+name: E2E smoke tests
+
+on:
+  # 1) Po každém deployi do prod (Vercel webhook → GitHub Actions není built-in,
+  #    ale poll na 'main' push obvykle stačí)
+  push:
+    branches: [main]
+  # 2) Denní smoke test ráno 06:00 UTC (před otevřením prodejny CZ time)
+  schedule:
+    - cron: "0 6 * * *"
+  # 3) Manual trigger
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    name: Playwright smoke (prod)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "npm"
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      # Před spuštěním testů dáme Vercelu 90 s na propagaci nového buildu
+      # (cron běží taky když není fresh deploy — sleep neuškodí)
+      - name: Wait for Vercel propagation
+        run: sleep 90
+        if: github.event_name == 'push'
+
+      - name: Run E2E
+        env:
+          PLAYWRIGHT_BASE_URL: https://www.100dola.com
+        run: npx playwright test
+
+      - name: Upload HTML report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14

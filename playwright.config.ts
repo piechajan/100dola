@@ -1,0 +1,28 @@
+import { defineConfig, devices } from "@playwright/test";
+
+/**
+ * Playwright config pro E2E smoke testy.
+ * Default base URL = prod (https://www.100dola.com).
+ * Override pro lokální dev: PLAYWRIGHT_BASE_URL=http://localhost:3000 npx playwright test
+ */
+export default defineConfig({
+  testDir: "./tests/e2e",
+  timeout: 60_000,
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 1 : 2,
+  reporter: process.env.CI ? "github" : "list",
+  use: {
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || "https://www.100dola.com",
+    trace: "on-first-retry",
+    screenshot: "only-on-failure",
+    locale: "cs-CZ",
+  },
+  projects: [
+    {
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
+    },
+  ],
+});
