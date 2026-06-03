@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import type { Product } from "@/data/products";
+import RestockNotifyButton from "./RestockNotifyButton";
 
 interface Variant {
   externalId?: string;
@@ -57,17 +58,26 @@ export default function VariantSelector({
 
   // Default první v stock, jinak první
   const defaultVariant = usableVariants.find((v) => v.isInStock) ?? usableVariants[0];
-  return <InnerSelector variants={usableVariants} initial={defaultVariant} onSelect={onSelect} />;
+  return (
+    <InnerSelector
+      variants={usableVariants}
+      initial={defaultVariant}
+      onSelect={onSelect}
+      supplierProductId={product.supplierProductId}
+    />
+  );
 }
 
 function InnerSelector({
   variants,
   initial,
   onSelect,
+  supplierProductId,
 }: {
   variants: Variant[];
   initial: Variant;
   onSelect?: (v: Variant) => void;
+  supplierProductId?: string;
 }) {
   const [selected, setSelected] = useState<Variant>(initial);
 
@@ -121,6 +131,13 @@ function InnerSelector({
       <p className="text-[10px] text-[#9AA3C2] mt-2">
         Žluté tečky = na objednávku (dodání 5-10 dnů). Bez tečky = skladem nebo bez stavu info.
       </p>
+      {supplierProductId && !selected.isInStock && (
+        <RestockNotifyButton
+          supplierProductId={supplierProductId}
+          variantExternalId={selected.externalId}
+          variantLabel={selected.size}
+        />
+      )}
     </div>
   );
 }
