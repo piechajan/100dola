@@ -86,7 +86,8 @@ type RawVariant_Sportimport = {
   "@_id"?: string;
   code?: string;
   ean?: string;
-  size?: string;
+  name?: string;            // <name>Velikost M</name> — typicky obsahuje velikost
+  size?: string;            // alternativní fallback (málokdy ve feedu)
   color?: string;
   inStock?: string;
   availability?: string;
@@ -150,11 +151,28 @@ function buildVariants(item: RawItem): RawVariant[] | undefined {
     externalId: v["@_id"],
     sku: v.code,
     ean: v.ean,
-    size: v.size,
+    // Sportimport ukládá velikost do <name>Velikost M</name> nebo do
+    // <name>ONE SIZE</name>. Vyparsujeme čistou label.
+    size: extractSizeLabel(v.name) ?? v.size,
     color: v.color,
     isInStock: v.inStock === "1" || v.inStock === "true",
     availability: v.availability,
   }));
+}
+
+/**
+ * Extract clean size label z Sportimport variant.name.
+ * Patterns:
+ *   "Velikost M"      → "M"
+ *   "Velikost XXS"    → "XXS"
+ *   "Velikost ONE SIZE" → "ONE SIZE"
+ *   "ONE SIZE"        → "ONE SIZE"
+ *   "44/170"          → "44/170"
+ */
+function extractSizeLabel(name?: string): string | undefined {
+  if (!name) return undefined;
+  const cleaned = name.replace(/^velikost\s+/i, "").trim();
+  return cleaned.length > 0 ? cleaned : undefined;
 }
 
 function buildImages(item: RawItem): { main?: string; all?: string[] } {

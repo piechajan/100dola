@@ -1,5 +1,6 @@
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+// 1 rok cache (Vercel CDN respektuje cache-control: immutable)
+export const revalidate = 31_536_000;
 
 /**
  * Image proxy: /api/img/<base64url-encoded-url>
