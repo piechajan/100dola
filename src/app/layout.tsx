@@ -60,6 +60,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="cs" className={`${inter.variable} h-full`}>
+      <head>
+        {/* Preconnect na CDN co servíruje největší procento obrázků
+            (Supabase Storage = 758+ produktových fotek). TLS handshake
+            paralelně s HTML parse → -200-400 ms LCP na PLP/PDP. */}
+        <link rel="preconnect" href="https://ngglervufcwkjnmtxgud.supabase.co" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://ngglervufcwkjnmtxgud.supabase.co" />
+        {/* Sportimport fallback (pro produkty bez Storage migrace) */}
+        <link rel="dns-prefetch" href="https://www.sportimport.cz" />
+      </head>
       <body className="min-h-full flex flex-col font-[family-name:var(--font-inter)]">
         {children}
         <IsaacTestPopup />
