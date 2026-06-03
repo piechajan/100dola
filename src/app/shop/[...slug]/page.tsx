@@ -13,6 +13,7 @@ import ConfiguratorUI from "@/components/shop/ConfiguratorUI";
 import WishlistButton from "@/components/shop/WishlistButton";
 import RecentlyViewedSection from "@/components/shop/RecentlyViewedSection";
 import VariantSelector from "@/components/shop/VariantSelector";
+import MobileStickyCTA from "@/components/shop/MobileStickyCTA";
 import ReviewsSection from "@/components/shop/ReviewsSection";
 import Stars from "@/components/shop/Stars";
 import { getReviewAggregate, getPublicReviews } from "@/lib/shop/reviews";
@@ -156,20 +157,67 @@ function renderProduct(
   // Rule-based + synergy mapping. Behavioral pipeline později.
   const related = recommendForProduct(product, all, 4);
 
-  // Schema.org Product + AggregateRating
+  // Schema.org Product + AggregateRating + rozšířené Offer
+  // Availability: InStock pokud aspoň 1 variant in_stock, jinak PreOrder
+  const anyInStock = (product.variants ?? []).some((v) => v.isInStock);
+  const availability = anyInStock
+    ? "https://schema.org/InStock"
+    : product.fulfillment === "supplier"
+      ? "https://schema.org/PreOrder"
+      : "https://schema.org/InStock";
+
+  const images = product.gallery && product.gallery.length > 0 ? product.gallery : [product.photo];
+
   const baseSchema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
-    image: product.photo,
-    description: product.note,
+    image: images,
+    description: product.note || `${product.name} — ${product.specs.slice(0, 3).join(", ")}`,
     brand: { "@type": "Brand", name: product.brand },
+    sku: product.supplierProductId ?? `own-${product.id}`,
     offers: {
       "@type": "Offer",
       priceCurrency: "CZK",
       price: product.priceWithVat,
-      availability: "https://schema.org/PreOrder",
+      priceValidUntil: new Date(Date.now() + 90 * 24 * 3600 * 1000).toISOString().split("T")[0],
+      availability,
+      itemCondition: "https://schema.org/NewCondition",
       url: `https://www.100dola.com/shop/${product.slug}`,
+      seller: {
+        "@type": "Organization",
+        name: "100dola sport",
+        url: "https://www.100dola.com",
+      },
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "CZ",
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 14,
+        returnMethod: "https://schema.org/ReturnByMail",
+        returnFees: "https://schema.org/FreeReturn",
+      },
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: {
+          "@type": "MonetaryAmount",
+          value: product.bulky ? 400 : 100,
+          currency: "CZK",
+        },
+        shippingDestination: {
+          "@type": "DefinedRegion",
+          addressCountry: "CZ",
+        },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          businessDays: {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          },
+          handlingTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 2, unitCode: "DAY" },
+          transitTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 3, unitCode: "DAY" },
+        },
+      },
     },
   };
   if (aggregate && aggregate.rating_count > 0 && aggregate.rating_avg !== null) {
@@ -349,6 +397,8 @@ function renderProduct(
         </div>
 
         <RecentlyViewedSection excludeId={product.id} />
+
+        <MobileStickyCTA product={product} />
 
         {related.length > 0 && (
           <section className="bg-white py-12 md:py-16 border-t border-[#E2E6F3]">

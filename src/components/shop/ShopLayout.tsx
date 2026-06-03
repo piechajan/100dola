@@ -46,6 +46,7 @@ export default function ShopLayout({
   const [activeGender, setActiveGender] = useState<Gender | null>(null);
   const [activeUseCase, setActiveUseCase] = useState<UseCase | null>(null);
   const [activeColor, setActiveColor] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState<"relevant" | "price_asc" | "price_desc" | "name_asc">("relevant");
 
   // Cenový rozsah — počítáme min/max z catalog
   const priceBounds = useMemo(() => {
@@ -100,10 +101,26 @@ export default function ShopLayout({
     setCurrentPage(1);
   }, [activeSub, activeBrand, activeTab, activeGender, activeUseCase, activeColor, priceMin, priceMax]);
 
-  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / PAGE_SIZE));
+  // Sort
+  const sortedProducts = useMemo(() => {
+    const arr = [...filteredProducts];
+    switch (sortBy) {
+      case "price_asc":
+        return arr.sort((a, b) => a.priceWithVat - b.priceWithVat);
+      case "price_desc":
+        return arr.sort((a, b) => b.priceWithVat - a.priceWithVat);
+      case "name_asc":
+        return arr.sort((a, b) => a.name.localeCompare(b.name, "cs"));
+      case "relevant":
+      default:
+        return arr;
+    }
+  }, [filteredProducts, sortBy]);
+
+  const totalPages = Math.max(1, Math.ceil(sortedProducts.length / PAGE_SIZE));
   const paginatedProducts = useMemo(
-    () => filteredProducts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE),
-    [filteredProducts, currentPage],
+    () => sortedProducts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE),
+    [sortedProducts, currentPage],
   );
 
   const hasActiveFilters =
@@ -558,7 +575,7 @@ export default function ShopLayout({
             {/* ── Products grid ── */}
             {filteredProducts.length > 0 ? (
               <div>
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
                   <div className="text-sm text-[#9AA3C2] font-medium">
                     {filteredProducts.length}{" "}
                     {filteredProducts.length === 1
@@ -571,6 +588,21 @@ export default function ShopLayout({
                         · strana {currentPage} z {totalPages}
                       </span>
                     )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] uppercase tracking-wider font-bold text-[#9AA3C2]">
+                      Seřadit:
+                    </span>
+                    <select
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+                      className="text-xs font-bold px-3 py-1.5 rounded-full border border-[#E2E6F3] bg-white text-[#1a1a2e] focus:outline-none focus:border-[#3B7CF4]"
+                    >
+                      <option value="relevant">Doporučené</option>
+                      <option value="price_asc">Cena ↑</option>
+                      <option value="price_desc">Cena ↓</option>
+                      <option value="name_asc">Abecedně</option>
+                    </select>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
