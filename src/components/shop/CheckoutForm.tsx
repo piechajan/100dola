@@ -110,9 +110,8 @@ export default function CheckoutForm() {
   const shippingFee = calcShippingFee(shippingMethod, hasBulky, subtotalWithVat);
   const discountAmount = discount?.amount || 0;
   const total = Math.max(0, subtotalWithVat - discountAmount + shippingFee);
-  const isPersonalOrBulky = shippingMethod.startsWith("personal-") || hasBulky;
-  const freeShipDelta = FREE_SHIPPING_THRESHOLD - subtotalWithVat;
   const isPersonal = shippingMethod.startsWith("personal-");
+  const freeShipDelta = FREE_SHIPPING_THRESHOLD - subtotalWithVat;
   const isZasilkovna = shippingMethod === "zasilkovna";
   const needsAddress = !isPersonal;
 
@@ -569,7 +568,7 @@ export default function CheckoutForm() {
 
           <div className="space-y-2 pt-4 border-t border-[#F0F2FA] text-sm">
             {/* Free shipping progress */}
-            {!isPersonalOrBulky && freeShipDelta > 0 && freeShipDelta < FREE_SHIPPING_THRESHOLD && (
+            {!isPersonal && freeShipDelta > 0 && freeShipDelta < FREE_SHIPPING_THRESHOLD && (
               <div className="mb-1">
                 <div className="text-[11px] text-[#5A6480] mb-1.5">
                   Do dopravy zdarma chybí <strong>{formatPrice(freeShipDelta)}</strong>
@@ -582,7 +581,7 @@ export default function CheckoutForm() {
                 </div>
               </div>
             )}
-            {!isPersonalOrBulky && freeShipDelta <= 0 && (
+            {!isPersonal && freeShipDelta <= 0 && (
               <div className="mb-1 text-[11px] font-bold text-[#10B981]">
                 ✓ Máš dopravu zdarma!
               </div>

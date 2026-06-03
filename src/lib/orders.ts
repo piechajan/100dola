@@ -2,8 +2,9 @@
 //
 // Doprava cena se počítá podle metody + bulky flag:
 // - personal-* → 0 Kč
-// - zasilkovna / gls + hasBulky → 400 Kč
-// - zasilkovna / gls + !hasBulky → 100 Kč
+// - subtotal ≥ FREE_SHIPPING_THRESHOLD → 0 Kč (i pro bulky — konzistentní s promo "doprava zdarma nad 2 500 Kč")
+// - zasilkovna / gls + hasBulky + pod threshold → 400 Kč
+// - zasilkovna / gls + !hasBulky + pod threshold → 100 Kč
 //
 // Order ID formát: YYMMDDNNNN (10 znaků, vejde se do VS).
 
@@ -11,7 +12,7 @@ import type { OrderItemPayload, ShippingMethod, PaymentMethod } from "./schemas"
 
 export const SMALL_PACKAGE_FEE = 100; // Kč s DPH
 export const BULKY_PACKAGE_FEE = 400; // Kč s DPH
-/** Doprava zdarma nad X Kč (jen pro non-bulky non-personal). */
+/** Doprava zdarma nad X Kč (platí i pro bulky). */
 export const FREE_SHIPPING_THRESHOLD = 2500;
 
 export function calcShippingFee(
@@ -20,8 +21,8 @@ export function calcShippingFee(
   subtotal: number = 0,
 ): number {
   if (method.startsWith("personal-")) return 0;
-  if (hasBulky) return BULKY_PACKAGE_FEE;
   if (subtotal >= FREE_SHIPPING_THRESHOLD) return 0;
+  if (hasBulky) return BULKY_PACKAGE_FEE;
   return SMALL_PACKAGE_FEE;
 }
 

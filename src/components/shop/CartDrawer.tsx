@@ -41,7 +41,7 @@ function CartItemRow({
           {item.name}
         </Link>
         {item.bulky && (
-          <div className="text-[10px] text-[#9AA3C2] mt-0.5">Velký balík (doprava 400 Kč)</div>
+          <div className="text-[10px] text-[#9AA3C2] mt-0.5">Velký balík</div>
         )}
         <div className="mt-2 flex items-center justify-between gap-3">
           <div className="inline-flex items-center border border-[#E2E6F3] rounded-full overflow-hidden">
@@ -225,14 +225,14 @@ export default function CartDrawer() {
                   </div>
                 ));
               })()}
-              {hasBulky && (
+              {hasBulky && subtotalWithVat < FREE_SHIPPING_THRESHOLD && (
                 <div className="rounded-xl p-3 text-[11px] bg-[#FFF7ED] text-[#7A5615] border border-[#FBD38D]">
-                  V košíku máš velký balík (kolo, lyže). Doprava bude 400 Kč.
+                  V košíku máš velký balík (kolo, lyže). Doprava bude 400 Kč. Nad 2 500 Kč zdarma.
                 </div>
               )}
 
-              {/* Free shipping progress (jen pro non-bulky, non-personal) */}
-              {!hasBulky && (() => {
+              {/* Free shipping progress (universal — bulky i non-bulky) */}
+              {(() => {
                 const remaining = FREE_SHIPPING_THRESHOLD - subtotalWithVat;
                 const pct = Math.min(100, Math.round((subtotalWithVat / FREE_SHIPPING_THRESHOLD) * 100));
                 if (remaining <= 0) {
