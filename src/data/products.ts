@@ -178,8 +178,8 @@ export const PRODUCTS: Product[] = [
     specs: ["SRAM Red XPLR AXS 1×13", "Princeton GRIT 4540 DB · Vittoria Terreno T30 40", "TorayCa M40X carbon · TiCR cable routing"],
     gender: "M",
     useCase: "race",
-    color: "Černá / matná",
-    colorFamily: "black",
+    color: "Interstellar Grey · matná",
+    colorFamily: "grey",
     variants: [
       { size: "L", sku: "PIN-DGR-L", isInStock: true },
     ],
