@@ -48,6 +48,9 @@ export default function ShopLayout({
   const [activeColor, setActiveColor] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<"relevant" | "price_asc" | "price_desc" | "name_asc">("relevant");
 
+  // Filtry toggle — schované defaultně, ať PLP není přetížené
+  const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
+
   // Cenový rozsah — počítáme min/max z catalog
   const priceBounds = useMemo(() => {
     if (catalog.length === 0) return { min: 0, max: 200000 };
@@ -125,6 +128,13 @@ export default function ShopLayout({
 
   const hasActiveFilters =
     activeBrand !== null || activeGender !== null || activeUseCase !== null || activeSub !== null || activeColor !== null || priceFilterActive;
+
+  const activeFilterCount =
+    (activeBrand ? 1 : 0) +
+    (activeGender ? 1 : 0) +
+    (activeUseCase ? 1 : 0) +
+    (activeColor ? 1 : 0) +
+    (priceFilterActive ? 1 : 0);
 
   function clearAllFilters() {
     setActiveBrand(null);
@@ -269,8 +279,58 @@ export default function ShopLayout({
 
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-8 md:py-12">
 
+        {/* ── Filtry toggle (Značka + Pohlaví + Úroveň + Barva + Cena pod ním) ── */}
+        <div className="flex items-center gap-3 flex-wrap mb-6">
+          <button
+            type="button"
+            onClick={() => setFiltersOpen((v) => !v)}
+            aria-expanded={filtersOpen}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold border transition-all duration-150"
+            style={
+              filtersOpen || activeFilterCount > 0
+                ? { backgroundColor: "#1a1a2e", color: "#fff", borderColor: "#1a1a2e" }
+                : { backgroundColor: "#fff", color: "#1a1a2e", borderColor: "#E2E6F3" }
+            }
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+              <path d="M3 6h18M6 12h12M10 18h4" />
+            </svg>
+            Filtry
+            {activeFilterCount > 0 && (
+              <span
+                className="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full text-[10px] font-black tabular-nums"
+                style={{ backgroundColor: "#fff", color: "#1a1a2e" }}
+              >
+                {activeFilterCount}
+              </span>
+            )}
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2.5}
+              style={{ transform: filtersOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.15s" }}
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
+          {hasActiveFilters && (
+            <button
+              type="button"
+              onClick={clearAllFilters}
+              className="text-xs text-[#9AA3C2] hover:text-[#1a1a2e] underline"
+            >
+              vyčistit vše
+            </button>
+          )}
+        </div>
+
+        {filtersOpen && (
+          <div className="mb-2 bg-white rounded-2xl border border-[#E2E6F3] p-5 space-y-5">
         {/* ── Brand filter pills ── */}
-        <div className="flex items-center gap-2 flex-wrap mb-8">
+        <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs font-bold text-[#9AA3C2] tracking-wider uppercase shrink-0">
             Značka:
           </span>
@@ -296,7 +356,7 @@ export default function ShopLayout({
         </div>
 
         {/* ── Gender filter pills ── */}
-        <div className="flex items-center gap-2 flex-wrap mb-4">
+        <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs font-bold text-[#9AA3C2] tracking-wider uppercase shrink-0">
             Pohlaví:
           </span>
@@ -329,7 +389,7 @@ export default function ShopLayout({
         </div>
 
         {/* ── Use-case filter pills ── */}
-        <div className="flex items-center gap-2 flex-wrap mb-8">
+        <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs font-bold text-[#9AA3C2] tracking-wider uppercase shrink-0">
             Úroveň:
           </span>
@@ -362,7 +422,7 @@ export default function ShopLayout({
         </div>
 
         {/* ── Barva filter (rodiny) ── */}
-        <div className="flex items-center gap-2 flex-wrap mb-4">
+        <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs font-bold text-[#9AA3C2] tracking-wider uppercase shrink-0">
             Barva:
           </span>
@@ -404,7 +464,7 @@ export default function ShopLayout({
         </div>
 
         {/* ── Cenový filter ── */}
-        <div className="flex items-center gap-3 flex-wrap mb-4">
+        <div className="flex items-center gap-3 flex-wrap">
           <span className="text-xs font-bold text-[#9AA3C2] tracking-wider uppercase shrink-0">
             Cena:
           </span>
@@ -446,6 +506,8 @@ export default function ShopLayout({
             </button>
           )}
         </div>
+          </div>
+        )}
 
         {/* ── Active filters bar ── */}
         {hasActiveFilters && (
