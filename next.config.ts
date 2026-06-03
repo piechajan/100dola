@@ -29,6 +29,12 @@ const nextConfig: NextConfig = {
     qualities: [70, 75, 85, 90],
     // AVIF + WebP — prohlížeč si vybere; AVIF je ~30-50% menší proti JPEG.
     formats: ["image/avif", "image/webp"],
+    // /api/img/<base64url> — path-based supplier image proxy.
+    // Next.js 16 vyžaduje explicit localPatterns whitelist pro local
+    // optimizer i bez query stringu.
+    localPatterns: [
+      { pathname: "/api/img/**", search: "" },
+    ],
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "asset.scott-sports.com" },
