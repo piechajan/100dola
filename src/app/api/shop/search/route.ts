@@ -64,13 +64,16 @@ export async function GET(request: Request) {
       for (const b of publicBrands ?? []) brandMap.set(b.id, b.brand_slug);
 
       if (brandMap.size > 0) {
+        // Query: match na name OR properties (Barva, Druh) — Postgres ilike
         const { data: rows } = await sb
           .from("supplier_products")
-          .select("id, brand_id, name, sku, price_czk_retail, main_image_url, image_urls, is_public_override, public_slug, has_configurator")
+          .select(
+            "id, brand_id, name, sku, price_czk_retail, main_image_url, image_urls, is_public_override, public_slug, has_configurator, properties, local_image_url",
+          )
           .in("brand_id", Array.from(brandMap.keys()))
           .eq("is_active", true)
-          .ilike("name", `%${q}%`)
-          .limit(12);
+          .or(`name.ilike.%${q}%,properties->>Barva.ilike.%${q}%,properties->>Druh.ilike.%${q}%`)
+          .limit(18);
 
         supHits = (rows ?? [])
           .filter((r) => {
@@ -79,18 +82,31 @@ export async function GET(request: Request) {
             const hasPhoto = !!row.main_image_url || (row.image_urls && row.image_urls.length > 0);
             return hasPhoto;
           })
-          .slice(0, 8)
+          .slice(0, 10)
           .map((r) => {
-            const row = r as { id: string; brand_id: string; name: string; sku: string | null; price_czk_retail: number | null; main_image_url: string | null; image_urls: string[] | null; public_slug: string | null };
+            const row = r as {
+              id: string;
+              brand_id: string;
+              name: string;
+              sku: string | null;
+              price_czk_retail: number | null;
+              main_image_url: string | null;
+              image_urls: string[] | null;
+              public_slug: string | null;
+              local_image_url: string | null;
+            };
             const slug = row.public_slug || defaultPublicSlug({ id: row.id, sku: row.sku });
-            const rawPhoto = row.main_image_url || row.image_urls?.[0] || "/media/sport-hero.jpg";
+            // Prefer Supabase Storage CDN
+            const photo =
+              row.local_image_url
+              || wrapSupplierImage(row.main_image_url || row.image_urls?.[0] || "/media/sport-hero.jpg");
             return {
               id: `sup:${row.id.slice(0, 8)}`,
               slug,
               name: row.name,
               brand: brandMap.get(row.brand_id) ?? "?",
               priceWithVat: Math.round(Number(row.price_czk_retail ?? 0)),
-              photo: wrapSupplierImage(rawPhoto),
+              photo,
               kind: "supplier" as const,
             };
           });
