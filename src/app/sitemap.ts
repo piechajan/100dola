@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 import { PRODUCTS } from "@/data/products";
-import { events } from "@/data/events";
 import { ARTICLES } from "@/data/articles";
 import { getAllCategoryPaths } from "@/lib/shop/category-resolver";
+import { getPublishedEvents } from "@/lib/events-db";
 import { createClient } from "@supabase/supabase-js";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com";
@@ -132,8 +132,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push({ path: `/shop/${slug}`, priority: 0.6, changefreq: "weekly" });
   }
 
-  // ─── Eventy ────────────────────────────────────────────────────────────────
-  for (const e of events) {
+  // ─── Eventy (DB primary) ────────────────────────────────────────────────────
+  const eventsList = await getPublishedEvents();
+  for (const e of eventsList) {
     if (e.externalUrl) continue;
     entries.push({
       path: `/community/event/${e.slug}`,

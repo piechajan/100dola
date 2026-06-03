@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { events as ALL_EVENTS, SPORT_COLORS } from "@/data/events";
+import { SPORT_COLORS } from "@/data/events";
+import { getPublishedEvents } from "@/lib/events-db";
 import { fetchUpcomingClubEvents, isStravaConfigured } from "@/lib/strava";
 import { mapStravaEventToNormalized } from "@/lib/strava-mapping";
 
@@ -38,7 +39,8 @@ function malagaColored(sport: string): string {
 async function getUpcoming(): Promise<HomeEvent[]> {
   const today = new Date().toISOString().slice(0, 10);
 
-  // 1) Manuální events
+  // 1) Manuální events (DB primary, fallback static)
+  const ALL_EVENTS = await getPublishedEvents();
   const manual: HomeEvent[] = ALL_EVENTS
     .filter((e) => !e.isPast && e.dateISO >= today)
     .map((e) => ({

@@ -6,7 +6,7 @@
  */
 
 import { createClient } from "@supabase/supabase-js";
-import type { Difficulty, Event, Sport } from "@/data/events";
+import { events as staticEvents, type Difficulty, type Event, type Sport } from "@/data/events";
 
 export interface EventRow {
   id: string;
@@ -59,6 +59,17 @@ export async function listEventsFromDb(): Promise<EventRow[]> {
     .select("*")
     .order("date_iso", { ascending: false });
   return (data ?? []) as EventRow[];
+}
+
+/**
+ * Universal events fetch for rendering (sitemap, Navbar, EventsSection, /community).
+ * - DB primary: published rows from `events` table
+ * - Fallback: static src/data/events.ts (pro případ že DB není dostupná / je prázdná)
+ */
+export async function getPublishedEvents(): Promise<Event[]> {
+  const rows = await listEventsFromDb();
+  if (rows.length === 0) return staticEvents;
+  return rows.filter((r) => r.is_published).map(rowToEvent);
 }
 
 export async function getEventFromDb(id: string): Promise<EventRow | null> {

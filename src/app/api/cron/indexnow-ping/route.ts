@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PRODUCTS } from "@/data/products";
-import { events } from "@/data/events";
 import { ARTICLES } from "@/data/articles";
+import { getPublishedEvents } from "@/lib/events-db";
 import { logCronRun } from "@/lib/cron-monitor";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com";
@@ -12,7 +12,8 @@ const INDEXNOW_ENDPOINT = "https://api.indexnow.org/IndexNow";
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
-function buildUrlList(): string[] {
+async function buildUrlList(): Promise<string[]> {
+  const events = await getPublishedEvents();
   const staticRoutes = [
     "",
     "/malaga",
@@ -68,7 +69,7 @@ export async function GET(req: NextRequest) {
   }
 
   return logCronRun("indexnow-ping", "0 5 * * 1", async () => {
-    const urlList = buildUrlList();
+    const urlList = await buildUrlList();
 
     const body = {
       host: HOST,

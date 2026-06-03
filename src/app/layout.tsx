@@ -10,6 +10,8 @@ import AttributionTracker from "@/components/analytics/AttributionTracker";
 import JsonLd from "@/components/JsonLd";
 import { organizationSchema, storeSchema, websiteSchema } from "@/lib/schema-org";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { EventsProvider } from "@/components/EventsProvider";
+import { getPublishedEvents } from "@/lib/events-db";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -53,11 +55,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const events = await getPublishedEvents();
   return (
     <html lang="cs" className={`${inter.variable} h-full`}>
       <head>
@@ -70,8 +73,10 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.sportimport.cz" />
       </head>
       <body className="min-h-full flex flex-col font-[family-name:var(--font-inter)]">
-        {children}
-        <IsaacTestPopup />
+        <EventsProvider events={events}>
+          {children}
+          <IsaacTestPopup />
+        </EventsProvider>
         <CookiesBanner />
         <MetaPixel />
         <GoogleAnalytics />

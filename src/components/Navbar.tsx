@@ -3,7 +3,8 @@
 import { useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { events, SPORT_COLORS, SPORT_ICONS } from "@/data/events";
+import { SPORT_COLORS, SPORT_ICONS } from "@/data/events";
+import { useEvents } from "@/components/EventsProvider";
 import CartButton from "@/components/shop/CartButton";
 import CartDrawer from "@/components/shop/CartDrawer";
 import SearchBar from "@/components/shop/SearchBar";
@@ -53,6 +54,7 @@ const SPORT_BY_CATEGORY = [
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function Navbar() {
+  const events = useEvents();
   const [menuOpen, setMenuOpen] = useState(false);
   const [kalendarOpen, setKalendarOpen] = useState(false);
   const [sportOpen, setSportOpen] = useState(false);

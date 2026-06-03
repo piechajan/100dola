@@ -6,13 +6,12 @@ import Footer from "@/components/Footer";
 import RegistrationSystem from "@/components/community/RegistrationSystem";
 import RouteMapClient from "@/components/community/RouteMapClient";
 import {
-  events,
-  getEventBySlug,
-  getRelatedEvents,
+  type Event,
   SPORT_COLORS,
   SPORT_ICONS,
   DIFFICULTY_COLOR,
 } from "@/data/events";
+import { getPublishedEvents } from "@/lib/events-db";
 
 function RichText({ text }: { text: string }) {
   // Split on **bold** and [label](url) patterns
@@ -30,13 +29,30 @@ function RichText({ text }: { text: string }) {
   );
 }
 
-export function generateStaticParams() {
-  return events.map((e) => ({ slug: e.slug }));
+export async function generateStaticParams() {
+  const list = await getPublishedEvents();
+  return list.map((e) => ({ slug: e.slug }));
+}
+
+function findEvent(list: Event[], slug: string): Event | undefined {
+  return list.find((e) => e.slug === slug);
+}
+
+function relatedEvents(list: Event[], event: Event, count = 3): Event[] {
+  return list
+    .filter((e) => e.slug !== event.slug)
+    .sort((a, b) => {
+      if (a.sport === event.sport && b.sport !== event.sport) return -1;
+      if (b.sport === event.sport && a.sport !== event.sport) return 1;
+      return 0;
+    })
+    .slice(0, count);
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const event = getEventBySlug(slug);
+  const list = await getPublishedEvents();
+  const event = findEvent(list, slug);
   if (!event) return {};
   return {
     title: `${event.title} — Open Miles Clinic | 100dola`,
@@ -46,16 +62,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function EventDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const event = getEventBySlug(slug);
+  const list = await getPublishedEvents();
+  const event = findEvent(list, slug);
   if (!event) notFound();
 
-  const related = getRelatedEvents(event, 3);
+  const related = relatedEvents(list, event, 3);
   const color = SPORT_COLORS[event.sport];
   const icon = SPORT_ICONS[event.sport];
   const diffColor = DIFFICULTY_COLOR[event.difficulty];
-  const fillPct = (event.filled / event.capacity) * 100;
   const spotsLeft = event.capacity - event.filled;
-  const almostFull = fillPct >= 75;
 
   return (
     <>
@@ -306,7 +321,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                       className="group bg-white rounded-2xl border border-[#E2E6F3] overflow-hidden hover:shadow-lg transition-all duration-200"
                     >
                       <div className="relative h-36 overflow-hidden">
-                        <img src={rel.photo} alt={rel.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <Image src={rel.photo} alt={rel.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
                         <span
                           className="absolute top-3 left-3 text-[11px] font-bold px-2.5 py-1 rounded-full text-white"
                           style={{ backgroundColor: `${rc}cc` }}
