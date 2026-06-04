@@ -37,6 +37,8 @@ interface OrderDetail {
   paid_at: string | null;
   shipped_at: string | null;
   tracking_number: string | null;
+  tracking_carrier: string | null;
+  tracking_notified_at: string | null;
   notes: string | null;
   invoice?: {
     fakturoid_id: number;
@@ -119,6 +121,8 @@ async function getOrder(id: string): Promise<OrderDetail | null> {
       paid_at: (order.paid_at as string) || null,
       shipped_at: (order.shipped_at as string) || null,
       tracking_number: (order.tracking_number as string) || null,
+      tracking_carrier: (order.tracking_carrier as string) || null,
+      tracking_notified_at: (order.tracking_notified_at as string) || null,
       notes: (order.notes as string) || null,
       items: (order.items as Array<Record<string, unknown>>).map((i) => ({
         product_id: i.productId as number,
@@ -246,6 +250,7 @@ export default async function AdminOrderDetailPage({
               paidAt={order.paid_at}
               shippedAt={order.shipped_at}
               trackingNumber={order.tracking_number}
+              trackingCarrier={order.tracking_carrier}
             />
             <div className="mt-4 pt-4 border-t border-[#F0F2FA] flex gap-2 flex-wrap">
               <Link

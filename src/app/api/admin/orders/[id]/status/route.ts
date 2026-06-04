@@ -2,9 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 import { z } from "zod";
+import { Resend } from "resend";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { invoiceOrder, type OrderForInvoice } from "@/lib/invoicing";
 import { markInvoicePaid } from "@/lib/fakturoid";
+import { trackingUrl, carrierLabel } from "@/lib/tracking";
 
 const DATA_DIR = process.env.NODE_ENV === "production" ? "/tmp" : path.join(process.cwd(), "data");
 const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
@@ -12,6 +14,7 @@ const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
 const StatusUpdateSchema = z.object({
   status: z.enum(["pending", "paid", "shipped", "cancelled"]),
   trackingNumber: z.string().max(80).trim().optional(),
+  trackingCarrier: z.enum(["zasilkovna", "gls", "dpd", "ceska_posta", "osobne", "other"]).optional(),
 });
 
 export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
@@ -39,6 +42,7 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string
   if (parsed.data.status === "shipped") {
     patch.shipped_at = now;
     if (parsed.data.trackingNumber) patch.tracking_number = parsed.data.trackingNumber;
+    if (parsed.data.trackingCarrier) patch.tracking_carrier = parsed.data.trackingCarrier;
   }
 
   if (isSupabaseConfigured()) {
@@ -47,9 +51,11 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string
       const { error } = await sb.from("orders").update(patch).eq("id", id);
       if (error) throw error;
 
-      // Při přechodu na paid: auto-fakturace + označit fakturu jako zaplacenou
       if (parsed.data.status === "paid") {
         await handlePaidTransition(id);
+      }
+      if (parsed.data.status === "shipped" && parsed.data.trackingNumber) {
+        await sendShipmentNotification(id);
       }
 
       return NextResponse.json({ ok: true, id, ...patch });
@@ -77,6 +83,95 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string
  *  1. Pokud invoice ještě neexistuje → vytvořit ve Fakturoidu (idempotent)
  *  2. Pokud existuje → označit ji jako zaplacenou ve Fakturoidu
  */
+/**
+ * Customer email po označení order "shipped" + zadání tracking number.
+ * Idempotent: nepošle pokud tracking_notified_at je už nastavený.
+ */
+async function sendShipmentNotification(orderId: string): Promise<void> {
+  const resendKey = process.env.RESEND_API_KEY;
+  if (!resendKey) return;
+  if (!isSupabaseConfigured()) return;
+  try {
+    const sb = getSupabase();
+    const { data: order } = await sb
+      .from("orders")
+      .select("id, name, email, tracking_number, tracking_carrier, tracking_notified_at")
+      .eq("id", orderId)
+      .maybeSingle();
+    if (!order || !order.email || !order.tracking_number) return;
+    if (order.tracking_notified_at) return; // už posláno
+
+    const trackUrl = trackingUrl(order.tracking_carrier ?? "", order.tracking_number);
+    const carrierName = carrierLabel(order.tracking_carrier);
+
+    const resend = new Resend(resendKey);
+    const from = process.env.RESEND_FROM_EMAIL || "100dola <onboarding@resend.dev>";
+    await resend.emails.send({
+      from,
+      to: order.email,
+      subject: `Objednávka ${order.id} je na cestě 🚚`,
+      html: shipmentEmailHtml({
+        name: order.name,
+        orderId: order.id,
+        carrierName,
+        trackingNumber: order.tracking_number,
+        trackUrl,
+      }),
+    });
+    await sb
+      .from("orders")
+      .update({ tracking_notified_at: new Date().toISOString() })
+      .eq("id", orderId);
+  } catch (e) {
+    console.error("[admin/orders/status] sendShipmentNotification failed:", e);
+  }
+}
+
+function escape(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function shipmentEmailHtml(args: {
+  name: string;
+  orderId: string;
+  carrierName: string;
+  trackingNumber: string;
+  trackUrl: string | null;
+}): string {
+  const trackBlock = args.trackUrl
+    ? `<p style="margin:24px 0;">
+         <a href="${escape(args.trackUrl)}" style="display:inline-block;padding:12px 22px;background:#1a1a2e;color:#fff;border-radius:9999px;text-decoration:none;font-weight:700;font-size:14px;">
+           Sledovat zásilku →
+         </a>
+       </p>`
+    : `<p style="font-size:12px;color:#5A6480;">
+         Sledování číslem ${escape(args.trackingNumber)} u dopravce ${escape(args.carrierName)}.
+       </p>`;
+
+  return `<!doctype html>
+<html><body style="font-family:-apple-system,Segoe UI,sans-serif;color:#1a1a2e;max-width:560px;margin:24px auto;padding:0 16px;line-height:1.55;">
+  <h2 style="margin:0 0 8px;font-size:18px;">Tvoje objednávka je na cestě, ${escape(args.name)} 🚚</h2>
+  <p style="font-size:14px;color:#5A6480;">
+    Předali jsme balík dopravci <strong>${escape(args.carrierName)}</strong>.
+  </p>
+  <p style="font-size:14px;">
+    Číslo zásilky: <strong style="font-family:ui-monospace,monospace;">${escape(args.trackingNumber)}</strong>
+  </p>
+  ${trackBlock}
+  <p style="font-size:13px;color:#5A6480;">
+    Pokud něco nesedí, ozvi se na <a href="mailto:piecha.jan@gmail.com" style="color:#3B7CF4;">piecha.jan@gmail.com</a>
+    nebo zavolej <a href="tel:+420739045057" style="color:#3B7CF4;">+420 739 045 057</a>.
+  </p>
+  <p style="margin:28px 0 4px;font-size:14px;">Měj se,</p>
+  <p style="margin:0;font-size:14px;font-weight:700;">Jan / 100dola</p>
+  <hr style="margin:32px 0 12px;border:none;border-top:1px solid #E2E6F3;">
+  <p style="font-size:11px;color:#9AA3C2;">
+    Objednávka <strong>${escape(args.orderId)}</strong> · 100dola sport · FUTUNATU s.r.o. · Šternberk<br>
+    <a href="https://www.100dola.com" style="color:#9AA3C2;">www.100dola.com</a>
+  </p>
+</body></html>`;
+}
+
 async function handlePaidTransition(orderId: string): Promise<void> {
   if (!isSupabaseConfigured()) return;
   try {

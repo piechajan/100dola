@@ -9,6 +9,7 @@ interface Props {
   paidAt?: string | null;
   shippedAt?: string | null;
   trackingNumber?: string | null;
+  trackingCarrier?: string | null;
 }
 
 export default function OrderStatusActions({
@@ -17,11 +18,13 @@ export default function OrderStatusActions({
   paidAt,
   shippedAt,
   trackingNumber: initialTracking,
+  trackingCarrier: initialCarrier,
 }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [trackingNumber, setTrackingNumber] = useState(initialTracking || "");
+  const [trackingCarrier, setTrackingCarrier] = useState(initialCarrier || "zasilkovna");
 
   const updateStatus = async (status: string, payload?: Record<string, unknown>) => {
     setLoading(status);
@@ -61,21 +64,36 @@ export default function OrderStatusActions({
         )}
 
         {(currentStatus === "paid" || currentStatus === "pending") && (
-          <div className="flex gap-2 items-stretch">
+          <div className="flex gap-2 items-stretch flex-wrap">
+            <select
+              value={trackingCarrier}
+              onChange={(e) => setTrackingCarrier(e.target.value)}
+              className="px-3 py-2 text-xs border border-[#E2E6F3] rounded-full focus:outline-none focus:border-[#3B7CF4] bg-white"
+            >
+              <option value="zasilkovna">Zásilkovna</option>
+              <option value="gls">GLS</option>
+              <option value="dpd">DPD</option>
+              <option value="ceska_posta">Česká pošta</option>
+              <option value="osobne">Osobní vyzvednutí</option>
+              <option value="other">Jiný dopravce</option>
+            </select>
             <input
               type="text"
               value={trackingNumber}
               onChange={(e) => setTrackingNumber(e.target.value)}
-              placeholder="Tracking č. (nepovinné)"
+              placeholder="Tracking č."
               className="px-3 py-2 text-xs border border-[#E2E6F3] rounded-full focus:outline-none focus:border-[#3B7CF4] w-44"
             />
             <button
               type="button"
-              onClick={() => updateStatus("shipped", { trackingNumber: trackingNumber.trim() || undefined })}
+              onClick={() => updateStatus("shipped", {
+                trackingNumber: trackingNumber.trim() || undefined,
+                trackingCarrier: trackingCarrier || undefined,
+              })}
               disabled={loading !== null}
               className="px-4 py-2 text-xs font-bold text-white rounded-full bg-[#3B7CF4] hover:opacity-90 disabled:opacity-50"
             >
-              {loading === "shipped" ? "Ukládám…" : "Označit jako odesláno"}
+              {loading === "shipped" ? "Ukládám…" : "Označit jako odesláno + email"}
             </button>
           </div>
         )}
