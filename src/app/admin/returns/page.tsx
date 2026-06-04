@@ -79,10 +79,28 @@ export default async function AdminReturnsPage() {
       <Navbar />
       <main className="flex-grow bg-[#F7F9FF] py-8">
         <div className="max-w-[1100px] mx-auto px-6">
-          <h1 className="text-3xl font-black text-[#1a1a2e]">Vrácení & reklamace</h1>
-          <p className="text-sm text-[#5A6480] mb-6">
-            {pending} aktivních · {rows.length} celkem
-          </p>
+          <div className="flex items-end justify-between flex-wrap gap-3 mb-6">
+            <div>
+              <h1 className="text-3xl font-black text-[#1a1a2e]">Vrácení & reklamace</h1>
+              <p className="text-sm text-[#5A6480]">
+                {pending} aktivních · {rows.length} celkem
+              </p>
+            </div>
+            <div className="flex gap-2 flex-wrap">
+              <a
+                href="/api/admin/returns/export?status=refunded"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-[#E2E6F3] rounded-full text-xs font-bold text-[#1a1a2e] hover:border-[#3B7CF4] hover:text-[#3B7CF4]"
+              >
+                📥 Export CSV (vrácené pro účetnictví)
+              </a>
+              <a
+                href="/api/admin/returns/export"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-[#E2E6F3] rounded-full text-xs font-bold text-[#1a1a2e] hover:border-[#3B7CF4] hover:text-[#3B7CF4]"
+              >
+                📥 Export CSV (vše)
+              </a>
+            </div>
+          </div>
 
           {rows.length === 0 ? (
             <div className="bg-white rounded-2xl border border-[#E2E6F3] p-8 text-center text-sm text-[#5A6480]">

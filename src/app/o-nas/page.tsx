@@ -289,6 +289,111 @@ export default function ONasPage() {
         </div>
       </section>
 
+      {/* Proč nám věřit — trust signály */}
+      <section className="py-20 md:py-24 bg-[#F5F7FF] border-t border-[#E2E6F3]">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <span className="w-5 h-px bg-[#10B981]" />
+              <span className="text-xs tracking-[0.18em] uppercase font-bold text-[#10B981]">Proč nám věřit</span>
+              <span className="w-5 h-px bg-[#10B981]" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-black text-[#1a1a2e] mb-3">
+              Konkrétní fakta. Ne fráze.
+            </h2>
+            <p className="text-base text-[#5A6480] max-w-2xl mx-auto leading-relaxed">
+              Kola, která prodáváme, jezdíme. Kufry, které posíláme do Malagy, jsme balili.
+              Závody, na které tě nasazujeme, jsme sami absolvovali.
+            </p>
+          </div>
+
+          {/* Trust signály grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-12">
+            <TrustTile
+              icon="🏪"
+              label="Kamenná prodejna"
+              value="Šternberk"
+              detail="Partyzánská 2 + showroom Valašské Meziříčí"
+            />
+            <TrustTile
+              icon="📅"
+              label="V provozu od"
+              value="2023"
+              detail="Cyklistika je v rodině přes dekádu"
+            />
+            <TrustTile
+              icon="🛡"
+              label="Vrácení zboží"
+              value="14 dní"
+              detail="Zdarma, bez udání důvodu (§ 1829 obč. zák.)"
+            />
+            <TrustTile
+              icon="📍"
+              label="Doručujeme"
+              value="Celá ČR"
+              detail="DPD, GLS, Zásilkovna, osobně po Moravě"
+            />
+            <TrustTile
+              icon="🚲"
+              label="Servisujeme"
+              value="Vše"
+              detail="Silnice / gravel / MTB / elektrokola"
+            />
+            <TrustTile
+              icon="🇪🇸"
+              label="Malaga"
+              value="365 dní"
+              detail="Kolo ti hlídáme i přes zimu"
+            />
+            <TrustTile
+              icon="✓"
+              label="GDPR & ESPCS"
+              value="Compliant"
+              detail="FUTUNATU s.r.o., IČO 07376766"
+            />
+            <TrustTile
+              icon="📞"
+              label="Vždy dovoláš"
+              value="Janovi"
+              detail="+420 739 045 057, osobně"
+            />
+          </div>
+
+          {/* Kontaktní karta */}
+          <div className="bg-white rounded-2xl border border-[#E2E6F3] p-6 md:p-8 max-w-3xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-6 items-center">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#3B7CF4] to-[#7C5CBF] flex items-center justify-center text-white text-3xl font-black shrink-0 mx-auto md:mx-0">
+                JP
+              </div>
+              <div className="text-center md:text-left">
+                <div className="text-xs uppercase tracking-wider text-[#9AA3C2] font-bold mb-1">
+                  Stojí za tím
+                </div>
+                <h3 className="text-xl font-black text-[#1a1a2e] mb-2">Jan Piecha</h3>
+                <p className="text-sm text-[#5A6480] leading-relaxed mb-3">
+                  Zakladatel 100dola sport, Malaga base &amp; Open Miles Clinic. Pokud máš dotaz,
+                  klidně rovnou volej nebo piš — beru telefon i mail osobně.
+                </p>
+                <div className="flex flex-wrap justify-center md:justify-start gap-2">
+                  <a
+                    href="tel:+420739045057"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F0F4FF] text-[#3B7CF4] text-xs font-bold hover:bg-[#3B7CF4] hover:text-white transition-colors"
+                  >
+                    📞 +420 739 045 057
+                  </a>
+                  <a
+                    href="mailto:piecha.jan@gmail.com"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F0F4FF] text-[#3B7CF4] text-xs font-bold hover:bg-[#3B7CF4] hover:text-white transition-colors"
+                  >
+                    ✉ piecha.jan@gmail.com
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Závěrečné CTA */}
       <section className="py-20 md:py-24 bg-[#1a1a2e] text-white">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 text-center">
@@ -328,5 +433,28 @@ export default function ONasPage() {
     </main>
     <Footer />
     </>
+  );
+}
+
+function TrustTile({
+  icon,
+  label,
+  value,
+  detail,
+}: {
+  icon: string;
+  label: string;
+  value: string;
+  detail: string;
+}) {
+  return (
+    <div className="bg-white rounded-xl border border-[#E2E6F3] p-4 hover:border-[#10B981]/40 hover:shadow-md transition-all">
+      <div className="text-2xl mb-2">{icon}</div>
+      <div className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold mb-0.5">
+        {label}
+      </div>
+      <div className="text-base font-black text-[#1a1a2e] leading-tight mb-1">{value}</div>
+      <div className="text-[11px] text-[#5A6480] leading-snug">{detail}</div>
+    </div>
   );
 }
