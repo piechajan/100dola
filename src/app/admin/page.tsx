@@ -191,6 +191,12 @@ export default async function AdminHubPage() {
       description: "Servis / bikefit / detailing rezervace ze /sport/servis. Confirm → completed flow.",
       emoji: "🔧",
     },
+    {
+      href: "/admin/returns",
+      label: "Vrácení & reklamace",
+      description: "Žádosti o vrácení zboží — odstoupení, reklamace, poškození. Schválit → přijmout → refund flow.",
+      emoji: "↩️",
+    },
   ];
 
   return (

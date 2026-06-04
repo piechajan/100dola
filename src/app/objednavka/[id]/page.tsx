@@ -205,12 +205,18 @@ export default async function OrderConfirmationPage({
                 </div>
               </section>
 
-              <div className="text-center mt-10">
+              <div className="text-center mt-10 flex items-center justify-center gap-3 flex-wrap">
                 <Link
                   href="/shop"
                   className="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold rounded-full border border-[#E2E6F3] text-[#1a1a2e] hover:border-[#3B7CF4] hover:text-[#3B7CF4] transition-colors"
                 >
                   Pokračovat v nákupu
+                </Link>
+                <Link
+                  href={`/objednavka/${order.id}/vraceni`}
+                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold rounded-full text-[#5A6480] hover:text-[#1a1a2e] underline"
+                >
+                  Vrátit zboží
                 </Link>
               </div>
             </>
