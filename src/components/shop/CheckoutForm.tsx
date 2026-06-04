@@ -82,6 +82,7 @@ export default function CheckoutForm() {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("qr");
   const [notes, setNotes] = useState("");
   const [gdprConsent, setGdprConsent] = useState(false);
+  const [newsletterOptIn, setNewsletterOptIn] = useState(false);
   const [website, setWebsite] = useState(""); // honeypot
 
   // Discount code state
@@ -244,6 +245,19 @@ export default function CheckoutForm() {
         setError(data?.error || "Něco se nepovedlo. Zkus to znovu.");
         setSubmitting(false);
         return;
+      }
+
+      // Newsletter opt-in (fire-and-forget — pokud selže, objednávka stejně OK)
+      if (newsletterOptIn) {
+        fetch("/api/newsletter/subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: payload.email,
+            name: payload.name,
+            source: "shop",
+          }),
+        }).catch(() => {});
       }
       trackMetaEvent("Purchase", {
         content_ids: items.map((i) => i.slug),
@@ -484,6 +498,18 @@ export default function CheckoutForm() {
           />
           <span className="text-xs text-[#5A6480] leading-relaxed">
             Souhlasím se zpracováním osobních údajů za účelem zpracování této objednávky. Údaje uchováváme po dobu nezbytnou k vyřízení objednávky a v rozsahu zákonných povinností (faktury 10 let). Kdykoliv můžeš požádat o jejich výmaz. Provozovatel: FUTUNATU s.r.o., IČO 07376766.
+          </span>
+        </label>
+
+        <label className="flex items-start gap-2.5 mt-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={newsletterOptIn}
+            onChange={(e) => setNewsletterOptIn(e.target.checked)}
+            className="mt-1 w-4 h-4 accent-[#3B7CF4]"
+          />
+          <span className="text-xs text-[#5A6480] leading-relaxed">
+            <strong className="text-[#1a1a2e]">Chci dostávat newsletter</strong> — cca 1× měsíčně novinky, tipy a akce. Odhlásit kdykoliv. (volitelné)
           </span>
         </label>
 

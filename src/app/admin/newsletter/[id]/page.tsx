@@ -5,10 +5,12 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getAdminContext } from "@/lib/admin-auth";
 import { getCampaign, wrapEmailHtml } from "@/lib/newsletter";
+import { countConfirmedSubscribers } from "@/lib/newsletter-subscribers";
 import {
   saveCampaignAction,
   deleteCampaignAction,
   testSendAction,
+  sendToAllAction,
 } from "../actions";
 
 export const metadata: Metadata = {
@@ -23,7 +25,7 @@ export default async function AdminNewsletterEditPage({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ saved?: string; test_sent?: string }>;
+  searchParams: Promise<{ saved?: string; test_sent?: string; sent?: string }>;
 }) {
   const ctx = await getAdminContext();
   if (!ctx) {
@@ -38,6 +40,8 @@ export default async function AdminNewsletterEditPage({
 
   const sp = await searchParams;
   const previewHtml = c ? wrapEmailHtml(c.subject, c.preheader, c.body_html) : "";
+  const subscriberCount = c ? await countConfirmedSubscribers() : 0;
+  const sentParam = sp?.sent ? parseInt(sp.sent, 10) : null;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -172,6 +176,37 @@ export default async function AdminNewsletterEditPage({
                         Test send
                       </button>
                     </div>
+                  </form>
+
+                  {/* Send to all */}
+                  <form
+                    action={sendToAllAction}
+                    className="bg-white rounded-2xl border border-[#A7F3D0] p-5"
+                  >
+                    <input type="hidden" name="id" value={c.id} />
+                    <h3 className="text-sm font-black text-[#065F46] mb-1">Send to all</h3>
+                    <p className="text-xs text-[#5A6480] mb-3">
+                      Pošle kampaň všem confirmed subscribers (<strong>{subscriberCount}</strong>).
+                      {c.status === "sent" && (
+                        <span className="text-[#065F46]"> Tato kampaň už byla odeslána.</span>
+                      )}
+                    </p>
+                    {sentParam !== null && (
+                      <div className="mb-3 text-[11px] bg-[#D1FAE5] text-[#065F46] p-2 rounded-lg font-bold">
+                        ✓ Odesláno {sentParam} e-mailů
+                      </div>
+                    )}
+                    <button
+                      type="submit"
+                      disabled={c.status === "sent" || subscriberCount === 0}
+                      className="w-full px-4 py-2 bg-[#10B981] text-white rounded-full text-xs font-bold hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      {c.status === "sent"
+                        ? "Už odesláno"
+                        : subscriberCount === 0
+                          ? "Žádní subscribeři"
+                          : `Odeslat ${subscriberCount} adresátům`}
+                    </button>
                   </form>
 
                   <form

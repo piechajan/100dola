@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { COMPANY, STERNBERK_STORE } from "@/data/company";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 const links: Record<string, { label: string; href: string; external?: boolean }[]> = {
   "100dola sport": [
@@ -39,7 +40,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#1a1a2e] text-white">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-16">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12 pb-12 border-b border-white/10">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-8 md:gap-10 pb-12 border-b border-white/10">
 
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
@@ -72,6 +73,15 @@ export default function Footer() {
                 </a>
               ))}
             </div>
+          </div>
+
+          {/* Newsletter */}
+          <div className="col-span-2 md:col-span-1">
+            <div className="text-xs tracking-[0.15em] uppercase font-bold text-white/30 mb-4">Newsletter</div>
+            <p className="text-xs text-white/40 leading-relaxed mb-3">
+              Novinky ze shopu, tipy z tréninků, akce.
+            </p>
+            <NewsletterSignup variant="footer" source="shop" />
           </div>
 
           {Object.entries(links).map(([section, items]) => (
