@@ -5,6 +5,7 @@
  * Tento layer slouží pouze admin UI. Frontend swap = další commit.
  */
 
+import { unstable_cache } from "next/cache";
 import { createClient } from "@supabase/supabase-js";
 import { events as staticEvents, type Difficulty, type Event, type Sport } from "@/data/events";
 
@@ -65,12 +66,17 @@ export async function listEventsFromDb(): Promise<EventRow[]> {
  * Universal events fetch for rendering (sitemap, Navbar, EventsSection, /community).
  * - DB primary: published rows from `events` table
  * - Fallback: static src/data/events.ts (pro případ že DB není dostupná / je prázdná)
+ * - Cached: 5 min revalidate (events se nemění často; admin invalidace přes revalidatePath)
  */
-export async function getPublishedEvents(): Promise<Event[]> {
-  const rows = await listEventsFromDb();
-  if (rows.length === 0) return staticEvents;
-  return rows.filter((r) => r.is_published).map(rowToEvent);
-}
+export const getPublishedEvents = unstable_cache(
+  async (): Promise<Event[]> => {
+    const rows = await listEventsFromDb();
+    if (rows.length === 0) return staticEvents;
+    return rows.filter((r) => r.is_published).map(rowToEvent);
+  },
+  ["published-events"],
+  { revalidate: 300, tags: ["events"] },
+);
 
 export async function getEventFromDb(id: string): Promise<EventRow | null> {
   const sb = serviceClient();

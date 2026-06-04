@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { getAdminContext } from "@/lib/admin-auth";
 import { upsertEvent, deleteEvent, type EventInput } from "@/lib/events-db";
 import type { Difficulty, Sport } from "@/data/events";
@@ -79,7 +79,8 @@ export async function saveEventAction(formData: FormData) {
     throw new Error(result.error);
   }
 
-  revalidatePath("/admin/events");
+  revalidatePath("/admin/events", "page");
+  revalidateTag("events", "minutes");
   redirect(`/admin/events/${result.id}?saved=1`);
 }
 
@@ -93,6 +94,7 @@ export async function deleteEventAction(formData: FormData) {
   const result = await deleteEvent(id);
   if (!result.ok) throw new Error(result.error);
 
-  revalidatePath("/admin/events");
+  revalidatePath("/admin/events", "page");
+  revalidateTag("events", "minutes");
   redirect("/admin/events?deleted=1");
 }
