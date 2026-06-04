@@ -13,6 +13,7 @@ const BADGE_COLORS: Record<string, string> = {
 const products = [
   {
     id: 1,
+    slug: "scott-addict-rc-10-2026",
     name: "Scott Addict RC 10",
     year: "2026",
     category: "Silniční kola",
@@ -23,7 +24,20 @@ const products = [
     specs: ["Shimano Ultegra Di2", "Syncros Carbon 40mm", "~7 kg"],
   },
   {
+    id: 7,
+    slug: "pinarello-dogma-gr-sram-red-xplr-axs-2026",
+    name: "Pinarello Dogma GR",
+    year: "2026",
+    category: "Gravel · závodní",
+    price: "339 900 Kč",
+    badges: ["Novinka", "Doporučuje tým"],
+    note: "Top-tier gravel závodní stroj. Velikost L.",
+    photo: "/media/pinarello-dogma-gr.webp",
+    specs: ["SRAM Red XPLR AXS 1×13", "Princeton GRIT 4540 DB", "TorayCa M40X carbon"],
+  },
+  {
     id: 2,
+    slug: "q365-gregarius-pro-jersey",
     name: "Gregarius Q36.5 Pro Jersey",
     year: null,
     category: "Cyklistické oblečení",
@@ -35,6 +49,7 @@ const products = [
   },
   {
     id: 3,
+    slug: "magicshine-seemee-r300",
     name: "Magicshine Seemee R300",
     year: "2026",
     category: "Radarové světlo",
@@ -47,6 +62,7 @@ const products = [
   },
   {
     id: 4,
+    slug: "dynastar-m-vertical-88-open-2026",
     name: "Dynastar M-Vertical 88 Open",
     year: "2026",
     category: "Skialpové lyže",
@@ -58,6 +74,7 @@ const products = [
   },
   {
     id: 5,
+    slug: "sponser-iso-drink-red-orange",
     name: "Sponser ISO Drink Red Orange",
     year: null,
     category: "Výživa · isotonický nápoj",
@@ -68,18 +85,8 @@ const products = [
     specs: ["1 000 g · ~19 porcí", "Multi-carb · elektrolyty", "Vegan · bez laktózy"],
   },
   {
-    id: 7,
-    name: "Pinarello Dogma GR",
-    year: "2026",
-    category: "Gravel · závodní",
-    price: "339 900 Kč",
-    badges: ["Novinka", "Doporučuje tým"],
-    note: "Top-tier gravel závodní stroj. Velikost L.",
-    photo: "/media/pinarello-dogma-gr.webp",
-    specs: ["SRAM Red XPLR AXS 1×13", "Princeton GRIT 4540 DB", "TorayCa M40X carbon"],
-  },
-  {
     id: 6,
+    slug: null, // produkt zatím není v PRODUCTS → klik vede na /shop search
     name: "Muc-Off Nano Tech Bike Cleaner",
     year: null,
     category: "Péče o kolo · mytí",
@@ -253,8 +260,9 @@ export default function FeaturedProducts() {
 
 // ── Product card ──────────────────────────────────────────────────────────────
 function ProductCard({
-  name, year, category, price, originalPrice, badges, note, photo, specs,
+  slug, name, year, category, price, originalPrice, badges, note, photo, specs,
 }: {
+  slug: string | null;
   name: string;
   year: string | null;
   category: string;
@@ -267,7 +275,7 @@ function ProductCard({
 }) {
   return (
     <Link
-      href="/shop"
+      href={slug ? `/shop/${slug}` : `/shop?q=${encodeURIComponent(name)}`}
       className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-[#E8E8E8] hover:border-[#E8431A]/20 hover:shadow-lg transition-all duration-200 shrink-0"
       style={{ width: 272 }}
     >
