@@ -4,7 +4,7 @@
 > Claude dělá, co je nachystáno čekající a co potřebuje tvou akci.
 > Pro denní TODO viz `JAN_TODO.md`.
 
-**Stav k:** 2026-06-04
+**Stav k:** 2026-06-04 (večerní update — 8 tasků dokončeno paralelně)
 
 ---
 
@@ -31,6 +31,13 @@
 | `2e4fc8b` | Chat widget MVP — bublina + AI draft |
 | `e41c7b8` | Featured carousel → PDP + Pinarello pozice 2 |
 | `fe15eb9` | Featured card — quick-add pryč, „Detail →" hint |
+| `e2505ef` | Featured ← PRODUCTS s isFeatured flag + cleanup events helpers |
+| `4bf934c` | Admin order tracking — carrier dropdown + customer email |
+| `f896800` | PDP related products — 4 columns + Mohlo by se ti líbit + gravel synergy |
+| `e030996` | Perf: events fetch cached + analytics lazyOnload |
+| `032c0d3` | Search: pg_trgm fuzzy + Empty state s recent/popular |
+| `b7fceba` | Servis/bikefit booking + admin přehled |
+| `930f529` | RMA / vrácení zboží flow |
 
 Plus `fakturace` repo: `17e662a` ESLint fix.
 
@@ -72,20 +79,18 @@ Plus `fakturace` repo: `17e662a` ESLint fix.
 
 ---
 
-## 🛠 Co Claude dělá teď / v plánu (této session)
+## 🛠 Co Claude dělá teď / v plánu
 
-> Pořadí provedení podle priority: rychlé výhry → větší kusy
+> Všech 8 z aktuální session DONE. Co dál → viz pending v nachystaném scaffolding níže nebo nový vstup od Jana.
 
-| # | Co | Status | ETA |
-|---|---|---|---|
-| 5 | Cleanup dead code (`getEventBySlug` etc.) | čeká | 10 min |
-| 2 | Featured carousel admin-driven (přes `isFeatured` flag) | čeká | 35 min |
-| 3 | Order tracking number + customer mail | čeká | 60 min |
-| 4 | PDP related products row | čeká | 45 min |
-| 10 | Lighthouse ad-hoc audit + fixy | čeká | 40 min |
-| 7 | Search UX rework (`pg_trgm` + autocomplete) | čeká | 2-3 h |
-| 8 | Bikefit/Servis booking form + admin přehled | čeká | 2-3 h |
-| 6 | RMA / vrácení zboží flow | čeká | 3-4 h |
+✅ #5 Cleanup dead code
+✅ #2 Featured carousel admin-driven (`isFeatured` flag)
+✅ #3 Order tracking number + customer mail
+✅ #4 PDP related products row (4 columns + gravel synergy)
+✅ #10 Lighthouse audit + fixes (events cache + analytics lazy)
+✅ #7 Search UX (pg_trgm fuzzy + recent/popular suggestions)
+✅ #8 Bikefit/Servis booking form + admin přehled (`/sport/servis` + `/admin/bookings`)
+✅ #6 RMA / vrácení zboží flow (`/objednavka/[id]/vraceni` + `/admin/returns`)
 
 ---
 
