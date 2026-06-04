@@ -64,16 +64,33 @@ export async function GET(request: Request) {
       for (const b of publicBrands ?? []) brandMap.set(b.id, b.brand_slug);
 
       if (brandMap.size > 0) {
-        // Query: match na name OR properties (Barva, Druh) — Postgres ilike
-        const { data: rows } = await sb
-          .from("supplier_products")
-          .select(
-            "id, brand_id, name, sku, price_czk_retail, main_image_url, image_urls, is_public_override, public_slug, has_configurator, properties, local_image_url",
-          )
-          .in("brand_id", Array.from(brandMap.keys()))
-          .eq("is_active", true)
-          .or(`name.ilike.%${q}%,properties->>Barva.ilike.%${q}%,properties->>Druh.ilike.%${q}%`)
-          .limit(18);
+        // Fuzzy match přes pg_trgm RPC (migrace 030).
+        // similarity() zachytí překlepy ('isac' najde 'Isaac'), substring boost
+        // pro exact match. Sortujeme DESC v DB.
+        const sanitized = q.replace(/[%_'\\]/g, "");
+        let rows: unknown[] | null = null;
+
+        const rpcResult = await sb.rpc("supplier_products_fuzzy_search", {
+          search_query: sanitized,
+          brand_ids: Array.from(brandMap.keys()),
+          row_limit: 18,
+        });
+        if (!rpcResult.error && rpcResult.data) {
+          rows = rpcResult.data as unknown[];
+        } else {
+          // Fallback ilike pokud RPC zatím nepřišlo (chvíli po deployi migrace)
+          if (rpcResult.error) console.warn("[search] RPC fallback:", rpcResult.error.message);
+          const fallback = await sb
+            .from("supplier_products")
+            .select(
+              "id, brand_id, name, sku, price_czk_retail, main_image_url, image_urls, is_public_override, public_slug, has_configurator, properties, local_image_url",
+            )
+            .in("brand_id", Array.from(brandMap.keys()))
+            .eq("is_active", true)
+            .or(`name.ilike.%${q}%,properties->>Barva.ilike.%${q}%,properties->>Druh.ilike.%${q}%`)
+            .limit(18);
+          rows = fallback.data;
+        }
 
         supHits = (rows ?? [])
           .filter((r) => {

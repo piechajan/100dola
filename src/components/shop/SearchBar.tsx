@@ -20,15 +20,51 @@ function formatPrice(n: number): string {
   return new Intl.NumberFormat("cs-CZ", { maximumFractionDigits: 0 }).format(n) + " Kč";
 }
 
+const POPULAR_QUERIES = ["Isaac", "Pinarello", "dres", "helmu", "kolo", "Magicshine"];
+const RECENT_STORAGE_KEY = "shop-recent-searches";
+
 export default function SearchBar({ variant = "desktop" }: { variant?: "desktop" | "mobile" } = {}) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [hits, setHits] = useState<SearchHit[]>([]);
   const [loading, setLoading] = useState(false);
   const [activeIdx, setActiveIdx] = useState(-1);
+  const [recent, setRecent] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  // Načti recent searches z localStorage při otevření
+  useEffect(() => {
+    if (!isOpen) return;
+    try {
+      const raw = localStorage.getItem(RECENT_STORAGE_KEY);
+      if (raw) setRecent(JSON.parse(raw) as string[]);
+    } catch {
+      // ignore
+    }
+  }, [isOpen]);
+
+  // Ulož recent search při kliku na hit
+  function saveRecent(q: string) {
+    if (!q || q.length < 2) return;
+    try {
+      const next = [q, ...recent.filter((r) => r.toLowerCase() !== q.toLowerCase())].slice(0, 5);
+      localStorage.setItem(RECENT_STORAGE_KEY, JSON.stringify(next));
+      setRecent(next);
+    } catch {
+      // ignore
+    }
+  }
+
+  function clearRecent() {
+    try {
+      localStorage.removeItem(RECENT_STORAGE_KEY);
+      setRecent([]);
+    } catch {
+      // ignore
+    }
+  }
 
   // Debounced fetch
   useEffect(() => {
@@ -163,9 +199,11 @@ export default function SearchBar({ variant = "desktop" }: { variant?: "desktop"
         </div>
         <div ref={containerRef} className="flex-1 overflow-y-auto">
           {query.trim().length < 2 ? (
-            <div className="p-8 text-center text-sm text-[#9AA3C2]">
-              Zadej alespoň 2 znaky.
-            </div>
+            <EmptyState
+              recent={recent}
+              onSelect={(q) => setQuery(q)}
+              onClear={clearRecent}
+            />
           ) : loading && hits.length === 0 ? (
             <div className="p-8 text-center text-sm text-[#9AA3C2]">Hledám…</div>
           ) : hits.length === 0 ? (
@@ -178,7 +216,7 @@ export default function SearchBar({ variant = "desktop" }: { variant?: "desktop"
                 <Link
                   key={hit.id}
                   href={`/shop/${hit.slug}`}
-                  onClick={() => { setIsOpen(false); setQuery(""); }}
+                  onClick={() => { saveRecent(query.trim()); setIsOpen(false); setQuery(""); }}
                   className={`flex items-center gap-3 px-4 py-3 border-b border-[#F0F2FA] active:bg-[#F5F7FF] ${
                     i === activeIdx ? "bg-[#F5F7FF]" : ""
                   }`}
@@ -228,6 +266,19 @@ export default function SearchBar({ variant = "desktop" }: { variant?: "desktop"
         </button>
       </div>
 
+      {query.trim().length < 2 && (
+        <div
+          className="absolute top-full right-0 mt-2 w-96 max-w-[calc(100vw-2rem)] bg-white rounded-2xl border border-[#E2E6F3] overflow-hidden shadow-xl"
+          style={{ zIndex: 60 }}
+        >
+          <EmptyState
+            recent={recent}
+            onSelect={(q) => setQuery(q)}
+            onClear={clearRecent}
+          />
+        </div>
+      )}
+
       {query.trim().length >= 2 && (
         <div
           className="absolute top-full right-0 mt-2 w-96 max-w-[calc(100vw-2rem)] bg-white rounded-2xl border border-[#E2E6F3] overflow-hidden shadow-xl"
@@ -245,7 +296,7 @@ export default function SearchBar({ variant = "desktop" }: { variant?: "desktop"
                 <Link
                   key={hit.id}
                   href={`/shop/${hit.slug}`}
-                  onClick={() => { setIsOpen(false); setQuery(""); }}
+                  onClick={() => { saveRecent(query.trim()); setIsOpen(false); setQuery(""); }}
                   className={`flex items-center gap-3 px-3 py-2.5 hover:bg-[#F5F7FF] transition-colors ${
                     i === activeIdx ? "bg-[#F5F7FF]" : ""
                   }`}
@@ -275,6 +326,69 @@ export default function SearchBar({ variant = "desktop" }: { variant?: "desktop"
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+function EmptyState({
+  recent,
+  onSelect,
+  onClear,
+}: {
+  recent: string[];
+  onSelect: (q: string) => void;
+  onClear: () => void;
+}) {
+  return (
+    <div className="p-4 space-y-4">
+      {recent.length > 0 && (
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <div className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold">
+              Nedávno hledané
+            </div>
+            <button
+              type="button"
+              onClick={onClear}
+              className="text-[10px] text-[#9AA3C2] hover:text-[#1a1a2e] underline"
+            >
+              vyčistit
+            </button>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {recent.map((q) => (
+              <button
+                key={q}
+                type="button"
+                onClick={() => onSelect(q)}
+                className="text-xs px-3 py-1.5 rounded-full bg-[#F0F2FA] text-[#1a1a2e] hover:bg-[#3B7CF4] hover:text-white transition-colors font-medium"
+              >
+                {q}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      <div>
+        <div className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold mb-2">
+          Oblíbené
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          {POPULAR_QUERIES.map((q) => (
+            <button
+              key={q}
+              type="button"
+              onClick={() => onSelect(q)}
+              className="text-xs px-3 py-1.5 rounded-full border border-[#E2E6F3] text-[#5A6480] hover:border-[#3B7CF4] hover:text-[#3B7CF4] transition-colors font-medium"
+            >
+              {q}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="text-[10px] text-[#9AA3C2] pt-2 border-t border-[#F0F2FA]">
+        Tip: zvládám i překlepy a víc slov najednou.
+      </div>
     </div>
   );
 }
