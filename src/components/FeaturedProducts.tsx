@@ -338,18 +338,12 @@ function ProductCard({
               {price}
             </span>
           </div>
-          <button
-            className="p-2 rounded-full bg-[#F4F4F4] group-hover:bg-[#E8431A] transition-colors duration-200"
-            aria-label="Přidat do košíku"
-            onClick={(e) => e.preventDefault()}
-          >
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-              className="text-[#666666] group-hover:text-white transition-colors">
-              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <path d="M16 10a4 4 0 0 1-8 0" />
+          <span className="text-[11px] font-bold text-[#9A9A9A] group-hover:text-[#E8431A] transition-colors flex items-center gap-1">
+            Detail
+            <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
-          </button>
+          </span>
         </div>
       </div>
     </Link>
