@@ -185,6 +185,12 @@ export default async function AdminHubPage() {
       countLabel: "nových",
       badge: counts.newMessages > 0 ? { text: "New", color: "#FEF3C7" } : undefined,
     },
+    {
+      href: "/admin/bookings",
+      label: "Servis rezervace",
+      description: "Servis / bikefit / detailing rezervace ze /sport/servis. Confirm → completed flow.",
+      emoji: "🔧",
+    },
   ];
 
   return (
