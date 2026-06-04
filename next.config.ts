@@ -61,6 +61,13 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      // Český alias pro wishlist (canonical zůstává /wishlist).
+      { source: "/oblibene", destination: "/wishlist", permanent: true },
+      { source: "/oblibene/:path*", destination: "/wishlist/:path*", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

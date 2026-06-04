@@ -195,6 +195,12 @@ export const PRODUCTS: Product[] = [
     badges: ["Novinka", "Doporučuje tým"],
     note: "Top-tier gravel závodní stroj. Velikost L. Cena srovnatelná s nejnižší v ČR.",
     photo: "/media/pinarello-dogma-gr.webp",
+    gallery: [
+      "/media/pinarello-dogma-gr.webp",
+      "/media/pinarello-dogma-gr-2.webp",
+      "/media/pinarello-dogma-gr-3.webp",
+      "/media/pinarello-dogma-gr-4.webp",
+    ],
     specs: ["SRAM Red XPLR AXS 1×13", "Princeton GRIT 4540 DB · Vittoria Terreno T30 40", "TorayCa M40X carbon · TiCR cable routing"],
     gender: "M",
     useCase: "race",
