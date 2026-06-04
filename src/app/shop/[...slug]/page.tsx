@@ -431,11 +431,11 @@ function renderProduct(
             <div className="max-w-[1200px] mx-auto px-6 md:px-12">
               <div className="mb-8">
                 <div className="text-xs tracking-[0.22em] uppercase font-bold text-[#3B7CF4] mb-2">
-                  Hodilo by se k tomu
+                  Mohlo by se ti líbit
                 </div>
-                <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e]">Podobné produkty</h2>
+                <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e]">Související produkty</h2>
               </div>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 {related.map((p) => (
                   <Link
                     key={p.id}

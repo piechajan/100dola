@@ -13,6 +13,7 @@ export const SYNERGY_MAP: Record<string, string[]> = {
   "silnicni-aero": ["plastre-silnicni", "helmy-kolo", "tretry-silnicni", "sedla-silnicni", "vyplety-silnicni"],
   "silnicni-endurance": ["plastre-silnicni", "helmy-kolo", "tretry-silnicni", "sedla-silnicni"],
   "silnicni-race": ["plastre-silnicni", "vyplety-silnicni", "wattmetry", "helmy-kolo"],
+  "gravel": ["plastre-gravel", "helmy-kolo", "tretry-gravel", "sedla-gravel", "vyplety-gravel"],
   "gravel-1x": ["plastre-gravel", "helmy-kolo", "tretry-gravel", "sedla-gravel"],
   "gravel-2x": ["plastre-gravel", "helmy-kolo", "tretry-gravel"],
   "triatlon": ["plastre-silnicni", "vyplety-triatlon", "wattmetry"],
