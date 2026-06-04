@@ -385,17 +385,8 @@ Rezervační systém ti pošle potvrzení s odkazem do Google kalendáře a rán
   },
 ];
 
-export function getEventBySlug(slug: string): Event | undefined {
-  return events.find((e) => e.slug === slug);
-}
-
-export function getRelatedEvents(event: Event, count = 3): Event[] {
-  return events
-    .filter((e) => e.slug !== event.slug)
-    .sort((a, b) => {
-      if (a.sport === event.sport && b.sport !== event.sport) return -1;
-      if (b.sport === event.sport && a.sport !== event.sport) return 1;
-      return 0;
-    })
-    .slice(0, count);
-}
+// Po Events frontend swap (commit 1cee84f) frontend čte z DB přes
+// lib/events-db.ts → getPublishedEvents(); helpery getEventBySlug /
+// getRelatedEvents přesunuty inline do /community/event/[slug]/page.tsx
+// (operují nad runtime fetched seznamem).
+// Static `events` array zůstává jako bundle fallback (DB prázdná → static).

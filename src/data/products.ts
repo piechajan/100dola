@@ -44,6 +44,9 @@ export interface Product {
   stockStatus?: "in_stock" | "on_request";
   /** Volitelný callout o dovozu — např. pro stroje s individuálním předáním. */
   deliveryNote?: string;
+  /** Featured carousel na homepage „Aktuálně doporučujeme". Pořadí = featuredOrder asc. */
+  isFeatured?: boolean;
+  featuredOrder?: number;
   /** Pokud supplier — UUID v supplier_products. */
   supplierProductId?: string;
   /** Orthogonal filtr (napříč kategoriemi). Default "U" unisex. */
@@ -107,6 +110,8 @@ export const PRODUCTS: Product[] = [
     note: "Kolo, na kterém jezdíme v Malaze",
     photo: "/media/scott-addict-rc10.png",
     specs: ["Shimano Ultegra Di2", "Syncros Carbon 40mm", "~7 kg"],
+    isFeatured: true,
+    featuredOrder: 1,
   },
   {
     id: 2,
@@ -122,6 +127,8 @@ export const PRODUCTS: Product[] = [
     note: "Dres, který jedeme my",
     photo: "https://www.q36-5.com/media/44/51/b4/1734343420/038PRO25-GregariusQ36.5ProCyclingTeamShortsSleeveJersey-1.png",
     specs: ["112 g (vel. M)", "4 speciální materiály", "Made in Italy"],
+    isFeatured: true,
+    featuredOrder: 3,
   },
   {
     id: 3,
@@ -138,6 +145,8 @@ export const PRODUCTS: Product[] = [
     note: "Funkce jako Garmin Varia + USB-C. Za zlomek ceny.",
     photo: "/media/seemee-r300.jpg",
     specs: ["Radar 140 m dozadu", "ANT+ / Bluetooth", "100 h výdrž, USB-C"],
+    isFeatured: true,
+    featuredOrder: 4,
   },
   {
     id: 4,
@@ -153,6 +162,8 @@ export const PRODUCTS: Product[] = [
     note: "Skialpová sezóna s Open Miles Clinic",
     photo: "https://www.dynastar-lange.com/dw/image/v2/BJJZ_PRD/on/demandware.static/-/Sites-rossignol-catalog/default/dw966b7994/images/large/DANM301_000_72DPI_01.jpg",
     specs: ["88mm waist", "1.18 kg / lyži", "Paulownia core"],
+    isFeatured: true,
+    featuredOrder: 5,
   },
   {
     id: 5,
@@ -168,6 +179,8 @@ export const PRODUCTS: Product[] = [
     note: "Isotonický nápoj pro dlouhé výjezdy. Osvědčený ve Španělsku.",
     photo: "https://sponser.com/cdn/shop/files/Isotonic_1000g_Red-Orange_2048x.png?v=1768564139",
     specs: ["1 000 g · ~19 porcí", "Isotonický · multi-carb · elektrolyty", "Vegan · bez laktózy · bez lepku"],
+    isFeatured: true,
+    featuredOrder: 6,
   },
   {
     id: 6,
@@ -192,6 +205,8 @@ export const PRODUCTS: Product[] = [
     ],
     stockStatus: "on_request",
     deliveryNote: "Osobní dovoz po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín a místo předání dohodneme.",
+    isFeatured: true,
+    featuredOrder: 2,
   },
 ];
 

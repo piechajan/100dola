@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { PRODUCTS, formatPrice } from "@/data/products";
 
 const BADGE_COLORS: Record<string, string> = {
   "Doporučuje tým": "#E8431A",
@@ -10,93 +11,48 @@ const BADGE_COLORS: Record<string, string> = {
   "Buď vidět": "#3B7CF4",
 };
 
-const products = [
-  {
-    id: 1,
-    slug: "scott-addict-rc-10-2026",
-    name: "Scott Addict RC 10",
-    year: "2026",
-    category: "Silniční kola",
-    price: "177 550 Kč",
-    badges: ["Novinka", "Doporučuje tým"],
-    note: "Kolo, na kterém jezdíme v Malaze",
-    photo: "/media/scott-addict-rc10.png",
-    specs: ["Shimano Ultegra Di2", "Syncros Carbon 40mm", "~7 kg"],
-  },
-  {
-    id: 7,
-    slug: "pinarello-dogma-gr-sram-red-xplr-axs-2026",
-    name: "Pinarello Dogma GR",
-    year: "2026",
-    category: "Gravel · závodní",
-    price: "339 900 Kč",
-    badges: ["Novinka", "Doporučuje tým"],
-    note: "Top-tier gravel závodní stroj. Velikost L.",
-    photo: "/media/pinarello-dogma-gr.webp",
-    specs: ["SRAM Red XPLR AXS 1×13", "Princeton GRIT 4540 DB", "TorayCa M40X carbon"],
-  },
-  {
-    id: 2,
-    slug: "q365-gregarius-pro-jersey",
-    name: "Gregarius Q36.5 Pro Jersey",
-    year: null,
-    category: "Cyklistické oblečení",
-    price: "3 290 Kč",
-    badges: [],
-    note: "Dres, který jedeme my",
-    photo: "https://www.q36-5.com/media/44/51/b4/1734343420/038PRO25-GregariusQ36.5ProCyclingTeamShortsSleeveJersey-1.png",
-    specs: ["112 g (vel. M)", "4 speciální materiály", "Made in Italy"],
-  },
-  {
-    id: 3,
-    slug: "magicshine-seemee-r300",
-    name: "Magicshine Seemee R300",
-    year: "2026",
-    category: "Radarové světlo",
-    price: "2 750 Kč",
-    originalPrice: "3 190 Kč",
-    badges: ["Buď vidět", "Novinka"],
-    note: "Funkce jako Garmin Varia + USB-C. Za zlomek ceny.",
-    photo: "/media/seemee-r300.jpg",
-    specs: ["Radar 140 m dozadu", "ANT+ / Bluetooth", "100 h výdrž, USB-C"],
-  },
-  {
-    id: 4,
-    slug: "dynastar-m-vertical-88-open-2026",
-    name: "Dynastar M-Vertical 88 Open",
-    year: "2026",
-    category: "Skialpové lyže",
-    price: "20 990 Kč",
-    badges: ["Novinka"],
-    note: "Skialpová sezóna s Open Miles Clinic",
-    photo: "https://www.dynastar-lange.com/dw/image/v2/BJJZ_PRD/on/demandware.static/-/Sites-rossignol-catalog/default/dw966b7994/images/large/DANM301_000_72DPI_01.jpg",
-    specs: ["88mm waist", "1.18 kg / lyži", "Paulownia core"],
-  },
-  {
-    id: 5,
-    slug: "sponser-iso-drink-red-orange",
-    name: "Sponser ISO Drink Red Orange",
-    year: null,
-    category: "Výživa · isotonický nápoj",
-    price: "650 Kč",
-    badges: ["Doporučuje tým"],
-    note: "Isotonický nápoj pro dlouhé výjezdy. Osvědčený ve Španělsku.",
-    photo: "https://sponser.com/cdn/shop/files/Isotonic_1000g_Red-Orange_2048x.png?v=1768564139",
-    specs: ["1 000 g · ~19 porcí", "Multi-carb · elektrolyty", "Vegan · bez laktózy"],
-  },
-  {
-    id: 6,
-    slug: null, // produkt zatím není v PRODUCTS → klik vede na /shop search
-    name: "Muc-Off Nano Tech Bike Cleaner",
-    year: null,
-    category: "Péče o kolo · mytí",
-    price: "360 Kč",
-    badges: [],
-    note: "Nanotechnologie. Šetrná k plášťům, disku i karbonu.",
-    photo: "https://cdn.myshoptet.com/usr/www.halbich.cz/user/shop/big/9140_green.png",
-    specs: ["1 litr · pH neutrální", "Bezpečný pro karbon + disk", "Biologicky odbouratelný"],
-  },
-];
+const CATEGORY_LABELS: Record<string, string> = {
+  "silnicni-aero": "Silniční kola",
+  "silnicni-endurance": "Silniční kola",
+  "silnicni-race": "Silniční kola",
+  "gravel": "Gravel · závodní",
+  "doplnky": "Cyklistické oblečení",
+  "osvetleni": "Radarové světlo",
+  "skialpy-lyze": "Skialpové lyže",
+  "vyziva-iontaky": "Výživa · isotonický nápoj",
+};
+
+interface FeaturedCardData {
+  id: number;
+  slug: string | null;
+  name: string;
+  year: string | null;
+  category: string;
+  price: string;
+  originalPrice?: string;
+  badges: string[];
+  note: string | null;
+  photo: string | null;
+  specs: string[];
+}
+
+function buildFeaturedFromProducts(): FeaturedCardData[] {
+  return PRODUCTS.filter((p) => p.isFeatured === true)
+    .sort((a, b) => (a.featuredOrder ?? 999) - (b.featuredOrder ?? 999))
+    .map((p) => ({
+      id: p.id,
+      slug: p.slug,
+      name: p.name,
+      year: p.year,
+      category: CATEGORY_LABELS[p.categoryId] ?? p.categoryId,
+      price: formatPrice(p.priceWithVat),
+      originalPrice: p.originalPriceWithVat ? formatPrice(p.originalPriceWithVat) : undefined,
+      badges: p.badges,
+      note: p.note,
+      photo: p.photo,
+      specs: p.specs.slice(0, 3),
+    }));
+}
 
 // ── Carousel ──────────────────────────────────────────────────────────────────
 export default function FeaturedProducts() {
@@ -106,6 +62,8 @@ export default function FeaturedProducts() {
   const [canScrollRight, setCanScrollRight] = useState(true);
   // zone: null = no auto-scroll, "left" = scroll left, "right" = scroll right
   const zoneRef = useRef<"left" | "right" | null>(null);
+
+  const products = useMemo(() => buildFeaturedFromProducts(), []);
 
   const checkScroll = useCallback(() => {
     const el = trackRef.current;
