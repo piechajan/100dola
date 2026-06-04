@@ -32,11 +32,6 @@ export default function TopPromoBar() {
           </span>
           <span className="hidden sm:inline text-white/40">·</span>
           <span className="hidden sm:flex items-center gap-1.5">
-            <span aria-hidden="true">⏱</span>
-            <span>Termín dodání potvrdíme</span>
-          </span>
-          <span className="hidden md:inline text-white/40">·</span>
-          <span className="hidden md:flex items-center gap-1.5">
             <span aria-hidden="true">🛡</span>
             <span>14 dní vrácení zdarma</span>
           </span>
