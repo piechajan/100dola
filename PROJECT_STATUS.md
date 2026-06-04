@@ -4,7 +4,7 @@
 > Claude dělá, co je nachystáno čekající a co potřebuje tvou akci.
 > Pro denní TODO viz `JAN_TODO.md`.
 
-**Stav k:** 2026-06-04 (večerní update — 8 tasků dokončeno paralelně)
+**Stav k:** 2026-06-04 (8 + 6 tasků dokončeno paralelně ve 2 session)
 
 ---
 
@@ -38,6 +38,10 @@
 | `032c0d3` | Search: pg_trgm fuzzy + Empty state s recent/popular |
 | `b7fceba` | Servis/bikefit booking + admin přehled |
 | `930f529` | RMA / vrácení zboží flow |
+| `4e05754` | Pinarello gallery (4 fotky) + 404 redesign + /oblibene alias |
+| `ae1135c` | TopPromoBar — drop „Termín dodání potvrdíme" |
+| `81a7a7a` | Newsletter subscribers + opt-in + send-to-all |
+| `59ef55a` | „Proč nám věřit" trust section + Returns CSV export |
 
 Plus `fakturace` repo: `17e662a` ESLint fix.
 
@@ -81,8 +85,9 @@ Plus `fakturace` repo: `17e662a` ESLint fix.
 
 ## 🛠 Co Claude dělá teď / v plánu
 
-> Všech 8 z aktuální session DONE. Co dál → viz pending v nachystaném scaffolding níže nebo nový vstup od Jana.
+> Všech 14 tasků z 2 session DONE. Další vstup od Jana.
 
+**Session 1 (8 tasků):**
 ✅ #5 Cleanup dead code
 ✅ #2 Featured carousel admin-driven (`isFeatured` flag)
 ✅ #3 Order tracking number + customer mail
@@ -91,6 +96,14 @@ Plus `fakturace` repo: `17e662a` ESLint fix.
 ✅ #7 Search UX (pg_trgm fuzzy + recent/popular suggestions)
 ✅ #8 Bikefit/Servis booking form + admin přehled (`/sport/servis` + `/admin/bookings`)
 ✅ #6 RMA / vrácení zboží flow (`/objednavka/[id]/vraceni` + `/admin/returns`)
+
+**Session 2 (6 tasků):**
+✅ #6 Pinarello PDP galerie (4 WebP fotky)
+✅ #11 404 page redesign (quick links + popular categories)
+✅ #12 Wishlist /oblibene alias redirect
+✅ #4 Newsletter subscribers + opt-in + send-to-all batch
+✅ #13 „Proč nám věřit" trust section na /o-nas
+✅ #7 Returns CSV export pro Fakturoid (Excel CZ format)
 
 ---
 
