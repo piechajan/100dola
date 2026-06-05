@@ -116,13 +116,32 @@
 - Vercel env vars: `COMGATE_MERCHANT`, `COMGATE_API_KEY`, `COMGATE_SECRET`
 - Claude pak napojí card/Apple Pay/Google Pay checkout
 
+### 15. DMARC auto-ingest — Cloudflare Email Worker
+- **Stav 2026-06-05:** Alerts muted přes `DMARC_ALERTS_MUTED=true` v Vercel env. Ingest pipeline je manuální (admin upload), 0 reports v DB lifetime → cron alerty byly false-positive výpadek.
+- **Co setup vyžaduje:**
+  - Cloudflare Workers tarif (free tier OK pro tento use case)
+  - Email Worker bind na `info@100dola.com` (kam chodí DMARC reports z `rua=`)
+  - Worker code: parse `.zip` / `.gz` / `.xml` attachment z mailu → POST na `/api/admin/dmarc/upload` s service auth tokenem
+  - Service auth token vygenerovat: nový env var `DMARC_INGEST_TOKEN` v Vercelu, validovat v `/api/admin/dmarc/upload` jako alternativu k cookie auth
+- **Claude udělá až řekneš „pojď na DMARC auto-ingest":** workflow + Worker template + test setup. Alternativa: Resend Inbound API (beta, jednodušší ale méně kontrola).
+- **Pak:** odstranit `DMARC_ALERTS_MUTED` env → alerts znova aktivní s reálnými daty.
+
+### 16. Manuální DMARC reports upload (rychlejší interim)
+- Pokud chceš mít DMARC monitoring **dřív než auto-ingest**, posbírej posledních 3-5 mailů od:
+  - `noreply-dmarc-support@google.com`
+  - `dmarcreporting@microsoft.com`
+  - `dmarc-noreply@*` (mailchimp/sendgrid forwardery)
+- Stáhni `.zip`/`.gz`/`.xml` přílohu
+- Uploadni přes `https://www.100dola.com/admin/dmarc/upload` (cookie `preview_auth=100dola2025`)
+- Pak `/admin/dmarc` ukáže reálná data, můžeš `DMARC_ALERTS_MUTED` zase odebrat
+
 ---
 
 ## ⏰ Self-reminders Claude (automaticky)
 
 | Datum | Co Claude udělá |
 |---|---|
-| 2026-06-17 | Připomene DMARC Phase 3, ověří pass rate |
+| 2026-06-17 | Připomene DMARC Phase 3, ověří pass rate (jakmile bude ingest setup) |
 | 2026-07-01 | Připomene DMARC Phase 4 (`p=reject`) |
 | Daily 04:00 | DMARC health check (alert mail pokud anomalie) |
 | Daily 09:00 | Stock notify cron (mail customers o naskladnění) |
