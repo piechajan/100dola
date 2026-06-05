@@ -95,10 +95,17 @@ async function runDmarcCheck() {
     if (!isKnownIp(ip)) unknownIps.add(ip);
   }
 
-  // 3) Recent reports check
+  // 3) Recent reports check — rozlišuj "0 reportů ever" vs "delší pauza"
   const lastReport = reportRows[0];
   const stale =
     !lastReport || new Date(lastReport.date_range_end).toISOString() < since5d;
+
+  // Globální kontrola: existuje vůbec nějaký report v tabulce? Pokud ne, pipeline
+  // ingest není napojená (manuální upload nikdo neudělal) — to není výpadek infra.
+  const { count: lifetimeCount } = await sb
+    .from("dmarc_reports")
+    .select("id", { count: "exact", head: true });
+  const ingestNeverRan = (lifetimeCount ?? 0) === 0;
 
   // Decide if alert needed
   const alerts: string[] = [];
@@ -108,8 +115,29 @@ async function runDmarcCheck() {
   if (unknownIps.size > 0) {
     alerts.push(`${unknownIps.size} neznámých source IPs: ${Array.from(unknownIps).slice(0, 5).join(", ")}`);
   }
-  if (stale) {
-    alerts.push("Žádné DMARC reports v posledních 5 dnech — možný výpadek email infrastruktury.");
+  if (stale && !ingestNeverRan) {
+    alerts.push("Žádné DMARC reports v posledních 5 dnech — možný výpadek email infrastruktury nebo přerušení DMARC ingestu.");
+  }
+  if (ingestNeverRan) {
+    alerts.push(
+      "DMARC ingest pipeline nikdy nedoručila žádný report (0 řádků v dmarc_reports). " +
+      "Reports z Google/Microsoft chodí na rua= adresy v _dmarc TXT, ale nikdo je neuploadoval " +
+      "do /admin/dmarc/upload. Toto NENÍ výpadek e-mail infrastruktury — je to chybějící automatický " +
+      "ingest. Setup options: 1) ručně uploadnout 1-2 reports z Gmailu, 2) napojit Cloudflare Email " +
+      "Worker / Resend Inbound na /api/admin/dmarc/upload, 3) dočasně tichý alert přepnutím cronu."
+    );
+  }
+
+  // Mute switch: pokud DMARC_ALERTS_MUTED=true (Vercel env), nepošleme alert
+  // (užitečné dokud není DMARC ingest pipeline napojen)
+  if (process.env.DMARC_ALERTS_MUTED === "true") {
+    return {
+      ok: true,
+      status: "gated" as const,
+      sentAlert: false,
+      reason: "DMARC_ALERTS_MUTED",
+      alerts,
+    };
   }
 
   if (alerts.length === 0) {
