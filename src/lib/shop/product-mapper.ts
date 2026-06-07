@@ -207,9 +207,17 @@ function inferCategoryByBrand(
  * — i když mají v názvu „pro model TORUS / Boson / Meson".
  */
 function inferIsaacCategory(lowerName: string): string {
-  // 1) Detekce náhradních dílů / doplňků (před model match)
-  if (/\b(patka|kryt|silikon|n[áa]hradn|z[áa]mek|š?roub|adapter|sada|příslušenstv)/i.test(lowerName)) {
-    return "doplnky"; // top-level „Doplňky" — ne „Kola"
+  // 1) Detekce doplňků / náhradních dílů (priorita PŘED model match)
+  // Specifické doplňky mapujeme do konkrétních sub-kategorií, aby se filtrovaly správně
+  if (/\bomot[áa]vk|bar.?tape|grip\b/i.test(lowerName)) return "doplnky-omotavky";
+  if (/\bko[šs][íi]k|bottle.?cage\b/i.test(lowerName)) return "doplnky-kosiky";
+  if (/\b(zadn[íi]|p[řr]edn[íi])?\s*(pevn[áa]\s+)?osa\b|thru.?axle/i.test(lowerName)) return "doplnky-osy";
+  if (/\bp[řr]edstavec|\bstem\b/i.test(lowerName)) return "doplnky-predstavce";
+  if (/\bsedlo|saddle\b/i.test(lowerName)) return "sedla-silnicni";
+  if (/\b[řr][íi]d[íi]tk|handlebar\b/i.test(lowerName)) return "doplnky-ridilka";
+  if (/\bpedál|pedal/i.test(lowerName)) return "pedaly-silnicni";
+  if (/\b(patka|kryt|silikon|n[áa]hradn|z[áa]mek|š?roub|adapter|sada|příslušenstv|adapt[ée]r)/i.test(lowerName)) {
+    return "doplnky"; // generic fallback
   }
   // 2) Skutečná kola podle modelu
   if (/\bboson\b/.test(lowerName)) return "triatlon";
@@ -275,6 +283,24 @@ function inferUseCase(
   if (brand === "ffwd") return "race"; // performance wheelsets
   if (brand === "ale") return "performance"; // ALE cycling oblečení
   return null;
+}
+
+/**
+ * Public helper pro re-categorization skripty.
+ * Reuses inferIsaacCategory / inferFfwdCategory / inferAleCategory podle brandu.
+ */
+export function inferCategoryForBrand(
+  brand: string,
+  name: string,
+  props: Record<string, unknown>,
+  categoryPath: string,
+): string {
+  const lowerName = name.toLowerCase();
+  const lowerPath = categoryPath.toLowerCase();
+  if (brand === "isaac") return inferIsaacCategory(lowerName);
+  if (brand === "ffwd") return inferFfwdCategory(lowerName, lowerPath);
+  if (brand === "ale") return inferAleCategory(props, lowerName, lowerPath);
+  return "doplnky";
 }
 
 function isBulkyBySlugOrCategory(brand: string, categoryId: string): boolean {

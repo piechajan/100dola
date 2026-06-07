@@ -42,6 +42,7 @@ export default function ShopLayout({
   // "vse" = žádný category filter — zobrazí vše
   const [activeTab, setActiveTab] = useState<string>(initialCategoryId ?? "vse");
   const [activeSub, setActiveSub] = useState<string | null>(initialSubId ?? null);
+  const [activeChild, setActiveChild] = useState<string | null>(null);
   const [activeBrand, setActiveBrand] = useState<string | null>(null);
   const [activeGender, setActiveGender] = useState<Gender | null>(null);
   const [activeUseCase, setActiveUseCase] = useState<UseCase | null>(null);
@@ -73,9 +74,11 @@ export default function ShopLayout({
     return catalog.filter((p) => {
       // Kategorie
       const inCategory = activeCategory
-        ? activeSub
-          ? p.categoryId === activeSub || p.categoryId.startsWith(activeSub + "-")
-          : getCategorySubIds(activeCategory).includes(p.categoryId)
+        ? activeChild
+          ? p.categoryId === activeChild
+          : activeSub
+            ? p.categoryId === activeSub || p.categoryId.startsWith(activeSub + "-")
+            : getCategorySubIds(activeCategory).includes(p.categoryId)
         : true;
 
       // Značka
@@ -97,12 +100,12 @@ export default function ShopLayout({
 
       return inCategory && inBrand && inGender && inUseCase && inPrice && inColor;
     });
-  }, [activeSub, activeBrand, activeCategory, activeGender, activeUseCase, activeColor, catalog, priceMin, priceMax]);
+  }, [activeSub, activeChild, activeBrand, activeCategory, activeGender, activeUseCase, activeColor, catalog, priceMin, priceMax]);
 
   // Reset page na 1 když se mění filtry
   useEffect(() => {
     setCurrentPage(1);
-  }, [activeSub, activeBrand, activeTab, activeGender, activeUseCase, activeColor, priceMin, priceMax]);
+  }, [activeSub, activeChild, activeBrand, activeTab, activeGender, activeUseCase, activeColor, priceMin, priceMax]);
 
   // Sort
   const sortedProducts = useMemo(() => {
@@ -127,12 +130,13 @@ export default function ShopLayout({
   );
 
   const hasActiveFilters =
-    activeBrand !== null || activeGender !== null || activeUseCase !== null || activeSub !== null || activeColor !== null || priceFilterActive;
+    activeBrand !== null || activeGender !== null || activeUseCase !== null || activeSub !== null || activeChild !== null || activeColor !== null || priceFilterActive;
 
   const activeFilterCount =
     (activeBrand ? 1 : 0) +
     (activeGender ? 1 : 0) +
     (activeUseCase ? 1 : 0) +
+    (activeChild ? 1 : 0) +
     (activeColor ? 1 : 0) +
     (priceFilterActive ? 1 : 0);
 
@@ -141,6 +145,7 @@ export default function ShopLayout({
     setActiveGender(null);
     setActiveUseCase(null);
     setActiveColor(null);
+    setActiveChild(null);
     if (activeSub) handleSubChange(null);
     setPriceMin(priceBounds.min);
     setPriceMax(priceBounds.max);
@@ -183,6 +188,7 @@ export default function ShopLayout({
 
   function handleSubChange(subId: string | null) {
     setActiveSub(subId);
+    setActiveChild(null);
     if (typeof window !== "undefined" && activeCategory) {
       const url = subId
         ? `/shop/${activeCategory.id}/${subId}`
@@ -620,14 +626,24 @@ export default function ShopLayout({
                   if (!sub?.children?.length) return null;
                   return (
                     <div className="mt-4 flex flex-wrap gap-2">
-                      {sub.children.map((child) => (
-                        <span
-                          key={child.id}
-                          className="px-4 py-2 rounded-full text-sm font-bold border-2 bg-white text-[#5A6480] border-[#E2E6F3]"
-                        >
-                          {child.name}
-                        </span>
-                      ))}
+                      {sub.children.map((child) => {
+                        const isActive = activeChild === child.id;
+                        return (
+                          <button
+                            key={child.id}
+                            type="button"
+                            onClick={() => setActiveChild(isActive ? null : child.id)}
+                            aria-pressed={isActive}
+                            className={`px-4 py-2 rounded-full text-sm font-bold border-2 transition-all duration-150 ${
+                              isActive
+                                ? "bg-[#3B7CF4] text-white border-[#3B7CF4]"
+                                : "bg-white text-[#5A6480] border-[#E2E6F3] hover:border-[#3B7CF4]/40"
+                            }`}
+                          >
+                            {child.name}
+                          </button>
+                        );
+                      })}
                     </div>
                   );
                 })()}

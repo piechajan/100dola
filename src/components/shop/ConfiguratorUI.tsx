@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useCart } from "@/lib/cart-store";
+import { useConfiguratorStore } from "@/lib/configurator-store";
 import type { Product, ConfiguratorSchema } from "@/data/products";
 
 interface ConfiguratorUIProps {
@@ -56,6 +57,12 @@ export default function ConfiguratorUI({ product, schema }: ConfiguratorUIProps)
   }, [selected, tagsByOption, schema.options]);
 
   const finalPrice = Math.max(0, product.priceWithVat + priceModifier);
+
+  // Publikuj total + selected do global store — PDP hero, MobileStickyCTA, AddToCartButton ho čtou
+  const setTotal = useConfiguratorStore((s) => s.setTotal);
+  useEffect(() => {
+    setTotal(product.id, finalPrice, selected);
+  }, [product.id, finalPrice, selected, setTotal]);
 
   function handleAddToCart() {
     // Snapshot konfigurace do note (čitelné v košíku + objednávce)

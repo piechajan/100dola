@@ -17,7 +17,7 @@ import MobileStickyCTA from "@/components/shop/MobileStickyCTA";
 import ReviewsSection from "@/components/shop/ReviewsSection";
 import Stars from "@/components/shop/Stars";
 import { getReviewAggregate, getPublicReviews } from "@/lib/shop/reviews";
-import { PRODUCTS, splitVat, formatPrice, type Product } from "@/data/products";
+import { PRODUCTS, formatPrice, type Product } from "@/data/products";
 import { getProductBySlugMerged, getShopProducts } from "@/lib/shop/get-products";
 import {
   resolveCategoryPath,
@@ -25,6 +25,8 @@ import {
   productInResolvedCategory,
 } from "@/lib/shop/category-resolver";
 import { recommendForProduct } from "@/lib/shop/recommendations";
+import { applyOverridesToSchema } from "@/lib/shop/configurator-overrides";
+import PDPHeroPrice from "@/components/shop/PDPHeroPrice";
 import { breadcrumbSchema, itemListSchema, jsonLdString } from "@/lib/seo/schema-helpers";
 import { categories } from "@/data/categories";
 import { colorToFamily } from "@/lib/shop/colors";
@@ -86,7 +88,12 @@ export default async function ShopCatchAllPage({
         getReviewAggregate(product.slug),
         getPublicReviews(product.slug, 20),
       ]);
-      return renderProduct(product, all, aggregate, reviews);
+      // Aplikuj configurator tag overrides (migrace 034) — Sportimport posílá 0 modifiers,
+      // Jan v adminu vyplnil reálné hodnoty.
+      const productWithOverrides = product.configuratorSchema
+        ? { ...product, configuratorSchema: await applyOverridesToSchema(product.configuratorSchema) }
+        : product;
+      return renderProduct(productWithOverrides, all, aggregate, reviews);
     }
   }
 
@@ -154,7 +161,7 @@ function renderProduct(
   aggregate: Awaited<ReturnType<typeof getReviewAggregate>> = null,
   reviews: Awaited<ReturnType<typeof getPublicReviews>> = [],
 ) {
-  const { withoutVat, vatAmount } = splitVat(product.priceWithVat, product.vatRate);
+  // splitVat výpočty se počítají v PDPHeroPrice (klient čte effective price)
   // Rule-based + synergy mapping. Behavioral pipeline později.
   const related = recommendForProduct(product, all, 4);
 
@@ -342,22 +349,13 @@ function renderProduct(
               )}
 
               <div className="mt-6 pb-6 border-b border-[#E2E6F3]">
-                {product.originalPriceWithVat && (
-                  <div className="text-sm text-[#9A9A9A] line-through mb-1">
-                    {formatPrice(product.originalPriceWithVat)}
-                  </div>
-                )}
-                <div className="flex items-baseline gap-3">
-                  <span
-                    className={`text-3xl md:text-4xl font-black ${product.originalPriceWithVat ? "text-[#E8431A]" : "text-[#1a1a2e]"}`}
-                  >
-                    {formatPrice(product.priceWithVat)}
-                  </span>
-                  <span className="text-xs text-[#9AA3C2]">vč. DPH</span>
-                </div>
-                <div className="text-[11px] text-[#9AA3C2] mt-1.5">
-                  DPH {product.vatRate} %: {formatPrice(vatAmount)} · Cena bez DPH: {formatPrice(withoutVat)}
-                </div>
+                <PDPHeroPrice
+                  productId={product.id}
+                  basePriceWithVat={product.priceWithVat}
+                  originalPriceWithVat={product.originalPriceWithVat}
+                  vatRate={product.vatRate}
+                  hasConfigurator={!!product.hasConfigurator}
+                />
               </div>
 
               {product.specs.length > 0 && (
@@ -400,7 +398,7 @@ function renderProduct(
                 {product.stockStatus !== "on_request" && (
                   product.fulfillment === "supplier" ? (
                     <div className="rounded-xl p-3 text-xs bg-[#F0F4FF] text-[#1a1a2e] border border-[#D6E1FB]">
-                      <strong>Objednáváme od dodavatele.</strong> Dodání obvykle 5-10 pracovních dnů. Přesný termín potvrdíme po objednávce.
+                      <strong>Objednáváme od dodavatele.</strong> Dodání obvykle 3-8 pracovních dnů. Přesný termín potvrdíme po objednávce.
                     </div>
                   ) : (
                     <div className="rounded-xl p-3 text-xs bg-[#F0F4FF] text-[#1a1a2e] border border-[#D6E1FB]">
