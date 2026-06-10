@@ -282,7 +282,7 @@ export default function ScottSparkRC2027() {
           katalogu. Spočívá ve{" "}
           <strong className="text-[#1a1a2e]">
             vytvoření celku, který převádí pohyby jezdce na rychlost, kontrolu a jistotu
-          </strong>
+          </strong>{" "}
           v jakémkoli terénu.
         </p>
 
