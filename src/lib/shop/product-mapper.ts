@@ -207,19 +207,21 @@ function inferCategoryByBrand(
  * — i když mají v názvu „pro model TORUS / Boson / Meson".
  */
 function inferIsaacCategory(lowerName: string): string {
+  // JavaScript \b je byte-based pro ASCII, ne Unicode-aware — pro česká slova
+  // (ř, í, ě, š atd.) word boundary selhává. Místo \b používáme positive
+  // pre-context "^|[\\s/-]" pro start of word match na ASCII boundary.
   // 1) Detekce doplňků / náhradních dílů (priorita PŘED model match)
-  // Specifické doplňky mapujeme do konkrétních sub-kategorií, aby se filtrovaly správně
-  if (/\bomot[áa]vk|bar.?tape|grip\b/i.test(lowerName)) return "doplnky-omotavky";
-  if (/\bko[šs][íi]k|bottle.?cage\b/i.test(lowerName)) return "doplnky-kosiky";
-  if (/\b(zadn[íi]|p[řr]edn[íi])?\s*(pevn[áa]\s+)?osa\b|thru.?axle/i.test(lowerName)) return "doplnky-osy";
-  if (/\bp[řr]edstavec|\bstem\b/i.test(lowerName)) return "doplnky-predstavce";
-  if (/\bsedlo|saddle\b/i.test(lowerName)) return "sedla-silnicni";
-  if (/\b[řr][íi]d[íi]tk|handlebar\b/i.test(lowerName)) return "doplnky-ridilka";
-  if (/\bpedál|pedal/i.test(lowerName)) return "pedaly-silnicni";
-  if (/\b(patka|kryt|silikon|n[áa]hradn|z[áa]mek|š?roub|adapter|sada|příslušenstv|adapt[ée]r)/i.test(lowerName)) {
+  if (/(?:^|[\s/-])(omot[áa]vk|bar.?tape|grip)/i.test(lowerName)) return "doplnky-omotavky";
+  if (/(?:^|[\s/-])(ko[šs][íi]k|bottle.?cage)/i.test(lowerName)) return "doplnky-kosiky";
+  if (/(?:^|[\s/-])((zadn[íi]|p[řr]edn[íi])?\s*(pevn[áa]\s+)?osa|thru.?axle)\b/i.test(lowerName)) return "doplnky-osy";
+  if (/(?:^|[\s/-])(p[řr]edstavec|stem)\b/i.test(lowerName)) return "doplnky-predstavce";
+  if (/(?:^|[\s/-])(sedlo|sedlovk|saddle|seatpost)/i.test(lowerName)) return "sedla-silnicni";
+  if (/(?:^|[\s/-])([řr][íi]d[íi]tk|handlebar)/i.test(lowerName)) return "doplnky-ridilka";
+  if (/(?:^|[\s/-])(pedál|pedal)/i.test(lowerName)) return "pedaly-silnicni";
+  if (/(?:^|[\s/-])(patka|kryt|silikon|n[áa]hradn|z[áa]mek|š?roub|adapter|sada\b|příslušenstv|adapt[ée]r|hlavov[éeé] slo[žz]en|láhev)/i.test(lowerName)) {
     return "doplnky"; // generic fallback
   }
-  // 2) Skutečná kola podle modelu
+  // 2) Skutečná kola podle modelu (ASCII word boundary funguje)
   if (/\bboson\b/.test(lowerName)) return "triatlon";
   if (/\bvitron\b/.test(lowerName)) return "silnicni-aero";
   if (/\bmeson\b/.test(lowerName)) return "silnicni-race";
