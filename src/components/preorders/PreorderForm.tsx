@@ -92,7 +92,7 @@ export default function PreorderForm({ modelSlug, modelLabel }: Props) {
       setResult({
         ok: true,
         message:
-          "Předobjednávka přijata! Brzy se ti ozveme. Potvrzení jsme poslali na tvůj e-mail.",
+          "Předobjednávka přijata! Brzy se Ti ozveme. Potvrzení jsme poslali na Tvůj e-mail.",
       });
       // Reset
       setFullName("");
@@ -244,7 +244,7 @@ export default function PreorderForm({ modelSlug, modelLabel }: Props) {
             onChange={(e) => setNotes(e.target.value)}
             maxLength={1500}
             rows={4}
-            placeholder="Chci výkup starého kola, zajímá mě financování, mám preferovaný termín…"
+            placeholder="Zajímá mě konkrétní varianta, mám preferovaný termín dodání, dotaz k osazení…"
             className="mt-1.5 w-full px-4 py-3 rounded-xl bg-white border border-[#E2E6F3] text-sm text-[#1a1a2e] placeholder:text-[#9AA3C2] focus:outline-none focus:border-[#3B7CF4] resize-none"
           />
         </label>
@@ -299,7 +299,7 @@ export default function PreorderForm({ modelSlug, modelLabel }: Props) {
       </button>
 
       <p className="text-xs text-[#9AA3C2] text-center">
-        Po odeslání vám zavoláme nebo napíšeme z 100dola sport. Předobjednávka tě
+        Po odeslání Vám zavoláme nebo napíšeme z 100dola sport. Předobjednávka Tě
         nezavazuje k nákupu — slouží k rezervaci a domluvě podrobností.
       </p>
     </form>

@@ -1,8 +1,14 @@
-# Scott Spark RC 2027 — newsletter mail (3 vzhledy A / B / C)
+# Scott Spark RC 2027 — newsletter mail
 
 **Cesta k souboru:** `/Users/janpiechakickthewaves/Claude-code/100dola/web/docs/scott-spark-rc-2027-newsletter.md`
 
-Tři kompletně odlišné vizuální varianty newsletter mailu. Vyber jednu, pošli přes Resend (nebo Mailchimp / SmartEmailing).
+## 🏆 Vítězný design: Vzhled A (vybráno 10.6.2026)
+
+Pošli A přes Resend. Subject: `Nový Scott Spark RC 2027 je tady. Předobjednávka už běží.`
+
+Vzhledy B a C jsou v archivu níže pro případnou retarget kampaň.
+
+---
 
 ---
 
@@ -46,7 +52,7 @@ Tři kompletně odlišné vizuální varianty newsletter mailu. Vyber jednu, po�
         <span style="color:#3B7CF4;">Generace, která mění hru.</span>
       </h1>
       <p style="margin:0 0 18px; font-size:15px; line-height:1.6; color:#5A6480;">
-        Scott právě představil novou generaci jednoho z nejúspěšnějších závodních XC kol v historii. Když si chcete být jistí, že vám nové kolo nepřejede někdo jiný — předobjednávka už běží.
+        Scott právě představil novou generaci jednoho z nejúspěšnějších závodních XC kol v historii. Když si chcete být jistí, že Vám nové kolo neujede někdo jiný — předobjednávka už běží.
       </p>
 
       <div style="background:#F7F9FF; border-radius:12px; padding:18px 22px; margin:18px 0;">

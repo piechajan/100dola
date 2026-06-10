@@ -57,8 +57,8 @@ export default function ScottSparkRC2027() {
               konstrukce HMX-SL / HMX / HMF.
             </li>
             <li>
-              <strong>Dostupnost v ČR:</strong> dodávky koncem 2026 / začátek 2027 — termín
-              potvrdíme po předobjednávce.
+              <strong>Dostupnost v ČR:</strong> první dodávky už září 2026 — přesný
+              termín pro Tvoji konkrétní variantu potvrdíme po předobjednávce.
             </li>
             <li>
               <strong>Kde si ho objednat:</strong>{" "}
@@ -211,7 +211,7 @@ export default function ScottSparkRC2027() {
         </div>
         <p className="text-sm text-[#5A6480] leading-relaxed mb-12">
           <strong>Pro koho má upgrade smysl:</strong> pokud závodíš a předchozí Spark RC je
-          starší než 3 sezóny, posun v rámu (153 g) + sedlovce + úložišti se ti vrátí v
+          starší než 3 sezóny, posun v rámu (153 g) + sedlovce + úložišti se Ti vrátí v
           čase a komfortu. Pokud jezdíš hobby a máš Spark RC 2024+, rozdíl bude jemný —
           spíš počkej rok a vezmi si novou generaci později.
         </p>
@@ -353,7 +353,7 @@ export default function ScottSparkRC2027() {
           Bezchybný výkon i v den závodu
         </h2>
         <p className="text-base text-[#5A6480] leading-relaxed mb-5">
-          Třetí pilíř je o tom, abys o kolo nemusel řešit nic v okamžiku, kdy by ti to
+          Třetí pilíř je o tom, abys o kolo nemusel řešit nic v okamžiku, kdy by Ti to
           stálo závod. Lehké vedení kabelů, otevřená kompatibilita komponent a rychlý
           přístup k nastavení odpružení dávají výkon doslova na dosah ruky. Integrace je
           přesná, nastavení intuitivní, plně chráněný tlumič poskytuje konzistentní výkon
@@ -372,7 +372,7 @@ export default function ScottSparkRC2027() {
           Pro případ, že by se v rámu přesto nějaká vlhkost objevila (typicky při použití
           děleného horního krytu s elektronickým tlumičem), je v rámu velký odtokový otvor.
           Hřídel tlumiče i těsnění zůstávají plně chráněné — což je přesně to, co
-          rozhoduje o tom, jestli ti odpružení vydrží konzistentně fungovat po celou
+          rozhoduje o tom, jestli Ti odpružení vydrží konzistentně fungovat po celou
           sezónu.
         </p>
 
@@ -397,7 +397,7 @@ export default function ScottSparkRC2027() {
           Spark RC. Pokud preferuješ vlastní setup, můžeš{" "}
           <strong className="text-[#1a1a2e]">namontovat jakýkoli standardní XC tlumič</strong>{" "}
           — kompatibilita zůstává plná. Nový snadno použitelný indikátor průhybu a zdvihu
-          ti pak pomůže ladit.
+          Ti pak pomůže ladit.
         </p>
 
         <h3 className="text-xl font-black text-[#1a1a2e] mt-10 mb-3">
@@ -560,8 +560,8 @@ export default function ScottSparkRC2027() {
             ?
           </h3>
           <p className="text-base text-white/80 leading-relaxed mb-6 max-w-xl">
-            Nech nám kontakt a my se ti osobně ozveme — projdeme spolu modelovou řadu,
-            velikost, dostupnost a kdy bude tvoje konkrétní specifikace u nás. Žádný
+            Nech nám kontakt a my se Ti osobně ozveme — projdeme spolu modelovou řadu,
+            velikost, dostupnost a kdy bude Tvoje konkrétní specifikace u nás. Žádný
             anonymní e-shop, žádné automatické sliby termínů.
           </p>
           <Link
@@ -571,7 +571,7 @@ export default function ScottSparkRC2027() {
             Předobjednat Spark RC 2027 →
           </Link>
           <p className="text-xs text-white/50 mt-5">
-            Předobjednávkou tě nic nezavazuje. Domluvíme spolu termín a podrobnosti
+            Předobjednávkou Tě nic nezavazuje. Domluvíme spolu termín a podrobnosti
             telefonicky nebo na prodejně.
           </p>
         </div>
@@ -582,11 +582,11 @@ export default function ScottSparkRC2027() {
             Máte dotaz?
           </div>
           <h3 className="text-xl font-black text-[#1a1a2e] mb-2">
-            Tým 100dola sport vám rád odpoví
+            Tým 100dola sport Vám rád odpoví
           </h3>
           <p className="text-sm text-[#5A6480] leading-relaxed mb-5">
-            Modelová řada, dostupnost, porovnání variant, financování, výkup starého kola
-            — napiš a my se ti ozveme.
+            Modelová řada, dostupnost, porovnání variant, financování, doplňky a osazení
+            — napiš a my se Ti ozveme.
           </p>
           <PreorderInquiryForm />
         </div>
@@ -602,7 +602,7 @@ export default function ScottSparkRC2027() {
           >
             předobjednávka přes 100dola sport
           </Link>{" "}
-          ti zaručí, že budeš mezi prvními, komu se kolo dostane do rukou.
+          Ti zaručí, že budeš mezi prvními, komu se kolo dostane do rukou.
         </p>
       </div>
     </article>

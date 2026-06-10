@@ -13,7 +13,7 @@ const MODEL_LABEL = "Scott Spark RC 2027";
 export const metadata: Metadata = {
   title: "Předobjednávka Scott Spark RC 2027 · 100dola sport",
   description:
-    "Předobjednejte si nový Scott Spark RC 2027 přes 100dola sport ve Šternberku. Osobní servis, výběr velikosti a varianty, výkup starého kola. Bez anonymního e-shopu.",
+    "Předobjednejte si nový Scott Spark RC 2027 přes 100dola sport ve Šternberku. Osobní servis, výběr velikosti a varianty, termín dodání domluvíme spolu. Bez anonymního e-shopu.",
   alternates: { canonical: `https://www.100dola.com/predobjednavka/${MODEL_SLUG}` },
   openGraph: {
     title: "Předobjednávka Scott Spark RC 2027 · 100dola sport",
@@ -113,7 +113,7 @@ export default function SparkRCPreorderPage() {
               <span className="text-[#3B7CF4]">Buď první.</span>
             </h1>
             <p className="text-base md:text-lg text-[#1a1a2e] max-w-2xl leading-relaxed">
-              Nech nám kontakt a my se ti{" "}
+              Nech nám kontakt a my se Ti{" "}
               <strong>osobně ozveme z týmu 100dola sport</strong>. Projdeme spolu modelovou
               řadu, dostupné varianty, velikost a termín dodání. Žádný anonymní e-shop.
             </p>
@@ -144,17 +144,17 @@ export default function SparkRCPreorderPage() {
               Předobjednávka Scott Spark RC 2027
             </h2>
             <p className="text-sm text-[#5A6480] mb-6 leading-relaxed">
-              Po odeslání ti zavoláme nebo napíšeme. Probereme spolu konkrétní variantu,
-              velikost rámu, termín dodání a případně výkup starého kola. Předobjednávka
-              tě k ničemu zatím nezavazuje.
+              Po odeslání Ti zavoláme nebo napíšeme. Probereme spolu konkrétní variantu,
+              velikost rámu, termín dodání a další podrobnosti. Předobjednávka
+              Tě k ničemu zatím nezavazuje.
             </p>
             <PreorderForm modelSlug={MODEL_SLUG} modelLabel={MODEL_LABEL} />
           </div>
 
           <div className="mt-8 bg-[#FFF1EA] border border-[#FBC9A8] rounded-2xl p-5 text-sm text-[#9B3D17] leading-relaxed">
-            <strong className="text-[#1a1a2e]">Termín dodání:</strong> přesný termín
-            potvrdíme po obdržení tvojí předobjednávky a po sladění s dodavatelem
-            (typicky podzim 2026 – jaro 2027 podle modelu a varianty).
+            <strong className="text-[#1a1a2e]">Termín dodání:</strong> první dodávky
+            už září 2026. Přesný termín pro Tvoji konkrétní variantu potvrdíme
+            po obdržení předobjednávky a po sladění s dodavatelem.
           </div>
 
           <div className="mt-8 text-sm text-[#5A6480] leading-relaxed text-center">
