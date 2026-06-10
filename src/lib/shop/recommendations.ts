@@ -9,7 +9,7 @@ import type { Product } from "@/data/products";
  * (jakmile budou) přepíše tyto pravidla podle skutečných objednávek.
  */
 export const SYNERGY_MAP: Record<string, string[]> = {
-  // Kola → pneumatiky, kazety, sedla, helmy, tretry, řídítka
+  // Kola → pláště, kazety, sedla, helmy, tretry, řídítka
   "silnicni-aero": ["plastre-silnicni", "helmy-kolo", "tretry-silnicni", "sedla-silnicni", "vyplety-silnicni"],
   "silnicni-endurance": ["plastre-silnicni", "helmy-kolo", "tretry-silnicni", "sedla-silnicni"],
   "silnicni-race": ["plastre-silnicni", "vyplety-silnicni", "wattmetry", "helmy-kolo"],

@@ -21,7 +21,7 @@ export default function KeramickaLoziska() {
           Keramická ložiska jsou ten typ upgradu, který poznáte hned a zároveň
           si na něj nezvyknete. Plynulejší roztočení, méně odporu, nižší
           opotřebení — a u kola za 80+ tisíc je to jako vyměnit dobré
-          pneumatiky za prémiové. <strong>Stejné kolo, jiný zážitek.</strong>{" "}
+          pláště za prémiové. <strong>Stejné kolo, jiný zážitek.</strong>{" "}
           V tomto článku popíšeme, co keramická ložiska reálně dělají, jaké
           značky stojí za peníze, a jak vyměnit ložiska v 100dola Lab.
         </p>

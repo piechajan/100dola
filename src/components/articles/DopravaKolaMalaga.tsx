@@ -247,13 +247,13 @@ export default function DopravaKolaMalaga() {
           <li>Vnitřní prostor (žádné kolísání teploty z vlhka nebo přímého slunce)</li>
           <li>Monitorovaný kamerový systém + alarm</li>
           <li>Každé kolo má svůj stojan / věšák — žádné navalování</li>
-          <li>Pravidelná kontrola tlaku v pneumatikách (jednou za měsíc)</li>
+          <li>Pravidelná kontrola tlaku v pláštích (jednou za měsíc)</li>
           <li>Štítky s tvým jménem, modelem, fotkou při příjezdu</li>
           <li>10 minut od letiště MAGA — fakt 10 minut, žádné „90 minut autobusem"</li>
         </ul>
         <p className="text-base text-[#5A6480] leading-relaxed mb-8">
           Když si nás <strong>napíšeš den před příletem</strong>, máme kolo připraveno před
-          skladem, pneumatiky nafouknuté, řetěz namazaný, brzdy zkontrolované. Vyzvedneš,
+          skladem, pláště nafouknuté, řetěz namazaný, brzdy zkontrolované. Vyzvedneš,
           ujedeš.
         </p>
 

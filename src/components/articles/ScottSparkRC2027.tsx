@@ -352,7 +352,7 @@ export default function ScottSparkRC2027() {
           Bezchybný výkon i v den závodu
         </h2>
         <p className="text-base text-[#5A6480] leading-relaxed mb-5">
-          Třetí pilíř je o tom, abys o kolo nemusel řešit nic v okamžiku, kdy by Ti to
+          Třetí pilíř je o tom, abys o kolo nemusel řešit nic v okamžiku, kdy by Tě
           stálo závod. Lehké vedení kabelů, otevřená kompatibilita komponent a rychlý
           přístup k nastavení odpružení dávají výkon doslova na dosah ruky. Integrace je
           přesná, nastavení intuitivní, plně chráněný tlumič poskytuje konzistentní výkon

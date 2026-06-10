@@ -226,7 +226,7 @@ export default function KdeKoupitKoloSternberk() {
                   </td>
                   <td className="p-4 text-[#5A6480]">
                     Lehčí karbon, Shimano Ultegra Di2 nebo SRAM Force AXS,
-                    karbonová sada kol, lepší pneumatiky a sedlo. Rozdíl proti
+                    karbonová sada kol, lepší pláště a sedlo. Rozdíl proti
                     střednímu pásmu cítíte na výjezdech, v akceleraci a
                     v handlingu. „Kolo na dlouho" — pravděpodobně vám vydrží
                     10+ let. Pro MTB: serious full-suspension trail/enduro.

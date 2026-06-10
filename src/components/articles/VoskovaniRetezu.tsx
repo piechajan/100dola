@@ -151,7 +151,7 @@ export default function VoskovaniRetezu() {
               <div className="text-2xl mb-2">🏆</div>
               <h3 className="font-black text-[#1F4937] mb-2">Lidé, kteří chtějí maximum</h3>
               <p className="text-sm text-[#5A6480] leading-relaxed">
-                Stejní lidé, co používají keramická ložiska, kvalitní pneumatiky
+                Stejní lidé, co používají keramická ložiska, kvalitní pláště
                 a jezdí na bikefitu. Voskování je standard, ne luxus.
               </p>
             </div>
