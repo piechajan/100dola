@@ -53,10 +53,16 @@ async function buildUrlList(): Promise<string[]> {
   const articleRoutes = ARTICLES.filter((a) => a.status === "published").map(
     (a) => `/clanky/${a.slug}`,
   );
+  // Předobjednávkové landing stránky — high SEO intent
+  const preorderRoutes = ["/predobjednavka/spark-rc-2027"];
 
-  return [...staticRoutes, ...productRoutes, ...eventRoutes, ...articleRoutes].map(
-    (p) => `${BASE_URL}${p}`,
-  );
+  return [
+    ...staticRoutes,
+    ...productRoutes,
+    ...eventRoutes,
+    ...articleRoutes,
+    ...preorderRoutes,
+  ].map((p) => `${BASE_URL}${p}`);
 }
 
 export async function GET(req: NextRequest) {
