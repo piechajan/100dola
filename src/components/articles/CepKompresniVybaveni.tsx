@@ -9,7 +9,7 @@ import Link from "next/link";
  *   - "běžecké vybavení vsetín"
  *
  * Pozicování: 100dola sport — autoritativní průvodce CEP brand. Cíl
- * Valašsko + okolí (Vsetín, VM, Rožnov, Hostýnské vrchy běžecké tratě).
+ * Olomoucký kraj a Šternbersko (Olomouc, Uničov, Litovel, Hranice, Mohelnice).
  */
 export default function CepKompresniVybaveni() {
   return (
@@ -20,7 +20,7 @@ export default function CepKompresniVybaveni() {
           <strong>CEP</strong> je německá značka, která definovala
           kompresní vybavení pro běžce, triatlonisty a vytrvalostní
           sportovce. V Česku má pověst <em>standard pro lidi, kteří to
-          s běháním myslí vážně</em> — a pokud jste z Valašska, je
+          s běháním myslí vážně</em> — a pokud jste ze Šternberku, je
           velká pravděpodobnost, že jsme jediný obchod v dosahu, který
           drží kompletní řadu. V tomto článku ukážeme, co kompresní
           vybavení dělá, jaké modely CEP doporučujeme a komu se vyplatí.
@@ -52,8 +52,8 @@ export default function CepKompresniVybaveni() {
             </li>
             <li>
               📍 <strong>Kde:</strong> 100dola sport Šternberk, Partyzánská 2.
-              Pro klienty z Vsetína, Valašského Meziříčí, Rožnova a
-              Olomouce posíláme nebo dovezeme osobně
+              Pro klienty z Olomouce, Uničova, Litovle, Mohelnice a Hranic
+              posíláme nebo dovezeme osobně
             </li>
           </ul>
         </div>
@@ -230,7 +230,7 @@ export default function CepKompresniVybaveni() {
               <div className="text-2xl mb-2">⛰️</div>
               <h3 className="font-black text-[#9B3D17] mb-2">Trailrunneři</h3>
               <p className="text-sm text-[#5A6480] leading-relaxed">
-                Vsetínské vrchy, Hostýnské vrchy, Beskydy. Tady má kompresí
+                Nízký Jeseník, Bouzovsko, Oderské vrchy. Tady má komprese
                 navíc smysl — ochrana před oděrkami od kamenů, větví, klestí.
               </p>
             </div>
@@ -303,7 +303,7 @@ export default function CepKompresniVybaveni() {
             </ol>
             <p className="text-xs text-[#9AA3C2] mt-3 italic">
               Měříme to v prodejně rychleji a přesněji — pokud jste z
-              Vsetína, Valašského Meziříčí nebo Olomouce, stačí přijet
+              Olomouce, Uničova nebo Litovle, stačí přijet
               jednou, pak posíláme.
             </p>
           </div>
@@ -374,26 +374,26 @@ export default function CepKompresniVybaveni() {
         {/* 6. Geo */}
         <section className="mb-12">
           <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-4">
-            Pro klienty z Valašska a okolí
+            Pro klienty ze Šternberku a okolí
           </h2>
           <div className="bg-[#FFF1EA] border border-[#FBC9A8] rounded-2xl p-6">
             <p className="text-sm text-[#5A6480] leading-relaxed mb-4">
               CEP brand v Česku není zastoupen v každém běžeckém obchodě —
-              v širším Valašsku jsme jeden z mála, kdo drží kompletní řadu
+              na Šternbersku jsme jeden z mála, kdo drží kompletní řadu
               skladem a kdo umí poradit s výběrem velikosti přímo
               v prodejně.
             </p>
             <ul className="space-y-2 text-sm text-[#1a1a2e] list-disc list-outside ml-5 marker:text-[#9B3D17]">
               <li>
-                <strong>Vsetín, Valašské Meziříčí, Rožnov:</strong> doručíme
+                <strong>Šternberk, Olomouc, Uničov:</strong> nejjednodušší
+                cesta — přijeďte do prodejny, změříme a vyzkoušíte
+              </li>
+              <li>
+                <strong>Litovel, Mohelnice, Hranice:</strong> doručíme
                 osobně při dohodě, často během týdne
               </li>
               <li>
-                <strong>Olomouc, Šternberk:</strong> nejjednodušší cesta —
-                přijeďte do prodejny, změříme a vyzkoušíte
-              </li>
-              <li>
-                <strong>Ostrava, Brno:</strong> posíláme balíkem nebo
+                <strong>Ostrava, Brno, Praha:</strong> posíláme balíkem nebo
                 přivezeme při pravidelných cestách
               </li>
               <li>

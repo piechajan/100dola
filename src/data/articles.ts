@@ -55,7 +55,7 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "cep-kompresni-vybaveni",
-    title: "CEP kompresní vybavení pro běžce — kompletní průvodce (Vsetín, Valašsko, Olomouc)",
+    title: "CEP kompresní vybavení pro běžce — kompletní průvodce (Šternberk, Olomouc, Uničov)",
     summary:
       "Co kompresní vybavení reálně dělá, jaké modely CEP máme skladem, jak vybrat velikost a komu se vyplatí. Run Socks, Calf Sleeves, Tall Compression, Recovery. 100dola sport — autorizovaný prodej.",
     category: "sport",
