@@ -562,7 +562,6 @@ export async function sendOrderConfirmation(order: OrderEmailPayload): Promise<v
 
   const subject = `Objednávka ${order.id} přijata — 100dola sport`;
   const firstName = order.contact.name.split(" ")[0];
-  const isPersonal = order.shipping.method.startsWith("personal-");
 
   const itemsRows = order.items
     .map(
@@ -1723,5 +1722,94 @@ export async function sendIsaacEventReport(p: {
     await getResend().emails.send({ from: FROM_EMAIL, to: NOTIFY_EMAIL, subject, text, html });
   } catch (e) {
     console.error("[email] sendIsaacEventReport failed:", e);
+  }
+}
+
+// ── Předobjednávky (Scott Spark RC 2027 a další modely) ─────────────────────────
+
+export interface PreorderEmailPayload {
+  modelSlug: string;
+  modelLabel: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  variantInterest?: string;
+  sizeInterest?: string;
+  notes?: string;
+  subscribeNewsletter: boolean;
+}
+
+export async function sendPreorderNotification(p: PreorderEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = `🚲 Nová předobjednávka — ${p.modelLabel} — ${p.fullName}`;
+  const lines = [
+    `Nová předobjednávka přes web 100dola.com`,
+    ``,
+    `Model:    ${p.modelLabel} (slug: ${p.modelSlug})`,
+    `Klient:   ${p.fullName}`,
+    `E-mail:   ${p.email}`,
+    `Telefon:  ${p.phone}`,
+  ];
+  if (p.variantInterest) lines.push(`Varianta: ${p.variantInterest}`);
+  if (p.sizeInterest) lines.push(`Velikost: ${p.sizeInterest}`);
+  if (p.notes) {
+    lines.push("", "Poznámka:", p.notes);
+  }
+  lines.push("");
+  if (p.subscribeNewsletter) lines.push("✓ Klient chce dostávat novinky 100dola sport");
+  lines.push("", "→ Ozvi se osobně, projdi spolu modelovou řadu, velikost a termín.");
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: NOTIFY_EMAIL,
+      replyTo: p.email,
+      subject,
+      text: lines.join("\n"),
+    });
+  } catch (e) {
+    console.error("[email] sendPreorderNotification failed:", e);
+  }
+}
+
+export async function sendPreorderConfirmation(p: PreorderEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = `Předobjednávka ${p.modelLabel} přijata · 100dola`;
+  const text = [
+    `Ahoj ${p.fullName.split(" ")[0]},`,
+    ``,
+    `dík za předobjednávku ${p.modelLabel}.`,
+    ``,
+    `Jan Piecha z týmu 100dola sport se ti ozve osobně — projdeme spolu modelovou řadu,`,
+    `dostupné varianty, velikost a termín dodání. Žádný anonymní e-shop, žádné`,
+    `automatické sliby termínů.`,
+    ``,
+    `Co jsi nám poslal/a:`,
+    `Model:   ${p.modelLabel}`,
+    p.variantInterest ? `Varianta: ${p.variantInterest}` : null,
+    p.sizeInterest ? `Velikost: ${p.sizeInterest}` : null,
+    p.notes ? `\nPoznámka:\n${p.notes}` : null,
+    ``,
+    `Pokud potřebuješ rychlejší odpověď, volej Janu Piechovi na +420 739 045 057.`,
+    ``,
+    `S díky,`,
+    `100dola sport`,
+    `https://www.100dola.com`,
+  ]
+    .filter((l) => l !== null)
+    .join("\n");
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.email,
+      replyTo: NOTIFY_EMAIL,
+      subject,
+      text,
+    });
+  } catch (e) {
+    console.error("[email] sendPreorderConfirmation failed:", e);
   }
 }

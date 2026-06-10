@@ -173,6 +173,22 @@ export const ContactPayloadSchema = z
   })
   .merge(Honeypot);
 
+export const PreorderPayloadSchema = z
+  .object({
+    modelSlug: z.string().min(3).max(80),
+    modelLabel: z.string().min(3).max(200),
+    fullName: z.string().min(2).max(120).trim(),
+    email: z.email().max(254).toLowerCase(),
+    phone: z.string().min(6).max(40).trim(),
+    variantInterest: z.string().max(200).trim().optional(),
+    sizeInterest: z.string().max(20).trim().optional(),
+    notes: z.string().max(1500).trim().optional(),
+    consentGdpr: z.literal(true),
+    subscribeNewsletter: z.boolean().optional().default(false),
+    attribution: AttributionSchema.optional(),
+  })
+  .merge(Honeypot);
+
 export const IsaacTestPayloadSchema = z
   .object({
     bikeSlug: z.string().min(3).max(80),
@@ -197,6 +213,7 @@ export type OrderItemPayload = z.infer<typeof OrderItemSchema>;
 export type ShippingMethod = (typeof SHIPPING_METHODS)[number];
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 export type IsaacTestPayload = z.infer<typeof IsaacTestPayloadSchema>;
+export type PreorderPayload = z.infer<typeof PreorderPayloadSchema>;
 export type ContactPayload = z.infer<typeof ContactPayloadSchema>;
 
 export const HONEYPOT_NAME = HONEYPOT_FIELD;

@@ -24,6 +24,7 @@ import VlastniKoloVsPujcovna from "@/components/articles/VlastniKoloVsPujcovna";
 import BikefitSternberk from "@/components/articles/BikefitSternberk";
 import IsaacBosonVitronMeson from "@/components/articles/IsaacBosonVitronMeson";
 import StravaSegmentSternberk from "@/components/articles/StravaSegmentSternberk";
+import ScottSparkRC2027 from "@/components/articles/ScottSparkRC2027";
 
 const SITE = "https://www.100dola.com";
 
@@ -77,6 +78,7 @@ const RENDERERS: Record<string, () => React.ReactElement> = {
   "bikefit-sternberk": () => <BikefitSternberk />,
   "isaac-boson-vitron-meson": () => <IsaacBosonVitronMeson />,
   "strava-segmenty-sternberk-olomoucky-kraj": () => <StravaSegmentSternberk />,
+  "scott-spark-rc-2027": () => <ScottSparkRC2027 />,
 };
 
 export default async function ArticleDetailPage({

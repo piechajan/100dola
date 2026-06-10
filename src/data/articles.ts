@@ -42,6 +42,18 @@ export const CATEGORY_COLOR: Record<ArticleCategory, string> = {
 
 export const ARTICLES: Article[] = [
   {
+    slug: "scott-spark-rc-2027",
+    title: "Scott Spark RC 2027 — nová generace závodního XC, kterou už můžete předobjednat",
+    summary:
+      "Spark RC 2027 mění hru — rám HMX-SL 1 427 g, integrované Save-the-Day úložiště, nový kokpit Syncros iC-M100-SL a sedlovka až 200 mm. Detailní přehled platformy, modelové řady a předobjednávka přes 100dola sport ve Šternberku.",
+    category: "sport",
+    publishedAt: "2026-06-10",
+    author: { name: "Jan Piecha", role: "100dola sport" },
+    image: "/media/articles/scott-spark-rc-2027-hero.webp",
+    status: "published",
+    readMinutes: 10,
+  },
+  {
     slug: "cep-kompresni-vybaveni",
     title: "CEP kompresní vybavení pro běžce — kompletní průvodce (Vsetín, Valašsko, Olomouc)",
     summary:

@@ -149,6 +149,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push({ path: `/clanky/${a.slug}`, priority: 0.6, changefreq: "monthly" });
   }
 
+  // ─── Předobjednávky (transactional, high SEO intent) ──────────────────────
+  entries.push({
+    path: "/predobjednavka/spark-rc-2027",
+    priority: 0.9,
+    changefreq: "weekly",
+  });
+
   // ─── Wishlist (mělká priorita, ne pro SEO) ─────────────────────────────────
   entries.push({ path: "/wishlist", priority: 0.3, changefreq: "yearly" });
 
