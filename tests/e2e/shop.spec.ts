@@ -75,6 +75,7 @@ test.describe("Shop smoke", () => {
   test("/admin/login renders form", async ({ page }) => {
     await page.goto("/admin/login");
     await expect(page.locator("h1")).toContainText(/Přihlášení/i);
-    await expect(page.locator('input[type="email"]')).toBeVisible();
+    // Newsletter signup ve footeru má taky type=email — scope na admin login input přes placeholder
+    await expect(page.locator('input[placeholder="piecha.jan@gmail.com"]')).toBeVisible();
   });
 });

@@ -236,6 +236,25 @@ function renderProduct(
       bestRating: 5,
       worstRating: 1,
     };
+    // GSC Produktové úryvky vyžaduje i review pole — přidáme top 3 publikované recenze
+    if (reviews && reviews.length > 0) {
+      baseSchema.review = reviews.slice(0, 3).map((r) => ({
+        "@type": "Review",
+        reviewRating: {
+          "@type": "Rating",
+          ratingValue: r.rating,
+          bestRating: 5,
+          worstRating: 1,
+        },
+        author: {
+          "@type": "Person",
+          name: r.customer_name,
+        },
+        datePublished: r.created_at,
+        ...(r.title ? { name: r.title } : {}),
+        ...(r.body ? { reviewBody: r.body } : {}),
+      }));
+    }
   }
   const productJsonLd = baseSchema;
 
