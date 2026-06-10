@@ -314,14 +314,14 @@ export default function ScottSparkRC2027() {
         </h3>
         <p className="text-base text-[#5A6480] leading-relaxed mb-5">
           Pokud kolo není vyvážené, jezdci pociťují vysokofrekvenční vibrace, kterým se
-          říká <em>chatter</em>. Pneumatika začne skákat, místo aby se přilnula k povrchu.
+          říká <em>chatter</em>. Plášť začne skákat, místo aby se přilnul k povrchu.
           K tomu typicky dochází při rychlém vjezdu do zatáčky, kdy je guma na hranici
           přilnavosti — pak rychlost klesá, ovládání se rozhasí a ztrácíš jistotu.
         </p>
         <p className="text-base text-[#5A6480] leading-relaxed mb-5">
           Tahle ztráta přilnavosti není o jedné součástce. Je to{" "}
           <strong className="text-[#1a1a2e]">výsledek narušení rovnováhy celého systému</strong>{" "}
-          — roli hraje odpružení, pneumatiky, kola a zejména rám. Tím, že byl Spark RC
+          — roli hraje odpružení, pláště, kola a zejména rám. Tím, že byl Spark RC
           navržen jako integrovaný systém, Scott může přesně řídit, jak tyhle prvky
           spolupracují: potlačit chvění, obnovit trakci a zajistit jistější jízdu.
         </p>
