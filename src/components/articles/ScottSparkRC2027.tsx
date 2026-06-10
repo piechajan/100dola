@@ -212,8 +212,7 @@ export default function ScottSparkRC2027() {
         <p className="text-sm text-[#5A6480] leading-relaxed mb-12">
           <strong>Pro koho má upgrade smysl:</strong> pokud závodíš a předchozí Spark RC je
           starší než 3 sezóny, posun v rámu (153 g) + sedlovce + úložišti se Ti vrátí v
-          čase a komfortu. Pokud jezdíš hobby a máš Spark RC 2024+, rozdíl bude jemný —
-          spíš počkej rok a vezmi si novou generaci později.
+          čase a komfortu.
         </p>
 
         <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mt-12 mb-4">
