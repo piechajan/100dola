@@ -61,7 +61,7 @@ export const ARTICLES: Article[] = [
     category: "sport",
     publishedAt: "2026-05-25",
     author: { name: "Jan Piecha", role: "100dola sport" },
-    image: "/media/community-hero-jedeme-spolu-9423.jpg",
+    image: "/media/articles/cep-kompresni-vybaveni-hero.webp",
     status: "published",
     readMinutes: 8,
   },

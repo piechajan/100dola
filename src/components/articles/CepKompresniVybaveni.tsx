@@ -2,11 +2,13 @@ import Link from "next/link";
 
 /**
  * SEO článek "CEP kompresní vybavení pro běžce" — target keywords:
- *   - "CEP punčochy"
+ *   - "CEP podkolenky"
+ *   - "CEP legíny"
  *   - "CEP kompresní"
- *   - "kompresní punčochy běh"
- *   - "kompresní vybavení vsetín / valašské meziříčí"
- *   - "běžecké vybavení vsetín"
+ *   - "kompresní podkolenky běh"
+ *   - "kompresní legíny běh"
+ *   - "kompresní vybavení šternberk / olomouc"
+ *   - "běžecké vybavení šternberk"
  *
  * Pozicování: 100dola sport — autoritativní průvodce CEP brand. Cíl
  * Olomoucký kraj a Šternbersko (Olomouc, Uničov, Litovel, Hranice, Mohelnice).
@@ -34,8 +36,8 @@ export default function CepKompresniVybaveni() {
           <ul className="space-y-2 text-sm text-[#1a1a2e]">
             <li>
               🏃‍♂️ <strong>Co to je:</strong> kompresní textil s graduovaným
-              tlakem (silnější u kotníku, slabší výš) — punčochy, návleky,
-              ponožky, rukávy
+              tlakem (silnější u kotníku, slabší výš) — podkolenky, legíny,
+              návleky, ponožky, rukávy
             </li>
             <li>
               ⚡ <strong>Hlavní benefit:</strong> lepší krevní oběh, méně
@@ -47,8 +49,8 @@ export default function CepKompresniVybaveni() {
               runneři, triatlonisti, lidé s tendencí k otokům nebo křečím
             </li>
             <li>
-              💸 <strong>Ceny:</strong> ponožky od 700 Kč, návleky od 900
-              Kč, kompletní punčochy 1 800–2 800 Kč
+              💸 <strong>Ceny:</strong> ponožky od 450 Kč, návleky od 700
+              Kč, kompletní podkolenky 1 800–2 800 Kč
             </li>
             <li>
               📍 <strong>Kde:</strong> 100dola sport Šternberk, Partyzánská 2.
@@ -111,7 +113,7 @@ export default function CepKompresniVybaveni() {
                   Run Compression Socks
                 </h3>
                 <span className="text-xs uppercase tracking-wider font-bold text-[#E8431A]">
-                  od 700 Kč
+                  od 450 Kč
                 </span>
               </div>
               <p className="text-sm text-[#5A6480] leading-relaxed mb-2">
@@ -131,7 +133,7 @@ export default function CepKompresniVybaveni() {
                   Calf Sleeves (Návleky na lýtka)
                 </h3>
                 <span className="text-xs uppercase tracking-wider font-bold text-[#E8431A]">
-                  od 900 Kč
+                  od 700 Kč
                 </span>
               </div>
               <p className="text-sm text-[#5A6480] leading-relaxed mb-2">
@@ -155,7 +157,7 @@ export default function CepKompresniVybaveni() {
                 </span>
               </div>
               <p className="text-sm text-[#5A6480] leading-relaxed mb-2">
-                Plné kompresní punčochy — od chodidla po pod koleno. Maximální
+                Plné kompresní podkolenky — od chodidla po pod koleno. Maximální
                 kompresí efekt. Bavlna + nylon + lycra v patentovaném mixu CEP.
               </p>
               <p className="text-xs text-[#9AA3C2]">
@@ -191,7 +193,7 @@ export default function CepKompresniVybaveni() {
                   Arm Sleeves (Návleky na paže)
                 </h3>
                 <span className="text-xs uppercase tracking-wider font-bold text-[#E8431A]">
-                  od 900 Kč
+                  od 700 Kč
                 </span>
               </div>
               <p className="text-sm text-[#5A6480] leading-relaxed mb-2">
@@ -212,10 +214,17 @@ export default function CepKompresniVybaveni() {
           <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-4">
             Pro koho je CEP to pravé
           </h2>
+          <p className="text-base text-[#5A6480] leading-relaxed mb-3">
+            CEP má dvě tváře. Jednu funkční — <strong>must-have výbavu profíků</strong>{" "}
+            v běhu, triatlonu a vytrvalostním sportu. A druhou{" "}
+            <strong>lifestyle</strong>: kvalitní materiál, čisté řezy, výrazné barvy a
+            logo, které dolaďuje outfit i mimo trénink. Pár, který si koupíte na
+            maraton, nosíte pak roky i k mikině po městě.
+          </p>
           <p className="text-base text-[#5A6480] leading-relaxed mb-6">
-            CEP není „extra pro pros". Je to vybavení pro běžce, kteří
-            chtějí z tréninků a závodů co nejvíc — a kteří se chtějí v
-            běhu udržet co nejdéle. Reálné cílovky:
+            Není to vybavení jen pro elitu — ale ani „obyčejná ponožka navíc".
+            CEP je pro lidi, kteří chtějí z tréninku víc, déle se v běhu udržet,
+            a kterým není jedno, jak věci po těle vypadají. Reálné cílovky:
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-white border border-[#FBC9A8] rounded-xl p-5">
@@ -223,7 +232,7 @@ export default function CepKompresniVybaveni() {
               <h3 className="font-black text-[#9B3D17] mb-2">Vytrvalostní běžci</h3>
               <p className="text-sm text-[#5A6480] leading-relaxed">
                 Půlmaraton, maraton, ultra. Lýtka po 25 km poděkují.
-                Návleky nebo plné punčochy — podle ročního období.
+                Návleky nebo plné podkolenky — podle ročního období.
               </p>
             </div>
             <div className="bg-white border border-[#FBC9A8] rounded-xl p-5">
@@ -269,6 +278,16 @@ export default function CepKompresniVybaveni() {
                 bolesti nohou.
               </p>
             </div>
+            <div className="bg-white border border-[#FBC9A8] rounded-xl p-5">
+              <div className="text-2xl mb-2">✨</div>
+              <h3 className="font-black text-[#9B3D17] mb-2">Lifestyle &amp; outfit</h3>
+              <p className="text-sm text-[#5A6480] leading-relaxed">
+                Nejvíc podceňované využití — CEP nosíte i mimo trénink. Stylová
+                náhrada za bílé sportovní ponožky pod sneakers, doplněk k
+                technickým outfitům (Lululemon, On, Stone Island), výrazná barva
+                jako visual statement. Materiál vydrží 5+ let bez ztráty tvaru.
+              </p>
+            </div>
           </div>
         </section>
 
@@ -298,7 +317,7 @@ export default function CepKompresniVybaveni() {
               </li>
               <li>
                 Změřte <strong>obvod stehna</strong> (jen pro plné
-                triatlonové punčochy).
+                triatlonové legíny).
               </li>
             </ol>
             <p className="text-xs text-[#9AA3C2] mt-3 italic">
@@ -352,7 +371,7 @@ export default function CepKompresniVybaveni() {
                 CEP používá patentovanou tkaninu s definovanými tlakovými
                 gradienty (graduace). Levné kompresní ponožky často mají
                 rovnoměrný tlak — to nepodporuje žilní návrat, jen mačká.
-                Cena 1 800 Kč za punčochy, které vydrží 3–5 sezón, je
+                Cena 1 800 Kč za podkolenky, které vydrží 3–5 sezón, je
                 ekonomicky lepší než ponožka za 500 Kč, kterou vyhodíte
                 za rok.
               </p>
