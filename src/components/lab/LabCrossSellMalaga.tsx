@@ -6,7 +6,7 @@ export default function LabCrossSellMalaga() {
     <section className="bg-[#1a0e08] text-white py-20 md:py-28 overflow-hidden relative">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="https://images.unsplash.com/photo-1502161254066-6c74afbf07aa?w=1800&h=900&fit=crop&auto=format&q=80"
+        src="/media/lab-cross-sell-malaga.webp"
         alt="Malaga — slunce na kole"
         className="absolute inset-0 w-full h-full object-cover opacity-25"
         loading="lazy"

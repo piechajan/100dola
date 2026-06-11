@@ -137,8 +137,7 @@ export const LAB_SERVICES: LabService[] = [
       "Doporučení + foto-dokumentace",
     ],
     priceFrom: "od 1 500 Kč",
-    image:
-      "https://images.unsplash.com/photo-1576435728678-68d0fbf94e91?w=900&h=700&fit=crop&auto=format&q=80",
+    image: "/media/articles/scott-spark-rc-2027/spark-rc-02.webp",
   },
 ];
 
@@ -174,28 +173,28 @@ export const LAB_PROCESS = [
 
 export const LAB_GALLERY = [
   {
-    src: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=1400&h=1050&fit=crop&auto=format&q=80",
-    alt: "Detail road kola — vyleštěný drivetrain",
+    src: "/media/pinarello-dogma-gr.webp",
+    alt: "Pinarello Dogma v Labu — bok rámu",
   },
   {
-    src: "https://images.unsplash.com/photo-1502161254066-6c74afbf07aa?w=1400&h=1050&fit=crop&auto=format&q=80",
-    alt: "Road bike studio — celkový pohled",
+    src: "/media/pinarello-dogma-gr-2.webp",
+    alt: "Pinarello Dogma — detail drivetrainu",
   },
   {
-    src: "https://images.unsplash.com/photo-1505705694340-019e1e335916?w=1400&h=1050&fit=crop&auto=format&q=80",
-    alt: "Makro detail carbon rámu",
+    src: "/media/pinarello-dogma-gr-3.webp",
+    alt: "Pinarello Dogma — detail brzd",
   },
   {
-    src: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=1400&h=1050&fit=crop&auto=format&q=80",
-    alt: "Workshop — kolo na servisním stojanu",
+    src: "/media/articles/scott-spark-rc-2027/spark-rc-02.webp",
+    alt: "Scott Spark RC — detail hlavové trubky a kliky",
   },
   {
-    src: "https://images.unsplash.com/photo-1571333250630-f0230c320b6d?w=1400&h=1050&fit=crop&auto=format&q=80",
-    alt: "Detail čistého řetězu po voskování",
+    src: "/media/articles/scott-spark-rc-2027/spark-rc-05.webp",
+    alt: "Detail nábojů, kazety a klikové sady — Lab Bearings",
   },
   {
-    src: "https://images.unsplash.com/photo-1576435728678-68d0fbf94e91?w=1400&h=1050&fit=crop&auto=format&q=80",
-    alt: "Premium road kolo — bok rámu",
+    src: "/media/lab/ppf-folie-ram.webp",
+    alt: "PPF folie nalepená na rámu — Lab Shield",
   },
 ];
 
