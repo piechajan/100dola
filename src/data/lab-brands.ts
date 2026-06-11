@@ -3,7 +3,7 @@
 // Hierarchie: nejvýše ty, se kterými má Lab nejvíc zkušeností.
 
 export interface LabBrand {
-  category: "wax" | "ppf" | "ceramic" | "bearings" | "cleanup";
+  category: "wax" | "wax_coating" | "ppf" | "ceramic" | "bearings" | "cleanup";
   categoryLabel: string;
   brands: { name: string; note?: string }[];
 }
@@ -43,6 +43,13 @@ export const LAB_BRANDS: LabBrand[] = [
       { name: "Silca SuperSecret", note: "Drip wax, čistý drivetrain" },
       { name: "Molten Speed Wax", note: "Hot wax aplikace" },
       { name: "Squirt Lube" },
+    ],
+  },
+  {
+    category: "wax_coating",
+    categoryLabel: "Wax coating",
+    brands: [
+      { name: "FUSSO Coat", note: "Japonský fluoro coating na lak — hydrofóbní bariéra až 12 měsíců" },
     ],
   },
   {
