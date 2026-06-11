@@ -33,7 +33,7 @@ export const LAB_BRANDS: LabBrand[] = [
     brands: [
       { name: "CeramicSpeed", note: "Náboje, středy, pedály — referenční značka" },
       { name: "Kogel Bearings" },
-      { name: "FSA Ceramic" },
+      { name: "CEMA keramická ložiska" },
     ],
   },
   {
@@ -50,8 +50,6 @@ export const LAB_BRANDS: LabBrand[] = [
     categoryLabel: "Cleanup chemie",
     brands: [
       { name: "Muc-Off", note: "Drivetrain cleaner + bike wash" },
-      { name: "Peaty's LoamFoam" },
-      { name: "Finish Line Pro Chain Cleaner" },
     ],
   },
 ];
