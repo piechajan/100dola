@@ -99,13 +99,14 @@ export const LAB_SERVICES: LabService[] = [
     eyebrow: "Tichý a čistý drivetrain",
     title: "Voskování řetězu",
     description:
-      "Parafínový vosk místo oleje. Tichý chod, čistý drivetrain, nižší opotřebení převodů a kazety.",
+      "Parafínový vosk místo oleje. Tichý chod, čistý drivetrain, nižší opotřebení převodů a kazety. Brzy také na e-shopu — předvoskované řetězy XT, Ultegra, XTR, Dura-Ace, ready k nasazení.",
     bullets: [
+      "Nový řetěz (vlastní) — od 500 Kč",
+      "Používaný řetěz — cena se zvyšuje o odmaštění",
       "Jednorázové / sezónní (6 měsíců) / roční smlouva",
-      "Méně třecích ztrát než olej",
-      "Drivetrain zůstává čistý — neulpívá špína",
+      "Méně třecích ztrát než olej, drivetrain zůstává čistý",
     ],
-    priceFrom: "od 900 Kč",
+    priceFrom: "od 500 Kč",
     image:
       "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=900&h=700&fit=crop&auto=format&q=80",
   },
