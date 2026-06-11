@@ -13,8 +13,7 @@ export const LAB_BRANDS: LabBrand[] = [
     category: "ppf",
     categoryLabel: "PPF folie",
     brands: [
-      { name: "STEK Dyno Shield", note: "Self-healing, 5+ let trvanlivost" },
-      { name: "XPel Ultimate Plus" },
+      { name: "Syncros", note: "Bike-specific PPF — přesné výřezy na rámy" },
       { name: "3M Scotchgard Pro" },
     ],
   },
