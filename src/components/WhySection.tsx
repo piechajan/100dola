@@ -60,7 +60,7 @@ export default function WhySection() {
             {" "}
             <br />
             <span className="text-[#9A9A9A]">
-              Jsme sportovci ze Šternberku, kteří prodávají sport.
+              Jsme sportovci z Valašska, kteří žijí sport.
             </span>
           </h2>
         </div>
