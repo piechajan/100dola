@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
@@ -8,7 +7,6 @@ import {
   ARTICLES,
   CATEGORY_LABEL,
   CATEGORY_COLOR,
-  type ArticleCategory,
 } from "@/data/articles";
 
 export const metadata: Metadata = {
@@ -100,13 +98,12 @@ function ArticleCard({ a }: { a: (typeof ARTICLES)[number] }) {
 
   const body = (
     <>
-      <div className="relative aspect-[16/10] bg-[#F0F2FA]">
-        <Image
+      <div className="relative aspect-[16/10] bg-[#F0F2FA] overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={a.image}
           alt={a.title}
-          fill
-          className={`object-cover ${isDraft ? "grayscale" : ""}`}
-          sizes="(max-width: 768px) 100vw, 33vw"
+          className={`absolute inset-0 w-full h-full object-cover ${isDraft ? "grayscale" : ""}`}
           loading="lazy"
         />
         {isDraft && (
