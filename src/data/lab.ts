@@ -75,9 +75,8 @@ export const LAB_SERVICES: LabService[] = [
       "Self-healing povrch (drobné šrámy mizí teplem)",
       "Životnost 5+ let, vrácení carbonu do originálu",
     ],
-    priceFrom: "od 7 900 Kč",
-    image:
-      "https://images.unsplash.com/photo-1505705694340-019e1e335916?w=900&h=700&fit=crop&auto=format&q=80",
+    priceFrom: "od 2 950 Kč",
+    image: "/media/lab/ppf-folie-ram.webp",
   },
   {
     slug: "glaze",
@@ -91,7 +90,7 @@ export const LAB_SERVICES: LabService[] = [
       "UV ochrana proti vyblednutí laku",
       "Trvanlivost 1–3 roky podle režimu jízdy",
     ],
-    priceFrom: "od 3 500 Kč",
+    priceFrom: "od 2 950 Kč",
     image: "/media/lab/pinarello-dogma-hero.jpg",
   },
   {
