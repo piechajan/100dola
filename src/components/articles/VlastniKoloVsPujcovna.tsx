@@ -11,8 +11,8 @@ export default function VlastniKoloVsPujcovna() {
       <div className="max-w-[820px] mx-auto px-6 md:px-12 py-12 md:py-16">
         <p className="text-lg text-[#5A6480] leading-relaxed mb-10">
           Otázka <strong>„vyplatí se mi tahat vlastní kolo do Malagy, nebo si tam radši
-          půjčit?"</strong> má jasnou matematickou odpověď. Záleží na <em>jak často jezdíš</em>
-          a <em>jak moc ti záleží na tom, co máš pod sedlem</em>. Tady je rozklad, který jsme
+          půjčit?"</strong> má jasnou matematickou odpověď. Záleží na <em>jak často jezdíš a jak moc ti
+          záleží na tom, co máš pod sedlem</em>. Tady je rozklad, který jsme
           udělali pro dvě desítky zákazníků za posledních 18 měsíců.
         </p>
 
