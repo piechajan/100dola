@@ -56,6 +56,7 @@ export const LAB_BRANDS: LabBrand[] = [
     categoryLabel: "Cleanup chemie",
     brands: [
       { name: "Muc-Off", note: "Drivetrain cleaner + bike wash" },
+      { name: "Motul" },
     ],
   },
 ];
