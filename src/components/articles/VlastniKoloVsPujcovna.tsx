@@ -22,9 +22,10 @@ export default function VlastniKoloVsPujcovna() {
           </div>
           <ul className="space-y-1.5 text-sm text-[#1a1a2e]">
             <li>• <strong>1 cesta v životě</strong> → půjčovna 90 % případů</li>
-            <li>• <strong>1–2 cesty / sezónu</strong> → záleží na úrovni (race / hobby), spočítej dopravu</li>
+            <li>• <strong>1–2 cesty / sezónu</strong> → záleží na úrovni (race / hobby), spočítej dopravu <em>včetně cesty na letiště a zpět</em></li>
             <li>• <strong>3+ cesty / sezónu</strong> → vlastní kolo + sklad jednoznačně levnější</li>
             <li>• <strong>Race carbon kolo (150 000 Kč+)</strong> → vždy vlastní, fit a komfort jsou nepřenositelné</li>
+            <li>• <strong>Logistika na místě</strong> → kdo tě vyzvedne na letišti a hodí na ubytování i zpátky (s kufrem i bike boxem) — bez toho to v Malaze zaplatíš třikrát</li>
           </ul>
         </div>
 
