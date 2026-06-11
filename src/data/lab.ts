@@ -59,9 +59,8 @@ export const LAB_SERVICES: LabService[] = [
       "Měřitelně méně třecích ztrát (watty navíc)",
       "Životnost cca 3× delší než standardních ložisek",
     ],
-    priceFrom: "od 4 900 Kč",
-    image:
-      "https://images.unsplash.com/photo-1571333250630-f0230c320b6d?w=900&h=700&fit=crop&auto=format&q=80",
+    priceFrom: "od 2 450 Kč",
+    image: "/media/lab/bearings-hero.webp",
   },
   {
     slug: "shield",
@@ -108,8 +107,7 @@ export const LAB_SERVICES: LabService[] = [
       "Méně třecích ztrát než olej, drivetrain zůstává čistý",
     ],
     priceFrom: "od 500 Kč",
-    image:
-      "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=900&h=700&fit=crop&auto=format&q=80",
+    image: "/media/lab/wax-hero.webp",
   },
   {
     slug: "cleanup",
@@ -124,8 +122,7 @@ export const LAB_SERVICES: LabService[] = [
       "Foto-dokumentace stavu před/po",
     ],
     priceFrom: "od 1 900 Kč",
-    image:
-      "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=900&h=700&fit=crop&auto=format&q=80",
+    image: "/media/lab/cleanup-hero.webp",
   },
   {
     slug: "fit",
