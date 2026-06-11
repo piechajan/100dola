@@ -34,7 +34,7 @@ test.describe("Shop smoke", () => {
   test("ISAAC kola — produkty se zobrazí s fotkou", async ({ page }) => {
     await page.goto("/shop?cat=kola&brand=isaac");
     // počkat na produkty
-    await page.waitForLoadState("networkidle", { timeout: 20_000 });
+    await page.waitForLoadState("domcontentloaded", { timeout: 20_000 });
 
     // Najít obrázek s ISAAC v alt
     const isaacImages = page.locator('img[alt*="Isaac" i]').first();
@@ -50,7 +50,7 @@ test.describe("Shop smoke", () => {
 
   test("PDP first ISAAC product opens with gallery", async ({ page }) => {
     await page.goto("/shop/kola/silnicni");
-    await page.waitForLoadState("networkidle", { timeout: 20_000 });
+    await page.waitForLoadState("domcontentloaded", { timeout: 20_000 });
 
     // Najít produktovou kartu (link uvnitř product grid — má img alt s Isaac)
     const productLink = page
@@ -58,7 +58,7 @@ test.describe("Shop smoke", () => {
       .first();
     await expect(productLink).toBeVisible({ timeout: 10_000 });
     await productLink.click();
-    await page.waitForLoadState("networkidle", { timeout: 20_000 });
+    await page.waitForLoadState("domcontentloaded", { timeout: 20_000 });
 
     // PDP má H1 + buď „Do košíku" nebo „Sestavit a přidat do košíku" (ISAAC configurator)
     await expect(page.locator("h1")).toBeVisible();
