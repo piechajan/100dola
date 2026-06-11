@@ -114,7 +114,6 @@ export const PRODUCTS: Product[] = [
     featuredOrder: 1,
   },
   {
-    // PLACEHOLDER fotka — Jan dodá real foto Addict 30 2026
     id: 12,
     name: "Scott Addict 30",
     slug: "scott-addict-30-2026",
@@ -126,7 +125,7 @@ export const PRODUCTS: Product[] = [
     bulky: true,
     badges: ["Skladem L+XL"],
     note: "Endurance road s race DNA — uvolněnější geometrie pro celodenní pohodlí, ale stále svižné kolo. Podpora plášťů až 38 mm.",
-    photo: "/media/scott-addict-rc10.png",
+    photo: "/media/scott-addict-30.webp",
     specs: ["Shimano 105 Di2", "Syncros Capital 1.0 40 Disc", "8,4 kg"],
     variants: [
       { sku: "scott-addict-30-2026-L", size: "L", isInStock: true, availability: "Skladem" },
@@ -134,7 +133,6 @@ export const PRODUCTS: Product[] = [
     ],
   },
   {
-    // PLACEHOLDER fotka — Jan dodá real foto Foil RC 20
     id: 13,
     name: "Scott Foil RC 20",
     slug: "scott-foil-rc-20-2026",
@@ -146,7 +144,7 @@ export const PRODUCTS: Product[] = [
     bulky: true,
     badges: ["Skladem L+XL", "Aero"],
     note: "Aero race road — Scott označuje Foil za nejrychlejší silniční kolo, jaké kdy vyrobili. Pro spurtery, time trial, triatlon.",
-    photo: "/media/scott-addict-rc10.png",
+    photo: "/media/scott-foil-rc-20.webp",
     specs: ["Shimano 105 Di2", "Syncros Capital 1.0 60 Disc", "8,1 kg"],
     variants: [
       { sku: "scott-foil-rc-20-2026-L", size: "L", isInStock: true, availability: "Skladem" },
