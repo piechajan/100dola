@@ -102,8 +102,9 @@ export const LAB_SERVICES: LabService[] = [
       "Parafínový vosk místo oleje. Tichý chod, čistý drivetrain, nižší opotřebení převodů a kazety. Brzy také na e-shopu — předvoskované řetězy XT, Ultegra, XTR, Dura-Ace, ready k nasazení.",
     bullets: [
       "Nový řetěz (vlastní) — od 500 Kč",
-      "Používaný řetěz — cena se zvyšuje o odmaštění",
-      "Jednorázové / sezónní (6 měsíců) / roční smlouva",
+      "Používaný řetěz — připočteme odmaštění (cena podle stavu)",
+      "Sezónní balíček (jaro–říjen): ~6 voskování, ideálně jednou měsíčně při 3–5 tis. km / sezónu",
+      "Roční balíček: ~10–12 voskování včetně zimního trenažéru / gravelu",
       "Méně třecích ztrát než olej, drivetrain zůstává čistý",
     ],
     priceFrom: "od 500 Kč",

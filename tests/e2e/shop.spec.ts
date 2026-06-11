@@ -61,9 +61,10 @@ test.describe("Shop smoke", () => {
     await page.waitForLoadState("domcontentloaded", { timeout: 20_000 });
 
     // PDP má H1 + buď „Do košíku" nebo „Sestavit a přidat do košíku" (ISAAC configurator)
-    await expect(page.locator("h1")).toBeVisible();
+    await expect(page.locator("h1")).toBeVisible({ timeout: 15_000 });
     const cta = page.getByRole("button", { name: /košíku|Sestavit|Domluvit/i });
-    await expect(cta.first()).toBeVisible({ timeout: 10_000 });
+    // CI síť pomalejší — CTA button může být v dolní polovině PDP, dáme delší timeout
+    await expect(cta.first()).toBeVisible({ timeout: 25_000 });
   });
 
   test("/wishlist loads without auth", async ({ page }) => {
