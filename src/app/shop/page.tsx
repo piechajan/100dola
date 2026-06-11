@@ -15,9 +15,10 @@ export const metadata: Metadata = {
   },
 };
 
-// Revaliduj merged katalog každou hodinu — supplier_products se mění denně cronem,
-// vlastní static PRODUCTS jsou v gitu.
-export const revalidate = 3600;
+// Revaliduj merged katalog jednou za 6 hodin — supplier_products se mění denně
+// cronem, vlastní static PRODUCTS jsou v gitu. Důvod 6h místo 1h: redukce
+// ISR Writes na free Vercel plan (200k/měsíc quota).
+export const revalidate = 21600;
 
 export default async function ShopPage() {
   const products = await getShopProducts();

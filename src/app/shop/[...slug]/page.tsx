@@ -32,7 +32,8 @@ import { categories } from "@/data/categories";
 import { colorToFamily } from "@/lib/shop/colors";
 
 export const dynamicParams = true;
-export const revalidate = 3600;
+// 6h místo 1h — redukce ISR Writes (supplier data se mění typicky denně).
+export const revalidate = 21600;
 
 export function generateStaticParams() {
   const products = PRODUCTS.map((p) => ({ slug: [p.slug] }));
