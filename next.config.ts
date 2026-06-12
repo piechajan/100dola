@@ -26,12 +26,6 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   images: {
-    // 2026-06-11: Vercel Image Optimization quota překročena (HTTP 402 z
-    // /_next/image endpoint). Source images už jsou WebP 2400px ~500 kB
-    // (Python PIL pipeline před uploadem), tedy Vercel transformations
-    // nepřinášejí významný benefit. Bypass na native <img> globálně.
-    // Až bude na Vercelu vyřešený quota plan, vrátit na false.
-    unoptimized: true,
     qualities: [70, 75, 85, 90],
     // AVIF + WebP — prohlížeč si vybere; AVIF je ~30-50% menší proti JPEG.
     formats: ["image/avif", "image/webp"],
