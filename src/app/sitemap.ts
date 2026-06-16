@@ -167,6 +167,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changefreq: "weekly",
   });
 
+  // ─── Scott 2027 lineup (hub + per-platform) ────────────────────────────────
+  entries.push({ path: "/clanky/scott-2027", priority: 0.85, changefreq: "weekly" });
+  const { SCOTT_2027 } = await import("@/data/scott-2027");
+  for (const p of SCOTT_2027) {
+    entries.push({
+      path: `/clanky/scott-2027/${p.slug}`,
+      priority: p.status === "launched" ? 0.8 : 0.7,
+      changefreq: "weekly",
+    });
+  }
+
   // ─── Wishlist (mělká priorita, ne pro SEO) ─────────────────────────────────
   entries.push({ path: "/wishlist", priority: 0.3, changefreq: "yearly" });
 

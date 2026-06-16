@@ -42,6 +42,24 @@ export default function ScottSparkRC2027() {
         {/* Urgency banner — předobjednávky končí 7.7. */}
         <SparkUrgencyBanner />
 
+        {/* Cross-link na Scott 2027 hub — chytá long-tail "scott novinky 2027" */}
+        <div className="bg-[#F7F9FF] border border-[#E2E6F3] rounded-xl p-4 mb-8 flex items-center justify-between gap-4 flex-wrap">
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-wider text-[#3B7CF4] mb-0.5">
+              Celý Scott 2027 lineup
+            </div>
+            <div className="text-sm text-[#1a1a2e]">
+              Spark RC je jen začátek. Podívej se co Scott chystá v MTB, silnici a gravelu.
+            </div>
+          </div>
+          <Link
+            href="/clanky/scott-2027"
+            className="text-sm font-bold text-[#3B7CF4] hover:text-[#5C92F6] transition whitespace-nowrap"
+          >
+            Otevřít přehled →
+          </Link>
+        </div>
+
 
         {/* Sticky info-box: pro koho to je + CTA */}
         <div className="bg-[#EAF1FE] border border-[#C9DCFC] rounded-2xl p-6 mb-12">
