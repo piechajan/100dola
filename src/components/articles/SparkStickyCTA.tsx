@@ -3,13 +3,23 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-/**
- * Mobile-first sticky CTA bar — zobrazí se po scrollu pod 30 % stránky.
- * Slabě překryje obsah, nepřekáží na desktopu (max-width container).
- */
+const DEADLINE = new Date("2026-06-30T23:59:59+02:00").getTime();
+
+function daysLeft(): number {
+  const ms = DEADLINE - Date.now();
+  return Math.max(0, Math.ceil(ms / (1000 * 60 * 60 * 24)));
+}
+
 export default function SparkStickyCTA() {
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const [days, setDays] = useState<number | null>(null);
+
+  useEffect(() => {
+    setDays(daysLeft());
+    const id = setInterval(() => setDays(daysLeft()), 60_000);
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => {
     let raf = 0;
@@ -31,6 +41,8 @@ export default function SparkStickyCTA() {
 
   if (dismissed) return null;
 
+  const showCountdown = days !== null && days > 0 && days <= 30;
+
   return (
     <div
       className={`fixed inset-x-0 bottom-0 z-40 pointer-events-none transition-all duration-300 ${
@@ -41,8 +53,15 @@ export default function SparkStickyCTA() {
       <div className="max-w-[820px] mx-auto px-3 pb-3 md:pb-4 pointer-events-auto">
         <div className="bg-[#1a1a2e] text-white rounded-2xl shadow-2xl border border-white/10 px-4 py-3 flex items-center gap-3">
           <div className="flex-1 min-w-0">
-            <div className="text-[10px] font-bold uppercase tracking-wider text-[#7AA3FF]">
-              Předobjednávka otevřená
+            <div className="text-[10px] font-bold uppercase tracking-wider text-[#7AA3FF] flex items-center gap-1.5">
+              {showCountdown ? (
+                <>
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#FFD23F] animate-pulse" />
+                  Předobjednávky končí 30. 6. — zbývá {days} {days === 1 ? "den" : days < 5 ? "dny" : "dní"}
+                </>
+              ) : (
+                "Předobjednávka otevřená"
+              )}
             </div>
             <div className="text-sm font-black truncate">Scott Spark RC 2027</div>
           </div>

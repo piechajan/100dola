@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import SparkStickyCTA from "./SparkStickyCTA";
+import SparkUrgencyBanner from "./SparkUrgencyBanner";
 import PreorderCounter from "@/components/preorders/PreorderCounter";
 
 /**
@@ -37,6 +38,10 @@ export default function ScottSparkRC2027() {
 
         {/* Preorder counter — FOMO badge, viditelné jen když je 3+ leadů */}
         <PreorderCounter modelSlug="scott-spark-rc-2027" className="mb-6" />
+
+        {/* Urgency banner — předobjednávky končí 30.6. */}
+        <SparkUrgencyBanner />
+
 
         {/* Sticky info-box: pro koho to je + CTA */}
         <div className="bg-[#EAF1FE] border border-[#C9DCFC] rounded-2xl p-6 mb-12">
