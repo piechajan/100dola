@@ -293,7 +293,7 @@ export const SCOTT_2027: Scott2027Platform[] = [
         weightKg: 8.4,
         priceEur: null,
         colors: ["Carbon Black", "Cumulus White", "Frozen Green"],
-        photo: "/media/scott-2027/addict-20.webp",
+        photo: "/media/scott-2027/addict-30.webp",
       },
     ],
     seoKeywords: [
