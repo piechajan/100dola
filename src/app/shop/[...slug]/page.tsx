@@ -50,6 +50,13 @@ export async function generateMetadata({
   if (slug.length === 1) {
     const product = await getProductBySlugMerged(slug[0]);
     if (product) {
+      // Thin supplier produkty bez vlastního popisu (jen import feed text)
+      // se v Google ukazují jako duplicitní → noindex, follow (Google jde po
+      // linkách dál, ale neukáže URL v search results). Vlastní PRODUCTS i
+      // supplier produkty s `note` zachovat indexovatelné.
+      const isThin =
+        product.fulfillment === "supplier" &&
+        (!product.note || product.note.length < 80);
       return {
         title: `${product.name}${product.year ? ` ${product.year}` : ""} — 100dola sport`,
         description: product.note || `${product.name} — ${product.specs.slice(0, 2).join(", ")}`,
@@ -59,6 +66,9 @@ export async function generateMetadata({
           images: [product.photo],
         },
         alternates: { canonical: `/shop/${slug[0]}` },
+        robots: isThin
+          ? { index: false, follow: true, googleBot: { index: false, follow: true } }
+          : undefined,
       };
     }
   }

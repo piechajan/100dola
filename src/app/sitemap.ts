@@ -10,6 +10,13 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com";
 // Sitemap revaliduje 1x denně — supplier produkty se mění s feed importem
 export const revalidate = 86400;
 
+/**
+ * Supplier produkty do sitemapy jen vybrané — Google jinak crawlne 800+ thin
+ * pages bez vlastního popisu, vidí duplicitní feed content a nezaindexuje
+ * (Discovered/Crawled – not indexed). Pravidlo: featured nebo in-stock+vlastní
+ * popis. Ostatní zůstávají dostupné a crawlable přes internal links, ale ne
+ * v sitemap signal pro crawl prioritu.
+ */
 async function fetchSupplierSlugs(): Promise<string[]> {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -24,12 +31,16 @@ async function fetchSupplierSlugs(): Promise<string[]> {
       .eq("is_public", true);
     if (!brands || brands.length === 0) return [];
     const brandIds = brands.map((b) => b.id);
+    // Filter: in_stock=true (skladem teď) NEBO has custom_note (vlastní popis
+    // od Jana = výjimečný produkt s SEO hodnotou). Ostatní mají feed content
+    // = thin pro Google → ven ze sitemap.
     const { data: products } = await sb
       .from("supplier_products")
-      .select("public_slug, sku, id")
+      .select("public_slug, sku, id, is_in_stock, custom_note")
       .in("brand_id", brandIds)
       .eq("is_active", true)
-      .not("main_image_url", "is", null);
+      .not("main_image_url", "is", null)
+      .or("is_in_stock.eq.true,custom_note.not.is.null");
     const slugs: string[] = [];
     for (const p of products ?? []) {
       const row = p as { public_slug: string | null; sku: string | null; id: string };
