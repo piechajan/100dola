@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-const DEADLINE = new Date("2026-06-30T23:59:59+02:00").getTime();
+const DEADLINE = new Date("2026-07-07T23:59:59+02:00").getTime();
 
 function daysLeft(): number {
   const ms = DEADLINE - Date.now();
@@ -57,7 +57,7 @@ export default function SparkStickyCTA() {
               {showCountdown ? (
                 <>
                   <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#FFD23F] animate-pulse" />
-                  Předobjednávky končí 30. 6. — zbývá {days} {days === 1 ? "den" : days < 5 ? "dny" : "dní"}
+                  Předobjednávky končí 7. 7. — zbývá {days} {days === 1 ? "den" : days < 5 ? "dny" : "dní"}
                 </>
               ) : (
                 "Předobjednávka otevřená"

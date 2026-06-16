@@ -39,7 +39,7 @@ export default function ScottSparkRC2027() {
         {/* Preorder counter — FOMO badge, viditelné jen když je 3+ leadů */}
         <PreorderCounter modelSlug="scott-spark-rc-2027" className="mb-6" />
 
-        {/* Urgency banner — předobjednávky končí 30.6. */}
+        {/* Urgency banner — předobjednávky končí 7.7. */}
         <SparkUrgencyBanner />
 
 

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-const DEADLINE = new Date("2026-06-30T23:59:59+02:00").getTime();
+const DEADLINE = new Date("2026-07-07T23:59:59+02:00").getTime();
 
 function daysLeft(): number {
   const ms = DEADLINE - Date.now();
@@ -29,7 +29,7 @@ export default function SparkUrgencyBanner() {
         </div>
         <div className="flex-1">
           <div className="text-xs font-black uppercase tracking-wider text-[#1a1a2e] mb-1">
-            Předobjednávky končí 30. 6.
+            Předobjednávky končí 7. 7.
           </div>
           <div className="text-sm md:text-base text-[#1a1a2e] mb-3 leading-snug">
             Zbývá <strong>{days} {days === 1 ? "den" : days < 5 ? "dny" : "dní"}</strong> na rezervaci Spark RC 2027.
