@@ -167,7 +167,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changefreq: "weekly",
   });
 
-  // ─── Scott 2027 lineup (hub + per-platform) ────────────────────────────────
+  // ─── Scott 2027 lineup (hub + per-platform + per-variant) ─────────────────
   entries.push({ path: "/clanky/scott-2027", priority: 0.85, changefreq: "weekly" });
   const { SCOTT_2027 } = await import("@/data/scott-2027");
   for (const p of SCOTT_2027) {
@@ -176,6 +176,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: p.status === "launched" ? 0.8 : 0.7,
       changefreq: "weekly",
     });
+    for (const v of p.variants) {
+      entries.push({
+        path: `/clanky/scott-2027/${p.slug}/${v.slug}`,
+        priority: p.status === "launched" ? 0.7 : 0.6,
+        changefreq: "weekly",
+      });
+    }
   }
 
   // ─── Wishlist (mělká priorita, ne pro SEO) ─────────────────────────────────

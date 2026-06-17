@@ -100,9 +100,10 @@ export default function ScottPlatformPage({ platform }: { platform: Scott2027Pla
 
         <div className="space-y-4">
           {platform.variants.map((v) => (
-            <div
+            <Link
               key={v.slug}
-              className="bg-white border border-[#E2E6F3] rounded-2xl overflow-hidden md:flex"
+              href={`/clanky/scott-2027/${platform.slug}/${v.slug}`}
+              className="bg-white border border-[#E2E6F3] rounded-2xl overflow-hidden md:flex hover:shadow-lg hover:border-[#C9DCFC] transition group"
             >
               <div className="relative md:w-[260px] aspect-square md:aspect-auto bg-gradient-to-br from-[#EAF1FE] via-[#F7F9FF] to-[#FFFFFF] flex-shrink-0">
                 <Image
@@ -110,11 +111,13 @@ export default function ScottPlatformPage({ platform }: { platform: Scott2027Pla
                   alt={v.name}
                   fill
                   sizes="(min-width: 768px) 260px, 100vw"
-                  className="object-contain p-5"
+                  className="object-contain p-5 group-hover:scale-105 transition-transform"
                 />
               </div>
               <div className="p-5 flex-1">
-                <h3 className="text-xl font-black text-[#1a1a2e] mb-2">{v.name}</h3>
+                <h3 className="text-xl font-black text-[#1a1a2e] mb-2 group-hover:text-[#3B7CF4] transition-colors">
+                  {v.name}
+                </h3>
                 <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-sm text-[#1a1a2e] mb-3">
                   <dt className="text-[#5A6480]">Groupset:</dt>
                   <dd className="font-semibold">{v.groupset}</dd>
@@ -132,6 +135,8 @@ export default function ScottPlatformPage({ platform }: { platform: Scott2027Pla
                       <dd className="font-semibold">{v.weightKg.toFixed(1)} kg</dd>
                     </>
                   )}
+                  <dt className="text-[#5A6480]">Velikosti:</dt>
+                  <dd className="font-semibold">{v.sizes.join(" / ")}</dd>
                 </dl>
                 {v.colors.length > 0 && (
                   <div className="text-xs text-[#5A6480] mb-3">
@@ -146,15 +151,12 @@ export default function ScottPlatformPage({ platform }: { platform: Scott2027Pla
                       <div className="text-[11px] text-[#5A6480]">€ {v.priceEur.toLocaleString("cs-CZ")} MSRP</div>
                     )}
                   </div>
-                  <a
-                    href={`#inquiry-${v.slug}`}
-                    className="bg-[#3B7CF4] hover:bg-[#5C92F6] text-white font-bold text-sm px-4 py-2.5 rounded-xl transition whitespace-nowrap"
-                  >
-                    Poptat →
-                  </a>
+                  <span className="text-sm font-bold text-[#3B7CF4] group-hover:translate-x-1 transition-transform whitespace-nowrap">
+                    Detail + galerie →
+                  </span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

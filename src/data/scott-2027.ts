@@ -16,6 +16,17 @@
 export type Platform = "mtb" | "road" | "gravel";
 export type LaunchStatus = "launched" | "carryover" | "redesign_expected";
 
+export interface Componentry {
+  frame?: string;
+  fork?: string;
+  shock?: string;
+  drivetrain?: string;
+  brakes?: string;
+  wheels?: string;
+  tires?: string;
+  cockpit?: string;
+}
+
 export interface Scott2027Variant {
   name: string;
   slug: string;
@@ -31,8 +42,16 @@ export interface Scott2027Variant {
   priceEur: number | null;
   /** Barevné varianty — max 4 hlavní */
   colors: string[];
-  /** Lokální cesta k fotce v /public/media/scott-2027/ */
+  /** Lokální cesta k hlavní fotce v /public/media/scott-2027/ */
   photo: string;
+  /** Velikosti rámu */
+  sizes: string[];
+  /** Galerie 3-6 fotek na detail stránce */
+  gallery: string[];
+  /** Detailní componentry breakdown */
+  componentry?: Componentry;
+  /** Link na oficiální Scott Sports stránku */
+  scottUrl?: string;
 }
 
 export interface Scott2027Platform {
@@ -70,6 +89,16 @@ export function statusLabel(s: LaunchStatus): string {
   return STATUS_LABEL[s];
 }
 
+const MTB_SIZES = ["S", "M", "L", "XL"];
+const ROAD_SIZES = ["XXS", "XS", "S", "M", "L", "XL", "XXL"];
+const GRAVEL_SIZES = ["XS / 49", "S / 52", "M / 54", "L / 56", "XL / 58"];
+
+function gal(slug: string, count: number): string[] {
+  return Array.from({ length: count }, (_, i) =>
+    `/media/scott-2027/gallery/${slug}/${String(i + 1).padStart(2, "0")}.webp`,
+  );
+}
+
 export const SCOTT_2027: Scott2027Platform[] = [
   {
     slug: "scott-spark-rc-2027",
@@ -104,6 +133,19 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: 13699,
         colors: ["Carbon Black"],
         photo: "/media/scott-2027/spark-rc-sl.webp",
+        sizes: MTB_SIZES,
+        gallery: gal("spark-rc-sl", 6),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-spark-rc-sl-bike",
+        componentry: {
+          frame: "Spark RC Carbon HMX SL, flex pivot, adjustable head angle, 1 870 g s tlumičem",
+          fork: "RockShox SID Ultimate Flight Attendant (electronic), 120 mm, 15×110 Maxle Stealth, 44 mm offset",
+          shock: "RockShox SIDLuxe Ultimate Flight Attendant Custom (electronic), 120 mm, T165×45",
+          drivetrain: "SRAM XX SL Eagle AXS Transmission 12sp, XX SL carbon kliky s power meterem 34T, XS 1299 kazeta 10-52, AXS Rocker Pod",
+          brakes: "SRAM Motive Ultimate 4-Piston, HS2 CL kotouče 180/160",
+          wheels: "Syncros Silverton SL2-30 CL full carbon, DT Swiss 240 Ratchet EXP náboje",
+          tires: "Maxxis Rekon Race 29×2,4\" 120 TPI tubeless EXO",
+          cockpit: "Syncros Fraser iC SL XC Carbon integrovaný, -12°/8°/740 mm; RockShox Reverb AXS dropper 31,6 (100/125/125/150); Syncros Belcarra V1.0 carbon rails",
+        },
       },
       {
         name: "Spark RC World Cup EVO",
@@ -115,6 +157,43 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: 12199,
         colors: ["White"],
         photo: "/media/scott-2027/spark-rc-wc-evo.webp",
+        sizes: MTB_SIZES,
+        gallery: gal("spark-rc-world-cup-evo", 6),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-spark-rc-world-cup-evo-bike",
+        componentry: {
+          frame: "Spark RC Carbon HMX, BB92, UDH",
+          fork: "RockShox SID Ultimate Flight Attendant, 120 mm",
+          shock: "RockShox SIDLuxe Ultimate Flight Attendant Custom, 120 mm, T165×45",
+          drivetrain: "SRAM XX Eagle AXS Transmission, carbon kliky s power meterem 34T, XX SL přehazovačka, XS 1299 kazeta 10-52",
+          brakes: "SRAM Motive Ultimate 4-Piston, HS2 CL 180/160",
+          wheels: "Syncros Silverton 1.0S-30 CL, DT Swiss 240 Ratchet EXP",
+          tires: "Maxxis Rekon Race 29×2,4\" 120 TPI EXO",
+          cockpit: "Syncros Fraser iC SL XC Carbon, -12°/8°/740 mm; RockShox Reverb AXS dropper",
+        },
+      },
+      {
+        name: "Spark RC World Cup",
+        slug: "spark-rc-world-cup",
+        groupset: "SRAM X01 Eagle AXS 12sp",
+        wheels: "Syncros Silverton 1.0-30",
+        fork: "RockShox SID Select+ RL3 Air, 120 mm",
+        weightKg: 10.9,
+        priceEur: 8699,
+        colors: ["Sunbeam Black"],
+        photo: "/media/scott-2027/spark-rc-wc.webp",
+        sizes: MTB_SIZES,
+        gallery: gal("spark-rc-world-cup", 4),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-spark-rc-world-cup-bike",
+        componentry: {
+          frame: "Spark RC Carbon HMX, BB92, UDH",
+          fork: "RockShox SID Select+ RL3 Air, Charger 3-mode tlumení, 120 mm",
+          shock: "RockShox NUDE 5 RL3 Trunnion, 3-mode, T165×45",
+          drivetrain: "SRAM X01 Eagle AXS 12sp, X01 DUB carbon kliky 32T, X01 XG1295 10-52, SRAM GX AXS Rocker",
+          brakes: "SRAM Level TLM, HS2 180/160",
+          wheels: "Syncros Silverton 1.0-30 6-Bolt carbon",
+          tires: "Maxxis Rekon Race 29×2,4\" 120 TPI tubeless",
+          cockpit: "Syncros Fraser iC SL XC Carbon -12°/740 mm; FOX Transfer SL Performance Elite dropper 31,6; Syncros Belcarra Regular 1.5 Ti rails",
+        },
       },
       {
         name: "Spark RC Pro",
@@ -126,6 +205,19 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: 7599,
         colors: ["Azure White"],
         photo: "/media/scott-2027/spark-rc-pro.webp",
+        sizes: MTB_SIZES,
+        gallery: gal("spark-rc-pro", 6),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-spark-rc-pro-bike",
+        componentry: {
+          frame: "Spark RC Carbon HMF, BB92, UDH",
+          fork: "FOX 34 SL Float Performance Elite Air Grip SL, 3-mode, 120 mm",
+          shock: "FOX NUDE 6 EVOL Trunnion, 3-mode, 120-80 mm adjustable",
+          drivetrain: "Shimano XT Di2 RD-M8250 SGS 12sp, XT FC-M8200-1 kliky 34T, XT CS-M8200 10-51, XT řetěz",
+          brakes: "Shimano XT M8220 4-Piston, RT-CL700 kotouče 180/160",
+          wheels: "Syncros Silverton 1.0-30 CL carbon",
+          tires: "Maxxis Rekon Race 29×2,4\" 120 TPI",
+          cockpit: "Syncros Fraser iC SL XC Carbon -12°/740 mm; Syncros Duncan Dropper 1.5XC 31,6/100 mm",
+        },
       },
       {
         name: "Spark RC Team",
@@ -137,17 +229,43 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: 4799,
         colors: ["Carbon Black", "Whisper Grey", "Spectral Black", "Cream Green"],
         photo: "/media/scott-2027/spark-rc-team.webp",
+        sizes: MTB_SIZES,
+        gallery: gal("spark-rc-team", 6),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-spark-rc-team-bike",
+        componentry: {
+          frame: "Spark RC Carbon HMF, BB92, UDH, 12×148, 55 mm chainline",
+          fork: "RockShox SID 3P Air s Rush RL 3-mode tlumení, 120 mm, 44 mm offset",
+          shock: "RockShox NUDE 5 RL3 Trunnion, 3-mode, T165×45",
+          drivetrain: "SRAM S1000 Eagle AXS Transmission 12sp, Eagle 70 kliky 34T, XS 1270 V2 kazeta 10-52, AXS Pod ovladač",
+          brakes: "SRAM DB6 4-Piston, Centerline CL 180/160",
+          wheels: "Syncros Silverton 2.5-30 CL, 28H",
+          tires: "Maxxis Rekon Race 29×2,4\" 120 TPI EXO",
+          cockpit: "Syncros Fraser 2.0 XC Alloy 740 mm/8°; XC 2.0 stem -12°; Duncan Dropper 1.5XC 31,6/100 mm",
+        },
       },
       {
         name: "Spark RC Comp",
         slug: "spark-rc-comp",
         groupset: "SRAM Eagle 70 Transmission",
         wheels: "Syncros X-30SE TR",
-        fork: "RockShox SID 3P Air",
+        fork: "RockShox SID 3P Air / FOX 32 Rhythm",
         weightKg: 12.8,
         priceEur: 3799,
         colors: ["Cumulus White"],
         photo: "/media/scott-2027/spark-rc-comp.webp",
+        sizes: MTB_SIZES,
+        gallery: gal("spark-rc-comp", 6),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-spark-rc-comp-bike",
+        componentry: {
+          frame: "Spark RC Carbon HMF, BB92, UDH",
+          fork: "FOX 32 Float Rhythm Grip, 3-mode, 120 mm",
+          shock: "FOX Float LV Custom EVOL Performance Trunnion DPS, 120 mm",
+          drivetrain: "SRAM Eagle 70 Transmission 12sp, kliky 34T, XS 1270 V2 10-52, Eagle 70 Trigger",
+          brakes: "SRAM DB4 4-Piston, Centerline CL 180/160",
+          wheels: "Syncros X-30SE rims 32H, Formula CL náboje",
+          tires: "Maxxis Rekon Race 29×2,4\" 120 TPI",
+          cockpit: "Syncros Fraser 2.0 XC Alloy 740/8°; XC 2.0 stem; Duncan Dropper 1.5XC 31,6/100 mm",
+        },
       },
     ],
     seoKeywords: [
@@ -190,6 +308,18 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: null,
         colors: ["Hush Purple"],
         photo: "/media/scott-2027/scale-rc-wc.webp",
+        sizes: MTB_SIZES,
+        gallery: gal("scale-rc-world-cup", 6),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-scale-rc-world-cup-bike",
+        componentry: {
+          frame: "Scale Carbon HMX, adjustable head angle, BB92, UDH",
+          fork: "RockShox SID SL Ultimate 3P Air, Charger Race Day 2, 110 mm, 15×110 Maxle Stealth",
+          drivetrain: "SRAM XX SL Eagle AXS Transmission 12sp, XX Eagle AXS carbon kliky s power meterem 34T, XS 1297 10-52",
+          brakes: "SRAM Motive Ultimate 4-Piston, HS2 CL 180/160",
+          wheels: "Fulcrum Red Zone Carbon CL, 30 mm, 28H, XD driver",
+          tires: "Maxxis Rekon Race 29×2,4\" 120 TPI EXO",
+          cockpit: "Syncros Fraser iC SL XC Carbon -12°/740 mm; Duncan Dropper 1.5XC 31,6/100 mm",
+        },
       },
       {
         name: "Scale RC Team",
@@ -201,6 +331,18 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: null,
         colors: ["Carbon Black"],
         photo: "/media/scott-2027/scale-rc-team.webp",
+        sizes: MTB_SIZES,
+        gallery: gal("scale-rc-team", 6),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-scale-rc-team-bike",
+        componentry: {
+          frame: "Scale Carbon HMF, adjustable head angle, BB92, UDH",
+          fork: "RockShox SID SL 3P Air, Rush RL 3-mode, 110 mm, 44 mm offset",
+          drivetrain: "SRAM S1000 Eagle AXS Transmission 12sp, Eagle 70 kliky 34T, XS 1270 V2 10-52",
+          brakes: "SRAM DB6 4-Piston, Centerline CL 180/160",
+          wheels: "Syncros Silverton 2.5-30 CL, 28H",
+          tires: "Maxxis Rekon Race 29×2,4\" 120 TPI EXO",
+          cockpit: "Syncros Fraser 2.0 XC Alloy 740 mm/8°; XC 2.0 stem -12°; Duncan Dropper 1.5XC 31,6/100 mm",
+        },
       },
       {
         name: "Scale 910",
@@ -212,6 +354,18 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: null,
         colors: ["White", "Carbon Black"],
         photo: "/media/scott-2027/scale-910.webp",
+        sizes: MTB_SIZES,
+        gallery: gal("scale-910", 6),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-scale-910-bike",
+        componentry: {
+          frame: "Scale Carbon HMF, BB92, UDH, 12×148",
+          fork: "FOX 32 Float Rhythm Grip, 3-mode, 110 mm, 44 mm offset",
+          drivetrain: "SRAM Eagle 70 Transmission 12sp, kliky 32T DUB, XS 1270 V2 10-52, Eagle 70 Trigger",
+          brakes: "Shimano MT401, RT10 CL 180/160",
+          wheels: "Syncros X-30SE rims 32H, Formula náboje",
+          tires: "Maxxis Rekon Race 29×2,4\" 120 TPI EXO",
+          cockpit: "Syncros Alloy 6061 T-shape flat 740 mm/9°; DC 3.0 stem 0°/31,8; Duncan Dropper 31,6",
+        },
       },
       {
         name: "Scale 920",
@@ -223,6 +377,18 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: null,
         colors: ["White", "Carbon Black", "Ambrosia Green"],
         photo: "/media/scott-2027/scale-920.webp",
+        sizes: MTB_SIZES,
+        gallery: gal("scale-920", 6),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-scale-920-bike",
+        componentry: {
+          frame: "Scale Carbon HMF, BB92, UDH, 12×148, 55 mm chainline",
+          fork: "RockShox Judy Silver TK Solo Air, 110 mm, 51 mm offset, lockout",
+          drivetrain: "Shimano Deore RD-M6100 SGS 12sp, FC-MT512-1 kliky 32T, CS-M6100 10-51, SL-M6100-R Rapidfire",
+          brakes: "Shimano MT200, RT10 CL 180/160",
+          wheels: "Alex X-25 rims 32H, Formula náboje (Micro Spline)",
+          tires: "Maxxis Rekon Race 29×2,4\" EXO TR",
+          cockpit: "Syncros Alloy 6061 T-shape 740/9°; DC 3.0 stem 0°; Duncan Dropper 31,6",
+        },
       },
     ],
     seoKeywords: [
@@ -264,6 +430,18 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: null,
         colors: ["Whale Grey"],
         photo: "/media/scott-2027/addict-premium.webp",
+        sizes: ROAD_SIZES,
+        gallery: gal("addict-premium", 6),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-addict-premium-bike",
+        componentry: {
+          frame: "Addict HMX Carbon, endurance geometrie",
+          fork: "Addict HMX Flatmount Disc, 27,2 mm eccentric carbon steerer",
+          drivetrain: "Shimano Dura-Ace Di2 R9250, ST-R9270 24sp, FC-R9200 50×34, CS-R8101 11-34",
+          brakes: "Shimano BR-R9270 Hyd, RT-CL900 160/160",
+          wheels: "Fulcrum WIND 42 DB Carbon 24F/24R",
+          tires: "Schwalbe PRO ONE Fold 700×34C (F/R)",
+          cockpit: "Syncros IC-R100-SL carbon integrovaný; SP-R101-CF sedlovka; Tofino V 1.0 Cut Out sedlo",
+        },
       },
       {
         name: "Addict 10",
@@ -274,6 +452,18 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: null,
         colors: ["Plum Grey"],
         photo: "/media/scott-2027/addict-10.webp",
+        sizes: ROAD_SIZES,
+        gallery: gal("addict-10", 6),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-addict-10-bike",
+        componentry: {
+          frame: "Addict HMX Carbon, endurance geometrie, UDH, integrated storage",
+          fork: "Addict HMX Flatmount Disc, 27,2 mm eccentric carbon steerer",
+          drivetrain: "SRAM FORCE AXS 24sp electronic, FORCE kliky s power meterem 46/33, FORCE XG1270 E1 10-36",
+          brakes: "SRAM FORCE AXS HRD, Paceline kotouče 160/160",
+          wheels: "Fulcrum WIND 42 DB Carbon 24F/24R",
+          tires: "Schwalbe ONE Fold 700×34C",
+          cockpit: "Syncros HB-R100-CF řidítka; ST-R300-AL stem; SP-R101-CF sedlovka; Tofino V 2.0 Cut Out",
+        },
       },
       {
         name: "Addict 20",
@@ -284,6 +474,18 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: null,
         colors: ["Cumulus White", "Tungsten Grey", "Violet Pink"],
         photo: "/media/scott-2027/addict-20.webp",
+        sizes: ROAD_SIZES,
+        gallery: gal("addict-20", 6),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-addict-20-bike",
+        componentry: {
+          frame: "Addict HMF Carbon, ride geometrie, UDH, integrated storage",
+          fork: "Addict HMF Flatmount Disc, 27,2 mm eccentric carbon steerer",
+          drivetrain: "Shimano Ultegra Di2 R8150 24sp, FC-R8100 50-34, CS-R7100 11-34",
+          brakes: "Shimano BR-R8170 Hyd, RT-CL800 160/160",
+          wheels: "Fulcrum WIND 42 DB Carbon 24F/24R",
+          tires: "Schwalbe ONE Fold 700×34C",
+          cockpit: "Syncros HB-R100-CF řidítka; ST-R310-AL stem; SP-R101-CF sedlovka",
+        },
       },
       {
         name: "Addict 30",
@@ -294,6 +496,18 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: null,
         colors: ["Carbon Black", "Cumulus White", "Frozen Green"],
         photo: "/media/scott-2027/addict-30.webp",
+        sizes: ROAD_SIZES,
+        gallery: gal("addict-30", 6),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-addict-30-bike",
+        componentry: {
+          frame: "Addict HMF Carbon, ride geometrie, UDH, integrated storage",
+          fork: "Addict HMF Flatmount Disc, 27,2 mm eccentric carbon steerer",
+          drivetrain: "Shimano 105 Di2 R7150 24sp, FC-R7100 50-34, CS-R7100 11-34",
+          brakes: "Shimano BR-R7170 Hyd, RT-CL700 160/160",
+          wheels: "Syncros Capital 1.0 40 Disc 24F/24R",
+          tires: "Schwalbe ONE Fold 700×34C",
+          cockpit: "Syncros HB-R100-AL řidítka; ST-R310-AL stem; SP-R101-CF sedlovka",
+        },
       },
     ],
     seoKeywords: [
@@ -337,6 +551,18 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: 11999,
         colors: ["Sunbeam Black"],
         photo: "/media/scott-2027/addict-rc-ultimate.webp",
+        sizes: ROAD_SIZES,
+        gallery: gal("addict-rc-ultimate", 6),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-addict-rc-ultimate-bike",
+        componentry: {
+          frame: "Addict RC HMX SL, race geometrie",
+          fork: "Addict RC HMX SL Flatmount Disc, 27,2 mm eccentric carbon steerer",
+          drivetrain: "SRAM RED AXS 24sp, RED HRD shifters, RED kliky s power meterem 46/33, RED XG1290 E1 10-33",
+          brakes: "SRAM RED AXS HRD, Paceline X 160/140",
+          wheels: "Syncros Capital SL 40 mm",
+          tires: "Schwalbe Aerothan TLE 700×29C (F/R)",
+          cockpit: "Syncros IC-R100-SL integrovaný; SP-R100-SL sedlovka; Belcarra Regular SL",
+        },
       },
       {
         name: "Addict RC Pro",
@@ -347,6 +573,18 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: 8499,
         colors: ["Cumulus White / Carbon Black", "Beluga Grey / Seashore Green"],
         photo: "/media/scott-2027/addict-rc-pro.webp",
+        sizes: ROAD_SIZES,
+        gallery: gal("addict-rc-pro", 5),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-addict-rc-pro-bike",
+        componentry: {
+          frame: "Addict RC HMX, race geometrie",
+          fork: "Addict RC HMX Flatmount Disc, 27,2 mm eccentric carbon steerer",
+          drivetrain: "Shimano Dura-Ace Di2 R9250 24sp, ST-R9270, FC-R9200 52×36, CS-R9200 11-34",
+          brakes: "Shimano BR-R9270 Hyd, RT-CL900 160/140",
+          wheels: "Syncros Capital 1.0S 40 mm 24F/24R",
+          tires: "Schwalbe PRO ONE TL-Easy 700×30C",
+          cockpit: "Syncros IC-R100-SL integrovaný; SP-R100-SL sedlovka; Belcarra Regular 1.0",
+        },
       },
       {
         name: "Addict RC Team",
@@ -357,6 +595,18 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: null,
         colors: ["Tungsten Grey"],
         photo: "/media/scott-2027/addict-rc-team.webp",
+        sizes: ROAD_SIZES,
+        gallery: gal("addict-rc-team", 6),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-addict-rc-team-bike",
+        componentry: {
+          frame: "Addict RC HMX, race geometrie",
+          fork: "Addict RC HMX Flatmount Disc, 27,2 mm eccentric carbon steerer",
+          drivetrain: "SRAM FORCE AXS 24sp electronic, FORCE HRD shifters, FORCE kliky s power meterem 48/35, FORCE XG1270 E1 10-36",
+          brakes: "SRAM FORCE AXS HRD, Paceline 160/140",
+          wheels: "Syncros Capital 1.0S 40 mm 24F/24R",
+          tires: "Schwalbe ONE TLE Race-Guard 700×30C",
+          cockpit: "Syncros IC-R100-SL carbon integrovaný; SP-R101-CF sedlovka; Belcarra Regular 2.0",
+        },
       },
       {
         name: "Addict RC 10",
@@ -367,6 +617,18 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: null,
         colors: ["Sunbeam Black", "Gelato Blue / Pink"],
         photo: "/media/scott-2027/addict-rc-10.webp",
+        sizes: ROAD_SIZES,
+        gallery: gal("addict-rc-10", 6),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-addict-rc-10-bike",
+        componentry: {
+          frame: "Addict RC HMX, race geometrie",
+          fork: "Addict RC HMX Flatmount Disc, 27,2 mm eccentric carbon steerer",
+          drivetrain: "Shimano Ultegra Di2 R8150 24sp, ST-R8170, FC-R8100 52×36, CS-R8101 11-34",
+          brakes: "Shimano BR-R8170 Hyd, RT-CL800 160/140",
+          wheels: "Syncros Capital 1.0S 40 mm 24F/24R",
+          tires: "Schwalbe ONE TLE Race-Guard 700×30C",
+          cockpit: "Syncros IC-R100-SL carbon integrovaný; SP-R101-CF sedlovka; Belcarra Regular 2.0",
+        },
       },
     ],
     seoKeywords: [
@@ -406,8 +668,20 @@ export const SCOTT_2027: Scott2027Platform[] = [
         wheels: "DT Swiss GRC1400 Disc",
         weightKg: 8.8,
         priceEur: null,
-        colors: ["Carbon"],
+        colors: ["Carbon Sand"],
         photo: "/media/scott-2027/addict-gravel-10.webp",
+        sizes: GRAVEL_SIZES,
+        gallery: gal("addict-gravel-10", 5),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-addict-gravel-10-bike",
+        componentry: {
+          frame: "Addict Gravel Disc HMF Carbon, gravel geometrie",
+          fork: "Addict Gravel HMF Flatmount Disc, 1 1/4\"-1 1/2\" eccentric carbon steerer",
+          drivetrain: "SRAM FORCE eTap AXS 24sp electronic, FORCE HRD shifters, FORCE kliky 46/33, FORCE XG1270 10-36",
+          brakes: "SRAM FORCE eTap AXS HRD, CenterLine XR 160/160",
+          wheels: "DT Swiss GRC1400 Disc 24F/24R",
+          tires: "Schwalbe G-One Bite Performance 700×45C (F/R)",
+          cockpit: "Syncros Creston 1.0 X Carbon 31,8 mm řidítka; RR2.0 stem; Duncan 1.0 Aero sedlovka; Tofino Regular 1.0 Cutout sedlo",
+        },
       },
       {
         name: "Addict Gravel 20",
@@ -418,6 +692,18 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: null,
         colors: ["Carbon"],
         photo: "/media/scott-2027/addict-gravel-20.webp",
+        sizes: GRAVEL_SIZES,
+        gallery: gal("addict-gravel-20", 4),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-addict-gravel-20-bike",
+        componentry: {
+          frame: "Addict Gravel Disc HMF Carbon, gravel geometrie",
+          fork: "Addict Gravel HMF Flatmount Disc, 1 1/4\"-1 1/2\" eccentric carbon steerer",
+          drivetrain: "SRAM RIVAL XPLR eTap AXS 12sp electronic, RIVAL HRD shifters, RIVAL 1 WIDE kliky 42T, XPLR XG1251 10-44 (1× setup)",
+          brakes: "SRAM RIVAL eTap AXS HRD, Paceline 160/160",
+          wheels: "Syncros RP2.0 Disc",
+          tires: "Schwalbe G-One Bite Performance 700×45C (F/R)",
+          cockpit: "Syncros Creston 2.0 X Alloy 31,8 mm řidítka; RR2.0 stem; Duncan 1.0 Aero sedlovka; Tofino Regular 2.0 Cutout",
+        },
       },
       {
         name: "Addict Gravel 30",
@@ -428,6 +714,18 @@ export const SCOTT_2027: Scott2027Platform[] = [
         priceEur: null,
         colors: ["Carbon"],
         photo: "/media/scott-2027/addict-gravel-30.webp",
+        sizes: GRAVEL_SIZES,
+        gallery: gal("addict-gravel-30", 3),
+        scottUrl: "https://www.scott-sports.com/global/en/product/scott-addict-gravel-30-bike",
+        componentry: {
+          frame: "Addict Gravel Disc HMF Carbon, gravel geometrie",
+          fork: "Addict Gravel HMF Flatmount Disc, eccentric carbon steerer",
+          drivetrain: "Shimano GRX RX810/600 mix 22sp (2× setup)",
+          brakes: "Shimano GRX hydraulické",
+          wheels: "Syncros RP2.0 Disc",
+          tires: "Schwalbe G-One 700×45C",
+          cockpit: "Syncros Creston Alloy řidítka; standardní gravel setup",
+        },
       },
     ],
     seoKeywords: [
@@ -442,6 +740,17 @@ export const SCOTT_2027: Scott2027Platform[] = [
 
 export function getPlatformBySlug(slug: string): Scott2027Platform | undefined {
   return SCOTT_2027.find((p) => p.slug === slug);
+}
+
+export function getVariantBySlug(
+  platformSlug: string,
+  variantSlug: string,
+): { platform: Scott2027Platform; variant: Scott2027Variant } | undefined {
+  const platform = getPlatformBySlug(platformSlug);
+  if (!platform) return undefined;
+  const variant = platform.variants.find((v) => v.slug === variantSlug);
+  if (!variant) return undefined;
+  return { platform, variant };
 }
 
 export function getPlatformsByType(type: Platform): Scott2027Platform[] {
