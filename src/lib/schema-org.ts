@@ -211,7 +211,19 @@ export function serviceSchema(p: {
   };
 }
 
-/** Product — pro shop produkty. */
+/** Product — pro shop produkty.
+ *
+ * GSC Merchant Listings + Product Snippets vyžaduje:
+ *  - povinné: name, image, offers.price, offers.priceCurrency
+ *  - povinné pro Merchant Listings: offers.shippingDetails, offers.hasMerchantReturnPolicy
+ *
+ * Bez return policy + shipping details Google v GSC hází
+ * „Strukturovaná data Záznamy obchodníka" warning → degraded rich snippets.
+ *
+ * Hodnoty odpovídají našemu reálnému policy (memory `project_eshop_buildout.md`):
+ *  - Doprava zdarma > 2 500 Kč, jinak 100/400 Kč (bulky)
+ *  - Vrácení 14 dní zdarma (zákonné minimum EU + naše pravidlo)
+ */
 export function productSchema(p: {
   name: string;
   description: string;
@@ -221,7 +233,10 @@ export function productSchema(p: {
   url: string;
   brand?: string;
   availability?: "InStock" | "OutOfStock" | "PreOrder";
+  /** true pro kola/lyže/dlouhé batohy — vyšší shipping cena. */
+  bulky?: boolean;
 }) {
+  const shippingValue = p.bulky ? 400 : 100;
   return {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -236,7 +251,47 @@ export function productSchema(p: {
       priceCurrency: "CZK",
       price: p.price,
       availability: `https://schema.org/${p.availability || "InStock"}`,
+      itemCondition: "https://schema.org/NewCondition",
       seller: { "@id": `${SITE_URL}/#organization` },
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "CZ",
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 14,
+        returnMethod: "https://schema.org/ReturnByMail",
+        returnFees: "https://schema.org/FreeReturn",
+      },
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: {
+          "@type": "MonetaryAmount",
+          value: shippingValue,
+          currency: "CZK",
+        },
+        shippingDestination: {
+          "@type": "DefinedRegion",
+          addressCountry: "CZ",
+        },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          businessDays: {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          },
+          handlingTime: {
+            "@type": "QuantitativeValue",
+            minValue: 1,
+            maxValue: 2,
+            unitCode: "DAY",
+          },
+          transitTime: {
+            "@type": "QuantitativeValue",
+            minValue: 1,
+            maxValue: 3,
+            unitCode: "DAY",
+          },
+        },
+      },
     },
   };
 }
