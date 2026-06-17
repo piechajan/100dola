@@ -1,17 +1,52 @@
 # Janův TODO — co Claude nemůže udělat sám
 
 > Live seznam — aktualizováno po každé session. Claude průběžně doplňuje sem.
-> Stav k **2026-06-03**.
+> Stav k **2026-06-17**.
+
+---
+
+## 🟢 In flight (Claude pracuje teď)
+
+- **Supabase Storage → Vercel Blob migrace** (důvod: Supabase free 1 GB
+  překročeno na 2.5 GB, grace do 7. 7. 2026):
+  - Vercel Blob store `futunatu-shared-assets` vytvořen + napojen na 100dola
+  - Server-side `/api/admin/migrate-blob` endpoint deployed
+  - Curl loop běží v lokálním pozadí (`/tmp/migrate-loop.sh`), ETA ~75 min
+  - Po dokončení: 1× POST `/api/admin/migrate-blob/apply-mapping` (Claude
+    udělá), pak smoke test, pak smazat Supabase Storage bucket
+  - Token `ADMIN_MIGRATE_SECRET` v `/tmp/admin-migrate-secret.txt`
+    (jen lokál, nesdílet)
+
+## 🆕 Dnes deployed (2026-06-17)
+
+- **Reviews carousel na homepage** — 3 reálné Google reviews (5.0/5 z 12)
+  + Schema.org AggregateRating (Google rich snippet ★ 5.0 v search results)
+- **Scott comparison tool** — `/clanky/scott-2027/srovnani?a=&b=`
+- **Spark RC 2026 vs 2027 článek** — `/clanky/scott-spark-rc-2026-vs-2027`
+- **Centrální CLAUDE.md** updaty:
+  - Resource allocation rules (preferuj placený Vercel před free Supabase)
+  - Cross-website consistency (změny firemních údajů napříč rip-shop, 100dola, …)
 
 ---
 
 ## 🔴 P0 — Akutní (do 7 dní)
 
-### 1. DMARC Phase 3 (`pct=100`)
+### 1. DMARC Phase 3 (`pct=100`) — **DNES**
 - **Kdy:** 2026-06-17 (14 dní po Phase 2)
 - **Kde:** https://dash.cloudflare.com/?to=/:account/100dola.com/dns
 - **Co:** Edit TXT `_dmarc` → změň `pct=50` na `pct=100` → Save
-- **Self-reminder:** Claude ti připomene 2026-06-17, ověří pass rate ≥ 99 %
+- **Brief:** `~/Desktop/DMARC-PHASE-3-INSTRUKCE.md` (2 min postup)
+- **Po flip:** Claude ráno ověří `dig` že nový záznam je live
+
+### 1.5. rip-shop production deploy fail (jiný projekt)
+- **Co:** rip-shop má 4 failed deploys za poslední 2 dny
+- **Příčina:** `DATABASE_URL` env var chybí ve Vercel produkce → `src/db/index.ts`
+  hází module-level throw při `next build` → fail v "Collecting page data"
+- **Fix (2 min):** Vercel → rip-shop → Settings → Environment Variables →
+  Add `DATABASE_URL` = (hodnota z lokálu `~/rip-shop/.env.local`)
+- **Lepší fix:** otevři novou Claude session v `~/rip-shop`, popros o
+  „lazy DB init in src/db/index.ts" (throw až při použití, ne při importu)
+- **Status:** poslední úspěšný deploy stále jede, není urgent
 
 ### 2. AEM 8 priorit v Meta
 - **Kdy:** po 5.-7. 6. 2026 (čeká až Meta UI rozsvítí AEM panel)
