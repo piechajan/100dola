@@ -50,13 +50,13 @@ export default function ScottPlatformPage({ platform }: { platform: Scott2027Pla
       </div>
 
       {main && (
-        <div className="relative aspect-[16/9] bg-[#F7F9FF] rounded-2xl overflow-hidden mb-10">
+        <div className="relative aspect-[16/9] bg-gradient-to-br from-[#EAF1FE] via-[#F7F9FF] to-[#FFFFFF] rounded-2xl overflow-hidden mb-10">
           <Image
             src={main.photo}
             alt={`${platform.name} ${main.name}`}
             fill
             sizes="(min-width: 1024px) 1080px, 100vw"
-            className="object-contain p-6"
+            className="object-contain p-8 md:p-12"
             priority
           />
         </div>
@@ -104,13 +104,13 @@ export default function ScottPlatformPage({ platform }: { platform: Scott2027Pla
               key={v.slug}
               className="bg-white border border-[#E2E6F3] rounded-2xl overflow-hidden md:flex"
             >
-              <div className="relative md:w-[260px] aspect-square md:aspect-auto bg-[#F7F9FF] flex-shrink-0">
+              <div className="relative md:w-[260px] aspect-square md:aspect-auto bg-gradient-to-br from-[#EAF1FE] via-[#F7F9FF] to-[#FFFFFF] flex-shrink-0">
                 <Image
                   src={v.photo}
                   alt={v.name}
                   fill
                   sizes="(min-width: 768px) 260px, 100vw"
-                  className="object-contain p-3"
+                  className="object-contain p-5"
                 />
               </div>
               <div className="p-5 flex-1">

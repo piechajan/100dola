@@ -60,13 +60,13 @@ export default function Scott2027Hub() {
                   href={`/clanky/scott-2027/${p.slug}`}
                   className="block bg-white border border-[#E2E6F3] rounded-2xl overflow-hidden hover:shadow-lg transition group"
                 >
-                  <div className="relative aspect-[4/3] bg-[#F7F9FF]">
+                  <div className="relative aspect-[4/3] bg-gradient-to-br from-[#EAF1FE] via-[#F7F9FF] to-[#FFFFFF]">
                     <Image
                       src={p.variants[0]?.photo ?? "/media/scott-2027/spark-rc-sl.webp"}
                       alt={p.name}
                       fill
                       sizes="(min-width: 768px) 50vw, 100vw"
-                      className="object-contain p-4 group-hover:scale-105 transition-transform"
+                      className="object-contain p-6 md:p-8 group-hover:scale-105 transition-transform"
                     />
                     <span
                       className={`absolute top-3 left-3 text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-md ${STATUS_CLASS[p.status]}`}
