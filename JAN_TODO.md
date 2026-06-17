@@ -17,6 +17,20 @@
   - Token `ADMIN_MIGRATE_SECRET` v `/tmp/admin-migrate-secret.txt`
     (jen lokál, nesdílet)
 
+## 🆕 Vercel Pro audit (2026-06-17)
+
+Co aktivně využíváme: hosting, Image Optim, **Blob (dnes)**, Speed Insights,
+9/40 crons, Functions 300s.
+
+Nevyužité s potenciálem:
+- **Edge Config** (free 1M reads/měs) — flags bez DB hit → −1 query per
+  request pro některé features (newsletter A/B, popup show/hide). Quick win.
+- Sandboxes, Queues, AI Gateway — zatím ne, ale dostupné.
+
+Cron cleanup (P3 drobnost):
+- `isaac-test-daily` běží 2× denně, ale ISAAC event 31.5. dávno za námi —
+  cron je no-op. Free invocations, nech to do refactoru.
+
 ## 🆕 Dnes deployed (2026-06-17)
 
 - **Reviews carousel na homepage** — 3 reálné Google reviews (5.0/5 z 12)
