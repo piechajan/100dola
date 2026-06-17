@@ -50,7 +50,12 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "www.alecko.cz" },
       // Supabase Storage bucket 'supplier-images' — migrované fotky.
       // Vercel optimizer si je stáhne + AVIF/WebP + resize per device.
+      // Legacy: před přechodem na Vercel Blob. Nech tady, dokud nejsou
+      // všechny DB URL přepsané na vercel-storage.com (viz 037 migrace).
       { protocol: "https", hostname: "ngglervufcwkjnmtxgud.supabase.co" },
+      // Vercel Blob `futunatu-shared-assets` — primární storage produktových
+      // fotek po migraci ze Supabase Storage (Supabase free limit překročen).
+      { protocol: "https", hostname: "x8igiusyfrnhkluf.public.blob.vercel-storage.com" },
     ],
   },
   async headers() {
