@@ -211,6 +211,53 @@ export function serviceSchema(p: {
   };
 }
 
+/** AggregateRating + Review array pro homepage.
+ *
+ * Vrací JSON-LD objekt, který Google může (ale nemusí) použít pro rich snippet
+ * ★★★★★ 5.0 (12 hodnocení) v search results. Vstupní `reviews` musí mít
+ * jmenované autory + reálné texty (Google penalizuje fake reviews).
+ *
+ * Připojeno na Organization (`@id` reference) aby aggregateRating patřil
+ * k značce 100dola, ne k single page.
+ */
+export function aggregateRatingSchema(p: {
+  ratingValue: number;
+  reviewCount: number;
+  bestRating?: number;
+  worstRating?: number;
+  reviews: Array<{
+    author: string;
+    rating: number;
+    body: string;
+    isoDate: string;
+  }>;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${SITE_URL}/#organization`,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: p.ratingValue,
+      reviewCount: p.reviewCount,
+      bestRating: p.bestRating ?? 5,
+      worstRating: p.worstRating ?? 1,
+    },
+    review: p.reviews.map((r) => ({
+      "@type": "Review",
+      author: { "@type": "Person", name: r.author },
+      datePublished: r.isoDate,
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: r.rating,
+        bestRating: p.bestRating ?? 5,
+        worstRating: p.worstRating ?? 1,
+      },
+      reviewBody: r.body,
+    })),
+  };
+}
+
 /** Product — pro shop produkty.
  *
  * GSC Merchant Listings + Product Snippets vyžaduje:

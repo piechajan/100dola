@@ -89,6 +89,29 @@ export default function Scott2027Hub() {
         );
       })}
 
+      <div className="bg-gradient-to-br from-[#EAF1FE] via-white to-[#F7F9FF] border border-[#C9DCFC] rounded-2xl p-6 md:p-8 mt-8 mb-8">
+        <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
+          <div className="flex-1">
+            <div className="text-xs font-bold uppercase tracking-wider text-[#3B7CF4] mb-1">
+              Rozhodovací pomůcka
+            </div>
+            <h2 className="text-xl md:text-2xl font-black text-[#1a1a2e] mb-1">
+              Srovnání dvou modelů vedle sebe
+            </h2>
+            <p className="text-sm text-[#5A6480] leading-snug max-w-[520px]">
+              Vyber dva libovolné Scott modely a porovnej groupset, kola, brzdy, váhu, cenu na
+              jedné stránce. Plus doporučená srovnání pro nejčastější rozhodnutí.
+            </p>
+          </div>
+          <Link
+            href="/clanky/scott-2027/srovnani"
+            className="bg-[#3B7CF4] hover:bg-[#5C92F6] text-white font-bold text-sm px-5 py-3 rounded-xl transition whitespace-nowrap text-center"
+          >
+            Otevřít srovnání →
+          </Link>
+        </div>
+      </div>
+
       <div className="bg-[#1a1a2e] text-white rounded-2xl p-8 mt-12">
         <h2 className="text-xl md:text-2xl font-black mb-2">Chceš konkrétní model?</h2>
         <p className="text-sm text-white/70 mb-4 max-w-[640px]">

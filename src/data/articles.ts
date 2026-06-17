@@ -42,6 +42,18 @@ export const CATEGORY_COLOR: Record<ArticleCategory, string> = {
 
 export const ARTICLES: Article[] = [
   {
+    slug: "scott-spark-rc-2026-vs-2027",
+    title: "Scott Spark RC 2026 vs 2027 — co se reálně mění (Gen4 → Gen5)",
+    summary:
+      "Stačí to na upgrade? Side-by-side porovnání starší a nové generace Spark RC — rám, kinematika, kokpit, úložiště, váha, cena. Pro lidi, co dnes jezdí Spark RC a zvažují, zda počkat na 2027.",
+    category: "sport",
+    publishedAt: "2026-06-17",
+    author: { name: "Jan Piecha", role: "100dola sport" },
+    image: "/media/articles/scott-spark-rc-2027-hero.webp",
+    status: "published",
+    readMinutes: 7,
+  },
+  {
     slug: "scott-spark-rc-2027",
     title: "Scott Spark RC 2027 — nová generace závodního XC, kterou už můžete předobjednat",
     summary:

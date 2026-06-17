@@ -167,8 +167,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changefreq: "weekly",
   });
 
-  // ─── Scott 2027 lineup (hub + per-platform + per-variant) ─────────────────
+  // ─── Scott 2027 lineup (hub + per-platform + per-variant + srovnání) ─────
   entries.push({ path: "/clanky/scott-2027", priority: 0.85, changefreq: "weekly" });
+  entries.push({ path: "/clanky/scott-2027/srovnani", priority: 0.7, changefreq: "monthly" });
   const { SCOTT_2027 } = await import("@/data/scott-2027");
   for (const p of SCOTT_2027) {
     entries.push({
