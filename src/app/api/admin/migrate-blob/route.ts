@@ -209,12 +209,20 @@ export async function POST(req: NextRequest): Promise<NextResponse<BatchResult |
 
   outer: for (const folder of folders) {
     const files = await listFiles(sb, folder);
+    // Pre-fetch existing mappings for this folder to skip files already migrated
+    const { data: existing } = await sb
+      .from("blob_migration_mapping")
+      .select("file_name")
+      .eq("folder", folder);
+    const alreadyMigrated = new Set((existing || []).map((r) => (r as { file_name: string }).file_name));
     let startAfter = folder === progress.last_folder && progress.last_file !== null;
     for (const f of files) {
       if (startAfter) {
         if (f.name === progress.last_file) startAfter = false;
         continue;
       }
+      // Skip files already in mapping (efficient reconcile pass)
+      if (alreadyMigrated.has(f.name)) continue;
       try {
         const r = await migrateFile(sb, folder, f.name);
         mapping.push({
