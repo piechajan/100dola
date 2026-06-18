@@ -108,7 +108,7 @@ export const PRODUCTS: Product[] = [
     bulky: true,
     badges: ["Novinka", "Doporučuje tým"],
     note: "Kolo, na kterém jezdíme v Malaze",
-    photo: "/media/scott-addict-rc10.png",
+    photo: "/media/scott-addict-rc10.webp",
     specs: ["Shimano Ultegra Di2", "Syncros Carbon 40mm", "~7 kg"],
     isFeatured: true,
     featuredOrder: 1,
