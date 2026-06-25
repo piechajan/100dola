@@ -1,4 +1,4 @@
--- 036_bike_inquiries.sql
+-- 038_bike_inquiries.sql (přečíslováno z 036 — kolidovalo s 036_preorders.sql)
 -- Poptávky na kola, která zatím nejsou v e-shopu (Scott 2027 lineup atd.).
 -- Endpoint /api/bike-inquiry zapisuje sem + paralelně posílá e-mail Janovi.
 -- E-mail je primární kanál, DB je backup pro CRM/audit.

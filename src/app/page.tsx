@@ -29,6 +29,9 @@ export default function Home() {
       <JsonLd data={ratingSchema} />
       <Navbar />
       <main>
+        <h1 className="sr-only">
+          100dola — sportovní obchod ve Šternberku, přeprava kol do Malagy a cyklistická komunita
+        </h1>
         <Hero />
         <FeaturedProducts />
         <MalagaPromo />
