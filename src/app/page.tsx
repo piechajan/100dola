@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import FeaturedProducts from "@/components/FeaturedProducts";
@@ -10,6 +11,12 @@ import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import { aggregateRatingSchema } from "@/lib/schema-org";
 import { GOOGLE_REVIEWS, GOOGLE_REVIEW_AGGREGATE } from "@/data/google-reviews";
+
+// Homepage canonical drží explicitně tady — root layout už canonical
+// nenastavuje (jinak by se „/" dědil na všechny podstránky bez vlastního).
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   const ratingSchema = aggregateRatingSchema({

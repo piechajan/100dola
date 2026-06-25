@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "O nás — 100dola sport Šternberk | kola, běh, Malaga, OMC",
   description:
     "100dola sport — kamenná prodejna ve Šternberku (Partyzánská 2). Kola, běžecké a lyžařské vybavení, servis, bikefit, přeprava kol do Malagy, komunita Open Miles Clinic.",
+  alternates: { canonical: "/o-nas" },
   keywords: [
     "100dola sport Šternberk",
     "cyklistický obchod Šternberk",

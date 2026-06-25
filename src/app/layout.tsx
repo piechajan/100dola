@@ -28,7 +28,6 @@ export const metadata: Metadata = {
   },
   description:
     "Sportovní obchod ve Šternberku — silniční, gravel a horská kola, běžecké vybavení, lyže a skialpy. Servis kol, bikefit, testovací jízdy ISAAC. Přeprava kol do Malagy.",
-  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "cs_CZ",

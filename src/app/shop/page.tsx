@@ -7,6 +7,7 @@ import { getShopProducts } from "@/lib/shop/get-products";
 export const metadata: Metadata = {
   title: "E-shop — 100dola sport",
   description: "Kola, zimní výbava, doplňky a výživa. Každý produkt jsme si sami vyzkoušeli nebo ho jedeme. Scott, Isaac, Lapierre, Continental, MagicShine a další.",
+  alternates: { canonical: "/shop" },
   keywords: ["100dola shop", "silniční kola", "MTB kola", "gravel kola", "skialpy", "cyklistické doplňky", "Scott", "Lapierre"],
   openGraph: {
     title: "E-shop — 100dola sport",
