@@ -140,7 +140,7 @@ export default function DopravaKolaMalaga() {
             {
               n: "6",
               title: "Vyzvednutí v Malaze",
-              body: "Z letiště přijdeš/přijedeš ke skladu (10 min od letiště MAGA), my máme kolo pumpu, lehký servis, mazání, kontrolu, kafe. Vyjedeš do hor.",
+              body: "Z letiště přijdeš/přijedeš ke skladu (10 min od letiště Málaga, AGP), my máme kolo pumpu, lehký servis, mazání, kontrolu, kafe. Vyjedeš do hor.",
             },
             {
               n: "7",
@@ -249,7 +249,7 @@ export default function DopravaKolaMalaga() {
           <li>Každé kolo má svůj stojan / věšák — žádné navalování</li>
           <li>Pravidelná kontrola tlaku v pláštích (jednou za měsíc)</li>
           <li>Štítky s tvým jménem, modelem, fotkou při příjezdu</li>
-          <li>10 minut od letiště MAGA — fakt 10 minut, žádné „90 minut autobusem"</li>
+          <li>10 minut od letiště Málaga (AGP) — fakt 10 minut, žádné „90 minut autobusem"</li>
         </ul>
         <p className="text-base text-[#5A6480] leading-relaxed mb-8">
           Když si nás <strong>napíšeš den před příletem</strong>, máme kolo připraveno před
