@@ -86,20 +86,18 @@ Cron cleanup (P3 drobnost):
 
 ## 🟡 P1 — Důležité (do 14 dní)
 
-### 5. Google Search Console — Request Indexing
-- **Kde:** https://search.google.com/search-console
-- **Co:** URL Inspection (lupa nahoře) → vlož URL → Request Indexing
-- **5 URL k submit:**
-  - `https://www.100dola.com/shop/kola/silnicni`
-  - `https://www.100dola.com/shop/kola/gravel`
-  - `https://www.100dola.com/shop/obleceni/obleceni-dresy`
-  - `https://www.100dola.com/shop/doplnky/vyplety`
-  - `https://www.100dola.com/shop/doplnky/wattmetry`
-- **Bonus**: nové 5 článků
-  - `/clanky/doprava-kola-do-malagy`
-  - `/clanky/vlastni-kolo-malaga-vs-pujcovna`
-  - `/clanky/bikefit-sternberk`
-  - `/clanky/isaac-boson-vitron-meson`
+### 5. Google Search Console — Request Indexing  ✅ HOTOVO 2026-06-27
+- **Status:** Claude submitnul všech 10 URL přes GSC URL Inspection (Playwright,
+  účet futunatu@gmail.com už přihlášený). Všechny v prioritní frontě procházení.
+- **Pozn.:** GSC u některých URL hlásil „Objeveno – momentálně neindexováno" a
+  u části „nezjištěny odkazující sitemapy" → ověř v GSC → Soubory Sitemap, že je
+  `sitemap.xml` ve stavu „Success" (viz #6); IndexNow ping pro stejných 10 URL
+  taky odeslán (Bing/Yandex).
+- **Submitnuté URL (hotovo):**
+  - `/shop/kola/silnicni` · `/shop/kola/gravel` · `/shop/obleceni/obleceni-dresy`
+  - `/shop/doplnky/vyplety` · `/shop/doplnky/wattmetry`
+  - `/clanky/doprava-kola-do-malagy` · `/clanky/vlastni-kolo-malaga-vs-pujcovna`
+  - `/clanky/bikefit-sternberk` · `/clanky/isaac-boson-vitron-meson`
   - `/clanky/strava-segmenty-sternberk-olomoucky-kraj`
 
 ### 6. Bing Webmaster Tools — verify sitemap status
