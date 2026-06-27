@@ -45,12 +45,12 @@ Cron cleanup (P3 drobnost):
 
 ## 🔴 P0 — Akutní (do 7 dní)
 
-### 1. DMARC Phase 3 (`pct=100`) — **DNES**
-- **Kdy:** 2026-06-17 (14 dní po Phase 2)
-- **Kde:** https://dash.cloudflare.com/?to=/:account/100dola.com/dns
-- **Co:** Edit TXT `_dmarc` → změň `pct=50` na `pct=100` → Save
-- **Brief:** `~/Desktop/DMARC-PHASE-3-INSTRUKCE.md` (2 min postup)
-- **Po flip:** Claude ráno ověří `dig` že nový záznam je live
+### 1. DMARC Phase 3 (`pct=100`) — ✅ HOTOVO 2026-06-27
+- Flipnuto přes Cloudflare API (Jan vytvořil token → `web/.env.local`).
+- Ověřeno `dig` na hattie NS i 1.1.1.1: `p=quarantine; pct=100` live.
+- Skript: `node scripts/cloudflare/dmarc-set.mjs --pct 100`.
+- **Phase 4 (`p=reject`) ~2026-07-01:** `dmarc-set.mjs --policy reject` (Claude
+  zvládne sám díky tokenu) — PŘED tím ověřit pass rate ≥ 99 %.
 
 ### 1.5. rip-shop production deploy fail (jiný projekt)
 - **Co:** rip-shop má 4 failed deploys za poslední 2 dny
