@@ -100,11 +100,10 @@ Cron cleanup (P3 drobnost):
   - `/clanky/bikefit-sternberk` · `/clanky/isaac-boson-vitron-meson`
   - `/clanky/strava-segmenty-sternberk-olomoucky-kraj`
 
-### 6. Bing Webmaster Tools — verify sitemap status
-- **Kde:** https://www.bing.com/webmasters
-- **Login:** Google+passkey `futunatu@gmail.com`
-- **Co:** Property `100dola.com` → Sitemaps → ověř `/sitemap.xml` status „Success"
-- **Pokud starší než 14 dní:** Resubmit
+### 6. Bing Webmaster Tools — verify sitemap status  ✅ HOTOVO 2026-06-28
+- Ověřeno Claudem (Playwright, Google login futunatu@gmail.com prošel bez passkey).
+- `https://www.100dola.com/sitemap.xml` → **Status: Success**, 0 errors / 0 warnings,
+  **175 URLs discovered**, last crawl **2026-06-26** (čerstvé). Resubmit netřeba.
 
 ### 7. Přečíst 5 článků a říct co je faktická chyba
 - **Linky výše** (#5 bonus)
