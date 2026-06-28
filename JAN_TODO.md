@@ -62,13 +62,16 @@ Cron cleanup (P3 drobnost):
   „lazy DB init in src/db/index.ts" (throw až při použití, ne při importu)
 - **Status:** poslední úspěšný deploy stále jede, není urgent
 
-### 2. AEM 8 priorit v Meta
-- **Kdy:** po 5.-7. 6. 2026 (čeká až Meta UI rozsvítí AEM panel)
-- **Kde:** https://business.facebook.com/events_manager2/list/pixel/1867612187213152
-- **Co:** Aggregated Event Measurement → drag priority:
-  1. Purchase  2. InitiateCheckout  3. AddToCart  4. CompleteRegistration
-  5. Lead  6. ViewContent  7. Subscribe  8. Contact
-- **Až bude AEM dostupné:** napiš „AEM done"
+### 2. AEM 8 priorit v Meta — ⏸ ČEKÁ NA META (gated, recheck ~2026-07-10)
+- **Stav 2026-06-28:** Claude ověřil naživo v Events Manageru → AEM panel **STÁLE
+  Metou server-side zamčený** (Nastavení tab nemá „Měření agregovaných událostí",
+  setup checklist 50 %, AEM URL = HTTP error). Nelze udělat automatizovaně ani ručně.
+- **Rozhodnutí (Jan 2026-06-28):** počkat na organic unlock, NEpoužívat ESL (rozbil
+  by tracking duplicitními eventy). Dopad nízký (jen iOS ATT-opt-out ~30-40 %).
+- **Claude recheck ~2026-07-10** (potřebuje interaktivní Meta session přes Playwright
+  → nelze cloud routine; připomenu v session). Detail: memory `project_meta_setup.md`.
+- Plánované priority (až se odemkne): 1.Purchase 2.InitiateCheckout 3.AddToCart
+  4.CompleteRegistration 5.Lead 6.ViewContent 7.Subscribe 8.Contact
 
 ### 3. ComGate KYC + API key
 - **Status:** mail odeslán 2026-06-03 (FUTUNATU s.r.o., follow-up)
