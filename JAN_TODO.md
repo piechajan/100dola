@@ -49,8 +49,12 @@ Cron cleanup (P3 drobnost):
 - Flipnuto přes Cloudflare API (Jan vytvořil token → `web/.env.local`).
 - Ověřeno `dig` na hattie NS i 1.1.1.1: `p=quarantine; pct=100` live.
 - Skript: `node scripts/cloudflare/dmarc-set.mjs --pct 100`.
-- **Phase 4 (`p=reject`) ~2026-07-01:** `dmarc-set.mjs --policy reject` (Claude
-  zvládne sám díky tokenu) — PŘED tím ověřit pass rate ≥ 99 %.
+- **Phase 4 (`p=reject`) — ✅ HOTOVO 2026-07-07:** cloud routine z 1.7. doběhla,
+  ale flip neprovedla (chyba běhu v cloudu) → Claude dokončil ručně stejným
+  skriptem. `p=reject; pct=100; sp=reject; np=reject` live (ověřeno hattie NS + 8.8.8.8).
+  DMARC roadmapa KOMPLETNÍ. Gate ověřen: SPF + DKIM (cf2024-1 + resend) OK.
+- **CF token retired:** odstraněn z `web/.env.local`; **Jan smaže v Cloudflare
+  dashboardu** (API self-delete nejde). Token id `ae0c8b064fc6a5717e738bd43aec0f97`.
 
 ### 1.5. rip-shop production deploy fail (jiný projekt)
 - **Co:** rip-shop má 4 failed deploys za poslední 2 dny
