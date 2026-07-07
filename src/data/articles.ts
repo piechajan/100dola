@@ -143,12 +143,11 @@ export const ARTICLES: Article[] = [
     summary:
       "Tvoje nové kolo má lak za 30 000 Kč. STEK / XPel / 3M VentureShield — která fólie kam patří. Plus alternativy: keramické coatingy.",
     category: "lab",
-    publishedAt: "",
+    publishedAt: "2026-07-07",
     author: { name: "100dola Lab", role: "Servis kol" },
     image: "/media/lab/lab-ppf.jpg",
-    status: "draft",
-    comingSoonHint:
-      "Co fakt chrání karbonový rám — PPF folie po sektorech, frame protection film, keramické coatingy. Návod, jak se k tomu postavit.",
+    status: "published",
+    readMinutes: 6,
   },
   {
     slug: "cestovani-s-kolem-malaga",
@@ -156,12 +155,11 @@ export const ARTICLES: Article[] = [
     summary:
       "Vlastní kolo na Costa del Sol. Letíš nalehko, jedeš na svém. Praktický průvodce přepravou, uskladněním a sezónou v Andalusii.",
     category: "malaga",
-    publishedAt: "",
+    publishedAt: "2026-07-07",
     author: { name: "Jan Piecha", role: "100dola Malaga" },
     image: "/media/malaga-event.jpg",
-    status: "draft",
-    comingSoonHint:
-      "Kompletní průvodce přepravou kola do Malagy — náš box, ne aviační kufry, sezónní uskladnění, Basic vs. Exclusive balíček.",
+    status: "published",
+    readMinutes: 7,
   },
   {
     slug: "doprava-kola-do-malagy",
