@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useCart } from "@/lib/cart-store";
 import { formatPrice, type Product } from "@/data/products";
 import { isProxiedImage } from "@/lib/shop/image-utils";
+import { trackMetaEvent } from "@/components/analytics/MetaPixel";
+import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 
 /**
  * Sticky bottom bar pro PDP mobile.
@@ -32,6 +34,26 @@ export default function MobileStickyCTA({ product }: { product: Product }) {
   function handleAdd() {
     addToCart(product, 1);
     openDrawer();
+    trackMetaEvent("AddToCart", {
+      content_ids: [product.slug],
+      content_name: product.name,
+      content_type: "product",
+      value: product.priceWithVat,
+      currency: "CZK",
+      contents: [{ id: product.slug, quantity: 1, item_price: product.priceWithVat }],
+    });
+    trackGoogleEvent("add_to_cart", {
+      currency: "CZK",
+      value: product.priceWithVat,
+      items: [
+        {
+          item_id: product.slug,
+          item_name: product.name,
+          price: product.priceWithVat,
+          quantity: 1,
+        },
+      ],
+    });
   }
 
   return (

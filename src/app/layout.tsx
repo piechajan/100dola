@@ -11,6 +11,7 @@ import AttributionTracker from "@/components/analytics/AttributionTracker";
 import JsonLd from "@/components/JsonLd";
 import { organizationSchema, storeSchema, websiteSchema } from "@/lib/schema-org";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import { EventsProvider } from "@/components/EventsProvider";
 import { getPublishedEvents } from "@/lib/events-db";
 
@@ -84,6 +85,7 @@ export default async function RootLayout({
         <MicrosoftClarity />
         <AttributionTracker />
         <SpeedInsights />
+        <Analytics />
         <JsonLd data={organizationSchema()} />
         <JsonLd data={websiteSchema()} />
         <JsonLd data={storeSchema()} />
