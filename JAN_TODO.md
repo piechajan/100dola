@@ -72,8 +72,10 @@ Cron cleanup (P3 drobnost):
   setup checklist 50 %, AEM URL = HTTP error). Nelze udělat automatizovaně ani ručně.
 - **Rozhodnutí (Jan 2026-06-28):** počkat na organic unlock, NEpoužívat ESL (rozbil
   by tracking duplicitními eventy). Dopad nízký (jen iOS ATT-opt-out ~30-40 %).
-- **Claude recheck ~2026-07-10** (potřebuje interaktivní Meta session přes Playwright
-  → nelze cloud routine; připomenu v session). Detail: memory `project_meta_setup.md`.
+- **Recheck 2026-07-07: STÁLE GATED** (4. potvrzení, beze změny — setup pořád 50 %,
+  žádná AEM sekce). Organic unlock nepřišel za 5+ týdnů. Doporučení: nechat být
+  (dopad marginální, jen iOS ATT-opt-out) nebo Meta Support ticket. NEspouštět ESL.
+  Detail: memory `project_meta_setup.md`.
 - Plánované priority (až se odemkne): 1.Purchase 2.InitiateCheckout 3.AddToCart
   4.CompleteRegistration 5.Lead 6.ViewContent 7.Subscribe 8.Contact
 
