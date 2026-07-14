@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { MALAGA_BRAND, GROUP_NOTE, EBIKE_SURCHARGE } from "@/data/malaga";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
@@ -122,6 +123,25 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
           <a href="tel:+420739045057" className="underline" style={{ color: accent }}>
             +420 739 045 057
           </a>.
+        </div>
+        <div className="mt-6 pt-5 border-t border-[#E2E6F3]">
+          <div className="text-xs text-[#9AA3C2] mb-3">Mezitím se můžeš podívat:</div>
+          <div className="flex flex-wrap gap-2 justify-center">
+            <Link
+              href="/malaga/trasy"
+              className="text-sm font-bold px-4 py-2 rounded-full border transition-colors"
+              style={{ borderColor: `${accent}40`, color: accent }}
+            >
+              Trasy a okruhy →
+            </Link>
+            <Link
+              href="/malaga/balicky"
+              className="text-sm font-bold px-4 py-2 rounded-full border transition-colors"
+              style={{ borderColor: `${accent}40`, color: accent }}
+            >
+              Balíčky a ceny →
+            </Link>
+          </div>
         </div>
       </div>
     );
