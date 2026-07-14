@@ -653,6 +653,26 @@ export default function CheckoutForm() {
           <p className="text-[10px] text-[#9AA3C2] text-center mt-3 leading-relaxed">
             Kliknutím odešleš objednávku. Mailem dostaneš potvrzení a platební info (QR kód, IBAN, VS).
           </p>
+
+          {/* Trust signály u rozhodovacího bodu */}
+          <div className="mt-4 pt-4 border-t border-[#F0F2FA] grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-3">
+            <div className="flex items-center gap-2 text-[11px] text-[#5A6480]">
+              <span aria-hidden>🔒</span>
+              <span>Šifrované připojení, data v bezpečí</span>
+            </div>
+            <div className="flex items-center gap-2 text-[11px] text-[#5A6480]">
+              <span aria-hidden>↩️</span>
+              <span>14 dní na vrácení bez udání důvodu</span>
+            </div>
+            <div className="flex items-center gap-2 text-[11px] text-[#5A6480]">
+              <span aria-hidden>📞</span>
+              <span>Termín dodání potvrdíme po objednávce</span>
+            </div>
+            <div className="flex items-center gap-2 text-[11px] text-[#5A6480]">
+              <span aria-hidden>🇨🇿</span>
+              <span>FUTUNATU s.r.o. — český prodejce</span>
+            </div>
+          </div>
         </div>
       </aside>
     </form>
