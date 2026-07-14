@@ -20,6 +20,7 @@ async function buildUrlList(): Promise<string[]> {
     "/malaga/preprava",
     "/malaga/uskladneni",
     "/malaga/balicky",
+    "/malaga/trasy",
     "/lab",
     "/community",
     "/community/o-klinice",

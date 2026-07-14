@@ -17,6 +17,7 @@ const links: Record<string, { label: string; href: string; external?: boolean }[
     { label: "Jak to funguje", href: "/malaga" },
     { label: "Přeprava kol", href: "/malaga/preprava" },
     { label: "Uskladnění", href: "/malaga/uskladneni" },
+    { label: "Trasy a okruhy", href: "/malaga/trasy" },
     { label: "Balíčky a ceny", href: "/malaga/balicky" },
     { label: "@100dola_malaga", href: "https://www.instagram.com/100dola_malaga/", external: true },
   ],

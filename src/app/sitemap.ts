@@ -93,6 +93,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/malaga/preprava",
     "/malaga/uskladneni",
     "/malaga/balicky",
+    "/malaga/trasy",
     "/community/o-klinice",
     "/o-nas",
     "/sport",

@@ -99,6 +99,29 @@ export default function MalagaServices() {
             </Link>
           ))}
         </div>
+
+        {/* Routes teaser */}
+        <div className="mt-6 rounded-3xl bg-white border border-[#E2E6F3] p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
+          <div className="flex-1">
+            <div className="text-2xl font-black text-[#1a1a2e] leading-tight mb-1">
+              A kam vlastně jezdit?
+            </div>
+            <p className="text-sm text-[#5A6480] leading-relaxed">
+              Domácí stoupání Montes de Málaga, bílé vesnice Axarquíe, gravel u roklí
+              nebo velký den do Rondy. Vybrali jsme okruhy podle formy.
+            </p>
+          </div>
+          <Link
+            href="/malaga/trasy"
+            className="shrink-0 inline-flex items-center gap-2 px-6 py-3 text-sm font-bold rounded-full text-white transition-all hover:gap-3"
+            style={{ backgroundColor: accent }}
+          >
+            Prohlédnout trasy
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
       </div>
     </section>
   );
