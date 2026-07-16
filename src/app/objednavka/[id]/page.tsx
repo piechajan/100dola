@@ -5,6 +5,7 @@ import path from "path";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { buildSpaydQrDataUrl, FUTUNATU_IBAN } from "@/lib/spayd";
+import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 
 export const metadata: Metadata = {
   title: "Objednávka přijata — 100dola sport",
@@ -29,6 +30,44 @@ const DATA_DIR = process.env.NODE_ENV === "production" ? "/tmp" : path.join(proc
 const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
 
 async function getOrder(id: string): Promise<OrderRecord | null> {
+  // Primárně Supabase (objednávky tam ukládá /api/orders). /tmp file je jen
+  // dev fallback — v produkci je ephemeral, proto se z něj NESMÍ číst jako zdroj pravdy.
+  if (isSupabaseConfigured()) {
+    try {
+      const sb = getSupabase();
+      const { data: o, error } = await sb.from("orders").select("*").eq("id", id).maybeSingle();
+      if (error || !o) throw error || new Error("not found");
+      const { data: items } = await sb.from("order_items").select("*").eq("order_id", id);
+      return {
+        id: o.id,
+        registeredAt: o.registered_at,
+        total: o.total,
+        subtotal: o.subtotal,
+        shippingFee: o.shipping_fee,
+        status: o.status,
+        items: (items || []).map((i: Record<string, unknown>) => ({
+          productId: i.product_id as number,
+          slug: i.slug as string,
+          name: i.name as string,
+          priceWithVat: i.price_with_vat as number,
+          vatRate: i.vat_rate as number,
+          qty: i.qty as number,
+        })),
+        contact: { name: o.name, email: o.email, phone: o.phone },
+        shipping: {
+          method: o.shipping_method,
+          methodLabel: o.shipping_method_label,
+          street: o.street ?? undefined,
+          city: o.city ?? undefined,
+          zip: o.zip ?? undefined,
+          zasilkovnaPickup: o.zasilkovna_pickup ?? undefined,
+        },
+        payment: { method: o.payment_method, methodLabel: o.payment_method_label },
+      };
+    } catch (e) {
+      console.warn("[objednavka/detail] Supabase fail, fallback to file:", e);
+    }
+  }
   try {
     const raw = await fs.readFile(ORDERS_FILE, "utf-8");
     const all: OrderRecord[] = JSON.parse(raw);
