@@ -1,7 +1,19 @@
 # Janův TODO — co Claude nemůže udělat sám
 
 > Live seznam — aktualizováno po každé session. Claude průběžně doplňuje sem.
-> Stav k **2026-06-17**.
+> Stav k **2026-07-16**.
+
+---
+
+## 🟡 Rozhodnutí čekající na Jana
+
+- **Malaga pricing konflikt (Basic 849€ vs 559€)** — `data/malaga.ts` má potvrzený
+  (30.4. tebou) **Basic od 559 €**, ale `MalagaServices.tsx` karta + meta na
+  `/malaga/balicky` ukazují **849 €** (stará hardcoded hodnota). Zákazník vidí
+  dvě různé ceny Basicu. **Rozhodni:** srovnat displej na 559 € (doporučeno,
+  jen oprava zobrazení dle tvého potvrzeného ceníku), nebo je 849 € správně a
+  opravit data? Řekni a Claude srovná. Místa: `src/components/malaga/MalagaServices.tsx:36`,
+  `src/app/malaga/balicky/page.tsx:11-13`.
 
 ---
 
