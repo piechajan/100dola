@@ -22,6 +22,32 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { getAdapter } from "./registry";
 import { matchesFilter, type RawSupplierProduct } from "./types";
 
+/**
+ * Pojistka „nikdy pod nákupní cenou". Sportimport dealer ceny jsou bez DPH
+ * (B2B velkoobchod), retail je s DPH → break-even = dealer × 1.21. Když feed
+ * pošle retail pod break-even (chyba dat), zvedni na break-even zaokrouhlený
+ * nahoru na 10 Kč a zaloguj varování. Chrání marži proti chybným feed cenám.
+ * Triggeruje jen na skutečné anomálie (běžný markup je ~2×).
+ */
+function guardRetailNotBelowCost(
+  retailCzk: number | null | undefined,
+  dealerCzk: number | null | undefined,
+  name: string,
+): number | null {
+  const retail = retailCzk ?? null;
+  if (retail == null) return null;
+  const dealer = dealerCzk ?? null;
+  if (dealer == null || dealer <= 0) return retail;
+  const breakEven = Math.ceil((dealer * 1.21) / 10) * 10;
+  if (retail < breakEven) {
+    console.warn(
+      `[importer] retail pod nákupkou u "${name}": feed ${retail} < break-even ${breakEven} Kč (dealer ${dealer} bez DPH) → zvednuto na ${breakEven}`,
+    );
+    return breakEven;
+  }
+  return retail;
+}
+
 type ImporterDeps = {
   supabase: SupabaseClient;
   triggeredBy: string; // 'cron' | 'admin:<email>' | 'manual'
@@ -111,6 +137,9 @@ export async function importBrand(
       if (brand.import_filter && !matchesFilter(p, brand.import_filter)) continue;
       variantsTotal += p.variants?.length ?? 0;
 
+      // Pojistka: retail nikdy pod nákupní cenou (dealer × 1.21). Chybné feed ceny se zvednou.
+      const safeRetailCzk = guardRetailNotBelowCost(p.prices.retailCzk, p.prices.dealerCzk, p.name);
+
       const row = {
         supplier_id: supplierId,
         brand_id: brand.id,
@@ -119,7 +148,7 @@ export async function importBrand(
         ean: p.ean ?? null,
         name: p.name,
         description_html: p.descriptionHtml ?? null,
-        price_czk_retail: p.prices.retailCzk ?? null,
+        price_czk_retail: safeRetailCzk,
         price_eur_retail: p.prices.retailEur ?? null,
         price_czk_dealer: p.prices.dealerCzk ?? null,
         price_eur_dealer: p.prices.dealerEur ?? null,
@@ -159,7 +188,7 @@ export async function importBrand(
         }
       } else {
         // detekce změn (lehká heuristika: name+price)
-        const changed = existing.name !== p.name || existing.price_czk_retail !== (p.prices.retailCzk ?? null);
+        const changed = existing.name !== p.name || existing.price_czk_retail !== safeRetailCzk;
         if (changed) {
           const { error: updErr } = await supabase
             .from("supplier_products")
