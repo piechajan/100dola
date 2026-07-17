@@ -150,10 +150,11 @@ export const PRODUCTS: Product[] = [
     year: "2026",
     brand: "scott",
     categoryId: "silnicni-aero",
-    priceWithVat: 82990,
+    priceWithVat: 105000,
+    originalPriceWithVat: 129990,
     vatRate: 21,
     bulky: true,
-    badges: ["Skladem L+XL", "Aero"],
+    badges: ["Skladem L+XL", "Aero", "Sleva"],
     note: "Aero race road — Scott označuje Foil za nejrychlejší silniční kolo, jaké kdy vyrobili. Pro spurtery, time trial, triatlon.",
     photo: "/media/scott-foil-rc-20-carbon-grey.webp",
     gallery: [
