@@ -98,13 +98,13 @@ const SPECS: SpecRow[] = [
 export default function ScottSparkRC2026vs2027() {
   return (
     <article className="max-w-[820px] mx-auto px-4 md:px-6 pb-24">
-      <div className="relative aspect-[16/9] bg-gradient-to-br from-[#EAF1FE] via-[#F7F9FF] to-white rounded-2xl overflow-hidden mb-8">
+      <div className="relative aspect-[16/9] bg-[#EEF3FB] rounded-2xl overflow-hidden mb-8 border border-[#E2E6F3]">
         <Image
           src={SPARK_PHOTO}
           alt="Scott Spark RC Gen5 vs Gen4"
           fill
           sizes="(min-width: 1024px) 820px, 100vw"
-          className="object-contain p-8 md:p-12"
+          className="object-contain p-5 md:p-8"
           priority
         />
       </div>

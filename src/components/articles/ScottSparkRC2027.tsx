@@ -3,6 +3,48 @@ import Image from "next/image";
 import SparkStickyCTA from "./SparkStickyCTA";
 import SparkUrgencyBanner from "./SparkUrgencyBanner";
 import PreorderCounter from "@/components/preorders/PreorderCounter";
+import { getPlatformBySlug, eurToCzk } from "@/data/scott-2027";
+
+/**
+ * Přehled modelů Spark RC 2027 s prokliky na detailní stránku každé varianty
+ * (specifikace, fotky, cena). Data-driven z SCOTT_2027 — jeden zdroj pravdy,
+ * takže se web + článek nikdy nerozejdou. Interní linky = SEO + navigace.
+ */
+function SparkModelGrid() {
+  const platform = getPlatformBySlug("scott-spark-rc-2027");
+  if (!platform) return null;
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-8">
+      {platform.variants.map((v) => (
+        <Link
+          key={v.slug}
+          href={`/clanky/scott-2027/${platform.slug}/${v.slug}`}
+          className="group flex gap-4 items-center bg-white border border-[#E2E6F3] rounded-2xl p-3 hover:border-[#3B7CF4] hover:shadow-md transition"
+        >
+          <div className="relative w-24 h-24 shrink-0 rounded-xl overflow-hidden bg-[#F0F2FA]">
+            <Image
+              src={v.photo}
+              alt={`Scott ${v.name} 2027`}
+              fill
+              sizes="96px"
+              className="object-contain p-1.5"
+            />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="text-sm font-black text-[#1a1a2e] group-hover:text-[#3B7CF4] leading-tight">
+              {v.name}
+            </div>
+            <div className="text-xs text-[#5A6480] mt-0.5 line-clamp-2">{v.groupset}</div>
+            <div className="flex items-center justify-between mt-1.5">
+              <span className="text-sm font-bold text-[#1a1a2e]">{eurToCzk(v.priceEur)}</span>
+              <span className="text-xs font-bold text-[#3B7CF4]">Detail →</span>
+            </div>
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
+}
 
 /**
  * Scott Spark RC 2027 — magazínový článek + předobjednávkový hub.
@@ -128,6 +170,16 @@ export default function ScottSparkRC2027() {
           změny. Spark RC 2027 je{" "}
           <strong className="text-[#1a1a2e]">nejkomplexnější závodní XC kolo SCOTT v historii značky</strong>
           .
+        </p>
+        <p className="text-base text-[#5A6480] leading-relaxed mb-5">
+          Jestli hledáš konkrétní výbavu a cenu, přeskoč rovnou na{" "}
+          <Link
+            href="#modely"
+            className="text-[#3B7CF4] font-semibold underline underline-offset-2 hover:text-[#1a1a2e]"
+          >
+            přehled všech modelů Spark RC 2027
+          </Link>{" "}
+          s prokliky na detailní specifikaci každé varianty.
         </p>
 
         <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mt-12 mb-4">
@@ -485,8 +537,8 @@ export default function ScottSparkRC2027() {
           výjimečnou stabilitu, kontrolu a odezvu v ultralehkém provedení.
         </p>
 
-        <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mt-12 mb-4">
-          Produktová řada Spark RC 2027
+        <h2 id="modely" className="text-2xl md:text-3xl font-black text-[#1a1a2e] mt-12 mb-4 scroll-mt-24">
+          Produktová řada Spark RC 2027 — modely a specifikace
         </h2>
         <p className="text-base text-[#5A6480] leading-relaxed mb-5">
           Řada Spark RC zahrnuje{" "}
@@ -495,6 +547,30 @@ export default function ScottSparkRC2027() {
           <strong>HMX-SL / HMX / HMF</strong> a nabízejí stejné technologické výhody bez
           ohledu na úroveň výbavy. Liší se převážně osazením (SRAM XX SL Eagle vs Eagle
           AXS vs nižší řady), výplety a barevným provedením.
+        </p>
+        <p className="text-base text-[#5A6480] leading-relaxed mb-2">
+          Rozklikni si kterýkoli model — u každého najdeš{" "}
+          <strong className="text-[#1a1a2e]">kompletní specifikaci, fotky a orientační cenu</strong>:
+        </p>
+
+        <SparkModelGrid />
+
+        <p className="text-sm text-[#5A6480] leading-relaxed mb-8">
+          Chceš modely porovnat vedle sebe? Použij{" "}
+          <Link
+            href="/clanky/scott-2027/srovnani"
+            className="text-[#3B7CF4] font-semibold underline underline-offset-2 hover:text-[#1a1a2e]"
+          >
+            interaktivní srovnávač Scott 2027
+          </Link>{" "}
+          nebo přejdi na{" "}
+          <Link
+            href="/clanky/scott-2027/scott-spark-rc-2027"
+            className="text-[#3B7CF4] font-semibold underline underline-offset-2 hover:text-[#1a1a2e]"
+          >
+            přehled platformy Spark RC
+          </Link>
+          .
         </p>
 
         <div className="grid grid-cols-2 gap-3 my-8">
