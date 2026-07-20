@@ -281,13 +281,13 @@ export default function ScottSparkRC2026vs2027() {
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
           <Link
-            href="/clanky/scott-2027/spark-rc"
+            href="/clanky/scott-2027/scott-spark-rc-2027"
             className="bg-[#3B7CF4] hover:bg-[#5C92F6] text-white font-bold text-sm px-5 py-3 rounded-xl transition text-center"
           >
             Detail Spark RC 2027 →
           </Link>
           <Link
-            href="/clanky/scott-2027/srovnani?a=spark-rc__spark-rc-sl&b=spark-rc__spark-rc-world-cup"
+            href="/clanky/scott-2027/srovnani?a=scott-spark-rc-2027__spark-rc-sl&b=scott-spark-rc-2027__spark-rc-world-cup"
             className="bg-white border border-[#C9DCFC] hover:border-[#3B7CF4] text-[#1a1a2e] font-bold text-sm px-5 py-3 rounded-xl transition text-center"
           >
             Srovnání variant SL vs World Cup

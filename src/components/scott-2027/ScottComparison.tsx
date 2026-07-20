@@ -36,23 +36,23 @@ function flatten(): FlatVariant[] {
 
 const RECOMMENDED_PAIRS: { a: string; b: string; reason: string }[] = [
   {
-    a: "spark-rc__spark-rc-sl",
-    b: "spark-rc__spark-rc-world-cup",
+    a: "scott-spark-rc-2027__spark-rc-sl",
+    b: "scott-spark-rc-2027__spark-rc-world-cup",
     reason: "Top-tier MTB závodní: SL (top elektro) vs World Cup (manuální čistota).",
   },
   {
-    a: "addict__addict-30",
-    b: "addict__addict-20",
+    a: "scott-addict__addict-30",
+    b: "scott-addict__addict-20",
     reason: "Endurance silnice: o jednu úroveň výš za méně peněz.",
   },
   {
-    a: "addict-rc__addict-rc-10",
-    b: "addict__addict-10",
+    a: "scott-addict-rc__addict-rc-10",
+    b: "scott-addict__addict-10",
     reason: "Aero race vs endurance ve stejné cenové třídě.",
   },
   {
-    a: "addict-gravel__addict-gravel-10",
-    b: "addict-rc__addict-rc-20",
+    a: "scott-addict-gravel__addict-gravel-10",
+    b: "scott-addict-rc__addict-rc-10",
     reason: "Univerzál (gravel) vs čistá závodní silnice za podobné peníze.",
   },
 ];
