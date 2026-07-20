@@ -479,6 +479,35 @@ export const PRODUCTS: Product[] = [
     stockStatus: "on_request",
     deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní předání po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín potvrdíme po objednávce.",
   },
+  {
+    id: 20,
+    name: "Scott Centric Plus",
+    slug: "scott-centric-plus",
+    year: "2026",
+    brand: "scott",
+    categoryId: "helmy-kolo",
+    priceWithVat: 5190,
+    vatRate: 21,
+    bulky: false,
+    badges: ["MIPS", "Silniční"],
+    note: "Prémiová silniční helma s ochranou mozku MIPS Air proti rotačním silám při šikmém nárazu. Výborné odvětrání, lehká in-mold konstrukce (~220 g) a přesné dotažení systémem HALO.",
+    photo: "/media/scott-centric-plus-white.webp",
+    gallery: [
+      "/media/scott-centric-plus-white.webp",
+      "/media/scott-centric-plus-white-2.webp",
+    ],
+    specs: ["MIPS Air · rotační ochrana", "HALO systém · ~220 g", "In-mold polykarbonát"],
+    gender: "U",
+    color: "White",
+    colorFamily: "white",
+    variants: [
+      { size: "S", isInStock: false, availability: "Na objednávku" },
+      { size: "M", isInStock: false, availability: "Na objednávku" },
+      { size: "L", isInStock: false, availability: "Na objednávku" },
+    ],
+    stockStatus: "on_request",
+    deliveryNote: "Skladem u dodavatele — dovoz do pár dní. Osobní vyzvednutí ve Šternberku / Olomouci / Valašském Meziříčí.",
+  },
 ];
 
 export function getProductBySlug(slug: string): Product | undefined {
