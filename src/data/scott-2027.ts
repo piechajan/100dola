@@ -134,7 +134,7 @@ export const SCOTT_2027: Scott2027Platform[] = [
         colors: ["Carbon Black"],
         photo: "/media/scott-2027/spark-rc-sl.webp",
         sizes: MTB_SIZES,
-        gallery: gal("spark-rc-sl", 6),
+        gallery: ["/media/scott-2027/spark-rc-sl.webp"],
         scottUrl: "https://www.scott-sports.com/global/en/product/scott-spark-rc-sl-bike",
         componentry: {
           frame: "Spark RC Carbon HMX SL, flex pivot, adjustable head angle, 1 870 g s tlumičem",
@@ -158,7 +158,7 @@ export const SCOTT_2027: Scott2027Platform[] = [
         colors: ["White"],
         photo: "/media/scott-2027/spark-rc-wc-evo.webp",
         sizes: MTB_SIZES,
-        gallery: gal("spark-rc-world-cup-evo", 6),
+        gallery: ["/media/scott-2027/spark-rc-wc-evo.webp"],
         scottUrl: "https://www.scott-sports.com/global/en/product/scott-spark-rc-world-cup-evo-bike",
         componentry: {
           frame: "Spark RC Carbon HMX, BB92, UDH",
@@ -182,7 +182,7 @@ export const SCOTT_2027: Scott2027Platform[] = [
         colors: ["Sunbeam Black"],
         photo: "/media/scott-2027/spark-rc-wc.webp",
         sizes: MTB_SIZES,
-        gallery: gal("spark-rc-world-cup", 4),
+        gallery: ["/media/scott-2027/spark-rc-wc.webp"],
         scottUrl: "https://www.scott-sports.com/global/en/product/scott-spark-rc-world-cup-bike",
         componentry: {
           frame: "Spark RC Carbon HMX, BB92, UDH",
@@ -206,7 +206,7 @@ export const SCOTT_2027: Scott2027Platform[] = [
         colors: ["Azure White"],
         photo: "/media/scott-2027/spark-rc-pro.webp",
         sizes: MTB_SIZES,
-        gallery: gal("spark-rc-pro", 6),
+        gallery: ["/media/scott-2027/spark-rc-pro.webp"],
         scottUrl: "https://www.scott-sports.com/global/en/product/scott-spark-rc-pro-bike",
         componentry: {
           frame: "Spark RC Carbon HMF, BB92, UDH",
@@ -230,7 +230,7 @@ export const SCOTT_2027: Scott2027Platform[] = [
         colors: ["Carbon Black", "Whisper Grey", "Spectral Black", "Cream Green"],
         photo: "/media/scott-2027/spark-rc-team.webp",
         sizes: MTB_SIZES,
-        gallery: gal("spark-rc-team", 6),
+        gallery: ["/media/scott-2027/spark-rc-team.webp"],
         scottUrl: "https://www.scott-sports.com/global/en/product/scott-spark-rc-team-bike",
         componentry: {
           frame: "Spark RC Carbon HMF, BB92, UDH, 12×148, 55 mm chainline",
@@ -254,7 +254,7 @@ export const SCOTT_2027: Scott2027Platform[] = [
         colors: ["Cumulus White"],
         photo: "/media/scott-2027/spark-rc-comp.webp",
         sizes: MTB_SIZES,
-        gallery: gal("spark-rc-comp", 6),
+        gallery: ["/media/scott-2027/spark-rc-comp.webp"],
         scottUrl: "https://www.scott-sports.com/global/en/product/scott-spark-rc-comp-bike",
         componentry: {
           frame: "Spark RC Carbon HMF, BB92, UDH",
