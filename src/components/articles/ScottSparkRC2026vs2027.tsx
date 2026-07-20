@@ -98,13 +98,13 @@ const SPECS: SpecRow[] = [
 export default function ScottSparkRC2026vs2027() {
   return (
     <article className="max-w-[820px] mx-auto px-4 md:px-6 pb-24">
-      <div className="relative aspect-[16/9] bg-[#EEF3FB] rounded-2xl overflow-hidden mb-8 border border-[#E2E6F3]">
+      <div className="relative aspect-[16/9] bg-white rounded-2xl overflow-hidden mb-8 border border-[#E2E6F3] shadow-sm">
         <Image
           src={SPARK_PHOTO}
           alt="Scott Spark RC Gen5 vs Gen4"
           fill
           sizes="(min-width: 1024px) 820px, 100vw"
-          className="object-contain p-5 md:p-8"
+          className="object-contain p-6 md:p-10"
           priority
         />
       </div>
@@ -214,40 +214,59 @@ export default function ScottSparkRC2026vs2027() {
           Mám Gen4. Vyplatí se upgrade?
         </h2>
         <p className="text-base text-[#1a1a2e] leading-relaxed mb-4">
-          Krátká odpověď: <strong>většinou ne</strong>, pokud jezdíš na něm pravidelně a fittuje
-          ti.
+          Krátká odpověď: <strong>pokud jezdíš aktivně, jednoznačně stojí za zvážení</strong>.
+          Gen5 není kosmetická obměna — je to nejkomplexnější Spark RC v historii a posouvá
+          hned několik věcí, které na trati reálně ucítíš.
         </p>
         <ul className="space-y-2 text-sm md:text-base text-[#1a1a2e]">
           <li className="flex gap-2">
             <span className="text-[#3B7CF4] font-black">✓</span>
             <span>
-              <strong>Upgrade dává smysl</strong>, pokud chceš úložiště v rámu, plánuješ
-              dlouhé maratony nebo etapové závody (kde každý gram a každý menší stresor
-              hraje roli).
+              <strong>Integrované úložiště Save-the-Day přímo v rámu</strong> — pumpička, duše
+              i montpáky zmizí z kapes a bidon zůstane na pití. Na maratonech a etapácích
+              zásadní komfort.
             </span>
           </li>
           <li className="flex gap-2">
             <span className="text-[#3B7CF4] font-black">✓</span>
             <span>
-              <strong>Upgrade dává smysl</strong>, pokud ti Gen4 nesedí v reachu — Gen5 přidává
-              5 mm a moderní progresivní geometrii.
+              <strong>Nový integrovaný kokpit Syncros iC-M100-SL</strong> — čistší vedení kabelů,
+              nižší hmotnost a vyšší tuhost přední části. Kolo reaguje okamžitěji a působí
+              závoději.
             </span>
           </li>
           <li className="flex gap-2">
-            <span className="text-[#E8431A] font-black">✗</span>
+            <span className="text-[#3B7CF4] font-black">✓</span>
             <span>
-              <strong>Upgrade nedává smysl</strong>, pokud jen chceš lehčí kolo — rozdíl 118 g
-              v top rámu se ti nevrátí pocitově ani časově (ostatní díly mají vliv větší).
+              <strong>Modernější geometrie</strong> — +5 mm reach a stabilnější head angle
+              (66.8°) ti dají víc kontroly a jistoty ve sjezdech, aniž bys ztratil XC hbitost.
             </span>
           </li>
           <li className="flex gap-2">
-            <span className="text-[#E8431A] font-black">✗</span>
+            <span className="text-[#3B7CF4] font-black">✓</span>
             <span>
-              <strong>Upgrade nedává smysl</strong>, pokud máš Gen4 s SRAM XX1 AXS — Gen5 na
-              Transmission je sice tužší, ale rozdíl v jízdě je marginální (servis je dražší).
+              <strong>Dropper až 200 mm a přepracovaná kinematika Virtual 4-bar</strong> — lepší
+              trakce v zatáčce a svoboda v technickém terénu, na kterou Gen4 nedosáhne.
+            </span>
+          </li>
+          <li className="flex gap-2">
+            <span className="text-[#3B7CF4] font-black">✓</span>
+            <span>
+              <strong>SRAM Eagle Transmission (přímý mount)</strong> — tužší a přesnější řazení
+              pod plnou zátěží a odolnější setup na celou sezonu.
             </span>
           </li>
         </ul>
+        <p className="text-sm md:text-base text-[#1a1a2e] leading-relaxed mt-5">
+          Chceš si nový Spark RC 2027 osahat nebo rovnou předobjednat?{" "}
+          <Link
+            href="/clanky/scott-spark-rc-2027#modely"
+            className="text-[#3B7CF4] font-semibold underline underline-offset-2 hover:text-[#1a1a2e]"
+          >
+            Projdi si celou modelovou řadu
+          </Link>{" "}
+          — u každého modelu najdeš specifikaci, fotky i možnost poptávky přes 100dola sport.
+        </p>
       </section>
 
       <section className="mb-12">
