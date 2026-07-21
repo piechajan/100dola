@@ -576,6 +576,38 @@ export const PRODUCTS: Product[] = [
     stockStatus: "on_request",
     deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní předání po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín potvrdíme po objednávce.",
   },
+  {
+    id: 23,
+    name: "Scott Patron ST 910",
+    slug: "scott-patron-st-910-2025",
+    year: "2025",
+    brand: "scott",
+    categoryId: "elektro",
+    priceWithVat: 137800,
+    originalPriceWithVat: 177250,
+    vatRate: 21,
+    bulky: true,
+    badges: ["E-MTB", "Bosch CX", "800 Wh"],
+    note: "Výkonné enduro e-MTB s motorem Bosch Performance CX (85 Nm) a velkou baterií PowerTube 800 Wh — dojezd 64–200 km podle terénu. Hliníkový rám s kinematikou Virtual 4 Link a nastavitelným úhlem hlavy, zdvih 170/150 mm (RockShox Domain / Super Deluxe), Shimano Deore 1×12 a 4pístové kotouče. Připraveno na dlouhé náročné výjezdy i technické sjezdy.",
+    photo: "/media/scott-patron-st-910.webp",
+    specs: [
+      "Bosch Performance CX 85 Nm · PowerTube 800 Wh",
+      "RockShox Domain 170 mm / Super Deluxe 150 mm",
+      "Shimano Deore 1×12 · 4pístové kotouče",
+    ],
+    gender: "U",
+    useCase: "performance",
+    color: "Black / Bronze",
+    colorFamily: "black",
+    variants: [
+      { size: "S", isInStock: false, availability: "Na objednávku" },
+      { size: "M", isInStock: true, availability: "Skladem" },
+      { size: "L", isInStock: false, availability: "Na objednávku" },
+      { size: "XL", isInStock: false, availability: "Na objednávku" },
+    ],
+    stockStatus: "on_request",
+    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní předání po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín potvrdíme po objednávce.",
+  },
 ];
 
 export function getProductBySlug(slug: string): Product | undefined {

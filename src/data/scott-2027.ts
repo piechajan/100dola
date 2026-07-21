@@ -576,6 +576,7 @@ export const SCOTT_2027: Scott2027Platform[] = [
     platform: "road",
     status: "carryover",
     announcedDate: "2024-08-01",
+    heroPhoto: "/media/scott-2027/addict-rc-pro-hero.webp",
     claim:
       "Addict RC HMX SL je nejlehčí závodní silnička, jakou Scott vyrobil. 12 W aero zisk, 36 % vyšší komfort a 300 g lehčí proti předchozí generaci.",
     frame:
