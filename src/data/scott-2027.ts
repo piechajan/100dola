@@ -40,6 +40,8 @@ export interface Scott2027Variant {
   weightKg: number | null;
   /** MSRP v EUR (Scott neposkytuje, brujulabike / euro-bike data) */
   priceEur: number | null;
+  /** Přesná CZ retailová cena vč. DPH (oficiální Scott ceník) — má přednost před priceEur. */
+  priceCzk?: number;
   /** Barevné varianty — max 4 hlavní */
   colors: string[];
   /** Lokální cesta k hlavní fotce v /public/media/scott-2027/ */
@@ -133,7 +135,8 @@ export const SCOTT_2027: Scott2027Platform[] = [
         fork: "RockShox SID Ultimate Flight Attendant 120",
         weightKg: 9.9,
         priceEur: 13699,
-        colors: ["Carbon Black"],
+        priceCzk: 337990,
+        colors: ["Piano Black / Carbon Black"],
         photo: "/media/scott-2027/spark-rc-sl.webp",
         sizes: MTB_SIZES,
         gallery: ["/media/scott-2027/spark-rc-sl.webp"],
@@ -157,7 +160,8 @@ export const SCOTT_2027: Scott2027Platform[] = [
         fork: "RockShox SID Ultimate Flight Attendant",
         weightKg: 10.5,
         priceEur: 12199,
-        colors: ["White"],
+        priceCzk: 298990,
+        colors: ["Rush White / Carbon Black"],
         photo: "/media/scott-2027/spark-rc-wc-evo.webp",
         sizes: MTB_SIZES,
         gallery: ["/media/scott-2027/spark-rc-wc-evo.webp"],
@@ -181,7 +185,8 @@ export const SCOTT_2027: Scott2027Platform[] = [
         fork: "RockShox SID Select+ RL3 Air, 120 mm",
         weightKg: 10.9,
         priceEur: 8699,
-        colors: ["Sunbeam Black"],
+        priceCzk: 215790,
+        colors: ["Cumulus White / Carbon Black"],
         photo: "/media/scott-2027/spark-rc-wc.webp",
         sizes: MTB_SIZES,
         gallery: ["/media/scott-2027/spark-rc-wc.webp"],
@@ -205,7 +210,8 @@ export const SCOTT_2027: Scott2027Platform[] = [
         fork: "Fox 34 SL Factory Kashima",
         weightKg: 10.9,
         priceEur: 7599,
-        colors: ["Azure White"],
+        priceCzk: 187190,
+        colors: ["Obsidian Purple / Carbon Black"],
         photo: "/media/scott-2027/spark-rc-pro.webp",
         sizes: MTB_SIZES,
         gallery: ["/media/scott-2027/spark-rc-pro.webp"],
@@ -229,7 +235,8 @@ export const SCOTT_2027: Scott2027Platform[] = [
         fork: "RockShox SID Flight Attendant (electronic), 120 mm",
         weightKg: null,
         priceEur: null,
-        colors: ["Carbon Black"],
+        priceCzk: 187190,
+        colors: ["Carbon Black", "Dorado Grey", "Ultra Blue"],
         photo: "/media/scott-2027/spark-rc-team-issue.webp",
         sizes: MTB_SIZES,
         gallery: ["/media/scott-2027/spark-rc-team-issue.webp"],
@@ -253,7 +260,8 @@ export const SCOTT_2027: Scott2027Platform[] = [
         fork: "FOX 34 SL Factory Grip SL Kashima, 120 mm",
         weightKg: null,
         priceEur: null,
-        colors: ["Raw Grey"],
+        priceCzk: 145590,
+        colors: ["Tungsten Grey"],
         photo: "/media/scott-2027/spark-rc-expert.webp",
         sizes: MTB_SIZES,
         gallery: ["/media/scott-2027/spark-rc-expert.webp"],
@@ -277,7 +285,8 @@ export const SCOTT_2027: Scott2027Platform[] = [
         fork: "RockShox SID 3P Air",
         weightKg: 12.5,
         priceEur: 4799,
-        colors: ["Carbon Black", "Whisper Grey", "Spectral Black", "Cream Green"],
+        priceCzk: 119590,
+        colors: ["Spectral Black", "Cream Green / Carbon Black"],
         photo: "/media/scott-2027/spark-rc-team.webp",
         sizes: MTB_SIZES,
         gallery: ["/media/scott-2027/spark-rc-team.webp"],
@@ -301,6 +310,7 @@ export const SCOTT_2027: Scott2027Platform[] = [
         fork: "RockShox SID 3P Air / FOX 32 Rhythm",
         weightKg: 12.8,
         priceEur: 3799,
+        priceCzk: 93590,
         colors: ["Cumulus White"],
         photo: "/media/scott-2027/spark-rc-comp.webp",
         sizes: MTB_SIZES,
@@ -814,4 +824,15 @@ export function eurToCzk(eur: number | null): string {
   if (eur === null) return "Cena na poptávku";
   const czk = Math.round((eur * 25) / 1000) * 1000;
   return `od ${czk.toLocaleString("cs-CZ").replace(/,/g, " ")} Kč`;
+}
+
+/**
+ * Cena varianty pro zobrazení. Preferuje přesnou CZ cenu z oficiálního
+ * Scott ceníku (priceCzk), jinak fallback na orientační přepočet z EUR.
+ */
+export function formatVariantPrice(v: Scott2027Variant): string {
+  if (v.priceCzk != null) {
+    return `${v.priceCzk.toLocaleString("cs-CZ").replace(/,/g, " ")} Kč`;
+  }
+  return eurToCzk(v.priceEur);
 }

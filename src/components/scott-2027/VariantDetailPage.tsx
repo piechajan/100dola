@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import BikeInquiryForm from "./BikeInquiryForm";
 import {
-  eurToCzk,
+  formatVariantPrice,
   type Scott2027Platform,
   type Scott2027Variant,
 } from "@/data/scott-2027";
@@ -18,18 +18,27 @@ interface Props {
 // Mapování názvů barev Scott → hex pro vizuální vzorník na detailu modelu.
 const COLOR_HEX: Record<string, string> = {
   "Carbon Black": "#1b1b1e",
+  "Piano Black": "#16161a",
   "Spectral Black": "#242529",
   "Sunbeam Black": "#2b2b2d",
+  "Obsidian Purple": "#39304a",
   White: "#f1f2f4",
+  "Rush White": "#eef1f5",
   "Azure White": "#e9eef4",
   "Cumulus White": "#eef1f5",
   "Whisper Grey": "#b7bcc3",
+  "Dorado Grey": "#9c968a",
+  "Tungsten Grey": "#7d8085",
   "Raw Grey": "#888b90",
+  "Ultra Blue": "#2f5aa8",
   "Cream Green": "#c9d1a6",
   Sage: "#b9c3a3",
 };
 function colorHex(name: string): string {
-  return COLOR_HEX[name] ?? "#c4c9d4";
+  if (COLOR_HEX[name]) return COLOR_HEX[name];
+  // Složené názvy typu „Cream Green / Carbon Black" — vezmi první část.
+  const first = name.split("/")[0].trim();
+  return COLOR_HEX[first] ?? "#c4c9d4";
 }
 
 export default function VariantDetailPage({ platform, variant }: Props) {
@@ -160,12 +169,12 @@ export default function VariantDetailPage({ platform, variant }: Props) {
 
           <div className="bg-[#1a1a2e] text-white rounded-2xl p-5 mb-5">
             <div className="text-xs font-bold uppercase tracking-wider text-[#7AA3FF] mb-1">
-              Orientační cena
+              {variant.priceCzk != null ? "Cena vč. DPH" : "Orientační cena"}
             </div>
-            <div className="text-2xl font-black mb-1">{eurToCzk(variant.priceEur)}</div>
+            <div className="text-2xl font-black mb-1">{formatVariantPrice(variant)}</div>
             {variant.priceEur && (
               <div className="text-xs text-white/60 mb-3">
-                € {variant.priceEur.toLocaleString("cs-CZ")} MSRP · kurz orientačně 25 Kč/€
+                Doporučená MSRP € {variant.priceEur.toLocaleString("cs-CZ")}
               </div>
             )}
             <p className="text-xs text-white/70 leading-snug">
@@ -337,7 +346,7 @@ export default function VariantDetailPage({ platform, variant }: Props) {
                   <div className="text-sm font-black text-[#1a1a2e] mb-0.5">{v.name}</div>
                   <div className="text-[11px] text-[#5A6480] line-clamp-1">{v.groupset}</div>
                   <div className="text-xs font-bold text-[#3B7CF4] mt-1">
-                    {eurToCzk(v.priceEur)}
+                    {formatVariantPrice(v)}
                   </div>
                 </div>
               </Link>

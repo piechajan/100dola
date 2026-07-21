@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   SCOTT_2027,
-  eurToCzk,
+  formatVariantPrice,
   statusLabel,
   type Scott2027Platform,
   type Scott2027Variant,
@@ -113,7 +113,7 @@ function VariantColumn({ v, onChange, label }: ColumnProps) {
                 ? "Silnice"
                 : "Gravel"}
           </div>
-          <div className="text-lg font-black text-[#1a1a2e]">{eurToCzk(v.variant.priceEur)}</div>
+          <div className="text-lg font-black text-[#1a1a2e]">{formatVariantPrice(v.variant)}</div>
           {v.variant.priceEur && (
             <div className="text-[11px] text-[#5A6480]">
               € {v.variant.priceEur.toLocaleString("cs-CZ")} MSRP
@@ -248,8 +248,8 @@ export default function ScottComparison({
             })}
             <tr className="bg-[#EAF1FE]">
               <td className="p-3 md:p-4 font-black text-[#1a1a2e]">Cena (orientačně)</td>
-              <td className="p-3 md:p-4 font-black text-[#1a1a2e]">{eurToCzk(a?.variant.priceEur ?? null)}</td>
-              <td className="p-3 md:p-4 font-black text-[#1a1a2e]">{eurToCzk(b?.variant.priceEur ?? null)}</td>
+              <td className="p-3 md:p-4 font-black text-[#1a1a2e]">{a ? formatVariantPrice(a.variant) : "—"}</td>
+              <td className="p-3 md:p-4 font-black text-[#1a1a2e]">{b ? formatVariantPrice(b.variant) : "—"}</td>
             </tr>
           </tbody>
         </table>

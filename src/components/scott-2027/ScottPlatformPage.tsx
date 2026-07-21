@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import BikeInquiryForm from "./BikeInquiryForm";
-import { eurToCzk, statusLabel, type Scott2027Platform } from "@/data/scott-2027";
+import { formatVariantPrice, statusLabel, type Scott2027Platform } from "@/data/scott-2027";
 
 const STATUS_NOTE: Record<Scott2027Platform["status"], string> = {
   launched:
@@ -146,7 +146,7 @@ export default function ScottPlatformPage({ platform }: { platform: Scott2027Pla
                 <div className="flex items-center justify-between gap-3 pt-2 border-t border-[#E2E6F3]">
                   <div>
                     <div className="text-xs text-[#5A6480]">Orientačně</div>
-                    <div className="text-lg font-black text-[#1a1a2e]">{eurToCzk(v.priceEur)}</div>
+                    <div className="text-lg font-black text-[#1a1a2e]">{formatVariantPrice(v)}</div>
                     {v.priceEur && (
                       <div className="text-[11px] text-[#5A6480]">€ {v.priceEur.toLocaleString("cs-CZ")} MSRP</div>
                     )}

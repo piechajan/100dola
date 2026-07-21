@@ -3,7 +3,7 @@ import Image from "next/image";
 import SparkStickyCTA from "./SparkStickyCTA";
 import SparkUrgencyBanner from "./SparkUrgencyBanner";
 import PreorderCounter from "@/components/preorders/PreorderCounter";
-import { getPlatformBySlug, eurToCzk } from "@/data/scott-2027";
+import { getPlatformBySlug, formatVariantPrice } from "@/data/scott-2027";
 
 /**
  * Přehled modelů Spark RC 2027 s prokliky na detailní stránku každé varianty
@@ -36,7 +36,7 @@ function SparkModelGrid() {
             </div>
             <div className="text-xs text-[#5A6480] mt-0.5 line-clamp-2">{v.groupset}</div>
             <div className="flex items-center justify-between mt-1.5">
-              <span className="text-sm font-bold text-[#1a1a2e]">{eurToCzk(v.priceEur)}</span>
+              <span className="text-sm font-bold text-[#1a1a2e]">{formatVariantPrice(v)}</span>
               <span className="text-xs font-bold text-[#3B7CF4]">Detail →</span>
             </div>
           </div>
