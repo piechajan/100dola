@@ -167,7 +167,10 @@ export default function ScottPlatformPage({ platform }: { platform: Scott2027Pla
           Vyber konkrétní variantu nebo nech volný formulář — domluvíme se na detailech.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <BikeInquiryForm bikeModel={platform.name} />
+          <BikeInquiryForm
+            bikeModel={platform.name}
+            models={platform.variants.map((v) => v.name)}
+          />
           <div className="bg-[#EAF1FE] border border-[#C9DCFC] rounded-2xl p-6">
             <h3 className="text-base font-black text-[#1a1a2e] mb-3">Proč přes nás</h3>
             <ul className="space-y-2 text-sm text-[#1a1a2e]">
@@ -181,7 +184,7 @@ export default function ScottPlatformPage({ platform }: { platform: Scott2027Pla
               </li>
               <li className="flex gap-2">
                 <span className="text-[#3B7CF4] font-black">✓</span>
-                Doprava do Malagy: kolo posíláme rovnou, ty letíš s příručákem
+                Po domluvě dovezeme složené po celé Moravě
               </li>
               <li className="flex gap-2">
                 <span className="text-[#3B7CF4] font-black">✓</span>
@@ -190,11 +193,6 @@ export default function ScottPlatformPage({ platform }: { platform: Scott2027Pla
             </ul>
           </div>
         </div>
-        {platform.variants.map((v) => (
-          <div key={v.slug} id={`inquiry-${v.slug}`} className="mt-8">
-            <BikeInquiryForm bikeModel={platform.name} bikeVariant={v.name} />
-          </div>
-        ))}
       </section>
 
       <div className="bg-[#1a1a2e] text-white rounded-2xl p-6 mt-12 flex items-center justify-between flex-wrap gap-4">

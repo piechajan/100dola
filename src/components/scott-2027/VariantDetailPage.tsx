@@ -15,8 +15,26 @@ interface Props {
   variant: Scott2027Variant;
 }
 
+// Mapování názvů barev Scott → hex pro vizuální vzorník na detailu modelu.
+const COLOR_HEX: Record<string, string> = {
+  "Carbon Black": "#1b1b1e",
+  "Spectral Black": "#242529",
+  "Sunbeam Black": "#2b2b2d",
+  White: "#f1f2f4",
+  "Azure White": "#e9eef4",
+  "Cumulus White": "#eef1f5",
+  "Whisper Grey": "#b7bcc3",
+  "Raw Grey": "#888b90",
+  "Cream Green": "#c9d1a6",
+  Sage: "#b9c3a3",
+};
+function colorHex(name: string): string {
+  return COLOR_HEX[name] ?? "#c4c9d4";
+}
+
 export default function VariantDetailPage({ platform, variant }: Props) {
   const [activeImg, setActiveImg] = useState(0);
+  const [zoom, setZoom] = useState(false);
   const platformLabel =
     platform.platform === "mtb" ? "MTB" : platform.platform === "road" ? "Silnice" : "Gravel";
   const gallery = variant.gallery.length > 0 ? variant.gallery : [variant.photo];
@@ -44,16 +62,28 @@ export default function VariantDetailPage({ platform, variant }: Props) {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
         {/* Galerie */}
         <div className="lg:col-span-7">
-          <div className="relative aspect-square bg-gradient-to-br from-[#EAF1FE] via-[#F7F9FF] to-[#FFFFFF] rounded-2xl overflow-hidden mb-3">
+          <button
+            type="button"
+            onClick={() => setZoom(true)}
+            className="group relative aspect-square w-full bg-white rounded-2xl overflow-hidden mb-3 border border-[#E2E6F3] shadow-sm cursor-zoom-in"
+            aria-label="Zvětšit fotku"
+          >
             <Image
               src={gallery[activeImg] ?? variant.photo}
               alt={`${platform.name} ${variant.name} — fotka ${activeImg + 1}`}
               fill
               sizes="(min-width: 1024px) 700px, 100vw"
-              className="object-contain p-8 md:p-12"
+              className="object-contain p-8 md:p-12 transition-transform duration-300 group-hover:scale-[1.04]"
               priority
             />
-          </div>
+            <span className="absolute bottom-3 right-3 flex items-center gap-1.5 bg-white/90 backdrop-blur border border-[#E2E6F3] text-[#5A6480] text-xs font-semibold px-2.5 py-1.5 rounded-lg shadow-sm">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path d="m21 21-4.3-4.3M11 8v6M8 11h6" />
+              </svg>
+              Zvětšit
+            </span>
+          </button>
           {gallery.length > 1 && (
             <div className="grid grid-cols-6 gap-2">
               {gallery.map((src, i) => (
@@ -61,8 +91,8 @@ export default function VariantDetailPage({ platform, variant }: Props) {
                   key={src}
                   type="button"
                   onClick={() => setActiveImg(i)}
-                  className={`relative aspect-square bg-gradient-to-br from-[#EAF1FE] to-[#F7F9FF] rounded-lg overflow-hidden border-2 transition ${
-                    activeImg === i ? "border-[#3B7CF4]" : "border-transparent hover:border-[#C9DCFC]"
+                  className={`relative aspect-square bg-white rounded-lg overflow-hidden border-2 transition ${
+                    activeImg === i ? "border-[#3B7CF4]" : "border-[#E2E6F3] hover:border-[#C9DCFC]"
                   }`}
                   aria-label={`Zobrazit fotku ${i + 1}`}
                 >
@@ -112,7 +142,17 @@ export default function VariantDetailPage({ platform, variant }: Props) {
               {variant.colors.length > 0 && (
                 <>
                   <dt className="text-[#5A6480]">Barvy</dt>
-                  <dd className="font-bold text-[#1a1a2e]">{variant.colors.join(", ")}</dd>
+                  <dd className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                    {variant.colors.map((c) => (
+                      <span key={c} className="flex items-center gap-1.5">
+                        <span
+                          className="w-4 h-4 rounded-full border border-[#D5DAE6] shrink-0"
+                          style={{ backgroundColor: colorHex(c) }}
+                        />
+                        <span className="font-semibold text-[#1a1a2e] text-xs">{c}</span>
+                      </span>
+                    ))}
+                  </dd>
                 </>
               )}
             </dl>
@@ -259,7 +299,7 @@ export default function VariantDetailPage({ platform, variant }: Props) {
               </li>
               <li className="flex gap-2">
                 <span className="text-[#3B7CF4] font-black">✓</span>
-                Doprava do Malagy: kolo posíláme rovnou, ty letíš s příručákem
+                Po domluvě dovezeme složené po celé Moravě
               </li>
               <li className="flex gap-2">
                 <span className="text-[#3B7CF4] font-black">✓</span>
@@ -304,6 +344,41 @@ export default function VariantDetailPage({ platform, variant }: Props) {
             ))}
           </div>
         </section>
+      )}
+
+      {/* Lightbox / zoom */}
+      {zoom && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 md:p-10 cursor-zoom-out"
+          onClick={() => setZoom(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${platform.name} ${variant.name} — zvětšená fotka`}
+        >
+          <button
+            type="button"
+            onClick={() => setZoom(false)}
+            className="absolute top-4 right-4 md:top-6 md:right-6 w-11 h-11 flex items-center justify-center rounded-full bg-white/15 hover:bg-white/25 text-white text-2xl leading-none transition"
+            aria-label="Zavřít"
+          >
+            ×
+          </button>
+          <div
+            className="relative w-full h-full max-w-[1200px] max-h-[85vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={gallery[activeImg] ?? variant.photo}
+              alt={`${platform.name} ${variant.name} — detail`}
+              fill
+              sizes="100vw"
+              className="object-contain"
+            />
+          </div>
+          <div className="absolute bottom-5 left-1/2 -translate-x-1/2 text-white/70 text-xs font-medium">
+            Klikni kamkoli pro zavření
+          </div>
+        </div>
       )}
     </article>
   );

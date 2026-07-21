@@ -77,12 +77,14 @@ export interface Scott2027Platform {
   seoKeywords: string[];
   /** Datum kdy Scott model oznámil (pro „carry-over" nebo „launched") */
   announcedDate?: string;
+  /** Volitelná hero fotka platformy pro kartu v hubu (jinak fallback na variants[0].photo) */
+  heroPhoto?: string;
 }
 
 const STATUS_LABEL: Record<LaunchStatus, string> = {
   launched: "Novinka 2027",
   carryover: "Modelový rok 2027 (carry-over)",
-  redesign_expected: "Redesign očekáváme v 2027",
+  redesign_expected: "Design očekáváme na podzim 2026",
 };
 
 export function statusLabel(s: LaunchStatus): string {
@@ -691,12 +693,13 @@ export const SCOTT_2027: Scott2027Platform[] = [
   {
     slug: "scott-addict-gravel",
     name: "Scott Addict Gravel",
-    tagline: "Gravel platforma — redesign 2027 očekáváme v červenci 2026",
+    tagline: "Gravel platforma — nový design očekáváme na podzim 2026",
     platform: "gravel",
     status: "redesign_expected",
     announcedDate: "2021-09-01",
+    heroPhoto: "/media/scott-2027/addict-gravel-rc.webp",
     claim:
-      "Současný Addict Gravel zůstává v prodeji, ale Scott testoval na Unbound prototyp s 32\" koly. 2027 redesign očekáváme oficiálně 7/2026.",
+      "Současný Addict Gravel zůstává v prodeji, ale Scott testoval na Unbound prototyp s 32\" koly. Nový design očekáváme na podzim 2026.",
     frame:
       "Addict Gravel Disc HMF Carbon — 930 g (vel. M, RC), vidlice 395 g. Prostup pneu 45 mm (40 mm s blatníky), nižší střed, eccentric karbonový steerer 1 1/4\"-1 1/2\".",
     techHighlights: [

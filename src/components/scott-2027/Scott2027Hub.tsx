@@ -62,7 +62,7 @@ export default function Scott2027Hub() {
                 >
                   <div className="relative aspect-[4/3] bg-gradient-to-br from-[#EAF1FE] via-[#F7F9FF] to-[#FFFFFF]">
                     <Image
-                      src={p.variants[0]?.photo ?? "/media/scott-2027/spark-rc-sl.webp"}
+                      src={p.heroPhoto ?? p.variants[0]?.photo ?? "/media/scott-2027/spark-rc-sl.webp"}
                       alt={p.name}
                       fill
                       sizes="(min-width: 768px) 50vw, 100vw"

@@ -5,6 +5,8 @@ import { useState } from "react";
 interface Props {
   bikeModel: string;
   bikeVariant?: string;
+  /** Když je zadáno, formulář zobrazí výběr modelu (dropdown) místo fixní varianty. */
+  models?: string[];
   className?: string;
 }
 
@@ -15,16 +17,21 @@ interface Props {
  *
  * Posílá POST na /api/bike-inquiry → ukládá do Supabase + notifikace Janovi.
  */
-export default function BikeInquiryForm({ bikeModel, bikeVariant, className }: Props) {
+export default function BikeInquiryForm({ bikeModel, bikeVariant, models, className }: Props) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("sending");
     const fd = new FormData(e.currentTarget);
+    const selectedModel = fd.get("model_select");
     const data = {
       bike_model: bikeModel,
-      bike_variant: bikeVariant ?? null,
+      bike_variant: models
+        ? selectedModel
+          ? String(selectedModel)
+          : null
+        : (bikeVariant ?? null),
       full_name: String(fd.get("name") ?? ""),
       email: String(fd.get("email") ?? ""),
       phone: String(fd.get("phone") ?? ""),
@@ -80,6 +87,24 @@ export default function BikeInquiryForm({ bikeModel, bikeVariant, className }: P
         Modely ze Scott 2027 lineupu zatím nejsou v e-shopu. Pošli nám detail a ozveme se ti s
         dostupností, cenou v Kč a termínem.
       </p>
+
+      {models && models.length > 0 && (
+        <label className="block mb-3">
+          <span className="text-xs font-bold text-[#1a1a2e]">Model, který tě zajímá</span>
+          <select
+            name="model_select"
+            defaultValue={bikeVariant ?? ""}
+            className="w-full mt-1 px-3 py-2 border border-[#E2E6F3] rounded-lg text-sm bg-white focus:outline-none focus:border-[#3B7CF4]"
+          >
+            <option value="">— vyber model (nebo nech volné) —</option>
+            {models.map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
         <label className="block">

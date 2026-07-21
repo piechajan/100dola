@@ -49,15 +49,18 @@ export default async function ScottPlatformRoute({
     description: `${platform.claim} ${v.name}: ${v.groupset}, ${v.wheels}.`,
     brand: { "@type": "Brand", name: "Scott" },
     sku: `scott-${v.slug}`,
-    offers: {
-      "@type": "Offer",
-      url: `https://www.100dola.com/clanky/scott-2027/${slug}#inquiry-${v.slug}`,
-      priceCurrency: "EUR",
-      price: v.priceEur ?? 0,
-      availability: "https://schema.org/PreOrder",
-      itemCondition: "https://schema.org/NewCondition",
-      seller: { "@type": "Organization", name: "100dola sport" },
-    },
+    // Cenu do offers dáváme jen když je známá — jinak by price:0 mátlo Google.
+    ...(v.priceEur != null && {
+      offers: {
+        "@type": "Offer",
+        url: `https://www.100dola.com/clanky/scott-2027/${slug}/${v.slug}`,
+        priceCurrency: "EUR",
+        price: v.priceEur,
+        availability: "https://schema.org/PreOrder",
+        itemCondition: "https://schema.org/NewCondition",
+        seller: { "@type": "Organization", name: "100dola sport" },
+      },
+    }),
   }));
 
   return (
