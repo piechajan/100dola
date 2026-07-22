@@ -55,6 +55,8 @@ export interface Product {
   useCase?: UseCase | null;
   /** Volitelné další fotky pro PDP galerii (carousel + thumbs). */
   gallery?: string[];
+  /** Barevné varianty k výběru na PDP (název + hex swatch + foto). */
+  colorOptions?: Array<{ name: string; hex?: string; photo: string }>;
   /** Variants per size/color z DB (Sportimport feed). Default undef. */
   variants?: Array<{
     externalId?: string;
@@ -110,7 +112,22 @@ export const PRODUCTS: Product[] = [
     badges: ["Doporučuje tým", "Sleva"],
     note: "Kolo, na kterém jezdíme v Malaze",
     photo: "/media/scott-addict-rc10.webp",
+    gallery: [
+      "/media/scott-addict-rc10.webp",
+      "/media/scott-addict-rc10-candy.webp",
+    ],
+    colorOptions: [
+      { name: "Prism Black", hex: "#1e1e22", photo: "/media/scott-addict-rc10.webp" },
+      { name: "Candy (růžová/mint)", hex: "#e6bcc6", photo: "/media/scott-addict-rc10-candy.webp" },
+    ],
     specs: ["Shimano Ultegra Di2", "Syncros Carbon 40mm", "~7 kg"],
+    variants: [
+      { size: "XS", isInStock: false, availability: "Na objednávku" },
+      { size: "S", isInStock: false, availability: "Na objednávku" },
+      { size: "M", isInStock: false, availability: "Na objednávku" },
+      { size: "L", isInStock: false, availability: "Na objednávku" },
+      { size: "XL", isInStock: false, availability: "Na objednávku" },
+    ],
     isFeatured: true,
     featuredOrder: 1,
   },
@@ -497,6 +514,12 @@ export const PRODUCTS: Product[] = [
       "/media/scott-centric-plus-black.webp",
       "/media/scott-centric-plus-green.webp",
       "/media/scott-centric-plus-grey.webp",
+    ],
+    colorOptions: [
+      { name: "Bílá", hex: "#eef1f5", photo: "/media/scott-centric-plus-white.webp" },
+      { name: "Černá", hex: "#1b1b1e", photo: "/media/scott-centric-plus-black.webp" },
+      { name: "Zelená", hex: "#a7c4b5", photo: "/media/scott-centric-plus-green.webp" },
+      { name: "Šedá/fialová", hex: "#8b8390", photo: "/media/scott-centric-plus-grey.webp" },
     ],
     specs: ["MIPS Air · rotační ochrana", "HALO systém · ~220 g", "In-mold polykarbonát"],
     gender: "U",

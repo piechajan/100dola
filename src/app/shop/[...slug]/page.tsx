@@ -6,13 +6,12 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ShopLayout from "@/components/shop/ShopLayout";
-import AddToCartButton from "@/components/shop/AddToCartButton";
 import ProductViewTracker from "@/components/shop/ProductViewTracker";
 import PDPGallery from "@/components/shop/PDPGallery";
 import ConfiguratorUI from "@/components/shop/ConfiguratorUI";
 import WishlistButton from "@/components/shop/WishlistButton";
 import RecentlyViewedSection from "@/components/shop/RecentlyViewedSection";
-import VariantSelector from "@/components/shop/VariantSelector";
+import PdpBuyBox from "@/components/shop/PdpBuyBox";
 import MobileStickyCTA from "@/components/shop/MobileStickyCTA";
 import ReviewsSection from "@/components/shop/ReviewsSection";
 import Stars from "@/components/shop/Stars";
@@ -354,7 +353,7 @@ function renderProduct(
                 </a>
               )}
 
-              {product.color && (() => {
+              {product.color && !product.colorOptions?.length && (() => {
                 const fam = colorToFamily(product.color);
                 const isGrad = fam?.hex.startsWith("linear-gradient");
                 return (
@@ -399,13 +398,11 @@ function renderProduct(
                 </ul>
               )}
 
-              {!product.hasConfigurator && <VariantSelector product={product} />}
-
-              <div className="mt-8">
+              <div id="pdp-buy" className="mt-8 scroll-mt-24">
                 {product.hasConfigurator && product.configuratorSchema ? (
                   <ConfiguratorUI product={product} schema={product.configuratorSchema} />
                 ) : (
-                  <AddToCartButton product={product} large />
+                  <PdpBuyBox product={product} />
                 )}
               </div>
 

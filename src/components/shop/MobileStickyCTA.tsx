@@ -31,7 +31,19 @@ export default function MobileStickyCTA({ product }: { product: Product }) {
   // Skip pro configurator products (mají vlastní inline CTA)
   if (product.hasConfigurator) return null;
 
+  const needsVariant =
+    (product.colorOptions?.length ?? 0) > 0 ||
+    (product.variants ?? []).some(
+      (v) => v.size && !/^one\s*size$|^uni$|^universal$/i.test(v.size),
+    );
+
   function handleAdd() {
+    // U produktů s barvou/velikostí neposílej rovnou do košíku — nech uživatele
+    // zvolit variantu ve výběru výše (scroll k němu).
+    if (needsVariant) {
+      document.getElementById("pdp-buy")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
     addToCart(product, 1);
     openDrawer();
     trackMetaEvent("AddToCart", {
@@ -83,7 +95,7 @@ export default function MobileStickyCTA({ product }: { product: Product }) {
           onClick={handleAdd}
           className="shrink-0 px-5 py-3 rounded-full bg-[#1a1a2e] text-white text-sm font-bold hover:opacity-90 transition-opacity"
         >
-          Do košíku
+          {needsVariant ? "Vybrat" : "Do košíku"}
         </button>
       </div>
     </div>

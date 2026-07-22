@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useCart } from "@/lib/cart-store";
+import { useCart, type CartVariant } from "@/lib/cart-store";
 import type { Product } from "@/data/products";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
@@ -9,17 +9,23 @@ import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 interface Props {
   product: Product;
   large?: boolean;
+  /** Zvolená varianta (barva/velikost) — předá se do košíku. */
+  variant?: CartVariant;
+  /** Blokace tlačítka, dokud uživatel nezvolí povinnou variantu. */
+  disabled?: boolean;
+  disabledLabel?: string;
 }
 
-export default function AddToCartButton({ product, large }: Props) {
+export default function AddToCartButton({ product, large, variant, disabled, disabledLabel }: Props) {
   const [qty, setQty] = useState(1);
   const addToCart = useCart((s) => s.add);
   const openDrawer = useCart((s) => s.openDrawer);
   const [adding, setAdding] = useState(false);
 
   const handleAdd = () => {
+    if (disabled) return;
     setAdding(true);
-    addToCart(product, qty);
+    addToCart(product, qty, variant);
     openDrawer();
     trackMetaEvent("AddToCart", {
       content_ids: [product.slug],
@@ -71,12 +77,12 @@ export default function AddToCartButton({ product, large }: Props) {
       <button
         type="button"
         onClick={handleAdd}
-        disabled={adding}
-        className={`flex-1 ${large ? "py-4 text-sm" : "py-3 text-sm"} font-black text-white rounded-full transition-all hover:opacity-90 disabled:opacity-60 inline-flex items-center justify-center gap-2`}
+        disabled={adding || disabled}
+        className={`flex-1 ${large ? "py-4 text-sm" : "py-3 text-sm"} font-black text-white rounded-full transition-all hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2`}
         style={{ backgroundColor: "#3B7CF4", boxShadow: "0 4px 16px #3B7CF440" }}
       >
-        {adding ? "Přidávám…" : "Do košíku"}
-        {!adding && (
+        {adding ? "Přidávám…" : disabled ? (disabledLabel ?? "Zvol variantu") : "Do košíku"}
+        {!adding && !disabled && (
           <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
             <line x1="3" y1="6" x2="21" y2="6" />

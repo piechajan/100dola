@@ -16,10 +16,13 @@ function CartItemRow({
   closeDrawer,
 }: {
   item: CartItem;
-  setQty: (productId: number, qty: number) => void;
-  remove: (productId: number) => void;
+  setQty: (lineId: string, qty: number) => void;
+  remove: (lineId: string) => void;
   closeDrawer: () => void;
 }) {
+  const variantLabel = [item.color, item.size ? `vel. ${item.size}` : null]
+    .filter(Boolean)
+    .join(" · ");
   return (
     <div className="flex gap-3">
       <div className="relative w-20 h-20 rounded-xl bg-[#F0F2FA] overflow-hidden shrink-0">
@@ -40,6 +43,9 @@ function CartItemRow({
         >
           {item.name}
         </Link>
+        {variantLabel && (
+          <div className="text-[11px] font-semibold text-[#5A6480] mt-0.5">{variantLabel}</div>
+        )}
         {item.bulky && (
           <div className="text-[10px] text-[#9AA3C2] mt-0.5">Velký balík</div>
         )}
@@ -47,7 +53,7 @@ function CartItemRow({
           <div className="inline-flex items-center border border-[#E2E6F3] rounded-full overflow-hidden">
             <button
               type="button"
-              onClick={() => setQty(item.productId, item.qty - 1)}
+              onClick={() => setQty(item.lineId, item.qty - 1)}
               aria-label="Snížit množství"
               className="w-7 h-7 flex items-center justify-center text-[#5A6480] hover:bg-[#F0F2FA] disabled:opacity-30"
               disabled={item.qty <= 1}
@@ -57,7 +63,7 @@ function CartItemRow({
             <span className="w-7 text-center text-xs font-bold text-[#1a1a2e]">{item.qty}</span>
             <button
               type="button"
-              onClick={() => setQty(item.productId, item.qty + 1)}
+              onClick={() => setQty(item.lineId, item.qty + 1)}
               aria-label="Zvýšit množství"
               className="w-7 h-7 flex items-center justify-center text-[#5A6480] hover:bg-[#F0F2FA]"
             >
@@ -71,7 +77,7 @@ function CartItemRow({
       </div>
       <button
         type="button"
-        onClick={() => remove(item.productId)}
+        onClick={() => remove(item.lineId)}
         aria-label="Odebrat z košíku"
         className="p-1 self-start text-[#C0C7D8] hover:text-[#E8431A] transition-colors"
       >
@@ -214,7 +220,7 @@ export default function CartDrawer() {
                     <div className="space-y-3">
                       {section.arr.map((item) => (
                         <CartItemRow
-                          key={item.productId}
+                          key={item.lineId}
                           item={item}
                           setQty={setQty}
                           remove={remove}

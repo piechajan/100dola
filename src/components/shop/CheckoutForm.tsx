@@ -207,15 +207,19 @@ export default function CheckoutForm() {
 
     const payload = {
       source: "order" as const,
-      items: items.map((i) => ({
-        productId: i.productId,
-        slug: i.slug,
-        name: i.name,
-        priceWithVat: i.priceWithVat,
-        vatRate: i.vatRate,
-        qty: i.qty,
-        bulky: i.bulky,
-      })),
+      items: items.map((i) => {
+        const variant = [i.color, i.size ? `vel. ${i.size}` : null].filter(Boolean).join(", ");
+        return {
+          productId: i.productId,
+          slug: i.slug,
+          // Variantu vpisujeme do názvu → dorazí do order_items i mailu Janovi.
+          name: variant ? `${i.name} — ${variant}` : i.name,
+          priceWithVat: i.priceWithVat,
+          vatRate: i.vatRate,
+          qty: i.qty,
+          bulky: i.bulky,
+        };
+      }),
       name: name.trim(),
       email: email.trim(),
       phone: phone.trim(),

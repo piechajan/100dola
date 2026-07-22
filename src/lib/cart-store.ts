@@ -4,7 +4,17 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { Product } from "@/data/products";
 
+/** Volitelná varianta (velikost / barva) zvolená na PDP. */
+export interface CartVariant {
+  size?: string;
+  color?: string;
+  /** Foto varianty (barvy) — přepíše product.photo v košíku. */
+  photo?: string;
+}
+
 export interface CartItem {
+  /** Unikátní klíč řádku = productId + varianta (aby šly různé barvy/velikosti vedle sebe). */
+  lineId: string;
   productId: number;
   slug: string;
   name: string;
@@ -13,6 +23,8 @@ export interface CartItem {
   bulky: boolean;
   photo: string;
   qty: number;
+  size?: string;
+  color?: string;
   /** "own" — skladem u nás; "supplier" — objednáme u dodavatele. Default "own". */
   fulfillment?: "own" | "supplier";
   /** UUID supplier_products pro hand-off dodavateli. */
@@ -21,15 +33,20 @@ export interface CartItem {
   brand?: string;
 }
 
+/** Stabilní klíč řádku košíku z produktu + varianty. */
+export function cartLineId(productId: number, variant?: CartVariant): string {
+  return `${productId}|${variant?.size ?? ""}|${variant?.color ?? ""}`;
+}
+
 interface CartState {
   items: CartItem[];
   isOpen: boolean;
   /** Inkrementuje při změně, použité pro animace v UI. */
   lastAddedAt: number | null;
 
-  add: (product: Product, qty?: number) => void;
-  remove: (productId: number) => void;
-  setQty: (productId: number, qty: number) => void;
+  add: (product: Product, qty?: number, variant?: CartVariant) => void;
+  remove: (lineId: string) => void;
+  setQty: (lineId: string, qty: number) => void;
   clear: () => void;
 
   openDrawer: () => void;
@@ -44,13 +61,14 @@ export const useCart = create<CartState>()(
       isOpen: false,
       lastAddedAt: null,
 
-      add: (product, qty = 1) =>
+      add: (product, qty = 1, variant) =>
         set((state) => {
-          const existing = state.items.find((i) => i.productId === product.id);
+          const lineId = cartLineId(product.id, variant);
+          const existing = state.items.find((i) => i.lineId === lineId);
           if (existing) {
             return {
               items: state.items.map((i) =>
-                i.productId === product.id ? { ...i, qty: i.qty + qty } : i,
+                i.lineId === lineId ? { ...i, qty: i.qty + qty } : i,
               ),
               lastAddedAt: Date.now(),
             };
@@ -59,14 +77,17 @@ export const useCart = create<CartState>()(
             items: [
               ...state.items,
               {
+                lineId,
                 productId: product.id,
                 slug: product.slug,
                 name: product.name,
                 priceWithVat: product.priceWithVat,
                 vatRate: product.vatRate,
                 bulky: product.bulky,
-                photo: product.photo,
+                photo: variant?.photo ?? product.photo,
                 qty,
+                size: variant?.size,
+                color: variant?.color,
                 fulfillment: product.fulfillment ?? "own",
                 supplierProductId: product.supplierProductId,
                 brand: product.brand,
@@ -76,15 +97,15 @@ export const useCart = create<CartState>()(
           };
         }),
 
-      remove: (productId) =>
+      remove: (lineId) =>
         set((state) => ({
-          items: state.items.filter((i) => i.productId !== productId),
+          items: state.items.filter((i) => i.lineId !== lineId),
         })),
 
-      setQty: (productId, qty) =>
+      setQty: (lineId, qty) =>
         set((state) => ({
           items: state.items
-            .map((i) => (i.productId === productId ? { ...i, qty: Math.max(1, qty) } : i))
+            .map((i) => (i.lineId === lineId ? { ...i, qty: Math.max(1, qty) } : i))
             .filter((i) => i.qty > 0),
         })),
 
@@ -96,9 +117,21 @@ export const useCart = create<CartState>()(
     }),
     {
       name: "100dola-cart",
+      version: 2,
       storage: createJSONStorage(() => localStorage),
       // Otevřený drawer state nepřežívá refresh (frustrující UX).
       partialize: (state) => ({ items: state.items }),
+      // Staré položky (v1) nemají lineId → dopočítej z productId, ať fungují qty/remove.
+      migrate: (persisted: unknown, version) => {
+        const state = persisted as { items?: CartItem[] } | undefined;
+        if (state?.items && version < 2) {
+          state.items = state.items.map((i) => ({
+            ...i,
+            lineId: i.lineId ?? cartLineId(i.productId, { size: i.size, color: i.color }),
+          }));
+        }
+        return state as { items: CartItem[] };
+      },
     },
   ),
 );

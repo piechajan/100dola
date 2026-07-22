@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { isProxiedImage } from "@/lib/shop/image-utils";
+import { usePdpImage } from "@/lib/pdp-image-store";
 
 interface BadgeColor {
   [key: string]: string;
@@ -26,9 +27,20 @@ interface PDPGalleryProps {
  * Klik na thumb → swap main. Fallback na single image když gallery undef.
  */
 export default function PDPGallery({ mainPhoto, gallery, alt, badges = [] }: PDPGalleryProps) {
-  const allImages = gallery && gallery.length > 0 ? gallery : [mainPhoto];
+  const allImages = useMemo(
+    () => (gallery && gallery.length > 0 ? gallery : [mainPhoto]),
+    [gallery, mainPhoto],
+  );
   const [active, setActive] = useState(0);
   const currentImage = allImages[active] ?? mainPhoto;
+
+  // Sync s výběrem barvy v PdpBuyBox — přepni hlavní obrázek na foto zvolené barvy.
+  const selectedPhoto = usePdpImage((s) => s.photo);
+  useEffect(() => {
+    if (!selectedPhoto) return;
+    const idx = allImages.indexOf(selectedPhoto);
+    if (idx >= 0) setActive(idx);
+  }, [selectedPhoto, allImages]);
 
   return (
     <div className="flex flex-col gap-4">

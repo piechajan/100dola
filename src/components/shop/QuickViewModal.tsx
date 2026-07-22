@@ -37,6 +37,11 @@ export default function QuickViewModal({
   if (!open || !product) return null;
 
   const { withoutVat, vatAmount } = splitVat(product.priceWithVat, product.vatRate);
+  const needsVariant =
+    (product.colorOptions?.length ?? 0) > 0 ||
+    (product.variants ?? []).some(
+      (v) => v.size && !/^one\s*size$|^uni$|^universal$/i.test(v.size),
+    );
 
   function handleAdd() {
     if (!product) return;
@@ -106,23 +111,35 @@ export default function QuickViewModal({
               </ul>
             )}
 
-            {!product.hasConfigurator && <VariantSelector product={product} />}
+            {!product.hasConfigurator && !needsVariant && <VariantSelector product={product} />}
 
             <div className="mt-auto pt-4 flex flex-col gap-2">
-              <button
-                type="button"
-                onClick={handleAdd}
-                className="w-full px-5 py-3 rounded-full bg-[#1a1a2e] text-white text-sm font-bold hover:opacity-90 transition-opacity"
-              >
-                Do košíku
-              </button>
-              <Link
-                href={`/shop/${product.slug}`}
-                onClick={onClose}
-                className="text-xs text-center text-[#9AA3C2] hover:text-[#3B7CF4]"
-              >
-                Otevřít plný detail →
-              </Link>
+              {needsVariant ? (
+                <Link
+                  href={`/shop/${product.slug}`}
+                  onClick={onClose}
+                  className="w-full px-5 py-3 rounded-full bg-[#1a1a2e] text-white text-sm font-bold hover:opacity-90 transition-opacity text-center"
+                >
+                  Vybrat barvu / velikost →
+                </Link>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    onClick={handleAdd}
+                    className="w-full px-5 py-3 rounded-full bg-[#1a1a2e] text-white text-sm font-bold hover:opacity-90 transition-opacity"
+                  >
+                    Do košíku
+                  </button>
+                  <Link
+                    href={`/shop/${product.slug}`}
+                    onClick={onClose}
+                    className="text-xs text-center text-[#9AA3C2] hover:text-[#3B7CF4]"
+                  >
+                    Otevřít plný detail →
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

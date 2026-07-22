@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-store";
 import { splitVat, formatPrice, type Product } from "@/data/products";
 import WishlistButton from "@/components/shop/WishlistButton";
@@ -18,12 +19,24 @@ const BADGE_COLORS: Record<string, string> = {
 export default function ProductCard({ product }: { product: Product }) {
   const addToCart = useCart((s) => s.add);
   const openDrawer = useCart((s) => s.openDrawer);
+  const router = useRouter();
   const { withoutVat, vatAmount } = splitVat(product.priceWithVat, product.vatRate);
   const [quickViewOpen, setQuickViewOpen] = useState(false);
+
+  const needsVariant =
+    (product.colorOptions?.length ?? 0) > 0 ||
+    (product.variants ?? []).some(
+      (v) => v.size && !/^one\s*size$|^uni$|^universal$/i.test(v.size),
+    );
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    // Produkty s barvou/velikostí nelze koupit naslepo — otevři PDP pro výběr.
+    if (needsVariant) {
+      router.push(`/shop/${product.slug}`);
+      return;
+    }
     addToCart(product, 1);
     openDrawer();
   };
