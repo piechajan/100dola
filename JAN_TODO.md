@@ -12,11 +12,12 @@
   `src/lib/orders.ts` (`PAYMENT_LABELS`) — do spuštění ComGate by objednávka
   prošla jako „zaplaceno kartou" bez reálné platby. Při go-live odkomentovat
   obojí. (viz [[project_comgate]])
-- **🔑 Smazat legacy statické heslo `100dola2025`** (`src/app/api/auth/route.ts`
-  + `LEGACY_COOKIE` fallback v `src/lib/admin-auth.ts`) — až Jan potvrdí, že se
-  do adminu spolehlivě dostane přes magic-link (`/admin/login`). Magic-link byl
-  2026-07-23 opraven na prefetch-safe dvoukrok (Gmail přednačítal a spotřebovával
-  token). Po potvrzení přepnout všechny admin routy na `requireAdmin()`.
+- **✅ HOTOVO (2026-07-23): Legacy statické heslo `100dola2025` smazáno.**
+  `/api/auth` + `/login` odstraněny, legacy fallback v `admin-auth.ts` pryč,
+  všech 28 admin routů/stránek přepnuto na `getAdminContext()` (session).
+  Magic-link opraven na prefetch-safe dvoukrok. Admin jen přes `/admin/login`.
+  Accountant gate (`/login-ucetni`) je nezávislý (HMAC + `ACCOUNTANT_SECRET`),
+  nedotčen.
 
 ## 🟡 Rozhodnutí čekající na Jana
 
