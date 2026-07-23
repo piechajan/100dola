@@ -180,7 +180,7 @@ export const HOW_IT_WORKS: HowItWorksStep[] = [
   {
     num: "04",
     title: "Sedneš a jedeš",
-    desc: "V Malaze na tebe kolo čeká. U Basic si doděláš pár věcí sám, u Exclusive je úplně připravené k jízdě.",
+    desc: "V Malaze na tebe kolo čeká. U Basic si kolo složíš sám, u Exclusive je úplně připravené k jízdě.",
   },
 ];
 
