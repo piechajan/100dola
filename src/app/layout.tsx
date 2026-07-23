@@ -37,12 +37,21 @@ export const metadata: Metadata = {
     description:
       "Sportovní obchod ve Šternberku — kola, běh, lyže, skialpy. Servis, bikefit, testovací jízdy. Přeprava kol do Malagy.",
     url: "/",
+    images: [
+      {
+        url: "/og-default.jpg",
+        width: 1200,
+        height: 630,
+        alt: "100dola sport Šternberk",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "100dola sport Šternberk — kola, běh, ski",
     description:
       "Sportovní obchod ve Šternberku — kola, běh, lyže, skialpy. Servis, bikefit, přeprava kol do Malagy.",
+    images: ["/og-default.jpg"],
   },
   verification: {
     other: {

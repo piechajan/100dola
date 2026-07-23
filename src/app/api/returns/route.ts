@@ -95,7 +95,10 @@ export async function POST(req: Request) {
     })
     .select("id")
     .single();
-  if (insErr) return NextResponse.json({ ok: false, error: insErr.message }, { status: 500 });
+  if (insErr) {
+    console.error("[api] insert failed:", insErr.message);
+    return NextResponse.json({ ok: false, error: "Nepodařilo se uložit, zkus to prosím znovu." }, { status: 500 });
+  }
 
   const resendKey = process.env.RESEND_API_KEY;
   if (resendKey) {

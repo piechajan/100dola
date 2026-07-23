@@ -531,7 +531,7 @@ export default function CheckoutForm() {
 
           <div className="space-y-3 mb-5">
             {items.map((item) => (
-              <div key={item.productId} className="flex gap-3">
+              <div key={item.lineId} className="flex gap-3">
                 <div className="relative w-14 h-14 rounded-lg bg-[#F0F2FA] overflow-hidden shrink-0">
                   <Image src={item.photo} alt={item.name} fill sizes="56px" className="object-contain p-1" unoptimized={isProxiedImage(item.photo)} />
                 </div>

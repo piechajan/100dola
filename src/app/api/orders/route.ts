@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 import { OrderPayloadSchema, HONEYPOT_NAME } from "@/lib/schemas";
+import { PRODUCTS } from "@/data/products";
 import {
   calcOrderTotal,
   isPaymentAvailable,
@@ -137,6 +138,29 @@ export async function POST(req: NextRequest) {
       { error: "Zásilkovna nepodporuje velké balíky (kolo, lyže). Vyber osobní vyzvednutí nebo GLS." },
       { status: 400 },
     );
+  }
+
+  // BEZPEČNOST: nikdy nevěř ceně z klienta. U statických katalogových produktů
+  // přepiš priceWithVat/vatRate autoritativní hodnotou z PRODUCTS (podle slugu).
+  // Supplier/konfigurátor produkty nejsou v PRODUCTS → zůstávají (residuální riziko,
+  // řešit DB lookupem / HMAC podpisem zvlášť). Nikdy nezneplatní legitimní objednávku
+  // (override jen při shodě slugu), takže nemůže omylem vynulovat cenu.
+  const catalogBySlug = new Map(
+    PRODUCTS.map((p) => [p.slug, { priceWithVat: p.priceWithVat, vatRate: p.vatRate }]),
+  );
+  for (const item of data.items) {
+    // Variantu jsme do slugu nepřidávali, ale checkout dává do názvu " — barva, vel.".
+    const baseSlug = item.slug;
+    const authoritative = catalogBySlug.get(baseSlug);
+    if (authoritative) {
+      if (item.priceWithVat !== authoritative.priceWithVat) {
+        console.warn(
+          `[orders] cena přepsána z katalogu u "${baseSlug}": klient ${item.priceWithVat} → ${authoritative.priceWithVat} Kč`,
+        );
+      }
+      item.priceWithVat = authoritative.priceWithVat;
+      item.vatRate = authoritative.vatRate;
+    }
   }
 
   // Discount validace (server-side znovu, aby klient nepodvedl ceny)
