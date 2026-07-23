@@ -620,8 +620,8 @@ export const PRODUCTS: Product[] = [
     ],
     gender: "U",
     useCase: "performance",
-    color: "Black / Bronze",
-    colorFamily: "black",
+    color: "Olive Green",
+    colorFamily: "green",
     variants: [
       { size: "S", isInStock: false, availability: "Na objednávku" },
       { size: "M", isInStock: true, availability: "Skladem" },
