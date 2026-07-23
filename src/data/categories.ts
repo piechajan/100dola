@@ -53,6 +53,7 @@ export const categories: TopCategory[] = [
         name: "MTB",
         children: [
           { id: "mtb-pevna", name: "Pevná vidlice" },
+          { id: "mtb-hardtail", name: "Hardtail" },
           { id: "mtb-celoodpruzena", name: "Celoodpružená" },
         ],
       },

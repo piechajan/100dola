@@ -18,6 +18,7 @@ export const SYNERGY_MAP: Record<string, string[]> = {
   "gravel-2x": ["plastre-gravel", "helmy-kolo", "tretry-gravel"],
   "triatlon": ["plastre-silnicni", "vyplety-triatlon", "wattmetry"],
   "mtb-pevna": ["plastre-mtb", "helmy-kolo", "tretry-mtb"],
+  "mtb-hardtail": ["plastre-mtb", "helmy-kolo", "tretry-mtb"],
   "mtb-celoodpruzena": ["plastre-mtb", "helmy-kolo", "tretry-mtb"],
 
   // Oblečení → komplementární kusy
