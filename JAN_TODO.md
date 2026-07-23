@@ -5,6 +5,19 @@
 
 ---
 
+## 🔴 Připomínky z bezpečnostního auditu (2026-07-23)
+
+- **⛔ ODBLOKOVAT karetní platby až bude ComGate live.** `card`/`apple-pay`/
+  `google-pay` jsou zakomentované v `src/lib/schemas.ts` (`PAYMENT_METHODS`) a
+  `src/lib/orders.ts` (`PAYMENT_LABELS`) — do spuštění ComGate by objednávka
+  prošla jako „zaplaceno kartou" bez reálné platby. Při go-live odkomentovat
+  obojí. (viz [[project_comgate]])
+- **🔑 Smazat legacy statické heslo `100dola2025`** (`src/app/api/auth/route.ts`
+  + `LEGACY_COOKIE` fallback v `src/lib/admin-auth.ts`) — až Jan potvrdí, že se
+  do adminu spolehlivě dostane přes magic-link (`/admin/login`). Magic-link byl
+  2026-07-23 opraven na prefetch-safe dvoukrok (Gmail přednačítal a spotřebovával
+  token). Po potvrzení přepnout všechny admin routy na `requireAdmin()`.
+
 ## 🟡 Rozhodnutí čekající na Jana
 
 - **Malaga pricing konflikt (Basic 849€ vs 559€)** — `data/malaga.ts` má potvrzený
