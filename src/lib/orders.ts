@@ -76,9 +76,7 @@ export const PAYMENT_LABELS: Record<PaymentMethod, string> = {
   qr: "QR platba",
   "bank-transfer": "Bankovní převod",
   "cash-pickup": "Hotovost při převzetí",
-  card: "Platební karta",
-  "apple-pay": "Apple Pay",
-  "google-pay": "Google Pay",
+  // card / apple-pay / google-pay — zablokováno do spuštění ComGate (viz schemas.ts)
 };
 
 /**

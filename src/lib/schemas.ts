@@ -112,9 +112,11 @@ export const PAYMENT_METHODS = [
   "qr",            // QR platba (SPAYD) — připraveno, klient sám naskenuje
   "bank-transfer", // klasický převod, VS = order ID
   "cash-pickup",   // hotovost při osobním převzetí (jen pro personal-*)
-  "card",          // Phase 1.5 přes ComGate
-  "apple-pay",     // Phase 1.5 přes ComGate
-  "google-pay",    // Phase 1.5 přes ComGate
+  // ⛔ ODBLOKOVAT až bude ComGate live — do té doby by objednávka prošla jako
+  // „zaplaceno kartou" bez reálné platby. Vrátit: "card", "apple-pay", "google-pay".
+  // "card",       // Phase 1.5 přes ComGate
+  // "apple-pay",  // Phase 1.5 přes ComGate
+  // "google-pay", // Phase 1.5 přes ComGate
 ] as const;
 
 const OrderItemSchema = z.object({
