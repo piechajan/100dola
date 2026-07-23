@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { getAdminContext } from "@/lib/admin-auth";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import IsaacReservationActions from "@/components/admin/IsaacReservationActions";
@@ -46,11 +46,8 @@ async function loadReservations(): Promise<Reservation[]> {
 }
 
 export default async function AdminIsaacTestPage() {
-  const cookieStore = await cookies();
-  const auth = cookieStore.get("preview_auth");
-  if (auth?.value !== "100dola2025") {
-    redirect("/login?from=/admin/isaac-test");
-  }
+  const ctx = await getAdminContext();
+  if (!ctx) redirect("/admin/login?from=/admin/isaac-test");
 
   const reservations = await loadReservations();
   const byBike: Record<string, Reservation[]> = {};

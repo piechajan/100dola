@@ -12,6 +12,7 @@ import { logCronRun } from "@/lib/cron-monitor";
 import { listInvoices, isFakturoidConfigured } from "@/lib/fakturoid";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { sendOrderPaidNotification } from "@/lib/email";
+import { getAdminContext } from "@/lib/admin-auth";
 
 const CRON_SECRET = process.env.CRON_SECRET;
 
@@ -121,11 +122,11 @@ async function syncPaidInvoices(): Promise<SyncStats> {
 
 export async function GET(req: NextRequest) {
   // Vercel Cron posílá hlavičku Authorization: Bearer <CRON_SECRET>
-  // Plus podpora ručního spuštění z admina (cookie preview_auth)
+  // Plus podpora ručního spuštění z admina (přihlášená admin session)
   const authHeader = req.headers.get("authorization");
   const isCron = CRON_SECRET && authHeader === `Bearer ${CRON_SECRET}`;
-  const adminCookie = req.cookies.get("preview_auth");
-  const isAdmin = adminCookie?.value === "100dola2025";
+  const adminCtx = await getAdminContext();
+  const isAdmin = Boolean(adminCtx);
 
   if (!isCron && !isAdmin) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

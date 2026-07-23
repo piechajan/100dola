@@ -7,6 +7,7 @@ import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { invoiceOrder, type OrderForInvoice } from "@/lib/invoicing";
 import { markInvoicePaid } from "@/lib/fakturoid";
 import { trackingUrl, carrierLabel } from "@/lib/tracking";
+import { getAdminContext } from "@/lib/admin-auth";
 
 const DATA_DIR = process.env.NODE_ENV === "production" ? "/tmp" : path.join(process.cwd(), "data");
 const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
@@ -18,9 +19,9 @@ const StatusUpdateSchema = z.object({
 });
 
 export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
-  const auth = req.cookies.get("preview_auth");
-  if (auth?.value !== "100dola2025") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const admin = await getAdminContext();
+  if (!admin) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
   const { id } = await ctx.params;

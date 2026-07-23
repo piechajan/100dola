@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { promises as fs } from "fs";
 import path from "path";
+import { getAdminContext } from "@/lib/admin-auth";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import OrderStatusActions from "@/components/shop/OrderStatusActions";
@@ -163,11 +163,8 @@ export default async function AdminOrderDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const cookieStore = await cookies();
-  const auth = cookieStore.get("preview_auth");
-  if (auth?.value !== "100dola2025") {
-    redirect("/login?from=/admin/orders");
-  }
+  const ctx = await getAdminContext();
+  if (!ctx) redirect("/admin/login?from=/admin/orders");
 
   const { id } = await params;
   const order = await getOrder(id);

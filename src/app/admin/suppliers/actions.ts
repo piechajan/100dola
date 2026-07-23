@@ -1,16 +1,13 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { importBrand, getServiceSupabase } from "@/lib/suppliers/importer";
+import { getAdminContext } from "@/lib/admin-auth";
 
 async function requireAdmin() {
-  const cookieStore = await cookies();
-  const auth = cookieStore.get("preview_auth");
-  if (auth?.value !== "100dola2025") {
-    redirect("/login?from=/admin/suppliers");
-  }
+  const ctx = await getAdminContext();
+  if (!ctx) redirect("/admin/login?from=/admin/suppliers");
 }
 
 export async function toggleBrand(brandId: string, enable: boolean): Promise<void> {

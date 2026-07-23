@@ -14,6 +14,7 @@ import { buildOrderId, buildSpaydQrDataUrl, FUTUNATU_IBAN } from "@/lib/spayd";
 import { sendOrderConfirmation, sendOrderNotification } from "@/lib/email";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { validateDiscountCode, incrementDiscountUsage } from "@/lib/discounts";
+import { getAdminContext } from "@/lib/admin-auth";
 import { invoiceOrder, type OrderForInvoice } from "@/lib/invoicing";
 import { recordProductPairs } from "@/lib/shop/pair-counts";
 import { checkRateLimit } from "@/lib/rate-limit";
@@ -437,11 +438,11 @@ export async function POST(req: NextRequest) {
   });
 }
 
-// GET (preview-protected) — list orders for admin
-export async function GET(req: NextRequest) {
-  const auth = req.cookies.get("preview_auth");
-  if (auth?.value !== "100dola2025") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+// GET (admin-protected) — list orders for admin
+export async function GET() {
+  const ctx = await getAdminContext();
+  if (!ctx) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   const all = await readOrders();
   return NextResponse.json({ count: all.length, orders: all });

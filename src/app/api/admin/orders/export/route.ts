@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
+import { getAdminContext } from "@/lib/admin-auth";
 
 const DATA_DIR = process.env.NODE_ENV === "production" ? "/tmp" : path.join(process.cwd(), "data");
 const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
@@ -13,10 +14,10 @@ function csvEscape(value: unknown): string {
   return s;
 }
 
-export async function GET(req: NextRequest) {
-  const auth = req.cookies.get("preview_auth");
-  if (auth?.value !== "100dola2025") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+export async function GET() {
+  const ctx = await getAdminContext();
+  if (!ctx) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
   const columns = [

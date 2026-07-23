@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { lookupAresByIco } from "@/lib/ares";
+import { getAdminContext } from "@/lib/admin-auth";
 
 export async function GET(req: NextRequest) {
-  const auth = req.cookies.get("preview_auth");
-  if (auth?.value !== "100dola2025") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const ctx = await getAdminContext();
+  if (!ctx) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
   const ico = req.nextUrl.searchParams.get("ico");

@@ -4,7 +4,7 @@
 //   1. Účetní zadá email → /api/auth/accountant/request
 //   2. Server vygeneruje krátký token (15min) → pošle mail s linkem
 //   3. Klik na link → /api/auth/accountant/callback → verify → set cookie 30 dní
-//   4. /admin/ucto akceptuje buď preview_auth (full admin) NEBO accountant_auth (read-only)
+//   4. /admin/ucto akceptuje buď admin_session (full admin) NEBO accountant_auth (read-only)
 //
 // Allowlist: env ACCOUNTANT_EMAILS = "ucetni@example.com,partner@example.com"
 

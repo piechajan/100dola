@@ -15,11 +15,12 @@ import {
   deleteWebhook,
   isFakturoidConfigured,
 } from "@/lib/fakturoid";
+import { getAdminContext } from "@/lib/admin-auth";
 
-function authGuard(req: NextRequest): NextResponse | null {
-  const auth = req.cookies.get("preview_auth");
-  if (auth?.value !== "100dola2025") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+async function authGuard(): Promise<NextResponse | null> {
+  const ctx = await getAdminContext();
+  if (!ctx) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   if (!isFakturoidConfigured()) {
     return NextResponse.json(
@@ -43,7 +44,7 @@ function webhookUrl(req: NextRequest): string {
 }
 
 export async function GET(req: NextRequest) {
-  const guard = authGuard(req);
+  const guard = await authGuard();
   if (guard) return guard;
 
   try {
@@ -65,7 +66,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const guard = authGuard(req);
+  const guard = await authGuard();
   if (guard) return guard;
 
   const url = webhookUrl(req);
@@ -114,7 +115,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const guard = authGuard(req);
+  const guard = await authGuard();
   if (guard) return guard;
 
   const url = new URL(req.url);

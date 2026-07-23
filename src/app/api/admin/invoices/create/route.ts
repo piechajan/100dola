@@ -10,6 +10,7 @@ import {
   type InvoiceLine,
 } from "@/lib/fakturoid";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
+import { getAdminContext } from "@/lib/admin-auth";
 
 const LineSchema = z.object({
   name: z.string().min(1).max(200),
@@ -38,9 +39,9 @@ const PayloadSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  const auth = req.cookies.get("preview_auth");
-  if (auth?.value !== "100dola2025") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const ctx = await getAdminContext();
+  if (!ctx) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
   if (!isFakturoidConfigured()) {

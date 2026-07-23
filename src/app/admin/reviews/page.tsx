@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { getAdminContext } from "@/lib/admin-auth";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { createClient } from "@supabase/supabase-js";
@@ -32,9 +32,8 @@ interface ReviewRow {
 }
 
 export default async function AdminReviewsPage() {
-  const cookieStore = await cookies();
-  const auth = cookieStore.get("preview_auth");
-  if (auth?.value !== "100dola2025") redirect("/login?from=/admin/reviews");
+  const ctx = await getAdminContext();
+  if (!ctx) redirect("/admin/login?from=/admin/reviews");
 
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;

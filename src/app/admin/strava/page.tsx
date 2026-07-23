@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { getAdminContext } from "@/lib/admin-auth";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -47,11 +47,8 @@ const REQUIRED_SCOPES = [
 ];
 
 export default async function AdminStravaPage() {
-  const cookieStore = await cookies();
-  const auth = cookieStore.get("preview_auth");
-  if (auth?.value !== "100dola2025") {
-    redirect("/login?from=/admin/strava");
-  }
+  const ctx = await getAdminContext();
+  if (!ctx) redirect("/admin/login?from=/admin/strava");
 
   const { scope, error } = await getCurrentScopes();
   const clientId = process.env.STRAVA_CLIENT_ID;

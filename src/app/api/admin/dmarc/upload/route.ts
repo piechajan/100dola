@@ -1,5 +1,5 @@
-import { cookies } from "next/headers";
 import { ingestDmarcFile } from "@/lib/dmarc/ingest";
+import { getAdminContext } from "@/lib/admin-auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -9,9 +9,8 @@ export const dynamic = "force-dynamic";
  * Field 'file' = ZIP / GZ / XML DMARC aggregate report
  */
 export async function POST(request: Request) {
-  const cookieStore = await cookies();
-  const auth = cookieStore.get("preview_auth");
-  if (auth?.value !== "100dola2025") {
+  const ctx = await getAdminContext();
+  if (!ctx) {
     return Response.json({ ok: false, error: "unauthorized" }, { status: 401 });
   }
 

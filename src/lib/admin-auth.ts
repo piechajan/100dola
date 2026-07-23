@@ -4,8 +4,6 @@ import { createHash, randomBytes, createHmac, timingSafeEqual } from "node:crypt
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 const SESSION_COOKIE = "admin_session";
-const LEGACY_COOKIE = "preview_auth";
-const LEGACY_VALUE = "100dola2025";
 const SESSION_TTL_MS = 8 * 3600 * 1000; // 8 h
 const TOKEN_TTL_MS = 15 * 60 * 1000; // 15 min magic link
 
@@ -102,18 +100,15 @@ export async function verifyLoginTokenAndStart(
 export interface AdminContext {
   email: string;
   role: string;
-  via: "session" | "legacy";
+  via: "session";
 }
 
 /**
  * Vrátí AdminContext pokud je aktuální request přihlášený, jinak null.
- * Backward compat: stará `preview_auth=100dola2025` cookie zatím funguje
- * (via='legacy'), bude odebraná za 14 dní (2026-06-17).
  */
 export async function getAdminContext(): Promise<AdminContext | null> {
   const jar = await cookies();
 
-  // 1) Nový session token
   const sessionToken = jar.get(SESSION_COOKIE)?.value;
   if (sessionToken) {
     const sb = getSb();
@@ -129,12 +124,6 @@ export async function getAdminContext(): Promise<AdminContext | null> {
         return { email: data.email, role: user.role, via: "session" };
       }
     }
-  }
-
-  // 2) Legacy cookie (deprecated)
-  const legacy = jar.get(LEGACY_COOKIE)?.value;
-  if (legacy === LEGACY_VALUE) {
-    return { email: "legacy@100dola.local", role: "admin", via: "legacy" };
   }
 
   return null;
@@ -164,7 +153,7 @@ export async function logAdminAction(
   try {
     const sb = getSb();
     await sb.from("admin_audit").insert({
-      actor_email: ctx.via === "legacy" ? null : ctx.email,
+      actor_email: ctx.email,
       action: input.action,
       resource_type: input.resource_type ?? null,
       resource_id: input.resource_id ?? null,
@@ -193,6 +182,5 @@ export function verifyAdminPayload(payload: string, sig: string): boolean {
 
 export const COOKIE_NAMES = {
   session: SESSION_COOKIE,
-  legacy: LEGACY_COOKIE,
 };
 export const SESSION_TTL_SECONDS = SESSION_TTL_MS / 1000;

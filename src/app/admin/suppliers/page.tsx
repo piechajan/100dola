@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { getAdminContext } from "@/lib/admin-auth";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getServiceSupabase } from "@/lib/suppliers/importer";
@@ -49,11 +49,8 @@ type ImportRowData = {
 type ProductCount = { brand_id: string; count: number };
 
 export default async function AdminSuppliersPage() {
-  const cookieStore = await cookies();
-  const auth = cookieStore.get("preview_auth");
-  if (auth?.value !== "100dola2025") {
-    redirect("/login?from=/admin/suppliers");
-  }
+  const ctx = await getAdminContext();
+  if (!ctx) redirect("/admin/login?from=/admin/suppliers");
 
   const sb = getServiceSupabase();
 

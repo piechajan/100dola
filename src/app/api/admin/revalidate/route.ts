@@ -1,5 +1,5 @@
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
+import { getAdminContext } from "@/lib/admin-auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -7,18 +7,17 @@ export const dynamic = "force-dynamic";
 /**
  * On-demand revalidate pro admin UI / scripts.
  * GET /api/admin/revalidate?paths=/shop,/admin/suppliers
- * Auth: cookie preview_auth=100dola2025  (stejně jako admin UI)
+ * Auth: přihlášená admin session (admin_session cookie)
  *       NEBO Authorization: Bearer CRON_SECRET
  */
 export async function GET(request: Request) {
-  const cookieStore = await cookies();
-  const cookieAuth = cookieStore.get("preview_auth")?.value === "100dola2025";
+  const adminCtx = await getAdminContext();
 
   const bearer = request.headers.get("authorization");
   const cronAuth =
     !!process.env.CRON_SECRET && bearer === `Bearer ${process.env.CRON_SECRET}`;
 
-  if (!cookieAuth && !cronAuth) {
+  if (!adminCtx && !cronAuth) {
     return Response.json({ ok: false, error: "unauthorized" }, { status: 401 });
   }
 

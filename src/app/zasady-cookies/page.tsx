@@ -39,7 +39,7 @@ export default function CookiesPage() {
           </p>
           <ul className="text-sm text-[#5A6480] leading-relaxed space-y-1 ml-5 list-disc">
             <li><code className="text-xs">100dola-cart</code> — obsah košíku (localStorage)</li>
-            <li><code className="text-xs">preview_auth</code> — preview přístup před plným spuštěním (cookie)</li>
+            <li><code className="text-xs">admin_session</code> — přihlášení do administrace (cookie, jen pro správce webu)</li>
             <li><code className="text-xs">100dola-cookies-consent</code> — záznam tvé volby cookies (localStorage)</li>
           </ul>
 

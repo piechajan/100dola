@@ -3,6 +3,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { getAdminContext } from "@/lib/admin-auth";
 import type { MalagaLeadRow, RegistrationRow } from "@/lib/supabase";
 import {
   sendMalagaLeadNotification,
@@ -488,9 +489,9 @@ export async function POST(req: NextRequest) {
 // ── GET — list (preview-protected) ────────────────────────────────────────────
 
 export async function GET(req: NextRequest) {
-  const auth = req.cookies.get("preview_auth");
-  if (auth?.value !== "100dola2025") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const ctx = await getAdminContext();
+  if (!ctx) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
   const event = req.nextUrl.searchParams.get("event");

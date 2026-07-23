@@ -5,8 +5,9 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import MonthlyChart from "@/components/admin/MonthlyChart";
-import { getAccountingOverview, PROJECTS, getProject } from "@/lib/accounting";
+import { getAccountingOverview, getProject } from "@/lib/accounting";
 import { SESSION_COOKIE, verifySessionCookie } from "@/lib/accountant-auth";
+import { getAdminContext } from "@/lib/admin-auth";
 
 export const metadata: Metadata = {
   title: "Admin · Účetnictví — 100dola",
@@ -20,12 +21,6 @@ function fmtPrice(amount: number): string {
   return new Intl.NumberFormat("cs-CZ", { maximumFractionDigits: 0 }).format(amount) + " Kč";
 }
 
-function fmtMonth(monthStr: string): string {
-  const [y, m] = monthStr.split("-");
-  const months = ["led", "úno", "bře", "dub", "kvě", "čvn", "čvc", "srp", "zář", "říj", "lis", "pro"];
-  return `${months[parseInt(m) - 1]} ${y.slice(2)}`;
-}
-
 const STATUS_LABELS: Record<string, { label: string; color: string }> = {
   open: { label: "otevřená", color: "#92400E" },
   sent: { label: "odeslaná", color: "#1E3A8A" },
@@ -37,8 +32,8 @@ const STATUS_LABELS: Record<string, { label: string; color: string }> = {
 
 export default async function AdminAccountingPage() {
   const cookieStore = await cookies();
-  const adminAuth = cookieStore.get("preview_auth");
-  const isAdmin = adminAuth?.value === "100dola2025";
+  const adminCtx = await getAdminContext();
+  const isAdmin = Boolean(adminCtx);
 
   const accountantCookie = cookieStore.get(SESSION_COOKIE);
   const accountantSession = verifySessionCookie(accountantCookie?.value);

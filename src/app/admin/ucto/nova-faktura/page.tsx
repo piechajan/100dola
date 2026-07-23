@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { getAdminContext } from "@/lib/admin-auth";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import InvoiceForm from "@/components/admin/InvoiceForm";
@@ -12,9 +12,8 @@ export const metadata: Metadata = {
 };
 
 export default async function NewInvoicePage() {
-  const cookieStore = await cookies();
-  const auth = cookieStore.get("preview_auth");
-  if (auth?.value !== "100dola2025") {
+  const ctx = await getAdminContext();
+  if (!ctx) {
     // Účetní nemůže vytvářet faktury → redirect na dashboard
     redirect("/admin/ucto");
   }

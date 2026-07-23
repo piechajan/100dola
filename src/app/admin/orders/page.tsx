@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { promises as fs } from "fs";
 import path from "path";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { getAdminContext } from "@/lib/admin-auth";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import OrderStatusActions from "@/components/shop/OrderStatusActions";
@@ -104,12 +104,8 @@ const STATUS_COLORS: Record<string, { bg: string; fg: string; label: string }> =
 };
 
 export default async function AdminOrdersPage() {
-  // Preview auth check
-  const cookieStore = await cookies();
-  const auth = cookieStore.get("preview_auth");
-  if (auth?.value !== "100dola2025") {
-    redirect("/login?from=/admin/orders");
-  }
+  const ctx = await getAdminContext();
+  if (!ctx) redirect("/admin/login?from=/admin/orders");
 
   const orders = await getAllOrders();
   const stats = {

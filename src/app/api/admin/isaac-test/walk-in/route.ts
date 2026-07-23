@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { getBikeBySlug, bikeLabel, ISAAC_SLOTS } from "@/data/isaac-bikes";
+import { getAdminContext } from "@/lib/admin-auth";
 
 async function checkAuth(): Promise<boolean> {
-  const cookieStore = await cookies();
-  return cookieStore.get("preview_auth")?.value === "100dola2025";
+  const ctx = await getAdminContext();
+  return Boolean(ctx);
 }
 
 interface WalkInPayload {

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { getAdminContext } from "@/lib/admin-auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -76,11 +77,9 @@ function fmtAmount(n: number | null): string {
 }
 
 export async function GET(req: NextRequest) {
-  // Stejná auth jako orders export (preview_auth cookie nebo admin magic-link cookie)
-  const auth = req.cookies.get("preview_auth");
-  const adminSession = req.cookies.get("admin_session");
-  if (auth?.value !== "100dola2025" && !adminSession) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const ctx = await getAdminContext();
+  if (!ctx) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
   const { searchParams } = new URL(req.url);
