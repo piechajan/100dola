@@ -146,6 +146,94 @@ export async function fetchClubGroupEvents(): Promise<StravaGroupEvent[]> {
 }
 
 /**
+ * Souhrn jedné aktivity přihlášeného sportovce. Prioritní výkonová metrika je
+ * `weighted_average_watts` (normalized power) — `average_watts` je bez autostopu
+ * zkreslený dolů pauzami.
+ */
+export interface StravaAthleteActivity {
+  id: number;
+  name: string;
+  sport_type: StravaActivityType;
+  type: StravaActivityType;
+  start_date_local: string;
+  distance: number; // metry
+  moving_time: number; // s
+  elapsed_time: number; // s
+  total_elevation_gain: number; // m
+  weighted_average_watts: number | null;
+  average_watts: number | null;
+  max_watts: number | null;
+  average_heartrate: number | null;
+  max_heartrate: number | null;
+  average_cadence: number | null;
+  device_watts: boolean; // true = reálný wattmetr, ne odhad
+  suffer_score: number | null;
+}
+
+/**
+ * Stáhne souhrnné aktivity přihlášeného sportovce (ne klubu). Stránkuje po 200.
+ * `after` = epoch (s) — vrací aktivity novější než tento čas.
+ *
+ * Interní použití (sync do samostatného kondičního projektu). Endpoint, který to
+ * volá, je chráněný CRON_SECRET — data nejsou veřejná.
+ */
+export async function fetchAthleteActivities(opts?: {
+  after?: number;
+  perPage?: number;
+  maxPages?: number;
+}): Promise<StravaAthleteActivity[]> {
+  const token = await refreshAccessToken();
+  const perPage = opts?.perPage ?? 200;
+  const maxPages = opts?.maxPages ?? 12;
+  const out: StravaAthleteActivity[] = [];
+
+  for (let page = 1; page <= maxPages; page++) {
+    const params = new URLSearchParams({
+      per_page: String(perPage),
+      page: String(page),
+    });
+    if (opts?.after) params.set("after", String(opts.after));
+
+    const res = await fetch(`${API_BASE}/athlete/activities?${params.toString()}`, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`Strava athlete/activities fetch failed: ${res.status} ${text}`);
+    }
+
+    const batch = (await res.json()) as Array<Record<string, unknown>>;
+    for (const a of batch) {
+      out.push({
+        id: a.id as number,
+        name: (a.name as string) ?? "",
+        sport_type: (a.sport_type as StravaActivityType) ?? (a.type as StravaActivityType),
+        type: (a.type as StravaActivityType) ?? "",
+        start_date_local: (a.start_date_local as string) ?? "",
+        distance: (a.distance as number) ?? 0,
+        moving_time: (a.moving_time as number) ?? 0,
+        elapsed_time: (a.elapsed_time as number) ?? 0,
+        total_elevation_gain: (a.total_elevation_gain as number) ?? 0,
+        weighted_average_watts: (a.weighted_average_watts as number) ?? null,
+        average_watts: (a.average_watts as number) ?? null,
+        max_watts: (a.max_watts as number) ?? null,
+        average_heartrate: (a.average_heartrate as number) ?? null,
+        max_heartrate: (a.max_heartrate as number) ?? null,
+        average_cadence: (a.average_cadence as number) ?? null,
+        device_watts: Boolean(a.device_watts),
+        suffer_score: (a.suffer_score as number) ?? null,
+      });
+    }
+
+    if (batch.length < perPage) break;
+  }
+
+  return out;
+}
+
+/**
  * Pouze nadcházející eventy (alespoň jeden upcoming_occurrence v budoucnosti),
  * setříděné podle nejbližšího data.
  */
