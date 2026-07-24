@@ -127,6 +127,16 @@ const OrderItemSchema = z.object({
   vatRate: z.number().int().min(0).max(50),
   qty: z.number().int().min(1).max(99),
   bulky: z.boolean().optional(),
+  // UUID supplier_products — server podle něj ověří cenu (nikdy nevěř klientovi).
+  supplierProductId: z.string().max(64).optional(),
+  // Konfigurátor (ISAAC): base supplier + výběr option→tag externalId.
+  // Server podle toho přepočítá cenu a Jan vidí, co má sestavit.
+  config: z
+    .object({
+      baseSupplierId: z.string().max(64),
+      selected: z.record(z.string().max(120), z.string().max(120)),
+    })
+    .optional(),
 });
 
 export const OrderPayloadSchema = z

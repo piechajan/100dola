@@ -72,15 +72,24 @@ export default function ConfiguratorUI({ product, schema }: ConfiguratorUIProps)
       const tag = (tagsByOption.get(opt.externalId) ?? []).find((t) => t.externalId === tagId);
       if (tag) configLines.push(`${opt.name}: ${tag.name}`);
     }
+    const configSummary = configLines.join(" · ");
     const configuredProduct: Product = {
       ...product,
       priceWithVat: finalPrice,
-      note: configLines.join(" · "),
+      note: configSummary,
+      // Čitelný build vpisujeme do názvu → dorazí do order_items, mailu Janovi
+      // i faktury (config objekt níže nese externalId pro server-side ověření ceny).
+      name: configSummary ? `${product.name} (${configSummary})` : product.name,
       // Unique cart slot per configuration — odlišíme stejný produkt
       // s různou výbavou. Stable hash z výběru.
       id: hashConfigToId(product.id, selected),
     };
-    addToCart(configuredProduct, 1);
+    // Snapshot výběru do košíku → order → server ověří cenu a Jan vidí build.
+    // baseSupplierId musí být UUID base supplier produktu (ne synthetic id výše).
+    const config = product.supplierProductId
+      ? { baseSupplierId: product.supplierProductId, selected }
+      : undefined;
+    addToCart(configuredProduct, 1, undefined, config);
     openDrawer();
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);

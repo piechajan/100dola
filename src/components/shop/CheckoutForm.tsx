@@ -218,6 +218,9 @@ export default function CheckoutForm() {
           vatRate: i.vatRate,
           qty: i.qty,
           bulky: i.bulky,
+          // Server podle nich ověří cenu (supplier lookup / konfigurátor přepočet).
+          supplierProductId: i.supplierProductId,
+          config: i.config,
         };
       }),
       name: name.trim(),

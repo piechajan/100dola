@@ -31,6 +31,12 @@ export interface CartItem {
   supplierProductId?: string;
   /** Brand slug (pro mail Janovi: „Sportimport / ISAAC / Boson…"). */
   brand?: string;
+  /**
+   * Konfigurátor (ISAAC) snapshot výběru — base supplier + zvolené option→tag
+   * externalId. Server podle toho přepočítá cenu a Jan ví, co má sestavit.
+   * U běžných produktů zůstává undefined.
+   */
+  config?: { baseSupplierId: string; selected: Record<string, string> };
 }
 
 /** Stabilní klíč řádku košíku z produktu + varianty. */
@@ -44,7 +50,12 @@ interface CartState {
   /** Inkrementuje při změně, použité pro animace v UI. */
   lastAddedAt: number | null;
 
-  add: (product: Product, qty?: number, variant?: CartVariant) => void;
+  add: (
+    product: Product,
+    qty?: number,
+    variant?: CartVariant,
+    config?: { baseSupplierId: string; selected: Record<string, string> },
+  ) => void;
   remove: (lineId: string) => void;
   setQty: (lineId: string, qty: number) => void;
   clear: () => void;
@@ -61,7 +72,7 @@ export const useCart = create<CartState>()(
       isOpen: false,
       lastAddedAt: null,
 
-      add: (product, qty = 1, variant) =>
+      add: (product, qty = 1, variant, config) =>
         set((state) => {
           const lineId = cartLineId(product.id, variant);
           const existing = state.items.find((i) => i.lineId === lineId);
@@ -91,6 +102,7 @@ export const useCart = create<CartState>()(
                 fulfillment: product.fulfillment ?? "own",
                 supplierProductId: product.supplierProductId,
                 brand: product.brand,
+                config,
               },
             ],
             lastAddedAt: Date.now(),

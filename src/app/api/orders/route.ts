@@ -164,6 +164,124 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // BEZPEČNOST 2: supplier + konfigurátor produkty (nejsou v PRODUCTS) — přepočítej
+  // cenu z DB. SAFETY invariant: přepis JEN při pozitivním DB hitu; při miss/erroru
+  // ponech klientskou cenu + console.warn — NIKDY nevynuluj ani neodmítni legitimní
+  // objednávku. (Statické katalogové položky výše už mají autoritativní cenu.)
+  if (isSupabaseConfigured()) {
+    try {
+      const sb = getSupabase();
+      const staticMatched = new Set(
+        data.items.filter((i) => catalogBySlug.has(i.slug)).map((i) => i),
+      );
+
+      // ── A) Supplier produkty (bez configu) — batch lookup price_czk_retail ────
+      const supplierItems = data.items.filter(
+        (i) => !staticMatched.has(i) && !i.config && i.supplierProductId,
+      );
+      if (supplierItems.length > 0) {
+        const ids = Array.from(new Set(supplierItems.map((i) => i.supplierProductId!)));
+        const { data: rows, error } = await sb
+          .from("supplier_products")
+          .select("id, price_czk_retail")
+          .in("id", ids);
+        if (error) {
+          console.warn("[orders] supplier price lookup selhal — ponechávám klientské ceny:", error);
+        } else {
+          const priceById = new Map<string, number>(
+            (rows ?? []).map((r) => [String(r.id), Number(r.price_czk_retail)]),
+          );
+          for (const item of supplierItems) {
+            const price = priceById.get(item.supplierProductId!);
+            if (typeof price === "number" && Number.isFinite(price) && price > 0) {
+              const authoritative = Math.round(price);
+              if (item.priceWithVat !== authoritative) {
+                console.warn(
+                  `[orders] supplier cena přepsána u ${item.supplierProductId}: klient ${item.priceWithVat} → ${authoritative} Kč`,
+                );
+              }
+              item.priceWithVat = authoritative;
+            } else {
+              console.warn(
+                `[orders] supplier ${item.supplierProductId} bez platné ceny v DB — ponechávám klientskou ${item.priceWithVat} Kč`,
+              );
+            }
+          }
+        }
+      }
+
+      // ── B) Konfigurátor (ISAAC) — recomputed = base + Σ modifiers ─────────────
+      const configItems = data.items.filter((i) => !staticMatched.has(i) && i.config);
+      for (const item of configItems) {
+        const cfg = item.config!;
+        try {
+          // base = supplier_products.price_czk_retail
+          const { data: baseRow, error: baseErr } = await sb
+            .from("supplier_products")
+            .select("price_czk_retail")
+            .eq("id", cfg.baseSupplierId)
+            .maybeSingle();
+          const base = Number(baseRow?.price_czk_retail);
+          if (baseErr || !Number.isFinite(base) || base <= 0) {
+            console.warn(
+              `[orders] konfigurátor base ${cfg.baseSupplierId} nedohledán — ponechávám klientskou ${item.priceWithVat} Kč`,
+            );
+            continue;
+          }
+
+          const selectedTagIds = Object.values(cfg.selected);
+          let modifierSum = 0;
+          if (selectedTagIds.length > 0) {
+            // Options pro tento produkt → jejich id → tagy podle option_id + external_id.
+            const { data: optRows, error: optErr } = await sb
+              .from("configurator_options")
+              .select("id")
+              .eq("supplier_product_id", cfg.baseSupplierId);
+            if (optErr || !optRows || optRows.length === 0) {
+              console.warn(
+                `[orders] konfigurátor options pro ${cfg.baseSupplierId} nedohledány — ponechávám klientskou ${item.priceWithVat} Kč`,
+              );
+              continue;
+            }
+            const optionIds = optRows.map((o) => o.id);
+            const { data: tagRows, error: tagErr } = await sb
+              .from("configurator_tags")
+              .select("external_id, price_modifier_czk")
+              .in("option_id", optionIds)
+              .in("external_id", selectedTagIds);
+            if (tagErr) {
+              console.warn(
+                `[orders] konfigurátor tagy pro ${cfg.baseSupplierId} selhaly — ponechávám klientskou ${item.priceWithVat} Kč:`,
+                tagErr,
+              );
+              continue;
+            }
+            // Sečti modifiers jen za validně dohledané tagy (patřící tomuto produktu).
+            for (const t of tagRows ?? []) {
+              const mod = Number(t.price_modifier_czk);
+              if (Number.isFinite(mod)) modifierSum += Math.round(mod);
+            }
+          }
+
+          const recomputed = Math.max(0, Math.round(base) + modifierSum);
+          if (item.priceWithVat !== recomputed) {
+            console.warn(
+              `[orders] konfigurátor cena přepsána u ${cfg.baseSupplierId}: klient ${item.priceWithVat} → ${recomputed} Kč`,
+            );
+          }
+          item.priceWithVat = recomputed;
+        } catch (e) {
+          console.warn(
+            `[orders] konfigurátor přepočet pro ${cfg.baseSupplierId} selhal — ponechávám klientskou ${item.priceWithVat} Kč:`,
+            e,
+          );
+        }
+      }
+    } catch (e) {
+      console.warn("[orders] supplier/konfigurátor cenové ověření přeskočeno (DB chyba):", e);
+    }
+  }
+
   // Discount validace (server-side znovu, aby klient nepodvedl ceny)
   let discountAmount = 0;
   let discountCode: string | undefined;
