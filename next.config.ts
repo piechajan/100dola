@@ -6,8 +6,8 @@ import type { NextConfig } from "next";
 const csp = [
   "default-src 'self'",
   // Inline + eval nutné pro Next hydration a inline GA/Pixel snippety.
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googletagmanager.com https://*.google-analytics.com https://*.google.com https://connect.facebook.net https://*.facebook.com https://*.vercel-insights.com https://va.vercel-scripts.com https://widget.packeta.com",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googletagmanager.com https://*.google-analytics.com https://*.google.com https://connect.facebook.net https://*.facebook.com https://*.vercel-insights.com https://va.vercel-scripts.com https://widget.packeta.com https://*.clarity.ms https://unpkg.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com",
   "font-src 'self' https://fonts.gstatic.com data:",
   // Image-heavy shop — širší img-src je bezpečný.
   "img-src 'self' data: blob: https:",
