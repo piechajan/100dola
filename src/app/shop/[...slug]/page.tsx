@@ -9,6 +9,12 @@ import ShopLayout from "@/components/shop/ShopLayout";
 import ProductViewTracker from "@/components/shop/ProductViewTracker";
 import PDPGallery from "@/components/shop/PDPGallery";
 import ConfiguratorUI from "@/components/shop/ConfiguratorUI";
+import ConfiguratorInquiryNotice from "@/components/shop/ConfiguratorInquiryNotice";
+
+// ⚠️ Konfigurátor dočasně vypnutý — ISAAC ceny komponent přeplácely o 17–48k
+// (base dvojitě počítal entry komponenty + DuraAce diff +15k mimo, audit 2026-07).
+// Zapnout zpět (true) až budou modifikátory ověřené per model proti pevným SKU.
+const CONFIGURATOR_PRICING_VERIFIED = false;
 import WishlistButton from "@/components/shop/WishlistButton";
 import RecentlyViewedSection from "@/components/shop/RecentlyViewedSection";
 import PdpBuyBox from "@/components/shop/PdpBuyBox";
@@ -400,7 +406,11 @@ function renderProduct(
 
               <div id="pdp-buy" className="mt-8 scroll-mt-24">
                 {product.hasConfigurator && product.configuratorSchema ? (
-                  <ConfiguratorUI product={product} schema={product.configuratorSchema} />
+                  CONFIGURATOR_PRICING_VERIFIED ? (
+                    <ConfiguratorUI product={product} schema={product.configuratorSchema} />
+                  ) : (
+                    <ConfiguratorInquiryNotice productName={product.name} />
+                  )
                 ) : (
                   <PdpBuyBox product={product} />
                 )}
