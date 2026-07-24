@@ -3,6 +3,7 @@ import { z } from "zod";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { verifyTurnstile } from "@/lib/turnstile";
 
 const PayloadSchema = z.object({
   bike_model: z.string().min(1).max(200),
@@ -12,6 +13,8 @@ const PayloadSchema = z.object({
   phone: z.string().max(40).optional(),
   notes: z.string().max(2000).optional(),
   consent: z.literal(true),
+  // Cloudflare Turnstile — volitelné (env-gated no-op když klíče chybí).
+  turnstileToken: z.string().max(4000).optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -34,6 +37,15 @@ export async function POST(req: NextRequest) {
     );
   }
   const data = parsed.data;
+
+  // Turnstile — no-op když TURNSTILE_SECRET_KEY není nastaven (viz lib/turnstile).
+  const turnstileIp =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
+    null;
+  if (!(await verifyTurnstile(data.turnstileToken, turnstileIp))) {
+    return NextResponse.json({ error: "Ověření selhalo, zkus to znovu." }, { status: 403 });
+  }
 
   // Insert do Supabase — bike_inquiries tabulka (vytvoří se přes migraci 036)
   const url = process.env.SUPABASE_URL;

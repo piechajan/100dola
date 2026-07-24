@@ -18,6 +18,7 @@ import { getAdminContext } from "@/lib/admin-auth";
 import { invoiceOrder, type OrderForInvoice } from "@/lib/invoicing";
 import { recordProductPairs } from "@/lib/shop/pair-counts";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { verifyTurnstile } from "@/lib/turnstile";
 import {
   sendMetaCapiEvent,
   extractClientContext,
@@ -121,6 +122,15 @@ export async function POST(req: NextRequest) {
   }
 
   const data = parsed.data;
+
+  // Turnstile — no-op když TURNSTILE_SECRET_KEY není nastaven (viz lib/turnstile).
+  const clientIpForTurnstile =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
+    null;
+  if (!(await verifyTurnstile(data.turnstileToken, clientIpForTurnstile))) {
+    return NextResponse.json({ error: "Ověření selhalo, zkus to znovu." }, { status: 403 });
+  }
 
   // Validace: platba musí odpovídat dopravě (hotovost jen pro osobní)
   if (!isPaymentAvailable(data.paymentMethod, data.shippingMethod)) {

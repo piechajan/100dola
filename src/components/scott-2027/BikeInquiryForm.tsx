@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Turnstile, { isTurnstileConfigured } from "@/components/Turnstile";
 
 interface Props {
   bikeModel: string;
@@ -19,6 +20,7 @@ interface Props {
  */
 export default function BikeInquiryForm({ bikeModel, bikeVariant, models, className }: Props) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [turnstileToken, setTurnstileToken] = useState("");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -37,6 +39,7 @@ export default function BikeInquiryForm({ bikeModel, bikeVariant, models, classN
       phone: String(fd.get("phone") ?? ""),
       notes: String(fd.get("notes") ?? ""),
       consent: fd.get("consent") === "on",
+      turnstileToken: turnstileToken || undefined,
     };
     if (!data.consent || !data.email || !data.full_name) {
       setStatus("error");
@@ -152,9 +155,11 @@ export default function BikeInquiryForm({ bikeModel, bikeVariant, models, classN
         </span>
       </label>
 
+      <Turnstile onToken={setTurnstileToken} className="mb-3" />
+
       <button
         type="submit"
-        disabled={status === "sending"}
+        disabled={status === "sending" || (isTurnstileConfigured && !turnstileToken)}
         className="w-full bg-[#3B7CF4] hover:bg-[#5C92F6] disabled:opacity-50 text-white font-bold text-sm px-6 py-3 rounded-xl transition"
       >
         {status === "sending" ? "Odesílám…" : "Poptat tento model →"}

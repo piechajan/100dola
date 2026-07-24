@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
+import Turnstile, { isTurnstileConfigured } from "@/components/Turnstile";
 
 const TOPICS = [
   { value: "general", label: "Obecná otázka" },
@@ -23,13 +24,16 @@ export default function ContactForm() {
   const [consentGdpr, setConsentGdpr] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<{ ok: boolean; message: string } | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState("");
 
   const canSubmit =
     !submitting &&
     name.trim().length >= 2 &&
     email.includes("@") &&
     message.trim().length >= 5 &&
-    consentGdpr;
+    consentGdpr &&
+    // Když je Turnstile nakonfigurován, čekáme na token; jinak no-op.
+    (!isTurnstileConfigured || turnstileToken.length > 0);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -43,6 +47,7 @@ export default function ContactForm() {
         body: JSON.stringify({
           name, email, phone: phone || undefined, topic, message,
           consentGdpr: true,
+          turnstileToken: turnstileToken || undefined,
         }),
       });
       const data = await res.json();
@@ -167,6 +172,8 @@ export default function ContactForm() {
           pro účely odpovědi na tuto zprávu.
         </span>
       </label>
+
+      <Turnstile onToken={setTurnstileToken} />
 
       <button
         type="submit" disabled={!canSubmit}

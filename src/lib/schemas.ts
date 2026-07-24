@@ -171,6 +171,9 @@ export const OrderPayloadSchema = z
     notes: z.string().max(2000).trim().optional(),
 
     gdprConsent: z.literal(true),
+
+    // Cloudflare Turnstile — volitelné (env-gated no-op když klíče chybí).
+    turnstileToken: z.string().max(4000).optional(),
   })
   .merge(Honeypot);
 
@@ -182,6 +185,9 @@ export const ContactPayloadSchema = z
     topic: z.enum(["general", "sport", "malaga", "lab", "community", "store"]),
     message: z.string().min(5).max(2000).trim(),
     consentGdpr: z.literal(true),
+
+    // Cloudflare Turnstile — volitelné (env-gated no-op když klíče chybí).
+    turnstileToken: z.string().max(4000).optional(),
   })
   .merge(Honeypot);
 

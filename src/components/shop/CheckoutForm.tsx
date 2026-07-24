@@ -17,6 +17,7 @@ import {
 } from "@/lib/orders";
 import type { ShippingMethod, PaymentMethod } from "@/lib/schemas";
 import ZasilkovnaPicker from "./ZasilkovnaPicker";
+import Turnstile, { isTurnstileConfigured } from "@/components/Turnstile";
 
 interface AppliedDiscount {
   code: string;
@@ -84,6 +85,7 @@ export default function CheckoutForm() {
   const [gdprConsent, setGdprConsent] = useState(false);
   const [newsletterOptIn, setNewsletterOptIn] = useState(false);
   const [website, setWebsite] = useState(""); // honeypot
+  const [turnstileToken, setTurnstileToken] = useState("");
 
   // Discount code state
   const [discountInput, setDiscountInput] = useState("");
@@ -239,6 +241,7 @@ export default function CheckoutForm() {
       notes: notes.trim() || undefined,
       gdprConsent: true as const,
       website,
+      turnstileToken: turnstileToken || undefined,
     };
 
     try {
@@ -652,9 +655,11 @@ export default function CheckoutForm() {
             </div>
           </div>
 
+          <Turnstile onToken={setTurnstileToken} className="mt-4" />
+
           <button
             type="submit"
-            disabled={submitting}
+            disabled={submitting || (isTurnstileConfigured && !turnstileToken)}
             className="w-full mt-6 py-4 text-sm font-black text-white rounded-full transition-all hover:opacity-90 disabled:opacity-60"
             style={{ backgroundColor: accent, boxShadow: `0 4px 16px ${accent}40` }}
           >
