@@ -1,6 +1,28 @@
 import type { NextConfig } from "next";
 
+// Content-Security-Policy — ZÁMĚRNĚ permisivní na script/img/connect (inline
+// GA/Meta pixel + Next hydration by strict policy rozbila), ale zpevňující na
+// frame-ancestors / base-uri / object-src / form-action. Single-line string.
+const csp = [
+  "default-src 'self'",
+  // Inline + eval nutné pro Next hydration a inline GA/Pixel snippety.
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googletagmanager.com https://*.google-analytics.com https://*.google.com https://connect.facebook.net https://*.facebook.com https://*.vercel-insights.com https://va.vercel-scripts.com https://widget.packeta.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' https://fonts.gstatic.com data:",
+  // Image-heavy shop — širší img-src je bezpečný.
+  "img-src 'self' data: blob: https:",
+  "connect-src 'self' https: https://*.googletagmanager.com https://*.google-analytics.com https://*.google.com https://connect.facebook.net https://*.facebook.com https://*.vercel-insights.com https://va.vercel-scripts.com https://*.supabase.co https://*.public.blob.vercel-storage.com",
+  // Co smíme iframovat: Packeta widget, YouTube (nocookie), Google Maps embed.
+  "frame-src 'self' https://widget.packeta.com https://www.youtube-nocookie.com https://www.google.com",
+  "worker-src 'self' blob:",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  "form-action 'self'",
+].join("; ");
+
 const securityHeaders = [
+  { key: "Content-Security-Policy", value: csp },
   // HSTS — Cloudflare už ho posílá taky; tohle je belt-and-suspenders pro případ,
   // že někdy provoz nepůjde přes CF (přímý origin přístup).
   {
