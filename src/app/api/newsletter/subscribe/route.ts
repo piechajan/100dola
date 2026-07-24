@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { Resend } from "resend";
 import { upsertSubscriber } from "@/lib/newsletter-subscribers";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -12,7 +13,13 @@ interface Body {
   honeypot?: string;
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  // Rate-limit: max 5 přihlášení / 300s / IP
+  const rate = await checkRateLimit(req, { bucket: "newsletter-subscribe", max: 5, windowSec: 300 });
+  if (!rate.ok) {
+    return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });
+  }
+
   let body: Body;
   try {
     body = (await req.json()) as Body;

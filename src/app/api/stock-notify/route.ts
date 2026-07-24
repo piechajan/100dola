@@ -1,5 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
+import type { NextRequest } from "next/server";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -17,7 +19,13 @@ const Schema = z.object({
  * Email signup pro out-of-stock variant. Idempotent (UNIQUE constraint).
  * Když se variant naskladní, /api/cron/stock-notify pošle email.
  */
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  // Rate-limit: max 5 signupů / 300s / IP
+  const rate = await checkRateLimit(request, { bucket: "stock-notify", max: 5, windowSec: 300 });
+  if (!rate.ok) {
+    return Response.json({ ok: false, error: "rate_limited" }, { status: 429 });
+  }
+
   let body: unknown;
   try {
     body = await request.json();

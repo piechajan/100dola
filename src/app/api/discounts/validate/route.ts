@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { validateDiscountCode } from "@/lib/discounts";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 const Schema = z.object({
   code: z.string().min(1).max(40),
@@ -8,6 +9,12 @@ const Schema = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  // Rate-limit: brání enumeraci slevových kódů — max 20 pokusů / 60s / IP
+  const rate = await checkRateLimit(req, { bucket: "discount-validate", max: 20, windowSec: 60 });
+  if (!rate.ok) {
+    return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });
+  }
+
   let body: unknown;
   try {
     body = await req.json();
