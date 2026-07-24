@@ -432,6 +432,7 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({
     ok: true,
     orderId: id,
+    eventId: id, // stejný event_id jako CAPI Purchase → browser pixel dedup
     total,
     iban: FUTUNATU_IBAN,
     qrDataUrl,

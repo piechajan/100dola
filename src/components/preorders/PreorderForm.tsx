@@ -72,13 +72,17 @@ export default function PreorderForm({ modelSlug, modelLabel }: Props) {
       }
 
       // Tracking events (browser side; CAPI běží server-side)
-      trackMetaEvent("Lead", {
-        content_name: modelLabel,
-        content_category: "preorder",
-        content_ids: [modelSlug],
-        currency: "CZK",
-        value: 150000,
-      });
+      trackMetaEvent(
+        "Lead",
+        {
+          content_name: modelLabel,
+          content_category: "preorder",
+          content_ids: [modelSlug],
+          currency: "CZK",
+          value: 150000,
+        },
+        data.eventId, // shodné s CAPI Lead → Meta dedup
+      );
       // GA4 Enhanced Conversions — průměrná hodnota XC kola Scott Spark RC ~150k CZK.
       // Aktualizovat až bude finální ceník (varianty 80-260k). Slouží pro
       // Google Ads conversion value bidding / ROAS optimalizaci.

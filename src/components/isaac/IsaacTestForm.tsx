@@ -135,10 +135,14 @@ export default function IsaacTestForm({ bikes, days }: Props) {
         message: `Rezervace potvrzena: ${data.reservation.bike}, ${data.reservation.slotLabel}.`,
       });
       // Analytics conversion events
-      trackMetaEvent("Lead", {
-        content_name: "ISAAC test reservation",
-        content_category: bike?.category || "bike",
-      });
+      trackMetaEvent(
+        "Lead",
+        {
+          content_name: "ISAAC test reservation",
+          content_category: bike?.category || "bike",
+        },
+        data.eventId, // shodné s CAPI Lead → Meta dedup
+      );
       trackGoogleEvent("generate_lead", {
         event_category: "isaac_test",
         event_label: data.reservation.bike,

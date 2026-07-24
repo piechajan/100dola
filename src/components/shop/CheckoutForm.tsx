@@ -263,13 +263,17 @@ export default function CheckoutForm() {
           }),
         }).catch(() => {});
       }
-      trackMetaEvent("Purchase", {
-        content_ids: items.map((i) => i.slug),
-        contents: items.map((i) => ({ id: i.slug, quantity: i.qty, item_price: i.priceWithVat })),
-        num_items: items.reduce((sum, i) => sum + i.qty, 0),
-        value: total,
-        currency: "CZK",
-      });
+      trackMetaEvent(
+        "Purchase",
+        {
+          content_ids: items.map((i) => i.slug),
+          contents: items.map((i) => ({ id: i.slug, quantity: i.qty, item_price: i.priceWithVat })),
+          num_items: items.reduce((sum, i) => sum + i.qty, 0),
+          value: total,
+          currency: "CZK",
+        },
+        data.eventId, // shodné s CAPI Purchase → Meta dedup
+      );
       trackGoogleEvent("purchase", {
         transaction_id: data.orderId,
         currency: "CZK",

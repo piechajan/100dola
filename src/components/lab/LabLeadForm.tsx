@@ -76,11 +76,16 @@ export default function LabLeadForm() {
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error("Server error");
+      const data = await res.json().catch(() => ({}));
       setDone(true);
-      trackMetaEvent("Lead", {
-        content_name: "Lab inquiry",
-        content_category: services.join(",") || "undecided",
-      });
+      trackMetaEvent(
+        "Lead",
+        {
+          content_name: "Lab inquiry",
+          content_category: services.join(",") || "undecided",
+        },
+        data.eventId, // shodné s CAPI Lead → Meta dedup
+      );
       trackGoogleEvent("generate_lead", {
         event_category: "lab",
         event_label: services.join(",") || "undecided",

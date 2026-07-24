@@ -62,6 +62,8 @@ export async function POST(req: NextRequest) {
   const { clientIp, userAgent } = extractClientContext(req.headers);
   const { fbp, fbc } = extractFbCookies(req.headers);
   const eventSourceUrl = req.headers.get("referer") ?? "https://www.100dola.com/kontakt";
+  // Sdílené event_id pro CAPI ↔ browser pixel dedup (zde nemáme DB id)
+  const eventId = `contact-${crypto.randomUUID()}`;
 
   // Fire-and-forget — DB záznam zde nevedeme, pošta stačí (low volume)
   Promise.allSettled([
@@ -69,6 +71,7 @@ export async function POST(req: NextRequest) {
     sendContactConfirmation(payload),
     sendMetaCapiEvent({
       eventName: "Lead",
+      eventId,
       eventSourceUrl,
       userData: {
         email: data.email,
@@ -87,5 +90,5 @@ export async function POST(req: NextRequest) {
     }),
   ]);
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, eventId });
 }

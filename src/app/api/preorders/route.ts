@@ -166,5 +166,9 @@ export async function POST(req: NextRequest) {
     console.error("[preorders] Meta CAPI failed:", e);
   }
 
-  return NextResponse.json({ ok: true, id: reservationId });
+  return NextResponse.json({
+    ok: true,
+    id: reservationId,
+    eventId: `preorder-${reservationId}`, // shodné s CAPI Lead → browser pixel dedup
+  });
 }

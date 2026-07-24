@@ -60,8 +60,15 @@ export default function MetaPixel() {
   );
 }
 
-/** Tracker pro custom events — spustí jen pokud je pixel načtený. */
-export function trackMetaEvent(event: string, params?: Record<string, unknown>) {
+/**
+ * Tracker pro custom events — spustí jen pokud je pixel načtený.
+ * `eventID` musí být shodné s CAPI event_id (server) → Meta deduplikace.
+ */
+export function trackMetaEvent(
+  event: string,
+  params?: Record<string, unknown>,
+  eventID?: string,
+) {
   if (typeof window === "undefined" || !window.fbq) return;
-  window.fbq("track", event, params || {});
+  window.fbq("track", event, params || {}, eventID ? { eventID } : undefined);
 }

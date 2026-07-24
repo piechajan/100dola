@@ -54,10 +54,14 @@ export default function ContactForm() {
         ok: true,
         message: "Zpráva odeslána. Ozveme se ti během 48 hodin.",
       });
-      trackMetaEvent("Lead", {
-        content_name: "Contact form",
-        content_category: topic,
-      });
+      trackMetaEvent(
+        "Lead",
+        {
+          content_name: "Contact form",
+          content_category: topic,
+        },
+        data.eventId, // shodné s CAPI Lead → Meta dedup
+      );
       trackGoogleEvent("generate_lead", {
         event_category: "contact",
         event_label: topic,

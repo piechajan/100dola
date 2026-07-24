@@ -86,11 +86,16 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error("Server error");
+      const data = await res.json().catch(() => ({}));
       setDone(true);
-      trackMetaEvent("Lead", {
-        content_name: "Malaga inquiry",
-        content_category: intent,
-      });
+      trackMetaEvent(
+        "Lead",
+        {
+          content_name: "Malaga inquiry",
+          content_category: intent,
+        },
+        data.eventId, // shodné s CAPI Lead → Meta dedup
+      );
       trackGoogleEvent("generate_lead", {
         event_category: "malaga",
         event_label: intent,

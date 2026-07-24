@@ -181,7 +181,12 @@ export async function POST(req: NextRequest) {
         }),
       ]);
 
-      return NextResponse.json({ ok: true, source: "malaga", id: lead.id });
+      return NextResponse.json({
+        ok: true,
+        source: "malaga",
+        id: lead.id,
+        eventId: `malaga-${lead.id}`, // shodné s CAPI Lead → browser pixel dedup
+      });
     }
 
     // fallback: file storage
@@ -373,7 +378,12 @@ export async function POST(req: NextRequest) {
           },
         }),
       ]);
-      return NextResponse.json({ ok: true, source: "lab", id: row!.id });
+      return NextResponse.json({
+        ok: true,
+        source: "lab",
+        id: row!.id,
+        eventId: `lab-${row!.id}`, // shodné s CAPI Lead → browser pixel dedup
+      });
     }
 
     // Fallback: file storage
@@ -461,7 +471,15 @@ export async function POST(req: NextRequest) {
         ]);
       }
 
-      return NextResponse.json({ ok: true, source: "event", duplicate: !row });
+      return NextResponse.json({
+        ok: true,
+        source: "event",
+        duplicate: !row,
+        // eventId jen když se reálně poslal CAPI event (tj. row existuje, nikoli duplicate)
+        eventId: row
+          ? `event-${e.eventSlug}-${(row as RegistrationRow).id ?? e.email}`
+          : undefined,
+      });
     }
 
     // fallback: file storage

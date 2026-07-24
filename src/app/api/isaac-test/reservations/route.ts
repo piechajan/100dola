@@ -247,6 +247,7 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({
     ok: true,
+    eventId: `isaac-test-${reservationId}`, // shodné s CAPI Lead → browser pixel dedup
     reservation: {
       bike: label,
       slotLabel: `${slot.dayLabel} · ${slot.label}`,
