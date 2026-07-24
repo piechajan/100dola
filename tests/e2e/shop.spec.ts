@@ -40,12 +40,19 @@ test.describe("Shop smoke", () => {
     const isaacImages = page.locator('img[alt*="Isaac" i]').first();
     await expect(isaacImages).toBeVisible({ timeout: 15_000 });
 
-    // Verify že image se skutečně načetla (naturalWidth > 0)
-    const loaded = await isaacImages.evaluate((el) => {
-      const img = el as HTMLImageElement;
-      return img.complete && img.naturalWidth > 0;
-    });
-    expect(loaded, "ISAAC image se musela skutečně načíst (naturalWidth > 0)").toBe(true);
+    // Verify že image se skutečně načetla (naturalWidth > 0). Vercel Image
+    // Optimization je při cold cache (hlavně v CI) pomalá — obrázek je visible,
+    // ale ještě nedotažený → poll místo okamžité kontroly (jinak flaky).
+    await expect
+      .poll(
+        () =>
+          isaacImages.evaluate((el) => {
+            const img = el as HTMLImageElement;
+            return img.complete && img.naturalWidth > 0;
+          }),
+        { timeout: 20_000, message: "ISAAC image se musela skutečně načíst (naturalWidth > 0)" },
+      )
+      .toBe(true);
   });
 
   test("PDP first ISAAC product opens with gallery", async ({ page }) => {
