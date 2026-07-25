@@ -243,6 +243,8 @@ export interface StravaLap {
   elapsed_time: number; // s
   moving_time: number; // s
   distance: number; // m
+  start_index: number | null; // index do streams (pro HR recovery apod.)
+  end_index: number | null;
   average_watts: number | null;
   max_watts: number | null;
   average_heartrate: number | null;
@@ -273,6 +275,8 @@ export async function fetchActivityLaps(activityId: number | string): Promise<St
     elapsed_time: (l.elapsed_time as number) ?? 0,
     moving_time: (l.moving_time as number) ?? 0,
     distance: (l.distance as number) ?? 0,
+    start_index: (l.start_index as number) ?? null,
+    end_index: (l.end_index as number) ?? null,
     average_watts: (l.average_watts as number) ?? null,
     max_watts: (l.max_watts as number) ?? null,
     average_heartrate: (l.average_heartrate as number) ?? null,
@@ -281,6 +285,33 @@ export async function fetchActivityLaps(activityId: number | string): Promise<St
     average_speed: (l.average_speed as number) ?? null,
     total_elevation_gain: (l.total_elevation_gain as number) ?? null,
   }));
+}
+
+/**
+ * Vteřinové streams aktivity (time, heartrate, watts, cadence). Pro analýzu
+ * HR recovery mezi intervaly a přesný průběh výkonu při FTP testu.
+ * Vrací mapu klíč→pole hodnot (zarovnané indexy).
+ */
+export async function fetchActivityStreams(
+  activityId: number | string,
+  keys: string[] = ["time", "heartrate", "watts", "cadence"],
+): Promise<Record<string, number[]>> {
+  const token = await refreshAccessToken();
+  const params = new URLSearchParams({ keys: keys.join(","), key_by_type: "true" });
+  const res = await fetch(
+    `${API_BASE}/activities/${activityId}/streams?${params.toString()}`,
+    { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" },
+  );
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Strava activity streams fetch failed: ${res.status} ${text}`);
+  }
+  const data = (await res.json()) as Record<string, { data?: number[] }>;
+  const out: Record<string, number[]> = {};
+  for (const [k, v] of Object.entries(data)) {
+    if (v && Array.isArray(v.data)) out[k] = v.data;
+  }
+  return out;
 }
 
 /**

@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { fetchActivityLaps, fetchAthleteActivities, isStravaConfigured } from "@/lib/strava";
+import {
+  fetchActivityLaps,
+  fetchActivityStreams,
+  fetchAthleteActivities,
+  isStravaConfigured,
+} from "@/lib/strava";
 
 // Interní endpoint: vrací souhrn aktivit přihlášeného sportovce pro externí
 // kondiční projekt (kondice-PJ sync). Chráněný CRON_SECRET — data nejsou veřejná.
@@ -38,6 +43,22 @@ export async function GET(req: NextRequest) {
     } catch (e) {
       const message = e instanceof Error ? e.message : "unknown error";
       console.error("[api/strava/activities] laps error:", message);
+      return NextResponse.json({ error: message }, { status: 502 });
+    }
+  }
+
+  // ?streams=<activityId> — vteřinové streams (HR recovery, průběh výkonu).
+  const streamsId = params.get("streams");
+  if (streamsId) {
+    try {
+      const streams = await fetchActivityStreams(streamsId);
+      return NextResponse.json(
+        { configured: true, activityId: streamsId, streams },
+        { headers: { "Cache-Control": "no-store" } },
+      );
+    } catch (e) {
+      const message = e instanceof Error ? e.message : "unknown error";
+      console.error("[api/strava/activities] streams error:", message);
       return NextResponse.json({ error: message }, { status: 502 });
     }
   }
