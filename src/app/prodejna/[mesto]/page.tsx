@@ -79,7 +79,9 @@ export default async function LocationPage({
                 ? "Kamenná prodejna"
                 : loc.type === "pickup"
                   ? "Výdej + doručení"
-                  : "Připravujeme"}
+                  : loc.type === "community"
+                    ? "Social rides · komunita"
+                    : "Připravujeme"}
             </div>
             <h1 className="text-3xl md:text-5xl font-black text-[#1a1a2e] leading-tight mb-5">
               {loc.h1}

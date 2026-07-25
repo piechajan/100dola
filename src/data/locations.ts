@@ -27,8 +27,9 @@ export interface Location {
   city: string;
   /** „ve Šternberku" / „v Olomouci" — pro copy. */
   cityLocative: string;
-  /** store = kamenná prodejna · pickup = výdej + doručení · coming = brzy. */
-  type: "store" | "pickup" | "coming";
+  /** store = kamenná prodejna · pickup = výdej + doručení · community = social
+   *  rides komunita (bez prodejny) · coming = zázemí připravujeme. */
+  type: "store" | "pickup" | "community" | "coming";
   metaTitle: string;
   metaDescription: string;
   h1: string;
@@ -155,49 +156,57 @@ export const LOCATIONS: Location[] = [
   // ───────────────────── VALAŠSKÉ MEZIŘÍČÍ (nachystané, NELIVE) ──────────────
   {
     slug: "valasske-mezirici",
-    published: false,
+    published: true,
     city: "Valašské Meziříčí",
     cityLocative: "ve Valašském Meziříčí",
-    type: "coming",
+    type: "community",
     distanceKm: 55,
-    metaTitle: "Kola, cyklo vybavení a sport Valašské Meziříčí — 100dola sport",
+    metaTitle: "Social rides Valašské Meziříčí — společné vyjížďky | 100dola sport",
     metaDescription:
-      "100dola sport ve Valašském Meziříčí — kola SCOTT / ISAAC / Lapierre, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Servis, bikefit a komunita Social rides Valašské Meziříčí.",
-    h1: "Kola, cyklistické vybavení a sport ve Valašském Meziříčí",
+      "Social rides Valašské Meziříčí — pravidelné společné vyjížďky pro cyklisty z Valašska, Vsetínska a Novojičínska. Vyjíždíme od kavárny ve Valmezu, jede se všemi úrovněmi. Přidej se a poznej valašské a beskydské trasy s dobrou partou.",
+    h1: "Social rides Valašské Meziříčí",
     intro:
-      "Valašsko je cyklistický ráj a 100dola sport sem míří za tebou. Přinášíme silniční, gravel a horská kola SCOTT, ISAAC a Lapierre, kompletní vybavení na kolo, sportovní výživu i běžecké boty — a hlavně komunitu kolem Social rides Valašské Meziříčí, kde se jezdí spolu. Vybavení, které sami jezdíme, a lidi, se kterými má cenu vyrazit na trénink.",
+      "Nejsme jen obchod — jezdíme. Social rides Valašské Meziříčí jsou pravidelné společné vyjížďky pro cyklisty z Valašska, Vsetínska, Novojičínska a okolí. Vyjíždíme od kavárny ve Valašském Meziříčí, jedeme pohodovým tempem a poznáváme nejkrásnější valašské a beskydské trasy. Ať jsi začátečník nebo najetý závoďák, u nás si najdeš partu i tempo.",
     highlights: [
       {
-        title: "Kola SCOTT · ISAAC · Lapierre",
-        body: "Silniční, gravel a horská kola. Poradíme s výběrem, nabízíme testovací jízdy ISAAC a bikefit.",
+        title: "Pravidelné společné vyjížďky",
+        body: "Vyjíždíme od kavárny ve Valašském Meziříčí — sraz, káva a jede se. Trasy po Valašsku a Beskydech, různá tempa, dobrá parta. Termíny a místo srazu najdeš na našich profilech.",
       },
       {
-        title: "Vybavení na kolo a výživa",
-        body: `${CYCLING_GEAR}, k tomu ${NUTRITION}. Kvalita pro jezdce, co na Valašsku najezdí víc než pár nedělních kilometrů.`,
+        title: "Pro všechny úrovně",
+        body: "Social rides nejsou závod. Jede se pospolu, nikdo nezůstane vzadu. Ideální způsob, jak poznat nové trasy i lidi z regionu — Valmez, Vsetín, Nový Jičín a okolí.",
       },
       {
-        title: "Běh a servis",
-        body: `${RUNNING}. A ke kolům kompletní servis, voskování řetězů a bikefit.`,
+        title: "Vybavení a servis s sebou",
+        body: `Jsme 100dola sport — kola SCOTT / ISAAC / Lapierre, ${CYCLING_GEAR}, ${NUTRITION} i servis. Co potřebuješ, dovezeme přes e-shop s osobním předáním nebo poradíme rovnou na jízdě.`,
       },
     ],
     logistics:
-      "V současnosti obsluhujeme Valašské Meziříčí přes e-shop s osobním předáním a doručením. Připravujeme rozšíření zázemí v regionu — sleduj Social rides Valašské Meziříčí a naše profily.",
+      "Vyjížďky startují od kavárny ve Valašském Meziříčí — přesné termíny a místo srazu zveřejňujeme před každou jízdou na našich profilech (Instagram). Kola, vybavení a servis řešíme přes e-shop s osobním předáním po regionu; kamenné zázemí ve Valmezu připravujeme.",
     localAngle: {
-      title: "Social rides Valašské Meziříčí",
-      body: "Nejsme jen obchod — jezdíme. Social rides Valašské Meziříčí jsou společné vyjížďky pro místní cyklisty všech úrovní: pohodové tempo, dobrá parta, poznávání valašských tras. Sleduj naše profily a přidej se na nejbližší jízdu.",
+      title: "Jak se přidat",
+      body: "Sleduj náš Instagram, kde vypisujeme termíny nejbližších Social rides Valašské Meziříčí. Přijeď na sraz ke kavárně, sedni na kolo a jeď s námi. Žádné přihlášky, žádné poplatky — jen dobrá parta a valašské kopce.",
     },
     faq: [
       {
-        q: "Máte prodejnu ve Valašském Meziříčí?",
-        a: "Zázemí ve Valašském Meziříčí připravujeme. Zatím obsluhujeme region přes e-shop s osobním předáním a doručením a přes komunitu Social rides.",
+        q: "Odkud Social rides vyjíždějí?",
+        a: "Od kavárny ve Valašském Meziříčí. Přesné místo a čas srazu zveřejňujeme na našich profilech před každou jízdou.",
       },
       {
-        q: "Co jsou Social rides Valašské Meziříčí?",
-        a: "Společné vyjížďky pro místní cyklisty — pohodové tempo, dobrá parta, poznávání tras. Sleduj naše profily a přidej se.",
+        q: "Musím být zkušený cyklista?",
+        a: "Ne. Jede se pospolu a pohodovým tempem — Social rides jsou pro všechny úrovně.",
+      },
+      {
+        q: "Kam až jezdíte?",
+        a: "Po Valašsku, Vsetínsku, Novojičínsku a Beskydech — poznáváme nejhezčí trasy v regionu.",
+      },
+      {
+        q: "Kde koupím kolo nebo vybavení?",
+        a: "Přes náš e-shop s osobním předáním po regionu, nebo se domluvíme přímo na vyjížďce. Kamenné zázemí ve Valašském Meziříčí připravujeme.",
       },
     ],
     keywords:
-      "kola Valašské Meziříčí, cyklistické vybavení Valašské Meziříčí, cyklo oblečení Valašské Meziříčí, servis kol Valašské Meziříčí, social rides Valašské Meziříčí, sportovní výživa, běžecké boty, SCOTT ISAAC, Q36.5",
+      "social rides Valašské Meziříčí, cyklisté Valašské Meziříčí, společné vyjížďky Valmez, cyklo komunita Vsetín Nový Jičín, kola Valašské Meziříčí, 100dola sport",
   },
 
   // ───────────────────────── VSETÍN (nachystané, NELIVE) ─────────────────────
@@ -238,6 +247,46 @@ export const LOCATIONS: Location[] = [
     ],
     keywords:
       "kola Vsetín, cyklistické vybavení Vsetín, cyklo oblečení Vsetín, servis kol Vsetín, helmy tretry Vsetín, sportovní výživa Vsetín, běžecké boty, bikefit, SCOTT ISAAC, Q36.5",
+  },
+
+  // ───────────────────────── NOVÝ JIČÍN (nachystané, NELIVE) ─────────────────
+  {
+    slug: "novy-jicin",
+    published: false,
+    city: "Nový Jičín",
+    cityLocative: "v Novém Jičíně",
+    type: "coming",
+    distanceKm: 65,
+    metaTitle: "Kola, cyklo vybavení a sport Nový Jičín — 100dola sport",
+    metaDescription:
+      "100dola sport pro Nový Jičín a okolí — kola SCOTT / ISAAC / Lapierre, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Servis a bikefit. Přidej se k Social rides Valašské Meziříčí, kam to máš kousek.",
+    h1: "Kola, cyklistické vybavení a sport pro Nový Jičín",
+    intro:
+      "Novojičínsko a Beskydy jsou skvělé na kolo. 100dola sport sem přináší silniční, gravel a horská kola SCOTT, ISAAC a Lapierre, kompletní vybavení na kolo, sportovní výživu i běžecké boty — a komunitu Social rides Valašské Meziříčí, kam to máš kousek. Vybíráme věci, které sami jezdíme.",
+    highlights: [
+      {
+        title: "Kola SCOTT · ISAAC · Lapierre",
+        body: "Silniční, gravel a horská kola s poradenstvím, testovacími jízdami ISAAC a bikefitem.",
+      },
+      {
+        title: "Vybavení na kolo a výživa",
+        body: `${CYCLING_GEAR}, k tomu ${NUTRITION}. Prémiová kvalita pro náročné jezdce z Novojičínska a Beskyd.`,
+      },
+      {
+        title: "Běh a servis",
+        body: `${RUNNING}. A ke kolům kompletní servis, voskování řetězů a bikefit pro celoroční ježdění.`,
+      },
+    ],
+    logistics:
+      "Nový Jičín a okolí zatím obsluhujeme přes e-shop s osobním předáním a doručením. Rozšíření zázemí v regionu připravujeme — a mezitím se přidej k Social rides Valašské Meziříčí, kam to máš blízko.",
+    faq: [
+      {
+        q: "Máte prodejnu v Novém Jičíně?",
+        a: "Zázemí v regionu připravujeme. Zatím obsluhujeme Novojičínsko přes e-shop s osobním předáním a doručením a přes komunitu Social rides.",
+      },
+    ],
+    keywords:
+      "kola Nový Jičín, cyklistické vybavení Nový Jičín, cyklo oblečení Nový Jičín, servis kol Nový Jičín, sportovní výživa Nový Jičín, běžecké boty, social rides, SCOTT ISAAC, Q36.5",
   },
 ];
 
