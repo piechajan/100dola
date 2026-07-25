@@ -38,7 +38,11 @@ jobs:
 
       - name: Run E2E
         env:
-          PLAYWRIGHT_BASE_URL: https://www.100dola.com
+          # Testujeme přes Vercel origin (obchází Cloudflare) — od zapnutí
+          # Bot Fight Mode (2026-07) by challenge na www.100dola.com mohl
+          # blokovat headless Playwright z CI runneru. Vercel origin = stejná
+          # produkční deployment, jen bez CF vrstvy. Aplikaci to testuje plně.
+          PLAYWRIGHT_BASE_URL: https://100dola.vercel.app
         run: npx playwright test
 
       - name: Upload HTML report on failure
