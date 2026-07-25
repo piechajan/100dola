@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { COMPANY, STERNBERK_STORE } from "@/data/company";
 import NewsletterSignup from "@/components/NewsletterSignup";
+import { getPublishedLocations } from "@/data/locations";
 
 const links: Record<string, { label: string; href: string; external?: boolean }[]> = {
   "100dola sport": [
@@ -30,6 +31,10 @@ const links: Record<string, { label: string; href: string; external?: boolean }[
   "100dola": [
     { label: "O nás", href: "/o-nas" },
     { label: "Magazín / Články", href: "/clanky" },
+    ...getPublishedLocations().map((l) => ({
+      label: `Prodejna ${l.city}`,
+      href: `/prodejna/${l.slug}`,
+    })),
     { label: "Kontakt", href: "/kontakt" },
     { label: "Obchodní podmínky", href: "/obchodni-podminky" },
     { label: "Ochrana osobních údajů", href: "/ochrana-osobnich-udaju" },

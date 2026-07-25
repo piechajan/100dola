@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { getPublishedLocations } from "@/data/locations";
 import { PRODUCTS } from "@/data/products";
 import { ARTICLES } from "@/data/articles";
 import { getAllCategoryPaths } from "@/lib/shop/category-resolver";
@@ -101,6 +102,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/kontakt",
   ]) {
     entries.push({ path: p, priority: 0.7, changefreq: "monthly" });
+  }
+
+  // ─── Lokální landing stránky (Local SEO) — jen publikované ─────────────────
+  for (const loc of getPublishedLocations()) {
+    entries.push({ path: `/prodejna/${loc.slug}`, priority: 0.8, changefreq: "monthly" });
   }
 
   // ─── ISAAC event (časově citlivé) ──────────────────────────────────────────
