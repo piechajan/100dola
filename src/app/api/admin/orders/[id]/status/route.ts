@@ -8,6 +8,7 @@ import { invoiceOrder, type OrderForInvoice } from "@/lib/invoicing";
 import { markInvoicePaid } from "@/lib/fakturoid";
 import { trackingUrl, carrierLabel } from "@/lib/tracking";
 import { getAdminContext } from "@/lib/admin-auth";
+import { sendReviewRequest } from "@/lib/email";
 
 const DATA_DIR = process.env.NODE_ENV === "production" ? "/tmp" : path.join(process.cwd(), "data");
 const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
@@ -55,8 +56,11 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string
       if (parsed.data.status === "paid") {
         await handlePaidTransition(id);
       }
-      if (parsed.data.status === "shipped" && parsed.data.trackingNumber) {
-        await sendShipmentNotification(id);
+      if (parsed.data.status === "shipped") {
+        if (parsed.data.trackingNumber) await sendShipmentNotification(id);
+        // Review follow-up mail (naplánovaný +4 dny přes Resend). Bez DB guardu —
+        // opětovné označení „shipped" je vzácné; případný dvojí ask je neškodný.
+        await sendReviewFollowup(id);
       }
 
       return NextResponse.json({ ok: true, id, ...patch });
@@ -88,6 +92,28 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string
  * Customer email po označení order "shipped" + zadání tracking number.
  * Idempotent: nepošle pokud tracking_notified_at je už nastavený.
  */
+/**
+ * Review follow-up — naplánuje prosbu o Google recenzi (+4 dny). Pokrývá i
+ * osobní vyzvednutí (na rozdíl od shipment notifikace, co chce tracking).
+ * Graceful no-op když GOOGLE_REVIEW_URL / Resend / Supabase nejsou nastavené.
+ */
+async function sendReviewFollowup(orderId: string): Promise<void> {
+  if (!process.env.GOOGLE_REVIEW_URL) return;
+  if (!isSupabaseConfigured()) return;
+  try {
+    const sb = getSupabase();
+    const { data: order } = await sb
+      .from("orders")
+      .select("id, name, email")
+      .eq("id", orderId)
+      .maybeSingle();
+    if (!order || !order.email) return;
+    await sendReviewRequest({ id: order.id, name: order.name ?? "", email: order.email });
+  } catch (e) {
+    console.error("[admin/orders/status] sendReviewFollowup failed:", e);
+  }
+}
+
 async function sendShipmentNotification(orderId: string): Promise<void> {
   const resendKey = process.env.RESEND_API_KEY;
   if (!resendKey) return;

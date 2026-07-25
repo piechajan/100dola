@@ -667,6 +667,71 @@ export async function sendOrderConfirmation(order: OrderEmailPayload): Promise<v
   }
 }
 
+/**
+ * Review follow-up — pošle zákazníkovi prosbu o Google recenzi.
+ * Naplánováno na +4 dny přes Resend `scheduledAt` (dobré načasování — až má
+ * věc doma), takže nepotřebuje cron ani DB sloupec. Voláno při přechodu
+ * objednávky do „shipped". Graceful no-op když chybí GOOGLE_REVIEW_URL nebo
+ * Resend není nakonfigurován. Odkaz vede přímo na formulář Google recenze.
+ */
+export async function sendReviewRequest(p: {
+  id: string;
+  name: string;
+  email: string;
+}): Promise<void> {
+  const reviewUrl = process.env.GOOGLE_REVIEW_URL;
+  if (!isEmailConfigured() || !reviewUrl) return;
+
+  const firstName = p.name.split(" ")[0] || "";
+  const sendInFourDays = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString();
+
+  const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 560px; margin: 0 auto; color: #1a1a2e; padding: 8px;">
+      <div style="padding: 24px 0;">
+        <div style="font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #3B7CF4; font-weight: 700;">100dola sport</div>
+        <h1 style="font-size: 22px; margin: 6px 0 0 0; font-weight: 800;">Jak jsi spokojený${firstName ? `, ${escapeHtml(firstName)}` : ""}?</h1>
+      </div>
+      <p style="font-size: 15px; line-height: 1.6; color: #5A6480;">
+        Díky za nákup u 100dola sport. Doufáme, že ti věci sedí a užíváš si je.
+      </p>
+      <p style="font-size: 15px; line-height: 1.6; color: #5A6480;">
+        Jsme malý lokální obchod a <strong>tvoje recenze na Googlu</strong> nám hodně pomůže —
+        zabere minutu a pomůže dalším sportovcům z okolí nás najít.
+      </p>
+      <div style="text-align: center; margin: 28px 0;">
+        <a href="${escapeHtml(reviewUrl)}" style="display: inline-block; padding: 14px 28px; background: #3B7CF4; color: #fff; border-radius: 9999px; text-decoration: none; font-weight: 700; font-size: 15px;">
+          Napsat recenzi na Googlu ★
+        </a>
+      </div>
+      <p style="font-size: 13px; line-height: 1.6; color: #9AA3C2;">
+        Kdyby něco nebylo v pořádku, napiš nám prosím rovnou na
+        <a href="mailto:info@100dola.com" style="color: #3B7CF4;">info@100dola.com</a> —
+        vyřešíme to.
+      </p>
+      <div style="margin-top: 24px; padding: 16px; background: #F0F4FF; border-radius: 12px;">
+        <div style="font-weight: 700; margin-bottom: 4px;">100dola sport · FUTUNATU s.r.o.</div>
+        <div style="font-size: 14px;">
+          <a href="mailto:info@100dola.com" style="color: #3B7CF4; text-decoration: none;">info@100dola.com</a>
+          · <a href="tel:+420739045057" style="color: #3B7CF4; text-decoration: none;">+420 739 045 057</a>
+        </div>
+      </div>
+    </div>
+  `;
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.email,
+      replyTo: NOTIFY_EMAIL,
+      subject: "Jak jsi spokojený s nákupem? — 100dola sport",
+      html,
+      scheduledAt: sendInFourDays,
+    });
+  } catch (e) {
+    console.error("[email] sendReviewRequest failed:", e);
+  }
+}
+
 export async function sendOrderNotification(order: OrderEmailPayload): Promise<void> {
   if (!isEmailConfigured()) return;
 
