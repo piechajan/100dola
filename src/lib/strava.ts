@@ -234,6 +234,56 @@ export async function fetchAthleteActivities(opts?: {
 }
 
 /**
+ * Jeden lap (úsek) aktivity — pro strukturované intervalové jednotky (FTP test).
+ * `average_watts` je za lap dostačující: na ustáleném 8min intervalu ≈ NP.
+ */
+export interface StravaLap {
+  lap_index: number;
+  name: string;
+  elapsed_time: number; // s
+  moving_time: number; // s
+  distance: number; // m
+  average_watts: number | null;
+  max_watts: number | null;
+  average_heartrate: number | null;
+  max_heartrate: number | null;
+  average_cadence: number | null;
+  average_speed: number | null; // m/s
+  total_elevation_gain: number | null;
+}
+
+/**
+ * Stáhne lapy konkrétní aktivity (detail endpoint). Pro vyhodnocení
+ * intervalových jednotek přihlášeného sportovce.
+ */
+export async function fetchActivityLaps(activityId: number | string): Promise<StravaLap[]> {
+  const token = await refreshAccessToken();
+  const res = await fetch(`${API_BASE}/activities/${activityId}/laps`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Strava activity laps fetch failed: ${res.status} ${text}`);
+  }
+  const laps = (await res.json()) as Array<Record<string, unknown>>;
+  return laps.map((l) => ({
+    lap_index: (l.lap_index as number) ?? 0,
+    name: (l.name as string) ?? "",
+    elapsed_time: (l.elapsed_time as number) ?? 0,
+    moving_time: (l.moving_time as number) ?? 0,
+    distance: (l.distance as number) ?? 0,
+    average_watts: (l.average_watts as number) ?? null,
+    max_watts: (l.max_watts as number) ?? null,
+    average_heartrate: (l.average_heartrate as number) ?? null,
+    max_heartrate: (l.max_heartrate as number) ?? null,
+    average_cadence: (l.average_cadence as number) ?? null,
+    average_speed: (l.average_speed as number) ?? null,
+    total_elevation_gain: (l.total_elevation_gain as number) ?? null,
+  }));
+}
+
+/**
  * Pouze nadcházející eventy (alespoň jeden upcoming_occurrence v budoucnosti),
  * setříděné podle nejbližšího data.
  */

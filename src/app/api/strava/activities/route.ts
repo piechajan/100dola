@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { fetchAthleteActivities, isStravaConfigured } from "@/lib/strava";
+import { fetchActivityLaps, fetchAthleteActivities, isStravaConfigured } from "@/lib/strava";
 
 // Interní endpoint: vrací souhrn aktivit přihlášeného sportovce pro externí
 // kondiční projekt (kondice-PJ sync). Chráněný CRON_SECRET — data nejsou veřejná.
@@ -24,8 +24,26 @@ export async function GET(req: NextRequest) {
     );
   }
 
+  const params = new URL(req.url).searchParams;
+
+  // ?laps=<activityId> — vrátí lapy (úseky) konkrétní aktivity (pro intervaly).
+  const lapsId = params.get("laps");
+  if (lapsId) {
+    try {
+      const laps = await fetchActivityLaps(lapsId);
+      return NextResponse.json(
+        { configured: true, activityId: lapsId, laps },
+        { headers: { "Cache-Control": "no-store" } },
+      );
+    } catch (e) {
+      const message = e instanceof Error ? e.message : "unknown error";
+      console.error("[api/strava/activities] laps error:", message);
+      return NextResponse.json({ error: message }, { status: 502 });
+    }
+  }
+
   // ?after=<epoch s> — jen aktivity novější než tento čas (default: bez filtru).
-  const afterParam = new URL(req.url).searchParams.get("after");
+  const afterParam = params.get("after");
   const after = afterParam ? Number.parseInt(afterParam, 10) : undefined;
 
   try {
