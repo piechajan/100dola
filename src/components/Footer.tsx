@@ -3,6 +3,7 @@ import Image from "next/image";
 import { COMPANY, STERNBERK_STORE } from "@/data/company";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import { getPublishedLocations } from "@/data/locations";
+import { getPublishedSocialRides } from "@/data/social-rides";
 
 const links: Record<string, { label: string; href: string; external?: boolean }[]> = {
   "100dola sport": [
@@ -26,6 +27,10 @@ const links: Record<string, { label: string; href: string; external?: boolean }[
     { label: "Nadcházející eventy", href: "/community" },
     { label: "O Open Miles Clinic", href: "/community/o-klinice" },
     { label: "Vyzkoušej ISAAC", href: "/isaac-test" },
+    ...getPublishedSocialRides().map((r) => ({
+      label: `Social rides ${r.city}`,
+      href: `/social-rides/${r.slug}`,
+    })),
     { label: "@open_miles_clinic", href: "https://www.instagram.com/open_miles_clinic/", external: true },
   ],
   "100dola": [

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getPublishedLocations } from "@/data/locations";
+import { getPublishedSocialRides } from "@/data/social-rides";
 import { PRODUCTS } from "@/data/products";
 import { ARTICLES } from "@/data/articles";
 import { getAllCategoryPaths } from "@/lib/shop/category-resolver";
@@ -107,6 +108,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ─── Lokální landing stránky (Local SEO) — jen publikované ─────────────────
   for (const loc of getPublishedLocations()) {
     entries.push({ path: `/prodejna/${loc.slug}`, priority: 0.8, changefreq: "monthly" });
+  }
+
+  // ─── Social rides (komunita) — jen publikované ─────────────────────────────
+  for (const ride of getPublishedSocialRides()) {
+    entries.push({ path: `/social-rides/${ride.slug}`, priority: 0.7, changefreq: "monthly" });
   }
 
   // ─── ISAAC event (časově citlivé) ──────────────────────────────────────────
