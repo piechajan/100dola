@@ -34,7 +34,7 @@ export const SOCIAL_RIDES: SocialRide[] = [
       "Social rides Valašské Meziříčí — pravidelné společné vyjížďky pro cyklisty z Valašska a okolí. Vyjíždíme od kavárny ve Valmezu, jede se všemi úrovněmi. Přidej se a poznej valašské a beskydské trasy s dobrou partou.",
     h1: "Social rides Valašské Meziříčí",
     intro:
-      "Nejsme jen obchod — jezdíme. Social rides Valašské Meziříčí jsou pravidelné společné vyjížďky pro cyklisty z Valašska a okolí. Sraz máme u kavárny ve Valašském Meziříčí, jedeme pohodovým tempem a poznáváme nejkrásnější valašské a beskydské trasy. Ať jsi začátečník nebo najetý závoďák, u nás si najdeš partu i tempo.",
+      "Nejsme jen obchod — jezdíme. Social rides Valašské Meziříčí jsou pravidelné společné vyjížďky, které pořádáme v rámci naší komunity Open Miles Clinic. Sraz máme u kavárny ve Valašském Meziříčí, jedeme pohodovým tempem a poznáváme nejkrásnější valašské a beskydské trasy. Ať jsi začátečník nebo najetý závoďák, u nás si najdeš partu i tempo.",
     bullets: [
       {
         title: "Sraz u kavárny ve Valmezu",
@@ -45,8 +45,8 @@ export const SOCIAL_RIDES: SocialRide[] = [
         body: "Social rides nejsou závod. Jede se pospolu, nikdo nezůstane vzadu. Ideální způsob, jak poznat nové trasy i lidi z regionu.",
       },
       {
-        title: "Valašské a beskydské trasy",
-        body: "Poznáváme nejhezčí okruhy po Valašsku a Beskydech — od pohodových vyjížděk po kopcovité tréninkové bloky.",
+        title: "Jezdí se z celého okolí",
+        body: "Na vyjížďky dojíždí lidé z celého Valašska i širšího okolí — od Vsetína přes Nový Jičín až po Olomouc. Přidej se, ať jsi odkudkoli.",
       },
     ],
     faq: [
@@ -75,15 +75,15 @@ export const SOCIAL_RIDES: SocialRide[] = [
       "Social rides pro cyklisty ze Vsetínska — pravidelné společné vyjížďky. Sraz u kavárny ve Valašském Meziříčí (kousek od Vsetína), jede se všemi úrovněmi po Valašsku a Beskydech. Přidej se k partě.",
     h1: "Social rides pro cyklisty ze Vsetínska",
     intro:
-      "Jsi z Vsetína nebo okolí a chceš jezdit s partou? Social rides jsou pravidelné společné vyjížďky 100dola sport. Sraz máme u kavárny ve Valašském Meziříčí — kousek od Vsetína — a odtud vyrážíme na valašské a beskydské trasy. Pohodové tempo, dobrá parta, žádný závod.",
+      "Jsi z Vsetína nebo okolí a chceš jezdit s partou? Social rides jsou pravidelné společné vyjížďky, které pořádáme v rámci komunity Open Miles Clinic. Sraz máme u kavárny ve Valašském Meziříčí — kousek od Vsetína — a odtud vyrážíme na valašské a beskydské trasy. Nejsou to jen místní: na vyjížďky dojíždí lidé ze širšího okolí, běžně i z Nového Jičína nebo Olomouce. Pohodové tempo, dobrá parta, žádný závod.",
     bullets: [
       {
         title: "Kousek od Vsetína",
         body: "Sraz je u kavárny ve Valašském Meziříčí (~20 km od Vsetína). Termíny a přesné místo zveřejňujeme na Instagramu — přijeď a jed s námi.",
       },
       {
-        title: "Pro všechny úrovně",
-        body: "Jede se pospolu a pohodovým tempem, nikdo nezůstane vzadu. Ideální, jak poznat nové trasy i cyklisty z regionu.",
+        title: "Dojíždí se z širšího okolí",
+        body: "Na vyjížďky jezdí nejen Vsetíňáci — pravidelně dorazí lidé z Nového Jičína, Valašska i z Olomouce. Za dobrou partou stojí za to popojet.",
       },
       {
         title: "Beskydské a valašské trasy",
@@ -94,6 +94,10 @@ export const SOCIAL_RIDES: SocialRide[] = [
       {
         q: "Kde je sraz, když jsem ze Vsetína?",
         a: "U kavárny ve Valašském Meziříčí, ~20 km od Vsetína. Přesné místo a čas dáváme na profily před každou jízdou.",
+      },
+      {
+        q: "Odkud lidé na vyjížďky jezdí?",
+        a: "Z celého regionu — kromě Vsetínska běžně dojíždí cyklisté z Nového Jičína, Valašska i z Olomouce. Za dobrou partou se popojet vyplatí.",
       },
       {
         q: "Musím být trénovaný?",
@@ -112,15 +116,15 @@ export const SOCIAL_RIDES: SocialRide[] = [
       "Social rides pro cyklisty z Novojičínska — pravidelné společné vyjížďky. Sraz u kavárny ve Valašském Meziříčí (kousek od Nového Jičína), jede se všemi úrovněmi po Beskydech a Valašsku. Přidej se.",
     h1: "Social rides pro cyklisty z Novojičínska",
     intro:
-      "Jsi z Nového Jičína nebo okolí a chceš jezdit s partou? Social rides jsou pravidelné společné vyjížďky 100dola sport. Sraz máme u kavárny ve Valašském Meziříčí — kousek od Nového Jičína — a odtud vyrážíme na beskydské a valašské trasy. Pohodové tempo, dobrá parta, žádný závod.",
+      "Jsi z Nového Jičína nebo okolí a chceš jezdit s partou? Social rides jsou pravidelné společné vyjížďky, které pořádáme v rámci komunity Open Miles Clinic. Sraz máme u kavárny ve Valašském Meziříčí — kousek od Nového Jičína — a odtud vyrážíme na beskydské a valašské trasy. Nejezdí jen místní: na vyjížďky dorazí lidé ze širšího okolí, běžně i ze Vsetína nebo Olomouce. Pohodové tempo, dobrá parta, žádný závod.",
     bullets: [
       {
         title: "Kousek od Nového Jičína",
         body: "Sraz je u kavárny ve Valašském Meziříčí (~25 km od Nového Jičína). Termíny a přesné místo zveřejňujeme na Instagramu — přijeď a jed s námi.",
       },
       {
-        title: "Pro všechny úrovně",
-        body: "Jede se pospolu a pohodovým tempem, nikdo nezůstane vzadu. Skvělý způsob, jak poznat nové trasy i lidi z regionu.",
+        title: "Dojíždí se z širšího okolí",
+        body: "Na vyjížďky jezdí nejen Novojičíňáci — pravidelně dorazí lidé ze Vsetína, Valašska i z Olomouce. Za dobrou partou stojí za to popojet.",
       },
       {
         title: "Beskydské trasy",
@@ -131,6 +135,10 @@ export const SOCIAL_RIDES: SocialRide[] = [
       {
         q: "Kde je sraz, když jsem z Nového Jičína?",
         a: "U kavárny ve Valašském Meziříčí, ~25 km od Nového Jičína. Přesné místo a čas dáváme na profily před každou jízdou.",
+      },
+      {
+        q: "Odkud lidé na vyjížďky jezdí?",
+        a: "Z celého regionu — kromě Novojičínska běžně dojíždí cyklisté ze Vsetína, Valašska i z Olomouce. Za dobrou partou se popojet vyplatí.",
       },
       {
         q: "Musím být trénovaný?",
