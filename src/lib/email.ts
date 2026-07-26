@@ -1848,7 +1848,7 @@ export async function sendPreorderConfirmation(p: PreorderEmailPayload): Promise
     `dík za předobjednávku ${p.modelLabel}.`,
     ``,
     `Jan Piecha z týmu 100dola sport se ti ozve osobně — projdeme spolu modelovou řadu,`,
-    `dostupné varianty, velikost a termín dodání. Žádný anonymní e-shop, žádné`,
+    `dostupné varianty, velikost a termín dodání. Vše osobně, žádné`,
     `automatické sliby termínů.`,
     ``,
     `Co jsi nám poslal/a:`,

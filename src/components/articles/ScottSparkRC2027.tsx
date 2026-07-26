@@ -659,8 +659,8 @@ export default function ScottSparkRC2027() {
           </h3>
           <p className="text-base text-white/80 leading-relaxed mb-6 max-w-xl">
             Nech nám kontakt a my se Ti osobně ozveme — projdeme spolu modelovou řadu,
-            velikost, dostupnost a kdy bude Tvoje konkrétní specifikace u nás. Žádný
-            anonymní e-shop, žádné automatické sliby termínů.
+            velikost, dostupnost a kdy bude Tvoje konkrétní specifikace u nás. Vše
+            osobně, žádné automatické sliby termínů.
           </p>
           <Link
             href="/predobjednavka/spark-rc-2027"

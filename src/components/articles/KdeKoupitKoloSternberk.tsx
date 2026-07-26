@@ -27,8 +27,8 @@ export default function KdeKoupitKoloSternberk() {
           jih, Bouzovsko na západ. A kousek za městem začíná legendární kopec{" "}
           <strong>Ecce Homo</strong> (závod automobilů a motocyklů do vrchu)
           — tradiční tréninkový bod všech cyklistů z okolí. Pokud uvažujete o
-          novém kole a chcete ho koupit lokálně, namísto „na klik" v anonymním
-          e-shopu, je 100dola sport jediný obchod ve Šternberku, který nabízí{" "}
+          novém kole a chcete ho koupit lokálně — na místě, kde vám poradí a kolo
+          si osaháte — je 100dola sport jediný obchod ve Šternberku, který nabízí{" "}
           <strong>prémiová silniční, gravel, horská i elektrokola</strong>{" "}
           evropských a severoamerických značek.
         </p>

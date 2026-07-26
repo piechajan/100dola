@@ -13,12 +13,12 @@ const MODEL_LABEL = "Scott Spark RC 2027";
 export const metadata: Metadata = {
   title: "Předobjednávka Scott Spark RC 2027 · 100dola sport",
   description:
-    "Předobjednejte si nový Scott Spark RC 2027 přes 100dola sport ve Šternberku. Osobní servis, výběr velikosti a varianty, termín dodání domluvíme spolu. Bez anonymního e-shopu.",
+    "Předobjednejte si nový Scott Spark RC 2027 přes 100dola sport ve Šternberku. Osobní servis, výběr velikosti a varianty, termín dodání domluvíme spolu — osobně, jako v kamenné prodejně.",
   alternates: { canonical: `https://www.100dola.com/predobjednavka/${MODEL_SLUG}` },
   openGraph: {
     title: "Předobjednávka Scott Spark RC 2027 · 100dola sport",
     description:
-      "Nová generace závodního XC. Předobjednávka přes 100dola sport — osobní přístup, žádný anonymní e-shop.",
+      "Nová generace závodního XC. Předobjednávka přes 100dola sport — kamenná prodejna ve Šternberku a osobní přístup.",
     url: `https://www.100dola.com/predobjednavka/${MODEL_SLUG}`,
     images: [
       {
@@ -99,7 +99,7 @@ export default function SparkRCPreorderPage() {
             <p className="text-base md:text-lg text-[#1a1a2e] max-w-2xl leading-relaxed">
               Nech nám kontakt a my se Ti{" "}
               <strong>osobně ozveme z týmu 100dola sport</strong>. Projdeme spolu modelovou
-              řadu, dostupné varianty, velikost a termín dodání. Žádný anonymní e-shop.
+              řadu, dostupné varianty, velikost a termín dodání. Osobně, jako když k nám přijdeš do prodejny.
             </p>
             <div className="mt-5">
               <PreorderCounter modelSlug={MODEL_SLUG} className="bg-white/85 backdrop-blur px-3 py-1.5 rounded-full border border-[#E2E6F3]" />
