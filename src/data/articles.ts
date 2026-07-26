@@ -17,6 +17,8 @@ export interface Article {
   author: { name: string; role?: string };
   /** Hero image (relativní /media/articles/<slug>.jpg, nebo absolutní URL). */
   image: string;
+  /** Volitelný landscape obrázek pro širokou hero hlavičku detailu + OG/schema. Fallback = image. */
+  heroImage?: string;
   status: ArticleStatus;
   /** Pro published články: minutes reading time (manual estimate). */
   readMinutes?: number;
@@ -121,7 +123,8 @@ export const ARTICLES: Article[] = [
     category: "lab",
     publishedAt: "2026-05-25",
     author: { name: "Jan Piecha", role: "100dola Lab" },
-    image: "/media/articles/voskovani-retezu-hero.jpg",
+    image: "/media/articles/voskovani-retezu.webp",
+    heroImage: "/media/articles/voskovani-retezu-hero.webp",
     status: "published",
     readMinutes: 6,
   },

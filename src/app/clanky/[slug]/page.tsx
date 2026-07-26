@@ -54,7 +54,7 @@ export async function generateMetadata({
       title: a.title,
       description: a.summary,
       url: `/clanky/${a.slug}`,
-      images: [{ url: a.image, width: 1200, height: 630 }],
+      images: [{ url: a.heroImage ?? a.image, width: 1200, height: 630 }],
       publishedTime: a.publishedAt,
       authors: [a.author.name],
     },
@@ -62,7 +62,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: a.title,
       description: a.summary,
-      images: [a.image],
+      images: [a.heroImage ?? a.image],
     },
   };
 }
@@ -107,7 +107,7 @@ export default async function ArticleDetailPage({
     "@type": "Article",
     headline: a.title,
     description: a.summary,
-    image: `${SITE}${a.image}`,
+    image: `${SITE}${a.heroImage ?? a.image}`,
     datePublished: a.publishedAt,
     dateModified: a.updatedAt || a.publishedAt,
     author: {
@@ -185,7 +185,7 @@ export default async function ArticleDetailPage({
         {/* Hero */}
         <section className="relative aspect-[2/1] md:aspect-[3/1] bg-[#F0F2FA]">
           <Image
-            src={a.image}
+            src={a.heroImage ?? a.image}
             alt={a.title}
             fill
             className="object-cover"
