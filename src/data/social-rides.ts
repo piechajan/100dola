@@ -52,8 +52,8 @@ export const SOCIAL_RIDES: SocialRide[] = [
       },
     ],
     story: [
-      "Cyklistika ve Valašském Meziříčí a okolí má svoji partu — a my jsme její součástí. Social rides pořádáme v rámci komunity Open Miles Clinic pod značkou 100dola sport: pravidelné silniční a gravel vyjížďky, kde nejde o výkon, ale o dobrou jízdu a lidi kolem. Valašské a beskydské kopce jsou ideální terén, ať zrovna sbíráš formu, nebo si chceš jen v klidu zajezdit.",
-      "100dola sport není anonymní e-shop — cyklistiku sami žijeme a jezdíme. Stejnou péči dáváme do výběru kol a vybavení, které prodáváme: silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, cyklistické oblečení Q36.5, helmy, tretry, radary a osvětlení. Přijeď se s námi projet, poznej styl a přístup, jaký k cyklistice máme — a když budeš řešit nové kolo, budeš vědět, komu věřit.",
+      "Cyklistika ve Valašském Meziříčí a okolí má svoji partu — a my jsme její součástí. Social rides pořádáme v rámci komunity Open Miles Clinic pod značkou 100dola sport: pravidelné silniční, gravel i MTB vyjížďky, kde nejde o výkon, ale o dobrou jízdu a lidi kolem. Valašské a beskydské kopce jsou ideální terén, ať zrovna sbíráš formu, nebo si chceš jen v klidu zajezdit.",
+      "Za 100dola sport stojí kamenná prodejna ve Šternberku a e-shop — a cyklistiku sami žijeme a jezdíme. Stejnou péči dáváme do výběru kol a vybavení, které prodáváme: silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, cyklistické oblečení Q36.5, helmy, tretry, radary a osvětlení. Přijeď se s námi projet, poznej styl a přístup, jaký k cyklistice máme — a když budeš řešit nové kolo, budeš vědět, komu věřit.",
     ],
     faq: [
       {
@@ -97,8 +97,8 @@ export const SOCIAL_RIDES: SocialRide[] = [
       },
     ],
     story: [
-      "Hledáš cyklistickou partu na Vsetínsku? Social rides jsou pravidelné silniční a gravel vyjížďky, které pořádáme v rámci komunity Open Miles Clinic pod značkou 100dola sport. Vsetínské a beskydské kopce patří k nejhezčím terénům v republice — a jezdí se pospolu: svižně, ale nikoho nenecháme vzadu. Kromě místních dojíždí lidé z Nového Jičína, Valašska i z Olomouce, takže o partu nouze není.",
-      "100dola sport není anonymní e-shop — cyklistiku sami žijeme a jezdíme. Prodáváme silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, cyklistické oblečení Q36.5, helmy, tretry, radary a osvětlení. Kamennou prodejnu na Vsetíně zatím nemáme, ale kolo i vybavení k tobě po domluvě dovezeme nebo předáme osobně. Nejdřív se přijeď projet a poznej, jaký přístup k cyklistice máme — o kole se pobavíme, až budeš chtít.",
+      "Hledáš cyklistickou partu na Vsetínsku? Social rides jsou pravidelné silniční, gravel i MTB vyjížďky, které pořádáme v rámci komunity Open Miles Clinic pod značkou 100dola sport. Vsetínské a beskydské kopce patří k nejhezčím terénům v republice — a jezdí se pospolu: svižně, ale nikoho nenecháme vzadu. Kromě místních dojíždí lidé z Nového Jičína, Valašska i z Olomouce, takže o partu nouze není.",
+      "Za 100dola sport stojí kamenná prodejna ve Šternberku a e-shop — a cyklistiku sami žijeme a jezdíme. Prodáváme silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, cyklistické oblečení Q36.5, helmy, tretry, radary a osvětlení. Kamennou prodejnu na Vsetíně zatím nemáme, ale kolo i vybavení k tobě po domluvě dovezeme nebo předáme osobně. Nejdřív se přijeď projet a poznej, jaký přístup k cyklistice máme — o kole se pobavíme, až budeš chtít.",
     ],
     faq: [
       {
@@ -142,8 +142,8 @@ export const SOCIAL_RIDES: SocialRide[] = [
       },
     ],
     story: [
-      "Cyklistika na Novojičínsku má díky blízkým Beskydům skvělé podmínky — a partu k tomu nabízí Social rides. Pořádáme je v rámci komunity Open Miles Clinic pod značkou 100dola sport: pravidelné silniční a gravel vyjížďky, kde se jede svižně, ale pospolu. Sraz je kousek od Nového Jičína ve Valašském Meziříčí a kromě místních dorazí lidé ze Vsetína, Valašska i z Olomouce.",
-      "100dola sport není anonymní e-shop — cyklistiku sami žijeme a jezdíme. Prodáváme silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, cyklistické oblečení Q36.5, helmy, tretry, radary a osvětlení. Kamennou prodejnu na Novojičínsku zatím nemáme, ale kolo i vybavení k tobě po domluvě dovezeme nebo předáme osobně. Přijeď se s námi nejdřív projet — poznáš přístup, jaký k cyklistice máme, a o kole se pobavíme, až budeš chtít.",
+      "Cyklistika na Novojičínsku má díky blízkým Beskydům skvělé podmínky — a partu k tomu nabízí Social rides. Pořádáme je v rámci komunity Open Miles Clinic pod značkou 100dola sport: pravidelné silniční, gravel i MTB vyjížďky, kde se jede svižně, ale pospolu. Sraz je kousek od Nového Jičína ve Valašském Meziříčí a kromě místních dorazí lidé ze Vsetína, Valašska i z Olomouce.",
+      "Za 100dola sport stojí kamenná prodejna ve Šternberku a e-shop — a cyklistiku sami žijeme a jezdíme. Prodáváme silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, cyklistické oblečení Q36.5, helmy, tretry, radary a osvětlení. Kamennou prodejnu na Novojičínsku zatím nemáme, ale kolo i vybavení k tobě po domluvě dovezeme nebo předáme osobně. Přijeď se s námi nejdřív projet — poznáš přístup, jaký k cyklistice máme, a o kole se pobavíme, až budeš chtít.",
     ],
     faq: [
       {
