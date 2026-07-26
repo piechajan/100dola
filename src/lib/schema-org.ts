@@ -52,7 +52,7 @@ export function storeSchema() {
     name: STERNBERK_STORE.name,
     alternateName: "100dola sport Šternberk",
     description:
-      "Sportovní obchod ve Šternberku — silniční, gravel, horská a elektrokola (SCOTT, ISAAC, Lapierre, Ghost, NORCO, Bergamont), běžecké vybavení a kompresní výrobky CEP, lyže Dynastar a skialpy. Servis kol, bikefit, voskování řetězů, testovací jízdy.",
+      "Sportovní obchod ve Šternberku — silniční, gravel, horská a elektrokola (SCOTT, ISAAC, Ridley, Pinarello, Ghost, NORCO, Bergamont), běžecké vybavení a kompresní výrobky CEP, lyže Dynastar a skialpy. Servis kol, bikefit, voskování řetězů, testovací jízdy.",
     image: `${SITE_URL}/media/obchod/01-obchod.jpg`,
     url: `${SITE_URL}/kontakt`,
     telephone: COMPANY.contact.phoneIntl,

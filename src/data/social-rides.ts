@@ -19,6 +19,8 @@ export interface SocialRide {
   h1: string;
   intro: string;
   bullets: { title: string; body: string }[];
+  /** Unikátní SEO odstavce per město — cyklistika + region + brand (bez keyword stuffingu). */
+  story: string[];
   faq: SocialRideFaq[];
   keywords: string;
 }
@@ -34,7 +36,7 @@ export const SOCIAL_RIDES: SocialRide[] = [
       "Social rides Valašské Meziříčí — pravidelné společné vyjížďky pro cyklisty z Valašska a okolí. Vyjíždíme od kavárny ve Valmezu, jede se všemi úrovněmi. Přidej se a poznej valašské a beskydské trasy s dobrou partou.",
     h1: "Social rides Valašské Meziříčí",
     intro:
-      "Nejsme jen obchod — jezdíme. Social rides Valašské Meziříčí jsou pravidelné společné vyjížďky, které pořádáme v rámci naší komunity Open Miles Clinic. Sraz máme u kavárny ve Valašském Meziříčí, jedeme pohodovým tempem a poznáváme nejkrásnější valašské a beskydské trasy. Ať jsi začátečník nebo najetý závoďák, u nás si najdeš partu i tempo.",
+      "Nejsme jen obchod — jezdíme. Social rides Valašské Meziříčí jsou pravidelné společné vyjížďky, které pořádáme v rámci naší komunity Open Miles Clinic. Sraz máme u kavárny ve Valašském Meziříčí, jede se svižně, ale pospolu, a poznáváme nejkrásnější valašské a beskydské trasy. Ať jsi začátečník nebo najetý závoďák, u nás si najdeš partu i tempo.",
     bullets: [
       {
         title: "Sraz u kavárny ve Valmezu",
@@ -42,12 +44,16 @@ export const SOCIAL_RIDES: SocialRide[] = [
       },
       {
         title: "Pro všechny úrovně",
-        body: "Social rides nejsou závod. Jede se pospolu, nikdo nezůstane vzadu. Ideální způsob, jak poznat nové trasy i lidi z regionu.",
+        body: "Social rides nejsou závod, ale ani nedělní projížďka. Jede se svižně a pospolu — tempo si každý najde a nikoho nenecháme vzadu. Ideální způsob, jak poznat nové trasy i lidi z regionu.",
       },
       {
         title: "Jezdí se z celého okolí",
         body: "Na vyjížďky dojíždí lidé z celého Valašska i širšího okolí — od Vsetína přes Nový Jičín až po Olomouc. Přidej se, ať jsi odkudkoli.",
       },
+    ],
+    story: [
+      "Cyklistika ve Valašském Meziříčí a okolí má svoji partu — a my jsme její součástí. Social rides pořádáme v rámci komunity Open Miles Clinic pod značkou 100dola sport: pravidelné silniční a gravel vyjížďky, kde nejde o výkon, ale o dobrou jízdu a lidi kolem. Valašské a beskydské kopce jsou ideální terén, ať zrovna sbíráš formu, nebo si chceš jen v klidu zajezdit.",
+      "100dola sport není anonymní e-shop — cyklistiku sami žijeme a jezdíme. Stejnou péči dáváme do výběru kol a vybavení, které prodáváme: silniční, gravel a horská kola SCOTT, ISAAC, Ridley a Pinarello, cyklistické oblečení Q36.5, helmy, tretry, radary a osvětlení. Přijeď se s námi projet, poznej styl a přístup, jaký k cyklistice máme — a když budeš řešit nové kolo, budeš vědět, komu věřit.",
     ],
     faq: [
       {
@@ -56,7 +62,7 @@ export const SOCIAL_RIDES: SocialRide[] = [
       },
       {
         q: "Musím být zkušený cyklista?",
-        a: "Ne. Jede se pospolu a pohodovým tempem — Social rides jsou pro všechny úrovně.",
+        a: "Ne. Jede se svižně, ale pospolu — tempo přizpůsobíme partě a nikoho nenecháme vzadu. Social rides jsou pro všechny úrovně.",
       },
       {
         q: "Stojí to něco?",
@@ -64,7 +70,7 @@ export const SOCIAL_RIDES: SocialRide[] = [
       },
     ],
     keywords:
-      "social rides Valašské Meziříčí, cyklo vyjížďky Valmez, cyklistická komunita Valašské Meziříčí, společné vyjížďky Valašsko, 100dola sport",
+      "social rides Valašské Meziříčí, cyklistika Valašské Meziříčí, cyklo vyjížďky Valmez, silniční kola Valašské Meziříčí, gravel Valašsko, cyklistický obchod Valašské Meziříčí, kola SCOTT ISAAC Ridley Pinarello, cyklistická komunita Valašsko, 100dola sport",
   },
   {
     slug: "vsetin",
@@ -75,7 +81,7 @@ export const SOCIAL_RIDES: SocialRide[] = [
       "Social rides pro cyklisty ze Vsetínska — pravidelné společné vyjížďky. Sraz u kavárny ve Valašském Meziříčí (kousek od Vsetína), jede se všemi úrovněmi po Valašsku a Beskydech. Přidej se k partě.",
     h1: "Social rides pro cyklisty ze Vsetínska",
     intro:
-      "Jsi z Vsetína nebo okolí a chceš jezdit s partou? Social rides jsou pravidelné společné vyjížďky, které pořádáme v rámci komunity Open Miles Clinic. Sraz máme u kavárny ve Valašském Meziříčí — kousek od Vsetína — a odtud vyrážíme na valašské a beskydské trasy. Nejsou to jen místní: na vyjížďky dojíždí lidé ze širšího okolí, běžně i z Nového Jičína nebo Olomouce. Pohodové tempo, dobrá parta, žádný závod.",
+      "Jsi z Vsetína nebo okolí a chceš jezdit s partou? Social rides jsou pravidelné společné vyjížďky, které pořádáme v rámci komunity Open Miles Clinic. Sraz máme u kavárny ve Valašském Meziříčí — kousek od Vsetína — a odtud vyrážíme na valašské a beskydské trasy. Nejsou to jen místní: na vyjížďky dojíždí lidé ze širšího okolí, běžně i z Nového Jičína nebo Olomouce. Jede se svižně, ale pospolu — není to závod a nikoho nenecháme vzadu.",
     bullets: [
       {
         title: "Kousek od Vsetína",
@@ -90,6 +96,10 @@ export const SOCIAL_RIDES: SocialRide[] = [
         body: "Okruhy zasahují na Vsetínsko, Valašsko i do Beskyd — od klidných vyjížděk po kopcovité tréninky.",
       },
     ],
+    story: [
+      "Hledáš cyklistickou partu na Vsetínsku? Social rides jsou pravidelné silniční a gravel vyjížďky, které pořádáme v rámci komunity Open Miles Clinic pod značkou 100dola sport. Vsetínské a beskydské kopce patří k nejhezčím terénům v republice — a jezdí se pospolu: svižně, ale nikoho nenecháme vzadu. Kromě místních dojíždí lidé z Nového Jičína, Valašska i z Olomouce, takže o partu nouze není.",
+      "100dola sport není anonymní e-shop — cyklistiku sami žijeme a jezdíme. Prodáváme silniční, gravel a horská kola SCOTT, ISAAC, Ridley a Pinarello, cyklistické oblečení Q36.5, helmy, tretry, radary a osvětlení. Kamennou prodejnu na Vsetíně zatím nemáme, ale kolo i vybavení k tobě po domluvě dovezeme nebo předáme osobně. Nejdřív se přijeď projet a poznej, jaký přístup k cyklistice máme — o kole se pobavíme, až budeš chtít.",
+    ],
     faq: [
       {
         q: "Kde je sraz, když jsem ze Vsetína?",
@@ -101,7 +111,7 @@ export const SOCIAL_RIDES: SocialRide[] = [
       },
       {
         q: "Musím být trénovaný?",
-        a: "Ne. Social rides jsou pro všechny úrovně, jede se pospolu.",
+        a: "Ne. Social rides jsou pro všechny úrovně — jede se svižně, ale pospolu a nikoho nenecháme vzadu.",
       },
     ],
     keywords:
@@ -116,7 +126,7 @@ export const SOCIAL_RIDES: SocialRide[] = [
       "Social rides pro cyklisty z Novojičínska — pravidelné společné vyjížďky. Sraz u kavárny ve Valašském Meziříčí (kousek od Nového Jičína), jede se všemi úrovněmi po Beskydech a Valašsku. Přidej se.",
     h1: "Social rides pro cyklisty z Novojičínska",
     intro:
-      "Jsi z Nového Jičína nebo okolí a chceš jezdit s partou? Social rides jsou pravidelné společné vyjížďky, které pořádáme v rámci komunity Open Miles Clinic. Sraz máme u kavárny ve Valašském Meziříčí — kousek od Nového Jičína — a odtud vyrážíme na beskydské a valašské trasy. Nejezdí jen místní: na vyjížďky dorazí lidé ze širšího okolí, běžně i ze Vsetína nebo Olomouce. Pohodové tempo, dobrá parta, žádný závod.",
+      "Jsi z Nového Jičína nebo okolí a chceš jezdit s partou? Social rides jsou pravidelné společné vyjížďky, které pořádáme v rámci komunity Open Miles Clinic. Sraz máme u kavárny ve Valašském Meziříčí — kousek od Nového Jičína — a odtud vyrážíme na beskydské a valašské trasy. Nejezdí jen místní: na vyjížďky dorazí lidé ze širšího okolí, běžně i ze Vsetína nebo Olomouce. Jede se svižně, ale pospolu — není to závod a nikoho nenecháme vzadu.",
     bullets: [
       {
         title: "Kousek od Nového Jičína",
@@ -131,6 +141,10 @@ export const SOCIAL_RIDES: SocialRide[] = [
         body: "Okruhy zasahují na Novojičínsko, do Beskyd i na Valašsko — od klidných vyjížděk po kopcovité tréninky.",
       },
     ],
+    story: [
+      "Cyklistika na Novojičínsku má díky blízkým Beskydům skvělé podmínky — a partu k tomu nabízí Social rides. Pořádáme je v rámci komunity Open Miles Clinic pod značkou 100dola sport: pravidelné silniční a gravel vyjížďky, kde se jede svižně, ale pospolu. Sraz je kousek od Nového Jičína ve Valašském Meziříčí a kromě místních dorazí lidé ze Vsetína, Valašska i z Olomouce.",
+      "100dola sport není anonymní e-shop — cyklistiku sami žijeme a jezdíme. Prodáváme silniční, gravel a horská kola SCOTT, ISAAC, Ridley a Pinarello, cyklistické oblečení Q36.5, helmy, tretry, radary a osvětlení. Kamennou prodejnu na Novojičínsku zatím nemáme, ale kolo i vybavení k tobě po domluvě dovezeme nebo předáme osobně. Přijeď se s námi nejdřív projet — poznáš přístup, jaký k cyklistice máme, a o kole se pobavíme, až budeš chtít.",
+    ],
     faq: [
       {
         q: "Kde je sraz, když jsem z Nového Jičína?",
@@ -142,7 +156,7 @@ export const SOCIAL_RIDES: SocialRide[] = [
       },
       {
         q: "Musím být trénovaný?",
-        a: "Ne. Social rides jsou pro všechny úrovně, jede se pospolu.",
+        a: "Ne. Social rides jsou pro všechny úrovně — jede se svižně, ale pospolu a nikoho nenecháme vzadu.",
       },
     ],
     keywords:

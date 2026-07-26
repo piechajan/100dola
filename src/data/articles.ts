@@ -93,7 +93,7 @@ export const ARTICLES: Article[] = [
     slug: "kde-koupit-kolo-sternberk",
     title: "Kde si koupit kolo ve Šternberku — průvodce 2026 (SCOTT, ISAAC, road & gravel)",
     summary:
-      "Prémiový cyklistický obchod ve Šternberku — SCOTT, ISAAC, Lapierre, Ghost, NORCO. Silniční a gravel kola od 40 000 do 250 000+ Kč. Cenová pásma, doporučené značky a co s kolem dostanete navíc.",
+      "Prémiový cyklistický obchod ve Šternberku — SCOTT, ISAAC, Ridley, Pinarello, Ghost, NORCO. Silniční a gravel kola od 40 000 do 250 000+ Kč. Cenová pásma, doporučené značky a co s kolem dostanete navíc.",
     category: "sport",
     publishedAt: "2026-05-25",
     author: { name: "Jan Piecha", role: "100dola sport" },

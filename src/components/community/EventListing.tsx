@@ -22,6 +22,8 @@ interface UIEvent {
   source?: "manual" | "strava";
   stravaUrl?: string;
   stravaActivityUrl?: string;
+  /** Koncové datum akce (YYYY-MM-DD) — z něj se odvozuje isPast po uplynutí. */
+  dateISO?: string;
   isPast?: boolean;
   externalUrl?: string;
   externalCtaLabel?: string;
@@ -51,6 +53,7 @@ const events: UIEvent[] = [
   {
     id: 0,
     slug: "season-opening",
+    dateISO: "2026-04-19",
     title: "Season Opening",
     sport: "Silnice",
     date: "Ne 19. dubna",
@@ -68,6 +71,7 @@ const events: UIEvent[] = [
   {
     id: 8,
     slug: "trojak-tesak",
+    dateISO: "2026-05-02",
     title: "Troják — Tesák",
     sport: "Silnice",
     date: "So 2. května",
@@ -85,6 +89,7 @@ const events: UIEvent[] = [
   {
     id: 3,
     slug: "malaga-fall-ride-1",
+    dateISO: "2026-10-29",
     title: "Malaga fall ride I",
     sport: "Malaga",
     date: "23.–29. října",
@@ -101,6 +106,7 @@ const events: UIEvent[] = [
   {
     id: 7,
     slug: "malaga-fall-ride-2",
+    dateISO: "2026-11-06",
     title: "Malaga fall ride II",
     sport: "Malaga",
     date: "30. října – 6. listopadu",
@@ -117,6 +123,7 @@ const events: UIEvent[] = [
   {
     id: 4,
     slug: "mala-fatra-skitour",
+    dateISO: "2026-12-12",
     title: "Malá Fatra — skitour",
     sport: "Skialpy",
     date: "So 12. prosince",
@@ -133,6 +140,7 @@ const events: UIEvent[] = [
   {
     id: 6,
     slug: "isaac-test-sternberk",
+    dateISO: "2026-06-01",
     title: "Vyzkoušej ISAAC · Šternberk",
     sport: "Silnice",
     date: "Pá–Po 29. 5. – 1. 6.",
@@ -151,6 +159,7 @@ const events: UIEvent[] = [
   {
     id: 5,
     slug: "mtb-semetin-trails",
+    dateISO: "2026-06-03",
     title: "MTB Semetín trails",
     sport: "MTB",
     date: "St 3. června",
@@ -172,6 +181,13 @@ const FILTERS = ["Vše", "Silnice", "Gravel", "MTB", "Skialpy", "Běžky", "Turi
 export default function EventListing() {
   const [active, setActive] = useState("Vše");
   const [stravaEvents, setStravaEvents] = useState<UIEvent[]>([]);
+  // Dnešní datum se dosadí až po mountu — SSR/první render použije jen ručně
+  // nastavené isPast flagy (žádný hydration mismatch, žádné build-time zamrznutí).
+  const [today, setToday] = useState<string | null>(null);
+
+  useEffect(() => {
+    setToday(new Date().toISOString().slice(0, 10));
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -195,7 +211,23 @@ export default function EventListing() {
     ...stravaEvents.filter((e) => !manualSlugs.has(e.slug)),
   ];
 
-  const filtered = active === "Vše" ? merged : merged.filter((e) => e.sport === active);
+  // Odvození "proběhlo": ruční flag NEBO koncové datum už minulo.
+  const isEventPast = (e: UIEvent): boolean =>
+    e.isPast === true || (today != null && e.dateISO != null && e.dateISO < today);
+
+  const normalized: UIEvent[] = merged.map((e) => ({ ...e, isPast: isEventPast(e) }));
+
+  const byCategory =
+    active === "Vše" ? normalized : normalized.filter((e) => e.sport === active);
+
+  // Nadcházející první (od nejbližšího), proběhlé dolů (od naposledy proběhlého).
+  // Proběhlé se pořád zobrazují, jen s fade (viz EventCard) — nezáří jako budoucí.
+  const filtered = [...byCategory].sort((a, b) => {
+    if (a.isPast !== b.isPast) return a.isPast ? 1 : -1;
+    const ak = a.dateISO ?? "9999-12-31";
+    const bk = b.dateISO ?? "9999-12-31";
+    return a.isPast ? bk.localeCompare(ak) : ak.localeCompare(bk);
+  });
 
   return (
     <section id="eventy" className="py-20 md:py-24 bg-white">

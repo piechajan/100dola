@@ -35,13 +35,13 @@ NEzakládat — až budou prostory (viz strategie).
 
 ## Krátký popis (do 160 znaků)
 
-> Sportovní obchod ve Šternberku — kola SCOTT, ISAAC, Lapierre, cyklo vybavení,
+> Sportovní obchod ve Šternberku — kola SCOTT, ISAAC, Ridley, Pinarello, cyklo vybavení,
 > oblečení Q36.5, výživa a běh. Servis kol, bikefit, testovací jízdy.
 
 ## Delší popis (do ~500 znaků)
 
 > 100dola sport je sportovní obchod a servis ve Šternberku (Partyzánská 2).
-> Prodáváme silniční, gravel a horská kola SCOTT, ISAAC a Lapierre, kompletní
+> Prodáváme silniční, gravel a horská kola SCOTT, ISAAC, Ridley a Pinarello, kompletní
 > vybavení na kolo (helmy, tretry, cyklistické oblečení Q36.5, radar, osvětlení),
 > sportovní výživu a běžecké boty. Nabízíme servis kol, voskování řetězů,
 > bikefit a testovací jízdy ISAAC. Poradíme osobně, vybíráme jen věci, které
@@ -50,7 +50,7 @@ NEzakládat — až budou prostory (viz strategie).
 ## Klíčová slova (pokud katalog umožňuje tagy)
 
 kola Šternberk, cyklistický obchod Šternberk, servis kol Šternberk, cyklo
-oblečení, bikefit, běžecké potřeby, SCOTT, ISAAC, Lapierre, Q36.5, CEP
+oblečení, bikefit, běžecké potřeby, SCOTT, ISAAC, Ridley, Pinarello, Q36.5, CEP
 
 ## Fotky (nahraj stejné jako na GBP)
 
