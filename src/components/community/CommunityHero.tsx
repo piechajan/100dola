@@ -20,7 +20,7 @@ export default function CommunityHero() {
         background: "linear-gradient(to right, rgba(10,25,15,0.95) 0%, rgba(10,25,15,0.6) 60%, transparent 100%)"
       }} />
 
-      <div className="relative max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 flex flex-col justify-end pb-16 md:pb-24" style={{ minHeight: "70vh" }}>
+      <div className="relative max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 flex flex-col justify-end pt-28 md:pt-32 pb-16 md:pb-24" style={{ minHeight: "70vh" }}>
 
         {/* Eyebrow */}
         <div className="flex items-center gap-3 mb-5">

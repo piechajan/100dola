@@ -159,10 +159,10 @@ const events: UIEvent[] = [
   {
     id: 5,
     slug: "mtb-semetin-trails",
-    dateISO: "2026-06-03",
+    dateISO: "2026-09-05",
     title: "MTB Semetín trails",
     sport: "MTB",
-    date: "St 3. června",
+    date: "So 5. září",
     time: "16:00",
     location: "Semetín, Vsetín",
     distance: "40 km",
