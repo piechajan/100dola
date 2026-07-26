@@ -104,6 +104,18 @@ export const ARTICLES: Article[] = [
     readMinutes: 7,
   },
   {
+    slug: "czech-tour-2026",
+    title: "Czech Tour 2026 — Dlouhé stráně a Pustevny, a jak si je vyjet s námi",
+    summary:
+      "Czech Tour 2026 (UCI ProSeries, 13.–16. 8.) vrcholí dvěma horskými etapami v našem regionu — v sobotu 15. 8. Dlouhé stráně, v neděli 16. 8. Pustevny. Vyjeď si obě legendární stoupání s námi a půjč si silniční SCOTT zdarma.",
+    category: "udalost",
+    publishedAt: "2026-07-26",
+    author: { name: "Jan Piecha", role: "100dola sport" },
+    image: "/media/articles/road-event.jpg",
+    status: "published",
+    readMinutes: 5,
+  },
+  {
     slug: "zavod-miru-2026-sternberk",
     title: "Závod Míru 2026 končí ve Šternberku — trasa, program, kde sledovat dojezd",
     summary:

@@ -13,6 +13,7 @@ import {
   getRelatedArticles,
 } from "@/data/articles";
 import ZavodMiruSternberk from "@/components/articles/ZavodMiruSternberk";
+import CzechTour2026 from "@/components/articles/CzechTour2026";
 import KdeKoupitKoloSternberk from "@/components/articles/KdeKoupitKoloSternberk";
 import VoskovaniRetezu from "@/components/articles/VoskovaniRetezu";
 import KeramickaLoziska from "@/components/articles/KeramickaLoziska";
@@ -69,6 +70,7 @@ export async function generateMetadata({
 
 const RENDERERS: Record<string, () => React.ReactElement> = {
   "zavod-miru-2026-sternberk": () => <ZavodMiruSternberk />,
+  "czech-tour-2026": () => <CzechTour2026 />,
   "kde-koupit-kolo-sternberk": () => <KdeKoupitKoloSternberk />,
   "voskovani-retezu": () => <VoskovaniRetezu />,
   "keramicka-loziska": () => <KeramickaLoziska />,
@@ -171,6 +173,44 @@ export default async function ArticleDetailPage({
             priceCurrency: "CZK",
             availability: "https://schema.org/InStock",
             url: `${SITE}/clanky/zavod-miru-2026-sternberk`,
+          },
+        }
+      : a.slug === "czech-tour-2026"
+      ? {
+          "@context": "https://schema.org",
+          "@type": "SportsEvent",
+          name: "Czech Tour 2026",
+          description:
+            "Etapový silniční závod UCI ProSeries, 13.–16. srpna 2026. Horské etapy s cílem na Dlouhých stráních (so 15. 8.) a Pustevnách (ne 16. 8.).",
+          startDate: "2026-08-13",
+          endDate: "2026-08-16",
+          eventStatus: "https://schema.org/EventScheduled",
+          eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+          sport: "Cycling",
+          location: [
+            {
+              "@type": "Place",
+              name: "Dlouhé stráně (cíl 3. etapy)",
+              address: {
+                "@type": "PostalAddress",
+                addressRegion: "Olomoucký kraj",
+                addressCountry: "CZ",
+              },
+            },
+            {
+              "@type": "Place",
+              name: "Pustevny (cíl 4. etapy)",
+              address: {
+                "@type": "PostalAddress",
+                addressRegion: "Moravskoslezský kraj",
+                addressCountry: "CZ",
+              },
+            },
+          ],
+          organizer: {
+            "@type": "Organization",
+            name: "Czech Tour",
+            url: "https://www.czechtour.com",
           },
         }
       : null;

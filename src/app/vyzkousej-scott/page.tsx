@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import { breadcrumbSchema, faqPageSchema } from "@/lib/seo/schema-helpers";
+import ScottTestForm from "@/components/scott/ScottTestForm";
 
 const INSTAGRAM = "https://www.instagram.com/100dolasport.cz/";
 
@@ -118,7 +119,7 @@ export default function VyzkousejScottPage() {
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
-                href="/kontakt"
+                href="#rezervace"
                 className="inline-flex items-center px-6 py-3 rounded-full bg-[#3B7CF4] text-white text-sm font-bold hover:opacity-90 transition-opacity"
               >
                 Rezervovat kolo →
@@ -170,12 +171,22 @@ export default function VyzkousejScottPage() {
               a domluvíme velikost i model.
             </p>
             <Link
-              href="/kontakt"
+              href="#rezervace"
               className="inline-flex items-center px-5 py-2.5 rounded-full bg-white text-[#1a1a2e] text-sm font-bold hover:opacity-90 transition-opacity"
             >
-              Napiš nám a rezervuj →
+              Vybrat kolo a termín →
             </Link>
           </div>
+        </section>
+
+        {/* Konfigurátor / poptávka zápůjčky */}
+        <section id="rezervace" className="max-w-[900px] mx-auto px-4 md:px-6 py-12 scroll-mt-24">
+          <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-2">Rezervuj si SCOTT na vyjížďku</h2>
+          <p className="text-sm text-[#5A6480] mb-7 max-w-[640px]">
+            Vyber kolo a termín, nech nám kontakt a my se ti ozveme s potvrzením. Nabídku modelů,
+            velikosti a přesné časy ještě doladíme — počet kol je omezený.
+          </p>
+          <ScottTestForm />
         </section>
 
         {/* O závodě (SEO) */}
