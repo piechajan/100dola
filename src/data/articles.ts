@@ -111,7 +111,7 @@ export const ARTICLES: Article[] = [
     category: "udalost",
     publishedAt: "2026-07-26",
     author: { name: "Jan Piecha", role: "100dola sport" },
-    image: "/media/articles/road-event.jpg",
+    image: "/media/road-event.jpg",
     status: "published",
     readMinutes: 5,
   },
