@@ -26,7 +26,7 @@ export default function StravaSegmentSternberk() {
             sezonní výjezdy do Jeseníků, group rides na ISAAC víkendu.
           </p>
           <a
-            href="https://www.strava.com/clubs/open-miles-clinic"
+            href="https://www.strava.com/clubs/2070600"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#2EAA6E] text-white text-xs font-bold hover:opacity-90"

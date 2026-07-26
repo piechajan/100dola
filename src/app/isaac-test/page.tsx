@@ -63,7 +63,7 @@ export default function IsaacTestPage() {
                 <strong>Obchod 100dola sport</strong>, vedle kavárny Namístě, náměstí Šternberk.
                 V neděli 31. 5. dojezd{" "}
                 <a
-                  href="https://www.zavodmiru.cz/"
+                  href="https://zavodmiru.com/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-bold underline"

@@ -153,7 +153,7 @@ export async function sendMalagaLeadConfirmation(lead: MalagaLeadRow): Promise<v
       </div>
 
       <div style="margin-top: 28px; font-size: 12px; color: #9AA3C2; line-height: 1.5;">
-        Tato zpráva potvrzuje, že jsem zaznamenal tvoji poptávku z webu 100dolamalaga.cz.
+        Tato zpráva potvrzuje, že jsem zaznamenal tvoji poptávku z webu 100dola.com.
         Pokud jsi ji neodeslal/a ty, ignoruj prosím tento e-mail.
       </div>
     </div>

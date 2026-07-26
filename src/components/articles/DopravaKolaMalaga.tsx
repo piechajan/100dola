@@ -115,7 +115,7 @@ export default function DopravaKolaMalaga() {
             {
               n: "1",
               title: "Domluvíme se",
-              body: "Poptáš dopravu přes formulář na 100dolamalaga.cz nebo zavoláš (+420 739 045 057). Probereme termín, model kola, kde tě vyzvedneme, jaký balíček. Většinou do 24 h.",
+              body: "Poptáš dopravu přes náš online formulář nebo zavoláš (+420 739 045 057). Probereme termín, model kola, kde tě vyzvedneme, jaký balíček. Většinou do 24 h.",
             },
             {
               n: "2",

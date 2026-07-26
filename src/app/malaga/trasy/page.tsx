@@ -19,8 +19,8 @@ const breadcrumbsJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "100dola Malaga", item: "https://100dolamalaga.cz/malaga" },
-    { "@type": "ListItem", position: 2, name: "Trasy", item: "https://100dolamalaga.cz/malaga/trasy" },
+    { "@type": "ListItem", position: 1, name: "100dola Malaga", item: "https://www.100dola.com/malaga" },
+    { "@type": "ListItem", position: 2, name: "Trasy", item: "https://www.100dola.com/malaga/trasy" },
   ],
 };
 
