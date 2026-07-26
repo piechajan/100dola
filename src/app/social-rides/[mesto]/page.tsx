@@ -100,6 +100,35 @@ export default async function SocialRidePage({
           </div>
         </section>
 
+        {r.story.length > 0 && (
+          <section className="max-w-[900px] mx-auto px-4 md:px-6 pb-6">
+            <div className="space-y-4 text-sm md:text-base text-[#5A6480] leading-relaxed">
+              {r.story.map((p) => (
+                <p key={p.slice(0, 32)}>{p}</p>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Czech Tour 2026 — proklik na zápůjčku SCOTT */}
+        <section className="max-w-[900px] mx-auto px-4 md:px-6 pb-6">
+          <Link
+            href="/vyzkousej-scott"
+            className="block bg-[#3B7CF4] text-white rounded-2xl p-6 md:p-7 hover:opacity-95 transition-opacity"
+          >
+            <div className="text-xs font-bold uppercase tracking-[0.16em] text-white/70 mb-1.5">
+              Czech Tour 2026 · 15.–16. srpna
+            </div>
+            <h2 className="text-lg md:text-xl font-black mb-1.5">
+              Přidej se na etapu Dlouhé stráně / Pustevny — a půjč si SCOTT zdarma
+            </h2>
+            <p className="text-sm text-white/85 leading-relaxed">
+              O víkendu Czech Tour si s námi vyjeď kultovní stoupání a silniční kolo SCOTT ti na
+              vyjížďku půjčíme zdarma. Podívej se na termíny a modely →
+            </p>
+          </Link>
+        </section>
+
         <section className="max-w-[900px] mx-auto px-4 md:px-6 pb-6">
           <div className="bg-[#1a1a2e] text-white rounded-2xl p-7 md:p-9">
             <h2 className="text-xl md:text-2xl font-black mb-3">Jak se přidat</h2>

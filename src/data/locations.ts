@@ -115,14 +115,14 @@ export const LOCATIONS: Location[] = [
     distanceKm: 17,
     metaTitle: "Kola, cyklo vybavení a sport Olomouc — 100dola sport",
     metaDescription:
-      "100dola sport pro Olomouc: kola SCOTT / ISAAC / Ridley / Pinarello, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Osobní předání zdarma, servis a bikefit kousek ve Šternberku (17 km). Objednej online, vyzvedni v Olomouci.",
+      "100dola sport pro Olomouc: kola SCOTT / ISAAC / Lapierre / Ridley / Pinarello, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Osobní předání zdarma, servis a bikefit kousek ve Šternberku (17 km). Objednej online, vyzvedni v Olomouci.",
     h1: "Kola, cyklistické vybavení a sport pro Olomouc",
     intro:
       "Jsi z Olomouce a hledáš kvalitní kolo, vybavení a sportovní výživu? 100dola sport máme kousek — kamennou prodejnu ve Šternberku (17 km) a pro Olomouc nabízíme osobní předání a doručení. Objednáš online z e-shopu, my ti věci připravíme a předáme, nebo přijedeš na prodejnu na osobní konzultaci, bikefit a testovací jízdu.",
     highlights: [
       {
         title: "Kola a e-shop s osobním předáním",
-        body: "Kola SCOTT, ISAAC, Ridley a Pinarello + kompletní sortiment z e-shopu (přes 770 produktů). Osobní předání v Olomouci po domluvě zdarma, nebo doručení na adresu.",
+        body: "Kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello + kompletní sortiment z e-shopu (přes 770 produktů). Osobní předání v Olomouci po domluvě zdarma, nebo doručení na adresu.",
       },
       {
         title: "Vybavení na kolo a výživa",
@@ -163,13 +163,13 @@ export const LOCATIONS: Location[] = [
     distanceKm: 55,
     metaTitle: "Kola, cyklo vybavení a sport Valašské Meziříčí — 100dola sport",
     metaDescription:
-      "100dola sport ve Valašském Meziříčí — kola SCOTT / ISAAC / Ridley / Pinarello, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Servis a bikefit.",
+      "100dola sport ve Valašském Meziříčí — kola SCOTT / ISAAC / Lapierre / Ridley / Pinarello, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Servis a bikefit.",
     h1: "Kola, cyklistické vybavení a sport ve Valašském Meziříčí",
     intro:
-      "Valašsko je cyklistický ráj a 100dola sport sem míří za tebou. Přinášíme silniční, gravel a horská kola SCOTT, ISAAC, Ridley a Pinarello, kompletní vybavení na kolo, sportovní výživu i běžecké boty. Vybíráme věci, které sami jezdíme — pro lidi, co chtějí kvalitu, ne kompromis.",
+      "Valašsko je cyklistický ráj a 100dola sport sem míří za tebou. Přinášíme silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, kompletní vybavení na kolo, sportovní výživu i běžecké boty. Vybíráme věci, které sami jezdíme — pro lidi, co chtějí kvalitu, ne kompromis.",
     highlights: [
       {
-        title: "Kola SCOTT · ISAAC · Ridley · Pinarello",
+        title: "Kola SCOTT · ISAAC · Lapierre · Ridley · Pinarello",
         body: "Silniční, gravel a horská kola. Poradíme s výběrem, nabízíme testovací jízdy ISAAC a bikefit.",
       },
       {
@@ -203,13 +203,13 @@ export const LOCATIONS: Location[] = [
     distanceKm: 70,
     metaTitle: "Kola, cyklo vybavení a sport Vsetín — 100dola sport",
     metaDescription:
-      "100dola sport pro Vsetín a okolí — kola SCOTT / ISAAC / Ridley / Pinarello, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Servis kol a bikefit. Vybavení, které sami jezdíme.",
+      "100dola sport pro Vsetín a okolí — kola SCOTT / ISAAC / Lapierre / Ridley / Pinarello, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Servis kol a bikefit. Vybavení, které sami jezdíme.",
     h1: "Kola, cyklistické vybavení a sport pro Vsetín",
     intro:
-      "Vsetínsko a Beskydy patří k nejkrásnějším místům na kolo v Česku. 100dola sport sem přináší silniční, gravel a horská kola SCOTT, ISAAC, Ridley a Pinarello, kompletní vybavení na kolo, sportovní výživu i běžecké boty. Vybíráme věci, které sami jezdíme — pro lidi, co chtějí kvalitu, ne kompromis.",
+      "Vsetínsko a Beskydy patří k nejkrásnějším místům na kolo v Česku. 100dola sport sem přináší silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, kompletní vybavení na kolo, sportovní výživu i běžecké boty. Vybíráme věci, které sami jezdíme — pro lidi, co chtějí kvalitu, ne kompromis.",
     highlights: [
       {
-        title: "Kola SCOTT · ISAAC · Ridley · Pinarello",
+        title: "Kola SCOTT · ISAAC · Lapierre · Ridley · Pinarello",
         body: "Silniční, gravel a horská kola s poradenstvím, testovacími jízdami ISAAC a bikefitem.",
       },
       {
@@ -243,13 +243,13 @@ export const LOCATIONS: Location[] = [
     distanceKm: 65,
     metaTitle: "Kola, cyklo vybavení a sport Nový Jičín — 100dola sport",
     metaDescription:
-      "100dola sport pro Nový Jičín a okolí — kola SCOTT / ISAAC / Ridley / Pinarello, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Servis a bikefit. Přidej se k Social rides Valašské Meziříčí, kam to máš kousek.",
+      "100dola sport pro Nový Jičín a okolí — kola SCOTT / ISAAC / Lapierre / Ridley / Pinarello, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Servis a bikefit. Přidej se k Social rides Valašské Meziříčí, kam to máš kousek.",
     h1: "Kola, cyklistické vybavení a sport pro Nový Jičín",
     intro:
-      "Novojičínsko a Beskydy jsou skvělé na kolo. 100dola sport sem přináší silniční, gravel a horská kola SCOTT, ISAAC, Ridley a Pinarello, kompletní vybavení na kolo, sportovní výživu i běžecké boty — a komunitu Social rides Valašské Meziříčí, kam to máš kousek. Vybíráme věci, které sami jezdíme.",
+      "Novojičínsko a Beskydy jsou skvělé na kolo. 100dola sport sem přináší silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, kompletní vybavení na kolo, sportovní výživu i běžecké boty — a komunitu Social rides Valašské Meziříčí, kam to máš kousek. Vybíráme věci, které sami jezdíme.",
     highlights: [
       {
-        title: "Kola SCOTT · ISAAC · Ridley · Pinarello",
+        title: "Kola SCOTT · ISAAC · Lapierre · Ridley · Pinarello",
         body: "Silniční, gravel a horská kola s poradenstvím, testovacími jízdami ISAAC a bikefitem.",
       },
       {

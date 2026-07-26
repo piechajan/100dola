@@ -40,28 +40,31 @@ export default async function ScottPlatformRoute({
   const platform = getPlatformBySlug(slug);
   if (!platform) notFound();
 
-  // Product schema per variant — pro Google rich snippets
-  const productSchemas = platform.variants.map((v) => ({
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: `Scott ${v.name}`,
-    image: `https://www.100dola.com${v.photo}`,
-    description: `${platform.claim} ${v.name}: ${v.groupset}, ${v.wheels}.`,
-    brand: { "@type": "Brand", name: "Scott" },
-    sku: `scott-${v.slug}`,
-    // Cenu do offers dáváme jen když je známá — preferujeme přesnou CZK.
-    ...((v.priceCzk != null || v.priceEur != null) && {
+  // Product schema jen pro varianty se známou cenou. Product bez ceny je pro
+  // Google neplatný ("nutné offers/review/aggregateRating") → varianty bez ceny
+  // přeskočíme (nefabrikujeme ceny). Offers má validFrom + priceValidUntil.
+  const productSchemas = platform.variants
+    .filter((v) => v.priceCzk != null || v.priceEur != null)
+    .map((v) => ({
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: `Scott ${v.name}`,
+      image: `https://www.100dola.com${v.photo}`,
+      description: `${platform.claim} ${v.name}: ${v.groupset}, ${v.wheels}.`,
+      brand: { "@type": "Brand", name: "Scott" },
+      sku: `scott-${v.slug}`,
       offers: {
         "@type": "Offer",
         url: `https://www.100dola.com/clanky/scott-2027/${slug}/${v.slug}`,
         priceCurrency: v.priceCzk != null ? "CZK" : "EUR",
-        price: v.priceCzk ?? v.priceEur,
+        price: String(v.priceCzk ?? v.priceEur),
+        validFrom: "2026-06-10",
+        priceValidUntil: "2027-06-30",
         availability: "https://schema.org/PreOrder",
         itemCondition: "https://schema.org/NewCondition",
         seller: { "@type": "Organization", name: "100dola sport" },
       },
-    }),
-  }));
+    }));
 
   return (
     <>

@@ -264,7 +264,7 @@ export default function VelikostKola() {
 
           <p className="text-sm text-[#9AA3C2] italic">
             Tato tabulka je orientační — různé značky mají různé geometrie
-            (SCOTT, ISAAC, Ridley, Pinarello, Ghost se navzájem liší o 1–2 cm
+            (SCOTT, ISAAC, Lapierre, Ridley, Pinarello, Ghost se navzájem liší o 1–2 cm
             v stejné velikosti). Při výběru konkrétního kola s vámi
             porovnáme jeho geometrii s vašimi mírami.
           </p>

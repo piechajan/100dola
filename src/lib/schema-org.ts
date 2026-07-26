@@ -52,7 +52,7 @@ export function storeSchema() {
     name: STERNBERK_STORE.name,
     alternateName: "100dola sport Šternberk",
     description:
-      "Sportovní obchod ve Šternberku — silniční, gravel, horská a elektrokola (SCOTT, ISAAC, Ridley, Pinarello, Ghost, NORCO, Bergamont), běžecké vybavení a kompresní výrobky CEP, lyže Dynastar a skialpy. Servis kol, bikefit, voskování řetězů, testovací jízdy.",
+      "Sportovní obchod ve Šternberku — silniční, gravel, horská a elektrokola (SCOTT, ISAAC, Lapierre, Ridley, Pinarello, Ghost, NORCO, Bergamont), běžecké vybavení a kompresní výrobky CEP, lyže Dynastar a skialpy. Servis kol, bikefit, voskování řetězů, testovací jízdy.",
     image: `${SITE_URL}/media/obchod/01-obchod.jpg`,
     url: `${SITE_URL}/kontakt`,
     telephone: COMPANY.contact.phoneIntl,
@@ -284,6 +284,11 @@ export function productSchema(p: {
   bulky?: boolean;
 }) {
   const shippingValue = p.bulky ? 400 : 100;
+  // validFrom + priceValidUntil pro Merchant Listings (GSC warning "chybí validFrom").
+  const validFrom = new Date().toISOString().slice(0, 10);
+  const priceValidUntil = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000)
+    .toISOString()
+    .slice(0, 10);
   return {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -297,6 +302,8 @@ export function productSchema(p: {
       url: p.url,
       priceCurrency: "CZK",
       price: p.price,
+      validFrom,
+      priceValidUntil,
       availability: `https://schema.org/${p.availability || "InStock"}`,
       itemCondition: "https://schema.org/NewCondition",
       seller: { "@id": `${SITE_URL}/#organization` },

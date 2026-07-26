@@ -17,7 +17,7 @@ export const SPORT_CATEGORIES: SportCategory[] = [
     label: "Cyklistika",
     icon: "🚴",
     intro: "Road, gravel, MTB i triatlon — vše, co se hodí pro vážnou jízdu.",
-    whatComing: "Připravujeme katalog kol Scott, Ridley a Pinarello, sezónní oblečení Q36.5, helmy a doplňky. Mezitím se podívej na naše doporučené modely v shopu.",
+    whatComing: "Připravujeme katalog kol Scott, Lapierre, Ridley a Pinarello, sezónní oblečení Q36.5, helmy a doplňky. Mezitím se podívej na naše doporučené modely v shopu.",
     group: "activity",
   },
   {

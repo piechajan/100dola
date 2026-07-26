@@ -16,7 +16,7 @@ const SEO_TITLES: Record<string, { title: string; description: string }> = {
   cyklistika: {
     title: "Cyklistický obchod Šternberk — silniční, gravel, MTB, elektrokola",
     description:
-      "Kola SCOTT, ISAAC, Ridley, Pinarello, Ghost a NORCO ve Šternberku. Silniční, gravel, horská a elektrokola. Servis kol, bikefit, testovací jízdy. Partyzánská 2.",
+      "Kola SCOTT, ISAAC, Lapierre, Ridley, Pinarello, Ghost a NORCO ve Šternberku. Silniční, gravel, horská a elektrokola. Servis kol, bikefit, testovací jízdy. Partyzánská 2.",
   },
   beh: {
     title: "Běžecký obchod Šternberk — boty, oblečení, CEP, kompresní vybavení",

@@ -1,9 +1,23 @@
 # Janův TODO — co Claude nemůže udělat sám
 
 > Live seznam — aktualizováno po každé session. Claude průběžně doplňuje sem.
-> Stav k **2026-07-16**.
+> Stav k **2026-07-26**.
 
 ---
+
+## 🛒 Google Nákupy / Merchant Center — karta „Nákupy" (GSC opportunity)
+
+- GSC e-mail (15.–16. 6. 2026): **38 aktivních produktů se nezobrazuje na kartě
+  Nákupy** (Google Shopping free listings). Náš custom Next.js → nejde přes
+  Shopify auto-flow, **musíme přes Google Merchant Center ručně**.
+- **Předpoklad (Claude řeší teď):** GSC „Záznamy obchodníka" musí mít **0 chyb**
+  ve strukturovaných datech (chybí `price`/`offers`/`validFrom`) — bez toho
+  Shopping listing nenaskočí. Oprava Product JSON-LD probíhá.
+- **Až doladíme e-shop**, Claude vytvoří feed API `/api/google-shopping/feed.xml`
+  a připraví setup; **Jan ručně**: založit Merchant Center (futunatu@gmail.com),
+  Business = FUTUNATU s.r.o., verify přes GSC (instant), přidat feed + shipping
+  + DPH + returns, submit k review. Plný plán = memory `project_google_merchant_center.md`.
+- Post-MVP — spustit až bude e-shop „ready", ne teď.
 
 ## 🔴 Připomínky z bezpečnostního auditu (2026-07-23)
 

@@ -45,6 +45,9 @@ export default async function VariantRoute({
   if (!found) notFound();
   const { platform, variant: v } = found;
 
+  // Product schema emitujeme jen když je známá cena — Product bez ceny je pro
+  // Google neplatný ("nutné offers/review/aggregateRating"). Nefabrikujeme ceny.
+  const hasPrice = v.priceCzk != null || v.priceEur != null;
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -53,26 +56,27 @@ export default async function VariantRoute({
     description: `${platform.claim} ${v.componentry?.frame ?? ""}`,
     brand: { "@type": "Brand", name: "Scott" },
     sku: `scott-${v.slug}-2027`,
-    // Cenu do schématu dáváme jen když je známá — preferujeme přesnou CZK.
-    ...((v.priceCzk != null || v.priceEur != null) && {
-      offers: {
-        "@type": "Offer",
-        url: `https://www.100dola.com/clanky/scott-2027/${slug}/${variant}#inquiry`,
-        priceCurrency: v.priceCzk != null ? "CZK" : "EUR",
-        price: v.priceCzk ?? v.priceEur,
-        availability: "https://schema.org/PreOrder",
-        itemCondition: "https://schema.org/NewCondition",
-        seller: { "@type": "Organization", name: "100dola sport" },
-      },
-    }),
+    offers: {
+      "@type": "Offer",
+      url: `https://www.100dola.com/clanky/scott-2027/${slug}/${variant}#inquiry`,
+      priceCurrency: v.priceCzk != null ? "CZK" : "EUR",
+      price: String(v.priceCzk ?? v.priceEur),
+      validFrom: "2026-06-10",
+      priceValidUntil: "2027-06-30",
+      availability: "https://schema.org/PreOrder",
+      itemCondition: "https://schema.org/NewCondition",
+      seller: { "@type": "Organization", name: "100dola sport" },
+    },
   };
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
-      />
+      {hasPrice && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+        />
+      )}
       <Navbar />
       <main className="pt-20">
         <VariantDetailPage platform={platform} variant={v} />

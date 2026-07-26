@@ -42,25 +42,10 @@ export const metadata: Metadata = {
 const SITE = "https://www.100dola.com";
 
 export default function SparkRCPreorderPage() {
-  const productJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: MODEL_LABEL,
-    brand: { "@type": "Brand", name: "SCOTT" },
-    description:
-      "Nová generace závodního XC kola Scott Spark RC, modelový rok 2027. Karbonová konstrukce HMX-SL, rám 1 427 g, integrované úložiště Save-the-Day, kola Syncros Silverton CF I.",
-    image: `${SITE}/media/articles/scott-spark-rc-2027-hero.webp`,
-    category: "Mountain Bike / XC",
-    url: `${SITE}/predobjednavka/${MODEL_SLUG}`,
-    offers: {
-      "@type": "Offer",
-      availability: "https://schema.org/PreOrder",
-      priceCurrency: "CZK",
-      seller: { "@type": "Organization", name: "100dola sport · FUTUNATU s.r.o." },
-      url: `${SITE}/predobjednavka/${MODEL_SLUG}`,
-    },
-  };
-
+  // Pozn.: Záměrně NEemitujeme Product JSON-LD — je to předobjednávka bez pevné
+  // ceny (domlouvá se osobně). Product bez price/offers/review je pro Google vždy
+  // neplatný (GSC „Chybí pole price" / „nutné offers/review/aggregateRating").
+  // Necháváme jen breadcrumb; stránka rankuje přes obsah + meta.
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -84,7 +69,6 @@ export default function SparkRCPreorderPage() {
 
   return (
     <>
-      <JsonLd data={productJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
       <Navbar />
       <main className="pt-20 bg-[#F7F9FF] min-h-screen pb-20">

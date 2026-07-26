@@ -47,8 +47,8 @@ export default function KdeKoupitKoloSternberk() {
               (vedle kavárny Namístě)
             </li>
             <li>
-              🚲 <strong>Co prodáváme:</strong> SCOTT, ISAAC, Ridley, Pinarello,
-              Ghost, NORCO, Bergamont — silniční, gravel, horská (MTB) a elektrokola
+              🚲 <strong>Co prodáváme:</strong> SCOTT, ISAAC, Lapierre, Ridley,
+              Pinarello, Ghost, NORCO, Bergamont — silniční, gravel, horská (MTB) a elektrokola
             </li>
             <li>
               💸 <strong>Cenové pásmo:</strong> od ~20 000 Kč po 350 000+ Kč
@@ -160,9 +160,10 @@ export default function KdeKoupitKoloSternberk() {
             </div>
 
             <div className="bg-white border border-[#E2E6F3] rounded-2xl p-5">
-              <h3 className="text-lg font-black text-[#1a1a2e] mb-2">Ghost · NORCO · Bergamont</h3>
+              <h3 className="text-lg font-black text-[#1a1a2e] mb-2">Lapierre · Ghost · NORCO · Bergamont</h3>
               <p className="text-sm text-[#5A6480] leading-relaxed">
                 Doplňkové značky pro konkrétní disciplíny —{" "}
+                <strong>Lapierre</strong> pro endurance a gravel,{" "}
                 <strong>Ghost</strong> a <strong>NORCO</strong> pro MTB
                 (cross-country i trail), <strong>Bergamont</strong> pro
                 městské a trekové kolo. Doporučujeme ad hoc podle toho, na co

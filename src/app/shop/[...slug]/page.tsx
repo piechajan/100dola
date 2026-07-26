@@ -204,6 +204,7 @@ function renderProduct(
       "@type": "Offer",
       priceCurrency: "CZK",
       price: product.priceWithVat,
+      validFrom: new Date().toISOString().split("T")[0],
       priceValidUntil: new Date(Date.now() + 90 * 24 * 3600 * 1000).toISOString().split("T")[0],
       availability,
       itemCondition: "https://schema.org/NewCondition",
