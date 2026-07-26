@@ -222,6 +222,22 @@ export const IsaacTestPayloadSchema = z
   })
   .merge(Honeypot);
 
+export const ScottTestPayloadSchema = z
+  .object({
+    name: z.string().min(2).max(120).trim(),
+    email: z.email().max(254).toLowerCase(),
+    phone: z.string().min(6).max(40).trim(),
+    bike: z.string().min(2).max(120).trim(),
+    size: z.string().min(1).max(20).trim(),
+    term: z.string().min(2).max(200).trim(),
+    notes: z.string().max(1000).trim().optional().or(z.literal("")),
+    consentGdpr: z.literal(true),
+
+    // Cloudflare Turnstile — volitelné (env-gated no-op když klíče chybí).
+    turnstileToken: z.string().max(4000).optional(),
+  })
+  .merge(Honeypot);
+
 export type EventPayload = z.infer<typeof EventPayloadSchema>;
 export type MalagaPayload = z.infer<typeof MalagaPayloadSchema>;
 export type LabPayload = z.infer<typeof LabPayloadSchema>;
@@ -233,5 +249,6 @@ export type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 export type IsaacTestPayload = z.infer<typeof IsaacTestPayloadSchema>;
 export type PreorderPayload = z.infer<typeof PreorderPayloadSchema>;
 export type ContactPayload = z.infer<typeof ContactPayloadSchema>;
+export type ScottTestPayload = z.infer<typeof ScottTestPayloadSchema>;
 
 export const HONEYPOT_NAME = HONEYPOT_FIELD;

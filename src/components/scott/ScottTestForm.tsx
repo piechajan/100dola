@@ -18,7 +18,7 @@ const SCOTT_BIKES = [
   { slug: "addict-gravel-20", model: "SCOTT Addict Gravel 20", cat: "Gravel", sizes: ["S", "M", "L"] },
 ];
 
-// Testovací sloty 9:00–16:00 (jako ISAAC) + víkendové vyjížďky Czech Tour.
+// Testovací sloty 9:00–16:00 + víkendové vyjížďky Czech Tour.
 const TERMS = [
   { value: "test-3-7-8", label: "Testovací jízdy · Po–Pá 3.–7. 8. (9:00–16:00)" },
   { value: "ride-sternberk-15-8", label: "So 15. 8. · vyjížďka Šternberk → Dlouhé stráně" },
@@ -65,21 +65,18 @@ export default function ScottTestForm() {
     if (!canSubmit) return;
     setSubmitting(true);
     setResult(null);
-    const message =
-      `Zápůjčka / test SCOTT (Czech Tour).\n` +
-      `Kolo: ${bikeObj?.model} · vel. ${size}\n` +
-      `Termín: ${termObj?.label}\n` +
-      (notes ? `Poznámka: ${notes}` : "");
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("/api/scott-test", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
           email,
-          phone: phone || undefined,
-          topic: "sport",
-          message,
+          phone,
+          bike: bikeObj?.model,
+          size,
+          term: termObj?.label,
+          notes: notes || undefined,
           consentGdpr: true,
           turnstileToken: turnstileToken || undefined,
         }),
@@ -231,9 +228,9 @@ export default function ScottTestForm() {
           <textarea placeholder="Výška / poznámka (volitelné)" value={notes} onChange={(e) => setNotes(e.target.value)} rows={2} className="md:col-span-2 px-4 py-3 rounded-xl border border-[#E2E6F3] text-sm focus:outline-none focus:border-[#3B7CF4]" />
         </div>
 
-        {/* Podmínky jako ISAAC */}
+        {/* Podmínky zápůjčky */}
         <div className="mt-5 rounded-xl bg-[#F7F9FF] border border-[#E2E6F3] p-4 text-xs text-[#5A6480] leading-relaxed">
-          <div className="font-black text-[#1a1a2e] mb-1.5">S sebou (jako u ISAAC testu):</div>
+          <div className="font-black text-[#1a1a2e] mb-1.5">S sebou na test:</div>
           <ul className="space-y-1 list-disc list-inside marker:text-[#3B7CF4]">
             <li><strong>Občanský průkaz</strong> — slouží jako záloha, vrátíme po odevzdání kola</li>
             <li><strong>Helma</strong> — povinná, bez ní jízda nemůže proběhnout</li>

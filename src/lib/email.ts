@@ -922,7 +922,7 @@ export interface IsaacTestEmailPayload {
   cancelToken?: string;
 }
 
-const ISAAC_LOCATION =
+const STORE_LOCATION =
   "Obchod 100dola sport, vedle kavárny Namístě, náměstí Šternberk";
 const BRING_LIST_TEXT = [
   "• Občanský průkaz (povinný — slouží jako záloha, vrátíme po odevzdání kola)",
@@ -952,7 +952,7 @@ export async function sendIsaacTestConfirmation(p: IsaacTestEmailPayload): Promi
     uid: `isaac-${p.reservationId}@100dola.com`,
     title: `Testovací jízda ISAAC — ${p.bike}`,
     description: eventDesc,
-    location: ISAAC_LOCATION,
+    location: STORE_LOCATION,
     startIso: p.slotStart,
     endIso: p.slotEnd,
   };
@@ -1095,6 +1095,131 @@ export async function sendIsaacTestNotification(p: IsaacTestEmailPayload): Promi
   }
 }
 
+// ── SCOTT test / zápůjčka rezervace ──────────────────────────────────────────
+
+export interface ScottTestEmailPayload {
+  fullName: string;
+  email: string;
+  phone: string;
+  /** Model + velikost, např. "SCOTT Addict RC 10 · vel. L". */
+  bike: string;
+  /** Popisek termínu, např. "Testovací jízdy · Po–Pá 3.–7. 8. (9:00–16:00)". */
+  term: string;
+  notes?: string;
+  requestId: number | string;
+}
+
+export async function sendScottTestConfirmation(p: ScottTestEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = `Rezervace testovací jízdy SCOTT — ${p.term}`;
+  const text = [
+    `Dobrý den ${p.fullName},`,
+    ``,
+    `vaše rezervace testovací jízdy je zapsaná:`,
+    ``,
+    `Kolo:    ${p.bike}`,
+    `Termín:  ${p.term}`,
+    ``,
+    `Co si vezměte s sebou:`,
+    ...BRING_LIST_TEXT,
+    ``,
+    `Místo: ${STORE_LOCATION}`,
+    ``,
+    `Před vyzvednutím podepíšete krátký protokol o zápůjčce — vytiskneme ho za vás,`,
+    `přijdete s dokladem totožnosti. Po dobu zápůjčky plně odpovídáte za kolo.`,
+    ``,
+    `Pro změnu nebo zrušení nám napiš na info@100dola.com nebo zavolej +420 739 045 057.`,
+    ``,
+    `Kontakt: Jan Piecha · +420 739 045 057 · info@100dola.com`,
+    ``,
+    `Jan Piecha`,
+    `100dola sport · +420 739 045 057`,
+  ].join("\n");
+
+  const html = `
+    <div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1a1a2e">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#3B7CF4;font-weight:700;margin-bottom:8px">
+        Testovací jízda SCOTT
+      </div>
+      <h2 style="margin:0 0 16px;font-size:20px">Rezervace potvrzená</h2>
+      <p style="margin:0 0 16px;font-size:14px;line-height:1.5;color:#5A6480">
+        Dobrý den ${escapeHtml(p.fullName)}, vaše rezervace je zapsaná.
+      </p>
+      <table style="width:100%;border-collapse:collapse;font-size:14px;margin:16px 0;background:#F7F9FF;border-radius:12px">
+        <tr><td style="padding:10px 14px;color:#9AA3C2;width:90px">Kolo</td><td style="padding:10px 14px;font-weight:700">${escapeHtml(p.bike)}</td></tr>
+        <tr><td style="padding:10px 14px;color:#9AA3C2;border-top:1px solid #E2E6F3">Termín</td><td style="padding:10px 14px;font-weight:700;border-top:1px solid #E2E6F3">${escapeHtml(p.term)}</td></tr>
+        <tr><td style="padding:10px 14px;color:#9AA3C2;border-top:1px solid #E2E6F3">Místo</td><td style="padding:10px 14px;border-top:1px solid #E2E6F3">${escapeHtml(STORE_LOCATION)}</td></tr>
+      </table>
+
+      <div style="background:#F7F9FF;border:1px solid #E2E6F3;border-radius:12px;padding:14px;font-size:13px;color:#1a1a2e;line-height:1.6;margin:16px 0">
+        <div style="font-weight:700;margin-bottom:6px">Co si vezměte s sebou</div>
+        <ul style="margin:0;padding-left:18px">
+          <li><strong>Občanský průkaz</strong> — povinný, slouží jako záloha (vrátíme po odevzdání kola)</li>
+          <li><strong>Helma</strong> — povinná</li>
+          <li>Cyklistické oblečení</li>
+          <li>Vlastní pedály</li>
+          <li>Tretry vázané na vaše pedály</li>
+        </ul>
+      </div>
+
+      <div style="background:#FFF8E7;border:1px solid #F5D78E;border-radius:12px;padding:14px;font-size:13px;color:#5A4500;line-height:1.5;margin:16px 0">
+        <strong>Před vyzvednutím:</strong> připravíme za vás protokol o zápůjčce, jen podepíšete a předáte OP jako zálohu. Po dobu zápůjčky plně odpovídáte za kolo.
+      </div>
+
+      <p style="margin:16px 0;font-size:13px;color:#5A6480;line-height:1.5">
+        Pro změnu nebo zrušení nám napiš na <a href="mailto:info@100dola.com" style="color:#3B7CF4;font-weight:700">info@100dola.com</a> nebo zavolej <strong>+420 739 045 057</strong>.
+      </p>
+
+      <p style="margin:24px 0 0;font-size:13px;color:#9AA3C2">
+        Jan Piecha · 100dola sport · +420 739 045 057
+      </p>
+    </div>
+  `;
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.email,
+      subject,
+      text,
+      html,
+    });
+  } catch (e) {
+    console.error("[email] sendScottTestConfirmation failed:", e);
+  }
+}
+
+export async function sendScottTestNotification(p: ScottTestEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = `🚲 Nová SCOTT rezervace — ${p.fullName} · ${p.term}`;
+  const text = [
+    `Nová rezervace testovací jízdy`,
+    ``,
+    `Klient:  ${p.fullName} · ${p.email} · ${p.phone}`,
+    `Kolo:    ${p.bike}`,
+    `Termín:  ${p.term}`,
+    p.notes ? `Poznámka:\n${p.notes}` : "",
+    ``,
+    `Ref:     ${p.requestId}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: NOTIFY_EMAIL,
+      replyTo: p.email,
+      subject,
+      text,
+    });
+  } catch (e) {
+    console.error("[email] sendScottTestNotification failed:", e);
+  }
+}
+
 // ── Ranní reminder v 8:00 v den testu (přes Resend scheduled_at) ─────────────
 
 export async function scheduleIsaacTestReminder(
@@ -1119,7 +1244,7 @@ export async function scheduleIsaacTestReminder(
     `dnes v ${p.slotLabel} máš testovací jízdu ISAAC.`,
     ``,
     `Kolo:  ${p.bike}`,
-    `Místo: ${ISAAC_LOCATION}`,
+    `Místo: ${STORE_LOCATION}`,
     ``,
     `Co si nezapomeň vzít:`,
     ...BRING_LIST_TEXT,
