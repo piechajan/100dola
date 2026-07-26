@@ -62,7 +62,7 @@ const RIDES = [
 const FAQ = [
   {
     q: "Kolik stojí zapůjčení kola SCOTT na vyjížďku?",
-    a: "Na společné vyjížďky o víkendu Czech Tour je zápůjčka silničního SCOTT zdarma. K dispozici jsou modely SCOTT Addict 20, Addict RC 10 a Foil RC 10 (počet je omezený).",
+    a: "Na společné vyjížďky o víkendu Czech Tour je zápůjčka silničního SCOTT zdarma. K dispozici jsou modely SCOTT Addict RC 10, Foil RC 10, Addict 20 (velikosti M–XL) a gravel Addict Gravel 20 (S–L). Počet kusů je omezený, rezervace spouštíme 1. 8.",
   },
   {
     q: "Můžu si kolo vyzkoušet i mimo vyjížďku?",
@@ -161,14 +161,14 @@ export default function VyzkousejScottPage() {
           <div className="bg-[#1a1a2e] text-white rounded-2xl p-7 md:p-9">
             <h2 className="text-xl md:text-2xl font-black mb-3">Silniční SCOTT na víkend zdarma</h2>
             <p className="text-sm md:text-base text-white/80 leading-relaxed mb-4">
-              Na vyjížďky máme připravená silniční kola <strong>SCOTT Addict 20</strong>,{" "}
-              <strong>Addict RC 10</strong> a <strong>Foil RC 10</strong>. Zápůjčka na vyjížďku je
-              zdarma, počet kol je omezený. Chceš si kolo osahat v klidu? Zápůjčky nabízíme{" "}
-              i v týdnu před akcí — přesné termíny doplníme.
+              Máme připravená silniční kola <strong>SCOTT Addict RC 10</strong>,{" "}
+              <strong>Foil RC 10</strong> a <strong>Addict 20</strong> (vel. M–XL) i gravel{" "}
+              <strong>Addict Gravel 20</strong> (S–L). Zápůjčka na vyjížďku je zdarma, počet kol je
+              omezený. Testovací jízdy jsou i v týdnu (Po–Pá 3.–7. 8. a Po–St 17.–19. 8., 9:00–16:00).
             </p>
             <p className="text-xs text-white/50 leading-relaxed mb-5">
-              Rezervační stránku spustíme cca týden před akcí. Do té doby stačí napsat — ozveme se
-              a domluvíme velikost i model.
+              Rezervace spouštíme 1. srpna 2026 — do té doby si kola a termíny prohlédni níže. Od 1. 8.
+              rovnou rezervuj konkrétní model, velikost a termín.
             </p>
             <Link
               href="#rezervace"
