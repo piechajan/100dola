@@ -229,6 +229,10 @@ export default function EventListing() {
     return a.isPast ? bk.localeCompare(ak) : ak.localeCompare(bk);
   });
 
+  // Rozdělení do dvou sekcí: nadcházející nahoře, proběhlé (historie) dole.
+  const upcoming = filtered.filter((e) => !e.isPast);
+  const past = filtered.filter((e) => e.isPast);
+
   return (
     <section id="eventy" className="py-20 md:py-24 bg-white">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
@@ -277,30 +281,43 @@ export default function EventListing() {
           })}
         </div>
 
-        {/* Event grid */}
-        {filtered.length === 0 ? (
-          <div className="py-20 text-center text-[#9AA3C2]">
+        {/* Nadcházející akce */}
+        {upcoming.length === 0 ? (
+          <div className="py-16 text-center text-[#9AA3C2]">
             <div className="text-4xl mb-3">🤷</div>
-            <div className="font-semibold">Zatím žádné akce v této kategorii.</div>
-            <div className="text-sm mt-1">Zkus jinou nebo se přihlás k odběru novinek.</div>
+            <div className="font-semibold">Žádné nadcházející akce v této kategorii.</div>
+            <div className="text-sm mt-1">
+              {past.length > 0
+                ? "Mrkni na historii níže nebo se přihlas k odběru novinek."
+                : "Zkus jinou kategorii nebo se přihlas k odběru novinek."}
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filtered.map((event) => (
+            {upcoming.map((event) => (
               <EventCard key={event.id} event={event} />
             ))}
           </div>
         )}
 
-        {/* Load more */}
-        <div className="mt-12 text-center">
-          <button className="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold rounded-full border-2 border-[#E2E6F3] text-[#5A6480] hover:border-[#2EAA6E] hover:text-[#2EAA6E] transition-colors">
-            Zobrazit více akcí
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </button>
-        </div>
+        {/* Proběhlo — historie akcí */}
+        {past.length > 0 && (
+          <div className="mt-16 pt-16 border-t border-[#E2E6F3]">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="w-5 h-px bg-[#9AA3C2]" />
+              <span className="text-xs tracking-[0.18em] uppercase font-bold text-[#9AA3C2]">Historie</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-black text-[#1a1a2e] mb-2">Proběhlo</h2>
+            <p className="text-sm text-[#9AA3C2] mb-10 max-w-xl">
+              Akce, které už máme za sebou. Kde jsme byli, co jsme jeli.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {past.map((event) => (
+                <EventCard key={event.id} event={event} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
