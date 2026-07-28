@@ -542,6 +542,69 @@ Rezervační systém ti pošle potvrzení s odkazem do Google kalendáře a rán
     externalUrl: "/isaac-test",
     externalCtaLabel: "Rezervovat termín",
   },
+  {
+    id: 50,
+    slug: "pustevny-czech-cycling-tour",
+    title: "Pustevny, Czech Cycling Tour",
+    sport: "Silnice",
+    date: "Ne 16. srpna",
+    dateISO: "2026-08-16",
+    time: "10:00",
+    location: "Náměstí 6/4, Valašské Meziříčí",
+    locationDetail: "Sraz od kavárny Tucan, náměstí Valašské Meziříčí (výjezd 10:00)",
+    distance: "~72 km",
+    elevation: "~1 000 m",
+    difficulty: "Střední",
+    capacity: 20,
+    filled: 0,
+    description: "Vyjížďka na Pustevny o víkendu Czech Tour 2026. Sraz od kavárny Tucan na náměstí ve Valašském Meziříčí, po jízdě posezení. Možnost zapůjčení silničních kol SCOTT.",
+    longDescription: `Vyjížďka na Pustevny o víkendu Czech Tour 2026. Sraz od kavárny Tucan na náměstí ve Valašském Meziříčí, míříme přes valašské kopce nahoru na Pustevny a stejnou parádní cestou zpět.
+
+Po vyjížďce společné posezení (Včelín Rožnov).
+
+**Zapůjčení kol SCOTT:** Na tuto vyjížďku si můžeš zapůjčit silniční kolo SCOTT — Addict 20, Addict RC 10 nebo Foil RC 10. Booking poběží přes rezervační stránku, kterou spustíme cca týden před akcí.
+
+→ [Stáhnout GPX](/routes/pustevny-climb-valmez.gpx)`,
+    whatToBring: [
+      "Silniční kolo (nebo si zapůjč SCOTT)",
+      "Helma — povinná",
+      "Voda na 2× láhev",
+      "Drobnou svačinu nebo gel",
+      "Větrovku (na Pustevnách umí zafoukat)",
+    ],
+    whoIsItFor: "Pro silničáře se základní vytrvalostí. Výjezd na Pustevny prověří nohy, ale tempo držíme skupinové — nahoře na sebe počkáme.",
+    organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
+    photo: "/media/pustevny-climb-ride.webp",
+    routeUrl: "https://mapy.com/s/magujozafe",
+    gpxPath: "/routes/pustevny-climb-valmez.gpx",
+    scottCta: true,
+  },
+  {
+    id: 51,
+    slug: "odry-2026",
+    title: "Odry",
+    sport: "Silnice",
+    date: "So 22. srpna",
+    dateISO: "2026-08-22",
+    time: "09:00",
+    location: "Křižná 250, Valašské Meziříčí",
+    locationDetail: "Sraz od kavárny Tucan, Valašské Meziříčí (výjezd 09:00)",
+    distance: "—",
+    elevation: "—",
+    difficulty: "Lehká",
+    capacity: 20,
+    filled: 0,
+    description: "Sobotní vyjížďka směr Odry. Podrobnější info doplníme brzy.",
+    longDescription: `Podrobnější info doplníme brzy.`,
+    whatToBring: [
+      "Silniční nebo gravel kolo",
+      "Helma — povinná",
+      "Voda a drobnou svačinu",
+    ],
+    whoIsItFor: "Pro jezdce se základní kondicí. Tempo skupinové.",
+    organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
+    photo: "/media/road-event.jpg",
+  },
 ];
 
 // Po Events frontend swap (commit 1cee84f) frontend čte z DB přes

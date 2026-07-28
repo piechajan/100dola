@@ -222,6 +222,43 @@ const events: UIEvent[] = [
     photo: "/media/krkonose-skialpy.jpg",
   },
   {
+    id: 50,
+    slug: "pustevny-czech-cycling-tour",
+    dateISO: "2026-08-16",
+    title: "Pustevny, Czech Cycling Tour",
+    sport: "Silnice",
+    date: "Ne 16. srpna",
+    time: "10:00",
+    location: "Náměstí 6/4, Valašské Meziříčí",
+    distance: "~72 km",
+    elevation: "~1 000 m",
+    difficulty: "Střední",
+    capacity: 20,
+    filled: 0,
+    description: "Vyjížďka na Pustevny o víkendu Czech Tour 2026. Sraz od kavárny Tucan na náměstí ve Valašském Meziříčí, po jízdě posezení. Možnost zapůjčení silničních kol SCOTT.",
+    photo: "/media/pustevny-climb-ride.webp",
+    photoPosition: "center",
+    routeUrl: "https://mapy.com/s/magujozafe",
+    gpx: "/routes/pustevny-climb-valmez.gpx",
+  },
+  {
+    id: 51,
+    slug: "odry-2026",
+    dateISO: "2026-08-22",
+    title: "Odry",
+    sport: "Silnice",
+    date: "So 22. srpna",
+    time: "09:00",
+    location: "Křižná 250, Valašské Meziříčí",
+    distance: "—",
+    elevation: "—",
+    difficulty: "Lehká",
+    capacity: 20,
+    filled: 0,
+    description: "Sobotní vyjížďka směr Odry. Podrobnější info doplníme brzy.",
+    photo: "/media/road-event.jpg",
+  },
+  {
     id: 6,
     slug: "isaac-test-sternberk",
     dateISO: "2026-06-01",
@@ -290,9 +327,12 @@ export default function EventListing() {
   // Merge: ruční eventy první, Strava eventy za nimi.
   // Stejný slug se nesmí opakovat — manual má prioritu.
   const manualSlugs = new Set(events.map((e) => e.slug));
+  const manualTitles = new Set(events.map((e) => e.title.toLowerCase().trim()));
   const merged: UIEvent[] = [
     ...events,
-    ...stravaEvents.filter((e) => !manualSlugs.has(e.slug)),
+    ...stravaEvents.filter(
+      (e) => !manualSlugs.has(e.slug) && !manualTitles.has(e.title.toLowerCase().trim()),
+    ),
   ];
 
   // Odvození "proběhlo": ruční flag NEBO koncové datum už minulo.
