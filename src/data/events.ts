@@ -580,6 +580,43 @@ Po vyjížďce společné posezení (Včelín Rožnov).
     scottCta: true,
   },
   {
+    id: 52,
+    slug: "dlouhe-strane-czech-cycling-tour",
+    title: "SCOTT test — Dlouhé stráně, Czech Cycling Tour",
+    sport: "Silnice",
+    date: "So 15. srpna",
+    dateISO: "2026-08-15",
+    time: "9:00",
+    location: "Obchod 100dola sport, Šternberk",
+    locationDetail: "Sraz u prodejny 100dola sport, Šternberk (výjezd 9:00)",
+    distance: "—",
+    elevation: "—",
+    difficulty: "Náročná",
+    capacity: 20,
+    filled: 0,
+    description: "Vyjížďka ze Šternberku na Dlouhé stráně o víkendu Czech Tour 2026. Sraz u prodejny 100dola sport, po jízdě posezení. Možnost zapůjčení silničních kol SCOTT.",
+    longDescription: `Vyjížďka ze Šternberku na Dlouhé stráně o víkendu Czech Tour 2026. Sraz u prodejny 100dola sport ve Šternberku, odkud společně vyrážíme na jedno z nejtěžších českých stoupání.
+
+Dlouhé stráně jsou kultovní výjezd — ~12,5 km do kopce, převýšení ~950 m, vrchol u přečerpávací elektrárny v 1 350 m n. m. Ve stejný den sem finišuje horská etapa Czech Tour 2026 (Pardubice → Dlouhé stráně, nejvíc nastoupaných metrů celého závodu), takže nahoře chytneš i závodní atmosféru.
+
+Jede se pospolu, nikoho nenecháme vzadu — tempo i trasu přizpůsobíme partě. Po vyjížďce společné posezení.
+
+**Zapůjčení kol SCOTT:** Na tuto vyjížďku si můžeš zapůjčit silniční kolo SCOTT — Addict 20, Addict RC 10 nebo Foil RC 10. Booking poběží přes rezervační stránku, kterou spustíme cca týden před akcí.
+
+Přesnou trasu vyjížďky doplníme.`,
+    whatToBring: [
+      "Silniční kolo (nebo si zapůjč SCOTT)",
+      "Helma — povinná",
+      "Voda na 2× láhev",
+      "Drobnou svačinu nebo gel",
+      "Větrovku na sjezd z vrcholu",
+    ],
+    whoIsItFor: "Pro silničáře, kteří si chtějí sáhnout na dno na dlouhém stoupání. Tempo držíme skupinové — nahoře na sebe počkáme.",
+    organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
+    photo: "/media/road-event.jpg",
+    scottCta: true,
+  },
+  {
     id: 51,
     slug: "odry-2026",
     title: "Odry",
