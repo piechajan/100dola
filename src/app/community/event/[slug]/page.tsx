@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import RegistrationSystem from "@/components/community/RegistrationSystem";
 import RouteMapClient from "@/components/community/RouteMapClient";
+import ElevationProfile from "@/components/community/ElevationProfile";
 import {
   type Event,
   SPORT_COLORS,
@@ -189,6 +190,74 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   )}
                 </div>
               </div>
+
+              {/* Výškový profil + trasa/GPX/Strava */}
+              {(event.gpxPath || event.routeUrl || event.stravaActivityUrl) && (
+                <div className="space-y-4">
+                  {event.gpxPath && (
+                    <ElevationProfile gpxPath={event.gpxPath} accentColor={color} />
+                  )}
+
+                  {/* Route / GPX / Strava buttons + účast */}
+                  <div className="bg-white rounded-2xl p-6 border border-[#E2E6F3]">
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="text-lg">🚴</span>
+                      <h3 className="font-black text-[#1a1a2e]">Trasa a data</h3>
+                    </div>
+
+                    <div className="flex flex-wrap gap-3">
+                      {(event.stravaActivityUrl || event.routeUrl) && (
+                        <a
+                          href={event.stravaActivityUrl ?? event.routeUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 min-w-[140px] py-2.5 px-4 text-sm font-bold rounded-xl text-white text-center transition-all hover:shadow-md"
+                          style={{ backgroundColor: event.stravaActivityUrl ? "#FC4C02" : color }}
+                        >
+                          {event.stravaActivityUrl ? "Zobrazit na Stravě →" : "Zobrazit trasu →"}
+                        </a>
+                      )}
+                      {event.gpxPath && (
+                        <a
+                          href={event.gpxPath}
+                          download
+                          className="flex-1 min-w-[140px] py-2.5 px-4 text-sm font-bold rounded-xl text-center border-2 transition-colors"
+                          style={{ borderColor: `${color}55`, color }}
+                        >
+                          Stáhnout GPX
+                        </a>
+                      )}
+                    </div>
+
+                    {typeof event.participants === "number" && event.participants > 0 && (
+                      <div className="mt-4 pt-4 border-t border-[#F0F2FA] flex items-center gap-2 text-sm">
+                        <span className="text-lg">👥</span>
+                        <span className="font-black text-[#1a1a2e]">{event.participants}</span>
+                        <span className="text-[#9AA3C2]">přihlášených na Stravě</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* SCOTT test CTA — pouze Pustevny jízda */}
+              {event.scottCta && (
+                <Link
+                  href="/vyzkousej-scott"
+                  className="block rounded-2xl p-6 text-white transition-all hover:shadow-xl group"
+                  style={{ background: "linear-gradient(135deg, #E8431A 0%, #C4622D 100%)" }}
+                >
+                  <div className="text-xs font-bold uppercase tracking-[0.18em] opacity-80 mb-2">
+                    Vyzkoušej SCOTT
+                  </div>
+                  <div className="text-xl md:text-2xl font-black leading-tight mb-1">
+                    Vyzkoušej SCOTT na Czech Tour — půjč si kolo zdarma →
+                  </div>
+                  <div className="text-sm opacity-90">
+                    Testovací jízdy na topových SCOTT kolech. Rezervuj si termín online.
+                  </div>
+                </Link>
+              )}
 
               {/* Description */}
               <div className="bg-white rounded-2xl p-6 border border-[#E2E6F3]">

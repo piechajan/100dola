@@ -38,6 +38,12 @@ export interface Event {
   /** Externí URL pro CTA — pokud je nastaveno, event se nepoužívá standardní /community registrační flow, ale rovnou link sem (např. ISAAC test → /isaac-test). */
   externalUrl?: string;
   externalCtaLabel?: string;
+  /** Cesta ke GPX v /public (pro výškový profil na detailu). */
+  gpxPath?: string;
+  /** Počet přihlášených jezdců (např. na Stravě) — zobrazí se na detailu. */
+  participants?: number;
+  /** Prominentní SCOTT test CTA (link na /vyzkousej-scott). Nastaveno POUZE na Pustevny jízdě. */
+  scottCta?: boolean;
 }
 
 export const SPORT_COLORS: Record<Sport, string> = {
@@ -67,6 +73,159 @@ export const DIFFICULTY_COLOR: Record<Difficulty, string> = {
 };
 
 export const events: Event[] = [
+  {
+    id: 40,
+    slug: "pustevny-climb-valmez",
+    title: "Pustevny CLIMB",
+    sport: "Silnice",
+    date: "So 6. června",
+    dateISO: "2026-06-06",
+    time: "10:00",
+    location: "Valašské Meziříčí → Pustevny",
+    locationDetail: "Sraz u kavárny Chochino, Valašské Meziříčí (výjezd 10:00)",
+    distance: "72,5 km",
+    elevation: "~610 m",
+    difficulty: "Náročná",
+    capacity: 20,
+    filled: 13,
+    participants: 13,
+    description: "Od Chochina přes Pustevny (posezení Libušín) zpět do Valmezu. Beskydská klasika k Radhošti. Klubová jízda Open Miles Clinic.",
+    longDescription: `Pustevny CLIMB je beskydská klasika Open Miles Clinic. Vyjíždíme od kavárny Chochino ve Valašském Meziříčí, míříme přes valašské kopce nahoru na Pustevny s posezením u Libušína, a stejnou parádní cestou zpět do Valmezu.
+
+Trasa má 72,5 km a ~610 m převýšení — výjezd na Pustevny prověří nohy, ale tempo držíme skupinové a nahoře na sebe počkáme. Za jasného počasí je od Radhoště výhled až na Slovensko.
+
+Po jízdě klasika — kafe a něco dobrého na zpátečku.
+
+→ [Stáhnout GPX](/routes/pustevny-climb-valmez.gpx)`,
+    whatToBring: [
+      "Silniční nebo gravel kolo",
+      "Helma — povinná",
+      "Voda na 2× láhev",
+      "Drobnou svačinu nebo gel",
+      "Větrovku (na Pustevnách umí zafoukat)",
+    ],
+    whoIsItFor: "Pro pravidelné silničáře. Výjezd na Pustevny je náročnější, ale tempo je skupinové — nahoře i v údolí se najdeme.",
+    organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
+    photo: "/media/pustevny-climb-ride.webp",
+    routeUrl: "https://mapy.com/s/magujozafe",
+    gpxPath: "/routes/pustevny-climb-valmez.gpx",
+    isPast: true,
+    scottCta: true,
+  },
+  {
+    id: 41,
+    slug: "lago-di-sance-valmez",
+    title: "Lago di Šance",
+    sport: "Silnice",
+    date: "So 27. června",
+    dateISO: "2026-06-27",
+    time: "09:00",
+    location: "Valašské Meziříčí → Beskydy (Šance)",
+    locationDetail: "Sraz u kavárny Chochino, Valašské Meziříčí (výjezd 09:00)",
+    distance: "100,6 km",
+    elevation: "~645 m",
+    difficulty: "Střední",
+    capacity: 20,
+    filled: 10,
+    participants: 10,
+    description: "Přes Bílou, okolo přehrady Šance na Čeladnou (kafe Maralák) a zpět. Dlouhý pohodový den po Beskydech.",
+    longDescription: `Lago di Šance je dlouhý pohodový den v Beskydech. Z Valašského Meziříčí jedeme přes Bílou, okolo přehrady Šance na Čeladnou (kafe Maralák) a zpátky údolím.
+
+Trasa má 100,6 km a ~645 m převýšení — bez velkých kopců, ale pořádná porce kilometrů v krásné krajině. Ideální na klidné vytrvalostní tempo ve skupině.
+
+Kafe zastávka v Čeladné u Maraláku je součástí plánu — protáhneme nohy a jedeme zpátky.
+
+→ [Stáhnout GPX](/routes/lago-di-sance-valmez.gpx)`,
+    whatToBring: [
+      "Silniční nebo gravel kolo",
+      "Helma — povinná",
+      "Voda na 2× láhev",
+      "Svačinu na dlouhý den",
+      "Peníze na kafe v Čeladné",
+    ],
+    whoIsItFor: "Pro silničáře se základní vytrvalostí. Dlouhá, ale pohodová jízda — tempo skupinové.",
+    organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
+    photo: "/media/lago-di-sance-ride.webp",
+    routeUrl: "https://mapy.com/s/penecaluju",
+    gpxPath: "/routes/lago-di-sance-valmez.gpx",
+    isPast: true,
+  },
+  {
+    id: 42,
+    slug: "kohutka-valmez",
+    title: "Kohútka",
+    sport: "Silnice",
+    date: "So 18. července",
+    dateISO: "2026-07-18",
+    time: "10:00",
+    location: "Valašské Meziříčí → Kohútka",
+    locationDetail: "Sraz u kavárny Chochino, Valašské Meziříčí (výjezd 10:00)",
+    distance: "104,8 km",
+    elevation: "~1 017 m",
+    difficulty: "Náročná",
+    capacity: 20,
+    filled: 0,
+    description: "Výšlap na hraniční sedlo Kohútka v Javorníkách a zpět přes valašské kopce. Dlouhý den se vším všudy.",
+    longDescription: `Kohútka je královská etapa Open Miles Clinic — výšlap na hraniční sedlo Kohútka v Javorníkách a zpět přes valašské kopce. Dlouhý den se vším všudy.
+
+Trasa má 104,8 km a ~1 017 m převýšení. Výjezd na Kohútku je hlavní chod dne, ale i cesta tam a zpět má svoje kopečky. Tempo skupinové, na stoupáních se přirozeně rozjedeme a nahoře se zase najdeme.
+
+Kdo dojede Kohútku, ten má den splněný. Detaily jízdy najdeš i na Stravě.
+
+→ [Stáhnout GPX](/routes/kohutka-valmez.gpx)`,
+    whatToBring: [
+      "Silniční nebo gravel kolo",
+      "Helma — povinná",
+      "Voda na 2× láhev",
+      "Jídlo a gely na dlouhý den",
+      "Větrovku na sjezd z Kohútky",
+    ],
+    whoIsItFor: "Pro zkušené silničáře. Dlouhá jízda s výrazným stoupáním — počítej s celým dnem na kole.",
+    organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
+    photo: "/media/kohutka-ride.webp",
+    routeUrl: "https://www.strava.com/activities/19365390503",
+    stravaActivityUrl: "https://www.strava.com/activities/19365390503",
+    gpxPath: "/routes/kohutka-valmez.gpx",
+    isPast: true,
+  },
+  {
+    id: 43,
+    slug: "saint-hostyn-valmez",
+    title: "Saint Hostýn",
+    sport: "Silnice",
+    date: "Ne 14. června",
+    dateISO: "2026-06-14",
+    time: "10:00",
+    location: "Valašské Meziříčí → Svatý Hostýn",
+    locationDetail: "Sraz u kavárny Tucan, náměstí Valašské Meziříčí (výjezd 10:00)",
+    distance: "82,3 km",
+    elevation: "~646 m",
+    difficulty: "Střední",
+    capacity: 20,
+    filled: 8,
+    participants: 8,
+    description: "Výjezd od kavárny Tucan (Valmez náměstí) na Svatý Hostýn, pak Troják a Tesák, posezení v restauraci Po Cestě. Klubová jízda Open Miles Clinic.",
+    longDescription: `Saint Hostýn je klasická nedělní klubová jízda Open Miles Clinic. Vyjíždíme od kavárny Tucan na náměstí ve Valašském Meziříčí, míříme na Svatý Hostýn, pak přes Troják a Tesák, s posezením v restauraci Po Cestě.
+
+Trasa má 82,3 km a ~646 m převýšení — příjemný nedělní den s výjezdem na poutní Hostýn a hřebenovkou Hostýnských vrchů. Tempo skupinové, čekáme na sebe v cílech.
+
+Posezení v restauraci Po Cestě je součástí plánu — dobré jídlo a odpočinek uprostřed jízdy.
+
+→ [Stáhnout GPX](/routes/saint-hostyn-valmez.gpx)`,
+    whatToBring: [
+      "Silniční nebo gravel kolo",
+      "Helma — povinná",
+      "Voda na 2× láhev",
+      "Drobnou svačinu nebo gel",
+      "Peníze na oběd v restauraci Po Cestě",
+    ],
+    whoIsItFor: "Pro pravidelné silničáře. Nedělní pohodová jízda s jedním výjezdem — tempo skupinové.",
+    organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
+    photo: "/media/road-event.jpg",
+    routeUrl: "https://mapy.com/s/bulahakuja",
+    gpxPath: "/routes/saint-hostyn-valmez.gpx",
+    isPast: true,
+  },
   {
     id: 0,
     slug: "season-opening",

@@ -69,7 +69,7 @@ const events: UIEvent[] = [
     filled: 13,
     description: "Od Chochina přes Pustevny (posezení Libušín) zpět do Valmezu. Beskydská klasika k Radhošti. Klubová jízda Open Miles Clinic.",
     photo: "/media/pustevny-climb-ride.webp",
-    photoPosition: "center 95%",
+    photoPosition: "center",
     isPast: true,
     routeUrl: "https://mapy.com/s/magujozafe",
     gpx: "/routes/pustevny-climb-valmez.gpx",
@@ -234,7 +234,7 @@ const events: UIEvent[] = [
     elevation: "—",
     difficulty: "Lehká",
     capacity: 232,
-    filled: 0,
+    filled: 10,
     description: "Čtyři dny testovacích jízd ISAAC — 8 road a gravel modelů, hodinová zápůjčka zdarma. V neděli 31. 5. dojezd Závodu Míru přímo na náměstí.",
     photo: "/media/sport-hero.jpg",
     externalUrl: "/isaac-test",
@@ -542,28 +542,14 @@ function EventCard({ event }: { event: UIEvent }) {
 
         {/* CTA */}
         {hasRoute ? (
-          <div className="flex gap-2">
-            {event.routeUrl && (
-              <a
-                href={event.routeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 py-2.5 text-sm font-bold rounded-xl text-white text-center transition-all hover:shadow-md"
-                style={{ backgroundColor: color }}
-              >
-                Zobrazit trasu
-              </a>
-            )}
-            {event.gpx && (
-              <a
-                href={event.gpx}
-                download
-                className="flex-1 py-2.5 text-sm font-bold rounded-xl text-center border-2 transition-colors"
-                style={{ borderColor: `${color}55`, color }}
-              >
-                GPX
-              </a>
-            )}
+          <div
+            className="w-full py-2.5 text-sm font-bold rounded-xl text-white transition-all group-hover:shadow-lg flex items-center justify-center gap-2"
+            style={{ backgroundColor: color, boxShadow: `0 2px 8px ${color}25` }}
+          >
+            Zobrazit detail
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
           </div>
         ) : isStrava ? (
           <div
@@ -602,9 +588,13 @@ function EventCard({ event }: { event: UIEvent }) {
     </>
   );
 
-  // Route eventy (proběhlé OMC jízdy) — karta není odkaz, uvnitř jsou tlačítka trasa + GPX.
+  // Route eventy (proběhlé OMC jízdy) — karta vede na detail; trasa + GPX žijí tam.
   if (hasRoute) {
-    return <div className={cardClass}>{cardInner}</div>;
+    return (
+      <Link href={`/community/event/${event.slug}`} className={cardClass}>
+        {cardInner}
+      </Link>
+    );
   }
 
   if (isStrava && event.stravaUrl) {
