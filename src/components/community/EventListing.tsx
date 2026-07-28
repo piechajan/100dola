@@ -108,7 +108,7 @@ const events: UIEvent[] = [
     capacity: 0,
     filled: 0,
     description: "Výšlap na hraniční sedlo Kohútka v Javorníkách a zpět přes valašské kopce. Dlouhý den se vším všudy.",
-    photo: "/media/season-opening.jpg",
+    photo: "/media/kohutka-ride.webp",
     isPast: true,
     routeUrl: "https://www.strava.com/activities/19365390503",
     gpx: "/routes/kohutka-valmez.gpx",
