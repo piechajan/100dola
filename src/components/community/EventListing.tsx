@@ -249,6 +249,7 @@ const events: UIEvent[] = [
     slug: "dlouhe-strane-czech-cycling-tour",
     dateISO: "2026-08-15",
     title: "SCOTT test — Dlouhé stráně, Czech Cycling Tour",
+    replacesStravaTitle: "Dlouhé stráně, Czech Cycling Tour",
     sport: "Silnice",
     date: "So 15. srpna",
     time: "9:00",
