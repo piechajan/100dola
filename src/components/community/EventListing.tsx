@@ -262,6 +262,7 @@ const events: UIEvent[] = [
     id: 6,
     slug: "isaac-test-sternberk",
     dateISO: "2026-06-01",
+    isPast: true,
     title: "Vyzkoušej ISAAC · Šternberk",
     sport: "Silnice",
     date: "Pá–Po 29. 5. – 1. 6.",
