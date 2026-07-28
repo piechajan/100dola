@@ -14,11 +14,17 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const CRON_SECRET = process.env.CRON_SECRET;
+// Dedikovaný read-only token pro kondice-PJ dashboard (oddělený od CRON_SECRET,
+// aby případný únik z dashboardu neohrozil cronové endpointy webu).
+const DASHBOARD_API_SECRET = process.env.DASHBOARD_API_SECRET;
 
 export async function GET(req: NextRequest) {
-  // Autorizace: Bearer CRON_SECRET (stejný secret jako Vercel Cron endpointy).
+  // Autorizace: Bearer CRON_SECRET (Vercel Cron) NEBO DASHBOARD_API_SECRET (dashboard).
   const auth = req.headers.get("authorization");
-  if (!CRON_SECRET || auth !== `Bearer ${CRON_SECRET}`) {
+  const ok =
+    (CRON_SECRET && auth === `Bearer ${CRON_SECRET}`) ||
+    (DASHBOARD_API_SECRET && auth === `Bearer ${DASHBOARD_API_SECRET}`);
+  if (!ok) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
