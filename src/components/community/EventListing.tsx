@@ -22,6 +22,9 @@ interface UIEvent {
   source?: "manual" | "strava";
   stravaUrl?: string;
   stravaActivityUrl?: string;
+  /** Trasa vyjížďky — veřejný odkaz (Mapy.com / Strava) + GPX ke stažení. */
+  routeUrl?: string;
+  gpx?: string;
   /** Koncové datum akce (YYYY-MM-DD) — z něj se odvozuje isPast po uplynutí. */
   dateISO?: string;
   isPast?: boolean;
@@ -50,6 +53,66 @@ const SPORT_ICONS: Record<string, string> = {
 };
 
 const events: UIEvent[] = [
+  {
+    id: 40,
+    slug: "pustevny-climb-valmez",
+    dateISO: "2026-06-06",
+    title: "Pustevny CLIMB",
+    sport: "Silnice",
+    date: "So 6. června",
+    time: "10:00",
+    location: "Valašské Meziříčí → Pustevny",
+    distance: "72,5 km",
+    elevation: "~610 m",
+    difficulty: "Náročná",
+    capacity: 20,
+    filled: 13,
+    description: "Od Chochina přes Pustevny (posezení Libušín) zpět do Valmezu. Beskydská klasika k Radhošti. Klubová jízda Open Miles Clinic.",
+    photo: "/media/road-event.jpg",
+    isPast: true,
+    routeUrl: "https://mapy.com/s/magujozafe",
+    gpx: "/routes/pustevny-climb-valmez.gpx",
+  },
+  {
+    id: 41,
+    slug: "lago-di-sance-valmez",
+    dateISO: "2026-06-27",
+    title: "Lago di Šance",
+    sport: "Silnice",
+    date: "So 27. června",
+    time: "09:00",
+    location: "Valašské Meziříčí → Beskydy (Šance)",
+    distance: "100,6 km",
+    elevation: "~645 m",
+    difficulty: "Střední",
+    capacity: 20,
+    filled: 10,
+    description: "Přes Bílou, okolo přehrady Šance na Čeladnou (kafe Maralák) a zpět. Dlouhý pohodový den po Beskydech.",
+    photo: "/media/sport-hero.jpg",
+    isPast: true,
+    routeUrl: "https://mapy.com/s/penecaluju",
+    gpx: "/routes/lago-di-sance-valmez.gpx",
+  },
+  {
+    id: 42,
+    slug: "kohutka-valmez",
+    dateISO: "2026-07-18",
+    title: "Kohútka",
+    sport: "Silnice",
+    date: "So 18. července",
+    time: "10:00",
+    location: "Valašské Meziříčí → Kohútka",
+    distance: "104,8 km",
+    elevation: "~1 017 m",
+    difficulty: "Náročná",
+    capacity: 0,
+    filled: 0,
+    description: "Výšlap na hraniční sedlo Kohútka v Javorníkách a zpět přes valašské kopce. Dlouhý den se vším všudy.",
+    photo: "/media/season-opening.jpg",
+    isPast: true,
+    routeUrl: "https://www.strava.com/activities/19365390503",
+    gpx: "/routes/kohutka-valmez.gpx",
+  },
   {
     id: 0,
     slug: "season-opening",
@@ -328,6 +391,7 @@ function EventCard({ event }: { event: UIEvent }) {
   const icon = SPORT_ICONS[event.sport] || "🏃";
   const isStrava = event.source === "strava";
   const isPast = event.isPast === true;
+  const hasRoute = !!(event.routeUrl || event.gpx);
   const hasCapacity = event.capacity > 0;
   const fillPct = hasCapacity ? (event.filled / event.capacity) * 100 : 0;
   const spotsLeft = event.capacity - event.filled;
@@ -456,7 +520,31 @@ function EventCard({ event }: { event: UIEvent }) {
         )}
 
         {/* CTA */}
-        {isStrava ? (
+        {hasRoute ? (
+          <div className="flex gap-2">
+            {event.routeUrl && (
+              <a
+                href={event.routeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 py-2.5 text-sm font-bold rounded-xl text-white text-center transition-all hover:shadow-md"
+                style={{ backgroundColor: color }}
+              >
+                Zobrazit trasu
+              </a>
+            )}
+            {event.gpx && (
+              <a
+                href={event.gpx}
+                download
+                className="flex-1 py-2.5 text-sm font-bold rounded-xl text-center border-2 transition-colors"
+                style={{ borderColor: `${color}55`, color }}
+              >
+                GPX
+              </a>
+            )}
+          </div>
+        ) : isStrava ? (
           <div
             className="w-full py-2.5 text-sm font-bold rounded-xl text-white transition-all group-hover:shadow-lg flex items-center justify-center gap-2"
             style={{ backgroundColor: "#FC4C02", boxShadow: "0 2px 8px #FC4C0240" }}
@@ -492,6 +580,11 @@ function EventCard({ event }: { event: UIEvent }) {
       </div>
     </>
   );
+
+  // Route eventy (proběhlé OMC jízdy) — karta není odkaz, uvnitř jsou tlačítka trasa + GPX.
+  if (hasRoute) {
+    return <div className={cardClass}>{cardInner}</div>;
+  }
 
   if (isStrava && event.stravaUrl) {
     return (

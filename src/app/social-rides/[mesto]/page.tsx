@@ -5,7 +5,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import { getPublishedSocialRides, getSocialRideBySlug } from "@/data/social-rides";
-import { COMMUNITY_ROUTES } from "@/data/community-routes";
 import { breadcrumbSchema, faqPageSchema } from "@/lib/seo/schema-helpers";
 
 const INSTAGRAM = "https://www.instagram.com/100dolasport.cz/";
@@ -129,51 +128,6 @@ export default async function SocialRidePage({
             </p>
           </Link>
         </section>
-
-        {/* Trasy vyjížděk — proklik na Stravu + GPX ke stažení */}
-        {COMMUNITY_ROUTES.length > 0 && (
-          <section className="max-w-[900px] mx-auto px-4 md:px-6 pb-6">
-            <h2 className="text-xl md:text-2xl font-black text-[#1a1a2e] mb-1.5">Trasy vyjížděk ke stažení</h2>
-            <p className="text-sm text-[#5A6480] mb-5">
-              Osvědčené okruhy, co jezdíme. Otevři na Stravě, nebo si stáhni GPX do cyklopočítače.
-            </p>
-            <div className="space-y-3">
-              {COMMUNITY_ROUTES.map((r) => (
-                <div
-                  key={r.slug}
-                  className="bg-[#F7F9FF] border border-[#E2E6F3] rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center gap-4"
-                >
-                  <div className="flex-1 min-w-0">
-                    <div className="text-[11px] uppercase tracking-wider font-bold text-[#3B7CF4] mb-1">{r.area}</div>
-                    <h3 className="text-base font-black text-[#1a1a2e]">{r.name}</h3>
-                    <p className="text-sm text-[#5A6480] leading-relaxed mt-1">{r.note}</p>
-                    <div className="text-xs text-[#9AA3C2] mt-1.5">
-                      {r.distance}
-                      {r.climb ? ` · ${r.climb}` : ""}
-                    </div>
-                  </div>
-                  <div className="flex sm:flex-col gap-2 shrink-0">
-                    <a
-                      href={r.viewUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center px-4 py-2.5 rounded-full bg-[#3B7CF4] text-white text-sm font-bold hover:opacity-90 transition-opacity whitespace-nowrap"
-                    >
-                      Zobrazit trasu
-                    </a>
-                    <a
-                      href={r.gpx}
-                      download
-                      className="inline-flex items-center justify-center px-4 py-2.5 rounded-full border-2 border-[#E2E6F3] text-[#1a1a2e] text-sm font-bold hover:border-[#3B7CF4] transition-colors whitespace-nowrap"
-                    >
-                      Stáhnout GPX
-                    </a>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
 
         <section className="max-w-[900px] mx-auto px-4 md:px-6 pb-6">
           <div className="bg-[#1a1a2e] text-white rounded-2xl p-7 md:p-9">
