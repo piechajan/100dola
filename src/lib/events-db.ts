@@ -71,8 +71,13 @@ export async function listEventsFromDb(): Promise<EventRow[]> {
 export const getPublishedEvents = unstable_cache(
   async (): Promise<Event[]> => {
     const rows = await listEventsFromDb();
-    if (rows.length === 0) return staticEvents;
-    return rows.filter((r) => r.is_published).map(rowToEvent);
+    const dbEvents = rows.filter((r) => r.is_published).map(rowToEvent);
+    if (dbEvents.length === 0) return staticEvents;
+    // Merge: DB je primární, ale statické eventy definované jen v kódu (ne v DB)
+    // se přidají navíc podle slugu — aby OMC jízdy ze staticEvents měly detail stránku.
+    const dbSlugs = new Set(dbEvents.map((e) => e.slug));
+    const staticOnly = staticEvents.filter((e) => !dbSlugs.has(e.slug));
+    return [...dbEvents, ...staticOnly];
   },
   ["published-events"],
   { revalidate: 300, tags: ["events"] },
