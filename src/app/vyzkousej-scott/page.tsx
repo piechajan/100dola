@@ -130,7 +130,7 @@ export default function VyzkousejScottPage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-6 py-3 rounded-full border-2 border-[#E2E6F3] text-[#1a1a2e] text-sm font-bold hover:border-[#3B7CF4] transition-colors"
               >
-                Termíny na Instagramu
+                Napiš nám na Instagramu
               </a>
             </div>
           </div>

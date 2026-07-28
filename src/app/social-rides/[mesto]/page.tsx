@@ -77,7 +77,7 @@ export default async function SocialRidePage({
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-6 py-3 rounded-full bg-[#3B7CF4] text-white text-sm font-bold hover:opacity-90 transition-opacity"
               >
-                Termíny na Instagramu →
+                Napiš nám na Instagramu →
               </a>
               <Link
                 href="/community"
