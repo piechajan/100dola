@@ -89,7 +89,7 @@ const events: UIEvent[] = [
     capacity: 20,
     filled: 10,
     description: "Přes Bílou, okolo přehrady Šance na Čeladnou (kafe Maralák) a zpět. Dlouhý pohodový den po Beskydech.",
-    photo: "/media/sport-hero.jpg",
+    photo: "/media/lago-di-sance-ride.webp",
     isPast: true,
     routeUrl: "https://mapy.com/s/penecaluju",
     gpx: "/routes/lago-di-sance-valmez.gpx",
