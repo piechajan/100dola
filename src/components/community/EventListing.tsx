@@ -30,6 +30,8 @@ interface UIEvent {
   isPast?: boolean;
   externalUrl?: string;
   externalCtaLabel?: string;
+  /** Původní název ze Stravy, který tato ruční akce nahrazuje (kvůli dedup). */
+  replacesStravaTitle?: string;
 }
 
 const SPORT_COLORS: Record<string, string> = {
@@ -225,7 +227,8 @@ const events: UIEvent[] = [
     id: 50,
     slug: "pustevny-czech-cycling-tour",
     dateISO: "2026-08-16",
-    title: "Pustevny, Czech Cycling Tour",
+    title: "SCOTT test — Pustevny, Czech Cycling Tour",
+    replacesStravaTitle: "Pustevny, Czech Cycling Tour",
     sport: "Silnice",
     date: "Ne 16. srpna",
     time: "10:00",
@@ -328,7 +331,13 @@ export default function EventListing() {
   // Merge: ruční eventy první, Strava eventy za nimi.
   // Stejný slug se nesmí opakovat — manual má prioritu.
   const manualSlugs = new Set(events.map((e) => e.slug));
-  const manualTitles = new Set(events.map((e) => e.title.toLowerCase().trim()));
+  const manualTitles = new Set(
+    events.flatMap((e) =>
+      [e.title, e.replacesStravaTitle]
+        .filter((t): t is string => Boolean(t))
+        .map((t) => t.toLowerCase().trim()),
+    ),
+  );
   const merged: UIEvent[] = [
     ...events,
     ...stravaEvents.filter(

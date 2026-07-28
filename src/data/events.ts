@@ -545,7 +545,7 @@ Rezervační systém ti pošle potvrzení s odkazem do Google kalendáře a rán
   {
     id: 50,
     slug: "pustevny-czech-cycling-tour",
-    title: "Pustevny, Czech Cycling Tour",
+    title: "SCOTT test — Pustevny, Czech Cycling Tour",
     sport: "Silnice",
     date: "Ne 16. srpna",
     dateISO: "2026-08-16",
