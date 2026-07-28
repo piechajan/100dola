@@ -18,18 +18,31 @@ const SCOTT_BIKES = [
   { slug: "addict-gravel-20", model: "SCOTT Addict Gravel 20", cat: "Gravel", sizes: ["S", "M", "L"] },
 ];
 
-// Testovací sloty 9:00–16:00 + víkendové vyjížďky Czech Tour.
-const TERMS = [
-  { value: "test-3-7-8", label: "Testovací jízdy · Po–Pá 3.–7. 8. (9:00–16:00)" },
-  { value: "ride-sternberk-15-8", label: "So 15. 8. · vyjížďka Šternberk → Dlouhé stráně" },
-  { value: "ride-valmez-16-8", label: "Ne 16. 8. · vyjížďka Valašské Meziříčí → Pustevny" },
-  { value: "test-17-19-8", label: "Testovací jízdy · Po–St 17.–19. 8. (9:00–16:00)" },
+// Testovací dny (Šternberk) — zápůjčka na 1,5 h, sloty 9:00–16:30.
+// Víkendové vyjížďky (Dlouhé stráně / Pustevny) se tu nerozepisují —
+// řeší se poptávkou → osobní domluva termínu i předání kola.
+const TEST_DAYS = [
+  { value: "po-3-8", label: "Po 3. 8." },
+  { value: "ut-4-8", label: "Út 4. 8." },
+  { value: "st-5-8", label: "St 5. 8." },
+  { value: "ct-6-8", label: "Čt 6. 8." },
+  { value: "pa-7-8", label: "Pá 7. 8." },
+  { value: "po-17-8", label: "Po 17. 8." },
+  { value: "ut-18-8", label: "Út 18. 8." },
+  { value: "st-19-8", label: "St 19. 8." },
 ];
+
+const TIME_SLOTS = ["9:00–10:30", "10:30–12:00", "12:00–13:30", "13:30–15:00", "15:00–16:30"];
+
+const RIDE_TERM_LABEL =
+  "Víkendová vyjížďka (Dlouhé stráně / Pustevny) — poptávka k osobnímu kontaktu";
 
 export default function ScottTestForm() {
   const [bike, setBike] = useState<string | null>(null);
   const [size, setSize] = useState<string | null>(null);
-  const [term, setTerm] = useState<string | null>(null);
+  const [testDay, setTestDay] = useState<string | null>(null);
+  const [testSlot, setTestSlot] = useState<string | null>(null);
+  const [ride, setRide] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -46,14 +59,18 @@ export default function ScottTestForm() {
   }, []);
 
   const bikeObj = SCOTT_BIKES.find((b) => b.slug === bike);
-  const termObj = TERMS.find((t) => t.value === term);
+  const termLabel = ride
+    ? RIDE_TERM_LABEL
+    : testDay && testSlot
+      ? `Testovací jízda · ${TEST_DAYS.find((d) => d.value === testDay)?.label} · ${testSlot} (zápůjčka 1,5 h)`
+      : null;
 
   const canSubmit =
     reservationsOpen &&
     !submitting &&
     !!bike &&
     !!size &&
-    !!term &&
+    !!termLabel &&
     name.trim().length >= 2 &&
     email.includes("@") &&
     phone.trim().length >= 6 &&
@@ -75,7 +92,7 @@ export default function ScottTestForm() {
           phone,
           bike: bikeObj?.model,
           size,
-          term: termObj?.label,
+          term: termLabel,
           notes: notes || undefined,
           consentGdpr: true,
           turnstileToken: turnstileToken || undefined,
@@ -91,7 +108,9 @@ export default function ScottTestForm() {
       trackGoogleEvent("generate_lead", { event_category: "scott_test", event_label: bikeObj?.model, value: 1 });
       setBike(null);
       setSize(null);
-      setTerm(null);
+      setTestDay(null);
+      setTestSlot(null);
+      setRide(false);
       setName("");
       setEmail("");
       setPhone("");
@@ -198,25 +217,74 @@ export default function ScottTestForm() {
           <h2 className="text-lg md:text-xl font-black text-[#1a1a2e]">Vyber termín</h2>
           {!size && <span className="text-xs text-[#9AA3C2]">— nejdřív vyber kolo a velikost</span>}
         </div>
-        <div className="space-y-2">
-          {TERMS.map((t) => (
+        {/* Testovací jízda — vyber den */}
+        <div className="text-xs font-bold text-[#5A6480] uppercase tracking-wider mb-2">Testovací jízda — vyber den</div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+          {TEST_DAYS.map((d) => (
             <button
-              key={t.value}
+              key={d.value}
               type="button"
-              onClick={() => setTerm(t.value)}
-              className={`w-full text-left px-4 py-3 rounded-xl border-2 text-sm font-bold transition ${
-                term === t.value ? "border-[#3B7CF4] bg-[#F0F4FF] text-[#1a1a2e]" : "border-[#E2E6F3] bg-white text-[#5A6480] hover:border-[#3B7CF4]/40"
+              onClick={() => {
+                setTestDay(d.value);
+                setRide(false);
+              }}
+              className={`px-3 py-3 rounded-xl border-2 text-sm font-bold transition ${
+                testDay === d.value && !ride ? "border-[#3B7CF4] bg-[#F0F4FF] text-[#1a1a2e]" : "border-[#E2E6F3] bg-white text-[#5A6480] hover:border-[#3B7CF4]/40"
               }`}
             >
-              {t.label}
+              {d.label}
             </button>
           ))}
         </div>
-        <p className="text-xs text-[#9AA3C2] mt-3">U testovacích dní přesnou hodinu (9–16, po hodině) doladíme po odeslání. Na vyjížďky ti kolo připravíme na sraz.</p>
+
+        {/* Vyber čas — 1,5h slot */}
+        {testDay && !ride && (
+          <div className="mt-4">
+            <div className="text-xs font-bold text-[#5A6480] uppercase tracking-wider mb-2">Vyber čas — zápůjčka na 1,5 h</div>
+            <div className="flex flex-wrap gap-2">
+              {TIME_SLOTS.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => setTestSlot(s)}
+                  className={`px-4 py-2.5 rounded-xl border-2 text-sm font-black transition ${
+                    testSlot === s ? "border-[#3B7CF4] bg-[#F0F4FF] text-[#1a1a2e]" : "border-[#E2E6F3] bg-white text-[#5A6480] hover:border-[#3B7CF4]/40"
+                  }`}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* nebo — víkendová vyjížďka řešená poptávkou */}
+        <div className="flex items-center gap-3 my-4">
+          <div className="h-px flex-1 bg-[#E2E6F3]" />
+          <span className="text-xs text-[#9AA3C2] font-bold">nebo</span>
+          <div className="h-px flex-1 bg-[#E2E6F3]" />
+        </div>
+        <button
+          type="button"
+          onClick={() => {
+            setRide(true);
+            setTestDay(null);
+            setTestSlot(null);
+          }}
+          className={`w-full text-left px-4 py-3 rounded-xl border-2 text-sm font-bold transition ${
+            ride ? "border-[#3B7CF4] bg-[#F0F4FF] text-[#1a1a2e]" : "border-[#E2E6F3] bg-white text-[#5A6480] hover:border-[#3B7CF4]/40"
+          }`}
+        >
+          Víkendová vyjížďka (Dlouhé stráně / Pustevny) — pošli poptávku, termín i předání kola domluvíme osobně
+        </button>
+
+        <p className="text-xs text-[#9AA3C2] mt-3">
+          Testovací zápůjčka je na 1,5 hodiny. U víkendové vyjížďky se ti po odeslání ozveme a domluvíme termín i předání kola osobně.
+        </p>
       </section>
 
       {/* Krok 3: kontakt */}
-      <section className={`bg-white rounded-2xl border border-[#E2E6F3] p-6 md:p-8 transition-opacity ${term ? "" : "opacity-50 pointer-events-none"}`}>
+      <section className={`bg-white rounded-2xl border border-[#E2E6F3] p-6 md:p-8 transition-opacity ${termLabel ? "" : "opacity-50 pointer-events-none"}`}>
         <div className="flex items-baseline gap-3 mb-4">
           <div className="w-7 h-7 rounded-full bg-[#3B7CF4] text-white text-xs font-black flex items-center justify-center">3</div>
           <h2 className="text-lg md:text-xl font-black text-[#1a1a2e]">Kontakt</h2>
@@ -253,11 +321,11 @@ export default function ScottTestForm() {
 
         <div className="mt-5 pt-5 border-t border-[#F0F2FA] flex items-center justify-between flex-wrap gap-4">
           <div className="text-sm text-[#5A6480]">
-            {bikeObj && size && termObj ? (
+            {bikeObj && size && termLabel ? (
               <>
                 <strong className="text-[#1a1a2e]">{bikeObj.model} · vel. {size}</strong>
                 <br />
-                {termObj.label}
+                {termLabel}
               </>
             ) : (
               <span className="text-[#9AA3C2]">Vyber kolo, velikost a termín nahoře</span>
