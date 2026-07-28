@@ -270,6 +270,13 @@ Cron cleanup (P3 drobnost):
 
 **Commits dnes:** 35+ (od `9b2f314` brand chips po `0f79567` article hero)
 
+## 🚴 Czech Tour 2026 / komunitní eventy (2026-07-28)
+
+- **Dodej trasy na Strava klub OMC** pro **Dlouhé stráně** (so 15.8., social ride ze Šternberku) a **Pustevny** (ne 16.8., OMC) — obojí zároveň SCOTT test. Až je nahraješ, týdenní cron je zaznamená; JÁ pak doplním GPX + výškový profil (potřebuje prohlížeč — Mapy.cz Export→GPX).
+  - ⚠️ Dlouhé stráně na Stravě pojmenuj **„Dlouhé stráně, Czech Cycling Tour"** (kvůli automatickému dedupu, ať nevznikne duplicitní karta).
+- **Dlouhé stráně** má zatím placeholder foto (`/media/road-event.jpg`) a km/převýšení „—" → doplním po dodání trasy; pošli i vlastní foto, jinak najdu vhodnou.
+- **Týdenní OMC sync cron** rozšířen: nově zakládá on-site karty pro budoucí Strava eventy (ne jen archivuje). Otevře PR `omc-weekly-sync-<datum>` k review — NEMERGUJE sám. GPX/foto = ruční checklist v PR.
+
 ## 🔵 Připraveno scaffolding (NESPUŠTĚNO — čekají rozhodnutí)
 
 - **Admin Events editor** — events jsou v data/events.ts (static). Až řekneš „chci CRUD" → migrace + admin UI
