@@ -19,6 +19,7 @@ export interface NormalizedEvent {
   filled: number;
   description: string;
   photo: string;
+  photoPosition?: string;
   source: "manual" | "strava";
   stravaUrl?: string;
 }
@@ -134,8 +135,8 @@ function formatTime(iso: string): string {
 
 // Ruční override pro konkrétní Strava eventy, kde jejich data nestačí
 // (Strava nedává difficulty; km se nedají vždy vyparsovat). Klíč = přesný název.
-const EVENT_OVERRIDES: Record<string, { difficulty?: string; photo?: string }> = {
-  "Pustevny, Czech Cycling Tour": { difficulty: "Střední", photo: "/media/pustevny-climb-ride.webp" },
+const EVENT_OVERRIDES: Record<string, { difficulty?: string; photo?: string; photoPosition?: string }> = {
+  "Pustevny, Czech Cycling Tour": { difficulty: "Střední", photo: "/media/pustevny-climb-ride.webp", photoPosition: "center 82%" },
 };
 
 export function mapStravaEventToNormalized(ev: StravaGroupEvent): NormalizedEvent {
@@ -167,6 +168,7 @@ export function mapStravaEventToNormalized(ev: StravaGroupEvent): NormalizedEven
     distance: distanceLabel,
     elevation: "",
     difficulty: override?.difficulty ?? difficulty,
+    photoPosition: override?.photoPosition,
     capacity: 0,
     filled: 0,
     description: ev.description || "Detail a registrace na Stravě.",
