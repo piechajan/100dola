@@ -69,7 +69,7 @@ const events: UIEvent[] = [
     filled: 13,
     description: "Od Chochina přes Pustevny (posezení Libušín) zpět do Valmezu. Beskydská klasika k Radhošti. Klubová jízda Open Miles Clinic.",
     photo: "/media/pustevny-climb-ride.webp",
-    photoPosition: "center 82%",
+    photoPosition: "center 95%",
     isPast: true,
     routeUrl: "https://mapy.com/s/magujozafe",
     gpx: "/routes/pustevny-climb-valmez.gpx",
