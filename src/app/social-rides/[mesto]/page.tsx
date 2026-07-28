@@ -154,12 +154,12 @@ export default async function SocialRidePage({
                   </div>
                   <div className="flex sm:flex-col gap-2 shrink-0">
                     <a
-                      href={r.stravaUrl}
+                      href={r.viewUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center px-4 py-2.5 rounded-full bg-[#FC4C02] text-white text-sm font-bold hover:opacity-90 transition-opacity whitespace-nowrap"
+                      className="inline-flex items-center justify-center px-4 py-2.5 rounded-full bg-[#3B7CF4] text-white text-sm font-bold hover:opacity-90 transition-opacity whitespace-nowrap"
                     >
-                      Zobrazit na Stravě
+                      Zobrazit trasu
                     </a>
                     <a
                       href={r.gpx}
