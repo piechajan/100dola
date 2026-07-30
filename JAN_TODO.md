@@ -270,6 +270,12 @@ Cron cleanup (P3 drobnost):
 
 **Commits dnes:** 35+ (od `9b2f314` brand chips po `0f79567` article hero)
 
+## ⭐ Recenze po nákupu (2026-07-30)
+
+- ✅ **Review-request mail** hotový + live: spouští se +7 dní po označení „Odesláno", produkty z objednávky → naše recenze (`/reviews/submit`, verified buyer) + Google CTA. Naposílá se u KAŽDÉ expedované objednávky.
+- ✅ **Google CTA aktivní** — `GOOGLE_REVIEW_URL` = deep-link na profil (CID 17820906318049005873).
+- ⏳ **Heureka „Ověřeno zákazníky"** — čeká na TEBE: registrace e-shopu na sluzby.heureka.cz (FUTUNATU, IČO 07376766) → zapnout Ověřeno → poslat mi **API klíč** + **metodu ověření domény**. Pak dodělám napojení (env `HEUREKA_API_KEY`). Zboží.cz odloženo (email fatigue).
+
 ## 🚴 Czech Tour 2026 / komunitní eventy (2026-07-28)
 
 - **Dodej trasy na Strava klub OMC** pro **Dlouhé stráně** (so 15.8., social ride ze Šternberku) a **Pustevny** (ne 16.8., OMC) — obojí zároveň SCOTT test. Až je nahraješ, týdenní cron je zaznamená; JÁ pak doplním GPX + výškový profil (potřebuje prohlížeč — Mapy.cz Export→GPX).
