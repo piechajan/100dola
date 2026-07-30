@@ -93,12 +93,13 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string
  * Idempotent: nepošle pokud tracking_notified_at je už nastavený.
  */
 /**
- * Review follow-up — naplánuje prosbu o Google recenzi (+4 dny). Pokrývá i
- * osobní vyzvednutí (na rozdíl od shipment notifikace, co chce tracking).
- * Graceful no-op když GOOGLE_REVIEW_URL / Resend / Supabase nejsou nastavené.
+ * Review follow-up — naplánuje prosbu o recenzi (+7 dní). Primárně vede na
+ * recenzi produktů na našem webu (každá položka objednávky vlastní tlačítko),
+ * volitelně přidá i Google CTA (když je GOOGLE_REVIEW_URL). Pokrývá i osobní
+ * vyzvednutí (na rozdíl od shipment notifikace, co chce tracking).
+ * Graceful no-op když Resend / Supabase nejsou nastavené.
  */
 async function sendReviewFollowup(orderId: string): Promise<void> {
-  if (!process.env.GOOGLE_REVIEW_URL) return;
   if (!isSupabaseConfigured()) return;
   try {
     const sb = getSupabase();
@@ -108,7 +109,16 @@ async function sendReviewFollowup(orderId: string): Promise<void> {
       .eq("id", orderId)
       .maybeSingle();
     if (!order || !order.email) return;
-    await sendReviewRequest({ id: order.id, name: order.name ?? "", email: order.email });
+    const { data: items } = await sb
+      .from("order_items")
+      .select("slug, name")
+      .eq("order_id", orderId);
+    await sendReviewRequest({
+      id: order.id,
+      name: order.name ?? "",
+      email: order.email,
+      items: (items ?? []).map((i) => ({ slug: i.slug as string, name: i.name as string })),
+    });
   } catch (e) {
     console.error("[admin/orders/status] sendReviewFollowup failed:", e);
   }

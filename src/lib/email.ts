@@ -668,52 +668,94 @@ export async function sendOrderConfirmation(order: OrderEmailPayload): Promise<v
 }
 
 /**
- * Review follow-up — pošle zákazníkovi prosbu o Google recenzi.
- * Naplánováno na +4 dny přes Resend `scheduledAt` (dobré načasování — až má
- * věc doma), takže nepotřebuje cron ani DB sloupec. Voláno při přechodu
- * objednávky do „shipped". Graceful no-op když chybí GOOGLE_REVIEW_URL nebo
- * Resend není nakonfigurován. Odkaz vede přímo na formulář Google recenze.
+ * Review follow-up — pošle zákazníkovi prosbu o recenzi ~7 dní po expedici.
+ * Primárně vede na recenzi produktu na našem webu (/reviews/submit) — každá
+ * položka objednávky má vlastní tlačítko „Ohodnotit". Pokud je nastavený
+ * GOOGLE_REVIEW_URL, přidá i sekundární CTA na Google recenzi. Naplánováno přes
+ * Resend `scheduledAt` (+7 dní), takže nepotřebuje cron ani DB sloupec. Voláno
+ * při přechodu objednávky do „shipped". Graceful no-op když Resend není
+ * nakonfigurován.
  */
 export async function sendReviewRequest(p: {
   id: string;
   name: string;
   email: string;
+  items?: { slug: string; name: string }[];
 }): Promise<void> {
-  const reviewUrl = process.env.GOOGLE_REVIEW_URL;
-  if (!isEmailConfigured() || !reviewUrl) return;
+  if (!isEmailConfigured()) return;
 
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com";
+  const googleUrl = process.env.GOOGLE_REVIEW_URL;
   const firstName = p.name.split(" ")[0] || "";
-  const sendInFourDays = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString();
+  const sendInSevenDays = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+  const items = (p.items ?? []).filter((i) => i.slug && i.name);
+
+  const reviewLink = (slug: string) =>
+    `${base}/reviews/submit?slug=${encodeURIComponent(slug)}&order=${encodeURIComponent(p.id)}`;
+
+  const productRows = items
+    .map(
+      (it, idx) => `
+      <tr>
+        <td style="padding: 14px 16px; font-size: 14px; font-weight: 700; color: #1a1a2e; ${idx > 0 ? "border-top: 1px solid #F0F2FA;" : ""}">
+          ${escapeHtml(it.name)}
+        </td>
+        <td style="padding: 14px 16px; text-align: right; ${idx > 0 ? "border-top: 1px solid #F0F2FA;" : ""}">
+          <a href="${reviewLink(it.slug)}" style="display: inline-block; padding: 9px 18px; background: #3B7CF4; color: #fff; border-radius: 9999px; text-decoration: none; font-weight: 700; font-size: 13px; white-space: nowrap;">Ohodnotit ★</a>
+        </td>
+      </tr>`,
+    )
+    .join("");
+
+  const productBlock = items.length
+    ? `<table style="width: 100%; border-collapse: collapse; border: 1px solid #E9ECF5; border-radius: 14px; margin: 0 0 24px;">
+        ${productRows}
+      </table>`
+    : `<div style="text-align: center; margin: 8px 0 24px;">
+        <a href="${base}/reviews/submit?order=${encodeURIComponent(p.id)}" style="display: inline-block; padding: 14px 28px; background: #3B7CF4; color: #fff; border-radius: 9999px; text-decoration: none; font-weight: 700; font-size: 15px;">Napsat recenzi ★</a>
+      </div>`;
+
+  const googleBlock = googleUrl
+    ? `<div style="text-align: center; margin: 4px 0 8px; padding-top: 20px; border-top: 1px solid #F0F2FA;">
+        <p style="font-size: 14px; color: #5A6480; margin: 0 0 12px;">A jestli budeš mít chvilku navíc, moc nám pomůže i recenze na Googlu — jsme malý lokální obchod:</p>
+        <a href="${escapeHtml(googleUrl)}" style="display: inline-block; padding: 12px 24px; background: #fff; border: 2px solid #3B7CF4; color: #3B7CF4; border-radius: 9999px; text-decoration: none; font-weight: 700; font-size: 14px;">Recenze na Googlu ★</a>
+      </div>`
+    : "";
 
   const html = `
-    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 560px; margin: 0 auto; color: #1a1a2e; padding: 8px;">
-      <div style="padding: 24px 0;">
-        <div style="font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #3B7CF4; font-weight: 700;">100dola sport</div>
-        <h1 style="font-size: 22px; margin: 6px 0 0 0; font-weight: 800;">Jak jsi spokojený${firstName ? `, ${escapeHtml(firstName)}` : ""}?</h1>
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 580px; margin: 0 auto; padding: 24px; color: #1a1a2e;">
+      <div style="margin-bottom: 18px;">
+        <div style="font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #3B7CF4; font-weight: 700;">100dola sport</div>
+        <h1 style="font-size: 24px; margin: 8px 0 0 0; font-weight: 800; line-height: 1.15;">Jak jsi spokojený${firstName ? `, ${escapeHtml(firstName)}` : ""}?</h1>
       </div>
-      <p style="font-size: 15px; line-height: 1.6; color: #5A6480;">
-        Díky za nákup u 100dola sport. Doufáme, že ti věci sedí a užíváš si je.
+
+      <p style="font-size: 15px; line-height: 1.6; color: #5A6480; margin: 0 0 8px;">
+        Nedávno jsi u nás nakoupil — díky za důvěru! 🚴 Doufáme, že ti všechno sedí a užíváš si to.
       </p>
-      <p style="font-size: 15px; line-height: 1.6; color: #5A6480;">
-        Jsme malý lokální obchod a <strong>tvoje recenze na Googlu</strong> nám hodně pomůže —
-        zabere minutu a pomůže dalším sportovcům z okolí nás najít.
+      <p style="font-size: 15px; line-height: 1.6; color: #5A6480; margin: 0 0 22px;">
+        Budeme rádi za tvůj názor. Pomůže dalším při výběru a nám udělá radost — zabere to chvilku:
       </p>
-      <div style="text-align: center; margin: 28px 0;">
-        <a href="${escapeHtml(reviewUrl)}" style="display: inline-block; padding: 14px 28px; background: #3B7CF4; color: #fff; border-radius: 9999px; text-decoration: none; font-weight: 700; font-size: 15px;">
-          Napsat recenzi na Googlu ★
-        </a>
-      </div>
-      <p style="font-size: 13px; line-height: 1.6; color: #9AA3C2;">
-        Kdyby něco nebylo v pořádku, napiš nám prosím rovnou na
-        <a href="mailto:info@100dola.com" style="color: #3B7CF4;">info@100dola.com</a> —
-        vyřešíme to.
+
+      ${productBlock}
+
+      ${googleBlock}
+
+      <p style="font-size: 13px; line-height: 1.6; color: #9AA3C2; margin-top: 22px;">
+        Kdyby cokoli nebylo v pořádku, napiš nám prosím rovnou na
+        <a href="mailto:info@100dola.com" style="color: #3B7CF4;">info@100dola.com</a> — vyřešíme to.
       </p>
+
       <div style="margin-top: 24px; padding: 16px; background: #F0F4FF; border-radius: 12px;">
         <div style="font-weight: 700; margin-bottom: 4px;">100dola sport · FUTUNATU s.r.o.</div>
         <div style="font-size: 14px;">
           <a href="mailto:info@100dola.com" style="color: #3B7CF4; text-decoration: none;">info@100dola.com</a>
           · <a href="tel:+420739045057" style="color: #3B7CF4; text-decoration: none;">+420 739 045 057</a>
         </div>
+        <div style="font-size: 12px; color: #9AA3C2; margin-top: 6px;">IČO 07376766 · DIČ CZ07376766</div>
+      </div>
+
+      <div style="margin-top: 20px; font-size: 12px; color: #9AA3C2; line-height: 1.5;">
+        Tenhle e-mail ti posíláme jednorázově k objednávce ${escapeHtml(p.id)}. Pokud si výzvy k hodnocení nepřeješ, napiš nám a vyřadíme tě.
       </div>
     </div>
   `;
@@ -725,7 +767,7 @@ export async function sendReviewRequest(p: {
       replyTo: NOTIFY_EMAIL,
       subject: "Jak jsi spokojený s nákupem? — 100dola sport",
       html,
-      scheduledAt: sendInFourDays,
+      scheduledAt: sendInSevenDays,
     });
   } catch (e) {
     console.error("[email] sendReviewRequest failed:", e);
