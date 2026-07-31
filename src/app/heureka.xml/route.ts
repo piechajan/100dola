@@ -115,7 +115,9 @@ function itemsForProduct(p: Product): string[] {
         name: `${p.name}${v.size ? ` – ${v.size}` : ""}${v.color ? ` ${v.color}` : ""}`,
         product: p.name,
         desc,
-        url,
+        // Heureka nedovolí 2 položky se stejnou URL → varianta dostane unikátní
+        // query param (stránka produktu ho ignoruje, ale URL je unikátní).
+        url: `${url}?varianta=${encodeURIComponent(v.sku as string)}`,
         img,
         galleryImgs,
         price,
