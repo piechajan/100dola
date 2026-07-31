@@ -23,6 +23,7 @@ export default function OrderStatusActions({
   const router = useRouter();
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
   const [trackingNumber, setTrackingNumber] = useState(initialTracking || "");
   const [trackingCarrier, setTrackingCarrier] = useState(initialCarrier || "zasilkovna");
 
@@ -42,6 +43,29 @@ export default function OrderStatusActions({
         return;
       }
       router.refresh();
+    } catch {
+      setError("Síťová chyba. Zkus to znovu.");
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  // Test: pošle hodnoticí („ohodnoť nákup") e-mail OKAMŽITĚ (bez +7denního
+  // plánování) — pro audit review flow.
+  const sendReviewTest = async () => {
+    setLoading("review-test");
+    setError(null);
+    setNotice(null);
+    try {
+      const res = await fetch(`/api/admin/orders/${orderId}/send-review-test`, {
+        method: "POST",
+      });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(d.error || "Nepodařilo se odeslat hodnoticí e-mail.");
+        return;
+      }
+      setNotice(`Hodnoticí e-mail odeslán na ${d.sentTo ?? "zákazníka"} (dorazí hned).`);
     } catch {
       setError("Síťová chyba. Zkus to znovu.");
     } finally {
@@ -110,6 +134,16 @@ export default function OrderStatusActions({
             {loading === "cancelled" ? "Ukládám…" : "Stornovat"}
           </button>
         )}
+
+        <button
+          type="button"
+          onClick={sendReviewTest}
+          disabled={loading !== null}
+          title="Pošle hodnoticí e-mail hned (bez +7denního čekání) — pro test/audit"
+          className="px-4 py-2 text-xs font-bold rounded-full border border-[#C9DCFC] text-[#3B7CF4] hover:bg-[#F0F4FF] disabled:opacity-50"
+        >
+          {loading === "review-test" ? "Odesílám…" : "★ Poslat hodnoticí mail teď (test)"}
+        </button>
       </div>
 
       {paidAt && (
@@ -129,6 +163,11 @@ export default function OrderStatusActions({
       {error && (
         <div className="rounded-lg p-2 text-xs bg-red-50 text-red-700 border border-red-200">
           {error}
+        </div>
+      )}
+      {notice && (
+        <div className="rounded-lg p-2 text-xs bg-green-50 text-green-800 border border-green-200">
+          {notice}
         </div>
       )}
     </div>

@@ -681,6 +681,8 @@ export async function sendReviewRequest(p: {
   name: string;
   email: string;
   items?: { slug: string; name: string }[];
+  /** true = poslat hned (admin test), jinak naplánováno +7 dní. */
+  immediate?: boolean;
 }): Promise<void> {
   if (!isEmailConfigured()) return;
 
@@ -767,7 +769,7 @@ export async function sendReviewRequest(p: {
       replyTo: NOTIFY_EMAIL,
       subject: "Jak jsi spokojený s nákupem? — 100dola sport",
       html,
-      scheduledAt: sendInSevenDays,
+      ...(p.immediate ? {} : { scheduledAt: sendInSevenDays }),
     });
   } catch (e) {
     console.error("[email] sendReviewRequest failed:", e);
