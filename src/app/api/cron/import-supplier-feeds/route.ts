@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { getServiceSupabase, importBrand, type ImportResult } from "@/lib/suppliers/importer";
 import { logCronRun } from "@/lib/cron-monitor";
 
@@ -72,6 +73,10 @@ export async function GET(req: NextRequest) {
       });
     }
   }
+
+  // Invaliduj sdílenou katalog cache → nové produkty se projeví hned
+  // (jinak až po 6 h revalidaci getShopProducts).
+  revalidateTag("shop-products", "hours");
 
   return NextResponse.json({
     ok: true,

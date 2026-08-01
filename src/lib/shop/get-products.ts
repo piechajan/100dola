@@ -1,4 +1,5 @@
 import "server-only";
+import { unstable_cache } from "next/cache";
 import { createClient } from "@supabase/supabase-js";
 import { PRODUCTS, type Product } from "@/data/products";
 import { supplierToProduct, type SupplierProductRow } from "./product-mapper";
@@ -27,7 +28,7 @@ type BrandJoin = { brand_slug: string; is_public: boolean };
  * Tichý fallback: pokud Supabase nedostupný / env miss, vrátí jen static
  * PRODUCTS (web nikdy nespadne kvůli supplier feedu).
  */
-export async function getShopProducts(): Promise<Product[]> {
+async function fetchShopProducts(): Promise<Product[]> {
   const own = PRODUCTS.map((p) => ({ ...p, fulfillment: p.fulfillment ?? ("own" as const) }));
 
   try {
@@ -88,6 +89,17 @@ export async function getShopProducts(): Promise<Product[]> {
     return own;
   }
 }
+
+/**
+ * Sdílená cache: celý merged katalog se ze Supabase tahá **1× za 6 h globálně**,
+ * ne per stránka/URL. Chrání Supabase egress (viz „DB egress hygiena" v globálním
+ * CLAUDE.md — incident 2026-08-01). Invalidace: import-supplier-feeds cron může
+ * volat `revalidateTag("shop-products")` po importu (jinak max 6 h stará data).
+ */
+export const getShopProducts = unstable_cache(fetchShopProducts, ["shop-products-merged"], {
+  revalidate: 21600,
+  tags: ["shop-products"],
+});
 
 export async function getProductBySlugMerged(slug: string): Promise<Product | undefined> {
   const all = await getShopProducts();
