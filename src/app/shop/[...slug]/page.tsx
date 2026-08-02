@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ShopLayout from "@/components/shop/ShopLayout";
 import ProductViewTracker from "@/components/shop/ProductViewTracker";
+import HeurekaOcm from "@/components/analytics/HeurekaOcm";
 import PDPGallery from "@/components/shop/PDPGallery";
 import ConfiguratorUI from "@/components/shop/ConfiguratorUI";
 import ConfiguratorInquiryNotice from "@/components/shop/ConfiguratorInquiryNotice";
@@ -301,6 +302,7 @@ function renderProduct(
         brand={product.brand}
         photo={product.photo}
       />
+      <HeurekaOcm page="product_detail" />
       <Navbar />
       <main className="pt-20 bg-[#FAFAFA]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 pt-8">

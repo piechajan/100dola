@@ -4,6 +4,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import HeurekaOcm from "@/components/analytics/HeurekaOcm";
 import { buildSpaydQrDataUrl, FUTUNATU_IBAN } from "@/lib/spayd";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 
@@ -121,6 +122,17 @@ export default async function OrderConfirmationPage({
             </div>
           ) : (
             <>
+              <HeurekaOcm
+                page="thank_you"
+                orderId={order.id}
+                items={order.items.map((i) => ({
+                  itemId: String(i.productId),
+                  name: i.name,
+                  unitPriceWithVat: i.priceWithVat,
+                  qty: i.qty,
+                }))}
+                totalWithVat={order.total}
+              />
               {/* Header */}
               <div className="text-center mb-10">
                 <div
