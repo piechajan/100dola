@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 import Turnstile, { isTurnstileConfigured } from "@/components/Turnstile";
@@ -12,10 +13,11 @@ const RESERVATIONS_OPEN_ISO = "2026-08-01";
 
 // Reálný fleet SCOTT k zapůjčení (Šternberk). Velikosti dle skladu.
 const SCOTT_BIKES = [
-  { slug: "addict-rc-10", model: "SCOTT Addict RC 10", cat: "Silniční · závodní", sizes: ["M", "L", "XL"] },
-  { slug: "foil-rc-10", model: "SCOTT Foil RC 10", cat: "Silniční · aero", sizes: ["M", "L", "XL"] },
-  { slug: "addict-20", model: "SCOTT Addict 20", cat: "Silniční · endurance", sizes: ["M", "L", "XL"] },
-  { slug: "addict-gravel-20", model: "SCOTT Addict Gravel 20", cat: "Gravel", sizes: ["S", "M", "L"] },
+  { slug: "addict-rc-10", model: "SCOTT Addict RC 10", cat: "Silniční · závodní", sizes: ["M", "L", "XL"], photo: "/media/scott-test/addict-rc-10.webp" },
+  { slug: "addict-20", model: "SCOTT Addict 20", cat: "Silniční · endurance", sizes: ["M", "L", "XL"], photo: "/media/scott-test/addict-20.webp" },
+  { slug: "foil-rc-10", model: "SCOTT Foil RC 10", cat: "Silniční · aero", sizes: ["M"], photo: "/media/scott-test/foil-rc-10.webp" },
+  { slug: "fastline", model: "SCOTT Fastline", cat: "Silniční", sizes: ["L"], photo: "/media/scott-test/fastline.webp" },
+  { slug: "addict-gravel-20", model: "SCOTT Addict Gravel 20", cat: "Gravel", sizes: ["M", "L", "XL"], photo: "/media/scott-test/addict-gravel-20.webp" },
 ];
 
 // Testovací dny (Šternberk) — zápůjčka na 1,5 h, sloty 9:00–16:30.
@@ -177,13 +179,24 @@ export default function ScottTestForm() {
                 setBike(b.slug);
                 setSize(null);
               }}
-              className={`text-left p-4 rounded-xl border-2 transition ${
-                bike === b.slug ? "border-[#3B7CF4] bg-[#F7F9FF]" : "border-transparent bg-[#F7F9FF] hover:border-[#E2E6F3]"
+              className={`text-left rounded-xl border-2 overflow-hidden transition ${
+                bike === b.slug ? "border-[#3B7CF4] bg-[#F7F9FF]" : "border-[#E2E6F3] bg-[#F7F9FF] hover:border-[#3B7CF4]/40"
               }`}
             >
-              <div className="text-[10px] uppercase tracking-wider font-bold text-[#9AA3C2] mb-1">{b.cat}</div>
-              <div className="text-sm font-black text-[#1a1a2e]">{b.model}</div>
-              <div className="text-xs text-[#5A6480] mt-0.5">Velikosti: {b.sizes.join(" · ")}</div>
+              <div className="relative aspect-[4/3] bg-[#E9EEF9]">
+                <Image
+                  src={b.photo}
+                  alt={b.model}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 320px"
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-4">
+                <div className="text-[10px] uppercase tracking-wider font-bold text-[#9AA3C2] mb-1">{b.cat}</div>
+                <div className="text-sm font-black text-[#1a1a2e]">{b.model}</div>
+                <div className="text-xs text-[#5A6480] mt-0.5">Velikosti: {b.sizes.join(" · ")}</div>
+              </div>
             </button>
           ))}
         </div>
