@@ -16,7 +16,7 @@ const SCOTT_BIKES = [
   { slug: "addict-rc-10", model: "SCOTT Addict RC 10", cat: "Silniční · závodní", sizes: ["M", "L", "XL"], photo: "/media/scott-test/addict-rc-10.webp" },
   { slug: "addict-20", model: "SCOTT Addict 20", cat: "Silniční · endurance", sizes: ["M", "L", "XL"], photo: "/media/scott-test/addict-20.webp" },
   { slug: "foil-rc-10", model: "SCOTT Foil RC 10", cat: "Silniční · aero", sizes: ["M"], photo: "/media/scott-test/foil-rc-10.webp" },
-  { slug: "fastline", model: "SCOTT Fastline", cat: "Silniční", sizes: ["L"], photo: "/media/scott-test/fastline.webp" },
+  { slug: "fastline", model: "SCOTT Fastline", cat: "Silniční · elektro", sizes: ["L"], photo: "/media/scott-test/fastline.webp" },
   { slug: "addict-gravel-20", model: "SCOTT Addict Gravel 20", cat: "Gravel", sizes: ["M", "L", "XL"], photo: "/media/scott-test/addict-gravel-20.webp" },
 ];
 
