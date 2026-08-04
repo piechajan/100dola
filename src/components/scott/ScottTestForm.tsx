@@ -12,12 +12,74 @@ import Turnstile, { isTurnstileConfigured } from "@/components/Turnstile";
 const RESERVATIONS_OPEN_ISO = "2026-08-01";
 
 // Reálný fleet SCOTT k zapůjčení (Šternberk). Velikosti dle skladu.
+// Specs vychází z scott-sports.com / endorphinrepublic.cz (ročníkově se liší
+// — u konkrétních testovacích kusů ověřit fyzicky).
 const SCOTT_BIKES = [
-  { slug: "addict-rc-10", model: "SCOTT Addict RC 10", cat: "Silniční · závodní", sizes: ["M", "L", "XL"], photo: "/media/scott-test/addict-rc-10.webp" },
-  { slug: "addict-20", model: "SCOTT Addict 20", cat: "Silniční · endurance", sizes: ["M", "L", "XL"], photo: "/media/scott-test/addict-20.webp" },
-  { slug: "foil-rc-10", model: "SCOTT Foil RC 10", cat: "Silniční · aero", sizes: ["M"], photo: "/media/scott-test/foil-rc-10.webp" },
-  { slug: "fastline", model: "SCOTT Fastline", cat: "Silniční · elektro", sizes: ["L"], photo: "/media/scott-test/fastline.webp" },
-  { slug: "addict-gravel-20", model: "SCOTT Addict Gravel 20", cat: "Gravel", sizes: ["M", "L", "XL"], photo: "/media/scott-test/addict-gravel-20.webp" },
+  {
+    slug: "addict-rc-10",
+    model: "SCOTT Addict RC 10",
+    cat: "Silniční · závodní",
+    sizes: ["M", "L", "XL"],
+    photo: "/media/scott-test/addict-rc-10.webp",
+    specs: [
+      "Rám Addict RC HMX carbon (~7 kg)",
+      "Shimano Ultegra Di2 (elektronické řazení)",
+      "Hydraulické kotoučové brzdy",
+      "Karbonová kola Syncros Capital",
+    ],
+  },
+  {
+    slug: "addict-20",
+    model: "SCOTT Addict 20",
+    cat: "Silniční · endurance",
+    sizes: ["M", "L", "XL"],
+    photo: "/media/scott-test/addict-20.webp",
+    specs: [
+      "Rám Addict HMF carbon (endurance geometrie)",
+      "Skupina Shimano (dle výbavy)",
+      "Hydraulické kotoučové brzdy",
+      "Komfort na dlouhé trasy, ~8 kg",
+    ],
+  },
+  {
+    slug: "foil-rc-10",
+    model: "SCOTT Foil RC 10",
+    cat: "Silniční · aero",
+    sizes: ["M"],
+    photo: "/media/scott-test/foil-rc-10.webp",
+    specs: [
+      "Rám Foil RC HMX carbon (aero)",
+      "Shimano Ultegra Di2",
+      "Aero karbonová kola (60 mm)",
+      "Hydraulické kotoučové brzdy",
+    ],
+  },
+  {
+    slug: "fastline",
+    model: "SCOTT Fastlane",
+    cat: "Silniční · elektro",
+    sizes: ["L"],
+    photo: "/media/scott-test/fastline.webp",
+    specs: [
+      "Lehká e-silnička, pod 10 kg",
+      "Skrytý motor TQ HPR40 + baterie 290 Wh",
+      "Karbonový rám (geometrie Addict)",
+      "Vypadá jako klasická silnička",
+    ],
+  },
+  {
+    slug: "addict-gravel-20",
+    model: "SCOTT Addict Gravel 20",
+    cat: "Gravel",
+    sizes: ["M", "L", "XL"],
+    photo: "/media/scott-test/addict-gravel-20.webp",
+    specs: [
+      "Rám Addict Gravel HMF carbon",
+      "Shimano GRX (gravel skupina)",
+      "Pláště Schwalbe G-ONE 35 mm",
+      "Hydraulické kotoučové brzdy",
+    ],
+  },
 ];
 
 // Testovací dny (Šternberk) — zápůjčka na 1,5 h, sloty 9:00–16:30.
@@ -28,10 +90,13 @@ const TEST_DAYS = [
   { value: "ut-4-8", label: "Út 4. 8." },
   { value: "st-5-8", label: "St 5. 8." },
   { value: "ct-6-8", label: "Čt 6. 8." },
-  { value: "pa-7-8", label: "Pá 7. 8." },
+  { value: "po-10-8", label: "Po 10. 8." },
+  { value: "ut-11-8", label: "Út 11. 8." },
+  { value: "st-12-8", label: "St 12. 8." },
+  { value: "ct-13-8", label: "Čt 13. 8." },
+  { value: "pa-14-8", label: "Pá 14. 8." },
   { value: "po-17-8", label: "Po 17. 8." },
   { value: "ut-18-8", label: "Út 18. 8." },
-  { value: "st-19-8", label: "St 19. 8." },
 ];
 
 const TIME_SLOTS = ["9:00–10:30", "10:30–12:00", "12:00–13:30", "13:30–15:00", "15:00–16:30"];
@@ -195,7 +260,15 @@ export default function ScottTestForm() {
               <div className="p-4">
                 <div className="text-[10px] uppercase tracking-wider font-bold text-[#9AA3C2] mb-1">{b.cat}</div>
                 <div className="text-sm font-black text-[#1a1a2e]">{b.model}</div>
-                <div className="text-xs text-[#5A6480] mt-0.5">Velikosti: {b.sizes.join(" · ")}</div>
+                <ul className="mt-1.5 mb-1 space-y-0.5">
+                  {b.specs.map((s) => (
+                    <li key={s} className="text-[11px] leading-snug text-[#5A6480] flex gap-1.5">
+                      <span className="text-[#3B7CF4] flex-shrink-0">·</span>
+                      <span>{s}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="text-xs font-bold text-[#5A6480] mt-1.5">Velikosti: {b.sizes.join(" · ")}</div>
               </div>
             </button>
           ))}
