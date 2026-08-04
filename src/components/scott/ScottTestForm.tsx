@@ -6,81 +6,11 @@ import Image from "next/image";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 import Turnstile, { isTurnstileConfigured } from "@/components/Turnstile";
+import { SCOTT_TEST_BIKES } from "@/data/scott-test-bikes";
 
 // Rezervace se spouští 1. 8. 2026 — do té doby je konfigurátor viditelný
 // (dá se procházet kola/termíny), ale objednat nejde (submit zamčený + banner).
 const RESERVATIONS_OPEN_ISO = "2026-08-01";
-
-// Reálný fleet SCOTT k zapůjčení (Šternberk). Velikosti dle skladu.
-// Specs vychází z scott-sports.com / endorphinrepublic.cz (ročníkově se liší
-// — u konkrétních testovacích kusů ověřit fyzicky).
-const SCOTT_BIKES = [
-  {
-    slug: "addict-rc-10",
-    model: "SCOTT Addict RC 10",
-    cat: "Silniční · závodní",
-    sizes: ["M", "L", "XL"],
-    photo: "/media/scott-test/addict-rc-10.webp",
-    specs: [
-      "Rám Addict RC HMX carbon (~7 kg)",
-      "Shimano Ultegra Di2 (elektronické řazení)",
-      "Hydraulické kotoučové brzdy",
-      "Karbonová kola Syncros Capital",
-    ],
-  },
-  {
-    slug: "addict-20",
-    model: "SCOTT Addict 20",
-    cat: "Silniční · endurance",
-    sizes: ["M", "L", "XL"],
-    photo: "/media/scott-test/addict-20.webp",
-    specs: [
-      "Rám Addict HMF carbon (endurance geometrie)",
-      "Skupina Shimano (dle výbavy)",
-      "Hydraulické kotoučové brzdy",
-      "Komfort na dlouhé trasy, ~8 kg",
-    ],
-  },
-  {
-    slug: "foil-rc-10",
-    model: "SCOTT Foil RC 10",
-    cat: "Silniční · aero",
-    sizes: ["M"],
-    photo: "/media/scott-test/foil-rc-10.webp",
-    specs: [
-      "Rám Foil RC HMX carbon (aero)",
-      "Shimano Ultegra Di2",
-      "Aero karbonová kola (60 mm)",
-      "Hydraulické kotoučové brzdy",
-    ],
-  },
-  {
-    slug: "fastline",
-    model: "SCOTT Fastlane",
-    cat: "Silniční · elektro",
-    sizes: ["L"],
-    photo: "/media/scott-test/fastline.webp",
-    specs: [
-      "Lehká e-silnička, pod 10 kg",
-      "Skrytý motor TQ HPR40 + baterie 290 Wh",
-      "Karbonový rám (geometrie Addict)",
-      "Vypadá jako klasická silnička",
-    ],
-  },
-  {
-    slug: "addict-gravel-20",
-    model: "SCOTT Addict Gravel 20",
-    cat: "Gravel",
-    sizes: ["M", "L", "XL"],
-    photo: "/media/scott-test/addict-gravel-20.webp",
-    specs: [
-      "Rám Addict Gravel HMF carbon",
-      "Shimano GRX (gravel skupina)",
-      "Pláště Schwalbe G-ONE 35 mm",
-      "Hydraulické kotoučové brzdy",
-    ],
-  },
-];
 
 // Testovací dny (Šternberk) — zápůjčka na 1,5 h, sloty 9:00–16:30.
 // Víkendové vyjížďky (Dlouhé stráně / Pustevny) se tu nerozepisují —
@@ -125,7 +55,7 @@ export default function ScottTestForm() {
     setReservationsOpen(new Date().toISOString().slice(0, 10) >= RESERVATIONS_OPEN_ISO);
   }, []);
 
-  const bikeObj = SCOTT_BIKES.find((b) => b.slug === bike);
+  const bikeObj = SCOTT_TEST_BIKES.find((b) => b.slug === bike);
   const termLabel = ride
     ? RIDE_TERM_LABEL
     : testDay && testSlot
@@ -236,41 +166,53 @@ export default function ScottTestForm() {
           <h2 className="text-lg md:text-xl font-black text-[#1a1a2e]">Vyber kolo a velikost</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          {SCOTT_BIKES.map((b) => (
-            <button
+          {SCOTT_TEST_BIKES.map((b) => (
+            <div
               key={b.slug}
-              type="button"
-              onClick={() => {
-                setBike(b.slug);
-                setSize(null);
-              }}
-              className={`text-left rounded-xl border-2 overflow-hidden transition ${
+              className={`rounded-xl border-2 overflow-hidden transition ${
                 bike === b.slug ? "border-[#3B7CF4] bg-[#F7F9FF]" : "border-[#E2E6F3] bg-[#F7F9FF] hover:border-[#3B7CF4]/40"
               }`}
             >
-              <div className="relative aspect-[4/3] bg-[#E9EEF9]">
-                <Image
-                  src={b.photo}
-                  alt={b.model}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 320px"
-                  className="object-cover"
-                />
+              <button
+                type="button"
+                onClick={() => {
+                  setBike(b.slug);
+                  setSize(null);
+                }}
+                className="text-left w-full block"
+              >
+                <div className="relative aspect-[4/3] bg-[#E9EEF9]">
+                  <Image
+                    src={b.photos[0]}
+                    alt={b.model}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 320px"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="px-4 pt-4">
+                  <div className="text-[10px] uppercase tracking-wider font-bold text-[#9AA3C2] mb-1">{b.cat}</div>
+                  <div className="text-sm font-black text-[#1a1a2e]">{b.model}</div>
+                  <ul className="mt-1.5 mb-1 space-y-0.5">
+                    {b.specs.map((s) => (
+                      <li key={s} className="text-[11px] leading-snug text-[#5A6480] flex gap-1.5">
+                        <span className="text-[#3B7CF4] flex-shrink-0">·</span>
+                        <span>{s}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="text-xs font-bold text-[#5A6480] mt-1.5">Velikosti: {b.sizes.join(" · ")}</div>
+                </div>
+              </button>
+              <div className="px-4 pb-4 pt-2">
+                <Link
+                  href={`/vyzkousej-scott/${b.slug}`}
+                  className="text-xs font-bold text-[#3B7CF4] hover:underline"
+                >
+                  Zobrazit detail a fotky →
+                </Link>
               </div>
-              <div className="p-4">
-                <div className="text-[10px] uppercase tracking-wider font-bold text-[#9AA3C2] mb-1">{b.cat}</div>
-                <div className="text-sm font-black text-[#1a1a2e]">{b.model}</div>
-                <ul className="mt-1.5 mb-1 space-y-0.5">
-                  {b.specs.map((s) => (
-                    <li key={s} className="text-[11px] leading-snug text-[#5A6480] flex gap-1.5">
-                      <span className="text-[#3B7CF4] flex-shrink-0">·</span>
-                      <span>{s}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="text-xs font-bold text-[#5A6480] mt-1.5">Velikosti: {b.sizes.join(" · ")}</div>
-              </div>
-            </button>
+            </div>
           ))}
         </div>
 
