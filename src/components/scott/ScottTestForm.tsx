@@ -181,13 +181,13 @@ export default function ScottTestForm() {
                 }}
                 className="text-left w-full block"
               >
-                <div className="relative aspect-[4/3] bg-[#E9EEF9] p-2">
+                <div className="relative aspect-[3/4] bg-[#E9EEF9]">
                   <Image
                     src={b.photos[0]}
                     alt={b.model}
                     fill
                     sizes="(max-width: 768px) 100vw, 320px"
-                    className="object-contain"
+                    className="object-cover"
                   />
                 </div>
                 <div className="px-4 pt-4">
