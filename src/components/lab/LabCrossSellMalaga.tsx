@@ -1,15 +1,16 @@
+import Image from "next/image";
 import Link from "next/link";
 import { LAB_CROSS_SELL_MALAGA } from "@/data/lab";
 
 export default function LabCrossSellMalaga() {
   return (
     <section className="bg-[#1a0e08] text-white py-20 md:py-28 overflow-hidden relative">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src="/media/lab-cross-sell-malaga.webp"
         alt="Malaga — slunce na kole"
-        className="absolute inset-0 w-full h-full object-cover opacity-25"
-        loading="lazy"
+        fill
+        sizes="100vw"
+        className="object-cover opacity-25"
       />
       <div
         className="absolute inset-0"

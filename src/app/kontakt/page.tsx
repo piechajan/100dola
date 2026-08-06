@@ -6,7 +6,7 @@ import ContactForm from "@/components/ContactForm";
 import { COMPANY, STERNBERK_STORE } from "@/data/company";
 
 export const metadata: Metadata = {
-  title: "Kontakt — 100dola sport Šternberk, Partyzánská 2",
+  title: { absolute: "Kontakt — 100dola sport Šternberk, Partyzánská 2" },
   description:
     "Napiš nám, zavolej +420 739 045 057 nebo přijď do prodejny 100dola sport ve Šternberku (Partyzánská 2, vedle Namístě). Otevřeno St–So.",
   alternates: { canonical: "/kontakt" },

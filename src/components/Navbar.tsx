@@ -337,6 +337,8 @@ export default function Navbar() {
             <button
               className="md:hidden p-2.5 text-[#9AA3C2] hover:text-[#1a1a2e] transition-colors rounded-lg hover:bg-[#F0F2FA] ml-1"
               onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={menuOpen ? "Zavřít menu" : "Otevřít menu"}
+              aria-expanded={menuOpen}
             >
               {menuOpen ? (
                 <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

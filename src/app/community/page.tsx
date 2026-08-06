@@ -11,7 +11,7 @@ import { COMMUNITY_FAQ } from "@/data/community-faq";
 import CommunityNewsletter from "@/components/community/CommunityNewsletter";
 
 export const metadata: Metadata = {
-  title: "Jedeme spolu — Open Miles Clinic | 100dola",
+  title: { absolute: "Jedeme spolu — Open Miles Clinic | 100dola" },
   description:
     "Open Miles Clinic — sportovní komunita z Valašska. Pravidelné social rides, skialpy, gravel a turistika. Bez startovného, bez ega. Přidej se k nám.",
   alternates: { canonical: "/community" },

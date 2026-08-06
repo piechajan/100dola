@@ -280,6 +280,7 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
           <div>
             <label className={labelClass}>Počet kol</label>
             <select
+              aria-label="Počet kol"
               value={bikeCount}
               onChange={(e) => setBikeCount(e.target.value)}
               className={inputClass}
@@ -306,6 +307,7 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
         <div>
           <label className={labelClass}>Kdy bys chtěl vyrazit?</label>
           <select
+            aria-label="Preferovaný měsíc"
             value={preferredMonth}
             onChange={(e) => setPreferredMonth(e.target.value)}
             className={inputClass}

@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import ServiceBookingForm from "@/components/sport/ServiceBookingForm";
 
 export const metadata: Metadata = {
-  title: "Servis kol · bikefit · Šternberk — 100dola sport",
+  title: { absolute: "Servis kol · bikefit · Šternberk — 100dola sport" },
   description:
     "Servis silničních, gravel, MTB i elektrokol ve Šternberku. Bikefit, detailing, voskování řetězů. Rezervuj termín online — ozveme se do 24 hodin.",
   alternates: { canonical: "/sport/servis" },

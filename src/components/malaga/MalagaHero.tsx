@@ -41,7 +41,7 @@ export default function MalagaHero() {
 
         {/* Headline */}
         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.92] max-w-3xl">
-          {HERO_COPY.h1Line1}
+          {HERO_COPY.h1Line1}{" "}
           <br />
           <span style={{ color: accent }}>{HERO_COPY.h1Line2}</span>
         </h1>

@@ -9,7 +9,7 @@ import ScottTestForm from "@/components/scott/ScottTestForm";
 const INSTAGRAM = "https://www.instagram.com/100dolasport.cz/";
 
 export const metadata: Metadata = {
-  title: "Vyzkoušej SCOTT na Czech Tour 2026 — Dlouhé stráně a Pustevny | 100dola sport",
+  title: { absolute: "Vyzkoušej SCOTT na Czech Tour 2026 — Dlouhé stráně a Pustevny | 100dola sport" },
   description:
     "Přidej se k nám o víkendu Czech Tour 2026 (15.–16. 8.) a půjč si silniční SCOTT zdarma. V sobotu vyjížďka od prodejny 100dola sport ve Šternberku na Dlouhé stráně, v neděli z Valašského Meziříčí na Pustevny. Zápůjčka kol SCOTT Addict a Foil.",
   keywords: [

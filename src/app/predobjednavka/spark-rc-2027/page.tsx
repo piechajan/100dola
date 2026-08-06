@@ -9,17 +9,20 @@ import PreorderCounter from "@/components/preorders/PreorderCounter";
 
 const MODEL_SLUG = "scott-spark-rc-2027";
 const MODEL_LABEL = "Scott Spark RC 2027";
+// Skutečná live cesta stránky (route segment). MODEL_SLUG je jen identifikátor
+// modelu do dat/formuláře — NESMÍ se použít pro canonical (vedlo by na 404).
+const PAGE_PATH = "/predobjednavka/spark-rc-2027";
 
 export const metadata: Metadata = {
-  title: "Předobjednávka Scott Spark RC 2027 · 100dola sport",
+  title: { absolute: "Předobjednávka Scott Spark RC 2027 · 100dola sport" },
   description:
     "Předobjednejte si nový Scott Spark RC 2027 přes 100dola sport ve Šternberku. Osobní servis, výběr velikosti a varianty, termín dodání domluvíme spolu — osobně, jako v kamenné prodejně.",
-  alternates: { canonical: `https://www.100dola.com/predobjednavka/${MODEL_SLUG}` },
+  alternates: { canonical: `https://www.100dola.com${PAGE_PATH}` },
   openGraph: {
     title: "Předobjednávka Scott Spark RC 2027 · 100dola sport",
     description:
       "Nová generace závodního XC. Předobjednávka přes 100dola sport — kamenná prodejna ve Šternberku a osobní přístup.",
-    url: `https://www.100dola.com/predobjednavka/${MODEL_SLUG}`,
+    url: `https://www.100dola.com${PAGE_PATH}`,
     images: [
       {
         url: "https://www.100dola.com/media/articles/scott-spark-rc-2027-hero.webp",
@@ -62,7 +65,7 @@ export default function SparkRCPreorderPage() {
         "@type": "ListItem",
         position: 4,
         name: "Předobjednávka",
-        item: `${SITE}/predobjednavka/${MODEL_SLUG}`,
+        item: `${SITE}${PAGE_PATH}`,
       },
     ],
   };

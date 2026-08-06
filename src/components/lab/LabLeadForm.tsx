@@ -265,6 +265,7 @@ export default function LabLeadForm() {
         <div>
           <label className={labelClass}>Kdy bys to chtěl řešit?</label>
           <select
+            aria-label="Preferovaný termín"
             value={preferredWindow}
             onChange={(e) => setPreferredWindow(e.target.value)}
             className={inputClass}

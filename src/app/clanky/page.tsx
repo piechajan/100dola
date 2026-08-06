@@ -10,7 +10,7 @@ import {
 } from "@/data/articles";
 
 export const metadata: Metadata = {
-  title: "Magazín · 100dola",
+  title: { absolute: "Magazín · 100dola" },
   description:
     "Články o cyklistice, servisu kol, cestování s kolem do Malagy a komunitě Open Miles Clinic. Návody, recenze, akce a tipy z praxe.",
   alternates: { canonical: "/clanky" },

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { LAB_BRAND, LAB_GALLERY } from "@/data/lab";
 
 const brassDark = LAB_BRAND.brassDark;
@@ -25,12 +26,12 @@ export default function LabGallery() {
               key={idx}
               className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[#1F4937]"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={img.src}
                 alt={img.alt}
-                className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                loading="lazy"
+                fill
+                sizes="(min-width: 768px) 33vw, 50vw"
+                className="object-cover hover:scale-105 transition-transform duration-500"
               />
             </div>
           ))}

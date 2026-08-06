@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { LAB_BRAND, LAB_SERVICES } from "@/data/lab";
 
 const accent = LAB_BRAND.color;
@@ -24,12 +25,12 @@ export default function LabServices() {
               className="bg-white rounded-3xl overflow-hidden border border-[#E2E6F3] hover:shadow-lg hover:-translate-y-0.5 transition-all"
             >
               <div className="relative h-48 overflow-hidden bg-[#1F4937]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={svc.image}
                   alt={svc.title}
-                  className="absolute inset-0 w-full h-full object-cover opacity-90"
-                  loading="lazy"
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  className="object-cover opacity-90"
                 />
                 <div className="absolute top-3 left-3">
                   <span

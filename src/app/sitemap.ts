@@ -118,9 +118,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ─── Vyzkoušej SCOTT / Czech Tour 2026 (sezónní landing) ───────────────────
   entries.push({ path: "/vyzkousej-scott", priority: 0.8, changefreq: "weekly" });
 
-  // ─── ISAAC event (časově citlivé) ──────────────────────────────────────────
-  entries.push({ path: "/isaac-test", priority: 1.0, changefreq: "daily" });
-  entries.push({ path: "/isaac-test/podminky", priority: 0.5, changefreq: "monthly" });
+  // ─── ISAAC event — PROBĚHLÁ akce (5/2026), zůstává jako archiv ──────────────
+  entries.push({ path: "/isaac-test", priority: 0.3, changefreq: "yearly" });
+  entries.push({ path: "/isaac-test/podminky", priority: 0.2, changefreq: "yearly" });
 
   // ─── Sport info routes (kamenná prodejna) ──────────────────────────────────
   for (const p of [
@@ -201,9 +201,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     }
   }
-
-  // ─── Wishlist (mělká priorita, ne pro SEO) ─────────────────────────────────
-  entries.push({ path: "/wishlist", priority: 0.3, changefreq: "yearly" });
 
   // ─── Legal (low priority) ──────────────────────────────────────────────────
   for (const p of ["/obchodni-podminky", "/ochrana-osobnich-udaju", "/zasady-cookies"]) {

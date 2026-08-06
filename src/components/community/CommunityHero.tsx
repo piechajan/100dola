@@ -38,7 +38,7 @@ export default function CommunityHero() {
 
         {/* Headline */}
         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.93] max-w-3xl">
-          Jedeme
+          Jedeme{" "}
           <br />
           <span style={{ color: "#2EAA6E" }}>spolu.</span>
         </h1>

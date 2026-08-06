@@ -14,7 +14,7 @@ export const COMPANY = {
     addressRegion: "Praha",
   },
   /** Zápis v obchodním rejstříku. */
-  registration: "vedená u Městského soudu v Praze, oddíl C, vložka 299814",
+  registration: "vedená u Městského soudu v Praze, oddíl C, vložka 300035",
   contact: {
     person: "Jan Piecha",
     role: "Zakladatel",

@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import { STERNBERK_STORE } from "@/data/company";
 
 export const metadata: Metadata = {
-  title: "O nás — 100dola sport Šternberk | kola, běh, Malaga, OMC",
+  title: { absolute: "O nás — 100dola sport Šternberk | kola, běh, Malaga, OMC" },
   description:
     "100dola sport — kamenná prodejna ve Šternberku (Partyzánská 2). Kola, běžecké a lyžařské vybavení, servis, bikefit, přeprava kol do Malagy, komunita Open Miles Clinic.",
   alternates: { canonical: "/o-nas" },
@@ -46,7 +46,7 @@ export default function ONasPage() {
               <span className="text-xs tracking-[0.18em] uppercase font-bold text-[#3B7CF4]">O projektu</span>
             </div>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-[0.92] tracking-tight mb-6">
-              Sport je způsob,<br />jak žít.
+              Sport je způsob,{" "}<br />jak žít.
             </h1>
             <p className="text-lg text-white/70 leading-relaxed mb-10 max-w-lg">
               100dola vzniklo z potřeby, která neexistovala — mít jedno přirozené místo pro vybavení, cestu na soustředění i partu, se kterou chceš jet.

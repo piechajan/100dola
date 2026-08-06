@@ -118,6 +118,7 @@ export default function ContactForm() {
           Téma
         </label>
         <select
+          aria-label="Téma zprávy"
           value={topic}
           onChange={(e) => setTopic(e.target.value as typeof topic)}
           className="w-full px-4 py-3 rounded-xl border border-[#E2E6F3] text-sm bg-white focus:outline-none focus:border-[#3B7CF4]"

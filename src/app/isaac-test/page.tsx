@@ -3,8 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import IsaacTestForm from "@/components/isaac/IsaacTestForm";
-import { ISAAC_BIKES, ISAAC_DAYS, ISAAC_BRAND, ISAAC_BRING } from "@/data/isaac-bikes";
+import { ISAAC_BRAND, ISAAC_BRING } from "@/data/isaac-bikes";
 
 export const metadata: Metadata = {
   title: "Testovací jízdy ISAAC · Šternberk · víkend Závodu Míru 2026",
@@ -168,9 +167,35 @@ export default function IsaacTestPage() {
           </div>
         </section>
 
-        {/* Form */}
+        {/* Akce PROBĚHLA — archiv (rezervace zavřené) */}
         <section className="max-w-[1100px] mx-auto px-6 md:px-12 py-10">
-          <IsaacTestForm bikes={ISAAC_BIKES} days={ISAAC_DAYS} />
+          <div className="bg-white rounded-2xl border border-[#E2E6F3] p-8 md:p-10 text-center">
+            <div className="inline-block text-xs font-bold uppercase tracking-[0.18em] text-[#9AA3C2] mb-2">
+              Proběhlá akce
+            </div>
+            <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-3">
+              Testovací jízdy ISAAC už proběhly
+            </h2>
+            <p className="text-[#5A6480] max-w-xl mx-auto mb-6">
+              Testování ISAAC se konalo o víkendu Závodu Míru (29. 5. – 1. 6. 2026) v prodejně
+              100dola sport ve Šternberku. Díky všem, kdo dorazili! Kola SCOTT si u nás můžeš
+              vyzkoušet i teď.
+            </p>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <Link
+                href="/vyzkousej-scott"
+                className="inline-flex items-center px-6 py-3 rounded-full bg-[#3B7CF4] text-white text-sm font-black hover:opacity-90 transition-opacity"
+              >
+                Vyzkoušej SCOTT →
+              </Link>
+              <Link
+                href="/community"
+                className="inline-flex items-center px-6 py-3 rounded-full border-2 border-[#E2E6F3] text-[#1a1a2e] text-sm font-bold hover:border-[#3B7CF4] transition-colors"
+              >
+                Naše komunita
+              </Link>
+            </div>
+          </div>
         </section>
 
         {/* FB Event — sekundární CTA */}

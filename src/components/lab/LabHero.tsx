@@ -39,7 +39,7 @@ export default function LabHero() {
         </div>
 
         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.92] max-w-3xl">
-          {LAB_HERO.h1Line1}
+          {LAB_HERO.h1Line1}{" "}
           <br />
           <span style={{ color: "#7BC9A8" }}>{LAB_HERO.h1Line2}</span>
         </h1>

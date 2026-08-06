@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Zásady cookies — 100dola",
+  title: { absolute: "Zásady cookies — 100dola" },
   description: "Jaké cookies a externí skripty 100dola.com používá, k čemu, jak dlouho a jak je odmítnout.",
   alternates: { canonical: "/zasady-cookies" },
 };

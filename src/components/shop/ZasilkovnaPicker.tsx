@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 
 // Oficiální Packeta (Zásilkovna) widget — viz https://docs.packeta.com/docs/widget-v6.
-// Pro produkci nahradit `PACKETA_API_KEY` reálným klíčem z partnerského účtu.
-// Test/demo klíč: f1c5fb09a4a05f3a (Packeta sandbox)
-const PACKETA_API_KEY = process.env.NEXT_PUBLIC_PACKETA_API_KEY || "f1c5fb09a4a05f3a";
+// Klíč čistě z env (NEXT_PUBLIC_PACKETA_API_KEY). Bez env se widget neotevře —
+// viz guard níže. Žádný hardcoded fallback klíč v kódu.
+const PACKETA_API_KEY = process.env.NEXT_PUBLIC_PACKETA_API_KEY;
 const SCRIPT_URL = "https://widget.packeta.com/v6/www/js/library.js";
 
 interface PacketaPoint {
@@ -69,6 +69,10 @@ export default function ZasilkovnaPicker({ value, onChange, required }: Props) {
   }, []);
 
   const handleOpen = () => {
+    if (!PACKETA_API_KEY) {
+      console.warn("[Zasilkovna] NEXT_PUBLIC_PACKETA_API_KEY není nastaven — widget nelze otevřít");
+      return;
+    }
     if (!scriptLoaded || !window.Packeta) {
       console.warn("[Zasilkovna] widget script not loaded yet");
       return;
@@ -102,7 +106,7 @@ export default function ZasilkovnaPicker({ value, onChange, required }: Props) {
         <button
           type="button"
           onClick={handleOpen}
-          disabled={!scriptLoaded}
+          disabled={!scriptLoaded || !PACKETA_API_KEY}
           className="shrink-0 px-5 py-3 text-sm font-bold text-white rounded-xl bg-[#3B7CF4] hover:opacity-90 disabled:opacity-50 transition-opacity"
         >
           {scriptLoaded ? "Vybrat pobočku" : "Načítám…"}
