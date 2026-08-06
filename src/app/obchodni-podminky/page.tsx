@@ -131,6 +131,12 @@ export default function ObchodniPodminkyPage() {
                   zásilek.
                 </li>
               </ul>
+              <p className="text-[#5A6480] mt-3">
+                <strong>Ceny dopravy:</strong> zdarma při objednávce nad 2 500 Kč (včetně objemných
+                zásilek). Do 2 500 Kč činí dopravné 100 Kč (běžný balík) / 400 Kč (objemná zásilka —
+                kola, lyže). Osobní vyzvednutí v prodejně je vždy zdarma. Aktuální cena dopravy je
+                vždy uvedena v košíku před dokončením objednávky.
+              </p>
               <p className="text-[#5A6480] mt-2">
                 Předpokládaná doba dodání je 3–10 pracovních dnů od přijetí platby.
                 U produktů, které dodáváme od externích dodavatelů, může být
