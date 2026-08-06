@@ -76,7 +76,7 @@ export default async function LocationPage({
             </nav>
             <div className="inline-block text-xs font-bold uppercase tracking-[0.18em] text-[#3B7CF4] mb-3">
               {loc.type === "store"
-                ? "Kamenná prodejna"
+                ? "Showroom a prodejna"
                 : loc.type === "pickup"
                   ? "Výdej + doručení"
                   : loc.type === "community"

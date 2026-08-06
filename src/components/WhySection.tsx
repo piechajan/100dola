@@ -56,7 +56,7 @@ export default function WhySection() {
             </span>
           </div>
           <h2 className="text-3xl md:text-4xl font-black text-[#111111]">
-            Kamenná prodejna, ne jen e-shop.
+            Showroom a prodejna, ne jen e-shop.
             {" "}
             <br />
             <span className="text-[#9A9A9A]">

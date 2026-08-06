@@ -12,7 +12,7 @@ const TOPICS = [
   { value: "malaga", label: "100dola Malaga — přeprava / pobyty" },
   { value: "lab", label: "100dola Lab — servis kol" },
   { value: "community", label: "Open Miles Clinic — akce" },
-  { value: "store", label: "Kamenná prodejna Šternberk" },
+  { value: "store", label: "Showroom a prodejna Šternberk" },
 ] as const;
 
 export default function ContactForm() {

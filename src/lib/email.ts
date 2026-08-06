@@ -1370,7 +1370,7 @@ const TOPIC_LABELS: Record<ContactEmailPayload["topic"], string> = {
   malaga: "100dola Malaga (přeprava / pobyty)",
   lab: "100dola Lab (servis kol)",
   community: "Open Miles Clinic (akce)",
-  store: "Kamenná prodejna Šternberk",
+  store: "Showroom a prodejna Šternberk",
 };
 
 export async function sendContactNotification(p: ContactEmailPayload): Promise<void> {

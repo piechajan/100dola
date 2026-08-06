@@ -221,13 +221,13 @@ export default function ONasPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
               <div className="text-xs tracking-[0.22em] uppercase font-bold text-[#3B7CF4] mb-3">
-                Kamenná prodejna
+                Showroom a prodejna
               </div>
               <h2 className="text-3xl md:text-4xl font-black text-[#1a1a2e] leading-tight mb-4">
                 Najdeš nás ve Šternberku.
               </h2>
               <p className="text-base text-[#5A6480] leading-relaxed mb-3">
-                Nejsme jen e-shop. Máme kamenný obchod přímo v centru Šternberka —{" "}
+                Nejsme jen e-shop. Máme showroom a prodejnu přímo v centru Šternberka —{" "}
                 <strong>{STERNBERK_STORE.streetAddress}</strong>, {STERNBERK_STORE.landmark}.
                 Stav si pro radu, na servis, vyzkoušet kolo, nebo se jen mrknout.
               </p>
@@ -312,7 +312,7 @@ export default function ONasPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-12">
             <TrustTile
               icon="🏪"
-              label="Kamenná prodejna"
+              label="Showroom a prodejna"
               value="Šternberk"
               detail="Partyzánská 2 + showroom Valašské Meziříčí"
             />

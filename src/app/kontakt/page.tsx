@@ -106,7 +106,7 @@ export default function KontaktPage() {
         {/* Kamenná prodejna */}
         <section className="max-w-[1100px] mx-auto px-6 md:px-12 pt-12">
           <div className="text-xs tracking-[0.22em] uppercase font-bold text-[#3B7CF4] mb-2">
-            Kamenná prodejna
+            Showroom a prodejna
           </div>
           <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-2">
             100dola sport · Šternberk

@@ -139,7 +139,7 @@ export default function Footer() {
               {COMPANY.registeredOffice.postalCode.replace(/(\d{3})(\d{2})/, "$1 $2")} {COMPANY.registeredOffice.addressLocality}
             </div>
             <div>
-              <div className="font-bold text-white/60 mb-1">Kamenná prodejna</div>
+              <div className="font-bold text-white/60 mb-1">Showroom a prodejna</div>
               <a
                 href={STERNBERK_STORE.mapsLinkUrl}
                 target="_blank"
