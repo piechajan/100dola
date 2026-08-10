@@ -16,8 +16,8 @@ function formatPrice(n: number): string {
 
 /**
  * Sportimport-style configurator pro ISAAC kola.
- * Default: první isAvailable tag per option.
- * Cena live: basePrice + sum(modifiers).
+ * Default: supplier defaultTagExternalId per option (fallback první isAvailable).
+ * Cena live: basePrice + sum(modifiers), modifiery relativní k defaultu.
  * Add to cart: snapshot konfigurace v note + final price.
  */
 export default function ConfiguratorUI({ product, schema }: ConfiguratorUIProps) {
@@ -35,13 +35,18 @@ export default function ConfiguratorUI({ product, schema }: ConfiguratorUIProps)
     return m;
   }, [schema.tags]);
 
-  // Default výběr: první available tag per option
+  // Default výběr: supplier default tag (odpovídá base ceně, priceModifier 0),
+  // fallback na první available tag. Díky tomu iniciální build i cena sedí na
+  // base produkt a odchylka uživatele se korektně přičte/odečte.
   const [selected, setSelected] = useState<Record<string, string>>(() => {
     const init: Record<string, string> = {};
     for (const opt of schema.options) {
       const tags = tagsByOption.get(opt.externalId) ?? [];
-      const firstAvailable = tags.find((t) => t.isAvailable) ?? tags[0];
-      if (firstAvailable) init[opt.externalId] = firstAvailable.externalId;
+      const defaultTag =
+        tags.find((t) => t.externalId === opt.defaultTagExternalId && t.isAvailable) ??
+        tags.find((t) => t.isAvailable) ??
+        tags[0];
+      if (defaultTag) init[opt.externalId] = defaultTag.externalId;
     }
     return init;
   });

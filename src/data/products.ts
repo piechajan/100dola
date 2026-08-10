@@ -87,6 +87,9 @@ export interface ConfiguratorSchema {
   options: Array<{
     name: string;
     externalId: string;
+    /** Supplier default tag = komponenta zahrnutá v base ceně (priceModifier 0).
+     *  Předvybíráme ji, aby iniciální build i cena odpovídaly base produktu. */
+    defaultTagExternalId?: string;
   }>;
   tags: Array<{
     name: string;

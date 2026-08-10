@@ -158,6 +158,8 @@ function parseConfiguratorSchema(raw: unknown): ConfiguratorSchema | undefined {
       return {
         name: String(opt.name ?? ""),
         externalId: String(opt.externalId ?? ""),
+        defaultTagExternalId:
+          opt.defaultTagExternalId != null ? String(opt.defaultTagExternalId) : undefined,
       };
     }),
     tags: tgs.map((t) => {
