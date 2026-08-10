@@ -25,6 +25,7 @@ import Stars from "@/components/shop/Stars";
 import { getReviewAggregate, getPublicReviews } from "@/lib/shop/reviews";
 import { PRODUCTS, formatPrice, type Product } from "@/data/products";
 import { getProductBySlugMerged, getShopProducts } from "@/lib/shop/get-products";
+import { isLimitedProductSoldOut } from "@/lib/shop/limited-stock";
 import {
   resolveCategoryPath,
   getAllCategoryPaths,
@@ -110,7 +111,10 @@ export default async function ShopCatchAllPage({
       const productWithOverrides = product.configuratorSchema
         ? { ...product, configuratorSchema: await applyOverridesToSchema(product.configuratorSchema) }
         : product;
-      return renderProduct(productWithOverrides, all, aggregate, reviews);
+      const soldOut = productWithOverrides.limitedOneOff
+        ? await isLimitedProductSoldOut(productWithOverrides.slug)
+        : false;
+      return renderProduct(productWithOverrides, all, aggregate, reviews, soldOut);
     }
   }
 
@@ -177,6 +181,7 @@ function renderProduct(
   all: Product[],
   aggregate: Awaited<ReturnType<typeof getReviewAggregate>> = null,
   reviews: Awaited<ReturnType<typeof getPublicReviews>> = [],
+  soldOut = false,
 ) {
   // splitVat výpočty se počítají v PDPHeroPrice (klient čte effective price)
   // Rule-based + synergy mapping. Behavioral pipeline později.
@@ -184,7 +189,7 @@ function renderProduct(
 
   // Schema.org Product + AggregateRating + rozšířené Offer
   // Availability: InStock pokud aspoň 1 variant in_stock, jinak PreOrder
-  const anyInStock = (product.variants ?? []).some((v) => v.isInStock);
+  const anyInStock = !soldOut && (product.variants ?? []).some((v) => v.isInStock);
   const availability = anyInStock
     ? "https://schema.org/InStock"
     : product.fulfillment === "supplier"
@@ -415,7 +420,7 @@ function renderProduct(
                     <ConfiguratorInquiryNotice productName={product.name} />
                   )
                 ) : (
-                  <PdpBuyBox product={product} />
+                  <PdpBuyBox product={product} soldOut={soldOut} />
                 )}
               </div>
 

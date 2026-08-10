@@ -24,6 +24,12 @@ import {
   extractClientContext,
   extractFbCookies,
 } from "@/lib/meta-capi";
+import { revalidateTag } from "next/cache";
+
+/** Limitované „1 kus" produkty — po prodeji už nejdou objednat (viz guard níže). */
+const LIMITED_ONE_OFF_SLUGS = new Set(
+  PRODUCTS.filter((p) => p.limitedOneOff).map((p) => p.slug),
+);
 
 function isHoneypotFilled(body: unknown): boolean {
   if (!body || typeof body !== "object") return false;
@@ -171,6 +177,35 @@ export async function POST(req: NextRequest) {
       }
       item.priceWithVat = authoritative.priceWithVat;
       item.vatRate = authoritative.vatRate;
+    }
+  }
+
+  // BEZPEČNOST 1b: limitované „1 kus" produkty (limitedOneOff) — po prodeji už
+  // nesmí jít objednat znovu. Autoritativní kontrola: pokud v order_items existuje
+  // řádek se stejným slugem, produkt je vyprodaný → odmítni celou objednávku.
+  const limitedSlugsInCart = Array.from(
+    new Set(data.items.map((i) => i.slug).filter((slug) => LIMITED_ONE_OFF_SLUGS.has(slug))),
+  );
+  if (limitedSlugsInCart.length > 0 && isSupabaseConfigured()) {
+    try {
+      const sb = getSupabase();
+      const { data: sold } = await sb
+        .from("order_items")
+        .select("slug")
+        .in("slug", limitedSlugsInCart)
+        .limit(1);
+      if (sold && sold.length > 0) {
+        const soldSlug = (sold[0] as { slug: string }).slug;
+        const soldName = PRODUCTS.find((p) => p.slug === soldSlug)?.name ?? "Tato položka";
+        return NextResponse.json(
+          {
+            error: `${soldName} je poslední kus a už je prodaný. Napiš nám přes kontakt — zkusíme sehnat další kus nebo nabídnout alternativu.`,
+          },
+          { status: 409 },
+        );
+      }
+    } catch (e) {
+      console.warn("[orders] limitedOneOff kontrola selhala — pokračuji:", e);
     }
   }
 
@@ -399,6 +434,12 @@ export async function POST(req: NextRequest) {
         })),
       );
       if (itemsErr) throw itemsErr;
+
+      // Limitovaný „1 kus" produkt právě prodán → invaliduj sold-out cache,
+      // aby PDP hned přepnul velikost na „na dotaz".
+      if (limitedSlugsInCart.length > 0) {
+        revalidateTag("limited-stock", "minutes");
+      }
 
       if (discountCode) {
         await incrementDiscountUsage(discountCode);

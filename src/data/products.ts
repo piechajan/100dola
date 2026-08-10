@@ -66,6 +66,13 @@ export interface Product {
     isInStock?: boolean;
     availability?: string;
   }>;
+  /**
+   * Limitovaný „1 kus" produkt (např. jeden fyzický kus jedné velikosti).
+   * Skladová velikost (`variants[].isInStock: true`) jde koupit; ostatní jsou
+   * „na dotaz". Po objednání skladové velikosti server (orders route) další
+   * objednávku odmítne a PDP produkt přepne na „na dotaz" (viz limited-stock).
+   */
+  limitedOneOff?: boolean;
   /** Supplier konfigurátor — ISAAC kola → 'Sestavit' CTA místo 'Do košíku'. */
   hasConfigurator?: boolean;
   /** Konfigurátor data ze supplier_products.configurator_schema (jen pro PDP). */
@@ -726,6 +733,77 @@ export const PRODUCTS: Product[] = [
     ],
     stockStatus: "on_request",
     deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní předání po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín potvrdíme po objednávce.",
+  },
+  {
+    id: 27,
+    name: "Scott W's Pro WB — dámská cyklistická vesta",
+    slug: "scott-vest-w-pro-wb",
+    year: "2026",
+    brand: "scott",
+    categoryId: "obleceni-bundy",
+    priceWithVat: 2072,
+    originalPriceWithVat: 2590,
+    vatRate: 21,
+    bulky: false,
+    badges: ["Poslední kus · M", "Sleva"],
+    note: "Ultralehká a skladná větruodolná vesta. Větruvzdorné panely vpředu chrání před větrem, síťovina na zádech odvětrává. Silikonový lem drží vestu na místě, elastický materiál nesvazuje pohyb. Máme fyzicky poslední kus ve velikosti M — ostatní velikosti na dotaz.",
+    photo: "/media/scott-vest-w-pro-wb.webp",
+    specs: [
+      "Větruodolné panely vpředu + zádová síťovina",
+      "DRYOxcell · DUROxpand, silikonový lem",
+      "100% polyester, podšívka 87% recyklovaný polyester / 13% elastan, slim střih",
+    ],
+    gender: "F",
+    useCase: "performance",
+    color: "Cotton White",
+    colorFamily: "white",
+    limitedOneOff: true,
+    variants: [
+      { sku: "scott-vest-w-pro-wb-xs", size: "XS", isInStock: false, availability: "Na dotaz" },
+      { sku: "scott-vest-w-pro-wb-s", size: "S", isInStock: false, availability: "Na dotaz" },
+      { sku: "scott-vest-w-pro-wb-m", size: "M", isInStock: true, availability: "Skladem — poslední kus" },
+      { sku: "scott-vest-w-pro-wb-l", size: "L", isInStock: false, availability: "Na dotaz" },
+      { sku: "scott-vest-w-pro-wb-xl", size: "XL", isInStock: false, availability: "Na dotaz" },
+    ],
+  },
+  {
+    id: 28,
+    name: "Scott MTB Team BOA — MTB tretry",
+    slug: "scott-mtb-team-boa",
+    year: "2026",
+    brand: "scott",
+    categoryId: "tretry-mtb",
+    priceWithVat: 2723,
+    originalPriceWithVat: 3890,
+    vatRate: 21,
+    bulky: false,
+    badges: ["Poslední kus · 46", "Sleva"],
+    note: "MTB tretry s rychloutahovacím systémem BOA Li-2 — rychlé a přesné dotažení. Tuhost 8 vyvažuje efektivní šlapání a pohodlí při chůzi, odolná gripová podešev sticki drží v náročném terénu. Kompatibilní s 2-bolt MTB nášlapy. Máme fyzicky poslední kus ve velikosti 46 — ostatní velikosti na dotaz.",
+    photo: "/media/scott-mtb-team-boa.webp",
+    specs: [
+      "BOA Li-2 rychloutahování, tuhost 8",
+      "Podešev sticki, 2-bolt MTB nášlapy",
+      "Svršek polyuretan, mezipodešev PA + skelné vlákno, ~350 g",
+    ],
+    gender: "U",
+    useCase: "performance",
+    color: "Black",
+    colorFamily: "black",
+    limitedOneOff: true,
+    variants: [
+      { sku: "scott-mtb-team-boa-38", size: "38", isInStock: false, availability: "Na dotaz" },
+      { sku: "scott-mtb-team-boa-39", size: "39", isInStock: false, availability: "Na dotaz" },
+      { sku: "scott-mtb-team-boa-40", size: "40", isInStock: false, availability: "Na dotaz" },
+      { sku: "scott-mtb-team-boa-41", size: "41", isInStock: false, availability: "Na dotaz" },
+      { sku: "scott-mtb-team-boa-42", size: "42", isInStock: false, availability: "Na dotaz" },
+      { sku: "scott-mtb-team-boa-43", size: "43", isInStock: false, availability: "Na dotaz" },
+      { sku: "scott-mtb-team-boa-43-5", size: "43.5", isInStock: false, availability: "Na dotaz" },
+      { sku: "scott-mtb-team-boa-44", size: "44", isInStock: false, availability: "Na dotaz" },
+      { sku: "scott-mtb-team-boa-45", size: "45", isInStock: false, availability: "Na dotaz" },
+      { sku: "scott-mtb-team-boa-46", size: "46", isInStock: true, availability: "Skladem — poslední kus" },
+      { sku: "scott-mtb-team-boa-47", size: "47", isInStock: false, availability: "Na dotaz" },
+      { sku: "scott-mtb-team-boa-48", size: "48", isInStock: false, availability: "Na dotaz" },
+    ],
   },
 ];
 

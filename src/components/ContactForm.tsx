@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
@@ -25,6 +25,18 @@ export default function ContactForm() {
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<{ ok: boolean; message: string } | null>(null);
   const [turnstileToken, setTurnstileToken] = useState("");
+
+  // Předvyplnění z PDP „na dotaz" (ProductInquiryButton → /kontakt?produkt=…&velikost=…)
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    const produkt = q.get("produkt");
+    if (!produkt) return;
+    const velikost = q.get("velikost");
+    setTopic("sport");
+    setMessage(
+      `Mám zájem o: ${produkt}${velikost ? ` (velikost ${velikost})` : ""}.\nProsím o informaci k dostupnosti a případné objednání.`,
+    );
+  }, []);
 
   const canSubmit =
     !submitting &&
@@ -101,7 +113,7 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={submit} className="bg-white rounded-2xl border border-[#E2E6F3] p-6 md:p-8 space-y-4">
+    <form id="kontakt-formular" onSubmit={submit} className="bg-white rounded-2xl border border-[#E2E6F3] p-6 md:p-8 space-y-4">
       {result && !result.ok && (
         <div className="rounded-xl p-3 bg-red-50 border border-red-200 text-sm text-red-900">
           {result.message}

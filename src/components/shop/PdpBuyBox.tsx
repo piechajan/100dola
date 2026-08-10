@@ -5,6 +5,7 @@ import type { Product } from "@/data/products";
 import { usePdpImage } from "@/lib/pdp-image-store";
 import AddToCartButton from "./AddToCartButton";
 import RestockNotifyButton from "./RestockNotifyButton";
+import ProductInquiryButton from "./ProductInquiryButton";
 
 interface SizeVariant {
   externalId?: string;
@@ -20,9 +21,18 @@ interface SizeVariant {
  * množství a „Do košíku". Zvolená varianta se propíše do košíku i objednávky
  * a výběr barvy přepne hlavní foto v galerii (přes usePdpImage store).
  */
-export default function PdpBuyBox({ product }: { product: Product }) {
+export default function PdpBuyBox({
+  product,
+  soldOut = false,
+}: {
+  product: Product;
+  soldOut?: boolean;
+}) {
   const colors = product.colorOptions ?? [];
   const setPhoto = usePdpImage((s) => s.setPhoto);
+  // Limitovaný „1 kus": skladová velikost jde koupit, ostatní na dotaz.
+  // Po prodeji (soldOut) je na dotaz i skladová velikost.
+  const isLimited = product.limitedOneOff === true;
 
   const sizes = useMemo<SizeVariant[]>(
     () => (product.variants ?? []).filter((v) => v.size && v.size.trim().length > 0),
@@ -44,6 +54,11 @@ export default function PdpBuyBox({ product }: { product: Product }) {
   const needColor = colors.length > 0;
   const needSize = sizes.length > 0 && !isOneSize;
   const missing = (needColor && !colorName) || (needSize && !sizeLabel);
+
+  const activeInStock = activeSize?.isInStock === true && !soldOut;
+  // „Na dotaz" režim: limitovaný produkt, kde vybraná velikost není skladem
+  // (jiná než skladová velikost) nebo je celý produkt už vyprodaný.
+  const inquiryMode = isLimited && (soldOut || (activeSize != null && !activeInStock));
 
   function pickColor(c: { name: string; photo: string }) {
     setColorName(c.name);
@@ -103,11 +118,11 @@ export default function PdpBuyBox({ product }: { product: Product }) {
               {activeSize && (
                 <span className="text-xs font-bold text-[#1a1a2e]">
                   {activeSize.size}
-                  {activeSize.isInStock ? (
+                  {activeInStock ? (
                     <span className="ml-2 text-[10px] uppercase font-bold text-[#065F46]">skladem</span>
                   ) : (
                     <span className="ml-2 text-[10px] uppercase font-bold text-[#92400E]">
-                      na objednávku
+                      {isLimited ? "na dotaz" : "na objednávku"}
                     </span>
                   )}
                 </span>
@@ -116,7 +131,7 @@ export default function PdpBuyBox({ product }: { product: Product }) {
             <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
               {sizes.map((v) => {
                 const isActive = v.size === sizeLabel;
-                const inStock = v.isInStock === true;
+                const inStock = v.isInStock === true && !soldOut;
                 return (
                   <button
                     key={v.externalId ?? v.size}
@@ -141,19 +156,30 @@ export default function PdpBuyBox({ product }: { product: Product }) {
               })}
             </div>
             <p className="text-[10px] text-[#9AA3C2] mt-2">
-              Žluté tečky = na objednávku (dodání 5-10 dnů). Bez tečky = skladem nebo bez stavu info.
+              {isLimited
+                ? "Bez tečky = poslední kus skladem. Velikosti se žlutou tečkou jsou na dotaz — napiš nám a zkusíme sehnat."
+                : "Žluté tečky = na objednávku (dodání 5-10 dnů). Bez tečky = skladem nebo bez stavu info."}
             </p>
           </div>
         )
       )}
 
-      <AddToCartButton
-        product={product}
-        large
-        variant={variant}
-        disabled={missing}
-        disabledLabel={needSize && !sizeLabel ? "Zvol velikost" : "Zvol barvu"}
-      />
+      {inquiryMode ? (
+        <ProductInquiryButton
+          productName={product.name}
+          productSlug={product.slug}
+          size={isOneSize ? undefined : sizeLabel}
+          soldOut={soldOut}
+        />
+      ) : (
+        <AddToCartButton
+          product={product}
+          large
+          variant={variant}
+          disabled={missing}
+          disabledLabel={needSize && !sizeLabel ? "Zvol velikost" : "Zvol barvu"}
+        />
+      )}
 
       {product.supplierProductId && activeSize && !activeSize.isInStock && (
         <RestockNotifyButton
