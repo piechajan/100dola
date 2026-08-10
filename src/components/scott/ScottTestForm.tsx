@@ -16,17 +16,17 @@ const RESERVATIONS_OPEN_ISO = "2026-08-01";
 // Víkendové vyjížďky (Dlouhé stráně / Pustevny) se tu nerozepisují —
 // řeší se poptávkou → osobní domluva termínu i předání kola.
 const TEST_DAYS = [
-  { value: "po-3-8", label: "Po 3. 8." },
-  { value: "ut-4-8", label: "Út 4. 8." },
-  { value: "st-5-8", label: "St 5. 8." },
-  { value: "ct-6-8", label: "Čt 6. 8." },
-  { value: "po-10-8", label: "Po 10. 8." },
-  { value: "ut-11-8", label: "Út 11. 8." },
-  { value: "st-12-8", label: "St 12. 8." },
-  { value: "ct-13-8", label: "Čt 13. 8." },
-  { value: "pa-14-8", label: "Pá 14. 8." },
-  { value: "po-17-8", label: "Po 17. 8." },
-  { value: "ut-18-8", label: "Út 18. 8." },
+  { value: "po-3-8", label: "Po 3. 8.", iso: "2026-08-03" },
+  { value: "ut-4-8", label: "Út 4. 8.", iso: "2026-08-04" },
+  { value: "st-5-8", label: "St 5. 8.", iso: "2026-08-05" },
+  { value: "ct-6-8", label: "Čt 6. 8.", iso: "2026-08-06" },
+  { value: "po-10-8", label: "Po 10. 8.", iso: "2026-08-10" },
+  { value: "ut-11-8", label: "Út 11. 8.", iso: "2026-08-11" },
+  { value: "st-12-8", label: "St 12. 8.", iso: "2026-08-12" },
+  { value: "ct-13-8", label: "Čt 13. 8.", iso: "2026-08-13" },
+  { value: "pa-14-8", label: "Pá 14. 8.", iso: "2026-08-14" },
+  { value: "po-17-8", label: "Po 17. 8.", iso: "2026-08-17" },
+  { value: "ut-18-8", label: "Út 18. 8.", iso: "2026-08-18" },
 ];
 
 const TIME_SLOTS = ["9:00–10:30", "10:30–12:00", "12:00–13:30", "13:30–15:00", "15:00–16:30"];
@@ -50,9 +50,13 @@ export default function ScottTestForm() {
   const [turnstileToken, setTurnstileToken] = useState("");
   // Gate se dosadí po mountu (žádný hydration mismatch, žádné build-time zamrznutí).
   const [reservationsOpen, setReservationsOpen] = useState(false);
+  // Dnešní datum se dosadí po mountu → proběhlé termíny zašednou (žádný hydration mismatch).
+  const [todayIso, setTodayIso] = useState("");
 
   useEffect(() => {
-    setReservationsOpen(new Date().toISOString().slice(0, 10) >= RESERVATIONS_OPEN_ISO);
+    const now = new Date().toISOString().slice(0, 10);
+    setReservationsOpen(now >= RESERVATIONS_OPEN_ISO);
+    setTodayIso(now);
   }, []);
 
   const bikeObj = SCOTT_TEST_BIKES.find((b) => b.slug === bike);
@@ -248,21 +252,32 @@ export default function ScottTestForm() {
         {/* Testovací jízda — vyber den */}
         <div className="text-xs font-bold text-[#5A6480] uppercase tracking-wider mb-2">Testovací jízda — vyber den</div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-          {TEST_DAYS.map((d) => (
-            <button
-              key={d.value}
-              type="button"
-              onClick={() => {
-                setTestDay(d.value);
-                setRide(false);
-              }}
-              className={`px-3 py-3 rounded-xl border-2 text-sm font-bold transition ${
-                testDay === d.value && !ride ? "border-[#3B7CF4] bg-[#F0F4FF] text-[#1a1a2e]" : "border-[#E2E6F3] bg-white text-[#5A6480] hover:border-[#3B7CF4]/40"
-              }`}
-            >
-              {d.label}
-            </button>
-          ))}
+          {TEST_DAYS.map((d) => {
+            const isPast = todayIso !== "" && d.iso < todayIso;
+            return (
+              <button
+                key={d.value}
+                type="button"
+                disabled={isPast}
+                aria-disabled={isPast}
+                title={isPast ? "Termín už proběhl" : undefined}
+                onClick={() => {
+                  if (isPast) return;
+                  setTestDay(d.value);
+                  setRide(false);
+                }}
+                className={`px-3 py-3 rounded-xl border-2 text-sm font-bold transition ${
+                  isPast
+                    ? "border-[#E2E6F3] bg-[#F5F6FA] text-[#C2C8DB] line-through opacity-50 cursor-not-allowed"
+                    : testDay === d.value && !ride
+                      ? "border-[#3B7CF4] bg-[#F0F4FF] text-[#1a1a2e]"
+                      : "border-[#E2E6F3] bg-white text-[#5A6480] hover:border-[#3B7CF4]/40"
+                }`}
+              >
+                {d.label}
+              </button>
+            );
+          })}
         </div>
 
         {/* Vyber čas — 1,5h slot */}
