@@ -97,7 +97,7 @@ export const SCOTT_TEST_BIKES: ScottTestBike[] = [
     slug: "addict-gravel-20",
     model: "SCOTT Addict Gravel 20",
     cat: "Gravel",
-    sizes: ["M", "L", "XL"],
+    sizes: ["S", "M", "L", "XL"],
     photos: [
       "/media/scott-test/addict-gravel-20/01.webp",
       "/media/scott-test/addict-gravel-20/02.webp",
