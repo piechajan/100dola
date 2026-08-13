@@ -8,7 +8,7 @@ const pillars = [
   {
     tag: "100dola sport · Šternberk & okolí",
     headline: "Vybav se\nna sezónu.",
-    description: "Showroom a prodejna Šternberk + showroom Valašské Meziříčí. Doručujeme po celé ČR. Složené kolo osobně do Vsetína, Olomouce, Ostravy (i jinam po domluvě).",
+    description: "Showroom a prodejna Šternberk. Doručujeme po celé ČR. Složené kolo osobně do Valašského Meziříčí, Vsetína, Olomouce, Ostravy (i jinam po domluvě).",
     cta: "Do shopu",
     href: "/shop",
     accentColor: "#3B7CF4",

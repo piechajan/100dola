@@ -5,10 +5,10 @@
 // Strategie (Jan 2026-07): cílíme na SPORTOVNÍ VYBAVENÍ + OBLEČENÍ (bonitnější
 // klientela). Hlavní sortiment = KOLA + vybavení na kolo (helmy, tretry,
 // oblečení, radar, osvětlení) + sportovní VÝŽIVA (iontáky, gely, tyčinky) +
-// BĚH (boty + oblečení). Šternberk = kamenná prodejna, Olomouc = výdej +
-// doručení (LIVE). Valmez + Vsetín = nachystané, spustíme koncem roku po
-// potvrzení prostor (published:false). Valmez využívá i community úhel
-// „Social rides Valašské Meziříčí".
+// BĚH (boty + oblečení). Šternberk = kamenná prodejna. Olomouc, Valašské
+// Meziříčí, Vsetín, Rožnov pod Radhoštěm = výdej + doručení (LIVE, model jako
+// Olomouc — NE kamenná prodejna). Nový Jičín = nachystané (published:false).
+// Valašská města využívají i community úhel „Social rides".
 
 export interface LocationHighlight {
   title: string;
@@ -156,10 +156,10 @@ export const LOCATIONS: Location[] = [
   // ───────────────────── VALAŠSKÉ MEZIŘÍČÍ (nachystané, NELIVE) ──────────────
   {
     slug: "valasske-mezirici",
-    published: false,
+    published: true,
     city: "Valašské Meziříčí",
     cityLocative: "ve Valašském Meziříčí",
-    type: "coming",
+    type: "pickup",
     distanceKm: 55,
     metaTitle: "Kola, cyklo vybavení a sport Valašské Meziříčí — 100dola sport",
     metaDescription:
@@ -182,11 +182,19 @@ export const LOCATIONS: Location[] = [
       },
     ],
     logistics:
-      "V současnosti obsluhujeme Valašské Meziříčí přes e-shop s osobním předáním a doručením. Rozšíření kamenného zázemí v regionu připravujeme.",
+      "Objednej z e-shopu a vyber osobní vyzvednutí — složené kolo i vybavení předáme přímo ve Valašském Meziříčí, nebo doručíme na adresu. Doprava zdarma nad 2 500 Kč. Servis, bikefit a testovací jízdy ISAAC jsou na prodejně ve Šternberku.",
+    localAngle: {
+      title: "Social rides Valašské Meziříčí",
+      body: "Ve Valmezu jezdíme komunitní vyjížďky Open Miles Clinic — přidej se, poznáš lidi i náš přístup k jízdě a o kole se pobavíme, až budeš chtít.",
+    },
     faq: [
       {
         q: "Máte prodejnu ve Valašském Meziříčí?",
-        a: "Zázemí ve Valašském Meziříčí připravujeme. Zatím obsluhujeme region přes e-shop s osobním předáním a doručením.",
+        a: "Kamennou prodejnu máme ve Šternberku. Pro Valašské Meziříčí nabízíme osobní předání složeného kola a vybavení a doručení — plus komunitu Social rides Valašské Meziříčí.",
+      },
+      {
+        q: "Jak funguje osobní předání ve Valmezu?",
+        a: "Objednáš online, vybereš osobní vyzvednutí, my se ozveme a domluvíme místo a čas předání ve Valašském Meziříčí. Předání je zdarma.",
       },
     ],
     keywords:
@@ -196,10 +204,10 @@ export const LOCATIONS: Location[] = [
   // ───────────────────────── VSETÍN (nachystané, NELIVE) ─────────────────────
   {
     slug: "vsetin",
-    published: false,
+    published: true,
     city: "Vsetín",
     cityLocative: "ve Vsetíně",
-    type: "coming",
+    type: "pickup",
     distanceKm: 70,
     metaTitle: "Kola, cyklo vybavení a sport Vsetín — 100dola sport",
     metaDescription:
@@ -222,15 +230,71 @@ export const LOCATIONS: Location[] = [
       },
     ],
     logistics:
-      "Vsetín a okolí zatím obsluhujeme přes e-shop s osobním předáním a doručením. Rozšíření zázemí v regionu připravujeme — sleduj naše profily.",
+      "Objednej z e-shopu a vyber osobní vyzvednutí — složené kolo i vybavení předáme přímo ve Vsetíně, nebo doručíme na adresu. Doprava zdarma nad 2 500 Kč. Servis, bikefit a testovací jízdy ISAAC jsou na prodejně ve Šternberku.",
+    localAngle: {
+      title: "Social rides Vsetín",
+      body: "Na Vsetínsku jezdíme komunitní vyjížďky Open Miles Clinic — přidej se a poznej náš přístup k jízdě i k výběru vybavení.",
+    },
     faq: [
       {
         q: "Máte prodejnu ve Vsetíně?",
-        a: "Zázemí v regionu připravujeme. Zatím obsluhujeme Vsetínsko přes e-shop s osobním předáním a doručením.",
+        a: "Kamennou prodejnu máme ve Šternberku. Pro Vsetín a okolí nabízíme osobní předání složeného kola a vybavení a doručení — plus komunitu Social rides Vsetín.",
+      },
+      {
+        q: "Jak funguje osobní předání ve Vsetíně?",
+        a: "Objednáš online, vybereš osobní vyzvednutí, ozveme se a domluvíme místo a čas předání ve Vsetíně. Předání je zdarma.",
       },
     ],
     keywords:
       "kola Vsetín, cyklistické vybavení Vsetín, cyklo oblečení Vsetín, servis kol Vsetín, helmy tretry Vsetín, sportovní výživa Vsetín, běžecké boty, bikefit, SCOTT ISAAC, Q36.5",
+  },
+
+  // ─────────────── ROŽNOV POD RADHOŠTĚM (výdej + doručení, LIVE) ─────────────
+  {
+    slug: "roznov-pod-radhostem",
+    published: true,
+    city: "Rožnov pod Radhoštěm",
+    cityLocative: "v Rožnově pod Radhoštěm",
+    type: "pickup",
+    distanceKm: 62,
+    metaTitle: "Kola, cyklo vybavení a sport Rožnov pod Radhoštěm — 100dola sport",
+    metaDescription:
+      "100dola sport pro Rožnov pod Radhoštěm a Beskydy — kola SCOTT / ISAAC / Lapierre / Ridley / Pinarello, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Osobní předání a doručení, servis a bikefit. Vybavení, které sami jezdíme.",
+    h1: "Kola, cyklistické vybavení a sport pro Rožnov pod Radhoštěm",
+    intro:
+      "Rožnov a Beskydy jsou jedno z nejlepších míst na kolo v Česku — od pohodových údolí Rožnovska po pořádné beskydské stoupáky. 100dola sport sem přináší silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, kompletní vybavení na kolo, sportovní výživu i běžecké boty. Vybíráme věci, které sami jezdíme — pro lidi, co chtějí kvalitu, ne kompromis.",
+    highlights: [
+      {
+        title: "Kola SCOTT · ISAAC · Lapierre · Ridley · Pinarello",
+        body: "Silniční, gravel a horská kola s poradenstvím, testovacími jízdami ISAAC a bikefitem — ať sedí posed i výběr podle beskydského terénu.",
+      },
+      {
+        title: "Vybavení na kolo a výživa",
+        body: `${CYCLING_GEAR}, k tomu ${NUTRITION}. Prémiová kvalita pro jezdce z Rožnovska a Beskyd, kterou v běžných řetězcích nekoupíš.`,
+      },
+      {
+        title: "Běh a servis",
+        body: `${RUNNING}. A ke kolům kompletní servis, voskování řetězů a bikefit pro celoroční ježdění.`,
+      },
+    ],
+    logistics:
+      "Objednej z e-shopu a vyber osobní vyzvednutí — složené kolo i vybavení předáme v Rožnově pod Radhoštěm, nebo doručíme na adresu. Doprava zdarma nad 2 500 Kč. Servis, bikefit a testovací jízdy ISAAC jsou na prodejně ve Šternberku.",
+    localAngle: {
+      title: "Social rides Valašské Meziříčí",
+      body: "Kousek od Rožnova jezdíme komunitní vyjížďky Open Miles Clinic ve Valašském Meziříčí — přidej se, poznáš lidi i náš přístup k jízdě.",
+    },
+    faq: [
+      {
+        q: "Máte prodejnu v Rožnově pod Radhoštěm?",
+        a: "Kamennou prodejnu máme ve Šternberku. Pro Rožnov a Beskydy nabízíme osobní předání složeného kola a vybavení a doručení — plus komunitu Social rides ve Valašském Meziříčí kousek od Rožnova.",
+      },
+      {
+        q: "Jak funguje osobní předání v Rožnově?",
+        a: "Objednáš online, vybereš osobní vyzvednutí, ozveme se a domluvíme místo a čas předání v Rožnově pod Radhoštěm. Předání je zdarma.",
+      },
+    ],
+    keywords:
+      "kola Rožnov pod Radhoštěm, cyklistické vybavení Rožnov, cyklo oblečení Rožnov, servis kol Rožnov, sportovní výživa Beskydy, běžecké boty Rožnov, bikefit, SCOTT ISAAC, Q36.5",
   },
 
   // ───────────────────────── NOVÝ JIČÍN (nachystané, NELIVE) ─────────────────

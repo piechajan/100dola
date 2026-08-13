@@ -314,7 +314,7 @@ export default function ONasPage() {
               icon="🏪"
               label="Showroom a prodejna"
               value="Šternberk"
-              detail="Partyzánská 2 + showroom Valašské Meziříčí"
+              detail="Partyzánská 2 · osobní předání po Moravě"
             />
             <TrustTile
               icon="📅"
