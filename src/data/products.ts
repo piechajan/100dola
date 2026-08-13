@@ -38,6 +38,13 @@ export interface Product {
   /** Volitelná kompletní výbava/specifikace (label → hodnota) pro rozklikávací
    *  tabulku na PDP. specs[] zůstávají jako 3 rychlé highlighty nad tabulkou. */
   specTable?: Array<{ label: string; value: string }>;
+  /** Volitelná geometrie (rozklikávací tabulka na PDP): velikosti jako sloupce,
+   *  řádky = geometrické hodnoty (reach, stack, úhly…). */
+  geometry?: {
+    sizes: string[];
+    rows: Array<{ label: string; values: string[] }>;
+    note?: string;
+  };
   /** Default "own". Supplier produkty mají "supplier". */
   fulfillment?: Fulfillment;
   /**
@@ -109,6 +116,24 @@ export interface ConfiguratorSchema {
     priceModifierCzk: number;
   }>;
 }
+
+/** Geometrie rámu Scott Scale RC (sdílená pro Team i World Cup). Zdroj: scott-sports.com. */
+const SCALE_RC_GEOMETRY = {
+  sizes: ["S", "M", "L", "XL"],
+  rows: [
+    { label: "Reach (mm)", values: ["418,5", "442,3", "463,6", "491,2"] },
+    { label: "Stack (mm)", values: ["600,3", "604,9", "618,9", "628,1"] },
+    { label: "Úhel hlavy (°)", values: ["67,9", "67,9", "67,9", "67,9"] },
+    { label: "Úhel sedové trubky (°)", values: ["75,4", "75,4", "75,3", "75,3"] },
+    { label: "Horní trubka horiz. (mm)", values: ["575", "600,2", "626", "656,5"] },
+    { label: "Délka sedové trubky (mm)", values: ["390", "440", "480", "530"] },
+    { label: "Zadní stavba (mm)", values: ["425", "425", "425", "425"] },
+    { label: "Rozvor (mm)", values: ["1105,4", "1131,1", "1158", "1189,4"] },
+    { label: "Výška nášlapu (mm)", values: ["752", "781", "800", "835,1"] },
+    { label: "Výška středu / BB (mm)", values: ["313", "313", "313", "313"] },
+  ],
+  note: "Rám Scale RC s nastavitelným úhlem hlavy (±0,6°) — uvedeny nominální hodnoty. Geometrie je sdílená pro Scale RC Team i World Cup.",
+};
 
 export const PRODUCTS: Product[] = [
   {
@@ -799,6 +824,7 @@ export const PRODUCTS: Product[] = [
       { label: "Hlavové složení", value: "Syncros s nastavením ±0,6°" },
       { label: "Hmotnost", value: "cca 11,2 kg" },
     ],
+    geometry: SCALE_RC_GEOMETRY,
     gender: "U",
     useCase: "race",
     color: "Carbon Black",
@@ -841,6 +867,7 @@ export const PRODUCTS: Product[] = [
       { label: "Pláště", value: "Maxxis Rekon Race 29×2.4\" (přední i zadní)" },
       { label: "Hmotnost", value: "cca 9,6 kg" },
     ],
+    geometry: SCALE_RC_GEOMETRY,
     gender: "U",
     useCase: "race",
     color: "Hush Purple",

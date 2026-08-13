@@ -20,6 +20,7 @@ import WishlistButton from "@/components/shop/WishlistButton";
 import RecentlyViewedSection from "@/components/shop/RecentlyViewedSection";
 import PdpBuyBox from "@/components/shop/PdpBuyBox";
 import ProductSpecTable from "@/components/shop/ProductSpecTable";
+import ProductGeometryTable from "@/components/shop/ProductGeometryTable";
 import GoogleReviewsCompact from "@/components/shop/GoogleReviewsCompact";
 import MobileStickyCTA from "@/components/shop/MobileStickyCTA";
 import ReviewsSection from "@/components/shop/ReviewsSection";
@@ -415,6 +416,7 @@ function renderProduct(
               )}
 
               <ProductSpecTable product={product} />
+              <ProductGeometryTable product={product} />
 
               <div id="pdp-buy" className="mt-8 scroll-mt-24">
                 {product.hasConfigurator && product.configuratorSchema ? (
