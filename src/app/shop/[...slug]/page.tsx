@@ -20,6 +20,7 @@ import WishlistButton from "@/components/shop/WishlistButton";
 import RecentlyViewedSection from "@/components/shop/RecentlyViewedSection";
 import PdpBuyBox from "@/components/shop/PdpBuyBox";
 import ProductSpecTable from "@/components/shop/ProductSpecTable";
+import GoogleReviewsCompact from "@/components/shop/GoogleReviewsCompact";
 import MobileStickyCTA from "@/components/shop/MobileStickyCTA";
 import ReviewsSection from "@/components/shop/ReviewsSection";
 import Stars from "@/components/shop/Stars";
@@ -455,6 +456,8 @@ function renderProduct(
                   )
                 )}
               </div>
+
+              <GoogleReviewsCompact />
             </div>
           </div>
         </section>
