@@ -44,6 +44,18 @@ export const CATEGORY_COLOR: Record<ArticleCategory, string> = {
 
 export const ARTICLES: Article[] = [
   {
+    slug: "scott-karbony-hmf-hmx-hmx-sl",
+    title: "Karbon SCOTT: HMF vs HMX vs HMX-SL — jaký rám vybrat",
+    summary:
+      "Tři třídy karbonu SCOTT jasně a bez marketingu. Čím se liší HMF, HMX a HMX-SL, o kolik je HMX lehčí — a které naše modely mají který karbon.",
+    category: "sport",
+    publishedAt: "2026-08-13",
+    author: { name: "Jan Piecha", role: "100dola sport" },
+    image: "/media/articles/scott-spark-rc-2027-hero.webp",
+    status: "published",
+    readMinutes: 5,
+  },
+  {
     slug: "scott-spark-rc-2026-vs-2027",
     title: "Scott Spark RC 2026 vs 2027 — co se reálně mění (Gen4 → Gen5)",
     summary:
