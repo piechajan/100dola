@@ -64,8 +64,15 @@ function Slider({
   );
 }
 
-export default function EbikeRangeCalculator() {
-  const [battery, setBattery] = useState(500);
+export default function EbikeRangeCalculator({
+  defaultBattery = 500,
+}: {
+  /** Předvyplněná kapacita baterie (Wh) — pro konkrétní elektrokolo na PDP. */
+  defaultBattery?: number;
+}) {
+  const [battery, setBattery] = useState(
+    Math.min(1200, Math.max(300, Math.round(defaultBattery / 25) * 25)),
+  );
   const [weight, setWeight] = useState(75);
   const [assist, setAssist] = useState(3); // 1..5
   const [terrain, setTerrain] = useState<(typeof TERRAINS)[number]["id"]>("rovina");

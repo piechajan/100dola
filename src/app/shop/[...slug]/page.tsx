@@ -22,6 +22,7 @@ import PdpBuyBox from "@/components/shop/PdpBuyBox";
 import ProductSpecTable from "@/components/shop/ProductSpecTable";
 import ProductGeometryTable from "@/components/shop/ProductGeometryTable";
 import GoogleReviewsCompact from "@/components/shop/GoogleReviewsCompact";
+import EbikeRangeCalculator from "@/components/tools/EbikeRangeCalculator";
 import MobileStickyCTA from "@/components/shop/MobileStickyCTA";
 import ReviewsSection from "@/components/shop/ReviewsSection";
 import Stars from "@/components/shop/Stars";
@@ -463,6 +464,22 @@ function renderProduct(
             </div>
           </div>
         </section>
+
+        {product.categoryId?.startsWith("elektro") && (
+          <section className="bg-[#F7F9FF] py-12 border-t border-[#E2E6F3]">
+            <div className="max-w-[900px] mx-auto px-6 md:px-12">
+              <div className="mb-6 text-center">
+                <div className="text-xs tracking-[0.22em] uppercase font-bold text-[#3B7CF4] mb-2">
+                  Orientační dojezd
+                </div>
+                <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e]">
+                  Spočítej si dojezd tohoto elektrokola
+                </h2>
+              </div>
+              <EbikeRangeCalculator defaultBattery={product.ebikeBatteryWh} />
+            </div>
+          </section>
+        )}
 
         <div id="reviews">
           <ReviewsSection

@@ -45,6 +45,8 @@ export interface Product {
     rows: Array<{ label: string; values: string[] }>;
     note?: string;
   };
+  /** Kapacita baterie ve Wh (jen elektrokola) — předvyplní kalkulačku dojezdu na PDP. */
+  ebikeBatteryWh?: number;
   /** Default "own". Supplier produkty mají "supplier". */
   fulfillment?: Fulfillment;
   /**
