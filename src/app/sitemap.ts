@@ -101,6 +101,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/sport",
     "/clanky",
     "/kontakt",
+    "/kalkulacka-dojezdu-elektrokola",
   ]) {
     entries.push({ path: p, priority: 0.7, changefreq: "monthly" });
   }
