@@ -28,9 +28,11 @@ type BrandJoin = { brand_slug: string; is_public: boolean };
  * Tichý fallback: pokud Supabase nedostupný / env miss, vrátí jen static
  * PRODUCTS (web nikdy nespadne kvůli supplier feedu).
  */
-async function fetchShopProducts(): Promise<Product[]> {
-  const own = PRODUCTS.map((p) => ({ ...p, fulfillment: p.fulfillment ?? ("own" as const) }));
-
+/**
+ * Stáhne JEN supplier_products z public brandů. Tato část je egress-citlivá →
+ * je za sdílenou cache. Statické PRODUCTS se sem NEmíchají (viz getShopProducts).
+ */
+async function fetchSupplierProducts(): Promise<Product[]> {
   try {
     const sb = getSb();
 
@@ -41,9 +43,9 @@ async function fetchShopProducts(): Promise<Product[]> {
 
     if (bErr) {
       console.warn("[getShopProducts] supplier_brands fetch failed:", bErr.message);
-      return own;
+      return [];
     }
-    if (!publicBrands || publicBrands.length === 0) return own;
+    if (!publicBrands || publicBrands.length === 0) return [];
 
     const brandMap = new Map<string, BrandJoin>();
     for (const b of publicBrands) {
@@ -62,10 +64,10 @@ async function fetchShopProducts(): Promise<Product[]> {
 
     if (pErr) {
       console.warn("[getShopProducts] supplier_products fetch failed:", pErr.message);
-      return own;
+      return [];
     }
 
-    const supplier = (rows ?? [])
+    return (rows ?? [])
       .filter((r) => {
         const override = (r as { is_public_override: boolean | null }).is_public_override;
         if (override === false) return false;
@@ -82,24 +84,33 @@ async function fetchShopProducts(): Promise<Product[]> {
         return supplierToProduct({ row: r as SupplierProductRow, brandSlug: brand.brand_slug });
       })
       .filter((p): p is Product => p !== null);
-
-    return [...own, ...supplier];
   } catch (e) {
-    console.warn("[getShopProducts] unexpected error, falling back to static:", e);
-    return own;
+    console.warn("[getShopProducts] unexpected error, falling back to empty supplier list:", e);
+    return [];
   }
 }
 
 /**
- * Sdílená cache: celý merged katalog se ze Supabase tahá **1× za 6 h globálně**,
- * ne per stránka/URL. Chrání Supabase egress (viz „DB egress hygiena" v globálním
- * CLAUDE.md — incident 2026-08-01). Invalidace: import-supplier-feeds cron může
- * volat `revalidateTag("shop-products")` po importu (jinak max 6 h stará data).
+ * Sdílená cache POUZE nad supplier částí: supplier_products se ze Supabase tahá
+ * **1× za 6 h globálně**, ne per stránka/URL. Chrání Supabase egress (viz
+ * „DB egress hygiena" v globálním CLAUDE.md — incident 2026-08-01). Invalidace:
+ * import-supplier-feeds cron volá `revalidateTag("shop-products")` po importu.
  */
-export const getShopProducts = unstable_cache(fetchShopProducts, ["shop-products-merged"], {
+const getSupplierProductsCached = unstable_cache(fetchSupplierProducts, ["shop-products-supplier"], {
   revalidate: 21600,
   tags: ["shop-products"],
 });
+
+/**
+ * Merged katalog: vlastní static PRODUCTS (in-memory, zdarma → mergují se VŽDY
+ * čerstvě, takže nově přidaný vlastní produkt je naživo hned po deployi) +
+ * cachovaná supplier část.
+ */
+export async function getShopProducts(): Promise<Product[]> {
+  const own = PRODUCTS.map((p) => ({ ...p, fulfillment: p.fulfillment ?? ("own" as const) }));
+  const supplier = await getSupplierProductsCached();
+  return [...own, ...supplier];
+}
 
 export async function getProductBySlugMerged(slug: string): Promise<Product | undefined> {
   const all = await getShopProducts();

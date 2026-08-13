@@ -6,12 +6,12 @@ import type { NextConfig } from "next";
 const csp = [
   "default-src 'self'",
   // Inline + eval nutné pro Next hydration a inline GA/Pixel snippety.
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googletagmanager.com https://*.google-analytics.com https://*.google.com https://connect.facebook.net https://*.facebook.com https://*.vercel-insights.com https://va.vercel-scripts.com https://widget.packeta.com https://*.clarity.ms https://unpkg.com https://challenges.cloudflare.com https://*.heureka.cz",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googletagmanager.com https://*.google-analytics.com https://*.google.com https://connect.facebook.net https://*.facebook.com https://*.vercel-insights.com https://va.vercel-scripts.com https://widget.packeta.com https://*.clarity.ms https://unpkg.com https://challenges.cloudflare.com https://*.heureka.cz https://*.heureka.group",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com",
   "font-src 'self' https://fonts.gstatic.com data:",
   // Image-heavy shop — širší img-src je bezpečný.
   "img-src 'self' data: blob: https:",
-  "connect-src 'self' https: https://*.googletagmanager.com https://*.google-analytics.com https://*.google.com https://connect.facebook.net https://*.facebook.com https://*.vercel-insights.com https://va.vercel-scripts.com https://*.supabase.co https://*.public.blob.vercel-storage.com https://*.heureka.cz",
+  "connect-src 'self' https: https://*.googletagmanager.com https://*.google-analytics.com https://*.google.com https://connect.facebook.net https://*.facebook.com https://*.vercel-insights.com https://va.vercel-scripts.com https://*.supabase.co https://*.public.blob.vercel-storage.com https://*.heureka.cz https://*.heureka.group",
   // Co smíme iframovat: Packeta widget, YouTube (nocookie), Google Maps embed.
   "frame-src 'self' https://widget.packeta.com https://www.youtube-nocookie.com https://www.google.com https://challenges.cloudflare.com",
   "worker-src 'self' blob:",

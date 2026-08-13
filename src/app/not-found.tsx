@@ -82,8 +82,8 @@ export default function NotFound() {
           {/* Contact fallback */}
           <p className="text-center text-xs text-[#9AA3C2] mt-8">
             Hledáš něco konkrétního? Napiš na{" "}
-            <a href="mailto:piecha.jan@gmail.com" className="text-[#3B7CF4] hover:underline">
-              piecha.jan@gmail.com
+            <a href="mailto:info@100dola.com" className="text-[#3B7CF4] hover:underline">
+              info@100dola.com
             </a>{" "}
             nebo zavolej{" "}
             <a href="tel:+420739045057" className="text-[#3B7CF4] hover:underline">

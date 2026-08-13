@@ -32,9 +32,8 @@ export const STERNBERK_STORE = {
   addressCountry: "CZ",
   addressRegion: "Olomoucký kraj",
   landmark: "vedle kavárny Namístě",
-  // Otevírací hodiny — Jan upřesní v dashboardu/datech. Pro teď jen ISAAC event
-  // (29. 5. – 1. 6. 2026), jinak otevřeno na požádání.
-  hoursNote: "Otevřeno během akcí a po předchozí domluvě.",
+  // Otevírací hodiny showroomu a prodejny ve Šternberku (musí sedět s Footerem).
+  hoursNote: "St 9:30–16 · Čt 9–17 · Pá 9–16 · So 9–12. Po, Út, Ne po dohodě (jsme na telefonu).",
   hoursStructured: [],
   mapsEmbedUrl:
     "https://www.google.com/maps?q=Partyz%C3%A1nsk%C3%A1+2%2C+%C5%A0ternberk+78501&output=embed",
