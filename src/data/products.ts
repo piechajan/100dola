@@ -259,7 +259,7 @@ export const PRODUCTS: Product[] = [
       { size: "XL", sku: "scott-spark-rc-ti-2026-green-XL", color: "Beryl Green", isInStock: false, availability: "Na objednávku" },
     ],
     stockStatus: "on_request",
-    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní předání po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín potvrdíme po objednávce.",
+    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní odběr na prodejně ve Šternberku zdarma; osobní dovoz po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí) je jedna z možností. Termín i cenu potvrdíme po objednávce.",
   },
   {
     id: 2,
@@ -358,7 +358,7 @@ export const PRODUCTS: Product[] = [
       { size: "L", sku: "PIN-DGR-L", isInStock: true },
     ],
     stockStatus: "on_request",
-    deliveryNote: "Osobní dovoz po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín a místo předání dohodneme.",
+    deliveryNote: "Osobní odběr na prodejně ve Šternberku zdarma; osobní dovoz po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí) je jedna z možností. Termín, místo i cenu předání dohodneme.",
     isFeatured: true,
     featuredOrder: 2,
   },
@@ -467,7 +467,7 @@ export const PRODUCTS: Product[] = [
       { size: "XXL", isInStock: false, availability: "Na objednávku" },
     ],
     stockStatus: "on_request",
-    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní předání po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín potvrdíme po objednávce.",
+    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní odběr na prodejně ve Šternberku zdarma; osobní dovoz po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí) je jedna z možností. Termín i cenu potvrdíme po objednávce.",
   },
   {
     id: 18,
@@ -501,7 +501,7 @@ export const PRODUCTS: Product[] = [
       { size: "XXL", isInStock: false, availability: "Na objednávku" },
     ],
     stockStatus: "on_request",
-    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní předání po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín potvrdíme po objednávce.",
+    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní odběr na prodejně ve Šternberku zdarma; osobní dovoz po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí) je jedna z možností. Termín i cenu potvrdíme po objednávce.",
   },
   {
     id: 19,
@@ -534,7 +534,7 @@ export const PRODUCTS: Product[] = [
       { size: "XL", isInStock: false, availability: "Na objednávku" },
     ],
     stockStatus: "on_request",
-    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní předání po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín potvrdíme po objednávce.",
+    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní odběr na prodejně ve Šternberku zdarma; osobní dovoz po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí) je jedna z možností. Termín i cenu potvrdíme po objednávce.",
   },
   {
     id: 20,
@@ -604,7 +604,7 @@ export const PRODUCTS: Product[] = [
       { size: "XXL", isInStock: false, availability: "Na objednávku" },
     ],
     stockStatus: "on_request",
-    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní předání po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín potvrdíme po objednávce.",
+    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní odběr na prodejně ve Šternberku zdarma; osobní dovoz po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí) je jedna z možností. Termín i cenu potvrdíme po objednávce.",
   },
   {
     id: 22,
@@ -637,7 +637,7 @@ export const PRODUCTS: Product[] = [
       { size: "XXL", isInStock: false, availability: "Na objednávku" },
     ],
     stockStatus: "on_request",
-    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní předání po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín potvrdíme po objednávce.",
+    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní odběr na prodejně ve Šternberku zdarma; osobní dovoz po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí) je jedna z možností. Termín i cenu potvrdíme po objednávce.",
   },
   {
     id: 23,
@@ -669,7 +669,7 @@ export const PRODUCTS: Product[] = [
       { size: "XL", isInStock: false, availability: "Na objednávku" },
     ],
     stockStatus: "on_request",
-    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní předání po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín potvrdíme po objednávce.",
+    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní odběr na prodejně ve Šternberku zdarma; osobní dovoz po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí) je jedna z možností. Termín i cenu potvrdíme po objednávce.",
   },
   {
     id: 24,
@@ -700,7 +700,7 @@ export const PRODUCTS: Product[] = [
       { size: "XL", isInStock: false, availability: "Na objednávku" },
     ],
     stockStatus: "on_request",
-    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní předání po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín potvrdíme po objednávce.",
+    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní odběr na prodejně ve Šternberku zdarma; osobní dovoz po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí) je jedna z možností. Termín i cenu potvrdíme po objednávce.",
   },
   {
     id: 25,
@@ -731,7 +731,7 @@ export const PRODUCTS: Product[] = [
       { size: "XL", isInStock: false, availability: "Na objednávku" },
     ],
     stockStatus: "on_request",
-    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní předání po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín potvrdíme po objednávce.",
+    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní odběr na prodejně ve Šternberku zdarma; osobní dovoz po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí) je jedna z možností. Termín i cenu potvrdíme po objednávce.",
   },
   {
     id: 26,
@@ -762,7 +762,7 @@ export const PRODUCTS: Product[] = [
       { size: "XL", isInStock: false, availability: "Na objednávku" },
     ],
     stockStatus: "on_request",
-    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní předání po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín potvrdíme po objednávce.",
+    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní odběr na prodejně ve Šternberku zdarma; osobní dovoz po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí) je jedna z možností. Termín i cenu potvrdíme po objednávce.",
   },
   {
     id: 27,
@@ -838,7 +838,7 @@ export const PRODUCTS: Product[] = [
       { size: "XL", isInStock: false, availability: "Na objednávku" },
     ],
     stockStatus: "on_request",
-    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní předání po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín potvrdíme po objednávce.",
+    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní odběr na prodejně ve Šternberku zdarma; osobní dovoz po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí) je jedna z možností. Termín i cenu potvrdíme po objednávce.",
   },
   {
     id: 29,
@@ -881,7 +881,7 @@ export const PRODUCTS: Product[] = [
       { size: "XL", isInStock: false, availability: "Na objednávku" },
     ],
     stockStatus: "on_request",
-    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní předání po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí, Šternberk) zdarma. Termín potvrdíme po objednávce.",
+    deliveryNote: "Skladem u dodavatele — dovoz a předání dohodneme. Osobní odběr na prodejně ve Šternberku zdarma; osobní dovoz po Moravě (Olomouc, Ostrava, Vsetín, Valašské Meziříčí) je jedna z možností. Termín i cenu potvrdíme po objednávce.",
   },
 ];
 

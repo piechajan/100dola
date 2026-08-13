@@ -367,8 +367,9 @@ export default function KdeKoupitKoloSternberk() {
                   Buďto si pro kolo přijedete do Šternberku (Partyzánská 2),
                   nebo vám ho doručíme. <strong>Pravidelně jezdíme do
                   Olomouce, Vsetína, Valašského Meziříčí, Ostravy a Brna</strong>{" "}
-                  — osobní předání s krátkou instruktáží je často zdarma nebo
-                  za symbolický příspěvek. Domluvíme se podle vaší lokality.
+                  — cenu za dovoz a předání s krátkou instruktáží domluvíme
+                  podle vaší lokality. Osobní odběr na prodejně ve Šternberku
+                  je zdarma.
                 </p>
               </div>
             </div>

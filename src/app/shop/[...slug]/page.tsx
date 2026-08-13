@@ -434,12 +434,12 @@ function renderProduct(
               <div className="mt-6 space-y-2">
                 {product.bulky && product.priceWithVat < 2500 && (
                   <div className="rounded-xl p-3 text-xs bg-[#FFF7ED] text-[#7A5615] border border-[#FBD38D]">
-                    <strong>Velký balík.</strong> Doprava 400 Kč. Osobní vyzvednutí (Šternberk / Olomouc / Valašské Meziříčí) zdarma.
+                    <strong>Velký balík.</strong> Doprava 400 Kč. Osobní odběr na prodejně ve Šternberku zdarma; osobní dovoz po Moravě po domluvě.
                   </div>
                 )}
                 {product.bulky && product.priceWithVat >= 2500 && (
                   <div className="rounded-xl p-3 text-xs bg-[#F0FDF4] text-[#065F46] border border-[#A7F3D0]">
-                    <strong>Velký balík.</strong> Doprava zdarma (objednávka nad 2 500 Kč). Osobní vyzvednutí (Šternberk / Olomouc / Valašské Meziříčí) zdarma.
+                    <strong>Velký balík.</strong> Doprava zdarma (objednávka nad 2 500 Kč). Osobní odběr na prodejně ve Šternberku zdarma; osobní dovoz po Moravě po domluvě.
                   </div>
                 )}
                 {product.deliveryNote && (

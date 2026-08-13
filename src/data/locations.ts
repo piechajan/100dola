@@ -115,14 +115,14 @@ export const LOCATIONS: Location[] = [
     distanceKm: 17,
     metaTitle: "Kola, cyklo vybavení a sport Olomouc — 100dola sport",
     metaDescription:
-      "100dola sport pro Olomouc: kola SCOTT / ISAAC / Lapierre / Ridley / Pinarello, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Osobní předání zdarma, servis a bikefit kousek ve Šternberku (17 km). Objednej online, vyzvedni v Olomouci.",
+      "100dola sport pro Olomouc: kola SCOTT / ISAAC / Lapierre / Ridley / Pinarello, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Osobní odběr ve Šternberku zdarma, dovoz po domluvě; servis a bikefit kousek (17 km). Objednej online, vyzvedni v Olomouci.",
     h1: "Kola, cyklistické vybavení a sport pro Olomouc",
     intro:
       "Jsi z Olomouce a hledáš kvalitní kolo, vybavení a sportovní výživu? 100dola sport máme kousek — kamennou prodejnu ve Šternberku (17 km) a pro Olomouc nabízíme osobní předání a doručení. Objednáš online z e-shopu, my ti věci připravíme a předáme, nebo přijedeš na prodejnu na osobní konzultaci, bikefit a testovací jízdu.",
     highlights: [
       {
         title: "Kola a e-shop s osobním předáním",
-        body: "Kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello + kompletní sortiment z e-shopu (přes 770 produktů). Osobní předání v Olomouci po domluvě zdarma, nebo doručení na adresu.",
+        body: "Kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello + kompletní sortiment z e-shopu (přes 770 produktů). Osobní předání v Olomouci po domluvě, nebo doručení na adresu.",
       },
       {
         title: "Vybavení na kolo a výživa",
@@ -142,7 +142,7 @@ export const LOCATIONS: Location[] = [
       },
       {
         q: "Jak funguje osobní předání v Olomouci?",
-        a: "Objednáš online, vybereš osobní vyzvednutí, my se ozveme a domluvíme místo a čas předání v Olomouci. Předání je zdarma.",
+        a: "Objednáš online, vybereš osobní vyzvednutí, my se ozveme a domluvíme místo a čas předání v Olomouci. Osobní odběr na prodejně ve Šternberku je zdarma; dovoz a předání ve městě je jedna z možností — termín i cenu potvrdíme po objednávce.",
       },
       {
         q: "Kde si nechám udělat bikefit nebo servis?",
@@ -194,7 +194,7 @@ export const LOCATIONS: Location[] = [
       },
       {
         q: "Jak funguje osobní předání ve Valmezu?",
-        a: "Objednáš online, vybereš osobní vyzvednutí, my se ozveme a domluvíme místo a čas předání ve Valašském Meziříčí. Předání je zdarma.",
+        a: "Objednáš online, vybereš osobní vyzvednutí, my se ozveme a domluvíme místo a čas předání ve Valašském Meziříčí. Osobní odběr na prodejně ve Šternberku je zdarma; dovoz a předání ve městě je jedna z možností — termín i cenu potvrdíme po objednávce.",
       },
     ],
     keywords:
@@ -242,7 +242,7 @@ export const LOCATIONS: Location[] = [
       },
       {
         q: "Jak funguje osobní předání ve Vsetíně?",
-        a: "Objednáš online, vybereš osobní vyzvednutí, ozveme se a domluvíme místo a čas předání ve Vsetíně. Předání je zdarma.",
+        a: "Objednáš online, vybereš osobní vyzvednutí, ozveme se a domluvíme místo a čas předání ve Vsetíně. Osobní odběr na prodejně ve Šternberku je zdarma; dovoz a předání ve městě je jedna z možností — termín i cenu potvrdíme po objednávce.",
       },
     ],
     keywords:
@@ -290,7 +290,7 @@ export const LOCATIONS: Location[] = [
       },
       {
         q: "Jak funguje osobní předání v Rožnově?",
-        a: "Objednáš online, vybereš osobní vyzvednutí, ozveme se a domluvíme místo a čas předání v Rožnově pod Radhoštěm. Předání je zdarma.",
+        a: "Objednáš online, vybereš osobní vyzvednutí, ozveme se a domluvíme místo a čas předání v Rožnově pod Radhoštěm. Osobní odběr na prodejně ve Šternberku je zdarma; dovoz a předání ve městě je jedna z možností — termín i cenu potvrdíme po objednávce.",
       },
     ],
     keywords:
