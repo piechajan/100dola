@@ -6,6 +6,7 @@ import { usePdpImage } from "@/lib/pdp-image-store";
 import AddToCartButton from "./AddToCartButton";
 import RestockNotifyButton from "./RestockNotifyButton";
 import ProductInquiryButton from "./ProductInquiryButton";
+import SizeGuide from "./SizeGuide";
 
 interface SizeVariant {
   externalId?: string;
@@ -112,8 +113,11 @@ export default function PdpBuyBox({
         sizes.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs uppercase tracking-wider text-[#9AA3C2] font-bold">
-                Velikost
+              <span className="flex items-center gap-2">
+                <span className="text-xs uppercase tracking-wider text-[#9AA3C2] font-bold">
+                  Velikost
+                </span>
+                <SizeGuide categoryId={product.categoryId} />
               </span>
               {activeSize && (
                 <span className="text-xs font-bold text-[#1a1a2e]">
@@ -188,6 +192,21 @@ export default function PdpBuyBox({
           variantLabel={activeSize.size}
         />
       )}
+
+      {/* Reassurance strip u tlačítka do košíku */}
+      <div className="pt-4 mt-2 border-t border-[#E2E6F3] grid grid-cols-2 gap-x-4 gap-y-2">
+        {[
+          ["🚚", "Doprava zdarma nad 2 500 Kč"],
+          ["🛡️", "14 dní na vrácení zdarma"],
+          ["🏬", "Osobní odběr ve Šternberku"],
+          ["🔧", "Vlastní servis a bikefit"],
+        ].map(([icon, text]) => (
+          <div key={text} className="flex items-center gap-2 text-xs text-[#5A6480]">
+            <span aria-hidden className="text-sm leading-none">{icon}</span>
+            <span>{text}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

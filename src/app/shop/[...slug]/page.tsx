@@ -19,6 +19,7 @@ const CONFIGURATOR_PRICING_VERIFIED = false;
 import WishlistButton from "@/components/shop/WishlistButton";
 import RecentlyViewedSection from "@/components/shop/RecentlyViewedSection";
 import PdpBuyBox from "@/components/shop/PdpBuyBox";
+import ProductSpecTable from "@/components/shop/ProductSpecTable";
 import MobileStickyCTA from "@/components/shop/MobileStickyCTA";
 import ReviewsSection from "@/components/shop/ReviewsSection";
 import Stars from "@/components/shop/Stars";
@@ -411,6 +412,8 @@ function renderProduct(
                   ))}
                 </ul>
               )}
+
+              <ProductSpecTable product={product} />
 
               <div id="pdp-buy" className="mt-8 scroll-mt-24">
                 {product.hasConfigurator && product.configuratorSchema ? (

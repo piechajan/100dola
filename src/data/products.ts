@@ -35,6 +35,9 @@ export interface Product {
   note: string;
   photo: string;
   specs: string[];
+  /** Volitelná kompletní výbava/specifikace (label → hodnota) pro rozklikávací
+   *  tabulku na PDP. specs[] zůstávají jako 3 rychlé highlighty nad tabulkou. */
+  specTable?: Array<{ label: string; value: string }>;
   /** Default "own". Supplier produkty mají "supplier". */
   fulfillment?: Fulfillment;
   /**
@@ -784,6 +787,18 @@ export const PRODUCTS: Product[] = [
       "RockShox SID SL 110 mm · Maxxis Rekon Race 29×2.4",
       "Karbon Scale HMX · cca 11,2 kg",
     ],
+    specTable: [
+      { label: "Rám", value: "Karbon Scale HMX, nastavitelná geometrie hlavy (±0,6°)" },
+      { label: "Vidlice", value: "RockShox SID SL, 110 mm zdvih" },
+      { label: "Řazení", value: "SRAM Eagle AXS 1×12, bezdrátové (ovladač SRAM S1000)" },
+      { label: "Kliky", value: "SRAM Eagle, převodník 34T" },
+      { label: "Brzdy", value: "SRAM DB6, 4pístkové hydraulické kotoučové" },
+      { label: "Kola", value: "29\"" },
+      { label: "Pláště", value: "Maxxis Rekon Race 29×2.4\" (přední i zadní)" },
+      { label: "Sedlovka", value: "Syncros Duncan dropper, 100 mm" },
+      { label: "Hlavové složení", value: "Syncros s nastavením ±0,6°" },
+      { label: "Hmotnost", value: "cca 11,2 kg" },
+    ],
     gender: "U",
     useCase: "race",
     color: "Carbon Black",
@@ -814,6 +829,17 @@ export const PRODUCTS: Product[] = [
       "SRAM XX SL Eagle AXS 1×12 · bezdrátové · 10–52T",
       "RockShox SID SL Ultimate 110 mm · SRAM Motive Ultimate brzdy",
       "Karbon HMX · Maxxis Rekon Race 29×2.4 · cca 9,6 kg",
+    ],
+    specTable: [
+      { label: "Rám", value: "Karbon HMX s pokročilým tlumením vibrací" },
+      { label: "Vidlice", value: "RockShox SID SL Ultimate, Charger Race Day 2, 110 mm" },
+      { label: "Řazení", value: "SRAM XX SL Eagle AXS 1×12, bezdrátové" },
+      { label: "Kazeta", value: "SRAM XX Eagle XS-1297, 10–52T" },
+      { label: "Brzdy", value: "SRAM Motive Ultimate, 4pístkové hydraulické" },
+      { label: "Středové složení", value: "SRAM DUB PF92 MTB" },
+      { label: "Kola", value: "29\"" },
+      { label: "Pláště", value: "Maxxis Rekon Race 29×2.4\" (přední i zadní)" },
+      { label: "Hmotnost", value: "cca 9,6 kg" },
     ],
     gender: "U",
     useCase: "race",
