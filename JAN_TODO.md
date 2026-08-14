@@ -1,7 +1,45 @@
 # Janův TODO — co Claude nemůže udělat sám
 
 > Live seznam — aktualizováno po každé session. Claude průběžně doplňuje sem.
-> Stav k **2026-07-26**.
+> Stav k **2026-08-14**.
+
+---
+
+## 🆕 Session 2026-08-13/14 — deployed + co čeká na Jana
+
+**✅ Deployed (živé):**
+- **4 nové produkty:** vesta Scott W's Pro WB (−20 %, poslední kus M), tretry
+  Scott MTB Team BOA (−30 %, poslední kus 46) — režim „1 kus / ostatní na dotaz",
+  po prodeji server odmítne další objednávku; kola Scott Scale RC Team + Scale
+  RC World Cup (MSRP — sleva k potvrzení).
+- **PDP trust:** tabulka velikostí (modal), Kompletní výbava + Geometrie (Scale
+  RC ze scott-sports.com), reassurance strip u košíku, kompaktní Google recenze.
+- **Recenze:** naseedováno všech **13 reálných Google recenzí** (5,0/5) — homepage
+  carousel + PDP blok.
+- **Kalkulačka dojezdu elektrokola:** `/kalkulacka-dojezdu-elektrokola` + auto na
+  PDP každého e-kola (kategorie `elektro`) + footer odkaz.
+- **Valašsko local SEO:** `/prodejna/valasske-mezirici`, `/vsetin`,
+  `/roznov-pod-radhostem` (model výdej + doručení jako Olomouc).
+- **Článek:** Karbon SCOTT HMF vs HMX vs HMX-SL (prokliky na modely).
+- **Fixy:** nové produkty už nejsou 6 h ve 404 (cache refaktor get-products);
+  Heureka OCM CSP odblokován (`heureka.group`); 404 kontaktní e-mail →
+  info@100dola.com; otevírací doba sjednocena; test konfigurátor +velikost S
+  (Addict Gravel 20); Scott test — proběhlé termíny zašedlé/neklikatelné.
+- **Opravená tvrzení (honesty):** osobní dovoz/předání NENÍ zdarma (jen odběr na
+  prodejně ve Šternberku) — opraveno napříč webem; odstraněn nepravdivý
+  „showroom Valašské Meziříčí" (ve Valmezu fyzický showroom NENÍ — Jan potvrdil).
+
+**⏳ Čeká na Jana (needs you):**
+- **Sport port B2B feed** → poslat mail `~/Desktop/mail-sport-port-feed.md`
+  (žádost o plný produktový feed s cenou/atributy + headless/tokenovou URL).
+  Stávající `FeedSportmallAvailability.xml` je JEN skladový (bez ceny/značky/
+  kategorie) → nejde z něj postavit katalog, a headless dává 401. Bez produktového
+  feedu nejde auto-launch ani stock-sync. Soupis: `~/Desktop/sportmall-feed-soupis-2026-08-12.md`.
+- **ComGate KYC** → spustit kartu/Apple/Google Pay (pořád jen QR/převod/hotovost).
+- **Heureka Ověřeno** → registrace + API klíč (CSP odblokován, SDK teď načítá).
+- **Malaga pricing konflikt** (Basic 559 € vs 849 €) — pořád nerozhodnuto (viz níže).
+- Volitelně: doplnit `ebikeBatteryWh` ke konkrétním e-kolům (předvyplní kalkulačku);
+  slevy u Scale RC Team/World Cup (teď MSRP).
 
 ---
 
