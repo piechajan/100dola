@@ -129,7 +129,8 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
     note: stripHtml(row.description_html ?? "").slice(0, 200),
     photo,
     specs,
-    fulfillment: "supplier",
+    // CEP máme skladem u nás → „own" (ne „objednáváme od dodavatele").
+    fulfillment: brandSlug === "cep" ? "own" : "supplier",
     supplierProductId: row.id,
     gender,
     useCase,
@@ -233,19 +234,20 @@ function inferIsaacCategory(lowerName: string): string {
 }
 
 /**
- * CEP (Medi-Expert) kompresní/běžecké vybavení → naše kategorie.
- * Mapuje hlavně dle CATEGORYTEXT (lowerPath) + názvu. Běžecké boty zatím do
- * „doplnky" (nemáme běžeckou obuv jako kategorii) — doladit přes public_category_id
- * override před go-live, případně doplnit kategorii běžecké obuvi.
+ * CEP (Medi-Expert) kompresní/běžecké vybavení → kategorie „Běh" (beh-*).
+ * Mapuje primárně z NÁZVU (Výprodej/ORTHO nemají typ v CATEGORYTEXT), fallback path.
  */
 function inferCepCategory(lowerName: string, lowerPath: string): string {
   const s = `${lowerName} ${lowerPath}`;
-  if (/ponožk|podkolenk|návlek|navlek|sock|sleeve/.test(s)) return "obleceni-rukavice-ponozky";
-  if (/tričk|tri[čc]k|dres|top\b|bunda|vesta|jacket/.test(s)) return "obleceni-dresy";
-  if (/kalhot|legín|legin|3\/4|tight|short|kraťas/.test(s)) return "obleceni-kalhoty";
-  if (/boty|obuv|shoes|optaspeed/.test(s)) return "doplnky";
-  if (/funkční|funkci|kompres|spodní|base\s?layer/.test(s)) return "obleceni-spodni";
-  return "obleceni-rukavice-ponozky";
+  if (/boty|obuv|shoes|optaspeed/.test(s)) return "beh-obuv";
+  if (/podkolenk/.test(s)) return "beh-podkolenky";
+  if (/návlek|navlek|sleeve/.test(s)) return "beh-navleky";
+  if (/ponožk|ponozk|sock/.test(s)) return "beh-ponozky";
+  if (/kšilt|ksilt|čepic|cepic|cap\b|čelenk|celenk|rukavic|batoh|láhev|lahev|doplňk|doplnk/.test(s))
+    return "beh-doplnky";
+  if (/tričk|tri[čc]k|dres|top\b|bunda|vesta|jacket|šortk|sortk|short|kalhot|legín|legin|3\/4|tight|oblečen|obleceni|spodní|base\s?layer/.test(s))
+    return "beh-obleceni";
+  return "beh-obleceni";
 }
 
 function inferFfwdCategory(lowerName: string, lowerPath: string): string {

@@ -93,6 +93,21 @@ export const categories: TopCategory[] = [
     ],
   },
   {
+    id: "beh",
+    name: "Běh",
+    icon: "🏃",
+    color: "#E8431A",
+    description: "Běžecká obuv, kompresní ponožky, podkolenky a oblečení CEP — víc energie a rychlejší regenerace.",
+    subcategories: [
+      { id: "beh-obuv", name: "Běžecká obuv", children: [] },
+      { id: "beh-ponozky", name: "Kompresní ponožky", children: [] },
+      { id: "beh-podkolenky", name: "Kompresní podkolenky", children: [] },
+      { id: "beh-navleky", name: "Kompresní návleky", children: [] },
+      { id: "beh-obleceni", name: "Běžecké oblečení", children: [] },
+      { id: "beh-doplnky", name: "Běžecké doplňky", children: [] },
+    ],
+  },
+  {
     id: "zima",
     name: "Zima",
     icon: "⛷️",
