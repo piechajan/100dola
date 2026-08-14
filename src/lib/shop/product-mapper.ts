@@ -190,6 +190,7 @@ function inferCategoryByBrand(
   if (brand === "ffwd") return inferFfwdCategory(lowerName, lowerPath);
   if (brand === "4iiii") return "wattmetry";
   if (brand === "ale") return inferAleCategory(props, lowerName, lowerPath);
+  if (brand === "cep") return inferCepCategory(lowerName, lowerPath);
 
   // Generic fallback z raw_category_path
   if (lowerPath.includes("gravel")) return "gravel-1x";
@@ -229,6 +230,22 @@ function inferIsaacCategory(lowerName: string): string {
   if (/\bmeson\b/.test(lowerName)) return "silnicni-race";
   if (/\b(element|kaon|torus)\b/.test(lowerName)) return "gravel-1x";
   return "silnicni-endurance";
+}
+
+/**
+ * CEP (Medi-Expert) kompresní/běžecké vybavení → naše kategorie.
+ * Mapuje hlavně dle CATEGORYTEXT (lowerPath) + názvu. Běžecké boty zatím do
+ * „doplnky" (nemáme běžeckou obuv jako kategorii) — doladit přes public_category_id
+ * override před go-live, případně doplnit kategorii běžecké obuvi.
+ */
+function inferCepCategory(lowerName: string, lowerPath: string): string {
+  const s = `${lowerName} ${lowerPath}`;
+  if (/ponožk|podkolenk|návlek|navlek|sock|sleeve/.test(s)) return "obleceni-rukavice-ponozky";
+  if (/tričk|tri[čc]k|dres|top\b|bunda|vesta|jacket/.test(s)) return "obleceni-dresy";
+  if (/kalhot|legín|legin|3\/4|tight|short|kraťas/.test(s)) return "obleceni-kalhoty";
+  if (/boty|obuv|shoes|optaspeed/.test(s)) return "doplnky";
+  if (/funkční|funkci|kompres|spodní|base\s?layer/.test(s)) return "obleceni-spodni";
+  return "obleceni-rukavice-ponozky";
 }
 
 function inferFfwdCategory(lowerName: string, lowerPath: string): string {

@@ -3,9 +3,11 @@
 
 import type { SupplierAdapter } from "./types";
 import { sportimport } from "./sportimport";
+import { cep } from "./cep";
 
 export const ADAPTERS: Record<string, SupplierAdapter> = {
   sportimport,
+  cep,
   // Další: velocikon, czechrespeito, ...
 };
 
