@@ -28,6 +28,16 @@
 - **Opravená tvrzení (honesty):** osobní dovoz/předání NENÍ zdarma (jen odběr na
   prodejně ve Šternberku) — opraveno napříč webem; odstraněn nepravdivý
   „showroom Valašské Meziříčí" (ve Valmezu fyzický showroom NENÍ — Jan potvrdil).
+- **CEP (Medi-Expert) supplier — LIVE:** nový adaptér `cep` (veřejný Zbozi.cz
+  feed), naimportováno 166 produktů, zveřejněno 145 (21 bez ceny skryto).
+  Nová top-kategorie **Běh** (obuv, kompresní ponožky/podkolenky/návleky,
+  oblečení, doplňky). Cena = cepsports.cz (MOC), skladem u nás. Fotky opraveny
+  (medi-expert.cz do image remotePatterns). Viz memory [[project-cep-feed]].
+- **`ENABLE_SUPPLIER_IMPORTS=true`** nastaveno ve Vercelu (bylo vypnuté!) →
+  denní import cron 03:00 tahá Sportimport + CEP automaticky.
+- **Scott Addict RC 10 2026:** obě barvy (Prism Black + Gelato Blue/Pink) +
+  všechny velikosti XXS–XXL + výbava tabulka.
+- **Bonus fix:** `/api/admin/revalidate?tags=` (bust shop-products cache hned).
 
 **⏳ Čeká na Jana (needs you):**
 - **Sport port B2B feed** → poslat mail `~/Desktop/mail-sport-port-feed.md`
@@ -38,6 +48,16 @@
 - **ComGate KYC** → spustit kartu/Apple/Google Pay (pořád jen QR/převod/hotovost).
 - **Heureka Ověřeno** → registrace + API klíč (CSP odblokován, SDK teď načítá).
 - **Malaga pricing konflikt** (Basic 559 € vs 849 €) — pořád nerozhodnuto (viz níže).
+- **Sufan tyčinka (Flapjack Třešeň s čokoládou)** → BLOKOVÁNO: sufan velkoobchod
+  je za loginem. Pošli **login do sufan velkoobchodu** (URL + jméno/heslo) NEBO
+  rovnou **cenu 1 ks + cenu balení 16 ks** (a jestli −30 % z nich nebo z MOC) +
+  krátký popis/složení. Pak udělám 1 stránku s přepínačem balení (1 ks / 16 ks,
+  16-pack doprava zdarma). Připravím `packOptions` + free-shipping flag.
+- **CEP cron duration watch** → zkontroluj první ostrý běh import cronu (zítra
+  03:00): jestli import celého katalogu (Sportimport + CEP ~966 produktů) doběhne
+  do 300 s (Vercel function limit). Můj manuální curl spadl na Cloudflare 100 s
+  (jen curl, ne Vercel cron). Když by daily cron timeoutoval → rozseknu import
+  po brandech (odolnější).
 - Volitelně: doplnit `ebikeBatteryWh` ke konkrétním e-kolům (předvyplní kalkulačku);
   slevy u Scale RC Team/World Cup (teď MSRP).
 
