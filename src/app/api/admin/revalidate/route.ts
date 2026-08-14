@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { getAdminContext } from "@/lib/admin-auth";
 
 export const runtime = "nodejs";
@@ -35,5 +35,14 @@ export async function GET(request: Request) {
     }
   }
 
-  return Response.json({ ok: true, revalidated: paths });
+  // Volitelně bust cache tagy (např. shop-products z get-products unstable_cache).
+  const tags = (searchParams.get("tags") || "")
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+  for (const t of tags) {
+    revalidateTag(t, "hours");
+  }
+
+  return Response.json({ ok: true, revalidated: paths, tags });
 }
