@@ -67,9 +67,10 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "sponser.com" },
       { protocol: "https", hostname: "cdn.myshoptet.com" },
       { protocol: "https", hostname: "a.storyblok.com" },
-      // Supplier CDNs — supplier_products feedy (Sportimport, alecko)
+      // Supplier CDNs — supplier_products feedy (Sportimport, alecko, CEP/Medi-Expert)
       { protocol: "https", hostname: "www.sportimport.cz" },
       { protocol: "https", hostname: "www.alecko.cz" },
+      { protocol: "https", hostname: "www.medi-expert.cz" },
       // Supabase Storage bucket 'supplier-images' — migrované fotky.
       // Vercel optimizer si je stáhne + AVIF/WebP + resize per device.
       // Legacy: před přechodem na Vercel Blob. Nech tady, dokud nejsou
