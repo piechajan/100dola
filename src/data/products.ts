@@ -23,6 +23,9 @@ export interface Product {
   year: string | null;
   brand: string;
   categoryId: string;
+  /** Volitelné další kategorie, kde se produkt taky zobrazí (multi-category).
+   *  Např. CEP oblečení má primárně beh-* ale i obleceni-* (pod „Oblečení"). */
+  secondaryCategoryIds?: string[];
   /** Cena včetně DPH v Kč (celá čísla). */
   priceWithVat: number;
   /** Volitelná originální cena, pro slevy. */

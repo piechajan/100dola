@@ -81,6 +81,11 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
     inferCategoryByBrand(brandSlug, row.name, props, row.raw_category_path) ||
     "silnicni-aero";
 
+  // Sekundární kategorie — produkt se zobrazí i jinde (např. CEP oblečení/ponožky
+  // pod „Oblečení", ne jen pod „Běh").
+  const secondaryCategoryIds =
+    brandSlug === "cep" ? inferCepSecondary(row.name.toLowerCase()) : undefined;
+
   const gender = inferGender(props, row.name);
   const useCase = inferUseCase(brandSlug, row.name, props);
   const bulky = isBulkyBySlugOrCategory(brandSlug, categoryId);
@@ -122,6 +127,7 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
     year: null,
     brand: brandSlug,
     categoryId,
+    secondaryCategoryIds,
     priceWithVat: price,
     vatRate: 21,
     bulky,
@@ -234,20 +240,42 @@ function inferIsaacCategory(lowerName: string): string {
 }
 
 /**
- * CEP (Medi-Expert) kompresní/běžecké vybavení → kategorie „Běh" (beh-*).
- * Mapuje primárně z NÁZVU (Výprodej/ORTHO nemají typ v CATEGORYTEXT), fallback path.
+ * CEP (Medi-Expert) kompresní/běžecké vybavení → kategorie „Běh" (beh-*), včetně
+ * jemných podkategorií (ponožky vysoké/kotníkové/nízké, návleky lýtkové/pažní)
+ * jako na cepsports.cz. Mapuje z NÁZVU (Výprodej/ORTHO nemají typ v CATEGORYTEXT).
  */
 function inferCepCategory(lowerName: string, lowerPath: string): string {
   const s = `${lowerName} ${lowerPath}`;
   if (/boty|obuv|shoes|optaspeed/.test(s)) return "beh-obuv";
   if (/podkolenk/.test(s)) return "beh-podkolenky";
-  if (/návlek|navlek|sleeve/.test(s)) return "beh-navleky";
-  if (/ponožk|ponozk|sock/.test(s)) return "beh-ponozky";
+  if (/návlek|navlek|sleeve/.test(s)) {
+    if (/pažní|pazni|arm/.test(s)) return "beh-navleky-pazni";
+    if (/lýtkov|lytkov|calf/.test(s)) return "beh-navleky-lytkove";
+    return "beh-navleky";
+  }
+  if (/ponožk|ponozk|sock/.test(s)) {
+    if (/kotníkov|kotnikov|mid|ankle/.test(s)) return "beh-ponozky-kotnikove";
+    if (/vysok|high|knee/.test(s)) return "beh-ponozky-vysoke";
+    if (/n[íi]zk|low|no.?show/.test(s)) return "beh-ponozky-nizke";
+    return "beh-ponozky";
+  }
   if (/kšilt|ksilt|čepic|cepic|cap\b|čelenk|celenk|rukavic|batoh|láhev|lahev|doplňk|doplnk/.test(s))
     return "beh-doplnky";
-  if (/tričk|tri[čc]k|dres|top\b|bunda|vesta|jacket|šortk|sortk|short|kalhot|legín|legin|3\/4|tight|oblečen|obleceni|spodní|base\s?layer/.test(s))
-    return "beh-obleceni";
   return "beh-obleceni";
+}
+
+/**
+ * CEP sekundární kategorie — aby se oblečení/ponožky zobrazily i pod „Oblečení".
+ */
+function inferCepSecondary(lowerName: string): string[] | undefined {
+  if (/ponožk|ponozk|sock|podkolenk|návlek|navlek|sleeve|rukavic/.test(lowerName))
+    return ["obleceni-rukavice-ponozky"];
+  if (/tričk|tri[čc]k|dres|top\b|mikin/.test(lowerName)) return ["obleceni-dresy"];
+  if (/kalhot|legín|legin|3\/4|tight|šortk|sortk|short|kraťas/.test(lowerName)) return ["obleceni-kalhoty"];
+  if (/bunda|vesta|jacket/.test(lowerName)) return ["obleceni-bundy"];
+  if (/funkční|funkci|kompresní tri|spodní|base\s?layer/.test(lowerName)) return ["obleceni-spodni"];
+  if (/oblečen|obleceni/.test(lowerName)) return ["obleceni-dresy"];
+  return undefined;
 }
 
 function inferFfwdCategory(lowerName: string, lowerPath: string): string {

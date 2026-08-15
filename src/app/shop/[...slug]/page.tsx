@@ -126,7 +126,11 @@ export default async function ShopCatchAllPage({
   if (!resolved) notFound();
 
   const all = await getShopProducts();
-  const inCategory = all.filter((p) => productInResolvedCategory(resolved, p.categoryId));
+  const inCategory = all.filter(
+    (p) =>
+      productInResolvedCategory(resolved, p.categoryId) ||
+      (p.secondaryCategoryIds ?? []).some((c) => productInResolvedCategory(resolved, c)),
+  );
 
   // Schema.org BreadcrumbList + ItemList pro category page
   const breadcrumbs = [
