@@ -237,10 +237,12 @@ export const PRODUCTS: Product[] = [
     color: "Carbon Grey",
     colorFamily: "grey",
     variants: [
+      { sku: "scott-foil-rc-20-2026-carbon-grey-M", size: "M", color: "Carbon Grey", isInStock: true, availability: "Skladem" },
       { sku: "scott-foil-rc-20-2026-carbon-grey-L", size: "L", color: "Carbon Grey", isInStock: true, availability: "Skladem" },
-      { sku: "scott-foil-rc-20-2026-carbon-grey-XL", size: "XL", color: "Carbon Grey", isInStock: true, availability: "Skladem" },
+      { sku: "scott-foil-rc-20-2026-carbon-grey-XL", size: "XL", color: "Carbon Grey", isInStock: false, availability: "Na objednávku" },
+      { sku: "scott-foil-rc-20-2026-gelato-blue-M", size: "M", color: "Gelato Blue", isInStock: false, availability: "Na objednávku" },
       { sku: "scott-foil-rc-20-2026-gelato-blue-L", size: "L", color: "Gelato Blue", isInStock: false, availability: "Na objednávku" },
-      { sku: "scott-foil-rc-20-2026-gelato-blue-XL", size: "XL", color: "Gelato Blue", isInStock: false, availability: "Na objednávku" },
+      { sku: "scott-foil-rc-20-2026-gelato-blue-XL", size: "XL", color: "Gelato Blue", isInStock: true, availability: "Skladem" },
     ],
   },
   {
