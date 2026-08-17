@@ -418,6 +418,27 @@ export const PRODUCTS: Product[] = [
     flavorOptions: ["Fruit Mix", "Red Orange", "Lemon", "Berry", "Cherry"],
   },
   {
+    id: 33,
+    name: "Sufan Flapjack Třešeň s čokoládou",
+    slug: "sufan-flapjack-tresen-cokolada",
+    year: null,
+    brand: "sufan",
+    categoryId: "vyziva-tycinky",
+    priceWithVat: 28,
+    originalPriceWithVat: 56,
+    // Potravina = 12% DPH.
+    vatRate: 12,
+    bulky: false,
+    badges: ["Sleva", "Bez lepku"],
+    note: "Bezlepková ovesná tyčinka ŠUFAN s třešní a čokoládou — vláčná, sytá, poctivé řemeslné složení. Vysoký obsah vlákniny, ideální energie na kolo i po tréninku. 60 g.",
+    photo: "/media/sufan-flapjack-tresen.webp",
+    gallery: [
+      "/media/sufan-flapjack-tresen.webp",
+      "/media/sufan-flapjack-tresen-detail.webp",
+    ],
+    specs: ["60 g tyčinka · ~257 kcal", "Bez lepku · vláknina 20,6 g / 100 g", "Třešeň + čokoláda · řemeslná výroba"],
+  },
+  {
     id: 6,
     name: "Pinarello Dogma GR",
     slug: "pinarello-dogma-gr-sram-red-xplr-axs-2026",
