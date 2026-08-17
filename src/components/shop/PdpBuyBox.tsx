@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import type { Product } from "@/data/products";
 import { usePdpImage } from "@/lib/pdp-image-store";
+import { swatchBackground } from "@/lib/shop/colors";
 import AddToCartButton from "./AddToCartButton";
 import RestockNotifyButton from "./RestockNotifyButton";
 import ProductInquiryButton from "./ProductInquiryButton";
@@ -145,7 +146,7 @@ export default function PdpBuyBox({
                   className={`w-9 h-9 rounded-full border-2 transition-all ${
                     isActive ? "border-[#3B7CF4] ring-2 ring-[#3B7CF4]/30" : "border-[#E2E6F3] hover:border-[#9AA3C2]"
                   }`}
-                  style={{ backgroundColor: c.hex ?? "#c4c9d4" }}
+                  style={{ background: swatchBackground(c.name, c.hex) }}
                 />
               );
             })}

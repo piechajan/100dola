@@ -38,3 +38,41 @@ export function colorToFamily(raw: string | null | undefined): ColorFamily | nul
 export function colorFamilyId(raw: string | null | undefined): string | null {
   return colorToFamily(raw)?.id ?? null;
 }
+
+/**
+ * Rozloží název barvy na jednotlivé barevné rodiny (dvoubarevná kola apod.).
+ * „Cumulus White/Carbon Black" → [white, black]; „Gelato Blue / Gelato Pink" → [blue, pink].
+ */
+export function colorToFamilies(raw: string | null | undefined): ColorFamily[] {
+  if (!raw) return [];
+  const parts = raw
+    .split(/[/&+]|\s-\s/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const out: ColorFamily[] = [];
+  for (const p of parts) {
+    const fam = colorToFamily(p);
+    if (fam && !out.some((f) => f.id === fam.id)) out.push(fam);
+  }
+  if (out.length === 0) {
+    const fam = colorToFamily(raw);
+    if (fam) out.push(fam);
+  }
+  return out;
+}
+
+/**
+ * CSS `background` hodnota pro swatch tečku. U dvoubarevných názvů vrací
+ * diagonální split (dvě barvy), jinak jednu barvu (příp. fallback hex).
+ */
+export function swatchBackground(
+  raw: string | null | undefined,
+  fallbackHex?: string,
+): string {
+  const fams = colorToFamilies(raw);
+  if (fams.length >= 2) {
+    const [a, b] = fams;
+    return `linear-gradient(135deg, ${a.hex} 0 50%, ${b.hex} 50% 100%)`;
+  }
+  return fams[0]?.hex ?? fallbackHex ?? "#9AA3C2";
+}

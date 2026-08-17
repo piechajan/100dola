@@ -40,7 +40,7 @@ import { applyOverridesToSchema } from "@/lib/shop/configurator-overrides";
 import PDPHeroPrice from "@/components/shop/PDPHeroPrice";
 import { breadcrumbSchema, itemListSchema, jsonLdString } from "@/lib/seo/schema-helpers";
 import { categories } from "@/data/categories";
-import { colorToFamily } from "@/lib/shop/colors";
+import { swatchBackground } from "@/lib/shop/colors";
 
 export const dynamicParams = true;
 // 6h místo 1h — redukce ISR Writes (supplier data se mění typicky denně).
@@ -376,25 +376,21 @@ function renderProduct(
                 </a>
               )}
 
-              {product.color && !product.colorOptions?.length && (() => {
-                const fam = colorToFamily(product.color);
-                const isGrad = fam?.hex.startsWith("linear-gradient");
-                return (
-                  <div className="mt-3 flex items-center gap-2.5">
-                    <span className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold">
-                      Barva:
-                    </span>
-                    <span
-                      className="inline-block w-5 h-5 rounded-full border border-[#E2E6F3] shrink-0"
-                      style={fam && isGrad ? { background: fam.hex } : { backgroundColor: fam?.hex ?? "#9AA3C2" }}
-                      aria-hidden="true"
-                    />
-                    <span className="text-sm font-semibold text-[#1a1a2e] capitalize">
-                      {product.color}
-                    </span>
-                  </div>
-                );
-              })()}
+              {product.color && !product.colorOptions?.length && (
+                <div className="mt-3 flex items-center gap-2.5">
+                  <span className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold">
+                    Barva:
+                  </span>
+                  <span
+                    className="inline-block w-5 h-5 rounded-full border border-[#E2E6F3] shrink-0"
+                    style={{ background: swatchBackground(product.color) }}
+                    aria-hidden="true"
+                  />
+                  <span className="text-sm font-semibold text-[#1a1a2e] capitalize">
+                    {product.color}
+                  </span>
+                </div>
+              )}
 
               {product.note && (
                 <p className="mt-4 text-sm italic text-[#E8431A] font-medium">{product.note}</p>
