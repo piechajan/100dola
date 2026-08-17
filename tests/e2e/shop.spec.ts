@@ -32,13 +32,13 @@ test.describe("Shop smoke", () => {
   });
 
   test("ISAAC kola — produkty se zobrazí s fotkou", async ({ page }) => {
-    await page.goto("/shop?cat=kola&brand=isaac");
-    // počkat na produkty
-    await page.waitForLoadState("domcontentloaded", { timeout: 20_000 });
+    // Supplier (ISAAC) produkty jsou jen na server-rendered kategoriálních PLP
+    // (/shop root filtruje pouze statický katalog). Míříme proto na kategorii.
+    await page.goto("/shop/kola/silnicni", { waitUntil: "domcontentloaded" });
 
     // Najít obrázek s ISAAC v alt
     const isaacImages = page.locator('img[alt*="Isaac" i]').first();
-    await expect(isaacImages).toBeVisible({ timeout: 15_000 });
+    await expect(isaacImages).toBeVisible({ timeout: 20_000 });
 
     // Ověř, že je obrázek správně NAWÍROVANÝ (src na Next image optimizer /
     // Vercel Blob / supplier host). Nekontrolujeme naturalWidth — z CI
@@ -51,10 +51,15 @@ test.describe("Shop smoke", () => {
   });
 
   test("PDP first ISAAC product opens with gallery", async ({ page }) => {
-    // Robust verze: jdeme přímo na známé ISAAC PDP, ne přes PLP navigaci.
-    // PLP route má dynamický product grid (Supabase fetch), CI síť občas
-    // timeouts. PDP je dostatečně reprezentativní pro smoke check.
-    await page.goto("/shop/iscvit26nb105", { waitUntil: "domcontentloaded" });
+    // Robustní: najdeme první ISAAC produkt v kategorii a otevřeme jeho PDP.
+    // (Natvrdo zadaný slug se rozbije při změně external ID ve feedu — což se
+    // stalo u iscvit26nb105.)
+    await page.goto("/shop/kola/silnicni", { waitUntil: "domcontentloaded" });
+    const isaacLink = page
+      .locator('a[href^="/shop/"]', { has: page.locator('img[alt*="Isaac" i]') })
+      .first();
+    await expect(isaacLink).toBeVisible({ timeout: 20_000 });
+    await isaacLink.click();
 
     // H1 musí obsahovat "Isaac" — verifikuje že PDP rendering proběhl
     await expect(page.locator("h1")).toBeVisible({ timeout: 20_000 });

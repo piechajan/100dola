@@ -209,8 +209,8 @@ function inferCategoryByBrand(
 /**
  * ISAAC model name → kategorie. Postaveno na známých modelech Sportimportu:
  *  Boson  → silniční aero / triatlon (TT geometrie)
- *  Vitron → silniční aero
- *  Meson  → silniční race
+ *  Meson  → silniční aero (Isaac aero model — patří k Foilu)
+ *  Vitron → silniční race (race/all-round, NE aero)
  *  Element, Kaon, Torus → gravel
  *
  * Doplňky a náhradní díly (patky, kryty, zámky, šrouby) → doplňky
@@ -233,8 +233,8 @@ function inferIsaacCategory(lowerName: string): string {
   }
   // 2) Skutečná kola podle modelu (ASCII word boundary funguje)
   if (/\bboson\b/.test(lowerName)) return "triatlon";
-  if (/\bvitron\b/.test(lowerName)) return "silnicni-aero";
-  if (/\bmeson\b/.test(lowerName)) return "silnicni-race";
+  if (/\bmeson\b/.test(lowerName)) return "silnicni-aero";
+  if (/\bvitron\b/.test(lowerName)) return "silnicni-race";
   if (/\b(element|kaon|torus)\b/.test(lowerName)) return "gravel-1x";
   return "silnicni-endurance";
 }
