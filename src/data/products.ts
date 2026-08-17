@@ -72,6 +72,8 @@ export interface Product {
   gallery?: string[];
   /** Barevné varianty k výběru na PDP (název + hex swatch + foto). */
   colorOptions?: Array<{ name: string; hex?: string; photo: string }>;
+  /** Příchutě k výběru na PDP (výživa) — zvolená se propíše do košíku i objednávky. */
+  flavorOptions?: string[];
   /** Variants per size/color z DB (Sportimport feed). Default undef. */
   variants?: Array<{
     externalId?: string;
@@ -410,9 +412,10 @@ export const PRODUCTS: Product[] = [
     vatRate: 12,
     bulky: false,
     badges: ["Skladem"],
-    note: "Šumivé tablety pro rychlé doplnění elektrolytů bez cukru — sodík, hořčík, draslík a zinek. Jedna tableta na 500 ml vody. Ideální na horké dny a dlouhé výjezdy. Příchutě: Fruit Mix, Red Orange, Lemon, Berry, Cherry.",
+    note: "Šumivé tablety pro rychlé doplnění elektrolytů bez cukru — sodík, hořčík, draslík a zinek. Jedna tableta na 500 ml vody. Ideální na horké dny a dlouhé výjezdy.",
     photo: "/media/sponser-electrolytes.webp",
     specs: ["10 šumivých tablet · 1 tableta / 500 ml", "Elektrolyty + zinek · 400 mg sodíku", "Zero carb · bez cukru · vegan"],
+    flavorOptions: ["Fruit Mix", "Red Orange", "Lemon", "Berry", "Cherry"],
   },
   {
     id: 6,

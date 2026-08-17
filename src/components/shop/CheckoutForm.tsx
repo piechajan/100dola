@@ -210,7 +210,7 @@ export default function CheckoutForm() {
     const payload = {
       source: "order" as const,
       items: items.map((i) => {
-        const variant = [i.color, i.size ? `vel. ${i.size}` : null].filter(Boolean).join(", ");
+        const variant = [i.flavor, i.color, i.size ? `vel. ${i.size}` : null].filter(Boolean).join(", ");
         return {
           productId: i.productId,
           slug: i.slug,

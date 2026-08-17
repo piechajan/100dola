@@ -45,6 +45,10 @@ export default function PdpBuyBox({
 
   const [colorName, setColorName] = useState<string | undefined>(colors[0]?.name);
 
+  // Příchutě (výživa) — volitelný výběr, propíše se do košíku/objednávky.
+  const flavors = product.flavorOptions ?? [];
+  const [flavor, setFlavor] = useState<string | undefined>(flavors[0]);
+
   // Velikosti patřící k aktuálně vybrané barvě. Pokud varianty nenesou barvu
   // (nebo produkt nemá colorOptions), ukážeme všechny — chování beze změny.
   const sizesForColor = useMemo<SizeVariant[]>(() => {
@@ -61,7 +65,9 @@ export default function PdpBuyBox({
 
   const needColor = colors.length > 0;
   const needSize = sizes.length > 0 && !isOneSize;
-  const missing = (needColor && !colorName) || (needSize && !sizeLabel);
+  const needFlavor = flavors.length > 0;
+  const missing =
+    (needColor && !colorName) || (needSize && !sizeLabel) || (needFlavor && !flavor);
 
   const activeInStock = activeSize?.isInStock === true && !soldOut;
   // „Na dotaz" režim: limitovaný produkt, kde vybraná velikost není skladem
@@ -82,11 +88,42 @@ export default function PdpBuyBox({
   const variant = {
     color: colorName,
     size: isOneSize ? undefined : sizeLabel,
+    flavor,
     photo: activeColor?.photo,
   };
 
   return (
     <div className="mt-6 space-y-6">
+      {/* Příchuť (výživa) */}
+      {flavors.length > 0 && (
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs uppercase tracking-wider text-[#9AA3C2] font-bold">Příchuť</span>
+            <span className="text-xs font-bold text-[#1a1a2e]">{flavor}</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {flavors.map((f) => {
+              const isActive = f === flavor;
+              return (
+                <button
+                  key={f}
+                  type="button"
+                  onClick={() => setFlavor(f)}
+                  aria-pressed={isActive}
+                  className={`px-3.5 py-2 rounded-lg text-sm font-bold border-2 transition-all ${
+                    isActive
+                      ? "border-[#1a1a2e] bg-[#1a1a2e] text-white"
+                      : "border-[#E2E6F3] bg-white text-[#1a1a2e] hover:border-[#3B7CF4]/50"
+                  }`}
+                >
+                  {f}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Barva */}
       {colors.length > 0 && (
         <div>

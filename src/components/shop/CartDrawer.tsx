@@ -20,7 +20,7 @@ function CartItemRow({
   remove: (lineId: string) => void;
   closeDrawer: () => void;
 }) {
-  const variantLabel = [item.color, item.size ? `vel. ${item.size}` : null]
+  const variantLabel = [item.flavor, item.color, item.size ? `vel. ${item.size}` : null]
     .filter(Boolean)
     .join(" · ");
   return (

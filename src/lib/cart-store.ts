@@ -4,10 +4,12 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { Product } from "@/data/products";
 
-/** Volitelná varianta (velikost / barva) zvolená na PDP. */
+/** Volitelná varianta (velikost / barva / příchuť) zvolená na PDP. */
 export interface CartVariant {
   size?: string;
   color?: string;
+  /** Příchuť (výživa — např. elektrolyty). */
+  flavor?: string;
   /** Foto varianty (barvy) — přepíše product.photo v košíku. */
   photo?: string;
 }
@@ -25,6 +27,7 @@ export interface CartItem {
   qty: number;
   size?: string;
   color?: string;
+  flavor?: string;
   /** "own" — skladem u nás; "supplier" — objednáme u dodavatele. Default "own". */
   fulfillment?: "own" | "supplier";
   /** UUID supplier_products pro hand-off dodavateli. */
@@ -41,7 +44,7 @@ export interface CartItem {
 
 /** Stabilní klíč řádku košíku z produktu + varianty. */
 export function cartLineId(productId: number, variant?: CartVariant): string {
-  return `${productId}|${variant?.size ?? ""}|${variant?.color ?? ""}`;
+  return `${productId}|${variant?.size ?? ""}|${variant?.color ?? ""}|${variant?.flavor ?? ""}`;
 }
 
 interface CartState {
@@ -99,6 +102,7 @@ export const useCart = create<CartState>()(
                 qty,
                 size: variant?.size,
                 color: variant?.color,
+                flavor: variant?.flavor,
                 fulfillment: product.fulfillment ?? "own",
                 supplierProductId: product.supplierProductId,
                 brand: product.brand,
