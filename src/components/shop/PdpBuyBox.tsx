@@ -44,13 +44,20 @@ export default function PdpBuyBox({
     sizes.length === 1 && /^one\s*size$|^uni$|^universal$/i.test(sizes[0].size ?? "");
 
   const [colorName, setColorName] = useState<string | undefined>(colors[0]?.name);
-  const defaultSize = sizes.find((v) => v.isInStock) ?? sizes[0];
-  const [sizeLabel, setSizeLabel] = useState<string | undefined>(
-    isOneSize ? defaultSize?.size : defaultSize?.size,
-  );
+
+  // Velikosti patřící k aktuálně vybrané barvě. Pokud varianty nenesou barvu
+  // (nebo produkt nemá colorOptions), ukážeme všechny — chování beze změny.
+  const sizesForColor = useMemo<SizeVariant[]>(() => {
+    if (!colorName || !sizes.some((v) => v.color)) return sizes;
+    const matched = sizes.filter((v) => v.color === colorName);
+    return matched.length > 0 ? matched : sizes;
+  }, [sizes, colorName]);
+
+  const defaultSize = sizesForColor.find((v) => v.isInStock) ?? sizesForColor[0];
+  const [sizeLabel, setSizeLabel] = useState<string | undefined>(defaultSize?.size);
 
   const activeColor = colors.find((c) => c.name === colorName);
-  const activeSize = sizes.find((v) => v.size === sizeLabel);
+  const activeSize = sizesForColor.find((v) => v.size === sizeLabel);
 
   const needColor = colors.length > 0;
   const needSize = sizes.length > 0 && !isOneSize;
@@ -64,6 +71,12 @@ export default function PdpBuyBox({
   function pickColor(c: { name: string; photo: string }) {
     setColorName(c.name);
     setPhoto(c.photo);
+    // Přepni na skladovou velikost nové barvy (jinak první dostupnou).
+    if (sizes.some((v) => v.color)) {
+      const forColor = sizes.filter((v) => v.color === c.name);
+      const next = forColor.find((v) => v.isInStock) ?? forColor[0];
+      if (next?.size) setSizeLabel(next.size);
+    }
   }
 
   const variant = {
@@ -133,7 +146,7 @@ export default function PdpBuyBox({
               )}
             </div>
             <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
-              {sizes.map((v) => {
+              {sizesForColor.map((v) => {
                 const isActive = v.size === sizeLabel;
                 const inStock = v.isInStock === true && !soldOut;
                 return (

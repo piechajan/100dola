@@ -226,12 +226,16 @@ export const PRODUCTS: Product[] = [
     originalPriceWithVat: 129990,
     vatRate: 21,
     bulky: true,
-    badges: ["Skladem L+XL", "Aero", "Sleva"],
+    badges: ["Skladem", "Aero", "Sleva"],
     note: "Aero race road — Scott označuje Foil za nejrychlejší silniční kolo, jaké kdy vyrobili. Pro spurtery, time trial, triatlon.",
     photo: "/media/scott-foil-rc-20-carbon-grey.webp",
     gallery: [
       "/media/scott-foil-rc-20-carbon-grey.webp",
       "/media/scott-foil-rc-20-gelato-blue.webp",
+    ],
+    colorOptions: [
+      { name: "Carbon Grey", hex: "#5a6570", photo: "/media/scott-foil-rc-20-carbon-grey.webp" },
+      { name: "Gelato Blue", hex: "#c9e3e0", photo: "/media/scott-foil-rc-20-gelato-blue.webp" },
     ],
     specs: ["Shimano 105 Di2", "Syncros Capital 1.0 60 Disc", "8,1 kg"],
     color: "Carbon Grey",
