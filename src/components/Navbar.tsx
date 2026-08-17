@@ -130,13 +130,13 @@ export default function Navbar() {
               onMouseEnter={() => openDropdown(setSportOpen, sportTimeout)}
               onMouseLeave={() => closeDropdown(setSportOpen, sportTimeout)}
             >
-              <button className="flex items-center gap-1 text-[#5A6480] hover:text-[#3B7CF4] transition-colors duration-150">
-                Sport
+              <Link href="/shop" className="flex items-center gap-1 text-[#5A6480] hover:text-[#3B7CF4] transition-colors duration-150">
+                E-shop
                 <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
                   className={`transition-transform duration-150 ${sportOpen ? "rotate-180" : ""}`}>
                   <path d="M6 9l6 6 6-6" />
                 </svg>
-              </button>
+              </Link>
 
               {sportOpen && (
                 <div
@@ -237,9 +237,6 @@ export default function Navbar() {
               )}
             </div>
 
-            <Link href="/shop" className="text-[#5A6480] hover:text-[#3B7CF4] transition-colors duration-150">
-              E-shop
-            </Link>
             <Link href="/malaga" className="text-[#5A6480] hover:text-[#E8431A] transition-colors duration-150">
               Malaga
             </Link>
@@ -367,7 +364,7 @@ export default function Navbar() {
                 className="w-full text-left py-2.5 px-3 rounded-lg text-sm font-semibold text-[#5A6480] hover:bg-[#F0F2FA] transition-colors flex items-center justify-between"
                 onClick={() => setMobileSportOpen(!mobileSportOpen)}
               >
-                Sport
+                E-shop
                 <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
                   className={`transition-transform ${mobileSportOpen ? "rotate-180" : ""}`}>
                   <path d="M6 9l6 6 6-6" />
@@ -375,7 +372,15 @@ export default function Navbar() {
               </button>
               {mobileSportOpen && (
                 <div className="ml-3 mt-1 flex flex-col gap-0.5">
-                  <div className="text-[10px] uppercase font-bold text-[#9AA3C2] px-3 pt-1 pb-0.5 tracking-wider">Podle sportu</div>
+                  <Link
+                    href="/shop"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-[#F0F2FA] transition-colors"
+                    onClick={() => { setMenuOpen(false); setMobileSportOpen(false); }}
+                  >
+                    <span className="text-sm">🛒</span>
+                    <span className="text-sm font-bold text-[#1a1a2e]">Celý e-shop</span>
+                  </Link>
+                  <div className="text-[10px] uppercase font-bold text-[#9AA3C2] px-3 pt-2 pb-0.5 tracking-wider">Podle sportu</div>
                   {SPORT_BY_ACTIVITY.map((item) => (
                     <Link
                       key={item.href}
@@ -404,7 +409,6 @@ export default function Navbar() {
             </div>
 
             {[
-              { label: "E-shop", href: "/shop" },
               { label: "Malaga", href: "/malaga" },
               { label: "Lab", href: "/lab" },
               { label: "Social rides", href: "/community" },
