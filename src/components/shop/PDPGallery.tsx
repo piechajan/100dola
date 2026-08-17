@@ -32,10 +32,19 @@ export default function PDPGallery({ mainPhoto, gallery, alt, badges = [] }: PDP
     [gallery, mainPhoto],
   );
   const [active, setActive] = useState(0);
-  const currentImage = allImages[active] ?? mainPhoto;
 
-  // Sync s výběrem barvy v PdpBuyBox — přepni hlavní obrázek na foto zvolené barvy.
+  // Sync s výběrem barvy v PdpBuyBox (přes usePdpImage store).
   const selectedPhoto = usePdpImage((s) => s.photo);
+
+  // Neprůstřelné přepnutí: když je zvolená barva a její foto je v galerii,
+  // zobraz ho přednostně — nezávisle na časování effectu níže. Tím se hlavní
+  // obrázek přehodí okamžitě při každé změně barvy (re-render ze store).
+  const currentImage =
+    selectedPhoto && allImages.includes(selectedPhoto)
+      ? selectedPhoto
+      : allImages[active] ?? mainPhoto;
+
+  // Drž zvýraznění thumbnailu (active) v souladu se zvoleným fotem.
   useEffect(() => {
     if (!selectedPhoto) return;
     const idx = allImages.indexOf(selectedPhoto);

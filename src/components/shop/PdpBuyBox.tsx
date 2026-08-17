@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Product } from "@/data/products";
 import { usePdpImage } from "@/lib/pdp-image-store";
+import { readVariantFromUrl, writeVariantToUrl, matchBySlug } from "@/lib/shop/variant-url";
 import AddToCartButton from "./AddToCartButton";
 import RestockNotifyButton from "./RestockNotifyButton";
 import ProductInquiryButton from "./ProductInquiryButton";
@@ -56,6 +57,19 @@ export default function PdpBuyBox({
   const defaultSize = sizesForColor.find((v) => v.isInStock) ?? sizesForColor[0];
   const [sizeLabel, setSizeLabel] = useState<string | undefined>(defaultSize?.size);
 
+  // Sdílitelné odkazy: na mountu přednastav barvu/velikost z URL
+  // (?barva=…&velikost=…) a nastav galerii na foto zvolené barvy.
+  useEffect(() => {
+    const { barva, velikost } = readVariantFromUrl();
+    const urlColor = matchBySlug(colors, barva, (c) => c.name);
+    const urlSize = matchBySlug(sizes, velikost, (v) => v.size ?? "");
+    if (urlColor) setColorName(urlColor.name);
+    if (urlSize?.size) setSizeLabel(urlSize.size);
+    const initColor = urlColor ?? colors[0];
+    if (initColor?.photo) setPhoto(initColor.photo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const activeColor = colors.find((c) => c.name === colorName);
   const activeSize = sizesForColor.find((v) => v.size === sizeLabel);
 
@@ -72,11 +86,21 @@ export default function PdpBuyBox({
     setColorName(c.name);
     setPhoto(c.photo);
     // Přepni na skladovou velikost nové barvy (jinak první dostupnou).
+    let nextSize = sizeLabel;
     if (sizes.some((v) => v.color)) {
       const forColor = sizes.filter((v) => v.color === c.name);
       const next = forColor.find((v) => v.isInStock) ?? forColor[0];
-      if (next?.size) setSizeLabel(next.size);
+      if (next?.size) {
+        setSizeLabel(next.size);
+        nextSize = next.size;
+      }
     }
+    writeVariantToUrl(c.name, isOneSize ? undefined : nextSize);
+  }
+
+  function pickSize(size: string) {
+    setSizeLabel(size);
+    writeVariantToUrl(colorName, size);
   }
 
   const variant = {
@@ -153,7 +177,7 @@ export default function PdpBuyBox({
                   <button
                     key={v.externalId ?? v.size}
                     type="button"
-                    onClick={() => setSizeLabel(v.size)}
+                    onClick={() => v.size && pickSize(v.size)}
                     className={`relative px-2 py-2.5 rounded-lg text-sm font-bold border-2 transition-all ${
                       isActive
                         ? "border-[#1a1a2e] bg-[#1a1a2e] text-white"
