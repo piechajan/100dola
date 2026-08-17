@@ -341,7 +341,9 @@ export const PRODUCTS: Product[] = [
     brand: "sponser",
     categoryId: "vyziva-iontaky",
     priceWithVat: 650,
-    vatRate: 21,
+    // Sportovní výživa / doplněk stravy = 12% DPH (potravinová sazba), ne 21 %.
+    // Ověřeno vs halbich.cz (690 Kč / 616,07 bez DPH = 1,12).
+    vatRate: 12,
     bulky: false,
     badges: ["Doporučuje tým"],
     note: "Isotonický nápoj pro dlouhé výjezdy. Osvědčený ve Španělsku.",
