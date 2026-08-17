@@ -28,15 +28,20 @@ export async function GET(request: Request) {
   const q = (searchParams.get("q") ?? "").trim();
   if (q.length < 2) return Response.json({ hits: [] });
 
+  // Dropdown volá bez limitu (default 8); stránka výsledků /hledat s vyšším limitem.
+  const limit = Math.min(48, Math.max(1, Number(searchParams.get("limit")) || 8));
+
   const qLower = q.toLowerCase();
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  const ownHits: SearchHit[] = PRODUCTS.filter((p) =>
-    p.name.toLowerCase().includes(qLower) ||
-    p.brand.toLowerCase().includes(qLower),
-  )
-    .slice(0, 8)
+  // Match i v popisu/specs — aby šlo najít i produkty s cizojazyčným názvem
+  // (např. „Sponser Electrolytes" přes české „elektrolyt" v popisu).
+  const ownHits: SearchHit[] = PRODUCTS.filter((p) => {
+    const hay = `${p.name} ${p.brand} ${p.note} ${p.specs.join(" ")}`.toLowerCase();
+    return hay.includes(qLower);
+  })
+    .slice(0, limit)
     .map((p) => ({
       id: `own:${p.id}`,
       slug: p.slug,
@@ -146,7 +151,7 @@ export async function GET(request: Request) {
   const merged = [...ownHits, ...supHits]
     .map((h) => ({ ...h, _score: score(h) }))
     .sort((a, b) => b._score - a._score)
-    .slice(0, 8)
+    .slice(0, limit)
     .map(({ _score, ...rest }) => {
       void _score;
       return rest;

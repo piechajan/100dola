@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { isProxiedImage } from "@/lib/shop/image-utils";
 import Link from "next/link";
@@ -46,16 +46,19 @@ export default function SearchBar({ variant = "desktop" }: { variant?: "desktop"
   }, [isOpen]);
 
   // Ulož recent search při kliku na hit
-  function saveRecent(q: string) {
-    if (!q || q.length < 2) return;
-    try {
-      const next = [q, ...recent.filter((r) => r.toLowerCase() !== q.toLowerCase())].slice(0, 5);
-      localStorage.setItem(RECENT_STORAGE_KEY, JSON.stringify(next));
-      setRecent(next);
-    } catch {
-      // ignore
-    }
-  }
+  const saveRecent = useCallback(
+    (q: string) => {
+      if (!q || q.length < 2) return;
+      try {
+        const next = [q, ...recent.filter((r) => r.toLowerCase() !== q.toLowerCase())].slice(0, 5);
+        localStorage.setItem(RECENT_STORAGE_KEY, JSON.stringify(next));
+        setRecent(next);
+      } catch {
+        // ignore
+      }
+    },
+    [recent],
+  );
 
   function clearRecent() {
     try {
@@ -109,9 +112,18 @@ export default function SearchBar({ variant = "desktop" }: { variant?: "desktop"
       } else if (e.key === "ArrowUp") {
         e.preventDefault();
         setActiveIdx((i) => Math.max(0, i - 1));
-      } else if (e.key === "Enter" && activeIdx >= 0 && hits[activeIdx]) {
+      } else if (e.key === "Enter") {
         e.preventDefault();
-        router.push(`/shop/${hits[activeIdx].slug}`);
+        if (activeIdx >= 0 && hits[activeIdx]) {
+          // Zvýrazněný produkt → jeho PDP
+          router.push(`/shop/${hits[activeIdx].slug}`);
+        } else if (query.trim().length >= 2) {
+          // Bez výběru → stránka se všemi výsledky
+          saveRecent(query.trim());
+          router.push(`/hledat?q=${encodeURIComponent(query.trim())}`);
+        } else {
+          return;
+        }
         setIsOpen(false);
         setQuery("");
       }
@@ -127,7 +139,7 @@ export default function SearchBar({ variant = "desktop" }: { variant?: "desktop"
       document.removeEventListener("keydown", onKey);
       document.removeEventListener("mousedown", onClick);
     };
-  }, [isOpen, hits, activeIdx, router]);
+  }, [isOpen, hits, activeIdx, router, query, saveRecent]);
 
   // Auto-focus na open
   useEffect(() => {
@@ -231,6 +243,16 @@ export default function SearchBar({ variant = "desktop" }: { variant?: "desktop"
                   </div>
                 </Link>
               ))}
+              <Link
+                href={`/hledat?q=${encodeURIComponent(query.trim())}`}
+                onClick={() => { saveRecent(query.trim()); setIsOpen(false); setQuery(""); }}
+                className="flex items-center justify-center gap-1.5 px-4 py-3.5 text-sm font-bold text-[#3B7CF4] active:bg-[#F5F7FF]"
+              >
+                Zobrazit všechny výsledky pro „{query.trim()}"
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </Link>
             </div>
           )}
         </div>
@@ -322,6 +344,16 @@ export default function SearchBar({ variant = "desktop" }: { variant?: "desktop"
                   </div>
                 </Link>
               ))}
+              <Link
+                href={`/hledat?q=${encodeURIComponent(query.trim())}`}
+                onClick={() => { saveRecent(query.trim()); setIsOpen(false); setQuery(""); }}
+                className="flex items-center justify-center gap-1.5 px-3 py-3 border-t border-[#F0F2FA] text-sm font-bold text-[#3B7CF4] hover:bg-[#F5F7FF] transition-colors"
+              >
+                Zobrazit všechny výsledky pro „{query.trim()}"
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </Link>
             </div>
           )}
         </div>
