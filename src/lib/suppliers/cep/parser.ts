@@ -72,6 +72,16 @@ function cleanName(raw: string, size: string | undefined): string {
   return n.replace(/\s{2,}/g, " ").trim();
 }
 
+/**
+ * Opraví známé překlepy v cestách k obrázkům ve feedu CEP.
+ * `…Socks-Mid-Cur/` je chybný název složky na origin serveru — správně `…Socks-Mid-Cut/`
+ * (origin vrací 404 na „Cur", 200 na „Cut"). Týká se ULTRALIGHT PRO ponožek.
+ */
+function fixCepImageUrl(url: string | undefined): string | undefined {
+  if (!url) return url;
+  return url.replace(/Socks-Mid-Cur\//g, "Socks-Mid-Cut/");
+}
+
 export function parseCepFeed(xml: string): RawSupplierProduct[] {
   const root = parser.parse(xml) as { SHOP?: { SHOPITEM?: ShopItem | ShopItem[] } };
   const items = asArray(root.SHOP?.SHOPITEM);
@@ -98,7 +108,7 @@ export function parseCepFeed(xml: string): RawSupplierProduct[] {
     };
 
     const altImgs = asArray(first.IMGURL_ALTERNATIVE)
-      .map((x) => txt(x))
+      .map((x) => fixCepImageUrl(txt(x)))
       .filter((x): x is string => !!x);
 
     const variants: RawVariant[] = group.map((it) => {
@@ -132,7 +142,7 @@ export function parseCepFeed(xml: string): RawSupplierProduct[] {
         .map((s) => s.trim())
         .filter(Boolean)
         .join("|"),
-      mainImageUrl: txt(first.IMGURL),
+      mainImageUrl: fixCepImageUrl(txt(first.IMGURL)),
       imageUrls: altImgs.length ? altImgs : undefined,
       variants,
       hasConfigurator: false,
