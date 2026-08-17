@@ -395,6 +395,22 @@ export const PRODUCTS: Product[] = [
     featuredOrder: 6,
   },
   {
+    id: 32,
+    name: "Sponser Electrolytes",
+    slug: "sponser-electrolytes",
+    year: null,
+    brand: "sponser",
+    categoryId: "vyziva-iontaky",
+    priceWithVat: 140,
+    // Doplněk stravy / potravina = 12% DPH (viz [[Sponser ISO Drink]]).
+    vatRate: 12,
+    bulky: false,
+    badges: ["Skladem"],
+    note: "Šumivé tablety pro rychlé doplnění elektrolytů bez cukru — sodík, hořčík, draslík a zinek. Jedna tableta na 500 ml vody. Ideální na horké dny a dlouhé výjezdy. Příchutě: Fruit Mix, Red Orange, Lemon, Berry, Cherry.",
+    photo: "/media/sponser-electrolytes.webp",
+    specs: ["10 šumivých tablet · 1 tableta / 500 ml", "Elektrolyty + zinek · 400 mg sodíku", "Zero carb · bez cukru · vegan"],
+  },
+  {
     id: 6,
     name: "Pinarello Dogma GR",
     slug: "pinarello-dogma-gr-sram-red-xplr-axs-2026",
