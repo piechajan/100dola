@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidateTag, revalidatePath } from "next/cache";
 import { getServiceSupabase, importBrand, type ImportResult } from "@/lib/suppliers/importer";
+import { getShopProducts } from "@/lib/shop/get-products";
 import { logCronRun } from "@/lib/cron-monitor";
 
 export const dynamic = "force-dynamic";
@@ -77,15 +78,29 @@ export async function GET(req: NextRequest) {
   // Invaliduj sdílenou katalog cache → nové produkty se projeví hned
   // (jinak až po 6 h revalidaci getShopProducts).
   revalidateTag("shop-products", "hours");
-  // Regeneruj i supplier PDP stránky (dynamická routa). Bez tohoto ISR
-  // regeneruje PDP jen na vyžádání → produkt bez traffiku, který se kdysi
-  // vyrenderoval jako 404 (supplier fetch dočasně selhal), by 404 držel
-  // napořád. Denní import tak zároveň hojí zaseknuté 404 supplier PDP.
-  revalidatePath("/shop/[...slug]", "page");
+  revalidatePath("/shop/[...slug]", "page"); // broad net (kategorie + listing)
+
+  // Regeneruj KAŽDÝ supplier PDP jednotlivě — catch-all `/shop/[...slug]` sám
+  // spolehlivě nevyčistí konkrétní zacachované 404 (produkt bez traffiku, který
+  // se kdysi vyrenderoval jako notFound při výpadku supplier fetch, by 404 držel
+  // napořád). Per-path revalidace to hojí každý import. Viz [[project-supplier-pdp-404]].
+  let revalidatedPdp = 0;
+  try {
+    const all = await getShopProducts();
+    for (const p of all) {
+      if (p.fulfillment === "supplier") {
+        revalidatePath(`/shop/${p.slug}`);
+        revalidatedPdp++;
+      }
+    }
+  } catch (e) {
+    console.warn("[import-supplier-feeds] PDP revalidation failed:", e);
+  }
 
   return NextResponse.json({
     ok: true,
     brandsProcessed: brands.length,
+    revalidatedPdp,
     results,
     ranAt: new Date().toISOString(),
   });
