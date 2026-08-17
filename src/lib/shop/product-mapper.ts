@@ -254,9 +254,16 @@ function inferCepCategory(lowerName: string, lowerPath: string): string {
     return "beh-navleky";
   }
   if (/ponožk|ponozk|sock/.test(s)) {
-    if (/kotníkov|kotnikov|mid|ankle/.test(s)) return "beh-ponozky-kotnikove";
-    if (/vysok|high|knee/.test(s)) return "beh-ponozky-vysoke";
-    if (/n[íi]zk|low|no.?show/.test(s)) return "beh-ponozky-nizke";
+    // České výškové slovo je v CEP názvech vždy první a jednoznačné —
+    // má přednost před anglickými fallbacky. POZOR: „mid/max/light CUSHION"
+    // je úroveň tlumení, NE výška → nesmí matchovat kotníkové.
+    if (/kotníkov|kotnikov/.test(s)) return "beh-ponozky-kotnikove";
+    if (/vysok/.test(s)) return "beh-ponozky-vysoke";
+    if (/n[íi]zk/.test(s)) return "beh-ponozky-nizke";
+    // anglické fallbacky (jen když chybí české slovo)
+    if (/ankle/.test(s)) return "beh-ponozky-kotnikove";
+    if (/\bknee\b|\bhigh\b/.test(s)) return "beh-ponozky-vysoke";
+    if (/no.?show|\blow\b/.test(s)) return "beh-ponozky-nizke";
     return "beh-ponozky";
   }
   if (/kšilt|ksilt|čepic|cepic|cap\b|čelenk|celenk|rukavic|batoh|láhev|lahev|doplňk|doplnk/.test(s))

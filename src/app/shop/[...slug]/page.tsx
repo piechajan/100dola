@@ -170,7 +170,8 @@ export default async function ShopCatchAllPage({
         <ShopLayout
           products={all}
           initialCategoryId={resolved.top.id}
-          initialSubId={resolved.sub?.id ?? resolved.child?.id ?? null}
+          initialSubId={resolved.sub?.id ?? null}
+          initialChildId={resolved.child?.id ?? null}
           heading={{
             title: resolved.title,
             description: resolved.description,

@@ -30,11 +30,13 @@ export default function ShopLayout({
   products,
   initialCategoryId,
   initialSubId,
+  initialChildId,
   heading,
 }: {
   products?: Product[];
   initialCategoryId?: string;
   initialSubId?: string | null;
+  initialChildId?: string | null;
   heading?: ShopHeading;
 } = {}) {
   const catalog: Product[] = products && products.length > 0 ? products : PRODUCTS;
@@ -42,7 +44,7 @@ export default function ShopLayout({
   // "vse" = žádný category filter — zobrazí vše
   const [activeTab, setActiveTab] = useState<string>(initialCategoryId ?? "vse");
   const [activeSub, setActiveSub] = useState<string | null>(initialSubId ?? null);
-  const [activeChild, setActiveChild] = useState<string | null>(null);
+  const [activeChild, setActiveChild] = useState<string | null>(initialChildId ?? null);
   const [activeBrand, setActiveBrand] = useState<string | null>(null);
   const [activeGender, setActiveGender] = useState<Gender | null>(null);
   const [activeUseCase, setActiveUseCase] = useState<UseCase | null>(null);
@@ -545,10 +547,20 @@ export default function ShopLayout({
                 onClear={() => setActiveColor(null)}
               />
             )}
-            {activeSub && activeCategory && (
+            {activeSub && activeCategory && !activeChild && (
               <ActiveFilterChip
                 label={activeCategory.subcategories.find((s) => s.id === activeSub)?.name ?? activeSub}
                 onClear={() => handleSubChange(null)}
+              />
+            )}
+            {activeChild && activeCategory && activeSub && (
+              <ActiveFilterChip
+                label={
+                  activeCategory.subcategories
+                    .find((s) => s.id === activeSub)
+                    ?.children?.find((c) => c.id === activeChild)?.name ?? activeChild
+                }
+                onClear={() => setActiveChild(null)}
               />
             )}
             {priceFilterActive && (
