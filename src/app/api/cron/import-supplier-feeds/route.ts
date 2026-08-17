@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { revalidateTag } from "next/cache";
+import { revalidateTag, revalidatePath } from "next/cache";
 import { getServiceSupabase, importBrand, type ImportResult } from "@/lib/suppliers/importer";
 import { logCronRun } from "@/lib/cron-monitor";
 
@@ -77,6 +77,11 @@ export async function GET(req: NextRequest) {
   // Invaliduj sdílenou katalog cache → nové produkty se projeví hned
   // (jinak až po 6 h revalidaci getShopProducts).
   revalidateTag("shop-products", "hours");
+  // Regeneruj i supplier PDP stránky (dynamická routa). Bez tohoto ISR
+  // regeneruje PDP jen na vyžádání → produkt bez traffiku, který se kdysi
+  // vyrenderoval jako 404 (supplier fetch dočasně selhal), by 404 držel
+  // napořád. Denní import tak zároveň hojí zaseknuté 404 supplier PDP.
+  revalidatePath("/shop/[...slug]", "page");
 
   return NextResponse.json({
     ok: true,
