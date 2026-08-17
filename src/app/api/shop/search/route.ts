@@ -14,6 +14,8 @@ interface SearchHit {
   name: string;
   brand: string;
   priceWithVat: number;
+  /** Původní (přeškrtnutá) cena — jen u vlastních produktů se slevou. */
+  originalPriceWithVat?: number;
   photo: string;
   kind: "own" | "supplier";
 }
@@ -48,6 +50,7 @@ export async function GET(request: Request) {
       name: p.name,
       brand: p.brand,
       priceWithVat: p.priceWithVat,
+      originalPriceWithVat: p.originalPriceWithVat,
       photo: p.photo,
       kind: "own" as const,
     }));

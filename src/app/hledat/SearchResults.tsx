@@ -12,6 +12,7 @@ interface Hit {
   name: string;
   brand: string;
   priceWithVat: number;
+  originalPriceWithVat?: number;
   photo: string;
 }
 
@@ -105,8 +106,21 @@ export default function SearchResults() {
                 <div className="text-sm font-bold text-[#1a1a2e] line-clamp-2 mt-0.5 min-h-[2.5rem]">
                   {hit.name}
                 </div>
-                <div className="text-base font-black text-[#1a1a2e] mt-1">
-                  {formatPrice(hit.priceWithVat)}
+                <div className="mt-1 flex items-baseline gap-2 flex-wrap">
+                  {hit.originalPriceWithVat && hit.originalPriceWithVat > hit.priceWithVat && (
+                    <span className="text-xs text-[#9AA3C2] line-through">
+                      {formatPrice(hit.originalPriceWithVat)}
+                    </span>
+                  )}
+                  <span
+                    className={`text-base font-black ${
+                      hit.originalPriceWithVat && hit.originalPriceWithVat > hit.priceWithVat
+                        ? "text-[#E8431A]"
+                        : "text-[#1a1a2e]"
+                    }`}
+                  >
+                    {formatPrice(hit.priceWithVat)}
+                  </span>
                 </div>
               </div>
             </Link>
