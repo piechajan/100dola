@@ -74,13 +74,16 @@ export default function ShopLayout({
 
   const filteredProducts = useMemo(() => {
     return catalog.filter((p) => {
-      // Kategorie
+      // Kategorie — bereme v potaz i sekundární kategorie (multi-category),
+      // aby se produkt (např. Foil/Meson) zobrazil v aeru i race zároveň.
+      const catIds = [p.categoryId, ...(p.secondaryCategoryIds ?? [])];
+      const matchCat = (test: (c: string) => boolean) => catIds.some(test);
       const inCategory = activeCategory
         ? activeChild
-          ? p.categoryId === activeChild
+          ? matchCat((c) => c === activeChild)
           : activeSub
-            ? p.categoryId === activeSub || p.categoryId.startsWith(activeSub + "-")
-            : getCategorySubIds(activeCategory).includes(p.categoryId)
+            ? matchCat((c) => c === activeSub || c.startsWith(activeSub + "-"))
+            : matchCat((c) => getCategorySubIds(activeCategory).includes(c))
         : true;
 
       // Značka

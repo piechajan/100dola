@@ -82,9 +82,13 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
     "silnicni-aero";
 
   // Sekundární kategorie — produkt se zobrazí i jinde (např. CEP oblečení/ponožky
-  // pod „Oblečení", ne jen pod „Běh").
+  // pod „Oblečení", ne jen pod „Běh"; ISAAC Meson pod aero i race).
   const secondaryCategoryIds =
-    brandSlug === "cep" ? inferCepSecondary(row.name.toLowerCase()) : undefined;
+    brandSlug === "cep"
+      ? inferCepSecondary(row.name.toLowerCase())
+      : brandSlug === "isaac"
+        ? inferIsaacSecondary(row.name.toLowerCase())
+        : undefined;
 
   const gender = inferGender(props, row.name);
   const useCase = inferUseCase(brandSlug, row.name, props);
@@ -237,6 +241,15 @@ function inferIsaacCategory(lowerName: string): string {
   if (/\bvitron\b/.test(lowerName)) return "silnicni-race";
   if (/\b(element|kaon|torus)\b/.test(lowerName)) return "gravel-1x";
   return "silnicni-endurance";
+}
+
+/**
+ * ISAAC sekundární kategorie — Meson je aero závoďák, ale patří i do „race"
+ * (aby se aero závodní kola dala najít v obou). Ostatní modely bez sekundáru.
+ */
+function inferIsaacSecondary(lowerName: string): string[] | undefined {
+  if (/\bmeson\b/.test(lowerName)) return ["silnicni-race"];
+  return undefined;
 }
 
 /**
