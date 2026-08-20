@@ -325,15 +325,17 @@ function inferAleCategory(
 
 function inferGender(props: Record<string, unknown>, name: string): Gender {
   const p = String(props["Pohlaví"] ?? props["Gender"] ?? "").toLowerCase();
-  if (/^m\b|men|p[áa]n/.test(p)) return "M";
-  if (/^f\b|^w\b|women|d[áa]m/.test(p)) return "F";
-  if (/junior|child|kid|d[ěe]t/.test(p)) return "K";
+  // POZOR: hodnoty bývají česky („Muži"/„Ženy"/„Pánské"/„Dámské") — dřív se
+  // nematchovaly a vše spadlo na „U" (unisex) → filtr pohlaví nefungoval (ALE).
+  if (/muž|p[áa]n|\bmen\b|male/.test(p)) return "M";
+  if (/žen|d[áa]m|\bwomen\b|female/.test(p)) return "F";
+  if (/d[ěe]t|junior|child|kid/.test(p)) return "K";
 
   // Heuristika z názvu — některé brandy uvedou v názvu
   const n = name.toLowerCase();
-  if (/\bwomen|\bdam[ks]/.test(n)) return "F";
-  if (/\bmen\b/.test(n)) return "M";
-  if (/\bkid|\bjunior|\bd[ěe]ti/.test(n)) return "K";
+  if (/\bwomen|d[áa]msk|\bžen/.test(n)) return "F";
+  if (/\bmen\b|p[áa]nsk|\bmuž/.test(n)) return "M";
+  if (/\bkid|\bjunior|d[ěe]tsk/.test(n)) return "K";
   return "U";
 }
 
