@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import Link from "next/link";
 import {
   categories,
@@ -17,6 +17,15 @@ import ProductCard from "@/components/shop/cards/ProductCard";
 import SubCatCard from "@/components/shop/filters/SubCatCard";
 import ActiveFilterChip from "@/components/shop/filters/ActiveFilterChip";
 import { BrandChip, BrandTile } from "@/components/shop/filters/BrandFilters";
+
+const SEASONS: { id: "leto" | "zima"; label: string }[] = [
+  { id: "leto", label: "Léto" },
+  { id: "zima", label: "Zima" },
+];
+const LENGTHS: { id: "kratke" | "dlouhe"; label: string }[] = [
+  { id: "kratke", label: "Krátké" },
+  { id: "dlouhe", label: "Dlouhé" },
+];
 
 // ─── Main layout ──────────────────────────────────────────────────────────────
 export interface ShopHeading {
@@ -49,6 +58,8 @@ export default function ShopLayout({
   const [activeGender, setActiveGender] = useState<Gender | null>(null);
   const [activeUseCase, setActiveUseCase] = useState<UseCase | null>(null);
   const [activeColor, setActiveColor] = useState<string | null>(null);
+  const [activeSeason, setActiveSeason] = useState<"leto" | "zima" | null>(null);
+  const [activeLength, setActiveLength] = useState<"kratke" | "dlouhe" | null>(null);
   const [sortBy, setSortBy] = useState<"relevant" | "price_asc" | "price_desc" | "name_asc">("relevant");
 
   // Filtry toggle — schované defaultně, ať PLP není přetížené
@@ -103,14 +114,42 @@ export default function ShopLayout({
       // Barva (rodina)
       const inColor = activeColor ? p.colorFamily === activeColor : true;
 
-      return inCategory && inBrand && inGender && inUseCase && inPrice && inColor;
+      // Sezóna + délka (oblečení)
+      const inSeason = activeSeason ? p.season === activeSeason : true;
+      const inLength = activeLength ? p.garmentLength === activeLength : true;
+
+      return inCategory && inBrand && inGender && inUseCase && inPrice && inColor && inSeason && inLength;
     });
-  }, [activeSub, activeChild, activeBrand, activeCategory, activeGender, activeUseCase, activeColor, catalog, priceMin, priceMax]);
+  }, [activeSub, activeChild, activeBrand, activeCategory, activeGender, activeUseCase, activeColor, activeSeason, activeLength, catalog, priceMin, priceMax]);
+
+  // Dostupné sezóny/délky v aktuální kategorii (bez sezóny/délky filtru) —
+  // filtr chip se ukáže jen když je relevantní (obleceni/beh, ne kola).
+  const scopeForFacets = useMemo(() => {
+    return catalog.filter((p) => {
+      const catIds = [p.categoryId, ...(p.secondaryCategoryIds ?? [])];
+      const matchCat = (test: (c: string) => boolean) => catIds.some(test);
+      return activeCategory
+        ? activeChild
+          ? matchCat((c) => c === activeChild)
+          : activeSub
+            ? matchCat((c) => c === activeSub || c.startsWith(activeSub + "-"))
+            : matchCat((c) => getCategorySubIds(activeCategory).includes(c))
+        : true;
+    });
+  }, [catalog, activeCategory, activeSub, activeChild]);
+  const availableSeasons = useMemo(
+    () => SEASONS.filter((s) => scopeForFacets.some((p) => p.season === s.id)),
+    [scopeForFacets],
+  );
+  const availableLengths = useMemo(
+    () => LENGTHS.filter((l) => scopeForFacets.some((p) => p.garmentLength === l.id)),
+    [scopeForFacets],
+  );
 
   // Reset page na 1 když se mění filtry
   useEffect(() => {
     setCurrentPage(1);
-  }, [activeSub, activeChild, activeBrand, activeTab, activeGender, activeUseCase, activeColor, priceMin, priceMax]);
+  }, [activeSub, activeChild, activeBrand, activeTab, activeGender, activeUseCase, activeColor, activeSeason, activeLength, priceMin, priceMax]);
 
   // Sort
   const sortedProducts = useMemo(() => {
@@ -135,7 +174,7 @@ export default function ShopLayout({
   );
 
   const hasActiveFilters =
-    activeBrand !== null || activeGender !== null || activeUseCase !== null || activeSub !== null || activeChild !== null || activeColor !== null || priceFilterActive;
+    activeBrand !== null || activeGender !== null || activeUseCase !== null || activeSub !== null || activeChild !== null || activeColor !== null || activeSeason !== null || activeLength !== null || priceFilterActive;
 
   const activeFilterCount =
     (activeBrand ? 1 : 0) +
@@ -143,6 +182,8 @@ export default function ShopLayout({
     (activeUseCase ? 1 : 0) +
     (activeChild ? 1 : 0) +
     (activeColor ? 1 : 0) +
+    (activeSeason ? 1 : 0) +
+    (activeLength ? 1 : 0) +
     (priceFilterActive ? 1 : 0);
 
   function clearAllFilters() {
@@ -150,13 +191,19 @@ export default function ShopLayout({
     setActiveGender(null);
     setActiveUseCase(null);
     setActiveColor(null);
+    setActiveSeason(null);
+    setActiveLength(null);
     setActiveChild(null);
     if (activeSub) handleSubChange(null);
     setPriceMin(priceBounds.min);
     setPriceMax(priceBounds.max);
   }
 
-  // Initial state z URL (?brand=isaac&gender=M&useCase=race&cat=kola)
+  // Perzistence filtrů v URL query → návrat zpět (z PDP) obnoví filtry i pozici.
+  // Kategorie je v PATH (props), ostatní filtry v query (?brand=&gender=&season=…).
+  const urlInited = useRef(false);
+
+  // 1) Čtení z URL na mount (i po back-navigaci, protože se komponenta remountuje).
   useEffect(() => {
     if (typeof window === "undefined") return;
     const sp = new URLSearchParams(window.location.search);
@@ -166,9 +213,45 @@ export default function ShopLayout({
     if (g === "M" || g === "F" || g === "K") setActiveGender(g);
     const u = sp.get("useCase");
     if (u === "leisure" || u === "performance" || u === "race") setActiveUseCase(u);
+    const col = sp.get("color");
+    if (col) setActiveColor(col);
+    const se = sp.get("season");
+    if (se === "leto" || se === "zima") setActiveSeason(se);
+    const le = sp.get("length");
+    if (le === "kratke" || le === "dlouhe") setActiveLength(le);
+    const so = sp.get("sort");
+    if (so === "price_asc" || so === "price_desc" || so === "name_asc" || so === "relevant") setSortBy(so);
+    const pMin = Number(sp.get("priceMin"));
+    if (Number.isFinite(pMin) && pMin > 0) setPriceMin(pMin);
+    const pMax = Number(sp.get("priceMax"));
+    if (Number.isFinite(pMax) && pMax > 0) setPriceMax(pMax);
+    const pg = Number(sp.get("page"));
+    if (Number.isFinite(pg) && pg > 1) setCurrentPage(pg);
     const cat = sp.get("cat");
     if (cat && categories.some((c) => c.id === cat)) setActiveTab(cat);
+    urlInited.current = true;
   }, []);
+
+  // 2) Zápis do URL při změně filtru (replaceState = nezakládá historii, path zůstává).
+  useEffect(() => {
+    if (typeof window === "undefined" || !urlInited.current) return;
+    const sp = new URLSearchParams();
+    if (activeBrand) sp.set("brand", activeBrand);
+    if (activeGender) sp.set("gender", activeGender);
+    if (activeUseCase) sp.set("useCase", activeUseCase);
+    if (activeColor) sp.set("color", activeColor);
+    if (activeSeason) sp.set("season", activeSeason);
+    if (activeLength) sp.set("length", activeLength);
+    if (sortBy !== "relevant") sp.set("sort", sortBy);
+    if (priceFilterActive) {
+      sp.set("priceMin", String(priceMin));
+      sp.set("priceMax", String(priceMax));
+    }
+    if (currentPage > 1) sp.set("page", String(currentPage));
+    const qs = sp.toString();
+    const url = window.location.pathname + (qs ? `?${qs}` : "");
+    window.history.replaceState(null, "", url);
+  }, [activeBrand, activeGender, activeUseCase, activeColor, activeSeason, activeLength, sortBy, priceMin, priceMax, priceFilterActive, currentPage]);
 
   const tabs = [
     { id: "vse", label: "Vše", icon: "🛍️", color: "#1a1a2e" },
@@ -181,13 +264,11 @@ export default function ShopLayout({
   function handleTabChange(id: string) {
     setActiveTab(id);
     setActiveSub(null);
-    // Naviguj na kategoriální URL pro lepší shareability + SEO
+    // Naviguj na kategoriální URL (zachovej query s filtry — kvůli návratu zpět).
     if (typeof window !== "undefined") {
-      if (id === "vse" || id === "znacky") {
-        window.history.pushState({}, "", "/shop");
-      } else {
-        window.history.pushState({}, "", `/shop/${id}`);
-      }
+      const search = window.location.search;
+      const path = id === "vse" || id === "znacky" ? "/shop" : `/shop/${id}`;
+      window.history.pushState({}, "", path + search);
     }
   }
 
@@ -195,10 +276,9 @@ export default function ShopLayout({
     setActiveSub(subId);
     setActiveChild(null);
     if (typeof window !== "undefined" && activeCategory) {
-      const url = subId
-        ? `/shop/${activeCategory.id}/${subId}`
-        : `/shop/${activeCategory.id}`;
-      window.history.pushState({}, "", url);
+      const search = window.location.search;
+      const path = subId ? `/shop/${activeCategory.id}/${subId}` : `/shop/${activeCategory.id}`;
+      window.history.pushState({}, "", path + search);
     }
   }
 
@@ -474,6 +554,58 @@ export default function ShopLayout({
           })}
         </div>
 
+        {/* ── Sezóna filter (jen když relevantní) ── */}
+        {availableSeasons.length > 0 && (
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs font-bold text-[#9AA3C2] tracking-wider uppercase shrink-0">
+              Sezóna:
+            </span>
+            <button
+              onClick={() => setActiveSeason(null)}
+              className="px-3 py-1.5 rounded-full text-xs font-bold border transition-all duration-150"
+              style={activeSeason === null ? { backgroundColor: "#1a1a2e", color: "#fff", borderColor: "#1a1a2e" } : { backgroundColor: "#fff", color: "#5A6480", borderColor: "#E2E6F3" }}
+            >
+              Vše
+            </button>
+            {availableSeasons.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => setActiveSeason(activeSeason === s.id ? null : s.id)}
+                className="px-3 py-1.5 rounded-full text-xs font-bold border transition-all duration-150 shrink-0"
+                style={activeSeason === s.id ? { backgroundColor: "#1a1a2e", color: "#fff", borderColor: "#1a1a2e" } : { backgroundColor: "#fff", color: "#5A6480", borderColor: "#E2E6F3" }}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* ── Délka filter (kalhoty/dresy — jen když relevantní) ── */}
+        {availableLengths.length > 0 && (
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs font-bold text-[#9AA3C2] tracking-wider uppercase shrink-0">
+              Délka:
+            </span>
+            <button
+              onClick={() => setActiveLength(null)}
+              className="px-3 py-1.5 rounded-full text-xs font-bold border transition-all duration-150"
+              style={activeLength === null ? { backgroundColor: "#1a1a2e", color: "#fff", borderColor: "#1a1a2e" } : { backgroundColor: "#fff", color: "#5A6480", borderColor: "#E2E6F3" }}
+            >
+              Vše
+            </button>
+            {availableLengths.map((l) => (
+              <button
+                key={l.id}
+                onClick={() => setActiveLength(activeLength === l.id ? null : l.id)}
+                className="px-3 py-1.5 rounded-full text-xs font-bold border transition-all duration-150 shrink-0"
+                style={activeLength === l.id ? { backgroundColor: "#1a1a2e", color: "#fff", borderColor: "#1a1a2e" } : { backgroundColor: "#fff", color: "#5A6480", borderColor: "#E2E6F3" }}
+              >
+                {l.label}
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* ── Cenový filter ── */}
         <div className="flex items-center gap-3 flex-wrap">
           <span className="text-xs font-bold text-[#9AA3C2] tracking-wider uppercase shrink-0">
@@ -548,6 +680,18 @@ export default function ShopLayout({
               <ActiveFilterChip
                 label={COLOR_FAMILIES.find((c) => c.id === activeColor)?.label ?? activeColor}
                 onClear={() => setActiveColor(null)}
+              />
+            )}
+            {activeSeason && (
+              <ActiveFilterChip
+                label={SEASONS.find((s) => s.id === activeSeason)?.label ?? activeSeason}
+                onClear={() => setActiveSeason(null)}
+              />
+            )}
+            {activeLength && (
+              <ActiveFilterChip
+                label={LENGTHS.find((l) => l.id === activeLength)?.label ?? activeLength}
+                onClear={() => setActiveLength(null)}
               />
             )}
             {activeSub && activeCategory && !activeChild && (

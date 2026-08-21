@@ -68,6 +68,10 @@ export interface Product {
   gender?: Gender;
   /** Orthogonal filtr (napříč kategoriemi). Default null = neuvedeno. */
   useCase?: UseCase | null;
+  /** Sezóna (oblečení): "leto" | "zima". Filtr se zobrazí jen když je relevantní. */
+  season?: "leto" | "zima";
+  /** Délka oblečení (kalhoty/dresy): "kratke" | "dlouhe". */
+  garmentLength?: "kratke" | "dlouhe";
   /** Volitelné další fotky pro PDP galerii (carousel + thumbs). */
   gallery?: string[];
   /** Barevné varianty k výběru na PDP (název + hex swatch + foto). */

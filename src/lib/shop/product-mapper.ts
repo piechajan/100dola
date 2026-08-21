@@ -124,6 +124,9 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
   const color = typeof colorRaw === "string" && colorRaw.trim() ? colorRaw.trim() : undefined;
   const colorFamily = colorFamilyId(color) ?? undefined;
 
+  const season = inferSeason(props);
+  const garmentLength = inferGarmentLength(props);
+
   return {
     id: supplierIdToNumeric(row.id),
     slug,
@@ -144,6 +147,8 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
     supplierProductId: row.id,
     gender,
     useCase,
+    season,
+    garmentLength,
     gallery: gallery.length > 1 ? gallery : undefined,
     variants: Array.isArray(row.variants) && row.variants.length > 0
       ? (row.variants as Product["variants"])
@@ -337,6 +342,22 @@ function inferGender(props: Record<string, unknown>, name: string): Gender {
   if (/\bmen\b|p[áa]nsk|\bmuž/.test(n)) return "M";
   if (/\bkid|\bjunior|d[ěe]tsk/.test(n)) return "K";
   return "U";
+}
+
+/** Sezóna z properties („Sezóna": Léto/Zima) — pro filtr oblečení. */
+function inferSeason(props: Record<string, unknown>): "leto" | "zima" | undefined {
+  const s = String(props["Sezóna"] ?? props["Season"] ?? "").toLowerCase();
+  if (/l[ée]t|summer/.test(s)) return "leto";
+  if (/zim|winter/.test(s)) return "zima";
+  return undefined;
+}
+
+/** Délka oblečení z „Druh" (Krátké/Dlouhé kalhoty·dresy) — pro filtr. */
+function inferGarmentLength(props: Record<string, unknown>): "kratke" | "dlouhe" | undefined {
+  const s = String(props["Druh"] ?? props["Typ"] ?? "").toLowerCase();
+  if (/kr[áa]tk|short|3\/4/.test(s)) return "kratke";
+  if (/dlouh|long/.test(s)) return "dlouhe";
+  return undefined;
 }
 
 function inferUseCase(
