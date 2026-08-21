@@ -155,7 +155,7 @@ export const PRODUCTS: Product[] = [
     brand: "scott",
     categoryId: "silnicni-aero",
     secondaryCategoryIds: ["silnicni-race"],
-    priceWithVat: 144590,
+    priceWithVat: 139352,
     originalPriceWithVat: 174190,
     vatRate: 21,
     bulky: true,
