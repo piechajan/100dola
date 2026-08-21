@@ -462,7 +462,12 @@ export const PRODUCTS: Product[] = [
     gallery: [
       "/media/q365-salopette-essential.webp",
       "/media/q365-salopette-essential-back.webp",
+      "/media/q365-salopette-essential-detail-1.webp",
+      "/media/q365-salopette-essential-detail-4.webp",
+      "/media/q365-salopette-essential-detail-3.webp",
       "/media/q365-salopette-essential-chamois.webp",
+      "/media/q365-salopette-essential-detail-2.webp",
+      "/media/q365-salopette-essential-detail-5.webp",
       "/media/q365-salopette-essential-worn.webp",
     ],
     specs: ["Super Moulded (SM) vložka · minimum švů", "100% recyklovaná příze · raw-cut nohavice", "Léto · Made in Italy"],
