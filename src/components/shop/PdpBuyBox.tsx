@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import type { Product } from "@/data/products";
 import { usePdpImage } from "@/lib/pdp-image-store";
 import { swatchBackground } from "@/lib/shop/colors";
@@ -85,6 +85,41 @@ export default function PdpBuyBox({
       if (next?.size) setSizeLabel(next.size);
     }
   }
+
+  // Sdílitelné odkazy — barva/velikost/příchuť v URL, aby sdílený odkaz otevřel
+  // produkt v konkrétním provedení. Čte se na mount, zapisuje při změně.
+  const variantUrlInited = useRef(false);
+  useEffect(() => {
+    if (typeof window === "undefined" || variantUrlInited.current) return;
+    const sp = new URLSearchParams(window.location.search);
+    const c = sp.get("color");
+    if (c) {
+      const match = colors.find((o) => o.name === c);
+      if (match) {
+        setColorName(match.name);
+        setPhoto(match.photo);
+      }
+    }
+    const sz = sp.get("size");
+    if (sz && sizes.some((v) => v.size === sz)) setSizeLabel(sz);
+    const fl = sp.get("flavor");
+    if (fl && flavors.includes(fl)) setFlavor(fl);
+    variantUrlInited.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !variantUrlInited.current) return;
+    const sp = new URLSearchParams(window.location.search);
+    if (colors.length > 0 && colorName) sp.set("color", colorName);
+    else sp.delete("color");
+    if (!isOneSize && sizeLabel) sp.set("size", sizeLabel);
+    else sp.delete("size");
+    if (flavors.length > 0 && flavor) sp.set("flavor", flavor);
+    else sp.delete("flavor");
+    const qs = sp.toString();
+    window.history.replaceState(null, "", window.location.pathname + (qs ? `?${qs}` : ""));
+  }, [colorName, sizeLabel, flavor, isOneSize, colors.length, flavors.length]);
 
   const variant = {
     color: colorName,
