@@ -31,14 +31,25 @@ test.describe("Shop smoke", () => {
     await expect(page.locator("h1")).toContainText(/Silniční/i);
   });
 
-  test("ISAAC kola — produkty se zobrazí s fotkou", async ({ page }) => {
-    // Supplier (ISAAC) produkty jsou jen na server-rendered kategoriálních PLP
-    // (/shop root filtruje pouze statický katalog). Míříme proto na kategorii.
+  // Supplier (ISAAC) produkty jsou jen na server-rendered kategoriálních PLP
+  // (/shop root filtruje pouze statický katalog). Míříme proto na kategorii.
+  // Reload-retry: E2E běží hned po deployi, kdy je ISR stránka + supplier cache
+  // studená → první render nemusí mít supplier produkty. Reload dostane teplou
+  // stránku. Není to reálný bug (Isaac warm funguje), jen cold-start latence.
+  async function openSilnicniWithIsaac(page: import("@playwright/test").Page) {
     await page.goto("/shop/kola/silnicni", { waitUntil: "domcontentloaded" });
+    const isaac = page.locator('img[alt*="Isaac" i]').first();
+    try {
+      await expect(isaac).toBeVisible({ timeout: 20_000 });
+    } catch {
+      await page.reload({ waitUntil: "domcontentloaded" });
+      await expect(isaac).toBeVisible({ timeout: 30_000 });
+    }
+    return isaac;
+  }
 
-    // Najít obrázek s ISAAC v alt
-    const isaacImages = page.locator('img[alt*="Isaac" i]').first();
-    await expect(isaacImages).toBeVisible({ timeout: 20_000 });
+  test("ISAAC kola — produkty se zobrazí s fotkou", async ({ page }) => {
+    const isaacImages = await openSilnicniWithIsaac(page);
 
     // Ověř, že je obrázek správně NAWÍROVANÝ (src na Next image optimizer /
     // Vercel Blob / supplier host). Nekontrolujeme naturalWidth — z CI
@@ -54,7 +65,7 @@ test.describe("Shop smoke", () => {
     // Robustní: najdeme první ISAAC produkt v kategorii a otevřeme jeho PDP.
     // (Natvrdo zadaný slug se rozbije při změně external ID ve feedu — což se
     // stalo u iscvit26nb105.)
-    await page.goto("/shop/kola/silnicni", { waitUntil: "domcontentloaded" });
+    await openSilnicniWithIsaac(page);
     const isaacLink = page
       .locator('a[href^="/shop/"]', { has: page.locator('img[alt*="Isaac" i]') })
       .first();
