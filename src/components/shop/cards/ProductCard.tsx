@@ -99,6 +99,68 @@ export default function ProductCard({ product }: { product: Product }) {
             </svg>
           </button>
         </div>
+
+        {/* Hover panel — vyjede zespoda: velikosti + barevné varianty (desktop) */}
+        {(() => {
+          const sized = (product.variants ?? []).filter(
+            (v) => v.size && v.size.trim() && !/^one\s*size$|^uni$/i.test(v.size),
+          );
+          const colors = product.colorOptions ?? [];
+          if (sized.length === 0 && colors.length === 0) return null;
+          return (
+            <div className="absolute inset-x-0 bottom-0 z-20 hidden md:block translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out bg-white/95 backdrop-blur-sm border-t border-[#E8E8E8]">
+              <div className="p-3 space-y-2">
+                {sized.length > 0 && (
+                  <div>
+                    <div className="text-[9px] uppercase tracking-wider text-[#9A9A9A] font-bold mb-1">
+                      {sized.length === 1 ? "Velikost" : "Velikosti"}
+                    </div>
+                    <div className="flex items-center gap-1 flex-wrap">
+                      {sized.slice(0, 8).map((v) => (
+                        <span
+                          key={v.externalId ?? v.size}
+                          className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                            v.isInStock
+                              ? "bg-[#F4F4F4] text-[#1a1a2e]"
+                              : "bg-white text-[#9AA3C2] border border-dashed border-[#E2E6F3]"
+                          }`}
+                          title={v.isInStock ? "Skladem" : "Na objednávku"}
+                        >
+                          {v.size}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {colors.length > 0 && (
+                  <div>
+                    <div className="text-[9px] uppercase tracking-wider text-[#9A9A9A] font-bold mb-1">
+                      Dostupné varianty
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      {colors.slice(0, 6).map((c) => (
+                        <span
+                          key={c.name}
+                          title={c.name}
+                          className="relative w-9 h-9 rounded-md overflow-hidden border border-[#E8E8E8] bg-[#F7F7F7]"
+                        >
+                          <Image
+                            src={c.photo}
+                            alt={c.name}
+                            fill
+                            sizes="36px"
+                            className="object-contain p-0.5"
+                            unoptimized={isProxiedImage(c.photo)}
+                          />
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })()}
       </div>
 
       <div className="p-4 flex flex-col flex-1">
@@ -133,7 +195,7 @@ export default function ProductCard({ product }: { product: Product }) {
           const visible = sized.slice(0, 7);
           const extra = sized.length - visible.length;
           return (
-            <div className="mt-2 flex items-center gap-1 flex-wrap">
+            <div className="mt-2 md:hidden flex items-center gap-1 flex-wrap">
               <span className="text-[9px] uppercase tracking-wider text-[#9A9A9A] font-bold mr-1">
                 Velikosti:
               </span>
