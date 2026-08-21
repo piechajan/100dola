@@ -145,6 +145,22 @@ export default function ShopLayout({
     () => LENGTHS.filter((l) => scopeForFacets.some((p) => p.garmentLength === l.id)),
     [scopeForFacets],
   );
+  // Faceting — filtr se ukáže jen když je v aktuální kategorii relevantní.
+  const availableGenders = useMemo(
+    () => GENDERS.filter((g) => g.id !== "U").filter((g) => scopeForFacets.some((p) => p.gender === g.id)),
+    [scopeForFacets],
+  );
+  const availableUseCases = useMemo(
+    () => USE_CASES.filter((u) => scopeForFacets.some((p) => p.useCase === u.id)),
+    [scopeForFacets],
+  );
+  const availableColors = useMemo(
+    () => COLOR_FAMILIES.filter((c) => scopeForFacets.some((p) => p.colorFamily === c.id)),
+    [scopeForFacets],
+  );
+  const showGenderFilter = availableGenders.length > 0;
+  const showUseCaseFilter = availableUseCases.length > 0;
+  const showColorFilter = availableColors.length >= 2;
 
   // Reset page na 1 když se mění filtry
   useEffect(() => {
@@ -446,7 +462,8 @@ export default function ShopLayout({
           ))}
         </div>
 
-        {/* ── Gender filter pills ── */}
+        {/* ── Gender filter pills (jen když relevantní) ── */}
+        {showGenderFilter && (
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs font-bold text-[#9AA3C2] tracking-wider uppercase shrink-0">
             Pohlaví:
@@ -478,8 +495,10 @@ export default function ShopLayout({
             </button>
           ))}
         </div>
+        )}
 
-        {/* ── Use-case filter pills ── */}
+        {/* ── Use-case filter pills (jen když relevantní) ── */}
+        {showUseCaseFilter && (
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs font-bold text-[#9AA3C2] tracking-wider uppercase shrink-0">
             Úroveň:
@@ -511,8 +530,10 @@ export default function ShopLayout({
             </button>
           ))}
         </div>
+        )}
 
-        {/* ── Barva filter (rodiny) ── */}
+        {/* ── Barva filter (rodiny, jen když relevantní) ── */}
+        {showColorFilter && (
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs font-bold text-[#9AA3C2] tracking-wider uppercase shrink-0">
             Barva:
@@ -553,6 +574,7 @@ export default function ShopLayout({
             );
           })}
         </div>
+        )}
 
         {/* ── Sezóna filter (jen když relevantní) ── */}
         {availableSeasons.length > 0 && (
