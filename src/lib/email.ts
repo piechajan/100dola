@@ -24,6 +24,31 @@ function getResend(): Resend {
   return cached;
 }
 
+// ── Interní report (audity, health checks) ──────────────────────────────────
+
+/**
+ * Obecný interní report na notifikační e-mail (info@100dola.com) — používají
+ * automatické audity (SEO / AI-search health apod.). Graceful no-op bez Resend.
+ */
+export async function sendInternalReport(input: {
+  subject: string;
+  html: string;
+  text: string;
+}): Promise<void> {
+  if (!isEmailConfigured()) return;
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: NOTIFY_EMAIL,
+      subject: input.subject,
+      html: input.html,
+      text: input.text,
+    });
+  } catch (e) {
+    console.error("[email] sendInternalReport failed:", e);
+  }
+}
+
 // ── Helpers ─────────────────────────────────────────────────────────────────
 
 const INTENT_LABELS: Record<MalagaLeadRow["intent"], string> = {

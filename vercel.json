@@ -35,6 +35,10 @@
     {
       "path": "/api/cron/stock-notify",
       "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/seo-ai-audit",
+      "schedule": "0 7 1 * *"
     }
   ]
 }
