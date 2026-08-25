@@ -1,4 +1,5 @@
 import { categories } from "@/data/categories";
+import { getPublishedLocations } from "@/data/locations";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com";
 
@@ -34,6 +35,15 @@ function buildLlmsTxt(): string {
 ${shopCats}
 
 Vše: [E-shop 100dola sport](${BASE_URL}/shop) · fulltextové vyhledávání: [${BASE_URL}/hledat](${BASE_URL}/hledat)
+
+## Regiony — osobní dovoz kol a vybavení (Morava, Valašsko)
+Jsme z Valašska. Kamenná prodejna je ve Šternberku, ale kola a vybavení
+vybíráme, skládáme, seřizujeme a **osobně vozíme a předáváme** po Moravě a
+Valašsku — kolo přivezeme až k zákazníkovi, seřízené a připravené k jízdě.
+Bikefit, testovací jízdy ISAAC a velký servis probíhají na prodejně ve Šternberku.
+${getPublishedLocations()
+  .map((l) => `- [${l.city}](${BASE_URL}/prodejna/${l.slug}) — ${l.type === "store" ? "kamenná prodejna, osobní odběr, servis, bikefit" : "osobní dovoz a předání kol a vybavení, doručení na adresu"}`)
+  .join("\n")}
 
 ## Služby
 - [Malaga — cyklistická základna](${BASE_URL}/malaga): doprava kola do Malagy, uskladnění přes zimu i celoročně, ježdění na vlastním kole v Andalusii, balíčky a vedené i self-guided vyjížďky. Létáš nalehko, jezdíš na svém kole, bez opakovaného balení a kompromisů s půjčovnou.

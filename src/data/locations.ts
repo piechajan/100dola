@@ -166,7 +166,7 @@ export const LOCATIONS: Location[] = [
       "100dola sport ve Valašském Meziříčí — kola SCOTT / ISAAC / Lapierre / Ridley / Pinarello, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Servis a bikefit.",
     h1: "Kola, cyklistické vybavení a sport ve Valašském Meziříčí",
     intro:
-      "Valašsko je cyklistický ráj a 100dola sport sem míří za tebou. Přinášíme silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, kompletní vybavení na kolo, sportovní výživu i běžecké boty. Vybíráme věci, které sami jezdíme — pro lidi, co chtějí kvalitu, ne kompromis.",
+      "Jsme z Valašska a jezdíme tady stejné kopce jako ty. 100dola sport není anonymní e-shop — kolo ti vybereme, složíme, seřídíme a osobně přivezeme až do Valašského Meziříčí. Silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, vybavení na kolo, sportovní výživu i běžecké boty vybíráme podle toho, co sami jezdíme. Bez obíhání prodejen — domluvíme se, přivezeme a předáme z ruky do ruky, seřízené a připravené na první jízdu.",
     highlights: [
       {
         title: "Kola SCOTT · ISAAC · Lapierre · Ridley · Pinarello",
@@ -182,19 +182,19 @@ export const LOCATIONS: Location[] = [
       },
     ],
     logistics:
-      "Objednej z e-shopu a vyber osobní vyzvednutí — složené kolo i vybavení předáme přímo ve Valašském Meziříčí, nebo doručíme na adresu. Doprava zdarma nad 2 500 Kč. Servis, bikefit a testovací jízdy ISAAC jsou na prodejně ve Šternberku.",
+      "Vyber si z e-shopu a domluv osobní předání — kolo složíme, seřídíme a přivezeme přímo do Valašského Meziříčí, nebo doručíme na adresu. Doprava zdarma nad 2 500 Kč. Chceš bikefit, testovací jízdu ISAAC nebo velký servis? Skoč za námi na prodejnu ve Šternberku, ale kolo a vybavení k tobě dovezeme i bez toho.",
     localAngle: {
-      title: "Social rides Valašské Meziříčí",
-      body: "Ve Valmezu jezdíme komunitní vyjížďky Open Miles Clinic — přidej se, poznáš lidi i náš přístup k jízdě a o kole se pobavíme, až budeš chtít.",
+      title: "Jezdíme tady s tebou — Social rides Valašské Meziříčí",
+      body: "Ve Valmezu točíme komunitní vyjížďky Open Miles Clinic. Nejsme přespolní, co sem jednou za rok dovezou kola — potkáš nás na trénincích i na kafi. Přidej se, poznáš lidi i to, jak ke kolu a jízdě přistupujeme.",
     },
     faq: [
       {
-        q: "Máte prodejnu ve Valašském Meziříčí?",
-        a: "Kamennou prodejnu máme ve Šternberku. Pro Valašské Meziříčí nabízíme osobní předání složeného kola a vybavení a doručení — plus komunitu Social rides Valašské Meziříčí.",
+        q: "Přivezete kolo až ke mně do Valašského Meziříčí?",
+        a: "Ano. Vybrané kolo složíme, seřídíme a osobně přivezeme do Valašského Meziříčí — nebo doručíme na adresu. Jsme z Valašska, takže to k tobě není žádná výprava. Termín předání potvrdíme po objednávce.",
       },
       {
-        q: "Jak funguje osobní předání ve Valmezu?",
-        a: "Objednáš online, vybereš osobní vyzvednutí, my se ozveme a domluvíme místo a čas předání ve Valašském Meziříčí. Osobní odběr na prodejně ve Šternberku je zdarma; dovoz a předání ve městě je jedna z možností — termín i cenu potvrdíme po objednávce.",
+        q: "Kde si nechám udělat bikefit nebo servis?",
+        a: "Na naší prodejně ve Šternberku (bikefit, testovací jízdy ISAAC, velký servis). Běžné vybavení a kola ale k tobě do Valmezu dovezeme, takže kvůli nákupu nikam jezdit nemusíš.",
       },
     ],
     keywords:
@@ -214,7 +214,7 @@ export const LOCATIONS: Location[] = [
       "100dola sport pro Vsetín a okolí — kola SCOTT / ISAAC / Lapierre / Ridley / Pinarello, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Servis kol a bikefit. Vybavení, které sami jezdíme.",
     h1: "Kola, cyklistické vybavení a sport pro Vsetín",
     intro:
-      "Vsetínsko a Beskydy patří k nejkrásnějším místům na kolo v Česku. 100dola sport sem přináší silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, kompletní vybavení na kolo, sportovní výživu i běžecké boty. Vybíráme věci, které sami jezdíme — pro lidi, co chtějí kvalitu, ne kompromis.",
+      "Vsetínsko a Beskydy jsou náš domov i náš trénink. 100dola sport ti kolo vybere, složí, seřídí a osobně přiveze až na Vsetín — silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, vybavení na kolo, sportovní výživu i běžecké boty vybíráme podle toho, co sami jezdíme po zdejších kopcích. Žádný anonymní balík z e-shopu, ale kolo předané z ruky do ruky, připravené na první výšlap.",
     highlights: [
       {
         title: "Kola SCOTT · ISAAC · Lapierre · Ridley · Pinarello",
@@ -232,17 +232,17 @@ export const LOCATIONS: Location[] = [
     logistics:
       "Objednej z e-shopu a vyber osobní vyzvednutí — složené kolo i vybavení předáme přímo ve Vsetíně, nebo doručíme na adresu. Doprava zdarma nad 2 500 Kč. Servis, bikefit a testovací jízdy ISAAC jsou na prodejně ve Šternberku.",
     localAngle: {
-      title: "Social rides Vsetín",
-      body: "Na Vsetínsku jezdíme komunitní vyjížďky Open Miles Clinic — přidej se a poznej náš přístup k jízdě i k výběru vybavení.",
+      title: "Jezdíme tady s tebou — Social rides Vsetín",
+      body: "Na Vsetínsku a v Beskydech točíme komunitní vyjížďky Open Miles Clinic. Nejsme přespolní obchod — potkáš nás na trénincích v terénu, který sám jezdíš. Přidej se a poznej náš přístup k jízdě i k výběru vybavení.",
     },
     faq: [
       {
-        q: "Máte prodejnu ve Vsetíně?",
-        a: "Kamennou prodejnu máme ve Šternberku. Pro Vsetín a okolí nabízíme osobní předání složeného kola a vybavení a doručení — plus komunitu Social rides Vsetín.",
+        q: "Přivezete kolo až ke mně na Vsetín?",
+        a: "Ano. Vybrané kolo složíme, seřídíme a osobně přivezeme na Vsetín — nebo doručíme na adresu. Jsme z Valašska, takže k tobě dorazíme rádi. Termín předání potvrdíme po objednávce.",
       },
       {
-        q: "Jak funguje osobní předání ve Vsetíně?",
-        a: "Objednáš online, vybereš osobní vyzvednutí, ozveme se a domluvíme místo a čas předání ve Vsetíně. Osobní odběr na prodejně ve Šternberku je zdarma; dovoz a předání ve městě je jedna z možností — termín i cenu potvrdíme po objednávce.",
+        q: "Kde si nechám udělat bikefit nebo servis?",
+        a: "Bikefit, testovací jízdy ISAAC a velký servis děláme na prodejně ve Šternberku. Kolo a běžné vybavení ale k tobě na Vsetín dovezeme, takže kvůli nákupu nikam jezdit nemusíš.",
       },
     ],
     keywords:
@@ -262,7 +262,7 @@ export const LOCATIONS: Location[] = [
       "100dola sport pro Rožnov pod Radhoštěm a Beskydy — kola SCOTT / ISAAC / Lapierre / Ridley / Pinarello, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Osobní předání a doručení, servis a bikefit. Vybavení, které sami jezdíme.",
     h1: "Kola, cyklistické vybavení a sport pro Rožnov pod Radhoštěm",
     intro:
-      "Rožnov a Beskydy jsou jedno z nejlepších míst na kolo v Česku — od pohodových údolí Rožnovska po pořádné beskydské stoupáky. 100dola sport sem přináší silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, kompletní vybavení na kolo, sportovní výživu i běžecké boty. Vybíráme věci, které sami jezdíme — pro lidi, co chtějí kvalitu, ne kompromis.",
+      "Rožnov a Beskydy — od pohodových údolí po pořádné stoupáky — jezdíme sami a rádi. 100dola sport ti kolo vybere, složí, seřídí a osobně přiveze až do Rožnova pod Radhoštěm: silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, vybavení na kolo, sportovní výživu i běžecké boty vybíráme podle toho, co sami jezdíme v beskydském terénu. Ne anonymní zásilka, ale kolo předané osobně, připravené na první beskydský výšlap.",
     highlights: [
       {
         title: "Kola SCOTT · ISAAC · Lapierre · Ridley · Pinarello",
@@ -310,7 +310,7 @@ export const LOCATIONS: Location[] = [
       "100dola sport pro Nový Jičín a okolí — kola SCOTT / ISAAC / Lapierre / Ridley / Pinarello, helmy, tretry, cyklo oblečení Q36.5, radar, osvětlení, sportovní výživa a běžecké boty. Servis a bikefit. Přidej se k Social rides Valašské Meziříčí, kam to máš kousek.",
     h1: "Kola, cyklistické vybavení a sport pro Nový Jičín",
     intro:
-      "Novojičínsko a Beskydy jsou skvělé na kolo. 100dola sport sem přináší silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, kompletní vybavení na kolo, sportovní výživu i běžecké boty — a komunitu Social rides Valašské Meziříčí, kam to máš kousek. Vybíráme věci, které sami jezdíme.",
+      "Novojičínsko a Beskydy jsou skvělé na kolo a my je jezdíme sami. 100dola sport ti kolo vybere, složí, seřídí a osobně přiveze do Nového Jičína: silniční, gravel a horská kola SCOTT, ISAAC, Lapierre, Ridley a Pinarello, vybavení na kolo, sportovní výživu i běžecké boty vybíráme podle toho, co sami najezdíme. K tomu komunita Social rides Valašské Meziříčí, kam to máš kousek — ne přespolní obchod, ale lidi, které potkáš v terénu.",
     highlights: [
       {
         title: "Kola SCOTT · ISAAC · Lapierre · Ridley · Pinarello",
