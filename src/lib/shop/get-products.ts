@@ -41,9 +41,13 @@ async function fetchSupplierProducts(): Promise<Product[]> {
       .select("id, brand_slug, is_public")
       .eq("is_public", true);
 
+    // POZOR: chyby MUSÍ throwovat, ne vracet [] — jinak unstable_cache
+    // zacacheuje prázdný výsledek na 6 h a supplier produkty (ISAAC…) zmizí
+    // z celého webu, i když v DB jsou. Throw = cache neuloží odmítnutí →
+    // příští request zkusí fetch znovu. Legitimní prázdno (0 public brandů)
+    // se cachovat SMÍ.
     if (bErr) {
-      console.warn("[getShopProducts] supplier_brands fetch failed:", bErr.message);
-      return [];
+      throw new Error(`supplier_brands fetch failed: ${bErr.message}`);
     }
     if (!publicBrands || publicBrands.length === 0) return [];
 
@@ -63,8 +67,7 @@ async function fetchSupplierProducts(): Promise<Product[]> {
       .eq("is_active", true);
 
     if (pErr) {
-      console.warn("[getShopProducts] supplier_products fetch failed:", pErr.message);
-      return [];
+      throw new Error(`supplier_products fetch failed: ${pErr.message}`);
     }
 
     return (rows ?? [])
@@ -85,8 +88,9 @@ async function fetchSupplierProducts(): Promise<Product[]> {
       })
       .filter((p): p is Product => p !== null);
   } catch (e) {
-    console.warn("[getShopProducts] unexpected error, falling back to empty supplier list:", e);
-    return [];
+    // Re-throw — ať unstable_cache neuloží prázdný výsledek (viz výše).
+    // Graceful fallback na static-only řeší až getShopProducts.
+    throw e instanceof Error ? e : new Error(String(e));
   }
 }
 
@@ -108,7 +112,15 @@ const getSupplierProductsCached = unstable_cache(fetchSupplierProducts, ["shop-p
  */
 export async function getShopProducts(): Promise<Product[]> {
   const own = PRODUCTS.map((p) => ({ ...p, fulfillment: p.fulfillment ?? ("own" as const) }));
-  const supplier = await getSupplierProductsCached();
+  let supplier: Product[] = [];
+  try {
+    supplier = await getSupplierProductsCached();
+  } catch (e) {
+    // Supplier fetch selhal (transientní Supabase chyba). Cache se NEpoisonuje
+    // (unstable_cache necachuje odmítnutí) → tento request ukáže jen static
+    // katalog, příští request supplier zkusí znovu. Web nikdy nespadne.
+    console.error("[getShopProducts] supplier fetch failed, serving static-only:", e);
+  }
   return [...own, ...supplier];
 }
 
