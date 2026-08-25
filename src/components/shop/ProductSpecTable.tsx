@@ -11,7 +11,7 @@ export default function ProductSpecTable({ product }: { product: Product }) {
   return (
     <details className="mt-6 group rounded-2xl border border-[#E2E6F3] bg-white overflow-hidden">
       <summary className="flex items-center justify-between px-5 py-4 cursor-pointer select-none list-none">
-        <span className="text-base font-black text-[#1a1a2e]">Kompletní výbava</span>
+        <span className="text-base font-black text-[#1a1a2e]">Technické informace</span>
         <span className="text-[#9AA3C2] text-sm transition-transform group-open:rotate-180">▾</span>
       </summary>
       <div className="px-5 pb-5">

@@ -29,6 +29,7 @@ import Stars from "@/components/shop/Stars";
 import { getReviewAggregate, getPublicReviews } from "@/lib/shop/reviews";
 import { PRODUCTS, formatPrice, type Product } from "@/data/products";
 import { getProductBySlugMerged, getShopProducts } from "@/lib/shop/get-products";
+import { BIKE_SPEC_TABLES } from "@/data/bike-spec-tables";
 import { isLimitedProductSoldOut } from "@/lib/shop/limited-stock";
 import {
   resolveCategoryPath,
@@ -104,7 +105,13 @@ export default async function ShopCatchAllPage({
 
   if (slug.length === 1) {
     const all = await getShopProducts();
-    const product = all.find((p) => p.slug === slug[0]);
+    const found = all.find((p) => p.slug === slug[0]);
+    // Doplň "Technické informace" (kompletní výbava) z lookup tabulky, pokud
+    // produkt vlastní specTable nemá (statické kolo bez inline specTable).
+    const product =
+      found && !found.specTable && BIKE_SPEC_TABLES[found.slug]
+        ? { ...found, specTable: BIKE_SPEC_TABLES[found.slug] }
+        : found;
     if (product) {
       const [aggregate, reviews] = await Promise.all([
         getReviewAggregate(product.slug),
