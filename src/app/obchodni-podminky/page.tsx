@@ -109,6 +109,22 @@ export default function ObchodniPodminkyPage() {
                 připsání částky na účet prodávajícího nebo předáním částky v
                 hotovosti.
               </p>
+              <p className="text-[#5A6480] mt-3">
+                <strong>Záloha u zboží na objednávku a zboží vyšší hodnoty.</strong>{" "}
+                U zboží dodávaného na objednávku od externích dodavatelů (zejména
+                jízdních kol) a u zboží, jehož cena přesahuje 50&nbsp;000&nbsp;Kč,
+                je prodávající oprávněn požadovat před objednáním zboží u dodavatele
+                zálohu ve výši <strong>50&nbsp;% kupní ceny</strong>. O požadavku na
+                zálohu a platebních údajích prodávající kupujícího informuje po
+                vytvoření objednávky; zboží u dodavatele objednává až po připsání
+                zálohy. Zaplacená záloha se započítává na kupní cenu; zbývající část
+                ceny je splatná před předáním nebo odesláním zboží. Tímto není
+                dotčeno právo spotřebitele odstoupit od smlouvy dle čl.&nbsp;5 —
+                při řádném odstoupení vrátí prodávající i zaplacenou zálohu v souladu
+                se zákonem. U zboží upraveného podle přání kupujícího (např.
+                individuální konfigurace kola) může být právo na odstoupení vyloučeno
+                dle § 1837 občanského zákoníku.
+              </p>
             </section>
 
             <section>
