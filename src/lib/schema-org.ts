@@ -146,6 +146,16 @@ export function websiteSchema() {
       "Sportovní obchod ve Šternberku — kola, běh, lyže, skialpy. Servis kol, bikefit, přeprava kol do Malagy, komunita Open Miles Clinic.",
     publisher: { "@id": `${SITE_URL}/#organization` },
     inLanguage: "cs-CZ",
+    // Sitelinks Search Box — řekne Googlu i AI vyhledávačům, že web má
+    // fulltext na /hledat (?q=…). Pomáhá citovatelnosti a přímým odkazům.
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE_URL}/hledat?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   };
 }
 
