@@ -16,7 +16,13 @@ import { sendInternalReport } from "@/lib/email";
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com";
+// Veřejná doména (pro texty v reportu).
+const PUBLIC_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com";
+// Fetch origin pro self-check: MUSÍ být interní Vercel origin, ne Cloudflare-
+// fronted doména — server-to-server z Vercel datacentra přes Cloudflare vrací
+// 403 (bot ochrana). Vercel origin má identický obsah (stejný deployment).
+// Viz memory reference_cloudflare_bridge_403.
+const AUDIT_ORIGIN = process.env.AUDIT_ORIGIN || "https://100dola.vercel.app";
 
 type Status = "ok" | "warn" | "fail";
 interface Check {
@@ -28,7 +34,7 @@ interface Check {
 
 async function fetchText(path: string): Promise<{ status: number; ok: boolean; body: string }> {
   try {
-    const res = await fetch(`${BASE_URL}${path}`, {
+    const res = await fetch(`${AUDIT_ORIGIN}${path}`, {
       headers: { "user-agent": "100dola-seo-ai-audit/1.0" },
       cache: "no-store",
     });
@@ -163,9 +169,10 @@ export async function GET(req: NextRequest) {
     const overall = fails > 0 ? "❌ REGRESE" : warns > 0 ? "⚠️ drobnosti" : "✅ vše OK";
     const date = new Date().toISOString().split("T")[0];
 
+    const host = new URL(PUBLIC_URL).host.replace(/^www\./, "");
     const lines = checks.map((c) => `${icon(c.status)} [${c.area}] ${c.name} — ${c.detail}`);
     const text = [
-      `SEO + AI-search audit 100dola.com — ${date}`,
+      `SEO + AI-search audit ${host} — ${date}`,
       `Souhrn: ${overall} (${checks.length} kontrol, ${warns} varování, ${fails} chyb)`,
       "",
       ...lines,
@@ -182,7 +189,7 @@ export async function GET(req: NextRequest) {
       .join("");
     const html = `
       <div style="font-family:system-ui,sans-serif;max-width:720px">
-        <h2>SEO + AI-search audit — ${date}</h2>
+        <h2>SEO + AI-search audit ${host} — ${date}</h2>
         <p style="font-size:16px"><b>Souhrn: ${overall}</b> · ${checks.length} kontrol · ${warns} varování · ${fails} chyb</p>
         <table style="border-collapse:collapse;font-size:14px;width:100%">${htmlRows}</table>
         <p style="color:#888;font-size:12px;margin-top:16px">AI referraly (ChatGPT/Perplexity/Gemini/Copilot) tento cron neměří — Vercel Analytics → Referrers, nebo čtvrtletní hloubkový přehled (routines).</p>
