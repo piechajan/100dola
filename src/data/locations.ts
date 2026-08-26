@@ -70,7 +70,7 @@ export const LOCATIONS: Location[] = [
     highlights: [
       {
         title: "Kola SCOTT · ISAAC · Ridley · Pinarello",
-        body: "Silniční, gravel, horská a elektrokola. Poradíme s výběrem podle typu jízdy i rozpočtu, k dispozici testovací jízdy ISAAC a bikefit pro přesné dotažení posedu.",
+        body: "Silniční, gravel, horská a elektrokola. Poradíme s výběrem podle typu jízdy i rozpočtu, k dispozici testovací jízdy ISAAC a SCOTT a bikefit pro přesné dotažení posedu.",
       },
       {
         title: "Kompletní vybavení na kolo",
@@ -94,7 +94,7 @@ export const LOCATIONS: Location[] = [
       },
       {
         q: "Můžu si kolo nebo vybavení vyzkoušet před koupí?",
-        a: "Ano — to je smysl kamenné prodejny. Kolo si osaháš, helmu i tretry vyzkoušíš, u kol nabízíme i testovací jízdy ISAAC a bikefit.",
+        a: "Ano — to je smysl kamenné prodejny. Kolo si osaháš, helmu i tretry vyzkoušíš, u kol nabízíme i testovací jízdy ISAAC a SCOTT a bikefit.",
       },
       {
         q: "Děláte servis kol i pro kola koupená jinde?",
@@ -130,7 +130,7 @@ export const LOCATIONS: Location[] = [
       },
       {
         title: "Běh, servis a bikefit",
-        body: `${RUNNING}. Servis kol, voskování řetězů, bikefit a testovací jízdy ISAAC na prodejně ve Šternberku — 15 minut z Olomouce.`,
+        body: `${RUNNING}. Servis kol, voskování řetězů, bikefit a testovací jízdy ISAAC a SCOTT na prodejně ve Šternberku — 15 minut z Olomouce.`,
       },
     ],
     logistics:
@@ -170,7 +170,7 @@ export const LOCATIONS: Location[] = [
     highlights: [
       {
         title: "Kola SCOTT · ISAAC · Lapierre · Ridley · Pinarello",
-        body: "Silniční, gravel a horská kola. Poradíme s výběrem, nabízíme testovací jízdy ISAAC a bikefit.",
+        body: "Silniční, gravel a horská kola. Poradíme s výběrem, nabízíme testovací jízdy ISAAC a SCOTT a bikefit.",
       },
       {
         title: "Vybavení na kolo a výživa",
@@ -182,10 +182,10 @@ export const LOCATIONS: Location[] = [
       },
     ],
     logistics:
-      "Vyber si z e-shopu a domluv osobní předání — kolo složíme, seřídíme a přivezeme přímo do Valašského Meziříčí, nebo doručíme na adresu. Doprava zdarma nad 2 500 Kč. Chceš bikefit, testovací jízdu ISAAC nebo velký servis? Skoč za námi na prodejnu ve Šternberku, ale kolo a vybavení k tobě dovezeme i bez toho.",
+      "Vyber si z e-shopu a domluv osobní předání — kolo složíme, seřídíme a přivezeme přímo do Valašského Meziříčí, nebo doručíme na adresu. Doprava zdarma nad 2 500 Kč. Chceš bikefit, testovací jízdu ISAAC a SCOTT nebo velký servis? Skoč za námi na prodejnu ve Šternberku, ale kolo a vybavení k tobě dovezeme i bez toho.",
     localAngle: {
       title: "Jezdíme tady s tebou — Social rides Valašské Meziříčí",
-      body: "Ve Valmezu točíme komunitní vyjížďky Open Miles Clinic. Nejsme přespolní, co sem jednou za rok dovezou kola — potkáš nás na trénincích i na kafi. Přidej se, poznáš lidi i to, jak ke kolu a jízdě přistupujeme.",
+      body: "Ve Valmezu pořádáme komunitní vyjížďky Open Miles Clinic. Nejsme přespolní, co sem jednou za rok dovezou kola — potkáš nás na trénincích i na kafi. Přidej se, poznáš lidi i to, jak ke kolu a jízdě přistupujeme.",
     },
     faq: [
       {
@@ -194,7 +194,7 @@ export const LOCATIONS: Location[] = [
       },
       {
         q: "Kde si nechám udělat bikefit nebo servis?",
-        a: "Na naší prodejně ve Šternberku (bikefit, testovací jízdy ISAAC, velký servis). Běžné vybavení a kola ale k tobě do Valmezu dovezeme, takže kvůli nákupu nikam jezdit nemusíš.",
+        a: "Na naší prodejně ve Šternberku (bikefit, testovací jízdy ISAAC a SCOTT, velký servis). Běžné vybavení a kola ale k tobě do Valmezu dovezeme, takže kvůli nákupu nikam jezdit nemusíš.",
       },
     ],
     keywords:
@@ -218,7 +218,7 @@ export const LOCATIONS: Location[] = [
     highlights: [
       {
         title: "Kola SCOTT · ISAAC · Lapierre · Ridley · Pinarello",
-        body: "Silniční, gravel a horská kola s poradenstvím, testovacími jízdami ISAAC a bikefitem.",
+        body: "Silniční, gravel a horská kola s poradenstvím, testovacími jízdami ISAAC a SCOTT a bikefitem.",
       },
       {
         title: "Vybavení na kolo a výživa",
@@ -230,10 +230,10 @@ export const LOCATIONS: Location[] = [
       },
     ],
     logistics:
-      "Objednej z e-shopu a vyber osobní vyzvednutí — složené kolo i vybavení předáme přímo ve Vsetíně, nebo doručíme na adresu. Doprava zdarma nad 2 500 Kč. Servis, bikefit a testovací jízdy ISAAC jsou na prodejně ve Šternberku.",
+      "Objednej z e-shopu a vyber osobní vyzvednutí — složené kolo i vybavení předáme přímo ve Vsetíně, nebo doručíme na adresu. Doprava zdarma nad 2 500 Kč. Servis, bikefit a testovací jízdy ISAAC a SCOTT jsou na prodejně ve Šternberku.",
     localAngle: {
       title: "Jezdíme tady s tebou — Social rides Vsetín",
-      body: "Na Vsetínsku a v Beskydech točíme komunitní vyjížďky Open Miles Clinic. Nejsme přespolní obchod — potkáš nás na trénincích v terénu, který sám jezdíš. Přidej se a poznej náš přístup k jízdě i k výběru vybavení.",
+      body: "Na Vsetínsku a v Beskydech pořádáme komunitní vyjížďky Open Miles Clinic. Nejsme přespolní obchod — potkáš nás na trénincích v terénu, který sám jezdíš. Přidej se a poznej náš přístup k jízdě i k výběru vybavení.",
     },
     faq: [
       {
@@ -242,7 +242,7 @@ export const LOCATIONS: Location[] = [
       },
       {
         q: "Kde si nechám udělat bikefit nebo servis?",
-        a: "Bikefit, testovací jízdy ISAAC a velký servis děláme na prodejně ve Šternberku. Kolo a běžné vybavení ale k tobě na Vsetín dovezeme, takže kvůli nákupu nikam jezdit nemusíš.",
+        a: "Bikefit, testovací jízdy ISAAC a SCOTT a velký servis děláme na prodejně ve Šternberku. Kolo a běžné vybavení ale k tobě na Vsetín dovezeme, takže kvůli nákupu nikam jezdit nemusíš.",
       },
     ],
     keywords:
@@ -266,7 +266,7 @@ export const LOCATIONS: Location[] = [
     highlights: [
       {
         title: "Kola SCOTT · ISAAC · Lapierre · Ridley · Pinarello",
-        body: "Silniční, gravel a horská kola s poradenstvím, testovacími jízdami ISAAC a bikefitem — ať sedí posed i výběr podle beskydského terénu.",
+        body: "Silniční, gravel a horská kola s poradenstvím, testovacími jízdami ISAAC a SCOTT a bikefitem — ať sedí posed i výběr podle beskydského terénu.",
       },
       {
         title: "Vybavení na kolo a výživa",
@@ -278,10 +278,10 @@ export const LOCATIONS: Location[] = [
       },
     ],
     logistics:
-      "Objednej z e-shopu a vyber osobní vyzvednutí — složené kolo i vybavení předáme v Rožnově pod Radhoštěm, nebo doručíme na adresu. Doprava zdarma nad 2 500 Kč. Servis, bikefit a testovací jízdy ISAAC jsou na prodejně ve Šternberku.",
+      "Objednej z e-shopu a vyber osobní vyzvednutí — složené kolo i vybavení předáme v Rožnově pod Radhoštěm, nebo doručíme na adresu. Doprava zdarma nad 2 500 Kč. Servis, bikefit a testovací jízdy ISAAC a SCOTT jsou na prodejně ve Šternberku.",
     localAngle: {
       title: "Social rides Valašské Meziříčí",
-      body: "Kousek od Rožnova jezdíme komunitní vyjížďky Open Miles Clinic ve Valašském Meziříčí — přidej se, poznáš lidi i náš přístup k jízdě.",
+      body: "Kousek od Rožnova pořádáme komunitní vyjížďky Open Miles Clinic ve Valašském Meziříčí — přidej se, poznáš lidi i náš přístup k jízdě.",
     },
     faq: [
       {
@@ -314,7 +314,7 @@ export const LOCATIONS: Location[] = [
     highlights: [
       {
         title: "Kola SCOTT · ISAAC · Lapierre · Ridley · Pinarello",
-        body: "Silniční, gravel a horská kola s poradenstvím, testovacími jízdami ISAAC a bikefitem.",
+        body: "Silniční, gravel a horská kola s poradenstvím, testovacími jízdami ISAAC a SCOTT a bikefitem.",
       },
       {
         title: "Vybavení na kolo a výživa",

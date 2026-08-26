@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s · 100dola",
   },
   description:
-    "Sportovní obchod ve Šternberku — silniční, gravel a horská kola, běžecké vybavení, lyže a skialpy. Servis kol, bikefit, testovací jízdy ISAAC. Přeprava kol do Malagy.",
+    "Sportovní obchod ve Šternberku — silniční, gravel a horská kola, běžecké vybavení, lyže a skialpy. Servis kol, bikefit, testovací jízdy ISAAC a SCOTT. Přeprava kol do Malagy.",
   openGraph: {
     type: "website",
     locale: "cs_CZ",

@@ -40,7 +40,7 @@ Vše: [E-shop 100dola sport](${BASE_URL}/shop) · fulltextové vyhledávání: [
 Jsme z Valašska. Kamenná prodejna je ve Šternberku, ale kola a vybavení
 vybíráme, skládáme, seřizujeme a **osobně vozíme a předáváme** po Moravě a
 Valašsku — kolo přivezeme až k zákazníkovi, seřízené a připravené k jízdě.
-Bikefit, testovací jízdy ISAAC a velký servis probíhají na prodejně ve Šternberku.
+Bikefit, testovací jízdy ISAAC a SCOTT a velký servis probíhají na prodejně ve Šternberku.
 ${getPublishedLocations()
   .map((l) => `- [${l.city}](${BASE_URL}/prodejna/${l.slug}) — ${l.type === "store" ? "kamenná prodejna, osobní odběr, servis, bikefit" : "osobní dovoz a předání kol a vybavení, doručení na adresu"}`)
   .join("\n")}
