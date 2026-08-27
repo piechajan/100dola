@@ -47,7 +47,17 @@ function collapseCustomModels(products: Product[]): Product[] {
     ];
     const name = base.name.replace(new RegExp(`(Isaac\\s+${model}).*`, "i"), "$1 CUSTOM");
     const slug = `isaac-${model.toLowerCase()}-custom`;
-    kept.push({ ...base, name, slug, customColors: colors.length > 0 ? colors : undefined });
+    // Galerie: STÁVAJÍCÍ fotky base produktu první, pak jedna oficiální foto za
+    // každou barvu (main foto barevných SKU) na KONEC. Main foto beze změny.
+    const colorPhotos = list.map((x) => x.photo).filter(Boolean);
+    const gallery = [...new Set([...(base.gallery ?? [base.photo]), ...colorPhotos])];
+    kept.push({
+      ...base,
+      name,
+      slug,
+      gallery: gallery.length > 1 ? gallery : undefined,
+      customColors: colors.length > 0 ? colors : undefined,
+    });
   }
   return [...rest, ...kept];
 }

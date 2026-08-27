@@ -178,8 +178,11 @@ export default function ShopLayout({
       case "name_asc":
         return arr.sort((a, b) => a.name.localeCompare(b.name, "cs"));
       case "relevant":
-      default:
-        return arr;
+      default: {
+        // ISAAC CUSTOM (konfigurovatelné) modely na začátek, zbytek v pořadí katalogu.
+        const isCustom = (p: Product) => p.brand === "isaac" && p.hasConfigurator === true;
+        return [...arr.filter(isCustom), ...arr.filter((p) => !isCustom(p))];
+      }
     }
   }, [filteredProducts, sortBy]);
 
@@ -245,6 +248,12 @@ export default function ShopLayout({
     if (Number.isFinite(pg) && pg > 1) setCurrentPage(pg);
     const cat = sp.get("cat");
     if (cat && categories.some((c) => c.id === cat)) setActiveTab(cat);
+    // Sub/child kategorie (např. Silniční → Aero) — bez toho se při „zpět" z PDP
+    // ztratil vybraný pod-filtr a musel se klikat znovu.
+    const sub = sp.get("sub");
+    if (sub) setActiveSub(sub);
+    const child = sp.get("child");
+    if (child) setActiveChild(child);
     urlInited.current = true;
   }, []);
 
@@ -252,6 +261,8 @@ export default function ShopLayout({
   useEffect(() => {
     if (typeof window === "undefined" || !urlInited.current) return;
     const sp = new URLSearchParams();
+    if (activeSub) sp.set("sub", activeSub);
+    if (activeChild) sp.set("child", activeChild);
     if (activeBrand) sp.set("brand", activeBrand);
     if (activeGender) sp.set("gender", activeGender);
     if (activeUseCase) sp.set("useCase", activeUseCase);
@@ -267,7 +278,7 @@ export default function ShopLayout({
     const qs = sp.toString();
     const url = window.location.pathname + (qs ? `?${qs}` : "");
     window.history.replaceState(null, "", url);
-  }, [activeBrand, activeGender, activeUseCase, activeColor, activeSeason, activeLength, sortBy, priceMin, priceMax, priceFilterActive, currentPage]);
+  }, [activeSub, activeChild, activeBrand, activeGender, activeUseCase, activeColor, activeSeason, activeLength, sortBy, priceMin, priceMax, priceFilterActive, currentPage]);
 
   const tabs = [
     { id: "vse", label: "Vše", icon: "🛍️", color: "#1a1a2e" },
