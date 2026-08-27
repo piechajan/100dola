@@ -85,6 +85,11 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
   const diffColor = DIFFICULTY_COLOR[event.difficulty];
   const spotsLeft = event.capacity - event.filled;
   const mapyFrameUrl = toMapyFrameUrl(event.routeUrl);
+  // Proběhlá akce se pozná automaticky z data (nebo ručního isPast). Build-time
+  // porovnání stačí — web se redeployuje při každé změně eventů.
+  const eventIsPast =
+    Boolean(event.isPast) ||
+    (!!event.dateISO && event.dateISO < new Date().toISOString().slice(0, 10));
 
   return (
     <>
@@ -417,7 +422,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   <div className="h-1.5 w-full" style={{ backgroundColor: color }} />
 
                   <div className="p-6">
-                    {event.isPast ? (
+                    {eventIsPast ? (
                       <div className="text-center">
                         <div className="text-xs font-bold uppercase tracking-wider text-[#9AA3C2] mb-2">
                           Proběhlá akce

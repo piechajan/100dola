@@ -386,8 +386,9 @@ Posezení v restauraci Po Cestě je součástí plánu — dobré jídlo a odpo�
     elevation: "565–670 m",
     difficulty: "Střední",
     capacity: 20,
-    filled: 6,
-    description: "Otevíráme sezónu. Dvě trasy na výběr — Cappuccino (63,7 km / 565 m) nebo Espresso (67,9 km / 670 m). Sraz u Chochina, jedeme spolu.",
+    filled: 13,
+    isPast: true,
+    description: "Otevírali jsme sezónu. Dvě trasy na výběr — Cappuccino (63,7 km / 565 m) nebo Espresso (67,9 km / 670 m). Sraz u Chochina, jeli jsme spolu.",
     longDescription: `Season Opening je neformální start sezóny pro celou komunitu Open Miles Clinic. Sraz v 9:45 u kavárny Chochino, výjezd v 10:00. Po jízdě se vracíme na kávu a projdeme, co nás čeká v sezóně.
 
 Na výběr jsou dvě trasy — vyber si podle nálady:
