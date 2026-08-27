@@ -114,7 +114,7 @@ const events: UIEvent[] = [
     description:
       "Víkend na Rychlebských stezkách (IMBA trail centrum). Pátek příjezd, sobota + neděle ježdění, koupání v lomu a společné opíkání. V případě zájmu nás kontaktuj — zajistíme ubytování. Výbava: horské kolo.",
     photo: "/media/rychlebske-stezky-2026.webp",
-    photoPosition: "center 55%",
+    photoPosition: "center 75%",
     routeUrl: "https://www.rychlebskestezky.cz/cs/trails",
   },
   {

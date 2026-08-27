@@ -43,6 +43,7 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
   const [bikeType, setBikeType] = useState("");
   const [preferredMonth, setPreferredMonth] = useState("");
   const [pickupAtHome, setPickupAtHome] = useState(false);
+  const [insuranceInterest, setInsuranceInterest] = useState(false);
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
@@ -75,6 +76,7 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
       preferredMonth: preferredMonth || undefined,
       groupKind: isGroupy ? ("group" as const) : ("individual" as const),
       pickupAtHome,
+      insuranceInterest,
       message: message.trim() || undefined,
       website, // honeypot — pro reálné uživatele "", bot ho vyplní
     };
@@ -330,6 +332,20 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
           <span className="text-sm text-[#1a1a2e]">
             <span className="font-semibold">Mám zájem o vyzvednutí kola u mě doma.</span>{" "}
             <span className="text-[#9AA3C2]">Cenu spočítáme individuálně podle vzdálenosti a způsobu předání.</span>
+          </span>
+        </label>
+
+        {/* Cestovní pojištění */}
+        <label className="flex items-start gap-3 cursor-pointer rounded-xl p-3 hover:bg-[#F7F7FA] transition-colors">
+          <input
+            type="checkbox"
+            checked={insuranceInterest}
+            onChange={(e) => setInsuranceInterest(e.target.checked)}
+            className="mt-1 w-4 h-4 accent-[#E8431A]"
+          />
+          <span className="text-sm text-[#1a1a2e]">
+            <span className="font-semibold">Mám zájem i o cestovní pojištění / pojištění kola.</span>{" "}
+            <span className="text-[#9AA3C2]">Ozveme se s nabídkou přes našeho pojišťovacího partnera.</span>
           </span>
         </label>
 

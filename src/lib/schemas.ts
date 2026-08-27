@@ -64,6 +64,7 @@ export const MalagaPayloadSchema = z
     preferredMonth: z.string().max(32).trim().optional(),
     groupKind: z.enum(["individual", "group", "club"]).optional(),
     pickupAtHome: z.boolean().optional(),
+    insuranceInterest: z.boolean().optional(),
     message: z.string().max(2000).trim().optional(),
   })
   .merge(Honeypot);

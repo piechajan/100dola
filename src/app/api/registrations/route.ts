@@ -128,6 +128,13 @@ export async function POST(req: NextRequest) {
 
     if (useDb) {
       const sb = getSupabase();
+      // Zájem o cestovní pojištění zatím nemá vlastní sloupec (bez DB migrace) →
+      // prepend do message, ať to Jan vidí v mailu i v adminu. Až se rozjede
+      // workflow s partnerem (přeposílání), povýšíme na samostatný sloupec.
+      const leadMessage =
+        [m.insuranceInterest ? "🛡️ ZÁJEM O CESTOVNÍ POJIŠTĚNÍ" : null, m.message || null]
+          .filter(Boolean)
+          .join(" — ") || null;
       const insert = {
         name: m.name,
         email: m.email,
@@ -140,7 +147,7 @@ export async function POST(req: NextRequest) {
         preferred_month: m.preferredMonth || null,
         group_kind: m.groupKind || null,
         pickup_at_home: m.pickupAtHome ?? false,
-        message: m.message || null,
+        message: leadMessage,
         registered_at: m.registeredAt || now,
       };
       const { data: row, error } = await sb
