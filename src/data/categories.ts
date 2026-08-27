@@ -15,6 +15,7 @@ export interface TopCategory {
 
 export const BRANDS = [
   { id: "scott",       name: "Scott",        logo: "/brands/scott.svg" },
+  { id: "bulls",       name: "Bulls",        logo: "/brands/bulls.svg" },
   { id: "isaac",       name: "Isaac",        logo: "/brands/isaac.svg" },
   { id: "lapierre",    name: "Lapierre",     logo: "/brands/lapierre.svg" },
   { id: "ghost",       name: "Ghost",        logo: "/brands/ghost.svg" },
