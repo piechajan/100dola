@@ -14,6 +14,27 @@ function formatPrice(n: number): string {
   return new Intl.NumberFormat("cs-CZ", { maximumFractionDigits: 0 }).format(n) + " Kč";
 }
 
+const SIZE_ORDER = ["XXS", "XS", "S", "M", "L", "XL", "XXL", "XXXL"];
+
+/**
+ * Přirozený řadicí klíč tagu (v rámci stejné ceny): velikost (XS<S<M…), délka
+ * klik („délka 165 mm"), hloubka ráfku / rozměr („55 mm", „RYOT33"), jinak 0.
+ */
+function naturalKey(name: string): number {
+  const up = name.trim().toUpperCase();
+  const si = SIZE_ORDER.indexOf(up);
+  if (si >= 0) return si;
+  const len = name.match(/délka\s*([\d.,]+)\s*mm/i);
+  if (len) return parseFloat(len[1].replace(",", "."));
+  const range = name.match(/\b\d+\s*[-–]\s*(\d+)/); // kazeta „11-34" → 34
+  if (range) return parseInt(range[1], 10);
+  const mm = name.match(/([\d.,]+)\s*mm/i);
+  if (mm) return parseFloat(mm[1].replace(",", "."));
+  const depth = name.match(/(\d{2,4})/);
+  if (depth) return parseInt(depth[1], 10);
+  return 0;
+}
+
 /**
  * Sportimport-style configurator pro ISAAC kola.
  * Default: supplier defaultTagExternalId per option (fallback první isAvailable).
@@ -25,12 +46,22 @@ export default function ConfiguratorUI({ product, schema }: ConfiguratorUIProps)
   const openDrawer = useCart((s) => s.openDrawer);
   const [added, setAdded] = useState(false);
 
-  // Tagy seskupené per option
+  // Tagy seskupené per option, seřazené: cena vzestupně (bez příplatku první),
+  // při stejné ceně přirozeně (délka klik / velikost / hloubka ráfku vzestupně).
   const tagsByOption = useMemo(() => {
     const m = new Map<string, ConfiguratorSchema["tags"]>();
     for (const t of schema.tags) {
       if (!m.has(t.optionExternalId)) m.set(t.optionExternalId, []);
       m.get(t.optionExternalId)!.push(t);
+    }
+    for (const [, tags] of m) {
+      tags.sort((a, b) => {
+        // Negativní volby („bez kol", „Rámová sada") na konec — bez příplatku první.
+        const an = a.priceModifierCzk < 0 ? 1 : 0;
+        const bn = b.priceModifierCzk < 0 ? 1 : 0;
+        if (an !== bn) return an - bn;
+        return a.priceModifierCzk - b.priceModifierCzk || naturalKey(a.name) - naturalKey(b.name);
+      });
     }
     return m;
   }, [schema.tags]);
