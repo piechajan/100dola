@@ -276,8 +276,8 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   <div className="space-y-2.5">
                     {event.difficultyVariants.map((v) => (
                       <div key={v.label} className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1 text-sm">
-                        <span className="font-black text-[#1a1a2e] w-14 shrink-0">{v.label}</span>
-                        <span className="font-bold" style={{ color }}>{v.distanceKm} km</span>
+                        <span className="font-black text-[#1a1a2e] w-16 shrink-0">{v.label}</span>
+                        <span className="font-bold" style={{ color }}>{v.distance}</span>
                         {v.elevationM ? <span className="text-[#9AA3C2]">· {v.elevationM} m</span> : null}
                         {v.note ? <span className="text-[#9AA3C2]">— {v.note}</span> : null}
                       </div>

@@ -48,8 +48,8 @@ export interface Event {
   startVenue?: EventVenue;
   /** Restaurace/podnik cíle (posezení) — s prokliky na IG/web. */
   endVenue?: EventVenue;
-  /** Varianty obtížnosti/délky (např. lehká od 100 km, těžká 150, extra 160). */
-  difficultyVariants?: Array<{ label: string; distanceKm: number; elevationM?: number; note?: string }>;
+  /** Varianty obtížnosti/délky (např. lehká do 70 km, střední 70–100, extra 160). */
+  difficultyVariants?: Array<{ label: string; distance: string; elevationM?: number; note?: string }>;
 }
 
 export interface EventVenue {
@@ -139,9 +139,10 @@ Po jízdě klasika — společné posezení v restauraci Po Cestě.`,
       facebook: "https://www.facebook.com/p/Po-Cest%C4%9B-Restaurace-61563463535761/",
     },
     difficultyVariants: [
-      { label: "Lehká", distanceKm: 100, note: "zkrácená otočka" },
-      { label: "Těžká", distanceKm: 150 },
-      { label: "Extra", distanceKm: 160, note: "nejnáročnější — celá trasa do Púchova a zpět" },
+      { label: "Lehká", distance: "do 70 km" },
+      { label: "Střední", distance: "70–100 km" },
+      { label: "Těžká", distance: "150 km" },
+      { label: "Extra", distance: "160 km", note: "nejnáročnější — celá trasa do Púchova a zpět" },
     ],
   },
   {
