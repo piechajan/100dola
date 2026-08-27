@@ -18,6 +18,34 @@ function getSb() {
 type BrandJoin = { brand_slug: string; is_public: boolean };
 
 /**
+ * Oficiální barevné produktové fotky per model (Sportimport / isaac-cycle.cz),
+ * zoptimalizované v /public/media. Přidávají se do galerie VŠECH produktů
+ * daného modelu (CUSTOM i fixní buildy) — aby zákazník viděl barevné varianty.
+ * Klíč = model (slovo za „Isaac"), lowercase.
+ */
+const MODEL_COLOR_PHOTOS: Record<string, string[]> = {
+  meson: [
+    "/media/isaac-meson-mineral-white.webp",
+    "/media/isaac-meson-jade-green.webp",
+    "/media/isaac-meson-ruby-red.webp",
+  ],
+};
+
+const galleryImgKey = (u: string) => u.split("?")[0].split("/").pop() ?? u;
+
+/** Přidá oficiální barevné fotky modelu do galerie produktu (dedup, na konec). */
+function withModelColorPhotos(p: Product): Product {
+  const model = p.name.match(/Isaac\s+(\w+)/i)?.[1]?.toLowerCase();
+  const extra = model ? MODEL_COLOR_PHOTOS[model] : undefined;
+  if (!extra) return p;
+  const current = p.gallery ?? (p.photo ? [p.photo] : []);
+  const seen = new Set(current.map(galleryImgKey));
+  const add = extra.filter((u) => !seen.has(galleryImgKey(u)));
+  if (add.length === 0) return p;
+  return { ...p, gallery: [...current, ...add] };
+}
+
+/**
  * ISAAC CUSTOM: každý model má ve feedu barevné varianty (Meson Ruby Red /
  * Jade Green / Mineral White…) jako samostatné konfigurovatelné SKU. Na webu
  * chceme model JEDNOU — barvu si zákazník zvolí v konfigurátoru. Sloučíme
@@ -146,7 +174,8 @@ async function fetchSupplierProducts(): Promise<Product[]> {
         if (!brand) return null;
         return supplierToProduct({ row: r as SupplierProductRow, brandSlug: brand.brand_slug });
       })
-      .filter((p): p is Product => p !== null);
+      .filter((p): p is Product => p !== null)
+      .map(withModelColorPhotos);
 
     return collapseCustomModels(mapped);
   } catch (e) {

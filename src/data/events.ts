@@ -135,8 +135,8 @@ Po jízdě klasika — společné posezení v restauraci Po Cestě.`,
     endVenue: {
       name: "Po Cestě",
       role: "cíl — posezení po jízdě",
+      instagram: "https://www.instagram.com/poceste_restaurace/",
       web: "https://poceste.cz",
-      facebook: "https://www.facebook.com/p/Po-Cest%C4%9B-Restaurace-61563463535761/",
     },
     difficultyVariants: [
       { label: "Lehká", distance: "do 70 km" },
