@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import RegistrationSystem from "@/components/community/RegistrationSystem";
 import RouteMapClient from "@/components/community/RouteMapClient";
-import ElevationProfile from "@/components/community/ElevationProfile";
+import GpxRouteMap from "@/components/community/GpxRouteMap";
 import {
   type Event,
   SPORT_COLORS,
@@ -170,6 +170,12 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                 <div className="mt-4">
                   {event.slug === "season-opening" ? (
                     <RouteMapClient accentColor={color} />
+                  ) : event.gpxPath ? (
+                    <GpxRouteMap
+                      gpxPath={event.gpxPath}
+                      accentColor={color}
+                      startLabel={event.location}
+                    />
                   ) : mapyFrameUrl ? (
                     <>
                       <div className="rounded-xl overflow-hidden h-80 border border-[#E2E6F3]">
@@ -230,13 +236,9 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                 </div>
               </div>
 
-              {/* Výškový profil + trasa/GPX/Strava */}
+              {/* Trasa/GPX/Strava data (profil je teď součástí GpxRouteMap nahoře) */}
               {(event.gpxPath || event.routeUrl || event.stravaActivityUrl) && (
                 <div className="space-y-4">
-                  {event.gpxPath && (
-                    <ElevationProfile gpxPath={event.gpxPath} accentColor={color} />
-                  )}
-
                   {/* Route / GPX / Strava buttons + účast */}
                   <div className="bg-white rounded-2xl p-6 border border-[#E2E6F3]">
                     <div className="flex items-center gap-2 mb-4">
