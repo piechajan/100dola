@@ -359,3 +359,9 @@ Cron cleanup (P3 drobnost):
 - **B2B kluby Phase 1** (migrace 017 ready)
 - **Variants Phase 5 admin UI** (migrace 018 ready, override mapping)
 - **Pricing watchlist live** (env flag ENABLE_PRICE_WATCHLIST=false → off)
+
+## Malaga trasy (feat/malaga-trasy)
+- **KONEC ZÁŘÍ 2026 (~28.9.):** doplnit reálné GPX z Janovy Stravy po najíždění 9.–16.9. → flip tras z „neověřeno" na verified. (naplánovaná cloud připomínka)
+- Jan dodá fotky z tras + vyřeší /malaga/ubytovani během záříjové cesty
+- Potvrdit přesnou adresu základny (~10 min AGP, pravd. Alhaurín de la Torre)
+- Proof-of-2 tras hotové → po schválení dostavět katalog 12–16 (§9 zadání)
