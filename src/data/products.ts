@@ -64,6 +64,8 @@ export interface Product {
   featuredOrder?: number;
   /** Pokud supplier — UUID v supplier_products. */
   supplierProductId?: string;
+  /** Pokud supplier — SKU (kód) z feedu; klíč pro per-model konfigurátor ceník. */
+  supplierSku?: string;
   /** Orthogonal filtr (napříč kategoriemi). Default "U" unisex. */
   gender?: Gender;
   /** Orthogonal filtr (napříč kategoriemi). Default null = neuvedeno. */

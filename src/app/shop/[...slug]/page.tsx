@@ -11,11 +11,8 @@ import HeurekaOcm from "@/components/analytics/HeurekaOcm";
 import PDPGallery from "@/components/shop/PDPGallery";
 import ConfiguratorUI from "@/components/shop/ConfiguratorUI";
 import ConfiguratorInquiryNotice from "@/components/shop/ConfiguratorInquiryNotice";
-
-// ⚠️ Konfigurátor dočasně vypnutý — ISAAC ceny komponent přeplácely o 17–48k
-// (base dvojitě počítal entry komponenty + DuraAce diff +15k mimo, audit 2026-07).
-// Zapnout zpět (true) až budou modifikátory ověřené per model proti pevným SKU.
-const CONFIGURATOR_PRICING_VERIFIED = false;
+// Konfigurátor je „verified" per-model: jde živě jen u modelů v configurator-pricing.ts
+// (Element/Meson/Boson). Ostatní ukazují ConfiguratorInquiryNotice. Viz ten soubor.
 import WishlistButton from "@/components/shop/WishlistButton";
 import RecentlyViewedSection from "@/components/shop/RecentlyViewedSection";
 import PdpBuyBox from "@/components/shop/PdpBuyBox";
@@ -37,7 +34,7 @@ import {
   productInResolvedCategory,
 } from "@/lib/shop/category-resolver";
 import { recommendForProduct } from "@/lib/shop/recommendations";
-import { applyOverridesToSchema } from "@/lib/shop/configurator-overrides";
+import { getConfiguratorPricing, applyModelPricingToSchema } from "@/data/configurator-pricing";
 import PDPHeroPrice from "@/components/shop/PDPHeroPrice";
 import { breadcrumbSchema, itemListSchema, jsonLdString } from "@/lib/seo/schema-helpers";
 import { categories } from "@/data/categories";
@@ -117,11 +114,20 @@ export default async function ShopCatchAllPage({
         getReviewAggregate(product.slug),
         getPublicReviews(product.slug, 20),
       ]);
-      // Aplikuj configurator tag overrides (migrace 034) — Sportimport posílá 0 modifiers,
-      // Jan v adminu vyplnil reálné hodnoty.
-      const productWithOverrides = product.configuratorSchema
-        ? { ...product, configuratorSchema: await applyOverridesToSchema(product.configuratorSchema) }
-        : product;
+      // Per-model konfigurátor ceník (ceny = Sportimport). Verified modely mají
+      // záznam v configurator-pricing.ts → nastavíme base (Sportimport default) +
+      // modifikátory do schématu. Neverified → beze změny (zobrazí se inquiry notice).
+      const cfgPricing = product.configuratorSchema
+        ? getConfiguratorPricing(product.supplierSku)
+        : null;
+      const productWithOverrides =
+        cfgPricing && product.configuratorSchema
+          ? {
+              ...product,
+              priceWithVat: cfgPricing.base,
+              configuratorSchema: applyModelPricingToSchema(product.configuratorSchema, cfgPricing),
+            }
+          : product;
       const soldOut = productWithOverrides.limitedOneOff
         ? await isLimitedProductSoldOut(productWithOverrides.slug)
         : false;
@@ -429,7 +435,7 @@ function renderProduct(
 
               <div id="pdp-buy" className="mt-8 scroll-mt-24">
                 {product.hasConfigurator && product.configuratorSchema ? (
-                  CONFIGURATOR_PRICING_VERIFIED ? (
+                  getConfiguratorPricing(product.supplierSku) ? (
                     <ConfiguratorUI product={product} schema={product.configuratorSchema} />
                   ) : (
                     <ConfiguratorInquiryNotice productName={product.name} />

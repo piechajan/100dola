@@ -145,6 +145,7 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
     // CEP máme skladem u nás → „own" (ne „objednáváme od dodavatele").
     fulfillment: brandSlug === "cep" ? "own" : "supplier",
     supplierProductId: row.id,
+    supplierSku: row.sku ?? undefined,
     gender,
     useCase,
     season,
