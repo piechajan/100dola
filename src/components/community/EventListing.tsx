@@ -72,8 +72,8 @@ const events: UIEvent[] = [
     filled: 0,
     description:
       "Nejnáročnější klubovka OMC — 160 km do Púchova a zpět. Sraz café Tucan, cíl posezení Po Cestě. Dlouhý poctivý den v sedle.",
-    photo: "/media/pustevny-climb-ride.webp",
-    photoPosition: "center",
+    photo: "/media/puchov-pain.webp",
+    photoPosition: "center 55%",
     routeUrl: "https://mapy.com/s/metasorafo",
   },
   {
@@ -94,7 +94,7 @@ const events: UIEvent[] = [
     description:
       "Pohodová čtvrteční vyjížďka OMC. Start Chochino Koloniál Kafe, cíl Vista Bar. Tempo pro každého.",
     photo: "/media/thursday-easy-ride.webp",
-    photoPosition: "center 22%",
+    photoPosition: "center 45%",
     routeUrl: "https://mapy.com/s/cusucagugo",
   },
   {
@@ -114,6 +114,7 @@ const events: UIEvent[] = [
     description:
       "Víkend na Rychlebských stezkách (IMBA trail centrum). Pátek příjezd, sobota + neděle ježdění, koupání v lomu a společné opíkání. V případě zájmu nás kontaktuj — zajistíme ubytování. Výbava: horské kolo.",
     photo: "/media/rychlebske-stezky.webp",
+    photoPosition: "center 55%",
     routeUrl: "https://www.rychlebskestezky.cz/cs/trails",
   },
   {

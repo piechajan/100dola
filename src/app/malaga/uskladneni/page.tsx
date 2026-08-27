@@ -169,6 +169,27 @@ export default function UskladneniPage() {
         </div>
       </section>
 
+      {/* Pojištění cross-link */}
+      <section className="py-8 bg-white">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+          <Link
+            href="/pojisteni?zajem=kolo"
+            className="block rounded-2xl border border-[#FBC9A8] bg-[#FFF1EA] p-6 md:p-7 hover:border-[#E8431A] transition"
+          >
+            <div className="text-xs font-bold uppercase tracking-wider text-[#E8431A] mb-1">
+              Klid navíc
+            </div>
+            <div className="text-lg font-black text-[#1a1a2e]">
+              Pojisti kolo proti krádeži a poškození — zajistíme →
+            </div>
+            <p className="text-sm text-[#5A6480] mt-1 leading-snug">
+              U dražších kol dává pojištění smysl i po dobu, kdy je uskladněné v Malaze. Poradíme a
+              zajistíme přes našeho pojišťovacího partnera.
+            </p>
+          </Link>
+        </div>
+      </section>
+
       {/* Lead form */}
       <section className="py-16 md:py-24 bg-[#1a0e08]">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">

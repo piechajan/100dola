@@ -119,6 +119,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ─── Vyzkoušej SCOTT / Czech Tour 2026 (sezónní landing) ───────────────────
   entries.push({ path: "/vyzkousej-scott", priority: 0.8, changefreq: "weekly" });
 
+  // ─── Pojištění pro cyklisty (info + poptávka) ──────────────────────────────
+  entries.push({ path: "/pojisteni", priority: 0.6, changefreq: "monthly" });
+
   // ─── ISAAC event — PROBĚHLÁ akce (5/2026), zůstává jako archiv ──────────────
   entries.push({ path: "/isaac-test", priority: 0.3, changefreq: "yearly" });
   entries.push({ path: "/isaac-test/podminky", priority: 0.2, changefreq: "yearly" });

@@ -464,6 +464,16 @@ function renderProduct(
                     <strong>Osobní dovoz.</strong> {product.deliveryNote}
                   </div>
                 )}
+                {product.priceWithVat >= 100000 && (
+                  <Link
+                    href="/pojisteni?zajem=kolo"
+                    className="block rounded-xl p-3 text-xs bg-[#F7F9FF] text-[#1a1a2e] border border-[#D6E1FB] hover:border-[#3B7CF4] transition"
+                  >
+                    <strong>Zvaž pojištění kola.</strong> U kola v této cenové kategorii dává smysl
+                    pojištění proti krádeži a poškození — rádi ti ho{" "}
+                    <span className="text-[#3B7CF4] font-bold">zajistíme →</span>
+                  </Link>
+                )}
                 {product.stockStatus !== "on_request" && (
                   product.fulfillment === "supplier" ? (
                     <div className="rounded-xl p-3 text-xs bg-[#F0F4FF] text-[#1a1a2e] border border-[#D6E1FB]">

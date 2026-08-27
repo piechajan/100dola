@@ -39,6 +39,18 @@ function findEvent(list: Event[], slug: string): Event | undefined {
   return list.find((e) => e.slug === slug);
 }
 
+/**
+ * Převede mapy.cz / mapy.com share link (`mapy.com/s/<slug>`) na embeddable
+ * frame URL (`frame.mapy.cz/s/<slug>`). Frame renderuje trasu na reálné mapě
+ * přímo na naší stránce (drží uživatele na 100dola.com místo odkazu ven).
+ * Vrací null pro ne-mapy URL (např. rychlebstezky.cz) → fallback na placeholder.
+ */
+function toMapyFrameUrl(url?: string): string | null {
+  if (!url) return null;
+  const m = url.match(/mapy\.(?:cz|com)\/s\/([a-z0-9]+)/i);
+  return m ? `https://frame.mapy.cz/s/${m[1]}` : null;
+}
+
 function relatedEvents(list: Event[], event: Event, count = 3): Event[] {
   return list
     .filter((e) => e.slug !== event.slug)
@@ -72,6 +84,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
   const icon = SPORT_ICONS[event.sport];
   const diffColor = DIFFICULTY_COLOR[event.difficulty];
   const spotsLeft = event.capacity - event.filled;
+  const mapyFrameUrl = toMapyFrameUrl(event.routeUrl);
 
   return (
     <>
@@ -157,6 +170,32 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                 <div className="mt-4">
                   {event.slug === "season-opening" ? (
                     <RouteMapClient accentColor={color} />
+                  ) : mapyFrameUrl ? (
+                    <>
+                      <div className="rounded-xl overflow-hidden h-80 border border-[#E2E6F3]">
+                        <iframe
+                          src={mapyFrameUrl}
+                          width="100%"
+                          height="100%"
+                          style={{ border: 0 }}
+                          allowFullScreen
+                          loading="lazy"
+                          referrerPolicy="no-referrer-when-downgrade"
+                          title={`Trasa — ${event.title}`}
+                        />
+                      </div>
+                      {event.routeUrl && (
+                        <a
+                          href={event.routeUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 mt-3 text-xs font-bold hover:underline"
+                          style={{ color }}
+                        >
+                          Otevřít trasu v Mapy.cz (profil převýšení, export GPX) →
+                        </a>
+                      )}
+                    </>
                   ) : event.mapUrl ? (
                     <>
                       <div className="rounded-xl overflow-hidden h-64 border border-[#E2E6F3]">
@@ -376,14 +415,42 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   <div className="h-1.5 w-full" style={{ backgroundColor: color }} />
 
                   <div className="p-6">
-                    {/* Registration system */}
-                    <RegistrationSystem
-                      eventSlug={event.slug}
-                      color={color}
-                      spotsLeft={spotsLeft}
-                      filledCount={event.filled}
-                      capacity={event.capacity}
-                    />
+                    {event.isPast ? (
+                      <div className="text-center">
+                        <div className="text-xs font-bold uppercase tracking-wider text-[#9AA3C2] mb-2">
+                          Proběhlá akce
+                        </div>
+                        <div className="font-black text-[#1a1a2e] text-2xl">
+                          {event.filled} <span className="text-[#9AA3C2] font-medium">z {event.capacity}</span>
+                        </div>
+                        <div className="text-sm text-[#5A6480] mt-1">účastníků</div>
+                        <div className="mt-4 h-2 w-full rounded-full bg-[#EEF1F8] overflow-hidden">
+                          <div
+                            className="h-full rounded-full"
+                            style={{
+                              width: `${Math.min(100, (event.filled / event.capacity) * 100)}%`,
+                              backgroundColor: color,
+                            }}
+                          />
+                        </div>
+                        <p className="text-xs text-[#9AA3C2] mt-4 leading-relaxed">
+                          Tato akce už proběhla. Sleduj{" "}
+                          <Link href="/community" className="font-bold" style={{ color }}>
+                            nadcházející eventy
+                          </Link>
+                          .
+                        </p>
+                      </div>
+                    ) : (
+                      /* Registration system */
+                      <RegistrationSystem
+                        eventSlug={event.slug}
+                        color={color}
+                        spotsLeft={spotsLeft}
+                        filledCount={event.filled}
+                        capacity={event.capacity}
+                      />
+                    )}
                   </div>
                 </div>
 
