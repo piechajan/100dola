@@ -3,7 +3,7 @@ import { MALAGA_BRAND, MALAGA_FACTS } from "@/data/malaga";
 const accent = MALAGA_BRAND.color;
 
 const facts = [
-  { icon: "✈", label: "Z Prahy", value: MALAGA_FACTS.flightTime },
+  { icon: "✈", label: "Let do Malagy", value: "~3 h — Praha, Vídeň" },
   { icon: "📍", label: "Od letiště Malaga (AGP)", value: `${MALAGA_FACTS.baseAirportMinutes} minut` },
   { icon: "🌡", label: "Teploty v zimě", value: MALAGA_FACTS.winterTempRange },
   { icon: "☀", label: "Slunce", value: MALAGA_FACTS.sunnyDays },
@@ -26,8 +26,8 @@ export default function MalagaBase() {
             Malaga jako tvoje<br />cyklistická základna.
           </h2>
           <p className="mt-5 text-[#5A6480] text-lg leading-relaxed max-w-xl">
-            Z Prahy 2,5 hodiny letu. 10 minut od letiště do naší základny. A pak už jen
-            silnice, výhledy a kafe.
+            Z Prahy i Vídně ~3 hodiny přímým letem. 10 minut od letiště do naší základny.
+            A pak už jen silnice, výhledy a kafe.
           </p>
         </div>
 

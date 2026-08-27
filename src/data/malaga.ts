@@ -10,7 +10,7 @@ export const MALAGA_BRAND = {
 } as const;
 
 export const MALAGA_FACTS = {
-  flightTime: "2,5 hod z Prahy",
+  flightTime: "~3 h přímým letem (Praha i Vídeň)",
   sunnyDays: "300+ slunečných dní",
   baseAirportMinutes: 10,
   winterTempRange: "15–22 °C v zimě",

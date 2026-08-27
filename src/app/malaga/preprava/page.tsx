@@ -177,6 +177,41 @@ export default function PrepravaPage() {
         </div>
       </section>
 
+      {/* Odkud létat */}
+      <section className="py-14 md:py-16 bg-white">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+          <div className="max-w-3xl">
+            <div className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: accent }}>
+              Odkud létat
+            </div>
+            <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-4">
+              Kolo dovezeme my — ty přiletíš s příručákem
+            </h2>
+            <p className="text-[#5A6480] leading-relaxed mb-5">
+              Do Malagy (letiště AGP) se dostaneš přímým letem zhruba za{" "}
+              <strong>3 hodiny</strong>. Přímé linky jsou z:
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+              <div className="rounded-2xl border border-[#E2E6F3] p-5">
+                <div className="font-black text-[#1a1a2e]">✈ Praha (PRG)</div>
+                <div className="text-sm text-[#5A6480] mt-1">
+                  Přímé lety do Malagy, ~3 h. Nejvíc spojení v sezóně.
+                </div>
+              </div>
+              <div className="rounded-2xl border border-[#E2E6F3] p-5">
+                <div className="font-black text-[#1a1a2e]">✈ Vídeň (VIE)</div>
+                <div className="text-sm text-[#5A6480] mt-1">
+                  Přímé linky, ~3 h. Z Moravy a Slovenska bývá blíž než Praha.
+                </div>
+              </div>
+            </div>
+            <p className="text-sm text-[#9AA3C2] leading-relaxed">
+              Konkrétní spojení a termín rádi poradíme podle toho, odkud jedeš — napiš nám.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Pojištění cross-link */}
       <section className="py-8 bg-white">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
