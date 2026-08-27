@@ -28,6 +28,9 @@ const MODEL_COLOR_PHOTOS: Record<string, string[]> = {
     "/media/isaac-meson-mineral-white.webp",
     "/media/isaac-meson-jade-green.webp",
     "/media/isaac-meson-ruby-red.webp",
+    "/media/isaac-meson-detail-1.webp",
+    "/media/isaac-meson-detail-2.webp",
+    "/media/isaac-meson-detail-3.webp",
   ],
 };
 
