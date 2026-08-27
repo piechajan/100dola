@@ -115,3 +115,25 @@ export function applyModelPricingToSchema(
     tags: schema.tags.map((t) => ({ ...t, priceModifierCzk: pricing.modifiers[t.name] ?? 0 })),
   };
 }
+
+/**
+ * Vloží do schématu volbu „Barva" (za Velikost) s barvami modelu jako tagy
+ * (bez příplatku). ISAAC CUSTOM modely jsou na webu jednou a barvu si zákazník
+ * zvolí tady. Barva se propíše do buildu/objednávky.
+ */
+export function injectColorOption(schema: ConfiguratorSchema, colors: string[] | undefined): ConfiguratorSchema {
+  if (!colors || colors.length === 0) return schema;
+  const OPT = "barva";
+  const tags = colors.map((c, i) => ({
+    name: c,
+    externalId: `${OPT}-${i}`,
+    isAvailable: true,
+    optionExternalId: OPT,
+    priceModifierCzk: 0,
+  }));
+  const option = { name: "Barva", externalId: OPT, defaultTagExternalId: `${OPT}-0` };
+  const options = [...schema.options];
+  const velIdx = options.findIndex((o) => /velikost/i.test(o.name));
+  options.splice(velIdx >= 0 ? velIdx + 1 : options.length, 0, option);
+  return { ...schema, options, tags: [...schema.tags, ...tags] };
+}

@@ -66,6 +66,8 @@ export interface Product {
   supplierProductId?: string;
   /** Pokud supplier — SKU (kód) z feedu; klíč pro per-model konfigurátor ceník. */
   supplierSku?: string;
+  /** ISAAC CUSTOM: barvy modelu (zkolabované z barevných SKU) → volba v konfigurátoru. */
+  customColors?: string[];
   /** Orthogonal filtr (napříč kategoriemi). Default "U" unisex. */
   gender?: Gender;
   /** Orthogonal filtr (napříč kategoriemi). Default null = neuvedeno. */

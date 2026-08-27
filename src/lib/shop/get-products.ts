@@ -18,6 +18,41 @@ function getSb() {
 type BrandJoin = { brand_slug: string; is_public: boolean };
 
 /**
+ * ISAAC CUSTOM: každý model má ve feedu barevné varianty (Meson Ruby Red /
+ * Jade Green / Mineral White…) jako samostatné konfigurovatelné SKU. Na webu
+ * chceme model JEDNOU — barvu si zákazník zvolí v konfigurátoru. Sloučíme
+ * varianty podle modelu (slovo za „Isaac"), necháme jednu, přejmenujeme na
+ * „… Isaac <Model> CUSTOM" (bez barvy v názvu) a barvy dáme do customColors.
+ * Nekonfigurovatelné produkty (příslušenství, fixní kola) necháváme být.
+ */
+function collapseCustomModels(products: Product[]): Product[] {
+  const rest = products.filter((p) => !p.hasConfigurator);
+  const configurable = products.filter((p) => p.hasConfigurator);
+  const groups = new Map<string, Product[]>();
+  for (const p of configurable) {
+    const model = p.name.match(/Isaac\s+(\w+)/i)?.[1] ?? p.name;
+    const list = groups.get(model) ?? [];
+    list.push(p);
+    groups.set(model, list);
+  }
+  const kept: Product[] = [];
+  for (const [model, list] of groups) {
+    const base = list[0];
+    const colors = [
+      ...new Set(
+        list
+          .map((x) => x.name.match(new RegExp(`Isaac\\s+${model}\\s+(.+?)\\s+Custom`, "i"))?.[1]?.trim())
+          .filter((c): c is string => !!c),
+      ),
+    ];
+    const name = base.name.replace(new RegExp(`(Isaac\\s+${model}).*`, "i"), "$1 CUSTOM");
+    const slug = `isaac-${model.toLowerCase()}-custom`;
+    kept.push({ ...base, name, slug, customColors: colors.length > 0 ? colors : undefined });
+  }
+  return [...rest, ...kept];
+}
+
+/**
  * Vrátí merged katalog: vlastní static PRODUCTS + supplier_products
  * z brandů kde supplier_brands.is_public = true.
  *
@@ -71,7 +106,7 @@ async function fetchSupplierProducts(): Promise<Product[]> {
       throw new Error(`supplier_products fetch failed: ${pErr.message}`);
     }
 
-    return (rows ?? [])
+    const mapped = (rows ?? [])
       .filter((r) => {
         const override = (r as { is_public_override: boolean | null }).is_public_override;
         if (override === false) return false;
@@ -88,6 +123,8 @@ async function fetchSupplierProducts(): Promise<Product[]> {
         return supplierToProduct({ row: r as SupplierProductRow, brandSlug: brand.brand_slug });
       })
       .filter((p): p is Product => p !== null);
+
+    return collapseCustomModels(mapped);
   } catch (e) {
     // Re-throw — ať unstable_cache neuloží prázdný výsledek (viz výše).
     // Graceful fallback na static-only řeší až getShopProducts.

@@ -34,7 +34,7 @@ import {
   productInResolvedCategory,
 } from "@/lib/shop/category-resolver";
 import { recommendForProduct } from "@/lib/shop/recommendations";
-import { getConfiguratorPricing, applyModelPricingToSchema } from "@/data/configurator-pricing";
+import { getConfiguratorPricing, applyModelPricingToSchema, injectColorOption } from "@/data/configurator-pricing";
 import PDPHeroPrice from "@/components/shop/PDPHeroPrice";
 import { breadcrumbSchema, itemListSchema, jsonLdString } from "@/lib/seo/schema-helpers";
 import { categories } from "@/data/categories";
@@ -125,7 +125,10 @@ export default async function ShopCatchAllPage({
           ? {
               ...product,
               priceWithVat: cfgPricing.base,
-              configuratorSchema: applyModelPricingToSchema(product.configuratorSchema, cfgPricing),
+              configuratorSchema: injectColorOption(
+                applyModelPricingToSchema(product.configuratorSchema, cfgPricing),
+                product.customColors,
+              ),
             }
           : product;
       const soldOut = productWithOverrides.limitedOneOff
