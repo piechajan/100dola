@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useCart } from "@/lib/cart-store";
 import { useConfiguratorStore } from "@/lib/configurator-store";
+import { isHubAllowedForWheel } from "@/data/configurator-pricing";
 import type { Product, ConfiguratorSchema } from "@/data/products";
 
 interface ConfiguratorUIProps {
@@ -94,6 +95,44 @@ export default function ConfiguratorUI({ product, schema }: ConfiguratorUIProps)
 
   const finalPrice = Math.max(0, product.priceWithVat + priceModifier);
 
+  // ── Kompatibilita KOLO → NÁBOJ ──────────────────────────────────────────────
+  // Náboj se váže na konkrétní kolo (viz configurator-pricing). Když je vybrané
+  // kolo, nabídnou se jen sedící náboje; nesedící se disablují a případný
+  // neplatný výběr se přepne na první povolený.
+  const wheelOptionId = useMemo(
+    () => schema.options.find((o) => /\bkola?\b/i.test(o.name))?.externalId,
+    [schema.options],
+  );
+  const hubOptionId = useMemo(
+    () => schema.options.find((o) => /náboj/i.test(o.name))?.externalId,
+    [schema.options],
+  );
+  const selectedWheelName = useMemo(() => {
+    if (!wheelOptionId) return null;
+    const id = selected[wheelOptionId];
+    return (tagsByOption.get(wheelOptionId) ?? []).find((t) => t.externalId === id)?.name ?? null;
+  }, [wheelOptionId, selected, tagsByOption]);
+
+  const isHubTagEnabled = useMemo(() => {
+    return (hubName: string) =>
+      selectedWheelName == null ? true : isHubAllowedForWheel(selectedWheelName, hubName);
+  }, [selectedWheelName]);
+
+  // Když se změní kolo a aktuální náboj k němu nesedí → přepni na první povolený.
+  useEffect(() => {
+    if (!hubOptionId || !selectedWheelName) return;
+    const hubTags = tagsByOption.get(hubOptionId) ?? [];
+    const currentId = selected[hubOptionId];
+    const current = hubTags.find((t) => t.externalId === currentId);
+    if (current && isHubAllowedForWheel(selectedWheelName, current.name)) return;
+    const firstOk = hubTags.find(
+      (t) => t.isAvailable && isHubAllowedForWheel(selectedWheelName, t.name),
+    );
+    if (firstOk && firstOk.externalId !== currentId) {
+      setSelected((s) => ({ ...s, [hubOptionId]: firstOk.externalId }));
+    }
+  }, [selectedWheelName, hubOptionId, tagsByOption, selected]);
+
   // Publikuj total + selected do global store — PDP hero, MobileStickyCTA, AddToCartButton ho čtou
   const setTotal = useConfiguratorStore((s) => s.setTotal);
   useEffect(() => {
@@ -168,15 +207,18 @@ export default function ConfiguratorUI({ product, schema }: ConfiguratorUIProps)
                   const mod = Math.round(t.priceModifierCzk);
                   const modLabel =
                     mod === 0 ? "" : mod > 0 ? `  (+${formatPrice(mod)})` : `  (${formatPrice(mod)})`;
+                  // Náboj, který nesedí k vybranému kolu → disable.
+                  const incompatibleHub =
+                    opt.externalId === hubOptionId && !isHubTagEnabled(t.name);
                   return (
                     <option
                       key={t.externalId}
                       value={t.externalId}
-                      disabled={!t.isAvailable}
+                      disabled={!t.isAvailable || incompatibleHub}
                     >
                       {t.name}
                       {modLabel}
-                      {!t.isAvailable ? " — vyprodáno" : ""}
+                      {!t.isAvailable ? " — vyprodáno" : incompatibleHub ? " — nelze k tomuto kolu" : ""}
                     </option>
                   );
                 })}

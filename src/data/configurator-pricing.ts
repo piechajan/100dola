@@ -137,3 +137,37 @@ export function injectColorOption(schema: ConfiguratorSchema, colors: string[] |
   options.splice(velIdx >= 0 ? velIdx + 1 : options.length, 0, option);
   return { ...schema, options, tags: [...schema.tags, ...tags] };
 }
+
+/**
+ * Kompatibilita KOLO → NÁBOJ (ISAAC). V reálném ISAAC konfigurátoru jde ke
+ * každému kolu přiřadit jen 1–2 náboje — náboj se váže na kolo, ne na model.
+ * Potvrzeno ze screenshotů:
+ *   - DT Swiss ARC 1600 55  → jen DT Swiss 350
+ *   - FFWD RAW…CS Carbon    → jen FFWD/CeramicSpeed 2:1
+ *   - FFWD RYOT33 Carbon    → FFWD N/GAGE SP 2:1 + DT Swiss 240 SP 2:1
+ * Odvozeno (brand/tier logika, potvrdit): FORE, DT gravel wheels.
+ * Vrací seznam regexů matchujících povolené názvy nábojů; null = neomezovat
+ * (neznámé kolo / „bez kol" → bezpečný fallback, žádná restrikce).
+ */
+export function allowedHubPatternsForWheel(wheelName: string): RegExp[] | null {
+  const w = wheelName.toLowerCase();
+  if (/bez\s*kol/.test(w)) return null; // rámová sada / bez kol → náboj neřešíme
+  // CeramicSpeed kola (RAW…CS) → jen CeramicSpeed náboj
+  if (/ceramicspeed|raw\s*\d+\s*cs|\bcs\b/.test(w)) return [/ceramicspeed/i];
+  // DT Swiss silniční (ARC) → DT Swiss 350
+  if (/arc\s*1600|dt\s*swiss\s*arc/.test(w)) return [/dt\s*swiss\s*350/i];
+  // DT Swiss gravel (G1800 / E1800) → DT Swiss 370 OEM
+  if (/[ge]1800/.test(w)) return [/dt\s*swiss\s*370/i, /dt\s*swiss\s*240/i];
+  // FORE kola → DT Swiss náboje (default 350, upgrade 240)
+  if (/\bfore\b/.test(w)) return [/dt\s*swiss\s*350/i, /dt\s*swiss\s*240/i];
+  // FFWD standardní carbon (RYOT / TYRO / DRIFT) → FFWD N/GAGE + DT Swiss 240
+  if (/ryot|tyro|drift/.test(w)) return [/n\s*\/?\s*gage/i, /dt\s*swiss\s*240/i];
+  return null;
+}
+
+/** True, když daný náboj sedí k danému kolu (nebo kolo nemá omezení). */
+export function isHubAllowedForWheel(wheelName: string, hubName: string): boolean {
+  const pats = allowedHubPatternsForWheel(wheelName);
+  if (!pats) return true;
+  return pats.some((re) => re.test(hubName));
+}
