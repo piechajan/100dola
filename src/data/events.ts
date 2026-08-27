@@ -448,7 +448,7 @@ Po jízdě klasika — kafe a něco dobrého v některé z místních kaváren /
   },
   {
     id: 1,
-    slug: "vyjízdka-od-chochina-kvetna",
+    slug: "vyjizdka-od-chochina-kvetna",
     title: "Vyjížďka od Chochina",
     sport: "Silnice",
     date: "So 16. května",

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import MalagaHero from "@/components/malaga/MalagaHero";
@@ -92,6 +93,28 @@ export default function MalagaPage() {
         <MalagaPackagesPreview />
         <MalagaTrust />
         <MalagaFAQPreview />
+
+        {/* Pojištění cross-link */}
+        <section className="py-10 bg-white">
+          <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+            <Link
+              href="/pojisteni?zajem=cestovni"
+              className="block rounded-2xl border border-[#FBC9A8] bg-[#FFF1EA] p-6 md:p-8 hover:border-[#E8431A] transition"
+            >
+              <div className="text-xs font-bold uppercase tracking-wider text-[#E8431A] mb-1">
+                Pojištění na cestu i na kolo
+              </div>
+              <div className="text-lg md:text-xl font-black text-[#1a1a2e]">
+                Cestovní pojištění a pojištění kola do Malagy — zajistíme →
+              </div>
+              <p className="text-sm text-[#5A6480] mt-1 leading-snug">
+                Přeprava je pojištěná. Tvoje léčebné výlohy na cestě a kolo proti krádeži a
+                poškození řešíme zvlášť přes našeho pojišťovacího partnera. Nezávazně poptej.
+              </p>
+            </Link>
+          </div>
+        </section>
+
         <MalagaFinalCTA />
       </main>
       <Footer />
