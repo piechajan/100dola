@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import PojisteniForm from "@/components/pojisteni/PojisteniForm";
+import { getShopProducts } from "@/lib/shop/get-products";
+import { formatPrice } from "@/data/products";
 
 const SITE = "https://www.100dola.com";
 
@@ -127,7 +130,17 @@ const TYPES = [
   },
 ];
 
-export default function PojisteniPage() {
+export default async function PojisteniPage() {
+  // Cross-sell: nejdražší kola z nabídky (u nich dává pojištění největší smysl).
+  // Čte ze sdílené cache (getShopProducts) — žádný extra egress (viz CLAUDE.md).
+  const premiumBikes = (await getShopProducts())
+    .filter(
+      (p) =>
+        p.priceWithVat >= 60000 && /^(silnicni|mtb|gravel|elektro)/.test(p.categoryId),
+    )
+    .sort((a, b) => b.priceWithVat - a.priceWithVat)
+    .slice(0, 8);
+
   return (
     <>
       <JsonLd data={serviceJsonLd} />
@@ -218,12 +231,22 @@ export default function PojisteniPage() {
                     </li>
                   ))}
                 </ul>
-                <a
-                  href={`#poptavka`}
-                  className="inline-block text-sm font-bold text-[#3B7CF4] hover:underline"
-                >
-                  Poptat {t.tag.toLowerCase()} →
-                </a>
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                  <a
+                    href={`#poptavka`}
+                    className="inline-block text-sm font-bold text-[#3B7CF4] hover:underline"
+                  >
+                    Poptat {t.tag.toLowerCase()} →
+                  </a>
+                  {t.zajem === "cestovni" && (
+                    <Link
+                      href="/malaga"
+                      className="inline-block text-sm font-bold text-[#E8431A] hover:underline"
+                    >
+                      Sekce 100dola Malaga →
+                    </Link>
+                  )}
+                </div>
               </div>
             ))}
           </div>
@@ -265,6 +288,57 @@ export default function PojisteniPage() {
             </Suspense>
           </div>
         </section>
+
+        {/* Cross-sell: dražší kola z nabídky */}
+        {premiumBikes.length > 0 && (
+          <section className="py-10 md:py-14 border-t border-[#E2E6F3]">
+            <div className="max-w-[1100px] mx-auto px-6 md:px-12">
+              <h2 className="text-2xl font-black text-[#1a1a2e] mb-1">
+                Kola, u kterých pojištění dává největší smysl
+              </h2>
+              <p className="text-sm text-[#5A6480] mb-6">
+                U dražších kol z naší nabídky doporučujeme pojištění proti krádeži a poškození.
+                Klikni na kolo — na jeho stránce najdeš i odkaz na sjednání.
+              </p>
+              <div className="flex gap-4 overflow-x-auto pb-4 -mx-6 px-6 md:mx-0 md:px-0 snap-x">
+                {premiumBikes.map((p) => (
+                  <Link
+                    key={p.slug}
+                    href={`/shop/${p.slug}`}
+                    className="group shrink-0 w-[220px] snap-start rounded-2xl border border-[#E2E6F3] bg-white overflow-hidden hover:border-[#3B7CF4] transition"
+                  >
+                    <div className="relative aspect-[4/3] bg-[#F7F9FF]">
+                      <Image
+                        src={p.photo}
+                        alt={p.name}
+                        fill
+                        sizes="220px"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="p-3">
+                      <div className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold">
+                        {p.brand}
+                      </div>
+                      <div className="text-sm font-bold text-[#1a1a2e] leading-snug line-clamp-2 min-h-[2.5rem]">
+                        {p.name}
+                      </div>
+                      <div className="text-sm font-black text-[#1a1a2e] mt-1">
+                        {formatPrice(p.priceWithVat)}
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              <Link
+                href="/shop/kola"
+                className="inline-block mt-2 text-sm font-bold text-[#3B7CF4] hover:underline"
+              >
+                Prohlédnout všechna kola →
+              </Link>
+            </div>
+          </section>
+        )}
 
         {/* FAQ */}
         <section className="py-10 md:py-14 bg-[#FAFAFA] border-t border-[#E2E6F3]">
