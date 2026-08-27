@@ -5,6 +5,18 @@
 
 ---
 
+## ⚖️ Právní / cross-web (2026-08-26)
+
+- **Záloha 50 % — právní review + sync do rip-shopu (rozhodnutí: b).** Klauzule o
+  50% záloze u kol / zboží nad 50 000 Kč je v obchodních podmínkách 100dola
+  (sekce 3, commit 4ec2fc4), napsaná právně obezřetně (respektuje §1829 odstoupení
+  + §1837 zboží na míru), ale NEPROŠLA právníkem. **Postup:** 1) nechat advokáta
+  potvrdit znění u 100dola (citlivé: kdy zálohu vrátit vs. nechat u spotřebitele),
+  2) TEPRVE PAK přenést finální znění i do obchodních podmínek rip-shopu (sdílená
+  FUTUNATU legal vrstva). Není urgentní, text je zatím použitelný.
+
+---
+
 ## 🆕 Session 2026-08-13/14 — deployed + co čeká na Jana
 
 **✅ Deployed (živé):**

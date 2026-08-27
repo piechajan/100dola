@@ -2,6 +2,7 @@ import "server-only";
 import { unstable_cache } from "next/cache";
 import { createClient } from "@supabase/supabase-js";
 import { PRODUCTS, type Product } from "@/data/products";
+import { SCOTT_CATALOG } from "@/data/scott-catalog";
 import { supplierToProduct, type SupplierProductRow } from "./product-mapper";
 
 function getSb() {
@@ -111,7 +112,11 @@ const getSupplierProductsCached = unstable_cache(fetchSupplierProducts, ["shop-p
  * cachovaná supplier část.
  */
 export async function getShopProducts(): Promise<Product[]> {
-  const own = PRODUCTS.map((p) => ({ ...p, fulfillment: p.fulfillment ?? ("own" as const) }));
+  // Ruční PRODUCTS + poloautomatický SCOTT_CATALOG (builder). Ruční má přednost:
+  // pokud slug koliduje, vyhraje PRODUCTS (hand-curated) a generovaný se zahodí.
+  const ownSlugs = new Set(PRODUCTS.map((p) => p.slug));
+  const merged = [...PRODUCTS, ...SCOTT_CATALOG.filter((p) => !ownSlugs.has(p.slug))];
+  const own = merged.map((p) => ({ ...p, fulfillment: p.fulfillment ?? ("own" as const) }));
   let supplier: Product[] = [];
   try {
     supplier = await getSupplierProductsCached();
