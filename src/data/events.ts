@@ -98,19 +98,14 @@ export const events: Event[] = [
     time: "09:00",
     location: "Valašské Meziříčí → Púchov (SK)",
     locationDetail: "Sraz café Tucan, náměstí Valašské Meziříčí (výjezd 9:00)",
-    distance: "až 160 km",
+    distance: "160 km",
     elevation: "~1 500 m",
     difficulty: "Náročná",
     capacity: 20,
     filled: 0,
     description:
-      "Nejnáročnější klubovka Open Miles Clinic — až 160 km do Púchova a zpět. Sraz café Tucan, cíl posezení Po Cestě. Na výběr varianty podle nohou: lehká od 100 km, těžká 150, extra 160.",
-    longDescription: `Púchov PAIN je královská etapa Open Miles Clinic — dlouhá, kopcovitá a poctivá. Vyjíždíme od café Tucan na náměstí ve Valašském Meziříčí přes valašské a slovenské kopce směr Púchov a zpět.
-
-Trasa má tři varianty podle toho, jak se cítíš:
-• Lehká — otočka od cca 100 km
-• Těžká — 150 km
-• Extra — celých 160 km, nejnáročnější varianta
+      "Nejnáročnější klubovka Open Miles Clinic — 160 km do Púchova a zpět. Sraz café Tucan, cíl posezení Po Cestě. Dlouhý poctivý den v sedle pro zkušené jezdce.",
+    longDescription: `Púchov PAIN je královská etapa Open Miles Clinic — dlouhá, kopcovitá a poctivá. Vyjíždíme od café Tucan na náměstí ve Valašském Meziříčí přes valašské a slovenské kopce směr Púchov a zpět. Celkem 160 km.
 
 Tempo držíme skupinové, ale je to dálka — počítej s poctivým dnem v sedle. Na sebe počkáme, nikoho nenecháme v tom.
 
@@ -138,12 +133,6 @@ Po jízdě klasika — společné posezení v restauraci Po Cestě.`,
       instagram: "https://www.instagram.com/poceste_restaurace/",
       web: "https://poceste.cz",
     },
-    difficultyVariants: [
-      { label: "Lehká", distance: "do 70 km" },
-      { label: "Střední", distance: "70–100 km" },
-      { label: "Těžká", distance: "150 km" },
-      { label: "Extra", distance: "160 km", note: "nejnáročnější — celá trasa do Púchova a zpět" },
-    ],
   },
   {
     id: 61,
@@ -183,6 +172,51 @@ Ideální, když si chceš zajezdit ve skupině bez tlaku na výkon. Přijď na 
       role: "cíl — posezení po jízdě",
       instagram: "https://www.instagram.com/vista.bar/",
       web: "https://www.vistabar.cz",
+    },
+  },
+  {
+    id: 62,
+    slug: "rychlebske-stezky-2026",
+    title: "Rychlebské stezky",
+    sport: "MTB",
+    date: "Pá–Ne 25.–27. září",
+    dateISO: "2026-09-25",
+    time: "celý víkend",
+    location: "Černá Voda, Jeseníky",
+    locationDetail: "Rychlebské stezky — singletrailové centrum, Černá Voda",
+    distance: "Trail centrum",
+    elevation: "13 tratí · 8 superflow",
+    difficulty: "Náročná",
+    capacity: 20,
+    filled: 0,
+    description:
+      "Víkend na Rychlebských stezkách — jedno z nejlepších singletrailových center v ČR (IMBA ocenění). V případě zájmu nás kontaktuj, zajistíme ubytování. Vhodná výbava: horské kolo.",
+    longDescription: `Prodloužený víkend na Rychlebských stezkách v Jeseníkách — technické kamenité tratě i moderní flow traily, 13 pojmenovaných tratí a 8 superflow sekcí. Jedno z mála center na světě s oceněním IMBA za model trail (Superflow).
+
+Program:
+• Pátek — individuální příjezd
+• Sobota — ježdění, koupání v lomu, společné opíkání
+• Neděle — ježdění, odjezd v odpoledních hodinách
+
+Vhodná výbava: horské kolo (ideálně celoodpružené), helma, chrániče.
+
+**V případě zájmu nás kontaktuj — zajistíme ubytování.** Napiš nám a domluvíme detaily (doprava, ubytování).`,
+    whatToBring: [
+      "Horské kolo (celoodpružené ideální)",
+      "Helma (ideálně integrální) + chrániče",
+      "Náhradní duše, nářadí, pumpa",
+      "Vrstvy na hory — počasí se mění",
+    ],
+    whoIsItFor: "Jezdci se zkušeností na trailech — technické i flow tratě pro pokročilé.",
+    organizer: { name: "Open Miles Clinic", role: "klubová akce" },
+    photo: "/media/mtb-krivoklatsko.jpg",
+    routeUrl: "https://www.rychlebskestezky.cz/cs/trails",
+    externalCtaLabel: "Mám zájem — kontaktovat",
+    startVenue: {
+      name: "Rychlebské stezky",
+      role: "trailové centrum",
+      instagram: "https://www.instagram.com/rychlebske_stezky/",
+      web: "https://www.rychlebskestezky.cz",
     },
   },
   {

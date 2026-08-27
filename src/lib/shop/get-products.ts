@@ -75,29 +75,24 @@ function collapseCustomModels(products: Product[]): Product[] {
     ];
     const name = base.name.replace(new RegExp(`(Isaac\\s+${model}).*`, "i"), "$1 CUSTOM");
     const slug = `isaac-${model.toLowerCase()}-custom`;
-    // Galerie: base fotky + oficiální fotky ze VŠECH barevných SKU (tam jsou
-    // Sportimport barevné produktové fotky). Dedup podle identity obrázku
-    // (ne celé URL — blob/proxy/query se lišily → úvodní studiovka byla víckrát,
-    // sdílí ji všechny barvy). Cap 12.
+    // Galerie: jen base fotky (studiové + 3 oficiální barevné rendery, které
+    // přidal withModelColorPhotos ještě před kolapsem), deduplikované podle
+    // identity obrázku. NEsbíráme celé galerie ostatních barevných SKU —
+    // přinášely nechtěné detailní záběry.
     const imgKey = (u: string) => u.split("?")[0].split("/").pop() ?? u;
     const seen = new Set<string>();
-    const gallery: string[] = [];
-    const candidates = [
-      ...(base.gallery ?? [base.photo]),
-      ...list.flatMap((x) => [x.photo, ...(x.gallery ?? [])]),
-    ];
-    for (const u of candidates) {
-      if (!u) continue;
+    const gallery = (base.gallery ?? [base.photo]).filter((u) => {
+      if (!u) return false;
       const k = imgKey(u);
-      if (seen.has(k)) continue;
+      if (seen.has(k)) return false;
       seen.add(k);
-      gallery.push(u);
-    }
+      return true;
+    });
     kept.push({
       ...base,
       name,
       slug,
-      gallery: gallery.length > 1 ? gallery.slice(0, 12) : undefined,
+      gallery: gallery.length > 1 ? gallery : undefined,
       customColors: colors.length > 0 ? colors : undefined,
     });
   }
