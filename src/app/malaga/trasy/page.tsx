@@ -140,7 +140,8 @@ export default function TrasyPage() {
               >
                 <span className="font-bold">🚐 Nejsi na to sám.</span>{" "}
                 Poradíme, kam podle formy, kde je servis a kafe, a když se něco na
-                trase pokazí, ozveš se. Ptej se na uskladnění + trasy v poptávce níž.
+                trase pokazí, zavoláš a my tě vyzvedneme. Ptej se na uskladnění + trasy
+                v poptávce níž.
               </div>
             </div>
           </div>
