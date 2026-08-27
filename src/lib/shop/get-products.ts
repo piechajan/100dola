@@ -25,12 +25,12 @@ type BrandJoin = { brand_slug: string; is_public: boolean };
  */
 const MODEL_COLOR_PHOTOS: Record<string, string[]> = {
   meson: [
+    "/media/isaac-meson-detail-3.webp",
+    "/media/isaac-meson-detail-1.webp",
+    "/media/isaac-meson-detail-2.webp",
     "/media/isaac-meson-mineral-white.webp",
     "/media/isaac-meson-jade-green.webp",
     "/media/isaac-meson-ruby-red.webp",
-    "/media/isaac-meson-detail-1.webp",
-    "/media/isaac-meson-detail-2.webp",
-    "/media/isaac-meson-detail-3.webp",
   ],
 };
 
