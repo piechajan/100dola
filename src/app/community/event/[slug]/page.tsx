@@ -269,6 +269,63 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                 </div>
               </div>
 
+              {/* Varianty trasy (obtížnost / délka) */}
+              {event.difficultyVariants && event.difficultyVariants.length > 0 && (
+                <div className="bg-white rounded-2xl p-6 border border-[#E2E6F3]">
+                  <h3 className="font-black text-[#1a1a2e] mb-4 text-lg">Varianty trasy</h3>
+                  <div className="space-y-2.5">
+                    {event.difficultyVariants.map((v) => (
+                      <div key={v.label} className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1 text-sm">
+                        <span className="font-black text-[#1a1a2e] w-14 shrink-0">{v.label}</span>
+                        <span className="font-bold" style={{ color }}>{v.distanceKm} km</span>
+                        {v.elevationM ? <span className="text-[#9AA3C2]">· {v.elevationM} m</span> : null}
+                        {v.note ? <span className="text-[#9AA3C2]">— {v.note}</span> : null}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Kde se sejdeme / kde končíme — restaurace s prokliky */}
+              {(event.startVenue || event.endVenue) && (
+                <div className="bg-white rounded-2xl p-6 border border-[#E2E6F3]">
+                  <h3 className="font-black text-[#1a1a2e] mb-4 text-lg">Kde se sejdeme</h3>
+                  <div className="space-y-4">
+                    {[event.startVenue, event.endVenue]
+                      .filter((v): v is NonNullable<typeof v> => Boolean(v))
+                      .map((v, i) => (
+                        <div key={v.name} className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                          <span className="text-lg" aria-hidden>{i === 0 ? "🏁" : "🍺"}</span>
+                          <div className="min-w-0">
+                            <div className="font-black text-[#1a1a2e] text-sm">{v.name}</div>
+                            {v.role && <div className="text-xs text-[#9AA3C2]">{v.role}</div>}
+                          </div>
+                          <div className="flex items-center gap-2 ml-auto">
+                            {v.instagram && (
+                              <a href={v.instagram} target="_blank" rel="noopener noreferrer"
+                                className="text-xs font-bold px-2.5 py-1.5 rounded-full bg-[#F0F2FA] text-[#5A6480] hover:bg-[#1a1a2e] hover:text-white transition-colors">
+                                Instagram
+                              </a>
+                            )}
+                            {v.web && (
+                              <a href={v.web} target="_blank" rel="noopener noreferrer"
+                                className="text-xs font-bold px-2.5 py-1.5 rounded-full bg-[#F0F2FA] text-[#5A6480] hover:bg-[#1a1a2e] hover:text-white transition-colors">
+                                Web
+                              </a>
+                            )}
+                            {v.facebook && !v.web && (
+                              <a href={v.facebook} target="_blank" rel="noopener noreferrer"
+                                className="text-xs font-bold px-2.5 py-1.5 rounded-full bg-[#F0F2FA] text-[#5A6480] hover:bg-[#1a1a2e] hover:text-white transition-colors">
+                                Facebook
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              )}
+
               {/* Pro koho */}
               <div className="bg-white rounded-2xl p-6 border border-[#E2E6F3]">
                 <h3 className="font-black text-[#1a1a2e] mb-3 text-lg">Pro koho akce je</h3>

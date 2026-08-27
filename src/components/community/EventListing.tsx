@@ -56,6 +56,47 @@ const SPORT_ICONS: Record<string, string> = {
 
 const events: UIEvent[] = [
   {
+    id: 60,
+    slug: "puchov-pain",
+    dateISO: "2026-08-30",
+    title: "Púchov PAIN 💪",
+    replacesStravaTitle: "Púchov PAIN",
+    sport: "Silnice",
+    date: "Ne 30. srpna",
+    time: "09:00",
+    location: "Náměstí, Valašské Meziříčí",
+    distance: "až 160 km",
+    elevation: "~1 500 m",
+    difficulty: "Náročná",
+    capacity: 20,
+    filled: 0,
+    description:
+      "Nejnáročnější klubovka OMC — až 160 km do Púchova a zpět. Sraz café Tucan, cíl Po Cestě. Varianty: lehká od 100 km, těžká 150, extra 160.",
+    photo: "/media/pustevny-climb-ride.webp",
+    photoPosition: "center",
+    routeUrl: "https://mapy.com/s/metasorafo",
+  },
+  {
+    id: 61,
+    slug: "thursday-easy-ride",
+    dateISO: "2026-09-03",
+    title: "thursday EASY ride 🚴",
+    replacesStravaTitle: "thursday EASY ride",
+    sport: "Silnice",
+    date: "Čt 3. září",
+    time: "16:15",
+    location: "Křížná 250, Valašské Meziříčí",
+    distance: "~40 km",
+    elevation: "~300 m",
+    difficulty: "Lehká",
+    capacity: 20,
+    filled: 0,
+    description:
+      "Pohodová čtvrteční vyjížďka OMC. Start Chochino Koloniál Kafe, cíl Vista Bar. Tempo pro každého.",
+    photo: "/media/road-event.jpg",
+    routeUrl: "https://mapy.com/s/cusucagugo",
+  },
+  {
     id: 40,
     slug: "pustevny-climb-valmez",
     dateISO: "2026-06-06",
@@ -349,17 +390,19 @@ export default function EventListing() {
   // Merge: ruční eventy první, Strava eventy za nimi.
   // Stejný slug se nesmí opakovat — manual má prioritu.
   const manualSlugs = new Set(events.map((e) => e.slug));
+  // Normalizace názvu pro dedup: strip emoji/interpunkce, lowercase, jednotné mezery
+  // → replacesStravaTitle „Púchov PAIN" spáruje i „Púchov PAIN 💪" ze Stravy.
+  const normTitle = (t: string) =>
+    t.replace(/[^\p{L}\p{N}\s]/gu, "").toLowerCase().trim().replace(/\s+/g, " ");
   const manualTitles = new Set(
     events.flatMap((e) =>
-      [e.title, e.replacesStravaTitle]
-        .filter((t): t is string => Boolean(t))
-        .map((t) => t.toLowerCase().trim()),
+      [e.title, e.replacesStravaTitle].filter((t): t is string => Boolean(t)).map(normTitle),
     ),
   );
   const merged: UIEvent[] = [
     ...events,
     ...stravaEvents.filter(
-      (e) => !manualSlugs.has(e.slug) && !manualTitles.has(e.title.toLowerCase().trim()),
+      (e) => !manualSlugs.has(e.slug) && !manualTitles.has(normTitle(e.title)),
     ),
   ];
 

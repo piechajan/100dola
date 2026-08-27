@@ -44,6 +44,21 @@ export interface Event {
   participants?: number;
   /** Prominentní SCOTT test CTA (link na /vyzkousej-scott). Nastaveno POUZE na Pustevny jízdě. */
   scottCta?: boolean;
+  /** Restaurace/podnik startu (sraz) — s prokliky na IG/web. */
+  startVenue?: EventVenue;
+  /** Restaurace/podnik cíle (posezení) — s prokliky na IG/web. */
+  endVenue?: EventVenue;
+  /** Varianty obtížnosti/délky (např. lehká od 100 km, těžká 150, extra 160). */
+  difficultyVariants?: Array<{ label: string; distanceKm: number; elevationM?: number; note?: string }>;
+}
+
+export interface EventVenue {
+  name: string;
+  /** Krátký popis role (např. „sraz", „cíl — posezení po jízdě"). */
+  role?: string;
+  instagram?: string;
+  web?: string;
+  facebook?: string;
 }
 
 export const SPORT_COLORS: Record<Sport, string> = {
@@ -73,6 +88,102 @@ export const DIFFICULTY_COLOR: Record<Difficulty, string> = {
 };
 
 export const events: Event[] = [
+  {
+    id: 60,
+    slug: "puchov-pain",
+    title: "Púchov PAIN 💪",
+    sport: "Silnice",
+    date: "Ne 30. srpna",
+    dateISO: "2026-08-30",
+    time: "09:00",
+    location: "Valašské Meziříčí → Púchov (SK)",
+    locationDetail: "Sraz café Tucan, náměstí Valašské Meziříčí (výjezd 9:00)",
+    distance: "až 160 km",
+    elevation: "~1 500 m",
+    difficulty: "Náročná",
+    capacity: 20,
+    filled: 0,
+    description:
+      "Nejnáročnější klubovka Open Miles Clinic — až 160 km do Púchova a zpět. Sraz café Tucan, cíl posezení Po Cestě. Na výběr varianty podle nohou: lehká od 100 km, těžká 150, extra 160.",
+    longDescription: `Púchov PAIN je královská etapa Open Miles Clinic — dlouhá, kopcovitá a poctivá. Vyjíždíme od café Tucan na náměstí ve Valašském Meziříčí přes valašské a slovenské kopce směr Púchov a zpět.
+
+Trasa má tři varianty podle toho, jak se cítíš:
+• Lehká — otočka od cca 100 km
+• Těžká — 150 km
+• Extra — celých 160 km, nejnáročnější varianta
+
+Tempo držíme skupinové, ale je to dálka — počítej s poctivým dnem v sedle. Na sebe počkáme, nikoho nenecháme v tom.
+
+Po jízdě klasika — společné posezení v restauraci Po Cestě.`,
+    whatToBring: [
+      "Silniční kolo v dobrém stavu",
+      "Helma",
+      "2 lahve + jídlo na cestu",
+      "Vrstva navíc a nářadí na defekt",
+    ],
+    whoIsItFor: "Zkušení jezdci, co si chtějí sáhnout na dlouhé kilometry.",
+    organizer: { name: "Open Miles Clinic", role: "klubová jízda" },
+    photo: "/media/pustevny-climb-ride.webp",
+    routeUrl: "https://mapy.com/s/metasorafo",
+    startVenue: {
+      name: "Café Tucan",
+      role: "sraz",
+      instagram: "https://www.instagram.com/kavarnatucan/",
+      web: "https://www.cafetucan.cz",
+      facebook: "https://www.facebook.com/cafeetucan/",
+    },
+    endVenue: {
+      name: "Po Cestě",
+      role: "cíl — posezení po jízdě",
+      web: "https://poceste.cz",
+      facebook: "https://www.facebook.com/p/Po-Cest%C4%9B-Restaurace-61563463535761/",
+    },
+    difficultyVariants: [
+      { label: "Lehká", distanceKm: 100, note: "zkrácená otočka" },
+      { label: "Těžká", distanceKm: 150 },
+      { label: "Extra", distanceKm: 160, note: "nejnáročnější — celá trasa do Púchova a zpět" },
+    ],
+  },
+  {
+    id: 61,
+    slug: "thursday-easy-ride",
+    title: "thursday EASY ride 🚴",
+    sport: "Silnice",
+    date: "Čt 3. září",
+    dateISO: "2026-09-03",
+    time: "16:15",
+    location: "Valašské Meziříčí",
+    locationDetail: "Start Chochino Koloniál Kafe, Křížná 250 (16:15)",
+    distance: "~40 km",
+    elevation: "~300 m",
+    difficulty: "Lehká",
+    capacity: 20,
+    filled: 0,
+    description:
+      "Pohodová čtvrteční vyjížďka Open Miles Clinic. Start Chochino Koloniál Kafe, cíl posezení Vista Bar. Tempo pro každého — přijeď se svézt.",
+    longDescription: `thursday EASY ride je pohodová čtvrteční klubovka Open Miles Clinic — žádné závodění, jen svézt se, provětrat nohy a dát si po jízdě něco dobrého.
+
+Startujeme od Chochino Koloniál Kafe, projedeme příjemnou okolní smyčku kolem 40 km a zakončíme společně ve Vista Baru.
+
+Ideální, když si chceš zajezdit ve skupině bez tlaku na výkon. Přijď na jakémkoliv silničním kole.`,
+    whatToBring: ["Silniční kolo", "Helma", "Lahev a drobná svačina", "Dobrá nálada"],
+    whoIsItFor: "Pro všechny — pohodové tempo, nikdo se neztratí.",
+    organizer: { name: "Open Miles Clinic", role: "klubová jízda" },
+    photo: "/media/road-event.jpg",
+    routeUrl: "https://mapy.com/s/cusucagugo",
+    startVenue: {
+      name: "Chochino Koloniál Kafe",
+      role: "start",
+      instagram: "https://www.instagram.com/chochino_proste_jine_kokino/",
+      web: "https://chochino.cz",
+    },
+    endVenue: {
+      name: "Vista Bar",
+      role: "cíl — posezení po jízdě",
+      instagram: "https://www.instagram.com/vista.bar/",
+      web: "https://www.vistabar.cz",
+    },
+  },
   {
     id: 40,
     slug: "pustevny-climb-valmez",
