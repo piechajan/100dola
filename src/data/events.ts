@@ -209,7 +209,7 @@ Vhodná výbava: horské kolo (ideálně celoodpružené), helma, chrániče.
     ],
     whoIsItFor: "Jezdci se zkušeností na trailech — technické i flow tratě pro pokročilé.",
     organizer: { name: "Open Miles Clinic", role: "klubová akce" },
-    photo: "/media/mtb-krivoklatsko.jpg",
+    photo: "/media/rychlebske-stezky.webp",
     routeUrl: "https://www.rychlebskestezky.cz/cs/trails",
     externalCtaLabel: "Mám zájem — kontaktovat",
     startVenue: {

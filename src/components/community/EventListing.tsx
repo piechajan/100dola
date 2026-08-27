@@ -112,7 +112,7 @@ const events: UIEvent[] = [
     filled: 0,
     description:
       "Víkend na Rychlebských stezkách (IMBA trail centrum). Pátek příjezd, sobota + neděle ježdění, koupání v lomu a společné opíkání. V případě zájmu nás kontaktuj — zajistíme ubytování. Výbava: horské kolo.",
-    photo: "/media/mtb-krivoklatsko.jpg",
+    photo: "/media/rychlebske-stezky.webp",
     routeUrl: "https://www.rychlebskestezky.cz/cs/trails",
   },
   {
