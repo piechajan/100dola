@@ -159,7 +159,7 @@ Ideální, když si chceš zajezdit ve skupině bez tlaku na výkon. Přijď na 
     whatToBring: ["Silniční kolo", "Helma", "Lahev a drobná svačina", "Dobrá nálada"],
     whoIsItFor: "Pro všechny — pohodové tempo, nikdo se neztratí.",
     organizer: { name: "Open Miles Clinic", role: "klubová jízda" },
-    photo: "/media/thursday-easy-ride.webp",
+    photo: "/media/thursday-easy-ride-2026.webp",
     routeUrl: "https://mapy.com/s/cusucagugo",
     startVenue: {
       name: "Chochino Koloniál Kafe",
