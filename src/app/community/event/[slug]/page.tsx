@@ -339,7 +339,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   {event.whatToBring.map((item) => (
                     <li key={item} className="flex items-start gap-3 text-sm text-[#5A6480]">
                       <div className="mt-1 w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: color }} />
-                      {item}
+                      <span><RichText text={item} /></span>
                     </li>
                   ))}
                 </ul>

@@ -94,6 +94,7 @@ const events: UIEvent[] = [
     description:
       "Pohodová čtvrteční vyjížďka OMC. Start Chochino Koloniál Kafe, cíl Vista Bar. Tempo pro každého.",
     photo: "/media/thursday-easy-ride.webp",
+    photoPosition: "center 22%",
     routeUrl: "https://mapy.com/s/cusucagugo",
   },
   {

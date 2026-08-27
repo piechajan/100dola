@@ -566,10 +566,10 @@ Na trase plánujeme oběd v horské boudě a kávovou zastávku na Pustevnách.`
 
 V ceně je zázemí, technická podpora a organizace tras. Ubytování si zajišťuje každý sám — pomůžeme s doporučeními.`,
     whatToBring: [
-      "Kolo (nebo využij přepravu 100dola Malaga)",
+      "Kolo (nebo využij [přepravu 100dola Malaga](/malaga/preprava))",
       "Cyklistické oblečení na teplo (20–26 °C)",
       "Sluneční ochrana",
-      "Cestovní pojištění",
+      "Cestovní pojištění (nebo nás [kontaktuj](/kontakt), zajistíme)",
       "Chuť jezdit",
     ],
     whoIsItFor: "Cyklisté všech úrovní. Ideální pro ty, kdo mají kolo v zázemí 100dola Malaga.",
@@ -598,10 +598,10 @@ Pokud ti nevyhovuje první termín nebo chceš přijet na oba — kolo zůstane 
 
 Říjen v Andalusii: teploty 20–25 °C, zlaté světlo, silnice bez aut. Nejlepší měsíc na kole v jižní Evropě.`,
     whatToBring: [
-      "Kolo (nebo využij přepravu 100dola Malaga)",
+      "Kolo (nebo využij [přepravu 100dola Malaga](/malaga/preprava))",
       "Cyklistické oblečení na teplo",
       "Sluneční ochrana",
-      "Cestovní pojištění",
+      "Cestovní pojištění (nebo nás [kontaktuj](/kontakt), zajistíme)",
     ],
     whoIsItFor: "Cyklisté všech úrovní. Vhodné i pro kombinaci s Malaga fall ride I.",
     organizer: { name: "Jan Piecha", role: "Zakladatel 100dola Malaga" },

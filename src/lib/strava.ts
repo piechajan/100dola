@@ -145,6 +145,19 @@ export async function fetchClubGroupEvents(): Promise<StravaGroupEvent[]> {
   return JSON.parse(safe) as StravaGroupEvent[];
 }
 
+/** Export GPX trasy ze Stravy (route_id z group eventu). Vrací GPX XML. */
+export async function fetchRouteGpx(routeId: number | string): Promise<string> {
+  const token = await refreshAccessToken();
+  const res = await fetch(`${API_BASE}/routes/${routeId}/export_gpx`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error(`Strava export_gpx ${routeId} failed: ${res.status} ${await res.text()}`);
+  }
+  return res.text();
+}
+
 /**
  * Souhrn jedné aktivity přihlášeného sportovce. Prioritní výkonová metrika je
  * `weighted_average_watts` (normalized power) — `average_watts` je bez autostopu
