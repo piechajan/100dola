@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { SPORT_COLORS, SPORT_ICONS } from "@/data/events";
@@ -55,6 +55,24 @@ const SPORT_BY_CATEGORY = [
 
 export default function Navbar() {
   const events = useEvents();
+  // Dnešní datum až po mountu (SSR-safe, žádné build-time zamrznutí). Do té doby
+  // se „proběhlá" odvozuje jen z ručního isPast flagu.
+  const [today, setToday] = useState<string | null>(null);
+  useEffect(() => {
+    setToday(new Date().toISOString().slice(0, 10));
+  }, []);
+  // Auto řazení: nadcházející (dle data vzestupně) první, proběhlé (sestupně)
+  // za nimi s fade. Funguje samo pro každou budoucí i proběhlou akci — nic ručně.
+  const sortedEvents = useMemo(() => {
+    const withMeta = events.map((e) => {
+      const iso = e.dateISO ?? "9999-12-31";
+      const past = Boolean(e.isPast) || (today != null && iso < today);
+      return { event: e, iso, past };
+    });
+    const upcoming = withMeta.filter((x) => !x.past).sort((a, b) => a.iso.localeCompare(b.iso));
+    const done = withMeta.filter((x) => x.past).sort((a, b) => b.iso.localeCompare(a.iso));
+    return [...upcoming, ...done];
+  }, [events, today]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [kalendarOpen, setKalendarOpen] = useState(false);
   const [sportOpen, setSportOpen] = useState(false);
@@ -270,14 +288,14 @@ export default function Navbar() {
                     <div className="text-[10px] tracking-[0.15em] uppercase font-bold text-[#9AA3C2] px-2 py-2">
                       Nadcházející akce
                     </div>
-                    {events.map((event) => {
+                    {sortedEvents.map(({ event, past }) => {
                       const color = SPORT_COLORS[event.sport];
                       const icon = SPORT_ICONS[event.sport];
                       return (
                         <Link
                           key={event.slug}
                           href={`/community/event/${event.slug}`}
-                          className="flex items-center gap-3 px-2 py-2.5 rounded-xl hover:bg-[#F5F7FF] transition-colors group"
+                          className={`flex items-center gap-3 px-2 py-2.5 rounded-xl hover:bg-[#F5F7FF] transition-colors group ${past ? "opacity-45" : ""}`}
                           onClick={() => setKalendarOpen(false)}
                         >
                           <div
@@ -438,14 +456,14 @@ export default function Navbar() {
               </button>
               {mobileKalendarOpen && (
                 <div className="ml-3 mt-1 flex flex-col gap-0.5">
-                  {events.map((event) => {
+                  {sortedEvents.map(({ event, past }) => {
                     const color = SPORT_COLORS[event.sport];
                     const icon = SPORT_ICONS[event.sport];
                     return (
                       <Link
                         key={event.slug}
                         href={`/community/event/${event.slug}`}
-                        className="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-[#F0F2FA] transition-colors"
+                        className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-[#F0F2FA] transition-colors ${past ? "opacity-45" : ""}`}
                         onClick={() => { setMenuOpen(false); setMobileKalendarOpen(false); }}
                         style={{ borderLeft: `3px solid ${color}` }}
                       >
