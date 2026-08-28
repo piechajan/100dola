@@ -192,18 +192,30 @@ export default function PrepravaPage() {
               <strong>3 hodiny</strong>. Přímé linky jsou z:
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-              <div className="rounded-2xl border border-[#E2E6F3] p-5">
+              <a
+                href="https://www.google.com/travel/flights?q=Flights%20from%20PRG%20to%20AGP"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-2xl border border-[#E2E6F3] p-5 hover:border-[#E8431A] transition-colors"
+              >
                 <div className="font-black text-[#1a1a2e]">✈ Praha (PRG)</div>
                 <div className="text-sm text-[#5A6480] mt-1">
                   Přímé lety do Malagy, ~3 h. Nejvíc spojení v sezóně.
                 </div>
-              </div>
-              <div className="rounded-2xl border border-[#E2E6F3] p-5">
+                <div className="text-sm font-bold mt-2" style={{ color: accent }}>Najít letenky PRG → AGP →</div>
+              </a>
+              <a
+                href="https://www.google.com/travel/flights?q=Flights%20from%20VIE%20to%20AGP"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-2xl border border-[#E2E6F3] p-5 hover:border-[#E8431A] transition-colors"
+              >
                 <div className="font-black text-[#1a1a2e]">✈ Vídeň (VIE)</div>
                 <div className="text-sm text-[#5A6480] mt-1">
                   Přímé linky, ~3 h. Z Moravy a Slovenska bývá blíž než Praha.
                 </div>
-              </div>
+                <div className="text-sm font-bold mt-2" style={{ color: accent }}>Najít letenky VIE → AGP →</div>
+              </a>
             </div>
             <p className="text-sm text-[#9AA3C2] leading-relaxed">
               Konkrétní spojení a termín rádi poradíme podle toho, odkud jedeš — napiš nám.
