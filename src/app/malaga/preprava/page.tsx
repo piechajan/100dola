@@ -188,9 +188,11 @@ export default function PrepravaPage() {
               Kolo dovezeme my — ty přiletíš s příručákem
             </h2>
             <p className="text-[#5A6480] leading-relaxed mb-5">
-              Do Malagy (letiště AGP) se dostaneš přímým letem zhruba za{" "}
-              <strong>3 hodiny</strong>. Přímé linky jsou z:
+              Do Malagy (letiště AGP) se dostaneš z Prahy i Vídně{" "}
+              <strong>přímým letem za ~3 hodiny</strong>. Z Ostravy a Bratislavy se obvykle letí
+              s přestupem — vyhledávač najde nejlepší spojení. Klikni na letiště, odkud pojedeš:
             </p>
+            <p className="text-xs font-bold uppercase tracking-wider text-[#9AA3C2] mb-2">Přímé linky</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
               <a
                 href="https://www.google.com/travel/flights?q=Flights%20from%20PRG%20to%20AGP"
@@ -215,6 +217,33 @@ export default function PrepravaPage() {
                   Přímé linky, ~3 h. Z Moravy a Slovenska bývá blíž než Praha.
                 </div>
                 <div className="text-sm font-bold mt-2" style={{ color: accent }}>Najít letenky VIE → AGP →</div>
+              </a>
+            </div>
+            <p className="text-xs font-bold uppercase tracking-wider text-[#9AA3C2] mb-2">Obvykle s přestupem</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+              <a
+                href="https://www.google.com/travel/flights?q=Flights%20from%20OSR%20to%20AGP"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-2xl border border-[#E2E6F3] p-5 hover:border-[#E8431A] transition-colors"
+              >
+                <div className="font-black text-[#1a1a2e]">✈ Ostrava (OSR)</div>
+                <div className="text-sm text-[#5A6480] mt-1">
+                  Přímý let obvykle není — vyhledávač najde nejlepší spojení s přestupem.
+                </div>
+                <div className="text-sm font-bold mt-2" style={{ color: accent }}>Najít letenky OSR → AGP →</div>
+              </a>
+              <a
+                href="https://www.google.com/travel/flights?q=Flights%20from%20BTS%20to%20AGP"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-2xl border border-[#E2E6F3] p-5 hover:border-[#E8431A] transition-colors"
+              >
+                <div className="font-black text-[#1a1a2e]">✈ Bratislava (BTS)</div>
+                <div className="text-sm text-[#5A6480] mt-1">
+                  Blízko pro Slovensko a jižní Moravu. Obvykle s přestupem — vyhledávač poradí.
+                </div>
+                <div className="text-sm font-bold mt-2" style={{ color: accent }}>Najít letenky BTS → AGP →</div>
               </a>
             </div>
             <p className="text-sm text-[#9AA3C2] leading-relaxed">
