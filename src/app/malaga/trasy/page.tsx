@@ -3,7 +3,9 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { MALAGA_BRAND } from "@/data/malaga";
-import { MALAGA_ROUTES, SURFACE_LABEL, SURFACE_EMOJI } from "@/data/malagaRoutes";
+import { MALAGA_ROUTES_V2 } from "@/data/malaga/routes";
+import TrasyFilter from "@/components/malaga/TrasyFilter";
+import WeatherWidget from "@/components/malaga/WeatherWidget";
 import MalagaLeadForm from "@/components/malaga/MalagaLeadForm";
 
 const accent = MALAGA_BRAND.color;
@@ -28,11 +30,11 @@ const itemListJsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Cyklo trasy kolem Malagy",
-  itemListElement: MALAGA_ROUTES.map((r, i) => ({
+  itemListElement: MALAGA_ROUTES_V2.map((r, i) => ({
     "@type": "ListItem",
     position: i + 1,
-    name: r.name,
-    description: r.tagline,
+    name: r.name_cs,
+    url: `https://www.100dola.com/malaga/trasy/${r.slug}`,
   })),
 };
 
@@ -74,57 +76,20 @@ export default function TrasyPage() {
         {/* Routes grid */}
         <section className="py-12 md:py-16 bg-[#FAFAFC]">
           <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {MALAGA_ROUTES.map((r) => (
-                <div
-                  key={r.slug}
-                  className="rounded-3xl p-7 md:p-8 bg-white border border-[#E2E6F3] flex flex-col"
-                >
-                  <div className="flex items-center gap-2 flex-wrap mb-4">
-                    <span
-                      className="text-[11px] font-bold px-2.5 py-1 rounded-full"
-                      style={{ backgroundColor: `${accent}14`, color: accent }}
-                    >
-                      {SURFACE_EMOJI[r.surface]} {SURFACE_LABEL[r.surface]}
-                    </span>
-                    <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#F0F2FA] text-[#5A6480]">
-                      {r.level}
-                    </span>
-                    <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#F0F2FA] text-[#5A6480]">
-                      {r.distanceKm}
-                    </span>
-                    <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#F0F2FA] text-[#5A6480]">
-                      ↗ {r.climbM}
-                    </span>
-                  </div>
+            <WeatherWidget className="mb-8" />
 
-                  <h2 className="text-xl md:text-2xl font-black text-[#1a1a2e] leading-tight mb-1">
-                    {r.name}
-                  </h2>
-                  <p className="text-sm font-semibold mb-3" style={{ color: accent }}>
-                    {r.tagline}
-                  </p>
-                  <p className="text-sm text-[#5A6480] leading-relaxed mb-5">{r.description}</p>
+            <TrasyFilter routes={MALAGA_ROUTES_V2} />
 
-                  <div className="mt-auto space-y-3">
-                    <div className="flex flex-wrap gap-2">
-                      {r.highlights.map((h) => (
-                        <span
-                          key={h}
-                          className="text-[11px] text-[#1a1a2e] bg-[#FAFAFC] border border-[#E2E6F3] px-2.5 py-1 rounded-full"
-                        >
-                          {h}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="text-xs text-[#5A6480] pt-3 border-t border-[#F0F2FA]">
-                      <span className="mr-3">☕ <span className="font-semibold text-[#1a1a2e]">Zastávka:</span> {r.stop}</span>
-                    </div>
-                    <div className="text-xs text-[#9AA3C2] italic">Komu sedne: {r.bestFor}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            {/* Mapa vody CTA */}
+            <Link
+              href="/malaga/trasy/voda"
+              className="mt-8 block rounded-2xl border border-[#D6E1FB] bg-[#F0F4FF] p-5 hover:border-[#3B7CF4] transition-colors"
+            >
+              <div className="text-sm font-black text-[#1a1a2e]">💧 Mapa vody přes všechny trasy →</div>
+              <div className="text-xs text-[#5A6480] mt-1">
+                Všechny prameny (fuentes), obchody a bary na jedné mapě. V andaluském horku plán, ne náhoda.
+              </div>
+            </Link>
 
             {/* Honest note */}
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">

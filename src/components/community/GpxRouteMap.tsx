@@ -103,10 +103,41 @@ export default function GpxRouteMap({
       if (!mapRef.current || mapInstanceRef.current) return;
       const map = L.map(mapRef.current, { zoomControl: true, scrollWheelZoom: false });
       mapInstanceRef.current = map;
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "© OpenStreetMap",
-        maxZoom: 17,
-      }).addTo(map);
+      // Podklad: mapy.cz „outdoor" (turistická — vrstevnice, cesty; nejlepší pro
+      // cyklo) když je klíč; jinak fallback na OpenStreetMap.
+      const mapyKey = process.env.NEXT_PUBLIC_MAPY_API_KEY;
+      if (mapyKey) {
+        L.tileLayer(`https://api.mapy.cz/v1/maptiles/outdoor/256/{z}/{x}/{y}?apikey=${mapyKey}`, {
+          minZoom: 0,
+          maxZoom: 19,
+          attribution:
+            '<a href="https://api.mapy.cz/copyright" target="_blank" rel="noopener">&copy; Seznam.cz a.s. a další</a>',
+        }).addTo(map);
+        // Povinné logo mapy.cz (ToS).
+        const LogoControl = L.Control.extend({
+          options: { position: "bottomleft" as const },
+          onAdd() {
+            const a = L.DomUtil.create("a", "");
+            a.setAttribute("href", "https://mapy.cz/");
+            a.setAttribute("target", "_blank");
+            a.setAttribute("rel", "noopener");
+            a.style.display = "block";
+            a.style.width = "62px";
+            a.style.height = "16px";
+            a.style.margin = "4px";
+            a.style.backgroundImage = "url(https://api.mapy.cz/img/api/logo.svg)";
+            a.style.backgroundSize = "contain";
+            a.style.backgroundRepeat = "no-repeat";
+            return a;
+          },
+        });
+        new LogoControl().addTo(map);
+      } else {
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: "© OpenStreetMap",
+          maxZoom: 17,
+        }).addTo(map);
+      }
       const latlngs = points.map((p) => [p.lat, p.lon]) as [number, number][];
       const poly = L.polyline(latlngs, { color: accentColor, weight: 4, opacity: 1 }).addTo(map);
       map.fitBounds(poly.getBounds().pad(0.08));

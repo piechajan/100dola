@@ -11,6 +11,7 @@ import MalagaPackagesPreview from "@/components/malaga/MalagaPackagesPreview";
 import MalagaTrust from "@/components/malaga/MalagaTrust";
 import MalagaFAQPreview from "@/components/malaga/MalagaFAQPreview";
 import MalagaFinalCTA from "@/components/malaga/MalagaFinalCTA";
+import WeatherWidget from "@/components/malaga/WeatherWidget";
 import { FAQ_PREVIEW } from "@/data/malaga";
 
 export const metadata: Metadata = {
@@ -86,6 +87,11 @@ export default function MalagaPage() {
       <Navbar />
       <main className="pt-20">
         <MalagaHero />
+        <section className="py-8 bg-white">
+          <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+            <WeatherWidget />
+          </div>
+        </section>
         <MalagaHowItWorks />
         <MalagaServices />
         <MalagaWhyOwnBike />
