@@ -150,7 +150,10 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
     useCase,
     season,
     garmentLength,
-    gallery: gallery.length > 1 ? gallery : undefined,
+    // Cap galerie na 8 obrázků (2026-08-28 preventivní slim): 449/869 produktů
+    // mělo >8 obrázků (max 42) → gallery nafukovalo cachovaný payload k 2 MB
+    // limitu. 8 obrázků na PDP bohatě stačí (heureka feed stejně řeže na 5).
+    gallery: gallery.length > 1 ? gallery.slice(0, 8) : undefined,
     variants: Array.isArray(row.variants) && row.variants.length > 0
       ? (row.variants as Product["variants"])
       : undefined,
