@@ -77,6 +77,17 @@ export default function TrasyPage() {
           <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
             <TrasyFilter routes={MALAGA_ROUTES_V2} />
 
+            {/* Mapa vody CTA */}
+            <Link
+              href="/malaga/trasy/voda"
+              className="mt-8 block rounded-2xl border border-[#D6E1FB] bg-[#F0F4FF] p-5 hover:border-[#3B7CF4] transition-colors"
+            >
+              <div className="text-sm font-black text-[#1a1a2e]">💧 Mapa vody přes všechny trasy →</div>
+              <div className="text-xs text-[#5A6480] mt-1">
+                Všechny prameny (fuentes), obchody a bary na jedné mapě. V andaluském horku plán, ne náhoda.
+              </div>
+            </Link>
+
             {/* Honest note */}
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="text-sm text-[#5A6480] leading-relaxed rounded-2xl p-5 bg-white border border-[#E2E6F3]">
