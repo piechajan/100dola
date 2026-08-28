@@ -79,7 +79,7 @@ export default function DopravaKolaMalaga() {
             <tbody className="text-[#1a1a2e]">
               <tr className="border-b border-[#F0F2FA]">
                 <td className="p-3 font-bold">Letecky s kolem</td>
-                <td className="p-3">poplatek za kolo ~50–75 € jednosměrně + box (~300 € jednou)</td>
+                <td className="p-3">poplatek za kolo 75 € jednosměrně + box (~300 € jednou)</td>
                 <td className="p-3">2 h balení / rozbalení každou cestu</td>
                 <td className="p-3">Vyšší — handlers se nezajímají, vidlice / disk často poškozené</td>
               </tr>
@@ -229,8 +229,8 @@ export default function DopravaKolaMalaga() {
           <table className="w-full text-sm">
             <tbody>
               <tr className="border-b border-[#E2E6F3]">
-                <td className="py-2 text-[#5A6480]">Vozit kolo letecky s sebou (6× poplatek za kolo + box)</td>
-                <td className="py-2 text-right font-bold">~400 € + box ~300 € poprvé</td>
+                <td className="py-2 text-[#5A6480]">Vozit kolo letecky s sebou (6× poplatek za kolo à 75 € + box)</td>
+                <td className="py-2 text-right font-bold">~450 € + box ~300 € poprvé</td>
               </tr>
               <tr className="border-b border-[#E2E6F3]">
                 <td className="py-2 text-[#5A6480]">Půjčovna v Malaze (3× týden, ~300 €)</td>
@@ -244,8 +244,9 @@ export default function DopravaKolaMalaga() {
           </table>
           <p className="text-xs text-[#9AA3C2] mt-4">
             Levnější než půjčovna a srovnatelné s vožením kola letecky — jenže <strong>u nás
-            létáš pokaždé light</strong> (žádné balení, žádný box, žádné riziko poškození) a máš
-            vždy své kolo připravené. Čím víc cest, tím víc to hraje pro nás.
+            létáš pokaždé light</strong> (žádné balení, žádný box, žádné riziko poškození), máš
+            vždy své kolo připravené a <strong>neřešíš tahání kola z letiště na ubytování</strong>
+            {" "}(ve skupině klidně několik kol). Čím víc cest, tím víc to hraje pro nás.
           </p>
         </div>
 
