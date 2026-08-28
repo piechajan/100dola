@@ -230,6 +230,24 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                         📍 Navigovat (Google Mapy) →
                       </a>
                     </>
+                  ) : event.sport === "Malaga" ? (
+                    <Link
+                      href="/malaga/trasy"
+                      className="block rounded-xl bg-[#FFF7F3] border border-[#FBC9A8] p-6 hover:border-[#E8431A] transition-colors"
+                    >
+                      <div className="text-3xl mb-2">🚴‍♂️🗺️</div>
+                      <div className="font-black text-[#1a1a2e]">
+                        V Malaze jezdíš každý den jinou trasu
+                      </div>
+                      <p className="text-sm text-[#5A6480] mt-1 leading-snug">
+                        Od pobřežních okruhů po královské etapy. Nemá smysl jedna mapa — máme{" "}
+                        <strong>12 tras s mapami, výškovými profily a GPX</strong>, roztříděné podle
+                        obtížnosti, km i převýšení.
+                      </p>
+                      <div className="text-sm font-bold mt-2 text-[#E8431A]">
+                        Prohlédnout trasy a okruhy v Malaze →
+                      </div>
+                    </Link>
                   ) : (
                     <div className="rounded-xl h-52 flex items-center justify-center bg-[#F0F2FA]">
                       <div className="text-center text-[#9AA3C2]">

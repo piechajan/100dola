@@ -563,7 +563,7 @@ Na trase plánujeme oběd v horské boudě a kávovou zastávku na Pustevnách.`
     description: "Týdenní cyklistický pobyt v Malaze. Vlastní kolo, vlastní tempo. Říjen je v Andalusii nejlepší — teplo, prázdné silnice, barvy.",
     longDescription: `Malaga fall ride I je týdenní cyklistický pobyt postavený kolem zázemí 100dola Malaga. Jedeme každý den, tempo si volí každý sám — jsou zde jezdci na různé úrovni a trasy pro každého.
 
-Říjen je v Malaze ideální měsíc — teploty 22–26 °C, prázdné silnice, žádné turistické davy. Kopce nad Malaga nabízí výzvu pro zkušené jezdce, pobřežní silnice jsou perfektní pro pohodovější dny.
+Říjen a listopad jsou v Malaze ideální měsíce — teploty 22–26 °C, prázdné silnice, žádné turistické davy. Kopce nad Malaga nabízí výzvu pro zkušené jezdce, pobřežní silnice jsou perfektní pro pohodovější dny.
 
 V ceně je zázemí, technická podpora a organizace tras. Ubytování si zajišťuje každý sám — pomůžeme s doporučeními.`,
     whatToBring: [
@@ -597,7 +597,7 @@ V ceně je zázemí, technická podpora a organizace tras. Ubytování si zajiš
 
 Pokud ti nevyhovuje první termín nebo chceš přijet na oba — kolo zůstane v zázemí 100dola Malaga mezi oběma termíny. Přiletíš znovu s příručákem a jedeš.
 
-Říjen v Andalusii: teploty 20–25 °C, zlaté světlo, silnice bez aut. Nejlepší měsíc na kole v jižní Evropě.`,
+Říjen a listopad v Andalusii: teploty 20–25 °C, zlaté světlo, silnice bez aut. Nejlepší měsíce na kole v jižní Evropě.`,
     whatToBring: [
       "Kolo (nebo využij [přepravu 100dola Malaga](/malaga/preprava))",
       "Cyklistické oblečení na teplo",
