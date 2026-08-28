@@ -34,7 +34,7 @@ export default function DopravaKolaMalaga() {
             <li>• <strong>Transport</strong> — fyzicky dopravujeme v ucelených dodávkách, ne kurýrem. Typicky 5-8 dní podle bloku odjezdu.</li>
             <li>• <strong>Sklad v Malaze</strong> — kolo má svůj prostor, schované, monitorované, připravené.</li>
             <li>• <strong>Vy pak létáte light</strong> — ruční zavazadlo s helmou a tretrami, kolo na vás čeká.</li>
-            <li>• <strong>Cena</strong> — od 150 € jednosměrně (Basic), s exkluzivní službou 14 900 Kč. Sklad od 1 500 Kč/měsíc.</li>
+            <li>• <strong>Cena</strong> — od 150 € jednosměrně, round-trip od 250 €. Sklad od 69 €/měsíc.</li>
           </ul>
           <div className="mt-4 pt-4 border-t border-[#FBC9A8]">
             <Link
@@ -51,7 +51,7 @@ export default function DopravaKolaMalaga() {
         <ol className="space-y-1.5 text-sm text-[#5A6480] mb-12 ml-5 list-decimal">
           <li><a href="#proc" className="text-[#3B7CF4] hover:underline">Proč nedávat kolo letecky pokaždé znova</a></li>
           <li><a href="#proces" className="text-[#3B7CF4] hover:underline">Jak proces vypadá krok po kroku</a></li>
-          <li><a href="#balicky" className="text-[#3B7CF4] hover:underline">Basic vs Exkluzivní balíček</a></li>
+          <li><a href="#balicky" className="text-[#3B7CF4] hover:underline">One-way vs round-trip: co je v ceně</a></li>
           <li><a href="#cena" className="text-[#3B7CF4] hover:underline">Kolik to stojí (a kdy se to vyplatí)</a></li>
           <li><a href="#sklad" className="text-[#3B7CF4] hover:underline">Co dělá sklad v Malaze jiným</a></li>
           <li><a href="#pojisteni" className="text-[#3B7CF4] hover:underline">Pojištění, riziko, co když se něco pokazí</a></li>
@@ -79,19 +79,19 @@ export default function DopravaKolaMalaga() {
             <tbody className="text-[#1a1a2e]">
               <tr className="border-b border-[#F0F2FA]">
                 <td className="p-3 font-bold">Letecky s kolem</td>
-                <td className="p-3">2 500–4 500 Kč jednosměrně + box (10 000 Kč jednou)</td>
+                <td className="p-3">~100–180 € jednosměrně + box (~400 € jednou)</td>
                 <td className="p-3">2 h balení / rozbalení každou cestu</td>
                 <td className="p-3">Vyšší — handlers se nezajímají, vidlice / disk často poškozené</td>
               </tr>
               <tr className="border-b border-[#F0F2FA]">
                 <td className="p-3 font-bold">Půjčovna v Malaze</td>
-                <td className="p-3">200–400 €/týden (5 000–10 000 Kč)</td>
+                <td className="p-3">200–400 €/týden</td>
                 <td className="p-3">Žádné balení; ale ne tvoje geometrie</td>
                 <td className="p-3">Riziko spíš v komfortu — neumíš to kolo, fit nesedí</td>
               </tr>
               <tr className="bg-[#FFF1EA]">
                 <td className="p-3 font-bold">100dola transport + sklad</td>
-                <td className="p-3">Jednou dovoz cca 9 000 Kč + 1 500 Kč/měsíc sklad</td>
+                <td className="p-3">Jednou dovoz od 150 € + 69 €/měsíc sklad</td>
                 <td className="p-3">Nulový — kolo už tam je</td>
                 <td className="p-3">Nízké — víme co děláme, monitor, pojištěno</td>
               </tr>
@@ -115,7 +115,7 @@ export default function DopravaKolaMalaga() {
             {
               n: "1",
               title: "Domluvíme se",
-              body: "Poptáš dopravu přes náš online formulář nebo zavoláš (+420 739 045 057). Probereme termín, model kola, kde tě vyzvedneme, jaký balíček. Většinou do 24 h.",
+              body: "Poptáš dopravu přes náš online formulář nebo zavoláš (+420 739 045 057). Probereme termín, model kola, kde tě vyzvedneme, jestli one-way nebo round-trip. Většinou do 24 h.",
             },
             {
               n: "2",
@@ -125,7 +125,7 @@ export default function DopravaKolaMalaga() {
             {
               n: "3",
               title: "Příprava a transport",
-              body: "Připravíme kolo na cestu — v Basic balíčku ho prostě naložíme, v Exkluzivním rozebereme a zabalíme do našeho boxu. Fyzicky vezeme dodávkou (ne kurýr) přes Německo a Francii do Malagy. 5–8 dní podle bloku odjezdu.",
+              body: "Připravíme kolo na cestu — kolo naložíme, nebo ho po domluvě rozebereme a zabalíme do našeho transportního boxu. Fyzicky vezeme dodávkou (ne kurýr) přes Německo a Francii do Malagy. 5–8 dní podle bloku odjezdu.",
             },
             {
               n: "4",
@@ -145,7 +145,7 @@ export default function DopravaKolaMalaga() {
             {
               n: "7",
               title: "Po sezóně",
-              body: "Buď kolo zůstává až do další cesty (sklad běží 1 500 Kč/měsíc), nebo ho stejnou cestou vezeme zpátky.",
+              body: "Buď kolo zůstává až do další cesty (sklad běží od 69 €/měsíc), nebo ho stejnou cestou vezeme zpátky.",
             },
           ].map((step) => (
             <div key={step.n} className="flex gap-4">
@@ -162,7 +162,7 @@ export default function DopravaKolaMalaga() {
 
         {/* Section 3 — Packages */}
         <h2 id="balicky" className="text-2xl md:text-3xl font-black text-[#1a1a2e] mt-16 mb-4">
-          Basic vs Exkluzivní balíček
+          One-way vs round-trip: co je v ceně
         </h2>
         <p className="text-base text-[#5A6480] leading-relaxed mb-6">
           Rozdíl je primárně v míře práce, kterou děláme my, a v komfortu, který dostáváš.
@@ -171,34 +171,33 @@ export default function DopravaKolaMalaga() {
         <div className="grid md:grid-cols-2 gap-4 mb-10">
           <div className="bg-white border-2 border-[#E2E6F3] rounded-2xl p-6">
             <div className="text-xs font-bold uppercase tracking-wider text-[#9AA3C2] mb-2">
-              Basic
+              Doprava one-way
             </div>
             <div className="text-3xl font-black text-[#1a1a2e] mb-1">150 €</div>
-            <div className="text-xs text-[#9AA3C2] mb-4">jednosměrně</div>
+            <div className="text-xs text-[#9AA3C2] mb-4">jednosměrně, za kolo</div>
             <ul className="space-y-2 text-sm text-[#1a1a2e]">
-              <li>✓ Doprava do Malagy / zpět</li>
+              <li>✓ Doprava kola do Malagy (nebo zpět)</li>
               <li>✓ Sběr na 4 místech v ČR</li>
               <li>✓ Kolo přivezeš v rideable stavu (může mít nasazené pedály a sedlo)</li>
               <li>✓ Pojištění transportu na hodnotu kola</li>
-              <li className="text-[#9AA3C2]">— Balení do boxu, montáž si zajistíš sám</li>
+              <li>✓ Servisní kontrola i kompletní montáž v Malaze po domluvě</li>
             </ul>
           </div>
           <div className="bg-[#1a1a2e] text-white rounded-2xl p-6 relative">
             <div className="absolute -top-3 right-6 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#E8431A]">
-              Doporučujeme
+              Nejoblíbenější
             </div>
             <div className="text-xs font-bold uppercase tracking-wider text-white/60 mb-2">
-              Exkluzivní
+              Doprava round-trip
             </div>
-            <div className="text-3xl font-black mb-1">14 900 Kč</div>
-            <div className="text-xs text-white/60 mb-4">jednosměrně</div>
+            <div className="text-3xl font-black mb-1">250 €</div>
+            <div className="text-xs text-white/60 mb-4">tam i zpět, za kolo</div>
             <ul className="space-y-2 text-sm">
-              <li>✓ Vše z Basic</li>
-              <li>✓ <strong>Profesionální balení</strong> do našeho transportního boxu</li>
-              <li>✓ Vyzvednutí přímo z tvého domova (do 100 km od sběrných míst zdarma)</li>
-              <li>✓ <strong>Servisní kontrola</strong> před cestou (kolo zkontrolováno na opotřebení, brzdy, mazání)</li>
-              <li>✓ Rozbalení a kompletní montáž v Malaze, kolo na tebe čeká rideable</li>
-              <li>✓ Photo dokumentace stavu při příjezdu a odjezdu</li>
+              <li>✓ Vše z one-way</li>
+              <li>✓ <strong>Cesta tam i zpět</strong> v jedné objednávce</li>
+              <li>✓ <strong>Ušetříš 50 €</strong> oproti dvěma jednosměrkám</li>
+              <li>✓ Mezi cestami kolo hlídáme ve skladu (od 69 €/měsíc)</li>
+              <li>✓ Kolo na tebe čeká rideable, ať přiletíš kdykoliv</li>
             </ul>
           </div>
         </div>
@@ -217,21 +216,21 @@ export default function DopravaKolaMalaga() {
             <tbody>
               <tr className="border-b border-[#E2E6F3]">
                 <td className="py-2 text-[#5A6480]">Letecky s kolem (3× tam + 3× zpět)</td>
-                <td className="py-2 text-right font-bold">~24 000 Kč</td>
+                <td className="py-2 text-right font-bold">~900 €</td>
               </tr>
               <tr className="border-b border-[#E2E6F3]">
                 <td className="py-2 text-[#5A6480]">Půjčovna v Malaze (3× týden, ~300 €)</td>
-                <td className="py-2 text-right font-bold">~22 500 Kč</td>
+                <td className="py-2 text-right font-bold">~900 €</td>
               </tr>
               <tr>
-                <td className="py-2 font-bold text-[#1a1a2e]">100dola: Basic doprava obousměrně + 4 měsíce skladu</td>
-                <td className="py-2 text-right font-black text-[#E8431A]">~23 800 Kč</td>
+                <td className="py-2 font-bold text-[#1a1a2e]">100dola: round-trip doprava + 4 měsíce skladu</td>
+                <td className="py-2 text-right font-black text-[#E8431A]">~525 €</td>
               </tr>
             </tbody>
           </table>
           <p className="text-xs text-[#9AA3C2] mt-4">
-            Při 4 a více cestách se to vyplatí naprosto jednoznačně. Plus jezdíš na svém kole
-            — fit, geometrie, gel, sedlo, řídítka. Žádný kompromis.
+            Vychází nejlevněji už při třech cestách — a jezdíš na svém kole: fit, geometrie,
+            gel, sedlo, řídítka. Žádný kompromis. Při čtyřech a víc cestách je rozdíl ještě větší.
           </p>
         </div>
 
@@ -292,15 +291,15 @@ export default function DopravaKolaMalaga() {
             },
             {
               q: "Co s elektrokolem?",
-              a: "Vezeme. Akumulátor jede odděleně v lithium-safe boxu (omezení Euro pravidel pro silniční transport). Cena +1 500 Kč k Basic balíčku kvůli specifickému balení.",
+              a: "Vezeme. Akumulátor jede odděleně v lithium-safe boxu (omezení Euro pravidel pro silniční transport). Cena +100 € k one-way dopravě kvůli specifickému balení.",
             },
             {
               q: "Můžete vyzvednout kolo přímo doma?",
-              a: "Exkluzivní balíček ano — do 100 km od kteréhokoliv ze sběrných míst (Šternberk, Olomouc, Valašské Meziříčí, Praha) zdarma. Basic balíček chce sběr na místě.",
+              a: "Ano — do 100 km od kteréhokoliv ze sběrných míst (Šternberk, Olomouc, Valašské Meziříčí, Praha) obvykle zdarma, jinak po domluvě.",
             },
             {
               q: "Můžu během skladování poslat / vyměnit komponenty (sedlo, kazetu)?",
-              a: "Ano. Pošli nám díl poštou na sklad v Malaze, dáme to na kolo před tvým příletem. Standardně účtujeme jen práci servisu (300–600 Kč podle úkonu).",
+              a: "Ano. Pošli nám díl poštou na sklad v Malaze, dáme to na kolo před tvým příletem. Standardně účtujeme jen práci servisu (od 15 € podle úkonu).",
             },
             {
               q: "A když nezbudu jezdit a kolo bude v Malaze dlouho?",

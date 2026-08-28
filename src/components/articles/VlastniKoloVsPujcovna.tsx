@@ -52,19 +52,19 @@ export default function VlastniKoloVsPujcovna() {
         <h3 className="text-xl font-bold text-[#1a1a2e] mt-8 mb-3">Profil 1: „Jedu jednou za 2 roky"</h3>
         <p className="text-sm text-[#5A6480] mb-5">
           Týdenní výlet do Andalusie s partnerem, jezdíš jen v sezóně dovolených.
-          <strong> Půjčovna jasně.</strong> Náklad ~7 000 Kč za týden, žádná logistika.
+          <strong> Půjčovna jasně.</strong> Náklad ~300 € za týden, žádná logistika.
         </p>
 
         <h3 className="text-xl font-bold text-[#1a1a2e] mt-8 mb-3">Profil 2: „Jedu 2× zimou + 1× jaro"</h3>
         <p className="text-sm text-[#5A6480] mb-5">
           Cca 3 týdny ročně v Malaze, hobby cyklista 150–200 km/týden doma. Půjčovna stojí
-          ~22 500 Kč za 3 týdny. 100dola: 8 900 (doprava tam) + 4 měsíce skladu 6 000 + 8 900 zpět = 23 800 Kč. <strong>Téměř stejné, ale jezdíš na svém.</strong>
+          ~900 € za 3 týdny. 100dola: round-trip doprava 250 € + 4 měsíce skladu ~276 € = ~525 €. <strong>Levnější — a jezdíš na svém.</strong>
           Mínus komfort, plus radost.
         </p>
 
         <h3 className="text-xl font-bold text-[#1a1a2e] mt-8 mb-3">Profil 3: „4+ cesty + race víkendy"</h3>
         <p className="text-sm text-[#5A6480] mb-5">
-          Závodník nebo serious hobbyista — 5–7 týdnů v Malaze. Půjčovna ~50 000 Kč. 100dola: ~32 000 Kč (jeden tam, sklad 7 měsíců, jeden zpět). <strong>Úspora 18 000 Kč + vlastní race kolo.</strong>
+          Závodník nebo serious hobbyista — 5–7 týdnů v Malaze. Půjčovna ~2 000 €. 100dola: round-trip 250 € + sklad na celou sezónu ~449 € = ~700 €. <strong>Úspora ~1 300 € + vlastní race kolo.</strong>
         </p>
 
         <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mt-12 mb-4">
