@@ -11,7 +11,9 @@ export type SupplierProductRow = {
   name: string;
   sku: string | null;
   ean: string | null;
-  description_html: string | null;
+  description_html?: string | null;
+  /** Generated column: left(strip_html(description_html), 200) — pro `note`. */
+  short_note?: string | null;
   price_czk_retail: number | null;
   main_image_url: string | null;
   image_urls: string[] | null;
@@ -139,7 +141,7 @@ export function supplierToProduct({ row, brandSlug }: SupplierToProductInput): P
     vatRate: 21,
     bulky,
     badges,
-    note: stripHtml(row.description_html ?? "").slice(0, 200),
+    note: (row.short_note ?? "").trim(),
     photo,
     specs,
     // CEP máme skladem u nás → „own" (ne „objednáváme od dodavatele").
@@ -432,13 +434,4 @@ export function wrapSupplierImage(url: string): string {
     // ignore
   }
   return url;
-}
-
-function stripHtml(html: string): string {
-  return html
-    .replace(/<style[\s\S]*?<\/style>/gi, "")
-    .replace(/<script[\s\S]*?<\/script>/gi, "")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
 }
