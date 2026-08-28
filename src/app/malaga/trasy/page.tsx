@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { MALAGA_BRAND } from "@/data/malaga";
 import { MALAGA_ROUTES_V2 } from "@/data/malaga/routes";
-import { TIER_LABEL, TIER_COLOR, FLAG_META } from "@/data/malaga/routes/types";
+import TrasyFilter from "@/components/malaga/TrasyFilter";
 import MalagaLeadForm from "@/components/malaga/MalagaLeadForm";
 
 const accent = MALAGA_BRAND.color;
@@ -75,55 +75,7 @@ export default function TrasyPage() {
         {/* Routes grid */}
         <section className="py-12 md:py-16 bg-[#FAFAFC]">
           <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {MALAGA_ROUTES_V2.map((r) => {
-                const flags = FLAG_META.filter((f) => r.flags[f.key]);
-                return (
-                  <Link
-                    key={r.slug}
-                    href={`/malaga/trasy/${r.slug}`}
-                    className="group rounded-3xl p-7 md:p-8 bg-white border border-[#E2E6F3] hover:border-[#E8431A] transition-colors flex flex-col"
-                  >
-                    <div className="flex items-center gap-2 flex-wrap mb-4">
-                      <span
-                        className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full text-white"
-                        style={{ backgroundColor: TIER_COLOR[r.tier] }}
-                      >
-                        {TIER_LABEL[r.tier]} · DS {r.difficulty_score}
-                      </span>
-                      <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#F0F2FA] text-[#5A6480]">
-                        {r.distance_km} km
-                      </span>
-                      <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#F0F2FA] text-[#5A6480]">
-                        ↗ {r.ascent_m} m
-                      </span>
-                      {flags.map((f) => (
-                        <span key={f.key} title={f.label} className="text-[11px] px-1.5 py-1 rounded-full bg-[#FFF1EA]">
-                          {f.emoji}
-                        </span>
-                      ))}
-                    </div>
-
-                    <h2 className="text-xl md:text-2xl font-black text-[#1a1a2e] leading-tight mb-3 group-hover:text-[#E8431A] transition-colors">
-                      {r.name_cs}
-                    </h2>
-                    <p className="text-sm text-[#5A6480] leading-relaxed mb-5 line-clamp-4">{r.story_cs}</p>
-
-                    <div className="mt-auto space-y-3">
-                      {r.cafes[0] && (
-                        <div className="text-xs text-[#5A6480] pt-3 border-t border-[#F0F2FA]">
-                          ☕ <span className="font-semibold text-[#1a1a2e]">Zastávka:</span> {r.cafes[0].name} ({r.cafes[0].town})
-                        </div>
-                      )}
-                      <div className="text-xs text-[#9AA3C2] italic">Komu sedne: {r.who_it_suits_cs}</div>
-                      <div className="text-sm font-bold" style={{ color: accent }}>
-                        Detail trasy, mapa a GPX →
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
+            <TrasyFilter routes={MALAGA_ROUTES_V2} />
 
             {/* Honest note */}
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
