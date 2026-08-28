@@ -139,9 +139,9 @@ export default function TrasyPage() {
                 style={{ backgroundColor: MALAGA_BRAND.colorTint, color: "#1a1a2e" }}
               >
                 <span className="font-bold">🚐 Nejsi na to sám.</span>{" "}
-                Máme v Malaze vlastního mechanika, poradíme kam podle formy, kde je kafe —
-                a když se něco na trase pokazí, zavoláš a my tě vyzvedneme. Ptej se na
-                uskladnění + trasy v poptávce níž.
+                Máme v Malaze vlastní zázemí i mechanika, poradíme kam podle formy, kde je
+                kafe — a když se něco na trase pokazí, zavoláš a my tě vyzvedneme. Ptej se
+                na uskladnění + trasy v poptávce níž.
               </div>
             </div>
           </div>
