@@ -505,6 +505,50 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
             </div>
           </div>
 
+          {/* ── MALAGA SORTIMENT (cross-sell na Malaga eventech) ── */}
+          {event.sport === "Malaga" && (
+            <section className="mt-16 pt-12 border-t border-[#E2E6F3]">
+              <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#E8431A] mb-2">
+                Celý 100dola Malaga
+              </div>
+              <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-3">
+                Jeď v Malaze na svém kole
+              </h2>
+              <p className="text-[#5A6480] leading-relaxed mb-6 max-w-2xl">
+                Kolo ti dovezeme z Česka a uskladníme přes celou sezónu — ty přiletíš s příručákem a
+                jedeš na svém. Doprava i uskladnění jsou pojištěné (v ceně). Tady je všechno, co
+                k Malaze nabízíme:
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[
+                  { href: "/malaga", t: "Jak to funguje", d: "Dovezeme, uskladníme, ty létáš light. Celý model za minutu." },
+                  { href: "/malaga/preprava", t: "Přeprava kola", d: "One-way od 150 €, round-trip od 250 €. Pojištěná, po blocích." },
+                  { href: "/malaga/uskladneni", t: "Uskladnění", d: "Monitorovaný sklad od 69 €/měsíc. Kolo čeká připravené." },
+                  { href: "/malaga/trasy", t: "Trasy a okruhy", d: "12 tras s mapou, profilem a GPX. Od rozjezdu po královské etapy." },
+                  { href: "/malaga/trasy/voda", t: "Počasí a voda", d: "5denní předpověď + mapa všech pramenů a doplnění na trasách." },
+                  { href: "/malaga/balicky", t: "Balíčky a ceny", d: "Basic i Exkluzivní full-service. Vyber si úroveň komfortu." },
+                ].map((c) => (
+                  <Link
+                    key={c.href}
+                    href={c.href}
+                    className="block rounded-2xl border border-[#E2E6F3] bg-white p-5 hover:border-[#E8431A] transition-colors"
+                  >
+                    <div className="font-black text-[#1a1a2e]">{c.t} →</div>
+                    <div className="text-sm text-[#5A6480] mt-1 leading-snug">{c.d}</div>
+                  </Link>
+                ))}
+              </div>
+              <div className="mt-6">
+                <Link
+                  href="/malaga#poptavka"
+                  className="inline-block bg-[#E8431A] hover:bg-[#F05A2E] text-white font-bold text-sm px-6 py-3 rounded-xl transition"
+                >
+                  Nezávazně poptat Malagu →
+                </Link>
+              </div>
+            </section>
+          )}
+
           {/* ── RELATED EVENTS ───────────────────────── */}
           {related.length > 0 && (
             <section className="mt-20 pt-12 border-t border-[#E2E6F3]">
