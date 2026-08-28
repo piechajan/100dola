@@ -79,7 +79,7 @@ export default function DopravaKolaMalaga() {
             <tbody className="text-[#1a1a2e]">
               <tr className="border-b border-[#F0F2FA]">
                 <td className="p-3 font-bold">Letecky s kolem</td>
-                <td className="p-3">~100–180 € jednosměrně + box (~400 € jednou)</td>
+                <td className="p-3">poplatek za kolo ~50–75 € jednosměrně + box (~300 € jednou)</td>
                 <td className="p-3">2 h balení / rozbalení každou cestu</td>
                 <td className="p-3">Vyšší — handlers se nezajímají, vidlice / disk často poškozené</td>
               </tr>
@@ -202,6 +202,20 @@ export default function DopravaKolaMalaga() {
           </div>
         </div>
 
+        {/* Exkluzivní full-service (nadstandard) */}
+        <div className="bg-[#FFF1EA] border border-[#FBC9A8] rounded-2xl p-6 mb-10">
+          <div className="text-xs font-bold uppercase tracking-wider text-[#E8431A] mb-2">
+            Exkluzivní full-service (nadstandard)
+          </div>
+          <p className="text-sm text-[#1a1a2e] leading-relaxed mb-2">
+            Chceš to úplně bez starostí? K dopravě přidáme kompletní servis: <strong>vyzvednutí přímo
+            z domova</strong>, profesionální zabalení do našeho boxu, <strong>servisní kontrolu</strong>
+            {" "}před cestou, v Malaze rozbalení a <strong>kompletní montáž</strong> (kolo na tebe čeká
+            rideable) a foto dokumentaci stavu při příjezdu i odjezdu.
+          </p>
+          <p className="text-sm text-[#5A6480]">Cenu potvrdíme podle rozsahu — napiš nám do poptávky.</p>
+        </div>
+
         {/* Section 4 — Cost */}
         <h2 id="cena" className="text-2xl md:text-3xl font-black text-[#1a1a2e] mt-16 mb-4">
           Kolik to stojí (a kdy se to vyplatí)
@@ -215,22 +229,23 @@ export default function DopravaKolaMalaga() {
           <table className="w-full text-sm">
             <tbody>
               <tr className="border-b border-[#E2E6F3]">
-                <td className="py-2 text-[#5A6480]">Letecky s kolem (3× tam + 3× zpět)</td>
-                <td className="py-2 text-right font-bold">~900 €</td>
+                <td className="py-2 text-[#5A6480]">Vozit kolo letecky s sebou (6× poplatek za kolo + box)</td>
+                <td className="py-2 text-right font-bold">~400 € + box ~300 € poprvé</td>
               </tr>
               <tr className="border-b border-[#E2E6F3]">
                 <td className="py-2 text-[#5A6480]">Půjčovna v Malaze (3× týden, ~300 €)</td>
                 <td className="py-2 text-right font-bold">~900 €</td>
               </tr>
               <tr>
-                <td className="py-2 font-bold text-[#1a1a2e]">100dola: round-trip doprava + 4 měsíce skladu</td>
+                <td className="py-2 font-bold text-[#1a1a2e]">100dola: round-trip doprava (250 €) + 4 měsíce skladu</td>
                 <td className="py-2 text-right font-black text-[#E8431A]">~525 €</td>
               </tr>
             </tbody>
           </table>
           <p className="text-xs text-[#9AA3C2] mt-4">
-            Vychází nejlevněji už při třech cestách — a jezdíš na svém kole: fit, geometrie,
-            gel, sedlo, řídítka. Žádný kompromis. Při čtyřech a víc cestách je rozdíl ještě větší.
+            Levnější než půjčovna a srovnatelné s vožením kola letecky — jenže <strong>u nás
+            létáš pokaždé light</strong> (žádné balení, žádný box, žádné riziko poškození) a máš
+            vždy své kolo připravené. Čím víc cest, tím víc to hraje pro nás.
           </p>
         </div>
 

@@ -256,21 +256,22 @@ export default function PrepravaPage() {
       {/* Pojištění cross-link */}
       <section className="py-8 bg-white">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
-          <Link
-            href="/pojisteni?zajem=cestovni"
-            className="block rounded-2xl border border-[#FBC9A8] bg-[#FFF1EA] p-6 md:p-7 hover:border-[#E8431A] transition"
-          >
-            <div className="text-xs font-bold uppercase tracking-wider text-[#E8431A] mb-1">
-              Pojištění na cestu
+          <div className="rounded-2xl border border-[#A7F3D0] bg-[#F0FDF4] p-6 md:p-7">
+            <div className="text-xs font-bold uppercase tracking-wider text-[#2EAA6E] mb-1">
+              Pojištění v ceně
             </div>
             <div className="text-lg font-black text-[#1a1a2e]">
-              Cestovní pojištění i pojištění kola — zajistíme →
+              ✓ Přeprava kola je pojištěná
             </div>
             <p className="text-sm text-[#5A6480] mt-1 leading-snug">
-              Přeprava kola je pojištěná. Tvoje léčebné výlohy na cestě a samotné kolo proti krádeži
-              a poškození řešíme zvlášť — přes našeho pojišťovacího partnera.
+              Kolo veze pojištěné na svou hodnotu — je to v ceně, <strong>nemusíš nic
+              připojišťovat.</strong> A kdybys chtěl navíc cestovní pojištění pro sebe (léčebné
+              výlohy, úraz) nebo kolo pojistit i mimo naši dopravu, rádi{" "}
+              <Link href="/pojisteni?zajem=cestovni" className="font-bold text-[#E8431A] hover:underline">
+                zajistíme navíc →
+              </Link>
             </p>
-          </Link>
+          </div>
         </div>
       </section>
 

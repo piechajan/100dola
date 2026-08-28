@@ -172,21 +172,22 @@ export default function UskladneniPage() {
       {/* Pojištění cross-link */}
       <section className="py-8 bg-white">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
-          <Link
-            href="/pojisteni?zajem=kolo"
-            className="block rounded-2xl border border-[#FBC9A8] bg-[#FFF1EA] p-6 md:p-7 hover:border-[#E8431A] transition"
-          >
-            <div className="text-xs font-bold uppercase tracking-wider text-[#E8431A] mb-1">
-              Klid navíc
+          <div className="rounded-2xl border border-[#A7F3D0] bg-[#F0FDF4] p-6 md:p-7">
+            <div className="text-xs font-bold uppercase tracking-wider text-[#2EAA6E] mb-1">
+              Pojištění v ceně
             </div>
             <div className="text-lg font-black text-[#1a1a2e]">
-              Pojisti kolo proti krádeži a poškození — zajistíme →
+              ✓ Uskladněné kolo je u nás pojištěné
             </div>
             <p className="text-sm text-[#5A6480] mt-1 leading-snug">
-              U dražších kol dává pojištění smysl i po dobu, kdy je uskladněné v Malaze. Poradíme a
-              zajistíme přes našeho pojišťovacího partnera.
+              Po celou dobu uskladnění máš kolo pojištěné — je to v ceně, <strong>nemusíš nic
+              připojišťovat.</strong> A kdybys chtěl kolo pojistit i mimo náš sklad (doma, na
+              trénincích) nebo cestovní pojištění na cestu, rádi{" "}
+              <Link href="/pojisteni?zajem=kolo" className="font-bold text-[#E8431A] hover:underline">
+                zajistíme navíc →
+              </Link>
             </p>
-          </Link>
+          </div>
         </div>
       </section>
 
