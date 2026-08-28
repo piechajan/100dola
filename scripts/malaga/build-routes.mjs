@@ -44,6 +44,46 @@ const ROUTES = [
     profile: "trekking",
     wpts: [BASE, { lon: -4.1, lat: 36.78 }, { lon: -4.14, lat: 36.97 }, { lon: -4.1, lat: 36.78 }, { lon: -4.2769, lat: 36.7178 }, BASE],
   },
+  {
+    slug: "bacalao-benamocarra",
+    profile: "trekking",
+    wpts: [BASE, { lon: -4.3, lat: 36.72 }, { lon: -4.15, lat: 36.79 }, { lon: -4.16, lat: 36.8 }, { lon: -4.19, lat: 36.72 }, BASE],
+  },
+  {
+    slug: "puerto-del-sol-alfarnate",
+    profile: "trekking",
+    wpts: [BASE, { lon: -4.1, lat: 36.78 }, { lon: -4.05, lat: 36.85 }, { lon: -4.16, lat: 36.99 }, { lon: -4.3466, lat: 36.8006 }, BASE],
+  },
+  {
+    slug: "vertikalni-vinice-cutar",
+    profile: "trekking",
+    wpts: [BASE, { lon: -4.3576, lat: 36.7205 }, { lon: -4.24, lat: 36.85 }, { lon: -4.28, lat: 36.83 }, { lon: -4.21, lat: 36.81 }, BASE],
+  },
+  {
+    slug: "el-torcal-antequera",
+    profile: "trekking",
+    wpts: [BASE, { lon: -4.517, lat: 36.918 }, { lon: -4.545, lat: 36.955 }, { lon: -4.56, lat: 37.019 }, BASE],
+  },
+  {
+    slug: "bile-vesnice-frigiliana",
+    profile: "trekking",
+    wpts: [BASE, { lon: -4.1, lat: 36.78 }, { lon: -3.876, lat: 36.745 }, { lon: -3.895, lat: 36.792 }, { lon: -3.972, lat: 36.833 }, { lon: -3.955, lat: 36.76 }, BASE],
+  },
+  {
+    slug: "ronda-vuelta-2014",
+    profile: "trekking",
+    wpts: [BASE, { lon: -4.633, lat: 36.713 }, { lon: -5.165, lat: 36.742 }, { lon: -5.18, lat: 36.86 }, { lon: -4.945, lat: 36.79 }, BASE],
+  },
+  {
+    slug: "marbella-ronda-ojen",
+    profile: "trekking",
+    wpts: [BASE, { lon: -4.633, lat: 36.713 }, { lon: -4.885, lat: 36.51 }, { lon: -4.858, lat: 36.567 }, { lon: -4.826, lat: 36.632 }, BASE],
+  },
+  {
+    slug: "torre-del-mar-canillas",
+    profile: "trekking",
+    wpts: [BASE, { lon: -4.1, lat: 36.78 }, { lon: -4.08, lat: 36.8 }, { lon: -4.06, lat: 36.9 }, { lon: -4.1, lat: 36.78 }, BASE],
+  },
 ];
 
 function haversineM(a, b) {
@@ -67,17 +107,26 @@ function parseTrkpts(xml) {
 }
 
 function stats(pts) {
+  // Vyhlazení výšek (moving average, okno 9 bodů) — bez něj se drobné vlnky
+  // sčítají a nafouknou stoupání. Ascent + sklon počítáme z vyhlazené řady.
+  const W = 4;
+  const ele = pts.map((_, i) => {
+    let sum = 0, n = 0;
+    for (let k = Math.max(0, i - W); k <= Math.min(pts.length - 1, i + W); k++) {
+      sum += pts[k].ele; n++;
+    }
+    return sum / n;
+  });
   let distM = 0, ascent = 0, maxAlt = -Infinity;
-  // vyhlazený sklon: rolling okno ~250 m (SRTM šum jinak nafoukne max grad)
-  const WIN = 250;
+  const WIN = 250; // rolling okno pro max sklon
   let maxGrad = 0;
   let wd = 0, wr = 0;
   for (let i = 1; i < pts.length; i++) {
     const d = haversineM(pts[i - 1], pts[i]);
     distM += d;
-    const de = pts[i].ele - pts[i - 1].ele;
-    if (de > 0) ascent += de;
-    maxAlt = Math.max(maxAlt, pts[i].ele);
+    const de = ele[i] - ele[i - 1];
+    if (de > 0.5) ascent += de; // práh proti mikro-šumu
+    maxAlt = Math.max(maxAlt, ele[i]);
     wd += d; wr += de;
     if (wd >= WIN) {
       const g = (wr / wd) * 100;
@@ -110,15 +159,49 @@ async function brouter(wpts, profile) {
   return res.text();
 }
 
+// Re-elevace: BRouter dává geometrii (silnice), ale výšky ze SRTM jsou šumné.
+// Přepíšeme je přesnějšími z mapy.com elevation API (batch po 90 bodech).
+const MAPY_KEY = process.env.NEXT_PUBLIC_MAPY_API_KEY;
+async function reElevate(pts) {
+  if (!MAPY_KEY) return pts;
+  const CHUNK = 90;
+  for (let i = 0; i < pts.length; i += CHUNK) {
+    const slice = pts.slice(i, i + CHUNK);
+    const params = slice.map((p) => `positions=${p.lon},${p.lat}`).join("&");
+    const res = await fetch(`https://api.mapy.cz/v1/elevation?apikey=${MAPY_KEY}&${params}`, {
+      headers: { "User-Agent": UA },
+    });
+    if (!res.ok) throw new Error(`mapy elevation ${res.status}`);
+    const data = await res.json();
+    (data.items ?? []).forEach((it, j) => {
+      if (typeof it.elevation === "number") slice[j].ele = it.elevation;
+    });
+  }
+  return pts;
+}
+
+// Přepíše <ele> v GPX čistými výškami (podle pořadí trkpt).
+function rewriteGpxEle(xml, pts) {
+  let idx = 0;
+  return xml.replace(/(<trkpt[^>]*>\s*<ele>)[-\d.]+(<\/ele>)/g, (m, a, b) => {
+    const e = pts[idx] ? pts[idx].ele : 0;
+    idx++;
+    return `${a}${e.toFixed(1)}${b}`;
+  });
+}
+
 mkdirSync(GPX_DIR, { recursive: true });
 mkdirSync("reports", { recursive: true });
 const out = {};
 for (const r of ROUTES) {
   try {
-    const gpx = await brouter(r.wpts, r.profile);
+    const gpxRaw = await brouter(r.wpts, r.profile);
+    let pts = parseTrkpts(gpxRaw);
+    pts = await reElevate(pts); // čistší výšky z mapy.com
+    const gpx = rewriteGpxEle(gpxRaw, pts);
     const path = `${GPX_DIR}/${r.slug}.gpx`;
     writeFileSync(path, gpx);
-    const s = stats(parseTrkpts(gpx));
+    const s = stats(pts);
     out[r.slug] = s;
     console.log(`✓ ${r.slug}: ${s.distance_km} km / +${s.ascent_m} m / DS ${s.difficulty_score} (T${s.tier})`);
   } catch (e) {
