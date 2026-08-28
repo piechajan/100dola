@@ -20,6 +20,9 @@ const COLORS = {
   espresso:   "#E8431A",
 };
 
+// accentColor přijímáme kvůli API kompatibilitě (RouteMapClient ho předává),
+// ale RouteMap má pevné barvy variant (cappuccino/espresso).
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function RouteMap({ accentColor }: { accentColor?: string }) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<unknown>(null);
@@ -50,11 +53,32 @@ export default function RouteMap({ accentColor }: { accentColor?: string }) {
       const map = L.map(mapRef.current!, { zoomControl: true, scrollWheelZoom: false });
       mapInstanceRef.current = map;
 
-      // Tiles — OpenStreetMap Cycle Map
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "© OpenStreetMap contributors",
-        maxZoom: 17,
-      }).addTo(map);
+      // Podklad: mapy.cz „outdoor" (klíč) nebo fallback OSM.
+      const mapyKey = process.env.NEXT_PUBLIC_MAPY_API_KEY;
+      if (mapyKey) {
+        L.tileLayer(`https://api.mapy.cz/v1/maptiles/outdoor/256/{z}/{x}/{y}?apikey=${mapyKey}`, {
+          minZoom: 0,
+          maxZoom: 19,
+          attribution: '<a href="https://api.mapy.cz/copyright" target="_blank" rel="noopener">&copy; Seznam.cz a.s. a další</a>',
+        }).addTo(map);
+        const LogoControl = L.Control.extend({
+          options: { position: "bottomleft" as const },
+          onAdd() {
+            const a = L.DomUtil.create("a", "");
+            a.setAttribute("href", "https://mapy.cz/");
+            a.setAttribute("target", "_blank");
+            a.setAttribute("rel", "noopener");
+            a.style.cssText = "display:block;width:62px;height:16px;margin:4px;background:url(https://api.mapy.cz/img/api/logo.svg) no-repeat;background-size:contain";
+            return a;
+          },
+        });
+        new LogoControl().addTo(map);
+      } else {
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: "© OpenStreetMap contributors",
+          maxZoom: 17,
+        }).addTo(map);
+      }
 
       const all = [
         ...routes.cappuccino.coords,
