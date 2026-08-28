@@ -146,8 +146,13 @@ async function fetchSupplierProducts(): Promise<Product[]> {
 
     const { data: rows, error: pErr } = await sb
       .from("supplier_products")
+      // POZOR (2026-08-28 build incident): description_html (816 KB napříč 869
+      // produkty) tahalo cachovaný payload přes 2 MB → Next.js Data Cache ho
+      // odmítl uložit → každá shop stránka re-fetch → Supabase statement timeout
+      // → build spadl. description_html se v read-path NEPOUŽÍVÁ (jen write při
+      // importu), takže ho ze SELECTu vyndáváme. Payload ~1,2 MB, dotaz rychlejší.
       .select(
-        "id, brand_id, name, sku, ean, description_html, price_czk_retail, main_image_url, image_urls, properties, raw_category_path, has_configurator, is_public_override, public_slug, public_category_id, public_badges, variants, is_active, configurator_schema, local_image_url, local_image_urls",
+        "id, brand_id, name, sku, ean, price_czk_retail, main_image_url, image_urls, properties, raw_category_path, has_configurator, is_public_override, public_slug, public_category_id, public_badges, variants, is_active, configurator_schema, local_image_url, local_image_urls",
       )
       .in("brand_id", brandIds)
       .eq("is_active", true);
