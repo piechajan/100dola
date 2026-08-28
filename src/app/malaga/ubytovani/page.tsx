@@ -34,10 +34,11 @@ export default function UbytovaniPage() {
             Kde bydlet, když jedeš na kole
           </h1>
           <p className="text-[#5A6480] leading-relaxed mb-4 max-w-[720px]">
-            Ne seznam hotelů — <strong>rozhodnutí</strong>. Lokality hodnotíme podle toho, co cyklistu
-            skutečně pálí: jak rychle jsi z postele na dobré silnici, jakou máš rozmanitost tras od
-            dveří bez auta a jak daleko je transfer z letiště (AGP). Naše zázemí je ve východní Málaze
-            — odtud jsou trasy „od dveří".
+            <strong>Ubytování řešíme my</strong> — vybereme a zajistíme podle toho, jak jezdíš,
+            nemusíš nic hledat sám. Tady je, jak o lokalitách přemýšlíme: co cyklistu skutečně pálí —
+            jak rychle jsi z postele na dobré silnici, jakou máš rozmanitost tras od dveří bez auta a
+            jak daleko je transfer z letiště (AGP). Naše zázemí je ve východní Málaze — odtud jsou
+            trasy „od dveří".
           </p>
           <p className="text-xs text-[#9AA3C2] mb-8">
             Ceny za pokoj neuvádíme (ubytovatelé je nepublikují) — jen cenovou hladinu €–€€€€.
@@ -104,13 +105,14 @@ export default function UbytovaniPage() {
 
           {/* CTA */}
           <div className="rounded-2xl bg-[#1a0e08] p-6 md:p-8 text-white">
-            <h2 className="text-xl font-black mb-2">Nevíš, kde se usadit?</h2>
+            <h2 className="text-xl font-black mb-2">Ubytování ti zajistíme</h2>
             <p className="text-sm text-white/70 leading-relaxed mb-4">
-              Napiš nám, jak jezdíš a co hledáš (klid, město, hory, poměr cena/výkon) — poradíme
-              lokalitu i konkrétní ubytování podle toho, jaké trasy chceš jezdit z naší základny.
+              Napiš nám, jak jezdíš a co hledáš (klid, město, hory, poměr cena/výkon) — vybereme a
+              zajistíme lokalitu i konkrétní ubytování podle toho, jaké trasy chceš jezdit z naší
+              základny. Nemusíš nic hledat sám.
             </p>
             <Link href="/malaga#poptavka" className="inline-block bg-[#E8431A] hover:bg-[#F05A2E] text-white font-bold text-sm px-5 py-2.5 rounded-xl transition">
-              Zeptat se na ubytování →
+              Poptat ubytování →
             </Link>
           </div>
 

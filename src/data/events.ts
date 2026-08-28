@@ -565,7 +565,7 @@ Na trase plánujeme oběd v horské boudě a kávovou zastávku na Pustevnách.`
 
 Říjen a listopad jsou v Malaze ideální měsíce — teploty 22–26 °C, prázdné silnice, žádné turistické davy. Kopce nad Malaga nabízí výzvu pro zkušené jezdce, pobřežní silnice jsou perfektní pro pohodovější dny.
 
-V ceně je zázemí, technická podpora a organizace tras. Ubytování si zajišťuje každý sám — pomůžeme s doporučeními.`,
+V ceně je zázemí, technická podpora a organizace tras. Ubytování řešíme my — zajistíme a přizpůsobíme podle skupiny (nemusíš nic hledat sám).`,
     whatToBring: [
       "Kolo (nebo využij [přepravu 100dola Malaga](/malaga/preprava))",
       "Cyklistické oblečení na teplo (20–26 °C)",
