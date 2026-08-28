@@ -3,7 +3,8 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { MALAGA_BRAND } from "@/data/malaga";
-import { MALAGA_ROUTES, SURFACE_LABEL, SURFACE_EMOJI } from "@/data/malagaRoutes";
+import { MALAGA_ROUTES_V2 } from "@/data/malaga/routes";
+import { TIER_LABEL, TIER_COLOR, FLAG_META } from "@/data/malaga/routes/types";
 import MalagaLeadForm from "@/components/malaga/MalagaLeadForm";
 
 const accent = MALAGA_BRAND.color;
@@ -28,11 +29,11 @@ const itemListJsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Cyklo trasy kolem Malagy",
-  itemListElement: MALAGA_ROUTES.map((r, i) => ({
+  itemListElement: MALAGA_ROUTES_V2.map((r, i) => ({
     "@type": "ListItem",
     position: i + 1,
-    name: r.name,
-    description: r.tagline,
+    name: r.name_cs,
+    url: `https://www.100dola.com/malaga/trasy/${r.slug}`,
   })),
 };
 
@@ -75,55 +76,53 @@ export default function TrasyPage() {
         <section className="py-12 md:py-16 bg-[#FAFAFC]">
           <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {MALAGA_ROUTES.map((r) => (
-                <div
-                  key={r.slug}
-                  className="rounded-3xl p-7 md:p-8 bg-white border border-[#E2E6F3] flex flex-col"
-                >
-                  <div className="flex items-center gap-2 flex-wrap mb-4">
-                    <span
-                      className="text-[11px] font-bold px-2.5 py-1 rounded-full"
-                      style={{ backgroundColor: `${accent}14`, color: accent }}
-                    >
-                      {SURFACE_EMOJI[r.surface]} {SURFACE_LABEL[r.surface]}
-                    </span>
-                    <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#F0F2FA] text-[#5A6480]">
-                      {r.level}
-                    </span>
-                    <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#F0F2FA] text-[#5A6480]">
-                      {r.distanceKm}
-                    </span>
-                    <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#F0F2FA] text-[#5A6480]">
-                      ↗ {r.climbM}
-                    </span>
-                  </div>
-
-                  <h2 className="text-xl md:text-2xl font-black text-[#1a1a2e] leading-tight mb-1">
-                    {r.name}
-                  </h2>
-                  <p className="text-sm font-semibold mb-3" style={{ color: accent }}>
-                    {r.tagline}
-                  </p>
-                  <p className="text-sm text-[#5A6480] leading-relaxed mb-5">{r.description}</p>
-
-                  <div className="mt-auto space-y-3">
-                    <div className="flex flex-wrap gap-2">
-                      {r.highlights.map((h) => (
-                        <span
-                          key={h}
-                          className="text-[11px] text-[#1a1a2e] bg-[#FAFAFC] border border-[#E2E6F3] px-2.5 py-1 rounded-full"
-                        >
-                          {h}
+              {MALAGA_ROUTES_V2.map((r) => {
+                const flags = FLAG_META.filter((f) => r.flags[f.key]);
+                return (
+                  <Link
+                    key={r.slug}
+                    href={`/malaga/trasy/${r.slug}`}
+                    className="group rounded-3xl p-7 md:p-8 bg-white border border-[#E2E6F3] hover:border-[#E8431A] transition-colors flex flex-col"
+                  >
+                    <div className="flex items-center gap-2 flex-wrap mb-4">
+                      <span
+                        className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full text-white"
+                        style={{ backgroundColor: TIER_COLOR[r.tier] }}
+                      >
+                        {TIER_LABEL[r.tier]} · DS {r.difficulty_score}
+                      </span>
+                      <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#F0F2FA] text-[#5A6480]">
+                        {r.distance_km} km
+                      </span>
+                      <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#F0F2FA] text-[#5A6480]">
+                        ↗ {r.ascent_m} m
+                      </span>
+                      {flags.map((f) => (
+                        <span key={f.key} title={f.label} className="text-[11px] px-1.5 py-1 rounded-full bg-[#FFF1EA]">
+                          {f.emoji}
                         </span>
                       ))}
                     </div>
-                    <div className="text-xs text-[#5A6480] pt-3 border-t border-[#F0F2FA]">
-                      <span className="mr-3">☕ <span className="font-semibold text-[#1a1a2e]">Zastávka:</span> {r.stop}</span>
+
+                    <h2 className="text-xl md:text-2xl font-black text-[#1a1a2e] leading-tight mb-3 group-hover:text-[#E8431A] transition-colors">
+                      {r.name_cs}
+                    </h2>
+                    <p className="text-sm text-[#5A6480] leading-relaxed mb-5 line-clamp-4">{r.story_cs}</p>
+
+                    <div className="mt-auto space-y-3">
+                      {r.cafes[0] && (
+                        <div className="text-xs text-[#5A6480] pt-3 border-t border-[#F0F2FA]">
+                          ☕ <span className="font-semibold text-[#1a1a2e]">Zastávka:</span> {r.cafes[0].name} ({r.cafes[0].town})
+                        </div>
+                      )}
+                      <div className="text-xs text-[#9AA3C2] italic">Komu sedne: {r.who_it_suits_cs}</div>
+                      <div className="text-sm font-bold" style={{ color: accent }}>
+                        Detail trasy, mapa a GPX →
+                      </div>
                     </div>
-                    <div className="text-xs text-[#9AA3C2] italic">Komu sedne: {r.bestFor}</div>
-                  </div>
-                </div>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
 
             {/* Honest note */}
