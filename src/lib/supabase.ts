@@ -48,6 +48,38 @@ export interface RegistrationRow {
   updated_at: string;
 }
 
+export type EventStayType = "pension" | "car" | "van" | "car_tent";
+
+export interface EventSignupRow {
+  id: string;
+  event_slug: string;
+  lead_name: string;
+  lead_email: string;
+  lead_phone: string;
+  party_size: number;
+  stay_type: EventStayType;
+  nights_from: string | null;
+  nights_to: string | null;
+  room_choice: string | null;
+  note: string | null;
+  gdpr_consent: boolean;
+  status: "new" | "contacted" | "confirmed" | "cancelled";
+  reminder_sent_at: string | null;
+  registered_at: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface EventSignupMemberRow {
+  id: string;
+  signup_id: string;
+  name: string;
+  email: string | null;
+  phone: string | null;
+  position: number;
+  created_at: string;
+}
+
 export interface MalagaLeadRow {
   id: string;
   name: string;
