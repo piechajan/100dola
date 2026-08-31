@@ -16,21 +16,26 @@ create extension if not exists "pgcrypto";
 create table if not exists public.event_signups (
   id               uuid primary key default gen_random_uuid(),
   event_slug       text not null,
+  -- Druh přihlášky: 'group' = komunitní akce (Rychleby), 'malaga' = prodejní Malaga přihláška.
+  signup_kind      text not null default 'group' check (signup_kind in ('group','malaga')),
   lead_name        text not null,
   lead_email       text not null,
   lead_phone       text not null,
   party_size       int  not null default 1,
-  -- Pobyt pro celou skupinu — právě jedna volba:
+  -- Pobyt pro celou skupinu (jen group) — právě jedna volba:
   --   pension   = ubytování v Pension Radost (viz nights_from/nights_to)
   --   car       = místo na auto
   --   van       = místo na dodávku
   --   car_tent  = místo na auto + stan
-  stay_type        text not null check (stay_type in ('pension','car','van','car_tent')),
+  -- NULLABLE — Malaga přihláška pobyt řeší přes `options`, ne přes enum.
+  stay_type        text check (stay_type in ('pension','car','van','car_tent')),
   nights_from      date,
   nights_to        date,
   -- Výběr konkrétního pokoje — zatím nevyužito v UI (kapacita/pokoje doplní Jan).
   -- Nullable, aby šel picker pokojů přidat bez další migrace.
   room_choice      text,
+  -- Typ-specifické odpovědi (Malaga: doprava/uskladnění/výživa/termín…). Bez migrace při rozšíření.
+  options          jsonb,
   note             text,
   gdpr_consent     boolean not null default false,
   status           text not null default 'new' check (status in ('new','contacted','confirmed','cancelled')),

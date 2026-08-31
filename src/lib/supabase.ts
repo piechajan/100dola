@@ -53,14 +53,16 @@ export type EventStayType = "pension" | "car" | "van" | "car_tent";
 export interface EventSignupRow {
   id: string;
   event_slug: string;
+  signup_kind: "group" | "malaga";
   lead_name: string;
   lead_email: string;
   lead_phone: string;
   party_size: number;
-  stay_type: EventStayType;
+  stay_type: EventStayType | null;
   nights_from: string | null;
   nights_to: string | null;
   room_choice: string | null;
+  options: Record<string, unknown> | null;
   note: string | null;
   gdpr_consent: boolean;
   status: "new" | "contacted" | "confirmed" | "cancelled";
