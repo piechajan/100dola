@@ -4,6 +4,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import RegistrationSystem from "@/components/community/RegistrationSystem";
+import EventGroupSignup from "@/components/community/EventGroupSignup";
 import RouteMapClient from "@/components/community/RouteMapClient";
 import GpxRouteMap from "@/components/community/GpxRouteMap";
 import {
@@ -466,8 +467,17 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                           .
                         </p>
                       </div>
+                    ) : event.groupSignup ? (
+                      /* Skupinová přihláška (lead + členové + pobyt) */
+                      <EventGroupSignup
+                        eventSlug={event.slug}
+                        eventTitle={event.title}
+                        color={color}
+                        venue={event.signupVenue || "naše základna"}
+                        startISO={event.dateISO}
+                      />
                     ) : (
-                      /* Registration system */
+                      /* Standardní registrace */
                       <RegistrationSystem
                         eventSlug={event.slug}
                         color={color}

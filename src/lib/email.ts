@@ -1289,6 +1289,258 @@ export async function sendScottTestNotification(p: ScottTestEmailPayload): Promi
   }
 }
 
+// ── Skupinová přihláška na akci (Rychlebské stezky apod.) ───────────────────
+
+export interface EventSignupMemberInfo {
+  name: string;
+  email?: string;
+  phone?: string;
+}
+
+export interface EventSignupEmailPayload {
+  eventTitle: string;
+  eventDate: string;
+  eventLocation: string;
+  venue: string; // "Pension Radost"
+  leadName: string;
+  leadEmail: string;
+  leadPhone: string;
+  partySize: number;
+  members: EventSignupMemberInfo[];
+  stayLabel: string; // human-readable pobyt
+  nights?: string; // display "pá 25. → po 28. 9. · 3 noci" (jen ubytování)
+  note?: string;
+}
+
+const EVENT_GREEN = "#2EAA6E";
+
+function membersTextBlock(members: EventSignupMemberInfo[]): string {
+  if (members.length === 0) return "(bez doprovodných členů)";
+  return members
+    .map((m, i) => {
+      const contact = [m.email, m.phone].filter(Boolean).join(" · ");
+      return `  ${i + 1}. ${m.name}${contact ? ` — ${contact}` : ""}`;
+    })
+    .join("\n");
+}
+
+function membersHtmlRows(members: EventSignupMemberInfo[]): string {
+  if (members.length === 0) {
+    return `<tr><td style="padding:8px 14px;color:#9AA3C2;font-size:13px">Bez doprovodných členů</td></tr>`;
+  }
+  return members
+    .map((m, i) => {
+      const contact = [m.email, m.phone]
+        .filter((x): x is string => Boolean(x))
+        .map(escapeHtml)
+        .join(" · ");
+      return `<tr>
+        <td style="padding:8px 14px;border-top:1px solid #E2E6F3;font-size:13px;width:26px;color:#9AA3C2">${i + 1}.</td>
+        <td style="padding:8px 14px;border-top:1px solid #E2E6F3;font-size:13px"><strong>${escapeHtml(m.name)}</strong>${contact ? `<br><span style="color:#9AA3C2">${contact}</span>` : ""}</td>
+      </tr>`;
+    })
+    .join("");
+}
+
+// Notifikace pro Jana — podklad pro objednání ubytování.
+export async function sendEventSignupNotification(p: EventSignupEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = `🏕 Přihláška na akci — ${p.eventTitle} · ${p.leadName} (${p.partySize} os.)`;
+  const text = [
+    `Nová přihláška na akci: ${p.eventTitle} (${p.eventDate}, ${p.eventLocation})`,
+    ``,
+    `Hlavní přihlašující:`,
+    `  ${p.leadName} · ${p.leadEmail} · ${p.leadPhone}`,
+    ``,
+    `Počet osob: ${p.partySize}`,
+    `Doprovodní členové:`,
+    membersTextBlock(p.members),
+    ``,
+    `Pobyt: ${p.stayLabel}`,
+    p.nights ? `Termín ubytování: ${p.nights}` : "",
+    p.note ? `\nPoznámka:\n${p.note}` : "",
+    ``,
+    `→ Podklad pro objednání ubytování / parkování (${p.venue}).`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  const html = `
+    <div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1a1a2e">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:${EVENT_GREEN};font-weight:700;margin-bottom:8px">
+        Přihláška na akci
+      </div>
+      <h2 style="margin:0 0 4px;font-size:20px">${escapeHtml(p.eventTitle)}</h2>
+      <p style="margin:0 0 16px;font-size:13px;color:#9AA3C2">${escapeHtml(p.eventDate)} · ${escapeHtml(p.eventLocation)}</p>
+
+      <table style="width:100%;border-collapse:collapse;font-size:14px;margin:0 0 16px;background:#F3FBF6;border-radius:12px">
+        <tr><td style="padding:10px 14px;color:#9AA3C2;width:120px">Přihlašující</td><td style="padding:10px 14px;font-weight:700">${escapeHtml(p.leadName)}</td></tr>
+        <tr><td style="padding:10px 14px;color:#9AA3C2;border-top:1px solid #E2E6F3">E-mail</td><td style="padding:10px 14px;border-top:1px solid #E2E6F3">${escapeHtml(p.leadEmail)}</td></tr>
+        <tr><td style="padding:10px 14px;color:#9AA3C2;border-top:1px solid #E2E6F3">Telefon</td><td style="padding:10px 14px;border-top:1px solid #E2E6F3">${escapeHtml(p.leadPhone)}</td></tr>
+        <tr><td style="padding:10px 14px;color:#9AA3C2;border-top:1px solid #E2E6F3">Počet osob</td><td style="padding:10px 14px;font-weight:700;border-top:1px solid #E2E6F3">${p.partySize}</td></tr>
+      </table>
+
+      <div style="font-weight:700;font-size:13px;margin:0 0 6px">Doprovodní členové</div>
+      <table style="width:100%;border-collapse:collapse;margin:0 0 16px;background:#FAFAFA;border-radius:12px">
+        ${membersHtmlRows(p.members)}
+      </table>
+
+      <div style="background:#F3FBF6;border:1px solid #CDECDA;border-radius:12px;padding:14px;font-size:14px;color:#1a1a2e;line-height:1.6;margin:0 0 16px">
+        <div><span style="color:#9AA3C2">Pobyt:</span> <strong>${escapeHtml(p.stayLabel)}</strong></div>
+        ${p.nights ? `<div><span style="color:#9AA3C2">Termín ubytování:</span> <strong>${escapeHtml(p.nights)}</strong></div>` : ""}
+        <div style="margin-top:6px;color:#5A6480">Podklad pro objednání ubytování / parkování (${escapeHtml(p.venue)}).</div>
+      </div>
+
+      ${p.note ? `<div style="background:#FFF8E7;border:1px solid #F5D78E;border-radius:12px;padding:14px;font-size:13px;color:#5A4500;line-height:1.5;margin:0 0 16px"><strong>Poznámka:</strong><br>${escapeHtml(p.note)}</div>` : ""}
+    </div>
+  `;
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: NOTIFY_EMAIL,
+      replyTo: p.leadEmail,
+      subject,
+      text,
+      html,
+    });
+  } catch (e) {
+    console.error("[email] sendEventSignupNotification failed:", e);
+  }
+}
+
+// Potvrzení přihlašujícímu.
+export async function sendEventSignupConfirmation(p: EventSignupEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = `Přihláška potvrzena — ${p.eventTitle}`;
+  const stayLine = p.nights ? `${p.stayLabel} · ${p.nights}` : p.stayLabel;
+
+  const text = [
+    `Ahoj ${p.leadName},`,
+    ``,
+    `díky — máme tvou přihlášku na akci ${p.eventTitle} (${p.eventDate}, ${p.eventLocation}).`,
+    ``,
+    `Počet osob: ${p.partySize}`,
+    `Pobyt: ${stayLine}`,
+    ``,
+    `Ubytování i parkování řešíme my — ${p.venue} je přímo na základně. Ozveme se ti s`,
+    `potvrzením detailů. Nemusíš nic zařizovat.`,
+    ``,
+    `Kdyby cokoliv, napiš na info@100dola.com nebo zavolej +420 739 045 057.`,
+    ``,
+    `Těšíme se!`,
+    `100dola`,
+  ].join("\n");
+
+  const html = `
+    <div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1a1a2e">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:${EVENT_GREEN};font-weight:700;margin-bottom:8px">
+        Přihláška potvrzena
+      </div>
+      <h2 style="margin:0 0 4px;font-size:20px">${escapeHtml(p.eventTitle)}</h2>
+      <p style="margin:0 0 16px;font-size:13px;color:#9AA3C2">${escapeHtml(p.eventDate)} · ${escapeHtml(p.eventLocation)}</p>
+
+      <p style="margin:0 0 16px;font-size:14px;line-height:1.5;color:#5A6480">
+        Ahoj ${escapeHtml(p.leadName)}, díky — máme tvou přihlášku. Tady je rekapitulace:
+      </p>
+
+      <table style="width:100%;border-collapse:collapse;font-size:14px;margin:0 0 16px;background:#F3FBF6;border-radius:12px">
+        <tr><td style="padding:10px 14px;color:#9AA3C2;width:120px">Počet osob</td><td style="padding:10px 14px;font-weight:700">${p.partySize}</td></tr>
+        <tr><td style="padding:10px 14px;color:#9AA3C2;border-top:1px solid #E2E6F3">Pobyt</td><td style="padding:10px 14px;font-weight:700;border-top:1px solid #E2E6F3">${escapeHtml(stayLine)}</td></tr>
+      </table>
+
+      <div style="background:#F3FBF6;border:1px solid #CDECDA;border-radius:12px;padding:14px;font-size:14px;color:#1a1a2e;line-height:1.6;margin:0 0 16px">
+        <strong>Ubytování i parkování řešíme my.</strong> ${escapeHtml(p.venue)} je přímo na základně — ozveme se ti s potvrzením detailů. Nemusíš nic zařizovat sám.
+      </div>
+
+      <p style="margin:16px 0;font-size:13px;color:#5A6480;line-height:1.5">
+        Kdyby cokoliv, napiš na <a href="mailto:info@100dola.com" style="color:${EVENT_GREEN};font-weight:700">info@100dola.com</a> nebo zavolej <strong>+420 739 045 057</strong>.
+      </p>
+
+      <p style="margin:24px 0 0;font-size:13px;color:#9AA3C2">Těšíme se! · 100dola</p>
+    </div>
+  `;
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.leadEmail,
+      subject,
+      text,
+      html,
+    });
+  } catch (e) {
+    console.error("[email] sendEventSignupConfirmation failed:", e);
+  }
+}
+
+// Přátelská připomínka ~2 dny před akcí (posílá cron).
+export async function sendEventReminder(p: EventSignupEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = `Za pár dní vyrážíme — ${p.eventTitle} 🚵`;
+  const text = [
+    `Ahoj ${p.leadName},`,
+    ``,
+    `už to bude — ${p.eventTitle} startuje ${p.eventDate} (${p.eventLocation}).`,
+    ``,
+    `Vaše zázemí: ${p.venue}, přímo na základně.`,
+    `Pobyt: ${p.stayLabel}${p.nights ? ` · ${p.nights}` : ""}`,
+    `Počet osob: ${p.partySize}`,
+    ``,
+    `Nezapomeň: kolo, helma, chrániče, náhradní duše a vrstvy na hory — počasí se mění.`,
+    ``,
+    `Kdyby něco na poslední chvíli, napiš na info@100dola.com nebo zavolej +420 739 045 057.`,
+    ``,
+    `Uvidíme se na trailech!`,
+    `100dola`,
+  ].join("\n");
+
+  const html = `
+    <div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1a1a2e">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:${EVENT_GREEN};font-weight:700;margin-bottom:8px">
+        Za pár dní vyrážíme
+      </div>
+      <h2 style="margin:0 0 4px;font-size:20px">${escapeHtml(p.eventTitle)}</h2>
+      <p style="margin:0 0 16px;font-size:13px;color:#9AA3C2">${escapeHtml(p.eventDate)} · ${escapeHtml(p.eventLocation)}</p>
+
+      <p style="margin:0 0 16px;font-size:14px;line-height:1.5;color:#5A6480">
+        Ahoj ${escapeHtml(p.leadName)}, už to bude! Krátká připomínka, ať máš klid.
+      </p>
+
+      <table style="width:100%;border-collapse:collapse;font-size:14px;margin:0 0 16px;background:#F3FBF6;border-radius:12px">
+        <tr><td style="padding:10px 14px;color:#9AA3C2;width:120px">Zázemí</td><td style="padding:10px 14px;font-weight:700">${escapeHtml(p.venue)}</td></tr>
+        <tr><td style="padding:10px 14px;color:#9AA3C2;border-top:1px solid #E2E6F3">Pobyt</td><td style="padding:10px 14px;border-top:1px solid #E2E6F3">${escapeHtml(p.stayLabel)}${p.nights ? ` · ${escapeHtml(p.nights)}` : ""}</td></tr>
+        <tr><td style="padding:10px 14px;color:#9AA3C2;border-top:1px solid #E2E6F3">Počet osob</td><td style="padding:10px 14px;font-weight:700;border-top:1px solid #E2E6F3">${p.partySize}</td></tr>
+      </table>
+
+      <div style="background:#FFF8E7;border:1px solid #F5D78E;border-radius:12px;padding:14px;font-size:13px;color:#5A4500;line-height:1.5;margin:0 0 16px">
+        <strong>Nezapomeň:</strong> kolo, helma, chrániče, náhradní duše, nářadí a vrstvy na hory — počasí se mění.
+      </div>
+
+      <p style="margin:16px 0;font-size:13px;color:#5A6480;line-height:1.5">
+        Kdyby něco na poslední chvíli, napiš na <a href="mailto:info@100dola.com" style="color:${EVENT_GREEN};font-weight:700">info@100dola.com</a> nebo zavolej <strong>+420 739 045 057</strong>.
+      </p>
+
+      <p style="margin:24px 0 0;font-size:13px;color:#9AA3C2">Uvidíme se na trailech! · 100dola</p>
+    </div>
+  `;
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.leadEmail,
+      subject,
+      text,
+      html,
+    });
+  } catch (e) {
+    console.error("[email] sendEventReminder failed:", e);
+  }
+}
+
 // ── Ranní reminder v 8:00 v den testu (přes Resend scheduled_at) ─────────────
 
 export async function scheduleIsaacTestReminder(

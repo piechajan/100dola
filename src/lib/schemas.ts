@@ -239,6 +239,36 @@ export const ScottTestPayloadSchema = z
   })
   .merge(Honeypot);
 
+// ── Skupinová přihláška na akci (lead + 0–10 členů + pobyt) ─────────────────
+
+const EventSignupMemberSchema = z.object({
+  name: z.string().min(1).max(80).trim(),
+  email: z.email().max(254).toLowerCase().optional().or(z.literal("")),
+  phone: z.string().max(40).trim().optional().or(z.literal("")),
+});
+
+export const EventSignupPayloadSchema = z
+  .object({
+    eventSlug: z.string().min(1).max(120),
+    leadName: z.string().min(2).max(120).trim(),
+    leadEmail: z.email().max(254).toLowerCase(),
+    leadPhone: z.string().min(6).max(40).trim(),
+    // Doprovodní členové — max 10, jen jméno povinné.
+    members: z.array(EventSignupMemberSchema).max(10).optional().default([]),
+    // Pobyt pro celou skupinu — právě jedna volba.
+    stayType: z.enum(["pension", "car", "van", "car_tent"]),
+    // Ubytování: datum od/do (jen pro pension). ISO YYYY-MM-DD.
+    nightsFrom: z.string().max(10).trim().optional().or(z.literal("")),
+    nightsTo: z.string().max(10).trim().optional().or(z.literal("")),
+    note: z.string().max(2000).trim().optional().or(z.literal("")),
+    consentGdpr: z.literal(true),
+    // Cloudflare Turnstile — volitelné (env-gated no-op když klíče chybí).
+    turnstileToken: z.string().max(4000).optional(),
+  })
+  .merge(Honeypot);
+
+export type EventSignupPayload = z.infer<typeof EventSignupPayloadSchema>;
+
 export type EventPayload = z.infer<typeof EventPayloadSchema>;
 export type MalagaPayload = z.infer<typeof MalagaPayloadSchema>;
 export type LabPayload = z.infer<typeof LabPayloadSchema>;

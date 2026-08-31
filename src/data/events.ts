@@ -50,6 +50,10 @@ export interface Event {
   endVenue?: EventVenue;
   /** Varianty obtížnosti/délky (např. lehká do 70 km, střední 70–100, extra 160). */
   difficultyVariants?: Array<{ label: string; distance: string; elevationM?: number; note?: string }>;
+  /** Skupinové přihlašování (lead + doprovodní členové + volba pobytu) místo standardního single registračního flow. */
+  groupSignup?: boolean;
+  /** Zázemí/ubytování pro skupinovou přihlášku (např. „Pension Radost"). */
+  signupVenue?: string;
 }
 
 export interface EventVenue {
@@ -211,7 +215,8 @@ Vhodná výbava: horské kolo (ideálně celoodpružené), helma, chrániče.
     organizer: { name: "Open Miles Clinic", role: "klubová akce" },
     photo: "/media/rychlebske-stezky-2026.webp",
     routeUrl: "https://www.rychlebskestezky.cz/cs/trails",
-    externalCtaLabel: "Mám zájem — kontaktovat",
+    groupSignup: true,
+    signupVenue: "Pension Radost",
     startVenue: {
       name: "Rychlebské stezky",
       role: "trailové centrum",
