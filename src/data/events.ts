@@ -54,6 +54,8 @@ export interface Event {
   groupSignup?: boolean;
   /** Zázemí/ubytování pro skupinovou přihlášku (např. „Pension Radost"). */
   signupVenue?: string;
+  /** Prodejní Malaga přihláška (doprava kola / uskladnění / ubytování / výživa) místo standardní registrace. */
+  malagaSignup?: boolean;
 }
 
 export interface EventVenue {
@@ -581,6 +583,7 @@ V ceně je zázemí, technická podpora a organizace tras. Ubytování řešíme
     whoIsItFor: "Cyklisté všech úrovní. Ideální pro ty, kdo mají kolo v zázemí 100dola Malaga.",
     organizer: { name: "Jan Piecha", role: "Zakladatel 100dola Malaga" },
     photo: "/media/malaga-hero.jpg",
+    malagaSignup: true,
   },
   {
     id: 4,
@@ -612,6 +615,7 @@ Pokud ti nevyhovuje první termín nebo chceš přijet na oba — kolo zůstane 
     whoIsItFor: "Cyklisté všech úrovní. Vhodné i pro kombinaci s Malaga fall ride I.",
     organizer: { name: "Jan Piecha", role: "Zakladatel 100dola Malaga" },
     photo: "/media/malaga-event.jpg",
+    malagaSignup: true,
   },
   {
     id: 5,

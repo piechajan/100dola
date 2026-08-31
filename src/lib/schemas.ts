@@ -269,6 +269,40 @@ export const EventSignupPayloadSchema = z
 
 export type EventSignupPayload = z.infer<typeof EventSignupPayloadSchema>;
 
+// ── Prodejní Malaga přihláška (doprava / uskladnění / ubytování / výživa) ────
+
+export const MalagaSignupPayloadSchema = z
+  .object({
+    eventSlug: z.string().min(1).max(120),
+    leadName: z.string().min(2).max(120).trim(),
+    leadEmail: z.email().max(254).toLowerCase(),
+    leadPhone: z.string().min(6).max(40).trim(),
+    groupKind: z.enum(["individual", "group", "club"]).optional(),
+    members: z.array(EventSignupMemberSchema).max(10).optional().default([]),
+    // Doprava kola.
+    transportTier: z.enum(["basic", "exclusive_full", "exclusive_pickup", "none"]),
+    direction: z.enum(["oneway", "roundtrip"]).optional(),
+    bikeCount: z.number().int().min(1).max(20).optional(),
+    bikeType: z.enum(["road", "gravel", "mtb", "ebike"]).optional(),
+    storageAfter: z.enum(["no", "winter", "yearround"]).optional(),
+    // Ubytování ve stejné lokaci.
+    accommodation: z.enum(["interest", "own"]),
+    accommodationFrom: z.string().max(10).trim().optional().or(z.literal("")),
+    accommodationTo: z.string().max(10).trim().optional().or(z.literal("")),
+    // Výživa SPONSER na místě.
+    nutritionSponser: z.enum(["interest", "no"]),
+    nutritionPrefs: z.string().max(300).trim().optional().or(z.literal("")),
+    // Termín / zaměření.
+    term: z.string().max(120).trim().optional().or(z.literal("")),
+    focus: z.string().max(200).trim().optional().or(z.literal("")),
+    note: z.string().max(2000).trim().optional().or(z.literal("")),
+    consentGdpr: z.literal(true),
+    turnstileToken: z.string().max(4000).optional(),
+  })
+  .merge(Honeypot);
+
+export type MalagaSignupPayload = z.infer<typeof MalagaSignupPayloadSchema>;
+
 export type EventPayload = z.infer<typeof EventPayloadSchema>;
 export type MalagaPayload = z.infer<typeof MalagaPayloadSchema>;
 export type LabPayload = z.infer<typeof LabPayloadSchema>;
