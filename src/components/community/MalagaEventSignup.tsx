@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
+import MalagaBoxBanner from "@/components/malaga/MalagaBoxBanner";
 import {
   TRANSPORT_TIER_OPTIONS,
   DIRECTION_OPTIONS,
@@ -367,11 +368,9 @@ function SignupModal({
                 </div>
               )}
 
-              {/* Info banner — box → příručák */}
-              <div className="mt-3 rounded-xl p-3 text-xs leading-relaxed" style={{ background: `${color}0F`, color: "#1a1a2e" }}>
-                📦 Do boxu/krabice si dej <strong>veškeré vybavení na kolo i věci na cestu</strong> (oblečení,
-                tretry, helma, nářadí…). Na palubu letadla ti pak stačí <strong>jen příručák.</strong> Žádné
-                opakované balení, žádné placení kola v letadle.
+              {/* Info banner — box → příručák (sdílená komponenta) */}
+              <div className="mt-3">
+                <MalagaBoxBanner color={color} />
               </div>
             </div>
 
