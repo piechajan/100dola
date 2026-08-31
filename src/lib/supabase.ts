@@ -96,6 +96,7 @@ export interface MalagaLeadRow {
   group_kind: "individual" | "group" | "club" | null;
   pickup_at_home: boolean;
   message: string | null;
+  options: Record<string, unknown> | null;
   status: "new" | "contacted" | "quoted" | "won" | "lost";
   registered_at: string;
   created_at: string;

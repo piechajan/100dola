@@ -214,6 +214,13 @@ export default async function ArticleDetailPage({
             name: "Czech Tour",
             url: "https://www.czechtour.com",
           },
+          offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "CZK",
+            availability: "https://schema.org/InStock",
+            url: `${SITE}/clanky/czech-tour-2026`,
+          },
         }
       : null;
 

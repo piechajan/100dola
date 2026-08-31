@@ -3,6 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import { MALAGA_BRAND, GROUP_NOTE, EBIKE_SURCHARGE } from "@/data/malaga";
+import {
+  TRANSPORT_TIER_OPTIONS,
+  STORAGE_AFTER_OPTIONS,
+  type MalagaTransportTier,
+  type MalagaStorageAfter,
+  type MalagaYesNo,
+} from "@/data/malaga-signup";
+import MalagaBoxBanner from "@/components/malaga/MalagaBoxBanner";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 
@@ -10,6 +18,9 @@ const accent = MALAGA_BRAND.color;
 
 type Intent = "transport" | "storage" | "package" | "tour" | "group" | "other";
 type PackageInterest = "basic" | "exclusive" | "undecided";
+
+// V poptávce „pošli kolo" nabízíme reálné transport tiers (bez varianty „neřeším").
+const TRANSPORT_TIERS = TRANSPORT_TIER_OPTIONS.filter((o) => o.value !== "none");
 
 const INTENT_OPTIONS: { value: Intent; label: string }[] = [
   { value: "package", label: "Kompletní balíček (transport + skladování)" },
@@ -42,6 +53,10 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
   const [bikeCount, setBikeCount] = useState<string>("1");
   const [bikeType, setBikeType] = useState("");
   const [preferredMonth, setPreferredMonth] = useState("");
+  const [transportTier, setTransportTier] = useState<MalagaTransportTier | "">("");
+  const [storageAfter, setStorageAfter] = useState<MalagaStorageAfter | "">("");
+  const [nutritionSponser, setNutritionSponser] = useState<MalagaYesNo | "">("");
+  const [nutritionPrefs, setNutritionPrefs] = useState("");
   const [pickupAtHome, setPickupAtHome] = useState(false);
   const [insuranceInterest, setInsuranceInterest] = useState(false);
   const [message, setMessage] = useState("");
@@ -77,6 +92,10 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
       groupKind: isGroupy ? ("group" as const) : ("individual" as const),
       pickupAtHome,
       insuranceInterest,
+      transportTier: transportTier || undefined,
+      storageAfter: storageAfter || undefined,
+      nutritionSponser: nutritionSponser || undefined,
+      nutritionPrefs: nutritionSponser === "interest" ? nutritionPrefs.trim() || undefined : undefined,
       message: message.trim() || undefined,
       website, // honeypot — pro reálné uživatele "", bot ho vyplní
     };
@@ -239,6 +258,31 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
           </div>
         )}
 
+        {/* Doprava kola — jak chceš kolo dostat do Malagy (sdílené s přihláškou) */}
+        <div>
+          <label className={labelClass}>Jak chceš kolo dostat do Malagy?</label>
+          <div className="grid grid-cols-1 gap-2">
+            {TRANSPORT_TIERS.map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => setTransportTier(transportTier === opt.value ? "" : opt.value)}
+                className="text-left px-4 py-3 rounded-xl text-sm border-2 transition-all"
+                style={{
+                  borderColor: transportTier === opt.value ? accent : "#E2E6F3",
+                  backgroundColor: transportTier === opt.value ? `${accent}08` : "transparent",
+                }}
+              >
+                <span className="font-bold text-[#1a1a2e]">{opt.icon} {opt.label}</span>
+                <span className="block text-xs text-[#9AA3C2] mt-0.5 leading-relaxed">{opt.description}</span>
+              </button>
+            ))}
+          </div>
+          <div className="mt-2">
+            <MalagaBoxBanner color={accent} />
+          </div>
+        </div>
+
         {/* Name + email */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
@@ -319,6 +363,71 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
               <option key={m} value={m}>{m}</option>
             ))}
           </select>
+        </div>
+
+        {/* Nechat kolo v Malaze po pobytu (uskladnění — sdílené s přihláškou) */}
+        <div>
+          <label className={labelClass}>Nechat kolo v Malaze po pobytu?</label>
+          <div className="flex flex-wrap gap-2">
+            {STORAGE_AFTER_OPTIONS.map((o) => {
+              const active = storageAfter === o.value;
+              return (
+                <button
+                  key={o.value}
+                  type="button"
+                  onClick={() => setStorageAfter(active ? "" : o.value)}
+                  className="px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all"
+                  style={{
+                    borderColor: active ? accent : "#E2E6F3",
+                    backgroundColor: active ? accent : "transparent",
+                    color: active ? "#fff" : "#5A6480",
+                  }}
+                >
+                  {o.icon} {o.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Výživa SPONSER na místě (sdílené s přihláškou) */}
+        <div>
+          <label className={labelClass}>Výživa SPONSER na místě?</label>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { value: "interest" as const, label: "🥤 Mám zájem" },
+              { value: "no" as const, label: "Nemám zájem" },
+            ].map((o) => {
+              const active = nutritionSponser === o.value;
+              return (
+                <button
+                  key={o.value}
+                  type="button"
+                  onClick={() => setNutritionSponser(active ? "" : o.value)}
+                  className="px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all"
+                  style={{
+                    borderColor: active ? accent : "#E2E6F3",
+                    backgroundColor: active ? accent : "transparent",
+                    color: active ? "#fff" : "#5A6480",
+                  }}
+                >
+                  {o.label}
+                </button>
+              );
+            })}
+          </div>
+          {nutritionSponser === "interest" && (
+            <input
+              type="text"
+              value={nutritionPrefs}
+              onChange={(e) => setNutritionPrefs(e.target.value)}
+              className={`${inputClass} mt-2`}
+              placeholder="Co preferuješ? (gely / ionták / protein / poradíte)"
+            />
+          )}
+          <p className="text-[11px] text-[#9AA3C2] mt-1.5">
+            Gely, iontové nápoje a proteiny SPONSER (švýcarská prémiová značka) k dispozici na místě.
+          </p>
         </div>
 
         {/* Pickup at home */}

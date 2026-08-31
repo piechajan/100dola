@@ -4,6 +4,7 @@
 import "server-only";
 import { Resend } from "resend";
 import type { MalagaLeadRow, RegistrationRow } from "./supabase";
+import { TRANSPORT_TIER_LABELS, STORAGE_AFTER_LABELS } from "../data/malaga-signup";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "100dola <onboarding@resend.dev>";
@@ -86,6 +87,27 @@ export async function sendMalagaLeadNotification(lead: MalagaLeadRow): Promise<v
 
   const subject = `🚲 Nová Malaga poptávka — ${lead.name} (${intent})`;
 
+  // Sdílené prodejní bloky (options jsonb) — stejná informace jako Malaga přihláška.
+  const opt = (lead.options ?? {}) as Record<string, unknown>;
+  const tierLabel =
+    typeof opt.transportTier === "string"
+      ? TRANSPORT_TIER_LABELS[opt.transportTier as keyof typeof TRANSPORT_TIER_LABELS]
+      : null;
+  const storageLabel =
+    typeof opt.storageAfter === "string"
+      ? STORAGE_AFTER_LABELS[opt.storageAfter as keyof typeof STORAGE_AFTER_LABELS]
+      : null;
+  const sponserLabel =
+    opt.nutritionSponser === "interest" ? "Zájem" : opt.nutritionSponser === "no" ? "Ne" : null;
+  const sponserPrefs = typeof opt.nutritionPrefs === "string" ? opt.nutritionPrefs : null;
+  const optRowHtml = (label: string, value: string) =>
+    `<tr><td style="padding: 6px 0; color: #9AA3C2;">${escapeHtml(label)}</td><td style="padding: 6px 0;"><strong>${escapeHtml(value)}</strong></td></tr>`;
+  const optionsHtml = [
+    tierLabel ? optRowHtml("Doprava kola", tierLabel) : "",
+    storageLabel ? optRowHtml("Kolo po akci", storageLabel) : "",
+    sponserLabel ? optRowHtml("Výživa SPONSER", sponserLabel + (sponserPrefs ? ` — ${sponserPrefs}` : "")) : "",
+  ].join("");
+
   const html = `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; color: #1a1a2e;">
       <div style="border-left: 4px solid #E8431A; padding-left: 16px; margin-bottom: 24px;">
@@ -102,6 +124,7 @@ export async function sendMalagaLeadNotification(lead: MalagaLeadRow): Promise<v
         <tr><td style="padding: 6px 0; color: #9AA3C2;">Preferovaný měsíc</td><td style="padding: 6px 0;">${escapeHtml(lead.preferred_month || "—")}</td></tr>
         <tr><td style="padding: 6px 0; color: #9AA3C2;">Skupina</td><td style="padding: 6px 0;">${lead.group_kind || "—"}</td></tr>
         <tr><td style="padding: 6px 0; color: #9AA3C2;">Pickup doma</td><td style="padding: 6px 0;">${lead.pickup_at_home ? "✓ ano" : "—"}</td></tr>
+        ${optionsHtml}
       </table>
 
       ${lead.message ? `
@@ -127,6 +150,9 @@ export async function sendMalagaLeadNotification(lead: MalagaLeadRow): Promise<v
     lead.bike_type ? `Typ kola: ${lead.bike_type}` : "",
     lead.preferred_month ? `Měsíc: ${lead.preferred_month}` : "",
     lead.pickup_at_home ? "Pickup doma: ano" : "",
+    tierLabel ? `Doprava kola: ${tierLabel}` : "",
+    storageLabel ? `Kolo po akci: ${storageLabel}` : "",
+    sponserLabel ? `Výživa SPONSER: ${sponserLabel}${sponserPrefs ? ` — ${sponserPrefs}` : ""}` : "",
     lead.message ? `\nPoznámka:\n${lead.message}` : "",
     `\nLead ID: ${lead.id}`,
   ].filter(Boolean).join("\n");

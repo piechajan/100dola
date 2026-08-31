@@ -135,6 +135,12 @@ export async function POST(req: NextRequest) {
         [m.insuranceInterest ? "🛡️ ZÁJEM O CESTOVNÍ POJIŠTĚNÍ" : null, m.message || null]
           .filter(Boolean)
           .join(" — ") || null;
+      // Sdílené prodejní bloky (stejné jako Malaga přihláška) → strukturovaně do options jsonb.
+      const salesOptions: Record<string, unknown> = {};
+      if (m.transportTier) salesOptions.transportTier = m.transportTier;
+      if (m.storageAfter) salesOptions.storageAfter = m.storageAfter;
+      if (m.nutritionSponser) salesOptions.nutritionSponser = m.nutritionSponser;
+      if (m.nutritionPrefs) salesOptions.nutritionPrefs = m.nutritionPrefs;
       const insert = {
         name: m.name,
         email: m.email,
@@ -148,6 +154,7 @@ export async function POST(req: NextRequest) {
         group_kind: m.groupKind || null,
         pickup_at_home: m.pickupAtHome ?? false,
         message: leadMessage,
+        options: Object.keys(salesOptions).length ? salesOptions : null,
         registered_at: m.registeredAt || now,
       };
       const { data: row, error } = await sb

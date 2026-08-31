@@ -66,6 +66,11 @@ export const MalagaPayloadSchema = z
     pickupAtHome: z.boolean().optional(),
     insuranceInterest: z.boolean().optional(),
     message: z.string().max(2000).trim().optional(),
+    // Sdílené prodejní bloky (stejné jako Malaga přihláška) — volitelné.
+    transportTier: z.enum(["basic", "exclusive_full", "exclusive_pickup", "none"]).optional(),
+    storageAfter: z.enum(["no", "winter", "yearround"]).optional(),
+    nutritionSponser: z.enum(["interest", "no"]).optional(),
+    nutritionPrefs: z.string().max(300).trim().optional(),
   })
   .merge(Honeypot);
 
