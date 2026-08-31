@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import RegistrationSystem from "@/components/community/RegistrationSystem";
 import EventGroupSignup from "@/components/community/EventGroupSignup";
+import MalagaEventSignup from "@/components/community/MalagaEventSignup";
 import RouteMapClient from "@/components/community/RouteMapClient";
 import GpxRouteMap from "@/components/community/GpxRouteMap";
 import {
@@ -467,6 +468,14 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                           .
                         </p>
                       </div>
+                    ) : event.malagaSignup ? (
+                      /* Prodejní Malaga přihláška (doprava / uskladnění / ubytování / výživa) */
+                      <MalagaEventSignup
+                        eventSlug={event.slug}
+                        eventTitle={event.title}
+                        eventDate={event.date}
+                        color={color}
+                      />
                     ) : event.groupSignup ? (
                       /* Skupinová přihláška (lead + členové + pobyt) */
                       <EventGroupSignup

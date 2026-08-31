@@ -1541,6 +1541,259 @@ export async function sendEventReminder(p: EventSignupEmailPayload): Promise<voi
   }
 }
 
+// ── Prodejní Malaga přihláška ───────────────────────────────────────────────
+
+const MALAGA_RED = "#E8431A";
+
+export interface MalagaSignupEmailPayload {
+  eventTitle: string;
+  eventDate: string;
+  eventLocation: string;
+  leadName: string;
+  leadEmail: string;
+  leadPhone: string;
+  partySize: number;
+  members: EventSignupMemberInfo[];
+  summary: { label: string; value: string }[];
+  subjectTag: string; // krátký štítek do předmětu (např. „Exclusive · round-trip")
+  accommodationTerm?: string;
+  note?: string;
+}
+
+function summaryTextBlock(rows: { label: string; value: string }[]): string {
+  return rows.map((r) => `  ${r.label}: ${r.value}`).join("\n");
+}
+
+function summaryHtmlRows(rows: { label: string; value: string }[]): string {
+  return rows
+    .map(
+      (r, i) => `<tr>
+        <td style="padding:9px 14px;color:#9AA3C2;width:140px${i ? ";border-top:1px solid #E2E6F3" : ""}">${escapeHtml(r.label)}</td>
+        <td style="padding:9px 14px;font-weight:600${i ? ";border-top:1px solid #E2E6F3" : ""}">${escapeHtml(r.value)}</td>
+      </tr>`,
+    )
+    .join("");
+}
+
+// Notifikace Janovi — sales lead, podklad na nabídku.
+export async function sendMalagaSignupNotification(p: MalagaSignupEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = `🌴 Malaga přihláška — ${p.leadName} · ${p.subjectTag}`;
+  const text = [
+    `Nová prodejní přihláška na Malaga akci: ${p.eventTitle} (${p.eventDate}, ${p.eventLocation})`,
+    ``,
+    `Kontakt:`,
+    `  ${p.leadName} · ${p.leadEmail} · ${p.leadPhone}`,
+    `  Počet osob: ${p.partySize}`,
+    ``,
+    `Poptávka:`,
+    summaryTextBlock(p.summary),
+    p.accommodationTerm ? `  Termín ubytování: ${p.accommodationTerm}` : "",
+    ``,
+    p.members.length ? `Členové:\n${membersTextBlock(p.members)}` : "",
+    p.note ? `\nPoznámka:\n${p.note}` : "",
+    ``,
+    `→ Podklad pro cenovou nabídku (doprava + uskladnění + ubytování + výživa).`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  const html = `
+    <div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1a1a2e">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:${MALAGA_RED};font-weight:700;margin-bottom:8px">
+        Malaga přihláška
+      </div>
+      <h2 style="margin:0 0 4px;font-size:20px">${escapeHtml(p.eventTitle)}</h2>
+      <p style="margin:0 0 16px;font-size:13px;color:#9AA3C2">${escapeHtml(p.eventDate)} · ${escapeHtml(p.eventLocation)}</p>
+
+      <table style="width:100%;border-collapse:collapse;font-size:14px;margin:0 0 16px;background:#FFF3EE;border-radius:12px">
+        <tr><td style="padding:10px 14px;color:#9AA3C2;width:140px">Kontakt</td><td style="padding:10px 14px;font-weight:700">${escapeHtml(p.leadName)}</td></tr>
+        <tr><td style="padding:10px 14px;color:#9AA3C2;border-top:1px solid #F5D2C4">E-mail</td><td style="padding:10px 14px;border-top:1px solid #F5D2C4">${escapeHtml(p.leadEmail)}</td></tr>
+        <tr><td style="padding:10px 14px;color:#9AA3C2;border-top:1px solid #F5D2C4">Telefon</td><td style="padding:10px 14px;border-top:1px solid #F5D2C4">${escapeHtml(p.leadPhone)}</td></tr>
+        <tr><td style="padding:10px 14px;color:#9AA3C2;border-top:1px solid #F5D2C4">Počet osob</td><td style="padding:10px 14px;font-weight:700;border-top:1px solid #F5D2C4">${p.partySize}</td></tr>
+      </table>
+
+      <div style="font-weight:700;font-size:13px;margin:0 0 6px">Poptávka</div>
+      <table style="width:100%;border-collapse:collapse;font-size:14px;margin:0 0 16px;background:#FAFAFA;border-radius:12px">
+        ${summaryHtmlRows(p.summary)}
+        ${p.accommodationTerm ? `<tr><td style="padding:9px 14px;color:#9AA3C2;border-top:1px solid #E2E6F3">Termín ubytování</td><td style="padding:9px 14px;font-weight:600;border-top:1px solid #E2E6F3">${escapeHtml(p.accommodationTerm)}</td></tr>` : ""}
+      </table>
+
+      ${
+        p.members.length
+          ? `<div style="font-weight:700;font-size:13px;margin:0 0 6px">Členové</div>
+             <table style="width:100%;border-collapse:collapse;margin:0 0 16px;background:#FAFAFA;border-radius:12px">${membersHtmlRows(p.members)}</table>`
+          : ""
+      }
+
+      ${p.note ? `<div style="background:#FFF8E7;border:1px solid #F5D78E;border-radius:12px;padding:14px;font-size:13px;color:#5A4500;line-height:1.5;margin:0 0 16px"><strong>Poznámka:</strong><br>${escapeHtml(p.note)}</div>` : ""}
+
+      <p style="margin:8px 0 0;font-size:12px;color:#9AA3C2">Podklad pro cenovou nabídku (doprava + uskladnění + ubytování + výživa).</p>
+    </div>
+  `;
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: NOTIFY_EMAIL,
+      replyTo: p.leadEmail,
+      subject,
+      text,
+      html,
+    });
+  } catch (e) {
+    console.error("[email] sendMalagaSignupNotification failed:", e);
+  }
+}
+
+// Potvrzení zákazníkovi — rekap + „ozveme se s nabídkou" + cross-sell.
+export async function sendMalagaSignupConfirmation(p: MalagaSignupEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = `Máme tvou poptávku na Malagu — ozveme se s nabídkou`;
+  const text = [
+    `Ahoj ${p.leadName},`,
+    ``,
+    `díky za zájem o ${p.eventTitle} (${p.eventDate}, ${p.eventLocation}).`,
+    `Máme tvou poptávku a ozveme se ti s konkrétní nabídkou a cenou.`,
+    ``,
+    `Co jsi vybral:`,
+    summaryTextBlock(p.summary),
+    p.accommodationTerm ? `  Termín ubytování: ${p.accommodationTerm}` : "",
+    ``,
+    `Model je jednoduchý: vlastní kolo dopravíme do Malagy, do boxu si dáš i výbavu`,
+    `a věci na cestu — na palubu ti pak stačí jen příručák. Ubytování i výživu (SPONSER)`,
+    `řešíme na místě.`,
+    ``,
+    `Než se ozveme, mrkni:`,
+    `  Jak to funguje: https://www.100dola.com/malaga`,
+    `  Trasy: https://www.100dola.com/malaga/trasy`,
+    `  Uskladnění: https://www.100dola.com/malaga/uskladneni`,
+    ``,
+    `Kdyby cokoliv, napiš na info@100dola.com nebo zavolej +420 739 045 057.`,
+    ``,
+    `100dola`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  const html = `
+    <div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1a1a2e">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:${MALAGA_RED};font-weight:700;margin-bottom:8px">
+        Poptávka přijata
+      </div>
+      <h2 style="margin:0 0 4px;font-size:20px">${escapeHtml(p.eventTitle)}</h2>
+      <p style="margin:0 0 16px;font-size:13px;color:#9AA3C2">${escapeHtml(p.eventDate)} · ${escapeHtml(p.eventLocation)}</p>
+
+      <p style="margin:0 0 16px;font-size:14px;line-height:1.5;color:#5A6480">
+        Ahoj ${escapeHtml(p.leadName)}, díky — máme tvou poptávku a <strong>ozveme se ti s konkrétní nabídkou a cenou</strong>.
+      </p>
+
+      <div style="font-weight:700;font-size:13px;margin:0 0 6px">Co jsi vybral</div>
+      <table style="width:100%;border-collapse:collapse;font-size:14px;margin:0 0 16px;background:#FFF3EE;border-radius:12px">
+        ${summaryHtmlRows(p.summary)}
+        ${p.accommodationTerm ? `<tr><td style="padding:9px 14px;color:#9AA3C2;border-top:1px solid #F5D2C4">Termín ubytování</td><td style="padding:9px 14px;font-weight:600;border-top:1px solid #F5D2C4">${escapeHtml(p.accommodationTerm)}</td></tr>` : ""}
+      </table>
+
+      <div style="background:#FFF3EE;border:1px solid #F5D2C4;border-radius:12px;padding:14px;font-size:14px;color:#1a1a2e;line-height:1.6;margin:0 0 16px">
+        <strong>Vlastní kolo v Malaze, letíš jen s příručákem.</strong> Kolo dopravíme, do boxu si dáš i výbavu a věci na cestu. Ubytování i výživu (SPONSER) řešíme na místě.
+      </div>
+
+      <p style="margin:0 0 8px;font-size:13px;color:#5A6480">Než se ozveme, mrkni:</p>
+      <p style="margin:0 0 16px;font-size:13px;line-height:1.9">
+        <a href="https://www.100dola.com/malaga" style="color:${MALAGA_RED};font-weight:700">Jak to funguje</a> ·
+        <a href="https://www.100dola.com/malaga/trasy" style="color:${MALAGA_RED};font-weight:700">Trasy</a> ·
+        <a href="https://www.100dola.com/malaga/uskladneni" style="color:${MALAGA_RED};font-weight:700">Uskladnění</a>
+      </p>
+
+      <p style="margin:16px 0;font-size:13px;color:#5A6480;line-height:1.5">
+        Kdyby cokoliv, napiš na <a href="mailto:info@100dola.com" style="color:${MALAGA_RED};font-weight:700">info@100dola.com</a> nebo zavolej <strong>+420 739 045 057</strong>.
+      </p>
+
+      <p style="margin:24px 0 0;font-size:13px;color:#9AA3C2">100dola</p>
+    </div>
+  `;
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.leadEmail,
+      subject,
+      text,
+      html,
+    });
+  } catch (e) {
+    console.error("[email] sendMalagaSignupConfirmation failed:", e);
+  }
+}
+
+// Připomínka před odjezdem (posílá cron) — praktická, balení boxu.
+export async function sendMalagaSignupReminder(p: MalagaSignupEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = `Blíží se Malaga — ${p.eventTitle} 🌴`;
+  const text = [
+    `Ahoj ${p.leadName},`,
+    ``,
+    `už to bude — ${p.eventTitle} startuje ${p.eventDate} (${p.eventLocation}).`,
+    ``,
+    `Než vyrazíš:`,
+    `• Do transportního boxu dej kolo i veškerou výbavu a věci na cestu — na palubu ti stačí příručák.`,
+    `• Baterii k e-biku ber s sebou v příručním zavazadle dle leteckých pravidel.`,
+    `• Termín dovozu kola na sběrné místo ti potvrdíme e-mailem/telefonicky.`,
+    ``,
+    `Ubytování i výživa (SPONSER) na tebe čekají na místě.`,
+    ``,
+    `Kdyby cokoliv, napiš na info@100dola.com nebo zavolej +420 739 045 057.`,
+    ``,
+    `Uvidíme se v Andalusii!`,
+    `100dola`,
+  ].join("\n");
+
+  const html = `
+    <div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1a1a2e">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:${MALAGA_RED};font-weight:700;margin-bottom:8px">
+        Blíží se Malaga
+      </div>
+      <h2 style="margin:0 0 4px;font-size:20px">${escapeHtml(p.eventTitle)}</h2>
+      <p style="margin:0 0 16px;font-size:13px;color:#9AA3C2">${escapeHtml(p.eventDate)} · ${escapeHtml(p.eventLocation)}</p>
+
+      <p style="margin:0 0 16px;font-size:14px;line-height:1.5;color:#5A6480">
+        Ahoj ${escapeHtml(p.leadName)}, už to bude! Krátká připomínka, ať máš klid.
+      </p>
+
+      <div style="background:#FFF3EE;border:1px solid #F5D2C4;border-radius:12px;padding:14px;font-size:13px;color:#1a1a2e;line-height:1.7;margin:0 0 16px">
+        <div>• Do transportního boxu dej <strong>kolo i veškerou výbavu a věci na cestu</strong> — na palubu ti stačí příručák.</div>
+        <div>• Baterii k e-biku ber s sebou v příručním zavazadle dle leteckých pravidel.</div>
+        <div>• Termín dovozu kola na sběrné místo ti potvrdíme.</div>
+      </div>
+
+      <p style="margin:0 0 16px;font-size:14px;color:#5A6480;line-height:1.5">
+        Ubytování i výživa (SPONSER) na tebe čekají na místě.
+      </p>
+
+      <p style="margin:16px 0;font-size:13px;color:#5A6480;line-height:1.5">
+        Kdyby cokoliv, napiš na <a href="mailto:info@100dola.com" style="color:${MALAGA_RED};font-weight:700">info@100dola.com</a> nebo zavolej <strong>+420 739 045 057</strong>.
+      </p>
+
+      <p style="margin:24px 0 0;font-size:13px;color:#9AA3C2">Uvidíme se v Andalusii! · 100dola</p>
+    </div>
+  `;
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.leadEmail,
+      subject,
+      text,
+      html,
+    });
+  } catch (e) {
+    console.error("[email] sendMalagaSignupReminder failed:", e);
+  }
+}
+
 // ── Ranní reminder v 8:00 v den testu (přes Resend scheduled_at) ─────────────
 
 export async function scheduleIsaacTestReminder(
