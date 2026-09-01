@@ -118,6 +118,7 @@ export interface MalagaSignupOptions {
   groupKind?: MalagaGroupKind;
   city?: string;
   zip?: string;
+  street?: string;
   transportTier: MalagaTransportTier;
   direction?: MalagaDirection;
   bikeCount?: number;
@@ -135,8 +136,11 @@ export interface MalagaSignupOptions {
 export function malagaSummaryLines(o: MalagaSignupOptions): { label: string; value: string }[] {
   const lines: { label: string; value: string }[] = [];
   if (o.groupKind) lines.push({ label: "Typ", value: GROUP_KIND_LABELS[o.groupKind] });
-  const addr = [o.city, o.zip].filter(Boolean).join(", ");
-  if (addr) lines.push({ label: "Odkud (město / PSČ)", value: addr });
+  const cityZip = [o.zip, o.city].filter(Boolean).join(" ");
+  const addr = [o.street, cityZip].filter(Boolean).join(", ");
+  if (addr) {
+    lines.push({ label: o.street ? "Adresa vyzvednutí" : "Odkud (město / PSČ)", value: addr });
+  }
 
   lines.push({ label: "Doprava kola", value: TRANSPORT_TIER_LABELS[o.transportTier] });
   if (o.transportTier !== "none") {

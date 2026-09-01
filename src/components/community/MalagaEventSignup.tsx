@@ -145,6 +145,7 @@ function SignupModal({
   const [leadPhone, setLeadPhone] = useState("");
   const [city, setCity] = useState("");
   const [zip, setZip] = useState("");
+  const [street, setStreet] = useState("");
   const [groupKind, setGroupKind] = useState<MalagaGroupKind>("individual");
   const [members, setMembers] = useState<Member[]>([]);
 
@@ -187,6 +188,7 @@ function SignupModal({
   };
 
   const hasTransport = transportTier !== "none";
+  const isExclusive = transportTier === "exclusive_full" || transportTier === "exclusive_pickup";
 
   const addMember = () => {
     if (members.length >= MAX_MEMBERS) return;
@@ -236,6 +238,7 @@ function SignupModal({
           leadPhone: leadPhone.trim(),
           city: city.trim(),
           zip: zip.trim(),
+          street: isExclusive ? street.trim() : "",
           groupKind,
           members: cleanMembers,
           transportTier,
@@ -408,6 +411,15 @@ function SignupModal({
                     <div className="text-[11px] font-bold text-[#9AA3C2] mb-1.5">Nechat kolo v Malaze po akci?</div>
                     <RadioCards options={STORAGE_AFTER_OPTIONS} value={storageAfter} onChange={setStorageAfter} color={color} name="storageAfter" />
                   </div>
+                </div>
+              )}
+
+              {/* Adresa vyzvednutí — jen u Exclusive (vyzvedneme/svezeme u tebe) */}
+              {isExclusive && (
+                <div className="mt-3">
+                  <div className="text-[11px] font-bold text-[#9AA3C2] mb-1.5">Adresa vyzvednutí</div>
+                  <input type="text" placeholder="Ulice a č.p." value={street} onChange={(e) => setStreet(e.target.value)} className={inputClass} />
+                  <p className="text-[11px] text-[#9AA3C2] mt-1">Kde kolo vyzvedneme (město a PSČ máš výše).</p>
                 </div>
               )}
 

@@ -82,6 +82,10 @@ export async function POST(req: NextRequest) {
     groupKind: data.groupKind,
     city: data.city || undefined,
     zip: data.zip || undefined,
+    street:
+      (data.transportTier === "exclusive_full" || data.transportTier === "exclusive_pickup") && data.street
+        ? data.street
+        : undefined,
     transportTier: data.transportTier,
     direction: data.transportTier === "none" ? undefined : data.direction,
     bikeCount: data.transportTier === "none" ? undefined : data.bikeCount,
