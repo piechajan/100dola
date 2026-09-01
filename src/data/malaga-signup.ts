@@ -116,6 +116,28 @@ export function malagaTierShort(tier: MalagaTransportTier, direction?: MalagaDir
   return `${t} · ${direction === "roundtrip" ? "round-trip" : "one-way"}`;
 }
 
+// Orientační cena DOPRAVY (Basic = firemní; Exclusive = „od", prémiová po domluvě).
+// Ceny drženy v sync s TRANSPORT_PRICES v malaga.ts (one-way 125/ebike 225, round 200/ebike 350).
+export interface TransportEstimate {
+  total: number;
+  perBike: number;
+  bikes: number;
+  exclusive: boolean;
+}
+export function estimateTransportEur(o: {
+  transportTier: MalagaTransportTier;
+  direction?: MalagaDirection;
+  bikeCount?: number;
+  bikeType?: MalagaBikeType;
+}): TransportEstimate | null {
+  if (o.transportTier === "none") return null;
+  const bikes = Math.max(1, o.bikeCount ?? 1);
+  const ebike = o.bikeType === "ebike";
+  const roundtrip = o.direction === "roundtrip";
+  const perBike = roundtrip ? (ebike ? 350 : 200) : (ebike ? 225 : 125);
+  return { total: perBike * bikes, perBike, bikes, exclusive: o.transportTier !== "basic" };
+}
+
 // Struktura uložená do event_signups.options (jsonb).
 export interface MalagaSignupOptions {
   groupKind?: MalagaGroupKind;
@@ -151,6 +173,13 @@ export function malagaSummaryLines(o: MalagaSignupOptions): { label: string; val
     if (o.bikeCount) lines.push({ label: "Počet kol", value: String(o.bikeCount) });
     if (o.bikeType) lines.push({ label: "Typ kola", value: BIKE_TYPE_LABELS[o.bikeType] });
     if (o.storageAfter) lines.push({ label: "Kolo po akci", value: STORAGE_AFTER_LABELS[o.storageAfter] });
+  }
+  const est = estimateTransportEur(o);
+  if (est) {
+    lines.push({
+      label: "Orientační cena dopravy",
+      value: `${est.exclusive ? "od " : ""}${est.total} €${est.bikes > 1 ? ` (${est.bikes}× ${est.perBike} €)` : ""}`,
+    });
   }
 
   lines.push({

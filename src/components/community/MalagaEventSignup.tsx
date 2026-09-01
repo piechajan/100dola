@@ -12,6 +12,7 @@ import {
   BIKE_TYPE_OPTIONS,
   STORAGE_AFTER_OPTIONS,
   NUTRITION_ITEMS,
+  estimateTransportEur,
   type MalagaTransportTier,
   type MalagaDirection,
   type MalagaBikeType,
@@ -189,6 +190,7 @@ function SignupModal({
 
   const hasTransport = transportTier !== "none";
   const isExclusive = transportTier === "exclusive_full" || transportTier === "exclusive_pickup";
+  const transportEst = estimateTransportEur({ transportTier, direction, bikeCount, bikeType });
 
   const addMember = () => {
     if (members.length >= MAX_MEMBERS) return;
@@ -427,6 +429,22 @@ function SignupModal({
               <div className="mt-3">
                 <MalagaBoxBanner color={color} />
               </div>
+
+              {/* Živý orientační odhad DOPRAVY */}
+              {transportEst && (
+                <div className="mt-3 rounded-xl p-3" style={{ background: `${color}12` }}>
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="text-sm font-bold text-[#1a1a2e]">Orientační cena dopravy</span>
+                    <span className="text-base font-black" style={{ color }}>
+                      {transportEst.exclusive ? "od " : ""}{transportEst.total} €
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-[#9AA3C2] mt-1">
+                    {transportEst.bikes > 1 ? `${transportEst.bikes}× ${transportEst.perBike} € · ` : ""}
+                    Jen doprava. Ubytování a výživu doladíme v nabídce.{transportEst.exclusive ? " Exkluzivní servis po domluvě." : ""}
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* C. Ubytování */}
