@@ -71,6 +71,7 @@ export const NUTRITION_ITEMS: { key: string; label: string; hint?: string }[] = 
     hint: "tip na vyjížďku — po cestě doplníš jen vodu",
   },
   { key: "isoDrink", label: "Iontový nápoj" },
+  { key: "spareTube", label: "Náhradní duše", hint: "light weight" },
 ];
 
 export const STORAGE_AFTER_OPTIONS: OptionCard<MalagaStorageAfter>[] = [

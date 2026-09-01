@@ -340,11 +340,11 @@ function SignupModal({
                     <div className="grid grid-cols-2 gap-2 pt-1">
                       <label className="text-[11px] text-[#9AA3C2]">
                         Od
-                        <input type="date" value={customFrom} onChange={(e) => setCustomFrom(e.target.value)} className={inputClass} />
+                        <input type="date" value={customFrom} onChange={(e) => { const v = e.target.value; setCustomFrom(v); if (!customTo || customTo < v) setCustomTo(v); }} className={inputClass} />
                       </label>
                       <label className="text-[11px] text-[#9AA3C2]">
                         Do
-                        <input type="date" value={customTo} onChange={(e) => setCustomTo(e.target.value)} className={inputClass} />
+                        <input type="date" value={customTo} min={customFrom || undefined} onChange={(e) => setCustomTo(e.target.value)} className={inputClass} />
                       </label>
                     </div>
                   )}

@@ -446,11 +446,11 @@ function SignupModal({
                 <div className="mt-3 grid grid-cols-2 gap-2">
                   <label className="text-[11px] text-[#9AA3C2]">
                     Od
-                    <input type="date" value={accFrom} onChange={(e) => setAccFrom(e.target.value)} className={inputClass} />
+                    <input type="date" value={accFrom} onChange={(e) => { const v = e.target.value; setAccFrom(v); if (!accTo || accTo < v) setAccTo(v); }} className={inputClass} />
                   </label>
                   <label className="text-[11px] text-[#9AA3C2]">
                     Do
-                    <input type="date" value={accTo} onChange={(e) => setAccTo(e.target.value)} className={inputClass} />
+                    <input type="date" value={accTo} min={accFrom || undefined} onChange={(e) => setAccTo(e.target.value)} className={inputClass} />
                   </label>
                   <p className="col-span-2 text-[11px] text-[#9AA3C2]">Necháš prázdné = po dobu akce.</p>
                 </div>
