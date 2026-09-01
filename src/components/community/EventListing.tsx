@@ -94,7 +94,7 @@ const events: UIEvent[] = [
     description:
       "Pohodová čtvrteční vyjížďka OMC. Start Chochino Koloniál Kafe, cíl Vista Bar. Tempo pro každého.",
     photo: "/media/thursday-easy-ride-2026.webp",
-    photoPosition: "center 45%",
+    photoPosition: "center 50%",
     routeUrl: "https://mapy.com/s/cusucagugo",
   },
   {
@@ -114,7 +114,7 @@ const events: UIEvent[] = [
     description:
       "Víkend na Rychlebských stezkách (IMBA trail centrum). Pátek příjezd, sobota + neděle ježdění, koupání v lomu a společné opíkání. V případě zájmu nás kontaktuj — zajistíme ubytování. Výbava: horské kolo.",
     photo: "/media/rychlebske-stezky-2026.webp",
-    photoPosition: "center 75%",
+    photoPosition: "center 70%",
     routeUrl: "https://www.rychlebskestezky.cz/cs/trails",
   },
   {
