@@ -622,7 +622,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                       className="group bg-white rounded-2xl border border-[#E2E6F3] overflow-hidden hover:shadow-lg transition-all duration-200"
                     >
                       <div className="relative h-36 overflow-hidden">
-                        <Image src={rel.photo} alt={rel.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <Image src={rel.photo} alt={rel.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-500" style={{ objectPosition: rel.photoPosition ?? "center" }} />
                         <span
                           className="absolute top-3 left-3 text-[11px] font-bold px-2.5 py-1 rounded-full text-white"
                           style={{ backgroundColor: `${rc}cc` }}

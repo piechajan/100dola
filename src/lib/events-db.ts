@@ -78,6 +78,7 @@ function overlayCodeOnlyFields(dbEvent: Event, staticEvent: Event | undefined): 
     groupSignup: staticEvent.groupSignup ?? dbEvent.groupSignup,
     signupVenue: staticEvent.signupVenue ?? dbEvent.signupVenue,
     malagaSignup: staticEvent.malagaSignup ?? dbEvent.malagaSignup,
+    photoPosition: staticEvent.photoPosition ?? dbEvent.photoPosition,
     gpxPath: staticEvent.gpxPath ?? dbEvent.gpxPath,
     scottCta: staticEvent.scottCta ?? dbEvent.scottCta,
     participants: staticEvent.participants ?? dbEvent.participants,

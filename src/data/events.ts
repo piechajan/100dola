@@ -30,6 +30,8 @@ export interface Event {
   whoIsItFor: string;
   organizer: { name: string; role: string };
   photo: string;
+  /** CSS object-position ořezu fotky (např. „center 65%") — sync s EventListing kartami. */
+  photoPosition?: string;
   photoGallery?: string[];
   routeUrl?: string;
   mapUrl?: string;
@@ -125,6 +127,7 @@ Po jízdě klasika — společné posezení v restauraci Po Cestě.`,
     whoIsItFor: "Zkušení jezdci, co si chtějí sáhnout na dlouhé kilometry.",
     organizer: { name: "Open Miles Clinic", role: "klubová jízda" },
     photo: "/media/puchov-pain.webp",
+    photoPosition: "center 55%",
     routeUrl: "https://mapy.com/s/metasorafo",
     startVenue: {
       name: "Café Tucan",
@@ -166,6 +169,7 @@ Ideální, když si chceš zajezdit ve skupině bez tlaku na výkon. Přijď na 
     whoIsItFor: "Pro všechny — pohodové tempo, nikdo se neztratí.",
     organizer: { name: "Open Miles Clinic", role: "klubová jízda" },
     photo: "/media/thursday-easy-ride-2026.webp",
+    photoPosition: "center 50%",
     routeUrl: "https://mapy.com/s/cusucagugo",
     startVenue: {
       name: "Chochino Koloniál Kafe",
@@ -216,6 +220,7 @@ Vhodná výbava: horské kolo (ideálně celoodpružené), helma, chrániče.
     whoIsItFor: "Jezdci se zkušeností na trailech — technické i flow tratě pro pokročilé.",
     organizer: { name: "Open Miles Clinic", role: "klubová akce" },
     photo: "/media/rychlebske-stezky-2026.webp",
+    photoPosition: "center 65%",
     routeUrl: "https://www.rychlebskestezky.cz/cs/trails",
     groupSignup: true,
     signupVenue: "Pension Radost",
