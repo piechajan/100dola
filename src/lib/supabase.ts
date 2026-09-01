@@ -67,7 +67,8 @@ export interface EventSignupRow {
   gdpr_consent: boolean;
   public_consent: boolean;
   photo_url: string | null;
-  status: "new" | "contacted" | "confirmed" | "cancelled";
+  status: "new" | "processing" | "offer_sent" | "paid" | "pending" | "cancelled";
+  admin_note: string | null;
   reminder_sent_at: string | null;
   registered_at: string;
   created_at: string;

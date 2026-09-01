@@ -91,6 +91,12 @@ export default async function AdminHubPage() {
       countLabel: "aktivních",
     },
     {
+      href: "/admin/prihlasky",
+      label: "Přihlášky na akce",
+      description: "Rychleby + Malaga — stav (zpracovává se / posláno / zaplaceno / nedořešeno), poznámky",
+      emoji: "📝",
+    },
+    {
       href: "/admin/suppliers",
       label: "Dodavatelé",
       description: "ISAAC, FFWD, 4iiii, ALE — toggle import + web visibility, historie importů",
