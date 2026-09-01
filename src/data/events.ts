@@ -580,7 +580,8 @@ V ceně je zázemí, technická podpora a organizace tras. Ubytování řešíme
       "Cestovní pojištění — [zajistíme cestovní i pojištění kola](/pojisteni?zajem=cestovni)",
       "Chuť jezdit",
     ],
-    whoIsItFor: "Cyklisté všech úrovní. Ideální pro ty, kdo mají kolo v zázemí 100dola Malaga.",
+    whoIsItFor:
+      "Cyklisté všech úrovní — ideální pro ty, kdo mají kolo v zázemí 100dola Malaga. Jak to pojmeš, je na tobě: můžeš jet po svém a připojit se třeba jen na společnou večeři, svézt se s partou po naplánované trase, nebo to den ode dne kombinovat podle chuti a nohou. Nikdo tě nikam netlačí — jsme základna, ze které vyrážíš.",
     organizer: { name: "Jan Piecha", role: "Zakladatel 100dola Malaga" },
     photo: "/media/malaga-hero.jpg",
     malagaSignup: true,
@@ -612,7 +613,8 @@ Pokud ti nevyhovuje první termín nebo chceš přijet na oba — kolo zůstane 
       "Sluneční ochrana",
       "Cestovní pojištění — [zajistíme cestovní i pojištění kola](/pojisteni?zajem=cestovni)",
     ],
-    whoIsItFor: "Cyklisté všech úrovní. Vhodné i pro kombinaci s Malaga fall ride I.",
+    whoIsItFor:
+      "Cyklisté všech úrovní, vhodné i jako kombinace s Malaga fall ride I. Tempo i program si řídíš sám: jeď po svém a stav se jen na společnou večeři, přidej se k partě na naplánovanou trasu, nebo to míchej podle nálady. Základnu i trasy máš připravené — zbytek je na tobě.",
     organizer: { name: "Jan Piecha", role: "Zakladatel 100dola Malaga" },
     photo: "/media/malaga-event.jpg",
     malagaSignup: true,
