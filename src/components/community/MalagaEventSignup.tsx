@@ -143,6 +143,8 @@ function SignupModal({
   const [leadName, setLeadName] = useState("");
   const [leadEmail, setLeadEmail] = useState("");
   const [leadPhone, setLeadPhone] = useState("");
+  const [city, setCity] = useState("");
+  const [zip, setZip] = useState("");
   const [groupKind, setGroupKind] = useState<MalagaGroupKind>("individual");
   const [members, setMembers] = useState<Member[]>([]);
 
@@ -232,6 +234,8 @@ function SignupModal({
           leadName: leadName.trim(),
           leadEmail: leadEmail.trim(),
           leadPhone: leadPhone.trim(),
+          city: city.trim(),
+          zip: zip.trim(),
           groupKind,
           members: cleanMembers,
           transportTier,
@@ -338,6 +342,11 @@ function SignupModal({
                 <input type="text" placeholder="Jméno a příjmení *" value={leadName} onChange={(e) => setLeadName(e.target.value)} required minLength={2} className={inputClass} />
                 <input type="email" placeholder="E-mail *" value={leadEmail} onChange={(e) => setLeadEmail(e.target.value)} required className={inputClass} />
                 <input type="tel" placeholder="Telefon *" value={leadPhone} onChange={(e) => setLeadPhone(e.target.value)} required minLength={6} className={inputClass} />
+                <div className="grid grid-cols-[1fr_auto] gap-3">
+                  <input type="text" placeholder="Město" value={city} onChange={(e) => setCity(e.target.value)} className={inputClass} />
+                  <input type="text" placeholder="PSČ" value={zip} onChange={(e) => setZip(e.target.value)} inputMode="numeric" className={`${inputClass} w-28`} />
+                </div>
+                <p className="text-[11px] text-[#9AA3C2] -mt-1">Kvůli nejbližšímu sběrnému místu / odhadu svozu. Přesnou adresu řešíme až u Exclusive.</p>
                 <Chips
                   options={[
                     { value: "individual", label: "Jednotlivec" },

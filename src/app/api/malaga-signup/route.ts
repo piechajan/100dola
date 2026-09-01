@@ -80,6 +80,8 @@ export async function POST(req: NextRequest) {
 
   const options: MalagaSignupOptions = {
     groupKind: data.groupKind,
+    city: data.city || undefined,
+    zip: data.zip || undefined,
     transportTier: data.transportTier,
     direction: data.transportTier === "none" ? undefined : data.direction,
     bikeCount: data.transportTier === "none" ? undefined : data.bikeCount,

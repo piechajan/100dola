@@ -116,6 +116,8 @@ export function malagaTierShort(tier: MalagaTransportTier, direction?: MalagaDir
 // Struktura uložená do event_signups.options (jsonb).
 export interface MalagaSignupOptions {
   groupKind?: MalagaGroupKind;
+  city?: string;
+  zip?: string;
   transportTier: MalagaTransportTier;
   direction?: MalagaDirection;
   bikeCount?: number;
@@ -133,6 +135,8 @@ export interface MalagaSignupOptions {
 export function malagaSummaryLines(o: MalagaSignupOptions): { label: string; value: string }[] {
   const lines: { label: string; value: string }[] = [];
   if (o.groupKind) lines.push({ label: "Typ", value: GROUP_KIND_LABELS[o.groupKind] });
+  const addr = [o.city, o.zip].filter(Boolean).join(", ");
+  if (addr) lines.push({ label: "Odkud (město / PSČ)", value: addr });
 
   lines.push({ label: "Doprava kola", value: TRANSPORT_TIER_LABELS[o.transportTier] });
   if (o.transportTier !== "none") {

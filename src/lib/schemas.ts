@@ -285,6 +285,9 @@ export const MalagaSignupPayloadSchema = z
     leadName: z.string().min(2).max(120).trim(),
     leadEmail: z.email().max(254).toLowerCase(),
     leadPhone: z.string().min(6).max(40).trim(),
+    // Odkud jsi — pro nejbližší sběrné místo / odhad svozu. Ulici řešíme až u Exclusive.
+    city: z.string().max(120).trim().optional().or(z.literal("")),
+    zip: z.string().max(20).trim().optional().or(z.literal("")),
     groupKind: z.enum(["individual", "group", "club"]).optional(),
     members: z.array(EventSignupMemberSchema).max(10).optional().default([]),
     // Doprava kola.
