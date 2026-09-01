@@ -385,6 +385,7 @@ const FILTERS = ["Vše", "Silnice", "Gravel", "MTB", "Skialpy", "Běžky", "Turi
 
 export default function EventListing() {
   const [active, setActive] = useState("Vše");
+  const [pastYear, setPastYear] = useState<string>("Vše");
   const [stravaEvents, setStravaEvents] = useState<UIEvent[]>([]);
   // Dnešní datum se dosadí až po mountu — SSR/první render použije jen ručně
   // nastavené isPast flagy (žádný hydration mismatch, žádné build-time zamrznutí).
@@ -448,6 +449,21 @@ export default function EventListing() {
   // Rozdělení do dvou sekcí: nadcházející nahoře, proběhlé (historie) dole.
   const upcoming = filtered.filter((e) => !e.isPast);
   const past = filtered.filter((e) => e.isPast);
+
+  // Year-filter historie — roky se odvozují automaticky z dat proběhlých akcí.
+  // Jakmile se přehoupne rok, minulý ročník se objeví jako samostatný filtr.
+  const pastYears = Array.from(
+    new Set(past.map((e) => (e.dateISO ?? "").slice(0, 4)).filter(Boolean)),
+  ).sort((a, b) => b.localeCompare(a));
+  const activePastYear = pastYears.includes(pastYear) ? pastYear : "Vše";
+  const pastFiltered =
+    activePastYear === "Vše" ? past : past.filter((e) => (e.dateISO ?? "").startsWith(activePastYear));
+  // Filtr ukážeme, jakmile katalog zasahuje víc roků (tj. po přelomu roku),
+  // ne když je celá historie z jednoho roku.
+  const allYears = new Set(
+    [...upcoming, ...past].map((e) => (e.dateISO ?? "").slice(0, 4)).filter(Boolean),
+  );
+  const showYearFilter = pastYears.length >= 1 && allYears.size > 1;
 
   return (
     <section id="eventy" className="py-20 md:py-24 bg-white">
@@ -524,11 +540,34 @@ export default function EventListing() {
               <span className="text-xs tracking-[0.18em] uppercase font-bold text-[#9AA3C2]">Historie</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-black text-[#1a1a2e] mb-2">Proběhlo</h2>
-            <p className="text-sm text-[#9AA3C2] mb-10 max-w-xl">
+            <p className="text-sm text-[#9AA3C2] mb-6 max-w-xl">
               Akce, které už máme za sebou. Kde jsme byli, co jsme jeli.
             </p>
+
+            {/* Year-filter — objeví se automaticky, jakmile katalog zasahuje víc roků */}
+            {showYearFilter && (
+              <div className="flex flex-wrap gap-2 mb-10">
+                {["Vše", ...pastYears].map((y) => {
+                  const isActive = activePastYear === y;
+                  return (
+                    <button
+                      key={y}
+                      onClick={() => setPastYear(y)}
+                      className="px-4 py-2 rounded-full text-sm font-semibold transition-all duration-150"
+                      style={{
+                        backgroundColor: isActive ? "#1a1a2e" : "#F0F2FA",
+                        color: isActive ? "white" : "#5A6480",
+                      }}
+                    >
+                      {y}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {past.map((event) => (
+              {pastFiltered.map((event) => (
                 <EventCard key={event.id} event={event} />
               ))}
             </div>
