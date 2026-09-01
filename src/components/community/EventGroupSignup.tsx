@@ -24,6 +24,25 @@ function addDays(iso: string, n: number): string {
   return d.toISOString().slice(0, 10);
 }
 
+// Zmenší fotku na max 512px a vrátí webp Blob — šetří upload i Blob storage.
+async function resizeToWebp(file: File, max = 512): Promise<Blob | null> {
+  try {
+    const img = await createImageBitmap(file);
+    const scale = Math.min(1, max / Math.max(img.width, img.height));
+    const w = Math.round(img.width * scale);
+    const h = Math.round(img.height * scale);
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+    ctx.drawImage(img, 0, 0, w, h);
+    return await new Promise((res) => canvas.toBlob((b) => res(b), "image/webp", 0.82));
+  } catch {
+    return null;
+  }
+}
+
 // ── Portal ──────────────────────────────────────────────────────────────────
 function Portal({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
@@ -66,9 +85,19 @@ function SignupModal({
   const [customTo, setCustomTo] = useState(presetTo);
   const [note, setNote] = useState("");
   const [gdpr, setGdpr] = useState(false);
+  const [publicConsent, setPublicConsent] = useState(false);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState("");
   const [website, setWebsite] = useState(""); // honeypot
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setPhotoFile(f);
+    setPhotoPreview(URL.createObjectURL(f));
+  };
 
   const addMember = () => {
     if (members.length >= MAX_MEMBERS) return;
@@ -104,6 +133,21 @@ function SignupModal({
 
     setSubmitting(true);
     try {
+      // Fotku nahráváme jen se souhlasem se zveřejněním účasti.
+      let photoUrl = "";
+      if (publicConsent && photoFile) {
+        const resized = await resizeToWebp(photoFile);
+        if (resized) {
+          const fd = new FormData();
+          fd.append("file", new File([resized], "photo.webp", { type: "image/webp" }));
+          const up = await fetch("/api/event-signup/photo", { method: "POST", body: fd });
+          if (up.ok) {
+            const b = await up.json().catch(() => null);
+            photoUrl = b?.url || "";
+          }
+        }
+      }
+
       const res = await fetch("/api/event-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -118,6 +162,8 @@ function SignupModal({
           nightsTo,
           note: note.trim(),
           consentGdpr: true,
+          publicConsent,
+          photoUrl,
           website,
         }),
       });
@@ -339,6 +385,62 @@ function SignupModal({
               rows={2}
               className={inputClass}
             />
+
+            {/* Zveřejnit účast — social proof */}
+            <div
+              className="rounded-xl border-2 p-3 transition-all"
+              style={{
+                borderColor: publicConsent ? color : "#E2E6F3",
+                backgroundColor: publicConsent ? `${color}08` : "transparent",
+              }}
+            >
+              <label className="flex items-start gap-3 cursor-pointer select-none">
+                <div
+                  className="w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 mt-0.5 transition-all"
+                  style={{ borderColor: publicConsent ? color : "#C0C7D8", backgroundColor: publicConsent ? color : "transparent" }}
+                >
+                  {publicConsent && (
+                    <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={3}>
+                      <path d="M20 6 9 17l-5-5" />
+                    </svg>
+                  )}
+                </div>
+                <input type="checkbox" checked={publicConsent} onChange={(e) => setPublicConsent(e.target.checked)} className="sr-only" />
+                <span>
+                  <span className="block text-sm font-bold text-[#1a1a2e]">Zveřejnit mou účast</span>
+                  <span className="block text-xs text-[#9AA3C2] mt-0.5 leading-relaxed">
+                    Tvoje jméno (a fotka, když přidáš) se ukáže v seznamu „kdo jede" — ať ostatní vidí, že se jede, třeba se přidá i kamarád. Bez souhlasu jsi jen „Účastník".
+                  </span>
+                </span>
+              </label>
+
+              {publicConsent && (
+                <div className="flex items-center gap-3 mt-3 pt-3 border-t border-[#E2E6F3]">
+                  <label
+                    htmlFor={`photo-${eventSlug}`}
+                    className="w-12 h-12 rounded-full border-2 border-dashed flex items-center justify-center overflow-hidden cursor-pointer shrink-0"
+                    style={{ borderColor: `${color}55` }}
+                  >
+                    {photoPreview ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={photoPreview} alt="náhled" className="w-full h-full object-cover" />
+                    ) : (
+                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#C0C7D8" strokeWidth={1.5}>
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                      </svg>
+                    )}
+                  </label>
+                  <div>
+                    <label htmlFor={`photo-${eventSlug}`} className="text-sm font-semibold cursor-pointer" style={{ color }}>
+                      {photoPreview ? "Změnit fotku" : "Přidat fotku"}
+                    </label>
+                    <p className="text-xs text-[#C0C7D8] mt-0.5">Nepovinné · ať tě ostatní poznají</p>
+                  </div>
+                  <input id={`photo-${eventSlug}`} type="file" accept="image/*" className="sr-only" onChange={handlePhoto} />
+                </div>
+              )}
+            </div>
 
             {/* GDPR */}
             <label className="flex items-start gap-3 cursor-pointer select-none">

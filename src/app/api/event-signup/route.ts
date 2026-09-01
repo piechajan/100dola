@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { EventSignupPayloadSchema, HONEYPOT_NAME } from "@/lib/schemas";
 import {
   sendEventSignupConfirmation,
@@ -94,6 +95,9 @@ export async function POST(req: NextRequest) {
       nights_to: nightsTo,
       note: data.note || null,
       gdpr_consent: data.consentGdpr,
+      public_consent: data.publicConsent ?? false,
+      // Fotku ukládáme jen se souhlasem se zveřejněním.
+      photo_url: data.publicConsent && data.photoUrl ? data.photoUrl : null,
     })
     .select("id")
     .single();
@@ -107,6 +111,9 @@ export async function POST(req: NextRequest) {
   }
 
   const signupId = inserted.id as string;
+
+  // Obnovit veřejný seznam účastníků (social proof) po nové přihlášce.
+  revalidateTag(`signups-${data.eventSlug}`, "max");
 
   if (members.length > 0) {
     const { error: memErr } = await sb.from("event_signup_members").insert(

@@ -65,6 +65,8 @@ export interface EventSignupRow {
   options: Record<string, unknown> | null;
   note: string | null;
   gdpr_consent: boolean;
+  public_consent: boolean;
+  photo_url: string | null;
   status: "new" | "contacted" | "confirmed" | "cancelled";
   reminder_sent_at: string | null;
   registered_at: string;

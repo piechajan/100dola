@@ -267,6 +267,9 @@ export const EventSignupPayloadSchema = z
     nightsTo: z.string().max(10).trim().optional().or(z.literal("")),
     note: z.string().max(2000).trim().optional().or(z.literal("")),
     consentGdpr: z.literal(true),
+    // Zveřejnění účasti (jméno + foto v seznamu účastníků) — social proof.
+    publicConsent: z.boolean().optional().default(false),
+    photoUrl: z.string().max(600).optional().or(z.literal("")),
     // Cloudflare Turnstile — volitelné (env-gated no-op když klíče chybí).
     turnstileToken: z.string().max(4000).optional(),
   })
