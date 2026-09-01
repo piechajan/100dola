@@ -60,7 +60,9 @@ export const BIKE_TYPE_OPTIONS: OptionCard<MalagaBikeType>[] = [
 ];
 
 // SPONSER položky k předobjednání na místě (za zvýhodněné ceny pro účastníky).
-export const NUTRITION_ITEMS: { key: string; label: string; hint?: string }[] = [
+// `href` = future hook: proklik na konkrétní produkt (interní e-shop URL, ne ven —
+// držíme traffic na 100dola.com). Až budou produkty, jen doplnit href u položky.
+export const NUTRITION_ITEMS: { key: string; label: string; hint?: string; href?: string }[] = [
   { key: "gel", label: "Gel" },
   { key: "proteinBar", label: "Proteinová tyčinka" },
   { key: "energyBar", label: "Energetická tyčinka" },

@@ -476,7 +476,13 @@ function SignupModal({
                   {NUTRITION_ITEMS.map((it) => (
                     <div key={it.key} className="flex items-center justify-between gap-3">
                       <span className="text-sm text-[#1a1a2e]">
-                        {it.label}
+                        {it.href ? (
+                          <a href={it.href} target="_blank" rel="noopener" className="underline decoration-dotted hover:opacity-80" style={{ color }}>
+                            {it.label}
+                          </a>
+                        ) : (
+                          it.label
+                        )}
                         {it.hint && <span className="text-[#9AA3C2]"> ({it.hint})</span>}
                       </span>
                       <input
