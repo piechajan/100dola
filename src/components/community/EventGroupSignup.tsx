@@ -75,11 +75,15 @@ function SignupModal({
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0];
-    if (!f) return;
+  const setPhoto = (f: File | undefined | null) => {
+    if (!f || !f.type.startsWith("image/")) return;
     setPhotoFile(f);
     setPhotoPreview(URL.createObjectURL(f));
+  };
+  const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => setPhoto(e.target.files?.[0]);
+  const handlePhotoDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setPhoto(e.dataTransfer.files?.[0]);
   };
 
   const addMember = () => {
@@ -389,7 +393,11 @@ function SignupModal({
               </label>
 
               {publicConsent && (
-                <div className="flex items-center gap-3 mt-3 pt-3 border-t border-[#E2E6F3]">
+                <div
+                  className="flex items-center gap-3 mt-3 pt-3 border-t border-[#E2E6F3]"
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={handlePhotoDrop}
+                >
                   <label
                     htmlFor={`photo-${eventSlug}`}
                     className="w-12 h-12 rounded-full border-2 border-dashed flex items-center justify-center overflow-hidden cursor-pointer shrink-0"
@@ -409,7 +417,7 @@ function SignupModal({
                     <label htmlFor={`photo-${eventSlug}`} className="text-sm font-semibold cursor-pointer" style={{ color }}>
                       {photoPreview ? "Změnit fotku" : "Přidat fotku"}
                     </label>
-                    <p className="text-xs text-[#C0C7D8] mt-0.5">Nepovinné · ať tě ostatní poznají</p>
+                    <p className="text-xs text-[#C0C7D8] mt-0.5">Nepovinné · klikni nebo přetáhni sem</p>
                   </div>
                   <input id={`photo-${eventSlug}`} type="file" accept="image/*" className="sr-only" onChange={handlePhoto} />
                 </div>
