@@ -297,14 +297,18 @@ export const MalagaSignupPayloadSchema = z
     accommodation: z.enum(["interest", "own"]),
     accommodationFrom: z.string().max(10).trim().optional().or(z.literal("")),
     accommodationTo: z.string().max(10).trim().optional().or(z.literal("")),
-    // Výživa SPONSER na místě.
+    // Výživa SPONSER na místě (za zvýhodněné ceny).
     nutritionSponser: z.enum(["interest", "no"]),
     nutritionPrefs: z.string().max(300).trim().optional().or(z.literal("")),
+    nutritionItems: z.record(z.string().max(40), z.number().int().min(0).max(99)).optional(),
     // Termín / zaměření.
     term: z.string().max(120).trim().optional().or(z.literal("")),
     focus: z.string().max(200).trim().optional().or(z.literal("")),
     note: z.string().max(2000).trim().optional().or(z.literal("")),
     consentGdpr: z.literal(true),
+    // Zveřejnění účasti (jméno + foto v seznamu účastníků).
+    publicConsent: z.boolean().optional().default(false),
+    photoUrl: z.string().max(600).optional().or(z.literal("")),
     turnstileToken: z.string().max(4000).optional(),
   })
   .merge(Honeypot);

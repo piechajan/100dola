@@ -50,15 +50,15 @@ export const EBIKE_SURCHARGE = {
 export const TRANSPORT_PRICES: PriceEntry[] = [
   {
     label: "Doprava one-way",
-    priceFromEur: 150,
-    priceEbikeFromEur: 250,
+    priceFromEur: 125,
+    priceEbikeFromEur: 225,
     unit: "za kolo",
     note: "Cesta z Česka do Malagy. Pojištění v ceně.",
   },
   {
     label: "Doprava round-trip",
-    priceFromEur: 250,
-    priceEbikeFromEur: 400,
+    priceFromEur: 200,
+    priceEbikeFromEur: 350,
     unit: "za kolo",
     note: "Tam i zpět v jedné objednávce. Ušetříš 50 € oproti dvěma jednosměrkám.",
   },

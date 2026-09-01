@@ -10,7 +10,7 @@ const accent = MALAGA_BRAND.color;
 export const metadata: Metadata = {
   title: "Přeprava kola do Malagy — pojištěná, plánovaná po blocích",
   description:
-    "Doprava kola z Česka do Malagy a zpět. One-way od 150 €, round-trip od 250 €. Pojištěná přeprava v zabezpečeném transportním boxu, sdíleně s dalšími koly.",
+    "Doprava kola z Česka do Malagy a zpět. One-way od 125 €, round-trip od 200 €. Pojištěná přeprava v zabezpečeném transportním boxu, sdíleně s dalšími koly.",
   alternates: { canonical: "/malaga/preprava" },
 };
 

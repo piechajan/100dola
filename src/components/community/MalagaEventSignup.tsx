@@ -5,11 +5,13 @@ import { createPortal } from "react-dom";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 import MalagaBoxBanner from "@/components/malaga/MalagaBoxBanner";
+import { uploadSignupPhoto } from "@/lib/resize-image";
 import {
   TRANSPORT_TIER_OPTIONS,
   DIRECTION_OPTIONS,
   BIKE_TYPE_OPTIONS,
   STORAGE_AFTER_OPTIONS,
+  NUTRITION_ITEMS,
   type MalagaTransportTier,
   type MalagaDirection,
   type MalagaBikeType,
@@ -156,14 +158,27 @@ function SignupModal({
 
   const [nutritionSponser, setNutritionSponser] = useState<MalagaYesNo>("interest");
   const [nutritionPrefs, setNutritionPrefs] = useState("");
+  const [nutritionItems, setNutritionItems] = useState<Record<string, number>>({});
 
   const [term, setTerm] = useState(eventDate);
   const [focus, setFocus] = useState("");
   const [note, setNote] = useState("");
   const [gdpr, setGdpr] = useState(false);
+  const [publicConsent, setPublicConsent] = useState(false);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState("");
   const [website, setWebsite] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const setItemQty = (key: string, qty: number) =>
+    setNutritionItems((prev) => ({ ...prev, [key]: Math.max(0, Math.min(99, qty || 0)) }));
+  const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setPhotoFile(f);
+    setPhotoPreview(URL.createObjectURL(f));
+  };
 
   const hasTransport = transportTier !== "none";
 
@@ -191,8 +206,20 @@ function SignupModal({
       .filter((m) => m.name.trim().length > 0)
       .map((m) => ({ name: m.name.trim(), email: m.email.trim(), phone: m.phone.trim() }));
 
+    // Položky SPONSER jen když je zájem — a jen nenulové.
+    const cleanItems =
+      nutritionSponser === "interest"
+        ? Object.fromEntries(Object.entries(nutritionItems).filter(([, q]) => q > 0))
+        : {};
+
     setSubmitting(true);
     try {
+      // Fotku nahráváme jen se souhlasem se zveřejněním (klient ji zmenší na webp).
+      let photoUrl = "";
+      if (publicConsent && photoFile) {
+        photoUrl = await uploadSignupPhoto(photoFile);
+      }
+
       const res = await fetch("/api/malaga-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -213,10 +240,13 @@ function SignupModal({
           accommodationTo: accommodation === "interest" ? accTo : "",
           nutritionSponser,
           nutritionPrefs: nutritionSponser === "interest" ? nutritionPrefs.trim() : "",
+          nutritionItems: cleanItems,
           term: term.trim(),
           focus: focus.trim(),
           note: note.trim(),
           consentGdpr: true,
+          publicConsent,
+          photoUrl,
           website,
         }),
       });
@@ -407,7 +437,7 @@ function SignupModal({
               <SectionTitle>Výživa na místě — SPONSER</SectionTitle>
               <RadioCards
                 options={[
-                  { value: "interest", label: "Mám zájem", icon: "🥤", description: "Gely, iontové nápoje, proteiny a doplňky SPONSER (švýcarská prémiová značka) k dispozici na místě." },
+                  { value: "interest", label: "Mám zájem", icon: "🥤", description: "Gely, iontové nápoje, proteiny a doplňky SPONSER (švýcarská prémiová značka) na místě — za zvýhodněné ceny pro účastníky." },
                   { value: "no", label: "Nemám zájem", icon: "—", description: "Výživu si vezmu vlastní." },
                 ]}
                 value={nutritionSponser}
@@ -416,13 +446,30 @@ function SignupModal({
                 name="nutritionSponser"
               />
               {nutritionSponser === "interest" && (
-                <input
-                  type="text"
-                  placeholder="Co preferuješ? (gely / ionták / protein / poradíte)"
-                  value={nutritionPrefs}
-                  onChange={(e) => setNutritionPrefs(e.target.value)}
-                  className={`${inputClass} mt-3`}
-                />
+                <div className="mt-3 rounded-xl bg-[#F7F9FF] p-3 space-y-2">
+                  <p className="text-[11px] text-[#9AA3C2]">Kolik čeho chceš předobjednat? (za zvýhodněné ceny, upřesníme v nabídce)</p>
+                  {NUTRITION_ITEMS.map((it) => (
+                    <div key={it.key} className="flex items-center justify-between gap-3">
+                      <span className="text-sm text-[#1a1a2e]">{it.label}</span>
+                      <input
+                        type="number"
+                        min={0}
+                        max={99}
+                        value={nutritionItems[it.key] ?? 0}
+                        onChange={(e) => setItemQty(it.key, Number(e.target.value))}
+                        aria-label={`Počet — ${it.label}`}
+                        className="w-16 px-2 py-1.5 rounded-lg text-sm border border-[#E2E6F3] text-[#1a1a2e] text-center focus:outline-none focus:border-current"
+                      />
+                    </div>
+                  ))}
+                  <input
+                    type="text"
+                    placeholder="Něco jiného / poznámka (nepovinné)"
+                    value={nutritionPrefs}
+                    onChange={(e) => setNutritionPrefs(e.target.value)}
+                    className={`${inputClass} mt-1`}
+                  />
+                </div>
               )}
             </div>
 
@@ -437,6 +484,51 @@ function SignupModal({
 
             {/* F. Poznámka + GDPR */}
             <textarea placeholder="Poznámka (nepovinné)" value={note} onChange={(e) => setNote(e.target.value)} rows={2} className={inputClass} />
+
+            {/* Zveřejnit účast — social proof */}
+            <div
+              className="rounded-xl border-2 p-3 transition-all"
+              style={{ borderColor: publicConsent ? color : "#E2E6F3", backgroundColor: publicConsent ? `${color}08` : "transparent" }}
+            >
+              <label className="flex items-start gap-3 cursor-pointer select-none">
+                <div className="w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 mt-0.5 transition-all" style={{ borderColor: publicConsent ? color : "#C0C7D8", backgroundColor: publicConsent ? color : "transparent" }}>
+                  {publicConsent && <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={3}><path d="M20 6 9 17l-5-5" /></svg>}
+                </div>
+                <input type="checkbox" checked={publicConsent} onChange={(e) => setPublicConsent(e.target.checked)} className="sr-only" />
+                <span>
+                  <span className="block text-sm font-bold text-[#1a1a2e]">Zveřejnit mou účast</span>
+                  <span className="block text-xs text-[#9AA3C2] mt-0.5 leading-relaxed">
+                    Tvoje jméno (a fotka, když přidáš) se ukáže v seznamu „kdo jede". Bez souhlasu jsi jen „Účastník".
+                  </span>
+                </span>
+              </label>
+              {publicConsent && (
+                <div className="flex items-center gap-3 mt-3 pt-3 border-t border-[#E2E6F3]">
+                  <label
+                    htmlFor={`malaga-photo-${eventSlug}`}
+                    className="w-12 h-12 rounded-full border-2 border-dashed flex items-center justify-center overflow-hidden cursor-pointer shrink-0"
+                    style={{ borderColor: `${color}55` }}
+                  >
+                    {photoPreview ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={photoPreview} alt="náhled" className="w-full h-full object-cover" />
+                    ) : (
+                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#C0C7D8" strokeWidth={1.5}>
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                      </svg>
+                    )}
+                  </label>
+                  <div>
+                    <label htmlFor={`malaga-photo-${eventSlug}`} className="text-sm font-semibold cursor-pointer" style={{ color }}>
+                      {photoPreview ? "Změnit fotku" : "Přidat fotku"}
+                    </label>
+                    <p className="text-xs text-[#C0C7D8] mt-0.5">Nepovinné · zmenšíme ji za tebe</p>
+                  </div>
+                  <input id={`malaga-photo-${eventSlug}`} type="file" accept="image/*" className="sr-only" onChange={handlePhoto} />
+                </div>
+              )}
+            </div>
 
             <label className="flex items-start gap-3 cursor-pointer select-none">
               <div className="w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 mt-0.5 transition-all" style={{ borderColor: gdpr ? color : "#C0C7D8", backgroundColor: gdpr ? color : "transparent" }}>

@@ -511,8 +511,8 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   </div>
                 </div>
 
-                {/* Účastníci — kdo jede (social proof, jen komunitní group akce + se souhlasem) */}
-                {event.groupSignup && participants && (
+                {/* Účastníci — kdo jede (social proof, jen se souhlasem; group i Malaga) */}
+                {(event.groupSignup || event.malagaSignup) && participants && (
                   <div className="bg-white rounded-2xl p-5 border border-[#E2E6F3]">
                     <EventParticipants data={participants} color={color} />
                   </div>
@@ -579,7 +579,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
                   { href: "/malaga", t: "Jak to funguje", d: "Dovezeme, uskladníme, ty létáš light. Celý model za minutu." },
-                  { href: "/malaga/preprava", t: "Přeprava kola", d: "One-way od 150 €, round-trip od 250 €. Pojištěná, po blocích." },
+                  { href: "/malaga/preprava", t: "Přeprava kola", d: "One-way od 125 €, round-trip od 200 €. Pojištěná, po blocích." },
                   { href: "/malaga/uskladneni", t: "Uskladnění", d: "Monitorovaný sklad od 69 €/měsíc. Kolo čeká připravené." },
                   { href: "/malaga/trasy", t: "Trasy a okruhy", d: "12 tras s mapou, profilem a GPX. Od rozjezdu po královské etapy." },
                   { href: "/malaga/trasy/voda", t: "Počasí a voda", d: "5denní předpověď + mapa všech pramenů a doplnění na trasách." },

@@ -88,6 +88,10 @@ export async function POST(req: NextRequest) {
     accommodation: data.accommodation,
     nutritionSponser: data.nutritionSponser,
     nutritionPrefs: data.nutritionPrefs || undefined,
+    nutritionItems:
+      data.nutritionSponser === "interest" && data.nutritionItems && Object.keys(data.nutritionItems).length
+        ? data.nutritionItems
+        : undefined,
     term: data.term || undefined,
     focus: data.focus || undefined,
   };
@@ -115,6 +119,8 @@ export async function POST(req: NextRequest) {
       options,
       note: data.note || null,
       gdpr_consent: data.consentGdpr,
+      public_consent: data.publicConsent ?? false,
+      photo_url: data.publicConsent && data.photoUrl ? data.photoUrl : null,
     })
     .select("id")
     .single();

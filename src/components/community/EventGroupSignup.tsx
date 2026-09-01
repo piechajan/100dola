@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
+import { uploadSignupPhoto } from "@/lib/resize-image";
 import {
   STAY_OPTIONS,
   formatNights,
@@ -24,24 +25,6 @@ function addDays(iso: string, n: number): string {
   return d.toISOString().slice(0, 10);
 }
 
-// Zmenší fotku na max 512px a vrátí webp Blob — šetří upload i Blob storage.
-async function resizeToWebp(file: File, max = 512): Promise<Blob | null> {
-  try {
-    const img = await createImageBitmap(file);
-    const scale = Math.min(1, max / Math.max(img.width, img.height));
-    const w = Math.round(img.width * scale);
-    const h = Math.round(img.height * scale);
-    const canvas = document.createElement("canvas");
-    canvas.width = w;
-    canvas.height = h;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return null;
-    ctx.drawImage(img, 0, 0, w, h);
-    return await new Promise((res) => canvas.toBlob((b) => res(b), "image/webp", 0.82));
-  } catch {
-    return null;
-  }
-}
 
 // ── Portal ──────────────────────────────────────────────────────────────────
 function Portal({ children }: { children: React.ReactNode }) {
@@ -136,16 +119,7 @@ function SignupModal({
       // Fotku nahráváme jen se souhlasem se zveřejněním účasti.
       let photoUrl = "";
       if (publicConsent && photoFile) {
-        const resized = await resizeToWebp(photoFile);
-        if (resized) {
-          const fd = new FormData();
-          fd.append("file", new File([resized], "photo.webp", { type: "image/webp" }));
-          const up = await fetch("/api/event-signup/photo", { method: "POST", body: fd });
-          if (up.ok) {
-            const b = await up.json().catch(() => null);
-            photoUrl = b?.url || "";
-          }
-        }
+        photoUrl = await uploadSignupPhoto(photoFile);
       }
 
       const res = await fetch("/api/event-signup", {

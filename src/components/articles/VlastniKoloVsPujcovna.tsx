@@ -58,7 +58,7 @@ export default function VlastniKoloVsPujcovna() {
         <h3 className="text-xl font-bold text-[#1a1a2e] mt-8 mb-3">Profil 2: „Jedu 2× zimou + 1× jaro"</h3>
         <p className="text-sm text-[#5A6480] mb-5">
           Cca 3 týdny ročně v Malaze, hobby cyklista 150–200 km/týden doma. Půjčovna stojí
-          ~900 € za 3 týdny. 100dola: round-trip doprava 250 € + 4 měsíce skladu ~276 € = ~525 €. <strong>Levnější — a jezdíš na svém.</strong>
+          ~900 € za 3 týdny. 100dola: round-trip doprava 200 € + 4 měsíce skladu ~276 € = ~476 €. <strong>Levnější — a jezdíš na svém.</strong>
           Mínus komfort, plus radost.
         </p>
 

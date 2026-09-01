@@ -23,7 +23,7 @@ export const TRANSPORT_TIER_OPTIONS: OptionCard<MalagaTransportTier>[] = [
     label: "Basic — dovezu kolo sám",
     icon: "📦",
     description:
-      "Kolo přivezeš zabalené v boxu/krabici na sběrné místo. Nejlevnější varianta. One-way od 150 €, round-trip od 250 €.",
+      "Kolo přivezeš zabalené v boxu/krabici na sběrné místo. Nejlevnější varianta. One-way od 125 €, round-trip od 200 €.",
   },
   {
     value: "exclusive_full",
@@ -57,6 +57,16 @@ export const BIKE_TYPE_OPTIONS: OptionCard<MalagaBikeType>[] = [
   { value: "gravel", label: "Gravel", icon: "🌾", description: "" },
   { value: "mtb", label: "MTB", icon: "⛰️", description: "" },
   { value: "ebike", label: "E-bike", icon: "🔋", description: "Příplatek (one-way +100 €, round-trip +150 €)." },
+];
+
+// SPONSER položky k předobjednání na místě (za zvýhodněné ceny pro účastníky).
+export const NUTRITION_ITEMS: { key: string; label: string }[] = [
+  { key: "gel", label: "Gel" },
+  { key: "proteinBar", label: "Proteinová tyčinka" },
+  { key: "energyBar", label: "Energetická tyčinka" },
+  { key: "protein", label: "Protein" },
+  { key: "electrolyteTabs", label: "Elektrolyty v tabletách" },
+  { key: "isoDrink", label: "Iontový nápoj" },
 ];
 
 export const STORAGE_AFTER_OPTIONS: OptionCard<MalagaStorageAfter>[] = [
@@ -110,6 +120,7 @@ export interface MalagaSignupOptions {
   accommodation: MalagaAccommodation;
   nutritionSponser: MalagaYesNo;
   nutritionPrefs?: string;
+  nutritionItems?: Record<string, number>;
   term?: string;
   focus?: string;
 }
@@ -133,9 +144,16 @@ export function malagaSummaryLines(o: MalagaSignupOptions): { label: string; val
   });
   lines.push({
     label: "Výživa SPONSER",
-    value: o.nutritionSponser === "interest" ? "Zájem" : "Nemá zájem",
+    value: o.nutritionSponser === "interest" ? "Zájem (za zvýhodněné ceny)" : "Nemá zájem",
   });
-  if (o.nutritionPrefs) lines.push({ label: "Preference výživy", value: o.nutritionPrefs });
+  if (o.nutritionItems) {
+    const itemLabels = new Map(NUTRITION_ITEMS.map((it) => [it.key, it.label]));
+    const picked = Object.entries(o.nutritionItems)
+      .filter(([, qty]) => qty > 0)
+      .map(([key, qty]) => `${itemLabels.get(key) ?? key} ×${qty}`);
+    if (picked.length) lines.push({ label: "SPONSER položky", value: picked.join(", ") });
+  }
+  if (o.nutritionPrefs) lines.push({ label: "Poznámka k výživě", value: o.nutritionPrefs });
   if (o.term) lines.push({ label: "Termín", value: o.term });
   if (o.focus) lines.push({ label: "Zaměření", value: o.focus });
   return lines;
