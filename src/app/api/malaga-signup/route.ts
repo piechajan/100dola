@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { MalagaSignupPayloadSchema, HONEYPOT_NAME } from "@/lib/schemas";
 import {
   sendMalagaSignupConfirmation,
@@ -127,6 +128,9 @@ export async function POST(req: NextRequest) {
   }
 
   const signupId = inserted.id as string;
+
+  // Obnovit počet přihlášených (kapacita bar) po nové přihlášce.
+  revalidateTag(`signups-${data.eventSlug}`, "max");
 
   if (members.length > 0) {
     const { error: memErr } = await sb.from("event_signup_members").insert(

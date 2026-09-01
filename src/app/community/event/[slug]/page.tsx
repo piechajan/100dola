@@ -95,9 +95,12 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
     Boolean(event.isPast) ||
     (!!event.dateISO && event.dateISO < new Date().toISOString().slice(0, 10));
 
-  // Veřejný seznam účastníků (social proof) — jen pro komunitní skupinové akce.
+  // Reálný počet přihlášených z DB (kapacita bar) — pro group i Malaga přihlášky.
   const participants =
-    event.groupSignup && !eventIsPast ? await getEventParticipants(event.slug) : null;
+    (event.groupSignup || event.malagaSignup) && !eventIsPast
+      ? await getEventParticipants(event.slug)
+      : null;
+  const realFilled = participants?.people ?? 0;
 
   return (
     <>
@@ -481,6 +484,8 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                         eventTitle={event.title}
                         eventDate={event.date}
                         color={color}
+                        filledCount={realFilled}
+                        capacity={event.capacity}
                       />
                     ) : event.groupSignup ? (
                       /* Skupinová přihláška (lead + členové + pobyt) */
@@ -490,6 +495,8 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                         color={color}
                         venue={event.signupVenue || "naše základna"}
                         startISO={event.dateISO}
+                        filledCount={realFilled}
+                        capacity={event.capacity}
                       />
                     ) : (
                       /* Standardní registrace */
@@ -504,8 +511,8 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   </div>
                 </div>
 
-                {/* Účastníci — kdo jede (social proof, jen se souhlasem) */}
-                {participants && (
+                {/* Účastníci — kdo jede (social proof, jen komunitní group akce + se souhlasem) */}
+                {event.groupSignup && participants && (
                   <div className="bg-white rounded-2xl p-5 border border-[#E2E6F3]">
                     <EventParticipants data={participants} color={color} />
                   </div>

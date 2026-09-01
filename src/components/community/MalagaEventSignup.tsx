@@ -469,14 +469,20 @@ export default function MalagaEventSignup({
   eventTitle,
   eventDate,
   color,
+  filledCount = 0,
+  capacity,
 }: {
   eventSlug: string;
   eventTitle: string;
   eventDate: string;
   color: string;
+  filledCount?: number;
+  capacity: number;
 }) {
   const [showForm, setShowForm] = useState(false);
   const [done, setDone] = useState(false);
+  const left = Math.max(0, capacity - filledCount);
+  const fillPct = capacity > 0 ? Math.min(100, (filledCount / capacity) * 100) : 0;
 
   if (done) {
     return (
@@ -494,6 +500,21 @@ export default function MalagaEventSignup({
 
   return (
     <>
+      {/* Kapacita — reálný počet přihlášených z DB */}
+      <div className="flex items-center justify-between mb-2">
+        <div>
+          <div className="text-xs text-[#9AA3C2] font-medium">Kapacita</div>
+          <div className="font-black text-[#1a1a2e] text-lg">{filledCount} / {capacity}</div>
+        </div>
+        <div className="text-right">
+          <div className="text-xs text-[#9AA3C2] font-medium">Zbývá</div>
+          <div className="font-black text-lg" style={{ color }}>{left} míst</div>
+        </div>
+      </div>
+      <div className="h-2 bg-[#F0F2FA] rounded-full overflow-hidden mb-5">
+        <div className="h-full rounded-full transition-all" style={{ width: `${fillPct}%`, backgroundColor: color }} />
+      </div>
+
       <div className="mb-4">
         <div className="text-xs text-[#9AA3C2] font-medium uppercase tracking-wider mb-1">Přihlášení</div>
         <div className="font-black text-[#1a1a2e] text-lg leading-tight mb-1">Vlastní kolo v Malaze</div>
