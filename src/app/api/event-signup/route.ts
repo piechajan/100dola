@@ -6,7 +6,6 @@ import {
   type EventSignupEmailPayload,
 } from "@/lib/email";
 import { checkRateLimit } from "@/lib/rate-limit";
-import { verifyTurnstile } from "@/lib/turnstile";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { events } from "@/data/events";
 import { stayLabel, formatNights } from "@/data/events-signup";
@@ -65,15 +64,6 @@ export async function POST(req: NextRequest) {
       { error: "Na tuto akci nelze poslat přihlášku." },
       { status: 400 },
     );
-  }
-
-  // Turnstile — no-op když TURNSTILE_SECRET_KEY není nastaven.
-  const turnstileIp =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    req.headers.get("x-real-ip") ||
-    null;
-  if (!(await verifyTurnstile(data.turnstileToken, turnstileIp))) {
-    return NextResponse.json({ error: "Ověření selhalo, zkus to znovu." }, { status: 403 });
   }
 
   const members = (data.members ?? []).filter((m) => m.name.trim().length > 0);

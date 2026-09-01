@@ -68,10 +68,35 @@ export async function listEventsFromDb(): Promise<EventRow[]> {
  * - Fallback: static src/data/events.ts (pro případ že DB není dostupná / je prázdná)
  * - Cached: 5 min revalidate (events se nemění často; admin invalidace přes revalidatePath)
  */
+// Pole, která žijí JEN v kódu (ne v `events` tabulce) — musí se přenést ze
+// statické definice na DB event podle slugu, jinak by se ztratila (signup flagy,
+// GPX profil, venues, varianty…). DB zůstává autoritativní pro editovatelná pole.
+function overlayCodeOnlyFields(dbEvent: Event, staticEvent: Event | undefined): Event {
+  if (!staticEvent) return dbEvent;
+  return {
+    ...dbEvent,
+    groupSignup: staticEvent.groupSignup ?? dbEvent.groupSignup,
+    signupVenue: staticEvent.signupVenue ?? dbEvent.signupVenue,
+    malagaSignup: staticEvent.malagaSignup ?? dbEvent.malagaSignup,
+    gpxPath: staticEvent.gpxPath ?? dbEvent.gpxPath,
+    scottCta: staticEvent.scottCta ?? dbEvent.scottCta,
+    participants: staticEvent.participants ?? dbEvent.participants,
+    startVenue: dbEvent.startVenue ?? staticEvent.startVenue,
+    endVenue: dbEvent.endVenue ?? staticEvent.endVenue,
+    difficultyVariants: dbEvent.difficultyVariants ?? staticEvent.difficultyVariants,
+  };
+}
+
 export const getPublishedEvents = unstable_cache(
   async (): Promise<Event[]> => {
     const rows = await listEventsFromDb();
-    const dbEvents = rows.filter((r) => r.is_published).map(rowToEvent);
+    const staticBySlug = new Map(staticEvents.map((e) => [e.slug, e]));
+    const dbEvents = rows
+      .filter((r) => r.is_published)
+      .map((r) => {
+        const ev = rowToEvent(r);
+        return overlayCodeOnlyFields(ev, staticBySlug.get(ev.slug));
+      });
     if (dbEvents.length === 0) return staticEvents;
     // Merge: DB je primární, ale statické eventy definované jen v kódu (ne v DB)
     // se přidají navíc podle slugu — aby OMC jízdy ze staticEvents měly detail stránku.
