@@ -1,0 +1,58 @@
+import "server-only";
+import { unstable_cache } from "next/cache";
+import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
+
+export interface PublicParticipant {
+  name: string;
+  photoUrl: string | null;
+}
+
+export interface EventParticipantsData {
+  /** Počet přihlášek (leadů). */
+  signups: number;
+  /** Celkový počet lidí (lead + doprovodní členové). */
+  people: number;
+  /** Ti, kdo dali souhlas se zveřejněním — jméno + případně foto. */
+  consented: PublicParticipant[];
+  /** Počet přihlášených bez souhlasu → zobrazí se jako „Účastník N". */
+  anon: number;
+}
+
+// Slim select + krátká cache → egress-safe. Invaliduje se přes tag `signups-<slug>`
+// po každé nové přihlášce (revalidateTag v /api/event-signup).
+export function getEventParticipants(slug: string): Promise<EventParticipantsData> {
+  return unstable_cache(
+    async (): Promise<EventParticipantsData> => {
+      const empty: EventParticipantsData = { signups: 0, people: 0, consented: [], anon: 0 };
+      if (!isSupabaseConfigured()) return empty;
+      const sb = getSupabase();
+      const { data, error } = await sb
+        .from("event_signups")
+        .select("lead_name, party_size, public_consent, photo_url")
+        .eq("event_slug", slug)
+        .neq("status", "cancelled")
+        .order("registered_at", { ascending: true });
+      if (error || !data) return empty;
+
+      let people = 0;
+      let anon = 0;
+      const consented: PublicParticipant[] = [];
+      for (const r of data as {
+        lead_name: string;
+        party_size: number | null;
+        public_consent: boolean | null;
+        photo_url: string | null;
+      }[]) {
+        people += r.party_size ?? 1;
+        if (r.public_consent) {
+          consented.push({ name: r.lead_name, photoUrl: r.photo_url });
+        } else {
+          anon += 1;
+        }
+      }
+      return { signups: data.length, people, consented, anon };
+    },
+    ["event-participants", slug],
+    { revalidate: 120, tags: [`signups-${slug}`] },
+  )();
+}

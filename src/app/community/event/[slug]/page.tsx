@@ -6,6 +6,8 @@ import Footer from "@/components/Footer";
 import RegistrationSystem from "@/components/community/RegistrationSystem";
 import EventGroupSignup from "@/components/community/EventGroupSignup";
 import MalagaEventSignup from "@/components/community/MalagaEventSignup";
+import EventParticipants from "@/components/community/EventParticipants";
+import { getEventParticipants } from "@/lib/event-participants";
 import RouteMapClient from "@/components/community/RouteMapClient";
 import GpxRouteMap from "@/components/community/GpxRouteMap";
 import {
@@ -92,6 +94,10 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
   const eventIsPast =
     Boolean(event.isPast) ||
     (!!event.dateISO && event.dateISO < new Date().toISOString().slice(0, 10));
+
+  // Veřejný seznam účastníků (social proof) — jen pro komunitní skupinové akce.
+  const participants =
+    event.groupSignup && !eventIsPast ? await getEventParticipants(event.slug) : null;
 
   return (
     <>
@@ -497,6 +503,13 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                     )}
                   </div>
                 </div>
+
+                {/* Účastníci — kdo jede (social proof, jen se souhlasem) */}
+                {participants && (
+                  <div className="bg-white rounded-2xl p-5 border border-[#E2E6F3]">
+                    <EventParticipants data={participants} color={color} />
+                  </div>
+                )}
 
                 {/* Organizer */}
                 <div className="bg-white rounded-2xl p-5 border border-[#E2E6F3]">
