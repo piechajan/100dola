@@ -450,7 +450,10 @@ function SignupModal({
                   <p className="text-[11px] text-[#9AA3C2]">Kolik čeho chceš předobjednat? (za zvýhodněné ceny, upřesníme v nabídce)</p>
                   {NUTRITION_ITEMS.map((it) => (
                     <div key={it.key} className="flex items-center justify-between gap-3">
-                      <span className="text-sm text-[#1a1a2e]">{it.label}</span>
+                      <span className="text-sm text-[#1a1a2e]">
+                        {it.label}
+                        {it.hint && <span className="text-[#9AA3C2]"> ({it.hint})</span>}
+                      </span>
                       <input
                         type="number"
                         min={0}

@@ -60,12 +60,16 @@ export const BIKE_TYPE_OPTIONS: OptionCard<MalagaBikeType>[] = [
 ];
 
 // SPONSER položky k předobjednání na místě (za zvýhodněné ceny pro účastníky).
-export const NUTRITION_ITEMS: { key: string; label: string }[] = [
+export const NUTRITION_ITEMS: { key: string; label: string; hint?: string }[] = [
   { key: "gel", label: "Gel" },
   { key: "proteinBar", label: "Proteinová tyčinka" },
   { key: "energyBar", label: "Energetická tyčinka" },
   { key: "protein", label: "Protein" },
-  { key: "electrolyteTabs", label: "Elektrolyty v tabletách" },
+  {
+    key: "electrolyteTabs",
+    label: "Elektrolyty v tabletách",
+    hint: "tip na vyjížďku — po cestě doplníš jen vodu",
+  },
   { key: "isoDrink", label: "Iontový nápoj" },
 ];
 
