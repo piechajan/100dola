@@ -15,6 +15,7 @@ import { SIGNUP_STATUSES, SIGNUP_STATUS_META, type SignupStatus } from "@/data/s
 import { malagaSummaryLines, type MalagaSignupOptions } from "@/data/malaga-signup";
 import { stayLabel, formatNights } from "@/data/events-signup";
 import SignupStatusEditor from "@/components/admin/SignupStatusEditor";
+import FeedbackTestButton from "@/components/admin/FeedbackTestButton";
 
 export const dynamic = "force-dynamic";
 
@@ -78,10 +79,15 @@ export default async function PrihlaskyAdminPage({
             </div>
             <span className="text-xs text-[#9AA3C2]">{ctx.email}</span>
           </div>
-          <h1 className="text-3xl font-black text-[#1a1a2e] mb-1">Přihlášky na akce</h1>
-          <p className="text-sm text-[#5A6480] mb-6">
-            Rychleby (skupinové) i Malaga (prodejní). Změň stav a přidej poznámku, co je potřeba dořešit.
-          </p>
+          <div className="flex items-start justify-between gap-4 mb-6">
+            <div>
+              <h1 className="text-3xl font-black text-[#1a1a2e] mb-1">Přihlášky na akce</h1>
+              <p className="text-sm text-[#5A6480]">
+                Rychleby (skupinové) i Malaga (prodejní). Změň stav a přidej poznámku, co je potřeba dořešit.
+              </p>
+            </div>
+            <FeedbackTestButton />
+          </div>
 
           {/* Filtr stavů */}
           <div className="flex flex-wrap gap-2 mb-6">

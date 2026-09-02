@@ -5,6 +5,7 @@ import "server-only";
 import { Resend } from "resend";
 import type { MalagaLeadRow, RegistrationRow } from "./supabase";
 import { TRANSPORT_TIER_LABELS, STORAGE_AFTER_LABELS } from "../data/malaga-signup";
+import { FEEDBACK_PS } from "../data/event-feedback";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "100dola <onboarding@resend.dev>";
@@ -1817,6 +1818,74 @@ export async function sendMalagaSignupReminder(p: MalagaSignupEmailPayload): Pro
     });
   } catch (e) {
     console.error("[email] sendMalagaSignupReminder failed:", e);
+  }
+}
+
+// ── Post-event dotazník (zpětná vazba) ──────────────────────────────────────
+
+export interface EventFeedbackEmailPayload {
+  eventTitle: string;
+  eventDate: string;
+  eventLocation: string;
+  leadName: string;
+  leadEmail: string;
+  feedbackUrl: string;
+}
+
+export async function sendEventFeedbackRequest(p: EventFeedbackEmailPayload): Promise<void> {
+  if (!isEmailConfigured()) return;
+
+  const subject = `Jak se ti líbilo? — ${p.eventTitle}`;
+  const text = [
+    `Ahoj ${p.leadName},`,
+    ``,
+    `díky, žes byl/a na ${p.eventTitle} (${p.eventDate}, ${p.eventLocation}).`,
+    `Zabralo by ti pár minut vyplnit krátkou zpětnou vazbu? Moc nám pomůže.`,
+    ``,
+    `Formulář: ${p.feedbackUrl}`,
+    ``,
+    FEEDBACK_PS,
+    ``,
+    `100dola`,
+  ].join("\n");
+
+  const html = `
+    <div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1a1a2e">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#2EAA6E;font-weight:700;margin-bottom:8px">
+        Zpětná vazba
+      </div>
+      <h2 style="margin:0 0 4px;font-size:20px">Jak se ti líbilo?</h2>
+      <p style="margin:0 0 16px;font-size:13px;color:#9AA3C2">${escapeHtml(p.eventTitle)} · ${escapeHtml(p.eventDate)}</p>
+
+      <p style="margin:0 0 16px;font-size:14px;line-height:1.5;color:#5A6480">
+        Ahoj ${escapeHtml(p.leadName)}, díky, žes byl/a s námi. Pár minut zpětné vazby nám hodně pomůže to vypilovat.
+      </p>
+
+      <p style="margin:0 0 20px">
+        <a href="${p.feedbackUrl}" style="display:inline-block;background:#2EAA6E;color:#fff;font-weight:700;font-size:14px;padding:12px 22px;border-radius:12px;text-decoration:none">
+          Vyplnit zpětnou vazbu →
+        </a>
+      </p>
+
+      <div style="background:#F3FBF6;border:1px solid #CDECDA;border-radius:12px;padding:14px;font-size:13px;color:#1a1a2e;line-height:1.6;margin:0 0 16px">
+        ${escapeHtml(FEEDBACK_PS)}
+      </div>
+
+      <p style="margin:24px 0 0;font-size:13px;color:#9AA3C2">100dola</p>
+    </div>
+  `;
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: p.leadEmail,
+      cc: NOTIFY_EMAIL, // Jan vždy v kopii
+      subject,
+      text,
+      html,
+    });
+  } catch (e) {
+    console.error("[email] sendEventFeedbackRequest failed:", e);
   }
 }
 

@@ -335,6 +335,20 @@ export const MalagaSignupPayloadSchema = z
 
 export type MalagaSignupPayload = z.infer<typeof MalagaSignupPayloadSchema>;
 
+// ── Post-event dotazník ─────────────────────────────────────────────────────
+export const EventFeedbackPayloadSchema = z
+  .object({
+    eventSlug: z.string().min(1).max(120),
+    signupId: z.string().max(64).optional().or(z.literal("")),
+    answers: z
+      .record(z.string().max(40), z.union([z.string().max(2000), z.number()]))
+      .optional()
+      .default({}),
+  })
+  .merge(Honeypot);
+
+export type EventFeedbackPayload = z.infer<typeof EventFeedbackPayloadSchema>;
+
 export type EventPayload = z.infer<typeof EventPayloadSchema>;
 export type MalagaPayload = z.infer<typeof MalagaPayloadSchema>;
 export type LabPayload = z.infer<typeof LabPayloadSchema>;
