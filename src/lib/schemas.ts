@@ -12,6 +12,17 @@ const Honeypot = z.object({
     .nullable(),
 });
 
+// Veřejný profil účastníka („Kdo jede") — vše volitelné, jen se souhlasem.
+const PublicProfileSchema = z
+  .object({
+    age: z.number().int().min(0).max(120).optional(),
+    city: z.string().max(120).trim().optional(),
+    style: z.enum(["silnice", "gravel", "mtb"]).optional(),
+    tempo: z.enum(["pohoda", "rekreacni", "vykon"]).optional(),
+    instagram: z.string().max(60).trim().optional(),
+  })
+  .optional();
+
 // Attribution snapshot z klienta — fbp/fbc cookies + UTM tagy z landing URL.
 // Volitelné, server ho ukládá do JSONB sloupce `attribution` pro pozdější analýzu zdroje.
 export const AttributionSchema = z
@@ -270,6 +281,8 @@ export const EventSignupPayloadSchema = z
     // Zveřejnění účasti (jméno + foto v seznamu účastníků) — social proof.
     publicConsent: z.boolean().optional().default(false),
     photoUrl: z.string().max(600).optional().or(z.literal("")),
+    publicProfile: PublicProfileSchema,
+    mediaConsent: z.boolean().optional().default(false),
     // Cloudflare Turnstile — volitelné (env-gated no-op když klíče chybí).
     turnstileToken: z.string().max(4000).optional(),
   })
@@ -314,6 +327,8 @@ export const MalagaSignupPayloadSchema = z
     // Zveřejnění účasti (jméno + foto v seznamu účastníků).
     publicConsent: z.boolean().optional().default(false),
     photoUrl: z.string().max(600).optional().or(z.literal("")),
+    publicProfile: PublicProfileSchema,
+    mediaConsent: z.boolean().optional().default(false),
     turnstileToken: z.string().max(4000).optional(),
   })
   .merge(Honeypot);

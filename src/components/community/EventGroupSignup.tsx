@@ -5,6 +5,8 @@ import { createPortal } from "react-dom";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 import { uploadSignupPhoto } from "@/lib/resize-image";
+import PublicProfileFields from "@/components/community/PublicProfileFields";
+import type { PublicProfile } from "@/data/public-profile";
 import {
   STAY_OPTIONS,
   formatNights,
@@ -69,6 +71,8 @@ function SignupModal({
   const [note, setNote] = useState("");
   const [gdpr, setGdpr] = useState(false);
   const [publicConsent, setPublicConsent] = useState(false);
+  const [publicProfile, setPublicProfile] = useState<PublicProfile>({});
+  const [mediaConsent, setMediaConsent] = useState(false);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState("");
   const [website, setWebsite] = useState(""); // honeypot
@@ -142,6 +146,8 @@ function SignupModal({
           consentGdpr: true,
           publicConsent,
           photoUrl,
+          publicProfile: publicConsent ? publicProfile : undefined,
+          mediaConsent,
           website,
         }),
       });
@@ -422,7 +428,18 @@ function SignupModal({
                   <input id={`photo-${eventSlug}`} type="file" accept="image/*" className="sr-only" onChange={handlePhoto} />
                 </div>
               )}
+              {publicConsent && (
+                <PublicProfileFields color={color} value={publicProfile} onChange={setPublicProfile} />
+              )}
             </div>
+
+            {/* Foto/video z akce — info + souhlas */}
+            <label className="flex items-start gap-3 cursor-pointer select-none">
+              <input type="checkbox" checked={mediaConsent} onChange={(e) => setMediaConsent(e.target.checked)} className="mt-0.5 w-4 h-4 shrink-0" style={{ accentColor: color }} />
+              <span className="text-xs text-[#5A6480] leading-relaxed">
+                Na akci pořizujeme <strong>fotky a videa</strong> (i pro naše sociální sítě). Zaškrtnutím souhlasíš, že na nich můžeš být. Když nechceš, nech prázdné a řekni nám to na místě.
+              </span>
+            </label>
 
             {/* GDPR */}
             <label className="flex items-start gap-3 cursor-pointer select-none">

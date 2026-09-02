@@ -73,6 +73,11 @@ export async function POST(req: NextRequest) {
   const nightsFrom = isPension && data.nightsFrom ? data.nightsFrom : null;
   const nightsTo = isPension && data.nightsTo ? data.nightsTo : null;
 
+  // Veřejný profil + souhlas s foto/videem → do options jsonb (jen se zveřejněním).
+  const groupOptions: Record<string, unknown> = {};
+  if (data.publicConsent && data.publicProfile) groupOptions.profile = data.publicProfile;
+  if (data.mediaConsent) groupOptions.mediaConsent = true;
+
   // ── Uložení do DB ─────────────────────────────────────────────────────────
   if (!isSupabaseConfigured()) {
     return NextResponse.json(
@@ -98,6 +103,7 @@ export async function POST(req: NextRequest) {
       public_consent: data.publicConsent ?? false,
       // Fotku ukládáme jen se souhlasem se zveřejněním.
       photo_url: data.publicConsent && data.photoUrl ? data.photoUrl : null,
+      options: Object.keys(groupOptions).length ? groupOptions : null,
     })
     .select("id")
     .single();

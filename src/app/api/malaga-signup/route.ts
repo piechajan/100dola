@@ -100,6 +100,8 @@ export async function POST(req: NextRequest) {
         : undefined,
     term: data.term || undefined,
     focus: data.focus || undefined,
+    profile: data.publicConsent && data.publicProfile ? data.publicProfile : undefined,
+    mediaConsent: data.mediaConsent || undefined,
   };
 
   if (!isSupabaseConfigured()) {

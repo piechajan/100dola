@@ -3,8 +3,13 @@ import { unstable_cache } from "next/cache";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 
 export interface PublicParticipant {
-  name: string;
+  name: string; // celé lead_name — frontend zobrazí jen křestní jméno
   photoUrl: string | null;
+  age?: number;
+  city?: string;
+  style?: string;
+  tempo?: string;
+  instagram?: string;
 }
 
 export interface EventParticipantsData {
@@ -28,7 +33,7 @@ export function getEventParticipants(slug: string): Promise<EventParticipantsDat
       const sb = getSupabase();
       const { data, error } = await sb
         .from("event_signups")
-        .select("lead_name, party_size, public_consent, photo_url")
+        .select("lead_name, party_size, public_consent, photo_url, options")
         .eq("event_slug", slug)
         .neq("status", "cancelled")
         .order("registered_at", { ascending: true });
@@ -42,10 +47,20 @@ export function getEventParticipants(slug: string): Promise<EventParticipantsDat
         party_size: number | null;
         public_consent: boolean | null;
         photo_url: string | null;
+        options: { profile?: PublicParticipant } | null;
       }[]) {
         people += r.party_size ?? 1;
         if (r.public_consent) {
-          consented.push({ name: r.lead_name, photoUrl: r.photo_url });
+          const p = r.options?.profile;
+          consented.push({
+            name: r.lead_name,
+            photoUrl: r.photo_url,
+            age: p?.age,
+            city: p?.city,
+            style: p?.style,
+            tempo: p?.tempo,
+            instagram: p?.instagram,
+          });
         } else {
           anon += 1;
         }

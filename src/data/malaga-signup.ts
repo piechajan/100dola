@@ -155,6 +155,9 @@ export interface MalagaSignupOptions {
   nutritionItems?: Record<string, number>;
   term?: string;
   focus?: string;
+  // Veřejný profil („Kdo jede") + souhlas s foto/videem — jen se zveřejněním.
+  profile?: import("./public-profile").PublicProfile;
+  mediaConsent?: boolean;
 }
 
 // Přehledné řádky pro notifikaci Janovi (podklad na nabídku).

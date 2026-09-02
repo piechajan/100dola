@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import type { EventParticipantsData, PublicParticipant } from "@/lib/event-participants";
+import { firstNameOf, profileMeta } from "@/data/public-profile";
 
 function Portal({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
@@ -93,7 +94,7 @@ export default function EventParticipants({
             >
               <Avatar p={p} color={color} onClick={p.photoUrl ? () => setEnlarged(p) : undefined} />
               <span className="text-[11px] text-[#5A6480] text-center leading-tight truncate w-full">
-                {p.name.split(/\s+/)[0]}
+                {firstNameOf(p.name)}
               </span>
             </button>
           ))}
@@ -134,7 +135,23 @@ export default function EventParticipants({
                 className="rounded-2xl max-w-[80vw] max-h-[70vh] object-contain"
                 style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5)" }}
               />
-              <div className="text-center text-white font-bold mt-3">{enlarged.name}</div>
+              <div className="text-center text-white font-bold mt-3">{firstNameOf(enlarged.name)}</div>
+              {profileMeta(enlarged) && (
+                <div className="text-center text-white/70 text-sm mt-1">{profileMeta(enlarged)}</div>
+              )}
+              {enlarged.instagram && (
+                <div className="text-center mt-1">
+                  <a
+                    href={`https://www.instagram.com/${enlarged.instagram}`}
+                    target="_blank"
+                    rel="noopener"
+                    className="text-white/90 text-sm font-semibold underline"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    @{enlarged.instagram}
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </Portal>
