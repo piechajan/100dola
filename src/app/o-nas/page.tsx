@@ -233,7 +233,8 @@ export default function ONasPage() {
               </p>
               <p className="text-base text-[#5A6480] leading-relaxed mb-6">
                 Otevřeno po předchozí domluvě a v rámci akcí. Stačí zavolat a domluvit se,
-                kdy se nejlépe potkáme.
+                kdy se nejlépe potkáme. A nemusíš ani k nám — kola i vybavení běžně{" "}
+                <strong>vozíme a osobně předáváme po celé Moravě</strong>, jsme na to zvyklí.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link
@@ -303,8 +304,8 @@ export default function ONasPage() {
               Konkrétní fakta. Ne fráze.
             </h2>
             <p className="text-base text-[#5A6480] max-w-2xl mx-auto leading-relaxed">
-              Kola, která prodáváme, jezdíme. Kufry, které posíláme do Malagy, jsme balili.
-              Závody, na které tě nasazujeme, jsme sami absolvovali.
+              Kola, která prodáváme, jezdíme. Kufry, které posíláme do Malagy, balíme.
+              Závody, na které tě nasazujeme, jsme absolvovali.
             </p>
           </div>
 

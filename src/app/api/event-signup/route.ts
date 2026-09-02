@@ -112,8 +112,9 @@ export async function POST(req: NextRequest) {
 
   const signupId = inserted.id as string;
 
-  // Obnovit veřejný seznam účastníků (social proof) po nové přihlášce.
+  // Obnovit veřejný seznam účastníků + počty na kartách po nové přihlášce.
   revalidateTag(`signups-${data.eventSlug}`, "max");
+  revalidateTag("event-signups-counts", "max");
 
   if (members.length > 0) {
     const { error: memErr } = await sb.from("event_signup_members").insert(

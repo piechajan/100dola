@@ -56,3 +56,27 @@ export function getEventParticipants(slug: string): Promise<EventParticipantsDat
     { revalidate: 120, tags: [`signups-${slug}`] },
   )();
 }
+
+// Reálné počty přihlášených (people = lead + členové) per event_slug — pro karty
+// napříč webem (listing, detail, „Další akce"). Egress-safe: jeden slim dotaz,
+// krátká cache, invaliduje se tagem "event-signups-counts" po nové přihlášce.
+export function getEventSignupCounts(): Promise<Record<string, number>> {
+  return unstable_cache(
+    async (): Promise<Record<string, number>> => {
+      if (!isSupabaseConfigured()) return {};
+      const sb = getSupabase();
+      const { data, error } = await sb
+        .from("event_signups")
+        .select("event_slug, party_size")
+        .neq("status", "cancelled");
+      if (error || !data) return {};
+      const map: Record<string, number> = {};
+      for (const r of data as { event_slug: string; party_size: number | null }[]) {
+        map[r.event_slug] = (map[r.event_slug] ?? 0) + (r.party_size ?? 1);
+      }
+      return map;
+    },
+    ["event-signup-counts"],
+    { revalidate: 60, tags: ["event-signups-counts"] },
+  )();
+}

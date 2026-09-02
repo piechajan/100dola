@@ -141,8 +141,9 @@ export async function POST(req: NextRequest) {
 
   const signupId = inserted.id as string;
 
-  // Obnovit počet přihlášených (kapacita bar) po nové přihlášce.
+  // Obnovit počet přihlášených (kapacita bar + karty) po nové přihlášce.
   revalidateTag(`signups-${data.eventSlug}`, "max");
+  revalidateTag("event-signups-counts", "max");
 
   if (members.length > 0) {
     const { error: memErr } = await sb.from("event_signup_members").insert(

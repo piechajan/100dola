@@ -2,6 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { events as codeEvents } from "@/data/events";
+
+// Sluggy eventů s reálným DB přihlašováním → na kartách používáme reálný počet
+// z event_signups (ne naseedovaný `filled`).
+const SIGNUP_SLUGS = new Set(
+  codeEvents.filter((e) => e.groupSignup || e.malagaSignup).map((e) => e.slug),
+);
 
 interface UIEvent {
   id: number;
@@ -391,9 +398,21 @@ export default function EventListing() {
   // Dnešní datum se dosadí až po mountu — SSR/první render použije jen ručně
   // nastavené isPast flagy (žádný hydration mismatch, žádné build-time zamrznutí).
   const [today, setToday] = useState<string | null>(null);
+  const [realCounts, setRealCounts] = useState<Record<string, number>>({});
 
   useEffect(() => {
     setToday(new Date().toISOString().slice(0, 10));
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/event-signups/counts")
+      .then((r) => r.json())
+      .then((d: { counts?: Record<string, number> }) => {
+        if (!cancelled && d.counts) setRealCounts(d.counts);
+      })
+      .catch(() => { /* fallback: naseedované filled */ });
+    return () => { cancelled = true; };
   }, []);
 
   useEffect(() => {
@@ -433,7 +452,12 @@ export default function EventListing() {
   const isEventPast = (e: UIEvent): boolean =>
     e.isPast === true || (today != null && e.dateISO != null && e.dateISO < today);
 
-  const normalized: UIEvent[] = merged.map((e) => ({ ...e, isPast: isEventPast(e) }));
+  const normalized: UIEvent[] = merged.map((e) => ({
+    ...e,
+    isPast: isEventPast(e),
+    // Reálný počet z DB pro signup-eventy (0 = 0, ne naseedovaný fake).
+    filled: SIGNUP_SLUGS.has(e.slug) ? (realCounts[e.slug] ?? 0) : e.filled,
+  }));
 
   const byCategory =
     active === "Vše" ? normalized : normalized.filter((e) => e.sport === active);
