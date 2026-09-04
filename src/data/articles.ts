@@ -68,6 +68,18 @@ export const ARTICLES: Article[] = [
     readMinutes: 7,
   },
   {
+    slug: "scott-addict-gravel-2027",
+    title: "Scott Addict Gravel 2027 — nový gravel s 57mm prostupem a rámem pod 800 g",
+    summary:
+      "Kompletní redesign gravel platformy Scott: prostup pneu 57 mm (pobere i 2,2\" MTB plášť), rám HMX 794 g, zadní flex +60 %, úložiště Save the Day v rámu a nářadí v koncovkách řídítek. Technika, zajímavosti a přehled modelů (Premium → Addict 40) s prokliky na specifikaci a cenu. Předobjednávka přes 100dola sport ve Šternberku.",
+    category: "sport",
+    publishedAt: "2026-09-04",
+    author: { name: "Jan Piecha", role: "100dola sport" },
+    image: "/media/scott-2027/addict-gravel-rc.webp",
+    status: "published",
+    readMinutes: 8,
+  },
+  {
     slug: "scott-spark-rc-2027",
     title: "Scott Spark RC 2027 — nová generace závodního XC, kterou už můžete předobjednat",
     summary:

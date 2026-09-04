@@ -26,6 +26,7 @@ import BikefitSternberk from "@/components/articles/BikefitSternberk";
 import IsaacBosonVitronMeson from "@/components/articles/IsaacBosonVitronMeson";
 import StravaSegmentSternberk from "@/components/articles/StravaSegmentSternberk";
 import ScottSparkRC2027 from "@/components/articles/ScottSparkRC2027";
+import ScottAddictGravel2027 from "@/components/articles/ScottAddictGravel2027";
 import ScottSparkRC2026vs2027 from "@/components/articles/ScottSparkRC2026vs2027";
 import OchranaLakuPPF from "@/components/articles/OchranaLakuPPF";
 import CestovaniSKolemMalaga from "@/components/articles/CestovaniSKolemMalaga";
@@ -85,6 +86,7 @@ const RENDERERS: Record<string, () => React.ReactElement> = {
   "isaac-boson-vitron-meson": () => <IsaacBosonVitronMeson />,
   "strava-segmenty-sternberk-olomoucky-kraj": () => <StravaSegmentSternberk />,
   "scott-spark-rc-2027": () => <ScottSparkRC2027 />,
+  "scott-addict-gravel-2027": () => <ScottAddictGravel2027 />,
   "scott-spark-rc-2026-vs-2027": () => <ScottSparkRC2026vs2027 />,
   "ochrana-laku-ppf": () => <OchranaLakuPPF />,
   "cestovani-s-kolem-malaga": () => <CestovaniSKolemMalaga />,
