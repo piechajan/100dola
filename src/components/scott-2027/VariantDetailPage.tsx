@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import BikeInquiryForm from "./BikeInquiryForm";
+import AddToCartButton from "@/components/shop/AddToCartButton";
+import { scott2027ToProduct } from "@/lib/scott2027-product";
 import {
   formatVariantPrice,
   type Scott2027Platform,
@@ -46,7 +48,22 @@ export default function VariantDetailPage({ platform, variant }: Props) {
   const [zoom, setZoom] = useState(false);
   const platformLabel =
     platform.platform === "mtb" ? "MTB" : platform.platform === "road" ? "Silnice" : "Gravel";
-  const gallery = variant.gallery.length > 0 ? variant.gallery : [variant.photo];
+
+  // E-shop režim: model má colorways + shopId → jde objednat do košíku.
+  const colorways = variant.colorways ?? [];
+  const shopProduct = useMemo(() => scott2027ToProduct(platform, variant), [platform, variant]);
+  const buyable = shopProduct != null && colorways.length > 0;
+  const [colorIdx, setColorIdx] = useState(0);
+  const [size, setSize] = useState<string | null>(null);
+  const activeColor = colorways[colorIdx];
+
+  const gallery = buyable
+    ? colorways.map((c) => c.photo)
+    : variant.gallery.length > 0
+      ? variant.gallery
+      : [variant.photo];
+  const mainIdx = buyable ? colorIdx : activeImg;
+  const mainImg = gallery[mainIdx] ?? variant.photo;
 
   const otherVariants = platform.variants.filter((v) => v.slug !== variant.slug);
 
@@ -78,8 +95,12 @@ export default function VariantDetailPage({ platform, variant }: Props) {
             aria-label="Zvětšit fotku"
           >
             <Image
-              src={gallery[activeImg] ?? variant.photo}
-              alt={`${platform.name} ${variant.name} — fotka ${activeImg + 1}`}
+              src={mainImg}
+              alt={
+                buyable
+                  ? `${platform.name} ${variant.name} — ${activeColor?.name}`
+                  : `${platform.name} ${variant.name} — fotka ${activeImg + 1}`
+              }
               fill
               sizes="(min-width: 1024px) 700px, 100vw"
               className="object-contain p-8 md:p-12 transition-transform duration-300 group-hover:scale-[1.04]"
@@ -99,15 +120,16 @@ export default function VariantDetailPage({ platform, variant }: Props) {
                 <button
                   key={src}
                   type="button"
-                  onClick={() => setActiveImg(i)}
+                  onClick={() => (buyable ? setColorIdx(i) : setActiveImg(i))}
                   className={`relative aspect-square bg-white rounded-lg overflow-hidden border-2 transition ${
-                    activeImg === i ? "border-[#3B7CF4]" : "border-[#E2E6F3] hover:border-[#C9DCFC]"
+                    mainIdx === i ? "border-[#3B7CF4]" : "border-[#E2E6F3] hover:border-[#C9DCFC]"
                   }`}
-                  aria-label={`Zobrazit fotku ${i + 1}`}
+                  aria-label={buyable ? colorways[i]?.name : `Zobrazit fotku ${i + 1}`}
+                  title={buyable ? colorways[i]?.name : undefined}
                 >
                   <Image
                     src={src}
-                    alt=""
+                    alt={buyable ? (colorways[i]?.name ?? "") : ""}
                     fill
                     sizes="120px"
                     className="object-contain p-2"
@@ -148,7 +170,7 @@ export default function VariantDetailPage({ platform, variant }: Props) {
               )}
               <dt className="text-[#5A6480]">Velikosti</dt>
               <dd className="font-bold text-[#1a1a2e]">{variant.sizes.join(" / ")}</dd>
-              {variant.colors.length > 0 && (
+              {!buyable && variant.colors.length > 0 && (
                 <>
                   <dt className="text-[#5A6480]">Barvy</dt>
                   <dd className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
@@ -178,35 +200,109 @@ export default function VariantDetailPage({ platform, variant }: Props) {
               </div>
             )}
             <p className="text-xs text-white/70 leading-snug">
-              Finální Kč potvrdíme po poptávce podle aktuální alokace od distributora a kurzu v
-              den objednávky.
+              {buyable
+                ? "Cena vč. DPH. Kolo vozíme na objednávku — přesný termín dodání potvrdíme po objednávce."
+                : "Finální Kč potvrdíme po poptávce podle aktuální alokace od distributora a kurzu v den objednávky."}
             </p>
           </div>
 
-          <a
-            href="#inquiry"
-            className="block w-full bg-[#3B7CF4] hover:bg-[#5C92F6] text-white font-bold text-base px-6 py-4 rounded-xl transition text-center mb-3"
-          >
-            Poptat tento model →
-          </a>
-          <div className="flex gap-2">
-            <a
-              href="tel:+420739045057"
-              className="flex-1 bg-white border-2 border-[#E2E6F3] hover:border-[#3B7CF4] text-[#1a1a2e] font-bold text-sm px-4 py-3 rounded-xl transition text-center"
-            >
-              +420 739 045 057
-            </a>
-            {variant.scottUrl && (
+          {buyable && shopProduct ? (
+            <div>
+              {/* Výběr barvy */}
+              <div className="mb-4">
+                <div className="text-xs font-bold uppercase tracking-wider text-[#5A6480] mb-2">
+                  Barva: <span className="text-[#1a1a2e]">{activeColor?.name}</span>
+                </div>
+                <div className="flex flex-wrap gap-2.5">
+                  {colorways.map((c, i) => (
+                    <button
+                      key={c.name}
+                      type="button"
+                      onClick={() => setColorIdx(i)}
+                      aria-label={c.name}
+                      aria-pressed={colorIdx === i}
+                      title={c.name}
+                      className={`w-9 h-9 rounded-full border-2 transition ${
+                        colorIdx === i
+                          ? "border-[#3B7CF4] scale-110 shadow-sm"
+                          : "border-[#D5DAE6] hover:border-[#9DBEF9]"
+                      }`}
+                      style={{ backgroundColor: c.hex }}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Výběr velikosti */}
+              <div className="mb-4">
+                <div className="text-xs font-bold uppercase tracking-wider text-[#5A6480] mb-2">
+                  Velikost{size ? <span className="text-[#1a1a2e]">: {size}</span> : null}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {variant.sizes.map((s) => (
+                    <button
+                      key={s}
+                      type="button"
+                      onClick={() => setSize(s)}
+                      aria-pressed={size === s}
+                      className={`px-3 py-2 rounded-lg border-2 text-sm font-bold transition ${
+                        size === s
+                          ? "border-[#3B7CF4] bg-[#EAF1FE] text-[#1a1a2e]"
+                          : "border-[#E2E6F3] text-[#5A6480] hover:border-[#9DBEF9]"
+                      }`}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <AddToCartButton
+                product={shopProduct}
+                large
+                variant={{
+                  color: activeColor?.name,
+                  size: size ?? undefined,
+                  photo: activeColor?.photo,
+                }}
+                disabled={!size}
+                disabledLabel="Zvol velikost"
+              />
               <a
-                href={variant.scottUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 bg-white border-2 border-[#E2E6F3] hover:border-[#3B7CF4] text-[#1a1a2e] font-bold text-sm px-4 py-3 rounded-xl transition text-center"
+                href="tel:+420739045057"
+                className="mt-3 block text-center text-sm font-semibold text-[#5A6480] hover:text-[#3B7CF4]"
               >
-                Scott Sports ↗
+                Poradíme s výběrem — +420 739 045 057
               </a>
-            )}
-          </div>
+            </div>
+          ) : (
+            <>
+              <a
+                href="#inquiry"
+                className="block w-full bg-[#3B7CF4] hover:bg-[#5C92F6] text-white font-bold text-base px-6 py-4 rounded-xl transition text-center mb-3"
+              >
+                Poptat tento model →
+              </a>
+              <div className="flex gap-2">
+                <a
+                  href="tel:+420739045057"
+                  className="flex-1 bg-white border-2 border-[#E2E6F3] hover:border-[#3B7CF4] text-[#1a1a2e] font-bold text-sm px-4 py-3 rounded-xl transition text-center"
+                >
+                  +420 739 045 057
+                </a>
+                {variant.scottUrl && (
+                  <a
+                    href={variant.scottUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 bg-white border-2 border-[#E2E6F3] hover:border-[#3B7CF4] text-[#1a1a2e] font-bold text-sm px-4 py-3 rounded-xl transition text-center"
+                  >
+                    Scott Sports ↗
+                  </a>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
 
@@ -287,7 +383,8 @@ export default function VariantDetailPage({ platform, variant }: Props) {
         </Link>
       </section>
 
-      {/* Inquiry form */}
+      {/* Inquiry form — jen u modelů, které nejdou přímo objednat */}
+      {!buyable && (
       <section id="inquiry" className="mb-12">
         <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-3">Mám zájem</h2>
         <p className="text-sm text-[#5A6480] mb-6">
@@ -318,6 +415,7 @@ export default function VariantDetailPage({ platform, variant }: Props) {
           </div>
         </div>
       </section>
+      )}
 
       {/* Další varianty platformy */}
       {otherVariants.length > 0 && (
@@ -377,7 +475,7 @@ export default function VariantDetailPage({ platform, variant }: Props) {
             onClick={(e) => e.stopPropagation()}
           >
             <Image
-              src={gallery[activeImg] ?? variant.photo}
+              src={mainImg}
               alt={`${platform.name} ${variant.name} — detail`}
               fill
               sizes="100vw"

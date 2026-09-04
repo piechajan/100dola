@@ -54,6 +54,11 @@ export interface Scott2027Variant {
   componentry?: Componentry;
   /** Link na oficiální Scott Sports stránku */
   scottUrl?: string;
+  /** Pokud je vyplněné → model jde objednat v e-shopu (do košíku). Číslo = stabilní product id pro cart. */
+  shopId?: number;
+  /** Barevné varianty s vlastní fotkou + hex swatch. Pokud je vyplněné, detail modelu
+   *  umí přepínat barvy (mění hlavní fotku) a slouží jako colorOptions pro košík. */
+  colorways?: Array<{ name: string; hex: string; photo: string }>;
 }
 
 export interface Scott2027Platform {
@@ -738,6 +743,10 @@ export const SCOTT_2027: Scott2027Platform[] = [
         sizes: GRAVEL_SIZES_7,
         gallery: [],
         scottUrl: "https://www.scott-sports.com/cz/cs/product/scott-addict-gravel-premium-bike?article=4276128602002",
+        shopId: 927001,
+        colorways: [
+          { name: "Watery Green", hex: "#2e4034", photo: "/media/scott-2027/addict-gravel-premium-watery-green.webp" },
+        ],
         componentry: {
           frame: "Addict Gravel HMX Carbon, Ride geometrie, vyměnitelný UDH hanger, vnitřní vedení kabeláže, integrované úložiště",
           fork: "Addict Gravel HMX Flatmount Disc, 27,2 mm eccentric carbon steerer",
@@ -761,6 +770,11 @@ export const SCOTT_2027: Scott2027Platform[] = [
         sizes: GRAVEL_SIZES_7,
         gallery: [],
         scottUrl: "https://www.scott-sports.com/cz/cs/product/scott-addict-gravel-10-bike-427613?article=4276138517002",
+        shopId: 927010,
+        colorways: [
+          { name: "Blaze Purple", hex: "#7d70b3", photo: "/media/scott-2027/addict-gravel-10-blaze-purple.webp" },
+          { name: "Lupine Grey", hex: "#565a4e", photo: "/media/scott-2027/addict-gravel-10-lupine-grey.webp" },
+        ],
         componentry: {
           frame: "Addict Gravel HMX Carbon, Ride geometrie, vyměnitelný UDH hanger, vnitřní vedení kabeláže, integrované úložiště",
           fork: "Addict Gravel HMX Flatmount Disc, 27,2 mm eccentric carbon steerer",
@@ -784,6 +798,11 @@ export const SCOTT_2027: Scott2027Platform[] = [
         sizes: GRAVEL_SIZES_7,
         gallery: [],
         scottUrl: "https://www.scott-sports.com/cz/cs/product/scott-addict-gravel-20-bike-427614?article=4276148554002",
+        shopId: 927020,
+        colorways: [
+          { name: "Mojito Green", hex: "#cfe0a0", photo: "/media/scott-2027/addict-gravel-20-mojito-green.webp" },
+          { name: "Watery Black", hex: "#23262b", photo: "/media/scott-2027/addict-gravel-20-watery-black.webp" },
+        ],
         componentry: {
           frame: "Addict Gravel HMF Carbon, Ride geometrie, vyměnitelný UDH hanger, vnitřní vedení kabeláže, integrované úložiště",
           fork: "Addict Gravel HMF Flatmount Disc, 27,2 mm eccentric carbon steerer",
@@ -807,6 +826,11 @@ export const SCOTT_2027: Scott2027Platform[] = [
         sizes: GRAVEL_SIZES_7,
         gallery: [],
         scottUrl: "https://www.scott-sports.com/cz/cs/product/scott-addict-gravel-30-bike-427615?article=4276158510002",
+        shopId: 927030,
+        colorways: [
+          { name: "Agate Grey", hex: "#d5d0c4", photo: "/media/scott-2027/addict-gravel-30-agate-grey.webp" },
+          { name: "Mulberry Purple", hex: "#47202f", photo: "/media/scott-2027/addict-gravel-30-mulberry-purple.webp" },
+        ],
         componentry: {
           frame: "Addict Gravel HMF Carbon, Ride geometrie, vyměnitelný UDH hanger, vnitřní vedení kabeláže, integrované úložiště",
           fork: "Addict Gravel HMF Flatmount Disc, 27,2 mm eccentric carbon steerer",
@@ -830,6 +854,12 @@ export const SCOTT_2027: Scott2027Platform[] = [
         sizes: GRAVEL_SIZES_7,
         gallery: [],
         scottUrl: "https://www.scott-sports.com/cz/cs/product/scott-addict-gravel-40-bike?article=4276163020002",
+        shopId: 927040,
+        colorways: [
+          { name: "Carbon Black", hex: "#1a1a1c", photo: "/media/scott-2027/addict-gravel-40-carbon-black.webp" },
+          { name: "Iron Grey", hex: "#9aa093", photo: "/media/scott-2027/addict-gravel-40-iron-grey.webp" },
+          { name: "Peach Pink", hex: "#e08a6b", photo: "/media/scott-2027/addict-gravel-40-peach-pink.webp" },
+        ],
         componentry: {
           frame: "Addict Gravel HMF Carbon, Ride geometrie, vyměnitelný UDH hanger, vnitřní vedení kabeláže, integrované úložiště",
           fork: "Addict Gravel HMF Flatmount Disc, 27,2 mm eccentric carbon steerer",

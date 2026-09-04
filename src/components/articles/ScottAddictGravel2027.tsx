@@ -24,6 +24,23 @@ function GravelModelGrid() {
           <div className="min-w-0 flex-1">
             <div className="text-sm font-black text-[#1a1a2e] group-hover:text-[#E8431A] leading-tight">{v.name}</div>
             <div className="text-xs text-[#5A6480] mt-0.5 line-clamp-2">{v.groupset}</div>
+            {v.colorways && v.colorways.length > 0 && (
+              <div className="flex items-center gap-1.5 mt-1.5">
+                {v.colorways.map((c) => (
+                  <span
+                    key={c.name}
+                    title={c.name}
+                    className="w-3.5 h-3.5 rounded-full border border-[#D5DAE6] shrink-0"
+                    style={{ backgroundColor: c.hex }}
+                  />
+                ))}
+                {v.colorways.length > 1 && (
+                  <span className="text-[10px] text-[#8A93A6] font-semibold ml-0.5">
+                    {v.colorways.length} barvy
+                  </span>
+                )}
+              </div>
+            )}
             <div className="flex items-center justify-between mt-1.5">
               <span className="text-sm font-bold text-[#1a1a2e]">{formatVariantPrice(v)}</span>
               <span className="text-xs font-bold text-[#E8431A]">Detail →</span>
