@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getPlatformBySlug, formatVariantPrice } from "@/data/scott-2027";
+import ArticleGallery from "./ArticleGallery";
 
 /**
  * Přehled modelů Addict Gravel 2027 s prokliky na detailní stránku každé varianty
@@ -237,19 +238,12 @@ export default function ScottAddictGravel2027() {
         <p className="text-base text-[#5A6480] leading-relaxed mb-5">
           Naše vlastní fotky nového Addict Gravel 2027 — z Valašska i z prodejny 100dola sport.
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-10">
-          {["test-01", "test-02", "test-03", "test-04", "test-05", "test-06", "test-07", "test-08", "test-09", "test-10", "test-11", "test-12"].map((n) => (
-            <div key={n} className="relative aspect-[3/4] rounded-xl overflow-hidden bg-[#F0F2FA]">
-              <Image
-                src={`/media/articles/scott-addict-gravel-2027/test/${n}.webp`}
-                alt="Scott Addict Gravel 2027 — z našeho testu"
-                fill
-                sizes="(max-width: 768px) 50vw, 260px"
-                className="object-cover"
-              />
-            </div>
-          ))}
-        </div>
+        <ArticleGallery
+          images={["test-01", "test-02", "test-03", "test-04", "test-05", "test-06", "test-07", "test-08", "test-09", "test-10", "test-11", "test-12"].map(
+            (n) => `/media/articles/scott-addict-gravel-2027/test/${n}.webp`,
+          )}
+          alt="Scott Addict Gravel 2027 — z našeho testu"
+        />
 
         <p className="text-xs text-[#9AA3C2] leading-relaxed">
           Technická data: Scott Sports, BikeRadar, Brújula Bike. Fotky: 100dola sport (vlastní test).
