@@ -24,6 +24,23 @@ function GravelModelGrid() {
           <div className="min-w-0 flex-1">
             <div className="text-sm font-black text-[#1a1a2e] group-hover:text-[#E8431A] leading-tight">{v.name}</div>
             <div className="text-xs text-[#5A6480] mt-0.5 line-clamp-2">{v.groupset}</div>
+            {v.colorways && v.colorways.length > 0 && (
+              <div className="flex items-center gap-1.5 mt-1.5">
+                {v.colorways.map((c) => (
+                  <span
+                    key={c.name}
+                    title={c.name}
+                    className="w-3.5 h-3.5 rounded-full border border-[#D5DAE6] shrink-0"
+                    style={{ backgroundColor: c.hex }}
+                  />
+                ))}
+                {v.colorways.length > 1 && (
+                  <span className="text-[10px] text-[#8A93A6] font-semibold ml-0.5">
+                    {v.colorways.length} barvy
+                  </span>
+                )}
+              </div>
+            )}
             <div className="flex items-center justify-between mt-1.5">
               <span className="text-sm font-bold text-[#1a1a2e]">{formatVariantPrice(v)}</span>
               <span className="text-xs font-bold text-[#E8431A]">Detail →</span>
@@ -70,7 +87,7 @@ export default function ScottAddictGravel2027() {
           <ul className="space-y-2 text-sm text-[#1a1a2e]">
             <li><strong>Co to je:</strong> kompletní redesign gravel platformy Scott Addict Gravel, modelový rok 2027.</li>
             <li><strong>Prostup pneu:</strong> 57 mm — pojme i 2,2&quot; MTB plášť (32&quot; verze zatím není).</li>
-            <li><strong>Hmotnost rámu (M):</strong> HMX 794 g (−75 g), HMF 990 g. Kompletní kolo od 7,8 kg.</li>
+            <li><strong>Hmotnost rámu (M):</strong> HMX 794 g (−75 g), HMF 990 g. Kompletní kolo od 8,4 kg (Premium).</li>
             <li><strong>Řada:</strong> Premium → Addict 10 / 20 / 30 / 40 (SRAM RED/Force/Rival XPLR AXS nebo Shimano GRX).</li>
             <li><strong>Kde objednat:</strong>{" "}
               <a href="#predobjednavka" className="font-bold text-[#E8431A] underline hover:no-underline">přes formulář níže</a>{" "}
@@ -195,8 +212,9 @@ export default function ScottAddictGravel2027() {
 
         <h2 id="modely" className="text-2xl md:text-3xl font-black text-[#1a1a2e] mt-12 mb-4 scroll-mt-24">Modely a specifikace Addict Gravel 2027</h2>
         <p className="text-base text-[#5A6480] leading-relaxed mb-2">
-          Řada jede od vlajkové <strong>Premium</strong> (SRAM RED XPLR AXS, HMX, 7,8 kg) přes{" "}
-          <strong>Addict 10 / 20 / 30</strong> (SRAM Force XPLR) až po <strong>Addict 40</strong> se Shimano GRX.
+          Řada jede od vlajkové <strong>Premium</strong> (SRAM RED XPLR AXS, rám HMX, 8,4 kg) přes{" "}
+          <strong>Addict 10 a 20</strong> (SRAM Force XPLR AXS) a <strong>30</strong> (SRAM Rival XPLR AXS) až po{" "}
+          <strong>Addict 40</strong> se Shimano GRX 1×12.
           Vybrané modely níže — rozklikni pro{" "}
           <strong className="text-[#1a1a2e]">kompletní specifikaci, fotky, barvy a orientační cenu</strong>:
         </p>
@@ -204,10 +222,9 @@ export default function ScottAddictGravel2027() {
         <GravelModelGrid />
 
         <div className="bg-[#FFF8E7] border border-[#F5D78E] rounded-xl p-4 text-sm text-[#5A4500] leading-relaxed mb-8">
-          <strong>Pozor — náhledové fotky modelů jsou zatím z generace 2026</strong> (ilustrační). Nový{" "}
-          <strong>Addict Gravel 2027</strong> je aktuálně <strong>jen v předobjednávce</strong> — oficiální fotky
-          2027, finální osazení jednotlivých modelů, ceny v ČR a skladovou dostupnost (model / velikost) doplníme,
-          jakmile je potvrdíme u distributora.
+          <strong>Fotky, barvy i osazení níže jsou oficiální generace 2027</strong> (zdroj scott-sports.com). Nový{" "}
+          <strong>Addict Gravel 2027</strong> je aktuálně <strong>v předobjednávce</strong> — ceny jsou orientační
+          a skladovou dostupnost jednotlivých modelů a velikostí potvrdíme individuálně po poptávce.
         </div>
 
         <p className="text-sm text-[#5A6480] leading-relaxed mb-8">

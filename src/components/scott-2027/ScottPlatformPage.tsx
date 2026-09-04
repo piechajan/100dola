@@ -138,14 +138,30 @@ export default function ScottPlatformPage({ platform }: { platform: Scott2027Pla
                   <dt className="text-[#5A6480]">Velikosti:</dt>
                   <dd className="font-semibold">{v.sizes.join(" / ")}</dd>
                 </dl>
-                {v.colors.length > 0 && (
+                {v.colorways && v.colorways.length > 0 ? (
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="flex items-center gap-1.5">
+                      {v.colorways.map((c) => (
+                        <span
+                          key={c.name}
+                          title={c.name}
+                          className="w-4 h-4 rounded-full border border-[#D5DAE6]"
+                          style={{ backgroundColor: c.hex }}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-xs text-[#5A6480]">
+                      {v.colorways.map((c) => c.name).join(" · ")}
+                    </span>
+                  </div>
+                ) : v.colors.length > 0 ? (
                   <div className="text-xs text-[#5A6480] mb-3">
                     <strong className="text-[#1a1a2e]">Barvy:</strong> {v.colors.join(", ")}
                   </div>
-                )}
+                ) : null}
                 <div className="flex items-center justify-between gap-3 pt-2 border-t border-[#E2E6F3]">
                   <div>
-                    <div className="text-xs text-[#5A6480]">Orientačně</div>
+                    <div className="text-xs text-[#5A6480]">{v.shopId != null ? "Cena vč. DPH" : "Orientačně"}</div>
                     <div className="text-lg font-black text-[#1a1a2e]">{formatVariantPrice(v)}</div>
                     {v.priceEur && (
                       <div className="text-[11px] text-[#5A6480]">€ {v.priceEur.toLocaleString("cs-CZ")} MSRP</div>
