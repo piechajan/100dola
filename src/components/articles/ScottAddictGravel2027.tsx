@@ -184,6 +184,13 @@ export default function ScottAddictGravel2027() {
 
         <GravelModelGrid />
 
+        <div className="bg-[#FFF8E7] border border-[#F5D78E] rounded-xl p-4 text-sm text-[#5A4500] leading-relaxed mb-8">
+          <strong>Pozor — náhledové fotky modelů jsou zatím z generace 2026</strong> (ilustrační). Nový{" "}
+          <strong>Addict Gravel 2027</strong> je aktuálně <strong>jen v předobjednávce</strong> — oficiální fotky
+          2027, finální osazení jednotlivých modelů, ceny v ČR a skladovou dostupnost (model / velikost) doplníme,
+          jakmile je potvrdíme u distributora.
+        </div>
+
         <p className="text-sm text-[#5A6480] leading-relaxed mb-8">
           Chceš přehled celé platformy? Přejdi na{" "}
           <Link href="/clanky/scott-2027/scott-addict-gravel" className="text-[#E8431A] font-semibold underline underline-offset-2 hover:text-[#1a1a2e]">
