@@ -126,6 +126,12 @@ export default function ScottAddictGravel2027() {
           objímka, košíky) — jeden klíč na celé kolo. Volitelně se přidává i brašna na horní rámovou trubku se
           zapuštěnými šrouby a integrované zadní světlo do D-profilové karbonové sedlovky.
         </p>
+        <figure className="my-8">
+          <div className="relative aspect-[4/3] max-w-[420px] mx-auto bg-[#F0F2FA] rounded-2xl overflow-hidden">
+            <Image src="/media/articles/scott-addict-gravel-2027/test/test-11.webp" alt="Úložiště Save the Day ve spodní trubce Scott Addict Gravel 2027" fill sizes="420px" className="object-cover" />
+          </div>
+          <figcaption className="text-xs text-[#9AA3C2] text-center mt-3">Otevřený úložný port ve spodní trubce — sem se schová duše, pumpa i montpáky.</figcaption>
+        </figure>
 
         {/* Foto dvojice — z testu (bikepacking setup + fialové provedení) */}
         <div className="grid grid-cols-2 gap-3 my-8">
@@ -160,9 +166,16 @@ export default function ScottAddictGravel2027() {
             <p className="text-sm text-[#5A6480] leading-relaxed">Čisté vedení kabelů, schované nářadí, top zpracování — a barevná provedení, která fakt stojí za to. Kolo, na které se koukáš rád.</p>
           </div>
         </div>
+        <figure className="my-8 -mx-6 md:-mx-12">
+          <div className="relative aspect-[16/10] bg-[#F0F2FA] rounded-none md:rounded-2xl overflow-hidden">
+            <Image src="/media/articles/scott-addict-gravel-2027/test/test-08.webp" alt="Designový rám Scott Addict Gravel 2027 s barevnou grafikou" fill sizes="(max-width: 768px) 100vw, 820px" className="object-cover" />
+          </div>
+          <figcaption className="text-xs text-[#9AA3C2] text-center mt-3 px-6">Barevná grafika rámu — jedno z provedení, které jsme viděli naživo.</figcaption>
+        </figure>
+
         <p className="mb-8">
           <a href="#galerie" className="inline-flex items-center gap-2 text-sm font-bold text-[#E8431A] hover:opacity-80 transition">
-            📸 Galerie z testování novinky (7 fotek) →
+            📸 Galerie z testování novinky (12 fotek) →
           </a>
         </p>
 
@@ -220,7 +233,7 @@ export default function ScottAddictGravel2027() {
           Naše vlastní fotky nového Addict Gravel 2027 — z Valašska i z prodejny 100dola sport.
         </p>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-10">
-          {["test-01", "test-02", "test-03", "test-04", "test-05", "test-06", "test-07"].map((n) => (
+          {["test-01", "test-02", "test-03", "test-04", "test-05", "test-06", "test-07", "test-08", "test-09", "test-10", "test-11", "test-12"].map((n) => (
             <div key={n} className="relative aspect-[3/4] rounded-xl overflow-hidden bg-[#F0F2FA]">
               <Image
                 src={`/media/articles/scott-addict-gravel-2027/test/${n}.webp`}

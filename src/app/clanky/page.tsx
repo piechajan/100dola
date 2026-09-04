@@ -104,6 +104,7 @@ function ArticleCard({ a }: { a: (typeof ARTICLES)[number] }) {
           src={a.image}
           alt={a.title}
           className={`absolute inset-0 w-full h-full object-cover ${isDraft ? "grayscale" : ""}`}
+          style={{ objectPosition: a.imagePosition ?? "center" }}
           loading="lazy"
         />
         {isDraft && (

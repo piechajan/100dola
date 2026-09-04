@@ -17,6 +17,8 @@ export interface Article {
   author: { name: string; role?: string };
   /** Hero image (relativní /media/articles/<slug>.jpg, nebo absolutní URL). */
   image: string;
+  /** CSS object-position ořezu obrázku na kartě magazínu (např. „center 53%"). */
+  imagePosition?: string;
   /** Volitelný landscape obrázek pro širokou hero hlavičku detailu + OG/schema. Fallback = image. */
   heroImage?: string;
   status: ArticleStatus;
@@ -76,6 +78,7 @@ export const ARTICLES: Article[] = [
     publishedAt: "2026-09-04",
     author: { name: "Jan Piecha", role: "100dola sport" },
     image: "/media/articles/scott-addict-gravel-2027/test/test-01.webp",
+    imagePosition: "center 53%",
     status: "published",
     readMinutes: 8,
   },
@@ -184,7 +187,7 @@ export const ARTICLES: Article[] = [
     category: "lab",
     publishedAt: "2026-07-07",
     author: { name: "100dola Lab", role: "Servis kol" },
-    image: "/media/lab/lab-ppf.jpg",
+    image: "/media/lab/ppf-folie-ram.webp",
     status: "published",
     readMinutes: 6,
   },
