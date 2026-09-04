@@ -75,7 +75,7 @@ export const ARTICLES: Article[] = [
     category: "sport",
     publishedAt: "2026-09-04",
     author: { name: "Jan Piecha", role: "100dola sport" },
-    image: "/media/scott-2027/addict-gravel-rc.webp",
+    image: "/media/articles/scott-addict-gravel-2027/test/test-01.webp",
     status: "published",
     readMinutes: 8,
   },

@@ -78,12 +78,12 @@ export default function ScottAddictGravel2027() {
           </ul>
         </div>
 
-        {/* Hero */}
+        {/* Hero — reálná fotka z našeho testu */}
         <figure className="my-10 -mx-6 md:-mx-12">
           <div className="relative aspect-[3/2] bg-[#F0F2FA] rounded-none md:rounded-2xl overflow-hidden">
-            <Image src="/media/scott-2027/addict-gravel-rc.webp" alt="Scott Addict Gravel 2027" fill sizes="(max-width: 768px) 100vw, 820px" className="object-contain p-4" priority />
+            <Image src="/media/articles/scott-addict-gravel-2027/test/test-01.webp" alt="Scott Addict Gravel 2027 v černém provedení na lesní stezce — z našeho testu" fill sizes="(max-width: 768px) 100vw, 820px" className="object-cover" priority />
           </div>
-          <figcaption className="text-xs text-[#9AA3C2] text-center mt-3 px-6">Nový Addict Gravel 2027 — širší, lehčí, poddajnější. Foto: Scott Sports.</figcaption>
+          <figcaption className="text-xs text-[#9AA3C2] text-center mt-3 px-6">Nový Addict Gravel 2027 — širší, lehčí, poddajnější. Foto z našeho testu na Valašsku.</figcaption>
         </figure>
 
         <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mt-12 mb-4">57 mm prostup — gravel, který unese i MTB gumu</h2>
@@ -127,13 +127,13 @@ export default function ScottAddictGravel2027() {
           zapuštěnými šrouby a integrované zadní světlo do D-profilové karbonové sedlovky.
         </p>
 
-        {/* Foto dvojice */}
+        {/* Foto dvojice — z testu (bikepacking setup + fialové provedení) */}
         <div className="grid grid-cols-2 gap-3 my-8">
           <div className="relative aspect-square rounded-xl overflow-hidden bg-[#F0F2FA]">
-            <Image src="/media/scott-2027/addict-gravel-10.webp" alt="Scott Addict Gravel 2027 — detail" fill sizes="(max-width: 768px) 50vw, 410px" className="object-contain p-3" />
+            <Image src="/media/articles/scott-addict-gravel-2027/test/test-03.webp" alt="Scott Addict Gravel 2027 s bikepacking brašnami — z našeho testu" fill sizes="(max-width: 768px) 50vw, 410px" className="object-cover" />
           </div>
           <div className="relative aspect-square rounded-xl overflow-hidden bg-[#F0F2FA]">
-            <Image src="/media/scott-2027/addict-gravel-20.webp" alt="Scott Addict Gravel 2027 — detail" fill sizes="(max-width: 768px) 50vw, 410px" className="object-contain p-3" />
+            <Image src="/media/articles/scott-addict-gravel-2027/test/test-05.webp" alt="Scott Addict Gravel 2027 ve fialovém provedení — z našeho testu" fill sizes="(max-width: 768px) 50vw, 410px" className="object-cover" />
           </div>
         </div>
 
@@ -160,7 +160,11 @@ export default function ScottAddictGravel2027() {
             <p className="text-sm text-[#5A6480] leading-relaxed">Čisté vedení kabelů, schované nářadí, top zpracování — a barevná provedení, která fakt stojí za to. Kolo, na které se koukáš rád.</p>
           </div>
         </div>
-        <p className="text-sm text-[#9AA3C2] leading-relaxed mb-8">Fotky z našeho testu doplníme.</p>
+        <p className="mb-8">
+          <a href="#galerie" className="inline-flex items-center gap-2 text-sm font-bold text-[#E8431A] hover:opacity-80 transition">
+            📸 Galerie z testování novinky (7 fotek) →
+          </a>
+        </p>
 
         <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mt-12 mb-4">Geometrie: rychlost i jistota</h2>
         <p className="text-base text-[#5A6480] leading-relaxed mb-5">
@@ -174,7 +178,7 @@ export default function ScottAddictGravel2027() {
         <p className="text-base text-[#5A6480] leading-relaxed mb-2">
           Řada jede od vlajkové <strong>Premium</strong> (SRAM RED XPLR AXS, HMX, 7,8 kg) přes{" "}
           <strong>Addict 10 / 20 / 30</strong> (SRAM Force XPLR) až po <strong>Addict 40</strong> se Shimano GRX.
-          Rozklikni si kterýkoli model — u každého najdeš{" "}
+          Vybrané modely níže — rozklikni pro{" "}
           <strong className="text-[#1a1a2e]">kompletní specifikaci, fotky, barvy a orientační cenu</strong>:
         </p>
 
@@ -203,9 +207,28 @@ export default function ScottAddictGravel2027() {
           <PreorderInquiryForm />
         </div>
 
+        {/* Galerie z testování */}
+        <h2 id="galerie" className="text-2xl md:text-3xl font-black text-[#1a1a2e] mt-12 mb-4 scroll-mt-24">Galerie z testování novinky</h2>
+        <p className="text-base text-[#5A6480] leading-relaxed mb-5">
+          Naše vlastní fotky nového Addict Gravel 2027 — z Valašska i z prodejny 100dola sport.
+        </p>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-10">
+          {["test-01", "test-02", "test-03", "test-04", "test-05", "test-06", "test-07"].map((n) => (
+            <div key={n} className="relative aspect-[3/4] rounded-xl overflow-hidden bg-[#F0F2FA]">
+              <Image
+                src={`/media/articles/scott-addict-gravel-2027/test/${n}.webp`}
+                alt="Scott Addict Gravel 2027 — z našeho testu"
+                fill
+                sizes="(max-width: 768px) 50vw, 260px"
+                className="object-cover"
+              />
+            </div>
+          ))}
+        </div>
+
         <p className="text-xs text-[#9AA3C2] leading-relaxed">
-          Technická data: Scott Sports, BikeRadar, Brújula Bike. Ceny v ČR a přesná dostupnost jednotlivých
-          variant potvrdíme po předobjednávce.
+          Technická data: Scott Sports, BikeRadar, Brújula Bike. Fotky: 100dola sport (vlastní test).
+          Ceny v ČR a přesná dostupnost jednotlivých variant potvrdíme po předobjednávce.
         </p>
       </div>
     </article>
