@@ -127,10 +127,15 @@ export default function ScottAddictGravel2027() {
           zapuštěnými šrouby a integrované zadní světlo do D-profilové karbonové sedlovky.
         </p>
         <figure className="my-8">
-          <div className="relative aspect-[4/3] max-w-[420px] mx-auto bg-[#F0F2FA] rounded-2xl overflow-hidden">
-            <Image src="/media/articles/scott-addict-gravel-2027/test/test-11.webp" alt="Úložiště Save the Day ve spodní trubce Scott Addict Gravel 2027" fill sizes="420px" className="object-cover" />
+          <div className="grid grid-cols-2 gap-3">
+            <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-[#F0F2FA]">
+              <Image src="/media/articles/scott-addict-gravel-2027/test/test-11.webp" alt="Otevřený úložný port ve spodní trubce Scott Addict Gravel 2027" fill sizes="(max-width: 768px) 50vw, 400px" className="object-cover" />
+            </div>
+            <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-[#F0F2FA]">
+              <Image src="/media/articles/scott-addict-gravel-2027/test/test-10.webp" alt="Vytažený Syncros Save the Day kit s nářadím, pumpou a duší" fill sizes="(max-width: 768px) 50vw, 400px" className="object-cover" />
+            </div>
           </div>
-          <figcaption className="text-xs text-[#9AA3C2] text-center mt-3">Otevřený úložný port ve spodní trubce — sem se schová duše, pumpa i montpáky.</figcaption>
+          <figcaption className="text-xs text-[#9AA3C2] text-center mt-3">Vlevo otevřený úložný port ve spodní trubce, vpravo vytažený Save the Day kit — duše, mini pumpa i montpáky pohromadě.</figcaption>
         </figure>
 
         {/* Foto dvojice — z testu (bikepacking setup + fialové provedení) */}
