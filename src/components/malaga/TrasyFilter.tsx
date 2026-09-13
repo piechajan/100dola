@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import Link from "next/link";
 import type { MalagaRouteV2 } from "@/data/malaga/routes/types";
 import { TIER_LABEL, TIER_COLOR, FLAG_META } from "@/data/malaga/routes/types";
@@ -80,6 +80,39 @@ export default function TrasyFilter({ routes }: { routes: MalagaRouteV2[] }) {
   const [rtype, setRtype] = useState<RType>("vse");
   const [maxKm, setMaxKm] = useState(bounds.kmMax);
   const [maxAsc, setMaxAsc] = useState(bounds.ascMax);
+
+  // Persistence filtru v URL — po prokliku na detail a zpět zůstane nastavený
+  // (a jde sdílet/bookmarkovat). Čteme z URL při mountu, zapisujeme při změně.
+  const didWrite = useRef(false);
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const d = p.get("obtiznost");
+    if (d === "lehka" || d === "stredni" || d === "tezka") setDiff(d);
+    const t = p.get("typ");
+    if (t === "okruh" || t === "tam-zpet") setRtype(t);
+    const km = Number(p.get("km"));
+    if (km) setMaxKm(km);
+    const asc = Number(p.get("prevyseni"));
+    if (asc) setMaxAsc(asc);
+  }, []);
+  useEffect(() => {
+    // Přeskoč první běh (default hodnoty), ať nepřepíšeme URL dřív, než ji načteme.
+    if (!didWrite.current) {
+      didWrite.current = true;
+      return;
+    }
+    const params = new URLSearchParams();
+    if (diff !== "vse") params.set("obtiznost", diff);
+    if (rtype !== "vse") params.set("typ", rtype);
+    if (maxKm !== bounds.kmMax) params.set("km", String(maxKm));
+    if (maxAsc !== bounds.ascMax) params.set("prevyseni", String(maxAsc));
+    const qs = params.toString();
+    window.history.replaceState(
+      null,
+      "",
+      qs ? `${window.location.pathname}?${qs}` : window.location.pathname,
+    );
+  }, [diff, rtype, maxKm, maxAsc, bounds.kmMax, bounds.ascMax]);
 
   const filtered = useMemo(
     () =>
