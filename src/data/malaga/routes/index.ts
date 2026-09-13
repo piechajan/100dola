@@ -270,6 +270,79 @@ export const MALAGA_ROUTES_V2: MalagaRouteV2[] = [
     todo: ["ověřit bezpečný výjezd západní Málagou (Campanillas)", "potvrdit pravidla kola v C-2", "fotky El Chorro"],
   },
   {
+    slug: "el-chorro-jezera-okruh",
+    name_cs: "El Chorro & jezera — okruh s vyhlídkovou restaurací",
+    name_es: "El Chorro y los embalses del Guadalhorce",
+    tier: 3,
+    difficulty_score: 42.3, // provizorní — přepočítá pipeline z GPX
+    distance_km: 129.7,
+    ascent_m: 2282,
+    climb_density: 17.6,
+    max_altitude_m: 450, // provizorní — dopočítá GPX
+    max_gradient_pct: 13, // provizorní — dopočítá GPX
+    flags: { heat: true },
+    start: { name: "Zázemí 100dola Malaga", lat: 36.7026, lon: -4.4747 },
+    loop: true,
+    surface: {
+      asphalt_pct: 98,
+      gravel_pct: 2,
+      notes_cs:
+        "Údolní tah A-343 (Cártama–Pizarra–Álora) je dobrý asfalt. Na návratu přes A-7078 (Álora/El Chorro) je pár krátkých šotolinových pásů přes cestu — krátké a sjízdné, nic vážného.",
+    },
+    roads: ["A-343", "A-7078", "MA-5403", "A-7054"],
+    traffic: [
+      { from_km: 0, to_km: 15, level: "amber", note_cs: "výjezd západní Málagou přes Campanillas — letiště přeřízne pobřeží" },
+      { from_km: 15, to_km: 70, level: "green", note_cs: "údolí Guadalhorce přes Cártamu a Áloru k El Chorru — klidné silnice" },
+      { from_km: 70, to_km: 90, level: "green", note_cs: "jezera a přehrady Guadalhorce a El Chorro — klid, jen pozor na krátké šotolinové pásy" },
+      { from_km: 90, to_km: 129.7, level: "amber", note_cs: "návrat údolím k Málaze" },
+    ],
+    water: [
+      { km: 25, type: "shop", name: "Cártama — supermarkety", reliable: null, note_cs: null },
+      { km: 55, type: "bar", name: "Álora — bary ve městě", reliable: null, note_cs: null },
+      { km: 70, type: "cafe", name: "El Chorro — kavárny u Caminito del Rey", reliable: null, note_cs: null },
+    ],
+    longest_dry_stretch_km: null, // dopočítá GPX
+    cafes: [
+      { km: 70, name: "Kavárny u Caminito del Rey", town: "El Chorro", closed: null, note_cs: "turistické, ale jistota kávy a jídla" },
+    ],
+    climbs: [
+      { name: "El Chorro", from: "od údolí k El Chorru", length_km: 3.5, avg_pct: null, max_pct: null, gain_m: null, top_m: null },
+      { name: "Zeď na návratu (sting in the tail)", from: "≈ km 86", length_km: 2, avg_pct: 11, max_pct: null, gain_m: 220, top_m: null },
+    ],
+    bailout: [
+      { km: 70, type: "train", line: "Cercanías C-2", station: "El Chorro (Álora)", note_cs: "C-2 Málaga–Álora obsluhuje El Chorro; kolo dle pravidel Cercanías" },
+    ],
+    wind: WIND,
+    best_time_of_day_cs: "Ráno — údolí Guadalhorce je v poledni horké a fouká terral; kopcovitý návrat nech na chladnější část dne.",
+    season: SEASON,
+    gearing_cs: "Vem lehčí převod — prudké úseky na návratu (nejtěžší zeď ≈ km 86, ~2 km @ ~11 %) jsou na unavené nohy tvrdé; ideál 34×32 a lehčí.",
+    tyres_cs: "28–30 mm v pohodě. Na návratu pár krátkých sjízdných šotolinových pásů přes cestu — na úzkých galuskách jen opatrněji.",
+    who_it_suits_cs:
+      "Pro silné jezdce, kdo chtějí náročnější celodenní okruh s odměnou v podobě jezer a výhledu — kvůli 2282 m a prudkým kopcům na návratu těžší než údolní El Chorro.",
+    story_cs:
+      "Okruhová a náročnější sestra údolní trasy k El Chorru. Z Málagy najedeš do zemědělského údolí Guadalhorce a proti proudu řeky míříš přes Cártamu a Áloru až k jezerům a přehradám Guadalhorce a slavnému El Chorru s Caminito del Rey. Nad přehradami se dá zastavit s výhledem na jezera — parádní místo na oddech i foto. Jel jsem to hodně v klidu (IF 0,65), ale nenech se zmást: návrat je kopcovitý. Přijde pár krátkých, ale hodně prudkých úseků — nejtěžší zeď kolem km 86, zhruba 2 km v průměru přes 11 % a přes dvě stě metrů nastoupání, přesně když máš v nohách přes sto kilometrů. Přidej pár krátkých sjízdných šotolinových pásů přes cestu — nic vážného, ale počítej s nimi. Odměnou je 130 km a 2282 m andaluské krajiny s vápencovými soutěskami a modří jezer. Pozor na polední horko v údolí; bail-out nabízí vlak C-2 z El Chorra.",
+    warnings_cs: [
+      "Návrat je kopcovitý — pár krátkých, ale hodně prudkých úseků (nejtěžší zeď ≈ km 86: ~2 km @ ~11 %, ~220 m) na unavené nohy. Pro slabší jezdce tvrdé.",
+      "Na návratu pár krátkých šotolinových pásů přes cestu — krátké a sjízdné, jen zpomal.",
+      "Údolí Guadalhorce je v poledni horké a fouká terral — vyraž ráno.",
+      "Výjezd západní Málagou je ošemetný (letiště, Campanillas).",
+    ],
+    gpx: null, // GPX doplníme z Janovy Stravy (aktivita 20133848478)
+    strava_route: null,
+    komoot_route: null,
+    photos: [],
+    sources: ["Strava aktivita 20133848478 (Jan, 11.9.2026)", "§9 malaga-trasy", "web: povrch A-7078"],
+    verified_at: "2026-09-11",
+    confidence: "medium", // flip → "high" po vložení reálného GPX
+    todo: [
+      "vložit reálný GPX ze Stravy (aktivita 20133848478) → public/gpx/malaga/el-chorro-jezera-okruh.gpx",
+      "přepočítat metriky pipeline (gpx-stats.mjs / verify-routes.mjs): ascent, max_altitude_m, max_gradient_pct, difficulty_score, longest_dry_stretch",
+      "přidat foto výhledu na jezera (od přehrad/restaurace) — WebP, optimalizované",
+      "doplnit hodnoty stoupání (avg/max/gain/top) z GPX",
+      "po GPX flip confidence → high",
+    ],
+  },
+  {
     slug: "zafarraya-boquete",
     name_cs: "Zafarraya — přes Boquete do hor",
     name_es: "Zafarraya — Boquete de Zafarraya",
@@ -561,6 +634,78 @@ export const MALAGA_ROUTES_V2: MalagaRouteV2[] = [
     verified_at: null,
     confidence: "medium",
     todo: ["ověřit výjezd západní Málagou", "potvrdit stoupání Ojén/Monda", "fotky"],
+  },
+  {
+    slug: "ronda-kralovska-etapa",
+    name_cs: "Ronda — královská etapa přes Serranía de Ronda",
+    name_es: "Ronda — Marbella, El Burgo, Monda",
+    tier: 4,
+    difficulty_score: 47.6, // 144,2/10 + 2767/100 + max_grad·0,5 (max_grad provizorní)
+    distance_km: 144.2,
+    ascent_m: 2767,
+    climb_density: 19.2,
+    max_altitude_m: 1121, // Puerto del Viento
+    max_gradient_pct: 11, // provizorní — ověřit z GPX
+    flags: { heat: true, wind: true },
+    start: { name: "Marbella / San Pedro de Alcántara", lat: 36.487, lon: -4.998 },
+    loop: true,
+    surface: {
+      asphalt_pct: 100,
+      gravel_pct: 0,
+      notes_cs: "Výborný asfalt celou dobu. A-397 je dramatická horská silnice s výhledy na pobřeží.",
+    },
+    roads: ["A-397", "A-366", "A-7100", "N-340"],
+    traffic: [
+      { from_km: 0, to_km: 5, level: "amber", note_cs: "start v San Pedro / Marbelle, napojení na A-397" },
+      { from_km: 5, to_km: 45, level: "green", note_cs: "výjezd A-397 na Rondu (Puerto del Madroñal) — dramatická horská silnice, místy provoz/tunely" },
+      { from_km: 45, to_km: 110, level: "green", note_cs: "Serranía de Ronda: El Burgo, Yunquera, Alozaina — prázdné horské silničky, Puerto del Viento" },
+      { from_km: 110, to_km: 144.2, level: "amber", note_cs: "návrat přes Guaro a Monda k pobřeží" },
+    ],
+    water: [
+      { km: 45, type: "cafe", name: "Ronda — kavárny a bary v historickém městě", reliable: null, note_cs: "půlka trasy, doplň vše" },
+      { km: 70, type: "bar", name: "El Burgo — bary ve vesnici", reliable: null, note_cs: null },
+      { km: 130, type: "bar", name: "Monda — náměstí", reliable: null, note_cs: null },
+    ],
+    longest_dry_stretch_km: null, // dopočítá GPX
+    cafes: [
+      { km: 45, name: "Kavárny v historické Rondě", town: "Ronda", closed: null, note_cs: "ikonické město nad soutěskou — oběd a káva v půlce dne" },
+    ],
+    climbs: [
+      { name: "Puerto del Madroñal (A-397)", from: "San Pedro de Alcántara", length_km: 20, avg_pct: 5, max_pct: null, gain_m: 1065, top_m: 1065, climbfinder_url: null, strava_segment: null },
+      { name: "Puerto del Viento (A-366)", from: "El Burgo", length_km: 8, avg_pct: null, max_pct: null, gain_m: null, top_m: 1121, climbfinder_url: null, strava_segment: null },
+      { name: "Puerto de las Abejas", from: "Serranía de Ronda", length_km: null, avg_pct: null, max_pct: null, gain_m: null, top_m: null, climbfinder_url: null, strava_segment: null },
+      { name: "Puerto de Ojén", from: "závěr k pobřeží", length_km: null, avg_pct: null, max_pct: null, gain_m: null, top_m: null, climbfinder_url: null, strava_segment: null },
+    ],
+    bailout: [
+      { km: 45, type: "train", line: "Renfe (Algeciras–Bobadilla)", station: "Ronda", note_cs: "z Rondy jede vlak; návrat na pobřeží/Málagu s přestupem" },
+    ],
+    wind: WIND,
+    best_time_of_day_cs: "Brzy ráno — je to dlouhý den s velkým převýšením a Puerto del Viento bývá větrný.",
+    season: SEASON,
+    gearing_cs: "Královská etapa — ber lehké převody (34×32 a lehčí); 2767 m a čtyři průsmyky.",
+    tyres_cs: "28 mm; celou dobu výborný asfalt.",
+    who_it_suits_cs: "Pro nejsilnější jezdce — velký horský den přes Serranía de Ronda se čtyřmi průsmyky a ikonickým výjezdem A-397 na Rondu. Královská etapa katalogu.",
+    story_cs:
+      "Ronda je jedno z nejkrásnějších měst Andalusie — historické centrum posazené nad hlubokou soutěskou El Tajo — a cesta k němu je stejně velkolepá. Klasika startuje na pobřeží v San Pedro de Alcántara a stoupá po dramatické A-397 přes Puerto del Madroñal: zhruba 20 km táhlého výjezdu s výhledy zpět na Costa del Sol. Z Rondy pokračuje okruh do ticha Serraníe de Ronda — El Burgo, Yunquera, Alozaina — přes nejvyšší bod dne Puerto del Viento (1121 m), pak dolů přes Guaro a Monda zpět k moři. Je to velký den: 144 km, 2767 m a čtyři průsmyky. Odměnou je jedno z nejkrásnějších měst regionu v půlce trasy a horská krajina, kterou z pobřeží nečekáš. Z naší základny v Málaze je to od moře na západ (Marbella/San Pedro) ještě kus navíc — buď transfer, nebo den na Costa del Sol.",
+    warnings_cs: [
+      "Královská etapa — 144 km a 2767 m, čtyři průsmyky. Jen pro trénované nohy.",
+      "Z Málagy je na startovní pobřeží (Marbella/San Pedro) ~60 km navíc — ber transfer (vlak do Fuengiroly + dojezd, nebo auto), nebo to spoj s dnem na Costa del Sol.",
+      "Puerto del Viento (1121 m) bývá větrný a nahoře chladno — ber vrstvu.",
+      "A-397 je dramatická, ale místy s provozem a tunely — blikačka a opatrnost.",
+    ],
+    gpx: null, // web-sourced (bike2malaga RB-21); reálný GPX doplníme
+    strava_route: null,
+    komoot_route: null,
+    photos: [],
+    sources: ["bike2malaga RB-21 (Marbella > Ronda > El Burgo > Monda)", "andalucia.com A-397", "§9 malaga-trasy"],
+    verified_at: null,
+    confidence: "medium",
+    todo: [
+      "doplnit reálný GPX (bike2malaga RB-21 nebo Janova jízda) → public/gpx/malaga/ronda-kralovska-etapa.gpx",
+      "přepočítat metriky pipeline + doplnit hodnoty stoupání (Madroñal/Viento/Abejas/Ojén)",
+      "vyřešit transfer Málaga ↔ pobřeží (vlak/auto) a případně variantu startu z Málaga base",
+      "fotky Ronda + A-397",
+    ],
   },
   {
     slug: "puerto-del-sol-alfarnate",
