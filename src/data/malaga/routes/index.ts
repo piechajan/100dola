@@ -587,7 +587,7 @@ export const MALAGA_ROUTES_V2: MalagaRouteV2[] = [
     todo: ["ověřit průjezd tunelem N-340", "potvrdit bus z Nerja", "fotky Frigiliana"],
   },
   {
-    slug: "marbella-ronda-ojen",
+    slug: "marbella-ojen-monda",
     name_cs: "Marbella, Ojén a Monda",
     name_es: "Marbella, Ojén, Monda",
     tier: 3,
@@ -626,7 +626,7 @@ export const MALAGA_ROUTES_V2: MalagaRouteV2[] = [
     story_cs:
       "Západní část provincie nabízí jiný charakter — horské silničky nad Marbellou, kde se za pár kilometrů dostaneš z betonu pobřeží do ticha Sierra Blanca. Okruh vede přes vnitrozemské vesnice Monda a Ojén, s výhledy střídavě na moře a na hory. Není to o extrémních rampách, ale o příjemném horském rytmu a kontrastu mezi lesklým pobřežím a klidným vnitrozemím. Kafe na náměstí v Ojénu s panoramatem Costa del Sol je odměna.",
     warnings_cs: ["Výjezd západní Málagou je delší a přes obydlenější oblast (Alhaurín/Coín).", "Do Marbelly nejezdí vlak — bail-out je jen bus."],
-    gpx: "/gpx/malaga/marbella-ronda-ojen.gpx",
+    gpx: "/gpx/malaga/marbella-ojen-monda.gpx",
     strava_route: null,
     komoot_route: null,
     photos: [],
