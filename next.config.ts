@@ -95,6 +95,8 @@ const nextConfig: NextConfig = {
       // Český alias pro wishlist (canonical zůstává /wishlist).
       { source: "/oblibene", destination: "/wishlist", permanent: true },
       { source: "/oblibene/:path*", destination: "/wishlist/:path*", permanent: true },
+      // Přejmenovaná trasa: slug „marbella-ronda-ojen" mátl (na Rondu nejede) → Ojén/Monda.
+      { source: "/malaga/trasy/marbella-ronda-ojen", destination: "/malaga/trasy/marbella-ojen-monda", permanent: true },
     ];
   },
 };
