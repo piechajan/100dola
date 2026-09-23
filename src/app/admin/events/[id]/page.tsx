@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { getAdminContext } from "@/lib/admin-auth";
 import { getEventFromDb, type EventRow } from "@/lib/events-db";
 import { saveEventAction, deleteEventAction } from "../actions";
+import EventPhotoManager from "@/components/admin/EventPhotoManager";
 
 export const metadata: Metadata = {
   title: "Admin · Edit event — 100dola",
@@ -194,6 +195,8 @@ export default async function AdminEventEditPage({
               </button>
             </div>
           </form>
+
+          {!isNew && row && <EventPhotoManager slug={row.slug} />}
 
           {!isNew && row && (
             <form action={deleteEventAction} className="mt-6 bg-[#FEE2E2] rounded-2xl border border-red-200 p-6">

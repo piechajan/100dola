@@ -7,6 +7,7 @@ import RegistrationSystem from "@/components/community/RegistrationSystem";
 import EventGroupSignup from "@/components/community/EventGroupSignup";
 import MalagaEventSignup from "@/components/community/MalagaEventSignup";
 import EventParticipants from "@/components/community/EventParticipants";
+import EventDayGallery from "@/components/community/EventDayGallery";
 import { getEventParticipants } from "@/lib/event-participants";
 import RouteMapClient from "@/components/community/RouteMapClient";
 import GpxRouteMap from "@/components/community/GpxRouteMap";
@@ -473,6 +474,9 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   </div>
                 </div>
               )}
+
+              {/* Fotky po dnech (Den I/II…) — kurátorsky nahrané v adminu, z Vercel Blob */}
+              <EventDayGallery slug={event.slug} color={color} />
             </div>
 
             {/* RIGHT — registration sidebar */}
