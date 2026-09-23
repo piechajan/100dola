@@ -23,7 +23,7 @@ export const TRANSPORT_TIER_OPTIONS: OptionCard<MalagaTransportTier>[] = [
     label: "Basic — dovezu kolo sám",
     icon: "📦",
     description:
-      "Kolo přivezeš zabalené v boxu/krabici na sběrné místo. Nejlevnější varianta. One-way od 125 €, round-trip od 200 €.",
+      "Kolo přivezeš zabalené v boxu/krabici na sběrné místo. Nejlevnější varianta. One-way od 145 €, round-trip od 200 €.",
   },
   {
     value: "exclusive_full",
@@ -133,7 +133,7 @@ export function malagaTierShort(tier: MalagaTransportTier, direction?: MalagaDir
 }
 
 // Orientační cena DOPRAVY (Basic = firemní; Exclusive = „od", prémiová po domluvě).
-// Ceny drženy v sync s TRANSPORT_PRICES v malaga.ts (one-way 125/ebike 225, round 200/ebike 350).
+// Ceny drženy v sync s TRANSPORT_PRICES v malaga.ts (one-way 145/ebike 245, round 200/ebike 350).
 export interface TransportEstimate {
   total: number;
   perBike: number;
@@ -150,7 +150,7 @@ export function estimateTransportEur(o: {
   const bikes = Math.max(1, o.bikeCount ?? 1);
   const ebike = o.bikeType === "ebike";
   const roundtrip = o.direction === "roundtrip";
-  const perBike = roundtrip ? (ebike ? 350 : 200) : (ebike ? 225 : 125);
+  const perBike = roundtrip ? (ebike ? 350 : 200) : (ebike ? 245 : 145);
   return { total: perBike * bikes, perBike, bikes, exclusive: o.transportTier !== "basic" };
 }
 

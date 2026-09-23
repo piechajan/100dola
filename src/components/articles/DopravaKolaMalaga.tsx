@@ -34,7 +34,7 @@ export default function DopravaKolaMalaga() {
             <li>• <strong>Transport</strong> — fyzicky dopravujeme v ucelených dodávkách, ne kurýrem. Typicky 5-8 dní podle bloku odjezdu.</li>
             <li>• <strong>Sklad v Malaze</strong> — kolo má svůj prostor, schované, monitorované, připravené.</li>
             <li>• <strong>Vy pak létáte light</strong> — ruční zavazadlo s helmou a tretrami, kolo na vás čeká.</li>
-            <li>• <strong>Cena</strong> — od 125 € jednosměrně, round-trip od 200 €. Sklad od 69 €/měsíc.</li>
+            <li>• <strong>Cena</strong> — od 145 € jednosměrně, round-trip od 200 €. Sklad od 69 €/měsíc.</li>
           </ul>
           <div className="mt-4 pt-4 border-t border-[#FBC9A8]">
             <Link
@@ -91,7 +91,7 @@ export default function DopravaKolaMalaga() {
               </tr>
               <tr className="bg-[#FFF1EA]">
                 <td className="p-3 font-bold">100dola transport + sklad</td>
-                <td className="p-3">Jednou dovoz od 125 € + 69 €/měsíc sklad</td>
+                <td className="p-3">Jednou dovoz od 145 € + 69 €/měsíc sklad</td>
                 <td className="p-3">Nulový — kolo už tam je</td>
                 <td className="p-3">Nízké — víme co děláme, monitor, pojištěno</td>
               </tr>
@@ -173,7 +173,7 @@ export default function DopravaKolaMalaga() {
             <div className="text-xs font-bold uppercase tracking-wider text-[#9AA3C2] mb-2">
               Doprava one-way
             </div>
-            <div className="text-3xl font-black text-[#1a1a2e] mb-1">125 €</div>
+            <div className="text-3xl font-black text-[#1a1a2e] mb-1">145 €</div>
             <div className="text-xs text-[#9AA3C2] mb-4">jednosměrně, za kolo</div>
             <ul className="space-y-2 text-sm text-[#1a1a2e]">
               <li>✓ Doprava kola do Malagy (nebo zpět)</li>
@@ -319,7 +319,7 @@ export default function DopravaKolaMalaga() {
             },
             {
               q: "A když nezbudu jezdit a kolo bude v Malaze dlouho?",
-              a: "Sklad můžeš zrušit kdykoliv. Buď ho vezeme zpátky (Basic 125 €), nebo ho prodáme v Malaze přes naše kontakty (komise 12 %, většinou rychle pro race carbon kola).",
+              a: "Sklad můžeš zrušit kdykoliv. Buď ho vezeme zpátky (Basic 145 €), nebo ho prodáme v Malaze přes naše kontakty (komise 12 %, většinou rychle pro race carbon kola).",
             },
           ].map((item) => (
             <div key={item.q} className="border-b border-[#E2E6F3] pb-5">
