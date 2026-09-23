@@ -735,7 +735,7 @@ Startujeme v 7:00 ráno ze Štefanové. Lavinové vybavení je podmínkou účas
     ],
     whoIsItFor: "Zkušení skialpinisté s lavinovým kurzem. Bez zkušeností nevhodné.",
     organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
-    photo: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=1400&q=85&fit=crop",
+    photo: "/media/krkonose-skialpy.jpg",
   },
   {
     id: 6,
