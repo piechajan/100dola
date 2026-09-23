@@ -16,6 +16,7 @@ import {
   NUTRITION_ITEMS,
   MALAGA_ADDON_OPTIONS,
   estimateTransportEur,
+  transportPackageNote,
   type MalagaTransportTier,
   type MalagaDirection,
   type MalagaBikeType,
@@ -157,7 +158,7 @@ function SignupModal({
   const [groupKind, setGroupKind] = useState<MalagaGroupKind>("individual");
   const [members, setMembers] = useState<Member[]>([]);
 
-  const [transportTier, setTransportTier] = useState<MalagaTransportTier>("basic");
+  const [transportTier, setTransportTier] = useState<MalagaTransportTier>("exclusive_i");
   const [direction, setDirection] = useState<MalagaDirection>("roundtrip");
   const [bikeCount, setBikeCount] = useState(1);
   const [bikeType, setBikeType] = useState<MalagaBikeType>("road");
@@ -206,8 +207,8 @@ function SignupModal({
     setPhoto(e.dataTransfer.files?.[0]);
   };
 
-  const hasTransport = transportTier !== "none";
-  const isExclusive = transportTier === "exclusive_full" || transportTier === "exclusive_pickup";
+  const hasTransport = transportTier !== "basic";
+  const isExclusive = transportTier === "exclusive_ii" || transportTier === "exclusive_pro";
   const transportEst = estimateTransportEur({ transportTier, direction, bikeCount, bikeType });
 
   const addMember = () => {
@@ -453,18 +454,14 @@ function SignupModal({
                 <MalagaBoxBanner color={color} />
               </div>
 
-              {/* Doprava v ceně balíčku (balíčkový termín) NEBO živý orientační odhad */}
-              {hasTransport && packageIncludesTransport ? (
+              {/* Poznámka o ceně dopravy — balíčkový termín (dle tieru) NEBO živý odhad */}
+              {packageIncludesTransport ? (
                 <div className="mt-3 rounded-xl p-3 border" style={{ background: `${color}0D`, borderColor: `${color}40` }}>
                   <div className="flex items-start gap-2">
-                    <span className="font-black" style={{ color }} aria-hidden>✓</span>
-                    <p className="text-[13px] text-[#1a1a2e] leading-snug">
-                      <strong>Doprava kola je u tohoto termínu už v ceně balíčku.</strong>{" "}
-                      <span className="text-[#5A6480]">
-                        Vyber si úroveň jen pro představu — případný příplatek za Exclusive doladíme
-                        v nabídce. Cenu balíčku pošleme na vyžádání.
-                      </span>
-                    </p>
+                    <span className="font-black" style={{ color }} aria-hidden>
+                      {transportTier === "exclusive_i" ? "✓" : transportTier === "basic" ? "−" : "+"}
+                    </span>
+                    <p className="text-[13px] text-[#1a1a2e] leading-snug">{transportPackageNote(transportTier)}</p>
                   </div>
                 </div>
               ) : transportEst ? (

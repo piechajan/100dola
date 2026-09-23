@@ -83,14 +83,14 @@ export async function POST(req: NextRequest) {
     city: data.city || undefined,
     zip: data.zip || undefined,
     street:
-      (data.transportTier === "exclusive_full" || data.transportTier === "exclusive_pickup") && data.street
+      (data.transportTier === "exclusive_ii" || data.transportTier === "exclusive_pro") && data.street
         ? data.street
         : undefined,
     transportTier: data.transportTier,
-    direction: data.transportTier === "none" ? undefined : data.direction,
-    bikeCount: data.transportTier === "none" ? undefined : data.bikeCount,
-    bikeType: data.transportTier === "none" ? undefined : data.bikeType,
-    storageAfter: data.transportTier === "none" ? undefined : data.storageAfter,
+    direction: data.transportTier === "basic" ? undefined : data.direction,
+    bikeCount: data.transportTier === "basic" ? undefined : data.bikeCount,
+    bikeType: data.transportTier === "basic" ? undefined : data.bikeType,
+    storageAfter: data.transportTier === "basic" ? undefined : data.storageAfter,
     accommodation: data.accommodation,
     nutritionSponser: data.nutritionSponser,
     nutritionPrefs: data.nutritionPrefs || undefined,

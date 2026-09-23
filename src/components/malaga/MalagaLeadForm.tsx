@@ -21,7 +21,7 @@ type Intent = "transport" | "storage" | "package" | "tour" | "group" | "other";
 type PackageInterest = "basic" | "exclusive" | "undecided";
 
 // V poptávce „pošli kolo" nabízíme reálné transport tiers (bez varianty „neřeším").
-const TRANSPORT_TIERS = TRANSPORT_TIER_OPTIONS.filter((o) => o.value !== "none");
+const TRANSPORT_TIERS = TRANSPORT_TIER_OPTIONS.filter((o) => o.value !== "basic");
 
 const INTENT_OPTIONS: { value: Intent; label: string }[] = [
   { value: "package", label: "Kompletní balíček (transport + skladování)" },

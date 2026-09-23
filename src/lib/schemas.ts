@@ -78,7 +78,7 @@ export const MalagaPayloadSchema = z
     insuranceInterest: z.boolean().optional(),
     message: z.string().max(2000).trim().optional(),
     // Sdílené prodejní bloky (stejné jako Malaga přihláška) — volitelné.
-    transportTier: z.enum(["basic", "exclusive_full", "exclusive_pickup", "none"]).optional(),
+    transportTier: z.enum(["exclusive_i", "exclusive_ii", "exclusive_pro", "basic"]).optional(),
     storageAfter: z.enum(["no", "winter", "yearround"]).optional(),
     nutritionSponser: z.enum(["interest", "no"]).optional(),
     nutritionPrefs: z.string().max(300).trim().optional(),
@@ -307,7 +307,7 @@ export const MalagaSignupPayloadSchema = z
     groupKind: z.enum(["individual", "group", "club"]).optional(),
     members: z.array(EventSignupMemberSchema).max(10).optional().default([]),
     // Doprava kola.
-    transportTier: z.enum(["basic", "exclusive_full", "exclusive_pickup", "none"]),
+    transportTier: z.enum(["exclusive_i", "exclusive_ii", "exclusive_pro", "basic"]),
     direction: z.enum(["oneway", "roundtrip"]).optional(),
     bikeCount: z.number().int().min(1).max(20).optional(),
     bikeType: z.enum(["road", "gravel", "mtb", "ebike"]).optional(),
