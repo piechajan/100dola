@@ -8,6 +8,7 @@ import EventGroupSignup from "@/components/community/EventGroupSignup";
 import MalagaEventSignup from "@/components/community/MalagaEventSignup";
 import EventParticipants from "@/components/community/EventParticipants";
 import EventDayGallery from "@/components/community/EventDayGallery";
+import ShareButton from "@/components/community/ShareButton";
 import { getEventParticipants } from "@/lib/event-participants";
 import RouteMapClient from "@/components/community/RouteMapClient";
 import GpxRouteMap from "@/components/community/GpxRouteMap";
@@ -591,13 +592,10 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                 </div>
 
                 {/* Share */}
-                <button className="w-full py-3 rounded-xl border-2 border-[#E2E6F3] text-sm font-semibold text-[#9AA3C2] hover:border-[#1a1a2e] hover:text-[#1a1a2e] transition-colors flex items-center justify-center gap-2">
-                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
-                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" /><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-                  </svg>
-                  Sdílet akci
-                </button>
+                <ShareButton
+                  url={`https://www.100dola.com/community/event/${event.slug}`}
+                  title={event.title}
+                />
               </div>
             </div>
           </div>
