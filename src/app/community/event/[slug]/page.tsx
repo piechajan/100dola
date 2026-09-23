@@ -359,8 +359,10 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                     ))}
                   </ul>
                   <p className="mt-4 text-xs text-[#9AA3C2] leading-relaxed">
-                    Bez jídla (možnost snídaní / večeří za příplatek řešíme). Přesný rozpočet a cenu pošleme
-                    na vyžádání — napiš si přes přihlášku níže.
+                    <strong className="text-[#5A6480]">Letenku a ubytování si pořizuješ sám</strong> — poradíme
+                    s výběrem a předáme prověřené kontakty, ale nejsou součástí ceny našich služeb. Bez jídla
+                    (možnost snídaní / večeří řešíme). Přesný rozpočet našich služeb pošleme na vyžádání —
+                    napiš si přes přihlášku níže.
                   </p>
                 </div>
               )}
