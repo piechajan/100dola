@@ -19,6 +19,7 @@
     "@vercel/speed-insights": "^2.0.0",
     "cheerio": "^1.2.0",
     "fflate": "^0.8.3",
+    "jszip": "^3.10.2",
     "leaflet": "^1.9.4",
     "next": "^16.2.11",
     "qrcode": "^1.5.4",

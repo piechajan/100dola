@@ -58,24 +58,45 @@ export default function EventDayGallery({ slug, color }: { slug: string; color: 
                 Den {roman(d.day)}
               </span>
               <span className="text-xs text-[#9AA3C2]">{d.photos.length} fotek</span>
+              <a
+                href={`/api/events/${slug}/photos/zip?day=${d.day}`}
+                className="ml-auto text-xs font-bold hover:underline"
+                style={{ color }}
+              >
+                ↓ Stáhnout vše (ZIP)
+              </a>
             </div>
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
               {d.photos.map((p) => (
-                <button
+                <div
                   key={p.url}
-                  type="button"
-                  onClick={() => setOpen(p.url)}
-                  className="relative aspect-square rounded-xl overflow-hidden bg-[#F0F2FA] cursor-zoom-in group"
+                  className="relative aspect-square rounded-xl overflow-hidden bg-[#F0F2FA] group"
                 >
-                  <Image
-                    src={p.url}
-                    alt={`${slug} — Den ${roman(d.day)}`}
-                    fill
-                    sizes="(max-width: 640px) 33vw, 200px"
-                    className="object-cover group-hover:opacity-90 transition"
-                    unoptimized
-                  />
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => setOpen(p.url)}
+                    className="absolute inset-0 cursor-zoom-in"
+                    aria-label={`Zvětšit — Den ${roman(d.day)}`}
+                  >
+                    <Image
+                      src={p.url}
+                      alt={`${slug} — Den ${roman(d.day)}`}
+                      fill
+                      sizes="(max-width: 640px) 33vw, 200px"
+                      className="object-cover group-hover:opacity-90 transition"
+                      unoptimized
+                    />
+                  </button>
+                  <a
+                    href={p.downloadUrl}
+                    className="absolute bottom-1 right-1 w-7 h-7 flex items-center justify-center rounded-full bg-black/55 text-white text-sm opacity-0 group-hover:opacity-100 transition hover:bg-black/75"
+                    aria-label="Stáhnout fotku"
+                    title="Stáhnout fotku"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    ↓
+                  </a>
+                </div>
               ))}
             </div>
           </div>

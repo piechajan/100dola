@@ -2,6 +2,8 @@
 
 export interface EventPhoto {
   url: string;
+  /** Blob download URL — vynutí stažení (Content-Disposition attachment) bez proxy. */
+  downloadUrl: string;
   pathname: string;
   uploadedAt: string;
 }
