@@ -23,7 +23,12 @@ async function listDaysUncached(slug: string): Promise<EventPhotoDay[]> {
       if (!m) continue;
       const day = Number(m[1]);
       const arr = byDay.get(day) ?? [];
-      arr.push({ url: b.url, pathname: b.pathname, uploadedAt: b.uploadedAt.toISOString() });
+      arr.push({
+        url: b.url,
+        downloadUrl: b.downloadUrl,
+        pathname: b.pathname,
+        uploadedAt: b.uploadedAt.toISOString(),
+      });
       byDay.set(day, arr);
     }
     cursor = res.hasMore ? res.cursor : undefined;
