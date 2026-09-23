@@ -524,6 +524,8 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                         color={color}
                         filledCount={realFilled}
                         capacity={event.capacity}
+                        packageIncludesTransport={event.packageIncludesTransport}
+                        stayOptions={event.stayOptions}
                       />
                     ) : event.groupSignup ? (
                       /* Skupinová přihláška (lead + členové + pobyt) */

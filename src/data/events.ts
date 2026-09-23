@@ -62,6 +62,12 @@ export interface Event {
   included?: string[];
   /** „Volitelně / za příplatek" — upsell add-ony (příruční zavazadlo, snídaně, výživa…). */
   addons?: string[];
+  /** Balíčkový termín — doprava kola je už v ceně balíčku → v přihlášce se neukazuje
+   *  matoucí samostatná „cena dopravy", ale poznámka „v ceně balíčku". */
+  packageIncludesTransport?: boolean;
+  /** Přednastavené volby délky pobytu (místo volných datumů) — omezí ubytování na
+   *  termín akce, případně na víc týdnů. from/to = ISO datum. */
+  stayOptions?: { key: string; label: string; from: string; to: string }[];
 }
 
 export interface EventVenue {
@@ -626,6 +632,11 @@ O logistiku se staráme my — dopravu kola, letenku, ubytování, transfery i s
     organizer: { name: "Jan Piecha", role: "Zakladatel 100dola Malaga" },
     photo: "/media/malaga-hero.jpg",
     malagaSignup: true,
+    packageIncludesTransport: true,
+    stayOptions: [
+      { key: "term", label: "Po dobu akce (30.10.–6.11.)", from: "2026-10-30", to: "2026-11-06" },
+      { key: "both", label: "Oba termíny — dva týdny (30.10.–20.11.)", from: "2026-10-30", to: "2026-11-20" },
+    ],
   },
   {
     id: 4,
@@ -692,6 +703,10 @@ O logistiku se staráme my — dopravu kola, letenku, ubytování, transfery i s
     organizer: { name: "Jan Piecha", role: "Zakladatel 100dola Malaga" },
     photo: "/media/malaga-event.jpg",
     malagaSignup: true,
+    packageIncludesTransport: true,
+    stayOptions: [
+      { key: "term", label: "Po dobu akce (13.–20.11.)", from: "2026-11-13", to: "2026-11-20" },
+    ],
   },
   {
     id: 5,
