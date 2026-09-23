@@ -697,8 +697,11 @@ function SignupModal({
               </div>
               <input type="checkbox" checked={gdpr} onChange={(e) => setGdpr(e.target.checked)} className="sr-only" />
               <span className="text-xs text-[#5A6480] leading-relaxed">
-                Souhlasím se zpracováním osobních údajů.{" "}
-                <a href="/ochrana-osobnich-udaju" target="_blank" className="font-bold underline" style={{ color }}>Zásady</a>
+                Souhlasím se zpracováním osobních údajů a se{" "}
+                <a href="/obchodni-podminky" target="_blank" className="font-bold underline" style={{ color }}>
+                  obchodními podmínkami
+                </a>.{" "}
+                <a href="/ochrana-osobnich-udaju" target="_blank" className="font-bold underline" style={{ color }}>Zásady ochrany údajů</a>
               </span>
             </label>
 
