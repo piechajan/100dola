@@ -134,6 +134,8 @@ function SignupModal({
   eventTitle,
   eventDate,
   color,
+  packageIncludesTransport,
+  stayOptions,
   onClose,
   onSuccess,
 }: {
@@ -141,6 +143,8 @@ function SignupModal({
   eventTitle: string;
   eventDate: string;
   color: string;
+  packageIncludesTransport?: boolean;
+  stayOptions?: StayOption[];
   onClose: () => void;
   onSuccess: () => void;
 }) {
@@ -160,8 +164,14 @@ function SignupModal({
   const [storageAfter, setStorageAfter] = useState<MalagaStorageAfter>("no");
 
   const [accommodation, setAccommodation] = useState<MalagaAccommodation>("interest");
-  const [accFrom, setAccFrom] = useState("");
-  const [accTo, setAccTo] = useState("");
+  const [accFrom, setAccFrom] = useState(stayOptions?.[0]?.from ?? "");
+  const [accTo, setAccTo] = useState(stayOptions?.[0]?.to ?? "");
+  const [stayChoice, setStayChoice] = useState(stayOptions?.[0]?.key ?? "");
+  const pickStay = (o: StayOption) => {
+    setStayChoice(o.key);
+    setAccFrom(o.from);
+    setAccTo(o.to);
+  };
 
   const [nutritionSponser, setNutritionSponser] = useState<MalagaYesNo>("interest");
   const [nutritionPrefs, setNutritionPrefs] = useState("");
@@ -443,8 +453,21 @@ function SignupModal({
                 <MalagaBoxBanner color={color} />
               </div>
 
-              {/* Živý orientační odhad DOPRAVY */}
-              {transportEst && (
+              {/* Doprava v ceně balíčku (balíčkový termín) NEBO živý orientační odhad */}
+              {hasTransport && packageIncludesTransport ? (
+                <div className="mt-3 rounded-xl p-3 border" style={{ background: `${color}0D`, borderColor: `${color}40` }}>
+                  <div className="flex items-start gap-2">
+                    <span className="font-black" style={{ color }} aria-hidden>✓</span>
+                    <p className="text-[13px] text-[#1a1a2e] leading-snug">
+                      <strong>Doprava kola je u tohoto termínu už v ceně balíčku.</strong>{" "}
+                      <span className="text-[#5A6480]">
+                        Vyber si úroveň jen pro představu — případný příplatek za Exclusive doladíme
+                        v nabídce. Cenu balíčku pošleme na vyžádání.
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              ) : transportEst ? (
                 <div className="mt-3 rounded-xl p-3" style={{ background: `${color}12` }}>
                   <div className="flex items-baseline justify-between gap-2">
                     <span className="text-sm font-bold text-[#1a1a2e]">Orientační cena dopravy</span>
@@ -457,7 +480,7 @@ function SignupModal({
                     Jen doprava. Ubytování a výživu doladíme v nabídce.{transportEst.exclusive ? " Exkluzivní servis po domluvě." : ""}
                   </p>
                 </div>
-              )}
+              ) : null}
             </div>
 
             {/* C. Ubytování */}
@@ -473,7 +496,35 @@ function SignupModal({
                 color={color}
                 name="accommodation"
               />
-              {accommodation === "interest" && (
+              {accommodation === "interest" && stayOptions && stayOptions.length > 0 && (
+                <div className="mt-3 space-y-2">
+                  {stayOptions.map((o) => {
+                    const on = stayChoice === o.key;
+                    return (
+                      <label
+                        key={o.key}
+                        className={`flex items-center gap-3 rounded-xl border p-3 cursor-pointer transition-colors ${
+                          on ? "border-current bg-[#F7F9FF]" : "border-[#E2E6F3] hover:border-current"
+                        }`}
+                        style={on ? { color } : undefined}
+                      >
+                        <input
+                          type="radio"
+                          name="stayChoice"
+                          checked={on}
+                          onChange={() => pickStay(o)}
+                          className="h-4 w-4 shrink-0 accent-current"
+                        />
+                        <span className="text-sm font-semibold text-[#1a1a2e]">{o.label}</span>
+                      </label>
+                    );
+                  })}
+                  <p className="text-[11px] text-[#9AA3C2]">
+                    Termín pobytu je vázaný na akci. Delší pobyt řeš individuálně v poznámce.
+                  </p>
+                </div>
+              )}
+              {accommodation === "interest" && (!stayOptions || stayOptions.length === 0) && (
                 <div className="mt-3 grid grid-cols-2 gap-2">
                   <label className="text-[11px] text-[#9AA3C2]">
                     Od
@@ -669,6 +720,13 @@ function SignupModal({
   );
 }
 
+export interface StayOption {
+  key: string;
+  label: string;
+  from: string;
+  to: string;
+}
+
 export default function MalagaEventSignup({
   eventSlug,
   eventTitle,
@@ -676,6 +734,8 @@ export default function MalagaEventSignup({
   color,
   filledCount = 0,
   capacity,
+  packageIncludesTransport,
+  stayOptions,
 }: {
   eventSlug: string;
   eventTitle: string;
@@ -683,6 +743,8 @@ export default function MalagaEventSignup({
   color: string;
   filledCount?: number;
   capacity: number;
+  packageIncludesTransport?: boolean;
+  stayOptions?: StayOption[];
 }) {
   const [showForm, setShowForm] = useState(false);
   const [done, setDone] = useState(false);
@@ -741,6 +803,8 @@ export default function MalagaEventSignup({
           eventTitle={eventTitle}
           eventDate={eventDate}
           color={color}
+          packageIncludesTransport={packageIncludesTransport}
+          stayOptions={stayOptions}
           onClose={() => setShowForm(false)}
           onSuccess={() => {
             setShowForm(false);

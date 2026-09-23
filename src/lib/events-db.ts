@@ -87,6 +87,8 @@ function overlayCodeOnlyFields(dbEvent: Event, staticEvent: Event | undefined): 
     difficultyVariants: dbEvent.difficultyVariants ?? staticEvent.difficultyVariants,
     included: staticEvent.included ?? dbEvent.included,
     addons: staticEvent.addons ?? dbEvent.addons,
+    packageIncludesTransport: staticEvent.packageIncludesTransport ?? dbEvent.packageIncludesTransport,
+    stayOptions: staticEvent.stayOptions ?? dbEvent.stayOptions,
   };
 }
 
