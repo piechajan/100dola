@@ -92,6 +92,9 @@ export default function ReviewsCarousel() {
               {GOOGLE_REVIEW_AGGREGATE.reviewCount} hodnocení na Google
             </a>
           </div>
+          <p className="text-xs text-[#9AA3C2] mt-3 max-w-xl mx-auto">
+            Recenze pocházejí od reálných zákazníků přes ověřený profil na Google.
+          </p>
         </div>
 
         <div className="relative">

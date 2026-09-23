@@ -511,7 +511,10 @@ export default function CheckoutForm() {
             required
           />
           <span className="text-xs text-[#5A6480] leading-relaxed">
-            Souhlasím se zpracováním osobních údajů za účelem zpracování této objednávky. Údaje uchováváme po dobu nezbytnou k vyřízení objednávky a v rozsahu zákonných povinností (faktury 10 let). Kdykoliv můžeš požádat o jejich výmaz. Provozovatel: FUTUNATU s.r.o., IČO 07376766.
+            Souhlasím se zpracováním osobních údajů za účelem zpracování této objednávky a s{" "}
+            <a href="/obchodni-podminky" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#3B7CF4]">
+              obchodními podmínkami
+            </a>. Údaje uchováváme po dobu nezbytnou k vyřízení objednávky a v rozsahu zákonných povinností (faktury 10 let). Kdykoliv můžeš požádat o jejich výmaz. Provozovatel: FUTUNATU s.r.o., IČO 07376766.
           </span>
         </label>
 
@@ -663,11 +666,12 @@ export default function CheckoutForm() {
             className="w-full mt-6 py-4 text-sm font-black text-white rounded-full transition-all hover:opacity-90 disabled:opacity-60"
             style={{ backgroundColor: accent, boxShadow: `0 4px 16px ${accent}40` }}
           >
-            {submitting ? "Odesílám..." : `Objednat za ${formatPrice(total)}`}
+            {submitting ? "Odesílám..." : `Závazně objednat za ${formatPrice(total)}`}
           </button>
 
           <p className="text-[10px] text-[#9AA3C2] text-center mt-3 leading-relaxed">
-            Kliknutím odešleš objednávku. Mailem dostaneš potvrzení a platební info (QR kód, IBAN, VS).
+            Odesláním vzniká objednávka zavazující k platbě {formatPrice(total)}. Mailem dostaneš
+            potvrzení a platební info (QR kód, IBAN, VS).
           </p>
 
           {/* Trust signály u rozhodovacího bodu */}

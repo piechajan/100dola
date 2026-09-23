@@ -50,6 +50,9 @@ export default function GoogleReviewsCompact() {
           {GOOGLE_REVIEW_AGGREGATE.reviewCount} hodnocení na Google
         </a>
       </div>
+      <p className="text-[11px] text-[#9AA3C2] mt-2">
+        Recenze od reálných zákazníků přes ověřený profil na Google.
+      </p>
 
       <div className="mt-4 space-y-3">
         {shown.map((r) => (
