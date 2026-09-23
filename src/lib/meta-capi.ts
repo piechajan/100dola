@@ -60,6 +60,13 @@ export interface CapiEventOptions {
   customData?: CapiCustomData;
   /** Default "website". */
   actionSource?: "website" | "email" | "app" | "phone_call" | "chat" | "physical_store" | "system_generated" | "other";
+  /**
+   * Consent Mode v2: marketing souhlas uživatele.
+   * - true  → plná data (PII hash + fbp/fbc) pro maximální match.
+   * - false/undefined → BEZ PII a cookies; posíláme jen modeling ping (IP + UA),
+   *   ať Meta má agregovaný signál, ale žádné osobní identifikátory nematchujeme.
+   */
+  marketingConsent?: boolean;
 }
 
 function sha256(value: string): string {
@@ -71,21 +78,26 @@ function normalizePhone(phone: string): string {
   return phone.replace(/[^\d]/g, "");
 }
 
-function buildUserData(u: CapiUserData): Record<string, unknown> {
+function buildUserData(u: CapiUserData, marketingConsent: boolean): Record<string, unknown> {
   const out: Record<string, unknown> = {};
-  if (u.email) out.em = [sha256(u.email)];
-  if (u.phone) out.ph = [sha256(normalizePhone(u.phone))];
-  if (u.firstName) out.fn = [sha256(u.firstName)];
-  if (u.lastName) out.ln = [sha256(u.lastName)];
-  if (u.city) out.ct = [sha256(u.city)];
-  if (u.zip) out.zp = [sha256(u.zip.replace(/\s+/g, ""))];
-  if (u.country) out.country = [sha256(u.country.toLowerCase())];
-  if (u.externalId) out.external_id = [sha256(u.externalId)];
-  // IP a User-Agent jsou plain (Meta je hashuje sama)
+  // Bez marketing souhlasu NEposíláme osobní identifikátory (PII hash ani fbp/fbc/
+  // external_id). Necháme jen IP + UA jako modeling ping (agregovaný signál).
+  if (marketingConsent) {
+    if (u.email) out.em = [sha256(u.email)];
+    if (u.phone) out.ph = [sha256(normalizePhone(u.phone))];
+    if (u.firstName) out.fn = [sha256(u.firstName)];
+    if (u.lastName) out.ln = [sha256(u.lastName)];
+    if (u.city) out.ct = [sha256(u.city)];
+    if (u.zip) out.zp = [sha256(u.zip.replace(/\s+/g, ""))];
+    if (u.country) out.country = [sha256(u.country.toLowerCase())];
+    if (u.externalId) out.external_id = [sha256(u.externalId)];
+    if (u.fbp) out.fbp = u.fbp;
+    if (u.fbc) out.fbc = u.fbc;
+  }
+  // IP a User-Agent jsou plain (Meta je hashuje sama) — posílají se pro doručitelnost
+  // eventu i v modeling režimu.
   if (u.clientIp) out.client_ip_address = u.clientIp;
   if (u.userAgent) out.client_user_agent = u.userAgent;
-  if (u.fbp) out.fbp = u.fbp;
-  if (u.fbc) out.fbc = u.fbc;
   return out;
 }
 
@@ -112,7 +124,7 @@ export async function sendMetaCapiEvent(options: CapiEventOptions): Promise<void
         event_id: options.eventId,
         event_source_url: options.eventSourceUrl,
         action_source: options.actionSource ?? "website",
-        user_data: buildUserData(options.userData),
+        user_data: buildUserData(options.userData, options.marketingConsent === true),
         custom_data: options.customData ?? {},
       },
     ],
@@ -163,4 +175,14 @@ export function extractFbCookies(headers: Headers): { fbp?: string; fbc?: string
     }),
   );
   return { fbp: cookies["_fbp"], fbc: cookies["_fbc"] };
+}
+
+/**
+ * Přečte marketing souhlas z cookie `100dola-consent-mkt` (zrcadlí ho CookiesBanner).
+ * Vrací true JEN při explicitním souhlasu ("1"); jinak false (Consent Mode v2 → bez PII).
+ */
+export function extractMarketingConsent(headers: Headers): boolean {
+  const cookieHeader = headers.get("cookie");
+  if (!cookieHeader) return false;
+  return /(?:^|;\s*)100dola-consent-mkt=1(?:;|$)/.test(cookieHeader);
 }

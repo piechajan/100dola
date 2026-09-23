@@ -30,11 +30,32 @@ export default function CookiesBanner() {
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      if (!stored) setVisible(true);
+      if (!stored) {
+        setVisible(true);
+      } else if (!document.cookie.includes("100dola-consent-mkt=")) {
+        // Stávající uživatel má souhlas v localStorage, ale ještě ne v cookie → dosync.
+        try {
+          const s = JSON.parse(stored) as ConsentState;
+          document.cookie = `100dola-consent-mkt=${s.marketing ? "1" : "0"}; path=/; max-age=15552000; SameSite=Lax`;
+        } catch {
+          // ignore
+        }
+      }
     } catch {
       setVisible(true);
     }
   }, []);
+
+  // Zrcadlení marketing souhlasu do cookie, aby ho server-side (Meta CAPI) mohl číst
+  // — Consent Mode v2: souhlasící = plná data, nesouhlasící = bez PII. localStorage
+  // server nevidí, proto cookie. Jde o „consent record" = nezbytná cookie (bez souhlasu OK).
+  const writeConsentCookie = (m: boolean) => {
+    try {
+      document.cookie = `100dola-consent-mkt=${m ? "1" : "0"}; path=/; max-age=15552000; SameSite=Lax`;
+    } catch {
+      // ignore
+    }
+  };
 
   const save = (a: boolean, m: boolean) => {
     const state: ConsentState = {
@@ -48,6 +69,7 @@ export default function CookiesBanner() {
     } catch {
       // ignore
     }
+    writeConsentCookie(m);
     setVisible(false);
     // Future: dispatch event for analytics scripts to react
     window.dispatchEvent(new CustomEvent("cookies-consent", { detail: state }));

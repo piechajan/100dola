@@ -24,6 +24,7 @@ import {
   sendMetaCapiEvent,
   extractClientContext,
   extractFbCookies,
+  extractMarketingConsent,
 } from "@/lib/meta-capi";
 
 // Pro lidi přemýšlející: honeypot dropme tiše (200 ok), aby bot nevěděl, že byl chycen.
@@ -102,6 +103,7 @@ export async function POST(req: NextRequest) {
   const useDb = isSupabaseConfigured();
   const { clientIp, userAgent } = extractClientContext(req.headers);
   const { fbp, fbc } = extractFbCookies(req.headers);
+  const marketingConsent = extractMarketingConsent(req.headers);
   const eventSourceUrl = req.headers.get("referer") ?? "https://www.100dola.com/";
 
   // Source decision: malaga má explicitní source, event ho nemusí mít (legacy).
@@ -173,7 +175,7 @@ export async function POST(req: NextRequest) {
       Promise.allSettled([
         sendMalagaLeadNotification(lead),
         sendMalagaLeadConfirmation(lead),
-        sendMetaCapiEvent({
+        sendMetaCapiEvent({ marketingConsent,
           eventName: "Lead",
           eventId: `malaga-${lead.id}`,
           eventSourceUrl,
@@ -371,7 +373,7 @@ export async function POST(req: NextRequest) {
       Promise.allSettled([
         sendLabLeadNotification({ ...emailPayload, id: row!.id }),
         sendLabLeadConfirmation({ ...emailPayload, id: row!.id }),
-        sendMetaCapiEvent({
+        sendMetaCapiEvent({ marketingConsent,
           eventName: "Lead",
           eventId: `lab-${row!.id}`,
           eventSourceUrl,
@@ -462,7 +464,7 @@ export async function POST(req: NextRequest) {
       if (row) {
         Promise.allSettled([
           sendEventRegistrationNotification(row as RegistrationRow),
-          sendMetaCapiEvent({
+          sendMetaCapiEvent({ marketingConsent,
             eventName: "CompleteRegistration",
             eventId: `event-${e.eventSlug}-${(row as RegistrationRow).id ?? e.email}`,
             eventSourceUrl,
