@@ -17,6 +17,7 @@ import {
   sendMetaCapiEvent,
   extractClientContext,
   extractFbCookies,
+  extractMarketingConsent,
 } from "@/lib/meta-capi";
 
 function honeypotTriggered(body: unknown): boolean {
@@ -91,6 +92,7 @@ export async function POST(req: NextRequest) {
   const cancelToken = randomBytes(24).toString("hex");
   const { clientIp, userAgent } = extractClientContext(req.headers);
   const { fbp, fbc } = extractFbCookies(req.headers);
+  const marketingConsent = extractMarketingConsent(req.headers);
 
   // 1) Jeden uživatel = max 1 rezervace v jeden den (cross-bike, cross-slot)
   // Rozsah dne podle slot.slotStart (ISO UTC, slot je 1 h v lokálním čase).
@@ -206,7 +208,7 @@ export async function POST(req: NextRequest) {
   Promise.allSettled([
     sendIsaacTestConfirmation(emailPayload),
     sendIsaacTestNotification(emailPayload),
-    sendMetaCapiEvent({
+    sendMetaCapiEvent({ marketingConsent,
       eventName: "Lead",
       eventId: `isaac-test-${reservationId}`,
       eventSourceUrl,

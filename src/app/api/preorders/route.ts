@@ -10,6 +10,7 @@ import {
   sendMetaCapiEvent,
   extractClientContext,
   extractFbCookies,
+  extractMarketingConsent,
 } from "@/lib/meta-capi";
 
 function honeypotTriggered(body: unknown): boolean {
@@ -65,6 +66,7 @@ export async function POST(req: NextRequest) {
   const sb = getSupabase();
   const { clientIp, userAgent } = extractClientContext(req.headers);
   const { fbp, fbc } = extractFbCookies(req.headers);
+  const marketingConsent = extractMarketingConsent(req.headers);
 
   // Insert
   const { data: row, error } = await sb
@@ -139,7 +141,7 @@ export async function POST(req: NextRequest) {
 
   // Meta CAPI Lead event s dedup ID = preorder ID
   try {
-    await sendMetaCapiEvent({
+    await sendMetaCapiEvent({ marketingConsent,
       eventName: "Lead",
       eventId: `preorder-${reservationId}`,
       eventSourceUrl: `https://www.100dola.com/predobjednavka/${data.modelSlug}`,

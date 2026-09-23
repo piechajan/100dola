@@ -7,6 +7,7 @@ import {
   sendMetaCapiEvent,
   extractClientContext,
   extractFbCookies,
+  extractMarketingConsent,
 } from "@/lib/meta-capi";
 
 function honeypotTriggered(body: unknown): boolean {
@@ -71,6 +72,7 @@ export async function POST(req: NextRequest) {
   // Server-side Meta CAPI event (mirror browser pixel Lead event)
   const { clientIp, userAgent } = extractClientContext(req.headers);
   const { fbp, fbc } = extractFbCookies(req.headers);
+  const marketingConsent = extractMarketingConsent(req.headers);
   const eventSourceUrl = req.headers.get("referer") ?? "https://www.100dola.com/kontakt";
   // Sdílené event_id pro CAPI ↔ browser pixel dedup (zde nemáme DB id)
   const eventId = `contact-${crypto.randomUUID()}`;
@@ -79,7 +81,7 @@ export async function POST(req: NextRequest) {
   Promise.allSettled([
     sendContactNotification(payload),
     sendContactConfirmation(payload),
-    sendMetaCapiEvent({
+    sendMetaCapiEvent({ marketingConsent,
       eventName: "Lead",
       eventId,
       eventSourceUrl,

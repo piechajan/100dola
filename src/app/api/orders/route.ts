@@ -23,6 +23,7 @@ import {
   sendMetaCapiEvent,
   extractClientContext,
   extractFbCookies,
+  extractMarketingConsent,
 } from "@/lib/meta-capi";
 import { revalidateTag } from "next/cache";
 
@@ -560,12 +561,13 @@ export async function POST(req: NextRequest) {
   };
   const { clientIp, userAgent } = extractClientContext(req.headers);
   const { fbp, fbc } = extractFbCookies(req.headers);
+  const marketingConsent = extractMarketingConsent(req.headers);
   const eventSourceUrl = req.headers.get("referer") ?? "https://www.100dola.com/objednavka";
 
   Promise.allSettled([
     sendOrderConfirmation(emailPayload),
     sendOrderNotification(emailPayload),
-    sendMetaCapiEvent({
+    sendMetaCapiEvent({ marketingConsent,
       eventName: "Purchase",
       eventId: id, // sdílené s browser pixelem pro dedup
       eventSourceUrl,

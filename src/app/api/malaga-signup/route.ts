@@ -19,6 +19,7 @@ import {
   sendMetaCapiEvent,
   extractClientContext,
   extractFbCookies,
+  extractMarketingConsent,
 } from "@/lib/meta-capi";
 
 function honeypotTriggered(body: unknown): boolean {
@@ -182,13 +183,14 @@ export async function POST(req: NextRequest) {
 
   const { clientIp, userAgent } = extractClientContext(req.headers);
   const { fbp, fbc } = extractFbCookies(req.headers);
+  const marketingConsent = extractMarketingConsent(req.headers);
   const eventSourceUrl =
     req.headers.get("referer") ?? `https://www.100dola.com/community/event/${data.eventSlug}`;
 
   Promise.allSettled([
     sendMalagaSignupNotification(emailPayload),
     sendMalagaSignupConfirmation(emailPayload),
-    sendMetaCapiEvent({
+    sendMetaCapiEvent({ marketingConsent,
       eventName: "Lead",
       eventId: `malaga-signup-${signupId}`,
       eventSourceUrl,
