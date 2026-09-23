@@ -1,7 +1,7 @@
 // Sdílené konstanty pro prodejní Malaga přihlášku (klient i server).
 // Bez "server-only" — importuje se do client komponenty i do API/emailů.
 
-export type MalagaTransportTier = "basic" | "exclusive_full" | "exclusive_pickup" | "none";
+export type MalagaTransportTier = "exclusive_i" | "exclusive_ii" | "exclusive_pro" | "basic";
 export type MalagaDirection = "oneway" | "roundtrip";
 export type MalagaBikeType = "road" | "gravel" | "mtb" | "ebike";
 export type MalagaStorageAfter = "no" | "winter" | "yearround";
@@ -19,31 +19,31 @@ export interface OptionCard<T extends string> {
 // Ceny „od" — jeden zdroj pravdy je src/data/malaga.ts; tady jen pro copy karet.
 export const TRANSPORT_TIER_OPTIONS: OptionCard<MalagaTransportTier>[] = [
   {
-    value: "basic",
-    label: "Basic — dovezu kolo sám",
+    value: "exclusive_i",
+    label: "Exclusive I",
     icon: "📦",
     description:
-      "Kolo přivezeš zabalené v boxu/krabici na sběrné místo. Nejlevnější varianta. One-way od 145 €, round-trip od 200 €.",
+      "Kolo přivezeš zabalené na sběrné místo, my ho doručíme na ubytování v Malaze a po akci zpět do ČR na sběrné místo.",
   },
   {
-    value: "exclusive_full",
-    label: "Exclusive — vyzvedneme a připravíme",
-    icon: "⭐",
+    value: "exclusive_ii",
+    label: "Exclusive II",
+    icon: "🚐",
     description:
-      "Vyzvedneme kolo u tebe, zabalíme a připravíme na cestu. V Malaze ti ho složíme a nachystáme — přijedeš a jedeš.",
+      "Vyzvedneme kolo přímo u tebe na adrese a po akci ti ho tam zase přivezeme. Příplatek dle najetých km.",
   },
   {
-    value: "exclusive_pickup",
-    label: "Exclusive — jen svoz od tebe",
-    icon: "🚚",
+    value: "exclusive_pro",
+    label: "Exclusive PRO",
+    icon: "🧰",
     description:
-      "Kolo máš zabalené v boxu/krabici, jen ho vyzvedneme u tebe a odvezeme. Bez balení a přípravy.",
+      "Vyzvedneme u tebe, zabalíme, v Malaze složíme a nachystáme (sedneš a jedeš), po akci zase zabalíme, přivezeme domů a složíme zpět na ježdění. +3 000 Kč a příplatek dle km.",
   },
   {
-    value: "none",
+    value: "basic",
     label: "Dopravu neřeším",
     icon: "🚲",
-    description: "Kolo už mám v Malaze nebo si dopravu zajistím jinak.",
+    description: "Kolo si dopravím sám / dopravu nepotřebuji.",
   },
 ];
 
@@ -118,18 +118,32 @@ export const GROUP_KIND_LABELS: Record<MalagaGroupKind, string> = {
   club: "Klub",
 };
 
-// Krátký štítek pro předmět notifikace (např. „Exclusive · round-trip").
+// Krátký štítek pro předmět notifikace (např. „Exclusive II · round-trip").
 export function malagaTierShort(tier: MalagaTransportTier, direction?: MalagaDirection | null): string {
   const t =
-    tier === "basic"
-      ? "Basic"
-      : tier === "exclusive_full"
-        ? "Exclusive (full)"
-        : tier === "exclusive_pickup"
-          ? "Exclusive (svoz)"
-          : "Bez dopravy";
-  if (tier === "none" || !direction) return t;
+    tier === "exclusive_i"
+      ? "Exclusive I"
+      : tier === "exclusive_ii"
+        ? "Exclusive II"
+        : tier === "exclusive_pro"
+          ? "Exclusive PRO"
+          : "Dopravu neřeší";
+  if (tier === "basic" || !direction) return t;
   return `${t} · ${direction === "roundtrip" ? "round-trip" : "one-way"}`;
+}
+
+/** Poznámka o ceně dopravy v kontextu balíčku (fall ride). Bez tvrdých čísel u km. */
+export function transportPackageNote(tier: MalagaTransportTier): string {
+  switch (tier) {
+    case "exclusive_i":
+      return "Doprava kola (sběrné místo → Malaga → zpět) je u tohoto termínu v ceně balíčku.";
+    case "exclusive_ii":
+      return "Vyzvednutí a doručení u tebe na adrese — příplatek dle najetých km, doladíme v nabídce.";
+    case "exclusive_pro":
+      return "Kompletní servis (zabalení, složení a nachystání — sedneš a jedeš) — +3 000 Kč a příplatek dle km, doladíme v nabídce.";
+    case "basic":
+      return "Dopravu kola neřešíš — z ceny balíčku odečteme 150 €.";
+  }
 }
 
 // Orientační cena DOPRAVY (Basic = firemní; Exclusive = „od", prémiová po domluvě).
@@ -146,12 +160,14 @@ export function estimateTransportEur(o: {
   bikeCount?: number;
   bikeType?: MalagaBikeType;
 }): TransportEstimate | null {
-  if (o.transportTier === "none") return null;
+  if (o.transportTier === "basic") return null;
   const bikes = Math.max(1, o.bikeCount ?? 1);
   const ebike = o.bikeType === "ebike";
   const roundtrip = o.direction === "roundtrip";
   const perBike = roundtrip ? (ebike ? 350 : 200) : (ebike ? 245 : 145);
-  return { total: perBike * bikes, perBike, bikes, exclusive: o.transportTier !== "basic" };
+  // „exclusive" = adresní tier (II/PRO) → cena „od", finální dle km po domluvě.
+  const addressBased = o.transportTier === "exclusive_ii" || o.transportTier === "exclusive_pro";
+  return { total: perBike * bikes, perBike, bikes, exclusive: addressBased };
 }
 
 // Struktura uložená do event_signups.options (jsonb).
@@ -189,7 +205,7 @@ export function malagaSummaryLines(o: MalagaSignupOptions): { label: string; val
   }
 
   lines.push({ label: "Doprava kola", value: TRANSPORT_TIER_LABELS[o.transportTier] });
-  if (o.transportTier !== "none") {
+  if (o.transportTier !== "basic") {
     if (o.direction) lines.push({ label: "Směr", value: DIRECTION_LABELS[o.direction] });
     if (o.bikeCount) lines.push({ label: "Počet kol", value: String(o.bikeCount) });
     if (o.bikeType) lines.push({ label: "Typ kola", value: BIKE_TYPE_LABELS[o.bikeType] });
