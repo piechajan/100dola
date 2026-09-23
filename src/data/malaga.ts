@@ -279,7 +279,7 @@ export const HERO_COPY = {
   eyebrow: "100DOLA MALAGA",
   h1Line1: "Vlastní kolo",
   h1Line2: "v Malaze.",
-  sub: "Letíš nalehko. Jezdíš na svém. Bez opakovaného balení a kompromisů z půjčovny.",
+  sub: "Uteč české zimě. Letíš nalehko, jezdíš na svém — kolo tě čeká v Malaze celou sezónu, bez opakovaného balení a kompromisů z půjčovny.",
   ctaPrimary: "Poptat dopravu kola",
   ctaSecondary: "Jak to funguje",
 } as const;
