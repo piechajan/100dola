@@ -344,6 +344,40 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                 </div>
               </div>
 
+              {/* V ceně */}
+              {event.included && event.included.length > 0 && (
+                <div className="bg-white rounded-2xl p-6 border border-[#E2E6F3]">
+                  <h3 className="font-black text-[#1a1a2e] mb-4 text-lg">V ceně</h3>
+                  <ul className="space-y-2.5">
+                    {event.included.map((item, i) => (
+                      <li key={i} className="flex items-start gap-3 text-sm text-[#5A6480]">
+                        <span className="mt-0.5 shrink-0 font-black" style={{ color }} aria-hidden>✓</span>
+                        <span><RichText text={item} /></span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-4 text-xs text-[#9AA3C2] leading-relaxed">
+                    Bez jídla (možnost snídaní / večeří za příplatek řešíme). Přesný rozpočet a cenu pošleme
+                    na vyžádání — napiš si přes přihlášku níže.
+                  </p>
+                </div>
+              )}
+
+              {/* Volitelně / za příplatek */}
+              {event.addons && event.addons.length > 0 && (
+                <div className="bg-white rounded-2xl p-6 border border-[#E2E6F3]">
+                  <h3 className="font-black text-[#1a1a2e] mb-4 text-lg">Volitelně / za příplatek</h3>
+                  <ul className="space-y-2.5">
+                    {event.addons.map((item, i) => (
+                      <li key={i} className="flex items-start gap-3 text-sm text-[#5A6480]">
+                        <span className="mt-0.5 shrink-0 font-black text-[#9AA3C2]" aria-hidden>+</span>
+                        <span><RichText text={item} /></span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               {/* Varianty trasy (obtížnost / délka) */}
               {event.difficultyVariants && event.difficultyVariants.length > 0 && (
                 <div className="bg-white rounded-2xl p-6 border border-[#E2E6F3]">
