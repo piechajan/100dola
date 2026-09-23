@@ -589,11 +589,9 @@ Není to jen o kilometrech. Kromě ježdění zajdeme i do města, na dobré jí
 
 Konec října a začátek listopadu jsou v Malaze ideální — na pobřeží přes den 22–25 °C, zlaté světlo a prázdné silnice. Počítej ale s chladnějšími rány a večery (na pobřeží kolem 15 °C, a právě ráno a k večeru se vyjíždí i vrací) a hlavně s vnitrozemím a kopci, kam se dá dojet — tam bývá přes den kolem 20 °C a po ránu klidně jen 8–10 °C. Proto ber i teplejší vrstvu. Kopce nad městem dají zabrat zkušeným, pobřežní trasy jsou parádní na pohodovější dny; tempo i náročnost si řídí každý sám.
 
-O logistiku se staráme my — dopravu kola, letenku, ubytování, transfery i servis na místě. Ty se soustředíš na ježdění. Přesný rozpočet a detaily pošleme na vyžádání přes přihlášku níže.`,
+O logistiku kolem kola se staráme my — dopravu kola, servis a podporu na místě. S letenkou a ubytováním ti poradíme a doporučíme prověřené možnosti, ale pořizuješ si je sám (nejsou součástí ceny našich služeb). Ty se soustředíš na ježdění. Rozpočet a detaily našich služeb pošleme na vyžádání přes přihlášku níže.`,
     included: [
       "**Doprava kola tam i zpět** — ty ho jen zabalíš do krabice a předáš na domluveném místě. V Malaze na tebe krabice s kolem čeká na ubytování.",
-      "**Letenka do Málagy a zpět** (z ČR) s batůžkem do kabiny (ostatní věci cestují optimálně v krabici s kolem).",
-      "**7 nocí v apartmánech** (2–4 lůžka, vlastní koupelna a kuchyně), pokoje po dvou — dobrá dostupnost do centra, k pláži i ven z města.",
       "**Transfer letiště → ubytování.**",
       "**6 dní vyjížděk** — jezdíme i poslední den (po dojezdu sprcha a zabalení kola na naší základně — 100dola Base).",
       "**Servisní zázemí**, když se něco pokazí.",
@@ -660,11 +658,9 @@ Není to jen o kilometrech. Kromě ježdění zajdeme i do města, na dobré jí
 
 Konec října a začátek listopadu jsou v Malaze ideální — na pobřeží přes den 22–25 °C, zlaté světlo a prázdné silnice. Počítej ale s chladnějšími rány a večery (na pobřeží kolem 15 °C, a právě ráno a k večeru se vyjíždí i vrací) a hlavně s vnitrozemím a kopci, kam se dá dojet — tam bývá přes den kolem 20 °C a po ránu klidně jen 8–10 °C. Proto ber i teplejší vrstvu. Kopce nad městem dají zabrat zkušeným, pobřežní trasy jsou parádní na pohodovější dny; tempo i náročnost si řídí každý sám.
 
-O logistiku se staráme my — dopravu kola, letenku, ubytování, transfery i servis na místě. Ty se soustředíš na ježdění. Přesný rozpočet a detaily pošleme na vyžádání přes přihlášku níže.`,
+O logistiku kolem kola se staráme my — dopravu kola, servis a podporu na místě. S letenkou a ubytováním ti poradíme a doporučíme prověřené možnosti, ale pořizuješ si je sám (nejsou součástí ceny našich služeb). Ty se soustředíš na ježdění. Rozpočet a detaily našich služeb pošleme na vyžádání přes přihlášku níže.`,
     included: [
       "**Doprava kola tam i zpět** — ty ho jen zabalíš do krabice a předáš na domluveném místě. V Malaze na tebe krabice s kolem čeká na ubytování.",
-      "**Letenka do Málagy a zpět** (z ČR) s batůžkem do kabiny (ostatní věci cestují optimálně v krabici s kolem).",
-      "**7 nocí v apartmánech** (2–4 lůžka, vlastní koupelna a kuchyně), pokoje po dvou — dobrá dostupnost do centra, k pláži i ven z města.",
       "**Transfer letiště → ubytování.**",
       "**6 dní vyjížděk** — jezdíme i poslední den (po dojezdu sprcha a zabalení kola na naší základně — 100dola Base).",
       "**Servisní zázemí**, když se něco pokazí.",

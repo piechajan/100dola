@@ -485,7 +485,7 @@ function SignupModal({
               <SectionTitle>Ubytování ve stejné lokaci</SectionTitle>
               <RadioCards
                 options={[
-                  { value: "interest", label: "Mám zájem — zařídíme my", icon: "🏨", description: "Vybereme a zajistíme ubytování v lokaci základny. Nemusíš nic hledat." },
+                  { value: "interest", label: "Chci doporučit ubytování", icon: "🏨", description: "Doporučíme prověřené ubytování v lokaci základny a předáme kontakt — rezervaci a platbu si děláš sám." },
                   { value: "own", label: "Mám vlastní", icon: "🔑", description: "Ubytování si řeším sám." },
                 ]}
                 value={accommodation}
