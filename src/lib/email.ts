@@ -702,6 +702,10 @@ export async function sendOrderConfirmation(order: OrderEmailPayload): Promise<v
 
       <div style="margin-top: 28px; font-size: 12px; color: #9AA3C2; line-height: 1.5;">
         Tento e-mail potvrzuje, že jsme zaznamenali tvoji objednávku z 100dola.com.
+        <br />
+        Máš 14 dní na <a href="https://www.100dola.com/objednavka/${escapeHtml(order.id)}/vraceni" style="color: #3B7CF4; text-decoration: none;">odstoupení od smlouvy</a>
+        · <a href="https://www.100dola.com/obchodni-podminky" style="color: #3B7CF4; text-decoration: none;">obchodní podmínky</a>
+        a reklamační řád.
       </div>
     </div>
   `;

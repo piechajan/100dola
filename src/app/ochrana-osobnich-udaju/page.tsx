@@ -128,6 +128,14 @@ export default function PrivacyPage() {
                   <strong>Cloudflare Inc.</strong> (USA / globální CDN) — DNS a
                   ochrana před útoky.
                 </li>
+                <li>
+                  <strong>Zásilkovna s.r.o. / Packeta</strong> (ČR) — doručení
+                  objednávky na výdejní místo (jméno, adresa, kontakt pro dopravu).
+                </li>
+                <li>
+                  <strong>Microsoft Ireland Operations Ltd.</strong> — Microsoft
+                  Clarity (anonymní heat-mapy), jen s vaším souhlasem s analytikou.
+                </li>
               </ul>
               <p className="text-[#5A6480] mt-2">
                 Předávání mimo EU/EHS je ošetřeno standardními smluvními doložkami

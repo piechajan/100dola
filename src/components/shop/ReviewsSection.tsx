@@ -25,6 +25,9 @@ export default function ReviewsSection({
               Co říkají zákazníci
             </div>
             <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e]">Recenze</h2>
+            <p className="text-xs text-[#9AA3C2] mt-1">
+              Produktové recenze zobrazujeme jen u ověřených nákupů od reálných zákazníků.
+            </p>
           </div>
           <Link
             href={`/reviews/submit?slug=${encodeURIComponent(productSlug)}`}

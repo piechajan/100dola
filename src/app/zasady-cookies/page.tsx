@@ -45,12 +45,19 @@ export default function CookiesPage() {
 
           <h3 className="text-base font-black text-[#1a1a2e] mt-6 mb-2">2. Analytika (jen se souhlasem)</h3>
           <p className="text-sm text-[#5A6480] leading-relaxed mb-2">
-            Anonymní data o návštěvnosti, kterými zlepšujeme web. Aktuálně nemáme aktivně zapnuté — připraveno na případné nasazení Plausible / Vercel Analytics.
+            Měření návštěvnosti pro zlepšení webu. <strong>Google Analytics 4</strong> a{" "}
+            <strong>Microsoft Clarity</strong> (anonymní heat-mapy) spouštíme až po tvém souhlasu
+            s analytikou. <strong>Vercel Analytics</strong> běží bez cookies a bez osobních
+            identifikátorů (cookieless) na základě oprávněného zájmu.
           </p>
 
           <h3 className="text-base font-black text-[#1a1a2e] mt-6 mb-2">3. Marketing (jen se souhlasem)</h3>
           <p className="text-sm text-[#5A6480] leading-relaxed">
-            Remarketing / sociální sítě — momentálně neaktivní. Pokud spustíme, doplníme do tohoto seznamu.
+            <strong>Meta Pixel</strong> (Facebook/Instagram) a <strong>Meta Conversions API</strong>{" "}
+            pro měření konverzí a remarketing — řídí se tvým souhlasem s marketingem (se souhlasem
+            plná data, bez souhlasu bez osobních údajů). <strong>Heureka „Ověřeno zákazníky"</strong>{" "}
+            — po nákupu můžeme předat tvůj e-mail Heurece pro dotazník spokojenosti na základě
+            oprávněného zájmu; kdykoli máš právo vznést námitku.
           </p>
 
           <h2 className="text-xl font-black text-[#1a1a2e] mt-10 mb-3">Externí služby</h2>
@@ -60,6 +67,9 @@ export default function CookiesPage() {
             <li><strong>Resend</strong> — odesílání transakčních e-mailů. Detaily: resend.com/privacy</li>
             <li><strong>Supabase</strong> — databáze (registrace, objednávky). Detaily: supabase.com/privacy</li>
             <li><strong>Packeta / Zásilkovna</strong> — výběr výdejny u objednávky (jen pokud klient otevře widget)</li>
+            <li><strong>Microsoft Clarity</strong> — anonymní heat-mapy a analytika chování (jen se souhlasem s analytikou)</li>
+            <li><strong>Meta Platforms</strong> — Meta Pixel a Conversions API pro měření reklam (jen se souhlasem s marketingem)</li>
+            <li><strong>Google</strong> — Google Analytics 4 / Ads (jen se souhlasem s analytikou/marketingem)</li>
             <li><strong>Strava</strong> — propojení s Open Miles Clinic eventy</li>
           </ul>
 
