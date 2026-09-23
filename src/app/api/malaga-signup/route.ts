@@ -98,6 +98,7 @@ export async function POST(req: NextRequest) {
       data.nutritionSponser === "interest" && data.nutritionItems && Object.keys(data.nutritionItems).length
         ? data.nutritionItems
         : undefined,
+    addons: data.addons && data.addons.length ? data.addons : undefined,
     term: data.term || undefined,
     focus: data.focus || undefined,
     profile: data.publicConsent && data.publicProfile ? data.publicProfile : undefined,

@@ -82,6 +82,7 @@ export const MalagaPayloadSchema = z
     storageAfter: z.enum(["no", "winter", "yearround"]).optional(),
     nutritionSponser: z.enum(["interest", "no"]).optional(),
     nutritionPrefs: z.string().max(300).trim().optional(),
+    addons: z.array(z.string().max(40)).max(20).optional(),
   })
   .merge(Honeypot);
 
@@ -319,6 +320,8 @@ export const MalagaSignupPayloadSchema = z
     nutritionSponser: z.enum(["interest", "no"]),
     nutritionPrefs: z.string().max(300).trim().optional().or(z.literal("")),
     nutritionItems: z.record(z.string().max(40), z.number().int().min(0).max(99)).optional(),
+    // Volitelné doplňky (zájem) — klíče z MALAGA_ADDON_OPTIONS.
+    addons: z.array(z.string().max(40)).max(20).optional(),
     // Termín / zaměření.
     term: z.string().max(120).trim().optional().or(z.literal("")),
     focus: z.string().max(200).trim().optional().or(z.literal("")),
