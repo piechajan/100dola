@@ -6,6 +6,7 @@ import { MALAGA_BRAND, GROUP_NOTE, EBIKE_SURCHARGE } from "@/data/malaga";
 import {
   TRANSPORT_TIER_OPTIONS,
   STORAGE_AFTER_OPTIONS,
+  MALAGA_ADDON_OPTIONS,
   type MalagaTransportTier,
   type MalagaStorageAfter,
   type MalagaYesNo,
@@ -57,6 +58,9 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
   const [storageAfter, setStorageAfter] = useState<MalagaStorageAfter | "">("");
   const [nutritionSponser, setNutritionSponser] = useState<MalagaYesNo | "">("");
   const [nutritionPrefs, setNutritionPrefs] = useState("");
+  const [addons, setAddons] = useState<string[]>([]);
+  const toggleAddon = (key: string) =>
+    setAddons((prev) => (prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]));
   const [pickupAtHome, setPickupAtHome] = useState(false);
   const [insuranceInterest, setInsuranceInterest] = useState(false);
   const [message, setMessage] = useState("");
@@ -96,6 +100,7 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
       storageAfter: storageAfter || undefined,
       nutritionSponser: nutritionSponser || undefined,
       nutritionPrefs: nutritionSponser === "interest" ? nutritionPrefs.trim() || undefined : undefined,
+      addons: addons.length ? addons : undefined,
       message: message.trim() || undefined,
       website, // honeypot — pro reálné uživatele "", bot ho vyplní
     };
@@ -428,6 +433,32 @@ export default function MalagaLeadForm({ defaultIntent = "package", defaultPacka
           <p className="text-[11px] text-[#9AA3C2] mt-1.5">
             Gely, iontové nápoje a proteiny SPONSER (švýcarská prémiová značka) k dispozici na místě.
           </p>
+        </div>
+
+        {/* Volitelné doplňky (sdílené s přihláškou, bez cen) */}
+        <div>
+          <label className={labelClass}>Volitelné doplňky (bez cen — doladíme v nabídce)</label>
+          <div className="flex flex-wrap gap-2">
+            {MALAGA_ADDON_OPTIONS.filter((a) => a.key !== "insurance").map((a) => {
+              const on = addons.includes(a.key);
+              return (
+                <button
+                  key={a.key}
+                  type="button"
+                  onClick={() => toggleAddon(a.key)}
+                  title={a.hint}
+                  className="px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all"
+                  style={{
+                    borderColor: on ? accent : "#E2E6F3",
+                    backgroundColor: on ? accent : "transparent",
+                    color: on ? "#fff" : "#5A6480",
+                  }}
+                >
+                  {a.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Pickup at home */}

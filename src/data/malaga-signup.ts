@@ -76,6 +76,22 @@ export const NUTRITION_ITEMS: { key: string; label: string; hint?: string; href?
   { key: "spareTube", label: "Náhradní duše", hint: "light weight" },
 ];
 
+// Volitelné doplňky / upsell — JEDNOTNÉ se sekcí „Za příplatek" na stránce eventu
+// (Event.addons). Zatím BEZ cen — ceny se přidají dle skupiny/místa/termínu později.
+// Zájem se ukládá jako pole klíčů do options.addons.
+export const MALAGA_ADDON_OPTIONS: { key: string; label: string; hint?: string }[] = [
+  { key: "cabinBag", label: "Příruční zavazadlo do letadla", hint: "místo jen batůžku do kabiny" },
+  { key: "breakfast", label: "Snídaně", hint: "možnost aktuálně řešíme" },
+  { key: "dinner", label: "Večeře", hint: "možnost aktuálně řešíme" },
+  { key: "labService", label: "Péče o kolo v Lab před cestou", hint: "mytí, vosk řetězu, profi zabalení do krabice" },
+  { key: "serviceKit", label: "Náhradní duše / CO2 / servisní materiál", hint: "dovezeme, ať to nevláčíš přes letiště" },
+  { key: "insurance", label: "Cestovní pojištění + pojištění kola", hint: "zajistíme" },
+];
+export const MALAGA_ADDON_LABELS: Record<string, string> = MALAGA_ADDON_OPTIONS.reduce(
+  (acc, o) => { acc[o.key] = o.label; return acc; },
+  {} as Record<string, string>,
+);
+
 export const STORAGE_AFTER_OPTIONS: OptionCard<MalagaStorageAfter>[] = [
   { value: "no", label: "Ne, vezu zpět", icon: "↩️", description: "Kolo se vrací s tebou." },
   { value: "winter", label: "Přes zimu", icon: "❄️", description: "Kolo počká v Malaze do jara. Od 69 €/měs, sezóna od 449 €." },
@@ -153,6 +169,8 @@ export interface MalagaSignupOptions {
   nutritionSponser: MalagaYesNo;
   nutritionPrefs?: string;
   nutritionItems?: Record<string, number>;
+  /** Zájem o volitelné doplňky (klíče z MALAGA_ADDON_OPTIONS) — zatím bez cen. */
+  addons?: string[];
   term?: string;
   focus?: string;
   // Veřejný profil („Kdo jede") + souhlas s foto/videem — jen se zveřejněním.
@@ -201,6 +219,12 @@ export function malagaSummaryLines(o: MalagaSignupOptions): { label: string; val
     if (picked.length) lines.push({ label: "SPONSER položky", value: picked.join(", ") });
   }
   if (o.nutritionPrefs) lines.push({ label: "Poznámka k výživě", value: o.nutritionPrefs });
+  if (o.addons && o.addons.length) {
+    lines.push({
+      label: "Doplňky (zájem)",
+      value: o.addons.map((k) => MALAGA_ADDON_LABELS[k] ?? k).join(", "),
+    });
+  }
   if (o.term) lines.push({ label: "Termín", value: o.term });
   if (o.focus) lines.push({ label: "Zaměření", value: o.focus });
   return lines;

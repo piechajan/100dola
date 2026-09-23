@@ -141,6 +141,7 @@ export async function POST(req: NextRequest) {
       if (m.storageAfter) salesOptions.storageAfter = m.storageAfter;
       if (m.nutritionSponser) salesOptions.nutritionSponser = m.nutritionSponser;
       if (m.nutritionPrefs) salesOptions.nutritionPrefs = m.nutritionPrefs;
+      if (m.addons?.length) salesOptions.addons = m.addons;
       const insert = {
         name: m.name,
         email: m.email,

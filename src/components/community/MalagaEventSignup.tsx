@@ -14,6 +14,7 @@ import {
   BIKE_TYPE_OPTIONS,
   STORAGE_AFTER_OPTIONS,
   NUTRITION_ITEMS,
+  MALAGA_ADDON_OPTIONS,
   estimateTransportEur,
   type MalagaTransportTier,
   type MalagaDirection,
@@ -165,6 +166,9 @@ function SignupModal({
   const [nutritionSponser, setNutritionSponser] = useState<MalagaYesNo>("interest");
   const [nutritionPrefs, setNutritionPrefs] = useState("");
   const [nutritionItems, setNutritionItems] = useState<Record<string, number>>({});
+  const [addons, setAddons] = useState<string[]>([]);
+  const toggleAddon = (key: string) =>
+    setAddons((prev) => (prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]));
 
   const [term, setTerm] = useState(eventDate);
   const [focus, setFocus] = useState("");
@@ -258,6 +262,7 @@ function SignupModal({
           nutritionSponser,
           nutritionPrefs: nutritionSponser === "interest" ? nutritionPrefs.trim() : "",
           nutritionItems: cleanItems,
+          addons,
           term: term.trim(),
           focus: focus.trim(),
           note: note.trim(),
@@ -531,6 +536,39 @@ function SignupModal({
                   />
                 </div>
               )}
+            </div>
+
+            {/* D2. Volitelné doplňky (bez cen — upsell jednotný se stránkou eventu) */}
+            <div>
+              <SectionTitle>Volitelné doplňky</SectionTitle>
+              <p className="text-[11px] text-[#9AA3C2] -mt-1 mb-3">
+                Zaškrtni, o co máš zájem. Ceny doladíme v nabídce podle skupiny, termínu a místa pobytu.
+              </p>
+              <div className="space-y-2">
+                {MALAGA_ADDON_OPTIONS.map((a) => {
+                  const on = addons.includes(a.key);
+                  return (
+                    <label
+                      key={a.key}
+                      className={`flex items-start gap-3 rounded-xl border p-3 cursor-pointer transition-colors ${
+                        on ? "border-current bg-[#F7F9FF]" : "border-[#E2E6F3] hover:border-current"
+                      }`}
+                      style={on ? { color } : undefined}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={on}
+                        onChange={() => toggleAddon(a.key)}
+                        className="mt-0.5 h-4 w-4 shrink-0 accent-current"
+                      />
+                      <span className="min-w-0">
+                        <span className="text-sm font-semibold text-[#1a1a2e]">{a.label}</span>
+                        {a.hint && <span className="block text-[11px] text-[#9AA3C2]">{a.hint}</span>}
+                      </span>
+                    </label>
+                  );
+                })}
+              </div>
             </div>
 
             {/* E. Termín / zaměření */}
