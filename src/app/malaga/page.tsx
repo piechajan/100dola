@@ -17,7 +17,7 @@ import { FAQ_PREVIEW } from "@/data/malaga";
 export const metadata: Metadata = {
   title: { absolute: "100dola Malaga — vlastní kolo v Malaze, bez krabice na letišti" },
   description:
-    "Dovezeme tvoje kolo z Česka do Malagy a uskladníme přes celou zimu (říjen–květen). Letíš nalehko, jezdíš na svém. Balíčky od 849 €.",
+    "Uteč české zimě — dovezeme tvoje kolo z Česka do Malagy a uskladníme přes celou zimu (říjen–květen). Letíš nalehko, jezdíš na svém. Balíčky od 849 €.",
   alternates: {
     canonical: "/malaga",
   },

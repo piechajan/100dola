@@ -606,9 +606,9 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                 Jeď v Malaze na svém kole
               </h2>
               <p className="text-[#5A6480] leading-relaxed mb-6 max-w-2xl">
-                Kolo ti dovezeme z Česka a uskladníme přes celou sezónu — ty přiletíš s příručákem a
-                jedeš na svém. Doprava i uskladnění jsou pojištěné (v ceně). Tady je všechno, co
-                k Malaze nabízíme:
+                Uteč české zimě — kolo ti dovezeme z Česka a necháme v Malaze přes celou zimu
+                i sezónu. Přiletíš s příručákem a jedeš na svém, zatímco doma mrzne. Doprava
+                i uskladnění jsou pojištěné (v ceně). Tady je všechno, co k Malaze nabízíme:
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
