@@ -10,7 +10,7 @@ const OPTIONS: { value: Interest; label: string; hint: string }[] = [
   {
     value: "kolo",
     label: "Pojištění kola — krádež a poškození",
-    hint: "Kryje krádež, vandalismus, nehodu i poškození při přepravě. Vhodné hlavně u dražších kol (100 000 Kč+).",
+    hint: "Kryje krádež, vandalismus, nehodu a poškození kola. Přepravu kola do Malagy pojišťujeme my — tu neřešíš. Vhodné hlavně u dražších kol (100 000 Kč+).",
   },
   {
     value: "cestovni",
