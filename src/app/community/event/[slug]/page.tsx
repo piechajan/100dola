@@ -116,6 +116,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
             alt={event.title}
             fill
             className="object-cover opacity-60"
+            style={{ objectPosition: event.heroPosition ?? "center" }}
             priority
           />
           <div

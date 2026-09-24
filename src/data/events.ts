@@ -32,6 +32,8 @@ export interface Event {
   photo: string;
   /** CSS object-position ořezu fotky (např. „center 65%") — sync s EventListing kartami. */
   photoPosition?: string;
+  /** CSS object-position pro HERO na detailu akce (nezávislé na kartě). Default „center". */
+  heroPosition?: string;
   photoGallery?: string[];
   routeUrl?: string;
   mapUrl?: string;
@@ -596,6 +598,7 @@ Na trase plánujeme oběd v horské boudě a kávovou zastávku na Pustevnách.`
     organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
     photo: "/media/turistika-beskydy.webp",
     photoPosition: "center 62%",
+    heroPosition: "center 55%",
   },
   {
     id: 3,
