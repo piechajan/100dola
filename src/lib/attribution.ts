@@ -103,6 +103,26 @@ export function captureLandingAttribution(): void {
   }
 }
 
+// Čitelný label zdroje pro notifikační e-mail / admin ("strava / event / malaga-fall-ride-1",
+// "instagram.com (referrer)", "fb click"). Vrací undefined, když není z čeho určit zdroj.
+export function attributionSourceLabel(a?: Attribution | null): string | undefined {
+  if (!a) return undefined;
+  const utm = [a.utm_source, a.utm_medium, a.utm_campaign].filter(Boolean).join(" / ");
+  if (utm) return utm;
+  if (a.landing_referrer) {
+    let host = a.landing_referrer;
+    try {
+      host = new URL(a.landing_referrer).hostname.replace(/^www\./, "");
+    } catch {
+      /* ponech raw */
+    }
+    if (host) return `${host} (referrer)`;
+  }
+  if (a.fbclid) return "fb click (bez UTM)";
+  if (a.gclid) return "google click (bez UTM)";
+  return undefined;
+}
+
 // Vrátí aktuální snapshot pro form submit — sloučí session storage + live fbp/fbc.
 export function getAttribution(): Attribution {
   const fromSession = readSessionAttribution() ?? {};

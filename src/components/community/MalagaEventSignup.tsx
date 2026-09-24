@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
+import { getAttribution } from "@/lib/attribution";
 import MalagaBoxBanner from "@/components/malaga/MalagaBoxBanner";
 import { uploadSignupPhoto } from "@/lib/resize-image";
 import PublicProfileFields from "@/components/community/PublicProfileFields";
@@ -285,6 +286,7 @@ function SignupModal({
             : undefined,
           mediaConsent,
           website,
+          attribution: getAttribution(),
         }),
       });
       if (!res.ok) {

@@ -1,6 +1,8 @@
 // Sdílené konstanty pro prodejní Malaga přihlášku (klient i server).
 // Bez "server-only" — importuje se do client komponenty i do API/emailů.
 
+import { attributionSourceLabel } from "../lib/attribution";
+
 export type MalagaTransportTier = "exclusive_i" | "exclusive_ii" | "exclusive_pro" | "basic";
 export type MalagaDirection = "oneway" | "roundtrip";
 export type MalagaBikeType = "road" | "gravel" | "mtb" | "ebike";
@@ -192,6 +194,9 @@ export interface MalagaSignupOptions {
   // Veřejný profil („Kdo jede") + souhlas s foto/videem — jen se zveřejněním.
   profile?: import("./public-profile").PublicProfile;
   mediaConsent?: boolean;
+  // Zdroj příchodu (UTM + referrer + fb/google click id) — pro vyhodnocení kanálů
+  // (Strava / Instagram / organic …). Ukládá server do `options` JSONB.
+  attribution?: import("../lib/attribution").Attribution;
 }
 
 // Přehledné řádky pro notifikaci Janovi (podklad na nabídku).
@@ -243,5 +248,7 @@ export function malagaSummaryLines(o: MalagaSignupOptions): { label: string; val
   }
   if (o.term) lines.push({ label: "Termín", value: o.term });
   if (o.focus) lines.push({ label: "Zaměření", value: o.focus });
+  const src = attributionSourceLabel(o.attribution);
+  if (src) lines.push({ label: "Zdroj", value: src });
   return lines;
 }

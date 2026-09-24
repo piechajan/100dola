@@ -332,6 +332,8 @@ export const MalagaSignupPayloadSchema = z
     photoUrl: z.string().max(600).optional().or(z.literal("")),
     publicProfile: PublicProfileSchema,
     mediaConsent: z.boolean().optional().default(false),
+    // Zdroj příchodu (UTM + referrer + fb/google click) — klient posílá getAttribution().
+    attribution: AttributionSchema.optional(),
     turnstileToken: z.string().max(4000).optional(),
   })
   .merge(Honeypot);

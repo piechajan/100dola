@@ -104,6 +104,8 @@ export async function POST(req: NextRequest) {
     focus: data.focus || undefined,
     profile: data.publicConsent && data.publicProfile ? data.publicProfile : undefined,
     mediaConsent: data.mediaConsent || undefined,
+    attribution:
+      data.attribution && Object.keys(data.attribution).length ? data.attribution : undefined,
   };
 
   if (!isSupabaseConfigured()) {
@@ -182,7 +184,11 @@ export async function POST(req: NextRequest) {
   };
 
   const { clientIp, userAgent } = extractClientContext(req.headers);
-  const { fbp, fbc } = extractFbCookies(req.headers);
+  const { fbp: fbpCookie, fbc: fbcCookie } = extractFbCookies(req.headers);
+  // Fallback: in-app prohlížeče (Strava/IG) nemusí poslat _fbp/_fbc v hlavičce cookie,
+  // ale klient je zachytil do attribution snapshotu → použij je pro lepší match v CAPI.
+  const fbp = fbpCookie ?? data.attribution?.fbp;
+  const fbc = fbcCookie ?? data.attribution?.fbc;
   const marketingConsent = extractMarketingConsent(req.headers);
   const eventSourceUrl =
     req.headers.get("referer") ?? `https://www.100dola.com/community/event/${data.eventSlug}`;
