@@ -39,9 +39,9 @@ const faqJsonLd = {
 const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
-  name: "100dola Malaga — doprava a skladování kol v Malaze",
+  name: "100dola Malaga — doprava a uskladnění kol v Malaze",
   description:
-    "Doprava kola z Česka do Malagy, skladování přes sezónu (říjen–květen) a balíčky pro cyklisty.",
+    "Doprava kola z Česka do Malagy, uskladnění přes sezónu (říjen–květen) a balíčky pro cyklisty.",
   provider: {
     "@type": "Organization",
     name: "FUTUNATU s.r.o.",

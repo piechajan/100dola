@@ -19,8 +19,8 @@ export default function CestovaniSKolemMalaga() {
         {/* Lead */}
         <p className="text-lg text-[#5A6480] leading-relaxed mb-10">
           Představ si to takhle: doletíš do Malagy jen s příručním zavazadlem,
-          za 15 minut jsi u skladu, kolo na tebe čeká nahuštěné a namazané — a
-          vyrážíš do hor. <strong>Žádný kufr s kolem, žádné balení, žádné modlení
+          za 15 minut jsi v zázemí (BASE), kolo na tebe čeká nahuštěné a namazané —
+          dáš si kafe, převlékneš se a vyrážíš do hor. <strong>Žádný kufr s kolem, žádné balení, žádné modlení
           na přepážce, jestli letadlo kolo veze.</strong> Tenhle článek je o tom,
           jak vypadá cesta do Malagy z tvého pohledu, když kolo řeší někdo jiný.
         </p>
@@ -32,7 +32,7 @@ export default function CestovaniSKolemMalaga() {
           </div>
           <ul className="space-y-2 text-sm text-[#1a1a2e]">
             <li>✈️ <strong>Létáš nalehko</strong> — příruční zavazadlo s helmou, tretrami a dresem. Levnější letenka, žádný nadměrný náklad.</li>
-            <li>🚲 <strong>Kolo je už v Malaze</strong> — dovezeme ho jednou, zůstane přes sezónu ve skladu 10 min od letiště (AGP).</li>
+            <li>🚲 <strong>Kolo je už v Malaze</strong> — dovezeme ho jednou, zůstane přes sezónu v zázemí (100dola Malaga BASE) 10 min od letiště (AGP).</li>
             <li>🔧 <strong>Připraveno k jízdě</strong> — napíšeš den před příletem, máme kolo nachystané: tlak, mazání, kontrola.</li>
             <li>🗓️ <strong>Ideální sezóna</strong> — listopad až březen, když v Česku mrzne. 15–20&nbsp;°C a suché silnice.</li>
             <li>🔁 <strong>Vyplatí se od 2 cest za sezónu</strong> — pak už je vlastní kolo skladem levnější než létat s kufrem.</li>
@@ -77,7 +77,7 @@ export default function CestovaniSKolemMalaga() {
           <div className="space-y-6">
             {[
               { n: "1", t: "Jednou pošleš kolo", b: "Před sezónou předáš kolo na sběrném místě (Šternberk / Olomouc / Valašské Meziříčí / Praha přes partnera) nebo ho vyzvedneme. Dál se o přepravu nestaráš." },
-              { n: "2", t: "Kolo čeká v Malaze", b: "Ve vnitřním, monitorovaném skladu 10 minut od letiště. Má svůj věšák, štítek a fotku stavu při příjezdu. Zůstává tam přes celou sezónu, ne jen na jeden pobyt." },
+              { n: "2", t: "Kolo čeká v Malaze", b: "Ve vnitřním, monitorovaném zázemí (100dola Malaga BASE) 10 minut od letiště — se sprchou, šatnou a kávou. Kolo má svůj věšák, štítek a fotku stavu při příjezdu. Zůstává tam přes celou sezónu, ne jen na jeden pobyt." },
               { n: "3", t: "Rezervuješ let nalehko", b: "Kupuješ jen letenku pro sebe, bez nadměrného zavazadla. Přílet na Málaga–Costa del Sol (AGP), odkud je většina cyklo terénu do hodiny." },
               { n: "4", t: "Napíšeš nám den předem", b: "Dáš vědět, kdy dorazíš. Kolo připravíme: nahustíme pláště, namažeme řetěz, zkontrolujeme brzdy. Máš ho ready před skladem." },
               { n: "5", t: "Přiletíš a jedeš", b: "Z letiště ke skladu, převezmeš kolo, kafe na cestu — a vyrážíš. Žádné skládání, žádné shánění nářadí, žádná ztracená hodina." },
@@ -123,7 +123,7 @@ export default function CestovaniSKolemMalaga() {
           <p className="text-sm text-[#9AA3C2] mt-4">
             Věci jako pumpa, základní nářadí a servis máme na místě. Co potřebuješ
             mít vlastní (sedlo, pedály, konkrétní čidla), vezmeš v příručáku —
-            nebo je necháš rovnou na kole ve skladu.
+            nebo je necháš rovnou na kole v zázemí (BASE).
           </p>
         </section>
 
@@ -161,7 +161,7 @@ export default function CestovaniSKolemMalaga() {
             </table>
           </div>
           <p className="text-base text-[#5A6480] leading-relaxed mt-6">
-            Protože kolo zůstává ve skladu celou sezónu, můžeš přiletět víckrát —
+            Protože kolo zůstává v zázemí (BASE) celou sezónu, můžeš přiletět víckrát —
             prodloužený víkend v prosinci, týden v únoru, jarní blok v dubnu.
             Pokaždé jen letenka nalehko.
           </p>

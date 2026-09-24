@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: "%s | 100dola Malaga",
   },
   description:
-    "Uteč české zimě — dovezeme tvoje kolo do Malagy a necháme ho tam přes celou zimu i sezónu. Letíš nalehko, jezdíš na svém. Doprava, skladování a balíčky pro cyklisty.",
+    "Uteč české zimě — dovezeme tvoje kolo do Malagy a necháme ho tam přes celou zimu i sezónu. Letíš nalehko, jezdíš na svém. Doprava, uskladnění a balíčky pro cyklisty.",
   openGraph: {
     type: "website",
     siteName: "100dola Malaga",

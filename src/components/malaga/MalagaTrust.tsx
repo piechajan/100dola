@@ -25,9 +25,9 @@ export default function MalagaTrust() {
                 fungoval pro tebe stejně jako pro nás.
               </p>
               <p>
-                Garantujeme transparentní proces, pojištění během transportu, monitorovaný
-                sklad a komunikaci v češtině. Když něco nejde, řekneme to rovnou — a najdeme
-                řešení.
+                Garantujeme transparentní proces, pojištění během transportu, monitorované
+                zázemí (100dola Malaga BASE — sprcha, šatna, káva) a komunikaci v češtině.
+                Když něco nejde, řekneme to rovnou — a najdeme řešení.
               </p>
             </div>
 

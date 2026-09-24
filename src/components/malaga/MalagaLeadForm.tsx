@@ -24,9 +24,9 @@ type PackageInterest = "basic" | "exclusive" | "undecided";
 const TRANSPORT_TIERS = TRANSPORT_TIER_OPTIONS.filter((o) => o.value !== "basic");
 
 const INTENT_OPTIONS: { value: Intent; label: string }[] = [
-  { value: "package", label: "Kompletní balíček (transport + skladování)" },
+  { value: "package", label: "Kompletní balíček (transport + uskladnění)" },
   { value: "transport", label: "Jen doprava kola" },
-  { value: "storage", label: "Jen skladování" },
+  { value: "storage", label: "Jen uskladnění" },
   { value: "group", label: "Skupina / klub" },
   { value: "tour", label: "Guided tour" },
   { value: "other", label: "Něco jiného" },

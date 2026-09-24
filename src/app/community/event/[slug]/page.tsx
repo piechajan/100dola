@@ -631,7 +631,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                 {[
                   { href: "/malaga", t: "Jak to funguje", d: "Dovezeme, uskladníme, ty létáš light. Celý model za minutu." },
                   { href: "/malaga/preprava", t: "Přeprava kola", d: "One-way od 145 €, round-trip od 200 €. Pojištěná, po blocích." },
-                  { href: "/malaga/uskladneni", t: "Uskladnění", d: "Monitorovaný sklad od 69 €/měsíc. Kolo čeká připravené." },
+                  { href: "/malaga/uskladneni", t: "Uskladnění", d: "Monitorované zázemí (BASE) od 69 €/měsíc. Kolo čeká připravené." },
                   { href: "/malaga/trasy", t: "Trasy a okruhy", d: "12 tras s mapou, profilem a GPX. Od rozjezdu po královské etapy." },
                   { href: "/malaga/trasy/voda", t: "Počasí a voda", d: "5denní předpověď + mapa všech pramenů a doplnění na trasách." },
                   { href: "/malaga/balicky", t: "Balíčky a ceny", d: "Basic i Exkluzivní full-service. Vyber si úroveň komfortu." },

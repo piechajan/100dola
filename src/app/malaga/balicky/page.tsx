@@ -10,7 +10,7 @@ const accent = MALAGA_BRAND.color;
 export const metadata: Metadata = {
   title: "Balíčky a ceny — Basic od 849 € a Exclusive od 1 349 €",
   description:
-    "Vyber si, kolik servisu chceš. Basic (od 849 €) — doprava + skladování celou sezónu. Exclusive (od 1 349 €) — kompletní balení, sestavení a vyzvednutí na letišti.",
+    "Vyber si, kolik servisu chceš. Basic (od 849 €) — doprava + uskladnění celou sezónu. Exclusive (od 1 349 €) — kompletní balení, sestavení a vyzvednutí na letišti.",
   alternates: { canonical: "/malaga/balicky" },
 };
 
@@ -62,7 +62,7 @@ export default function BalickyPage() {
           </h1>
           <p className="mt-6 text-lg text-[#5A6480] leading-relaxed max-w-2xl">
             Basic je praktický a cenově vědomý. Exclusive je pro lidi, co chtějí
-            přiletět rovnou na ride. Oba zahrnují dopravu CZ → Malaga a skladování
+            přiletět rovnou na ride. Oba zahrnují dopravu CZ → Malaga a uskladnění
             přes celou sezónu.
           </p>
         </div>

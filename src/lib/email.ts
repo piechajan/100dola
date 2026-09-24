@@ -54,9 +54,9 @@ export async function sendInternalReport(input: {
 // ── Helpers ─────────────────────────────────────────────────────────────────
 
 const INTENT_LABELS: Record<MalagaLeadRow["intent"], string> = {
-  package: "Kompletní balíček (transport + skladování)",
+  package: "Kompletní balíček (transport + uskladnění)",
   transport: "Jen doprava kola",
-  storage: "Jen skladování",
+  storage: "Jen uskladnění",
   group: "Skupina / klub",
   tour: "Guided tour",
   other: "Něco jiného",

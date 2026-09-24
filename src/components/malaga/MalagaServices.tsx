@@ -23,9 +23,9 @@ const services: ServiceCard[] = [
     photoCrop: "object-[50%_50%]",
   },
   {
-    tag: "Skladování",
-    title: "Tvoje kolo čeká přes celou sezónu",
-    desc: "Měsíčně bez závazku, nebo celá sezóna říjen–květen za 449 €.",
+    tag: "Zázemí / BASE",
+    title: "Tvoje kolo čeká v zázemí přes celou sezónu",
+    desc: "Monitorované zázemí se sprchou, šatnou a kávou. Měsíčně bez závazku, nebo celá sezóna říjen–květen za 449 €.",
     href: "/malaga/uskladneni",
     photo: "/media/malaga-hero.jpg",
     photoCrop: "object-[40%_55%]",

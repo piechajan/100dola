@@ -34,8 +34,8 @@ export default function MalagaPromo() {
             <div className="mt-8 space-y-3">
               {[
                 "Doprava CZ → Malaga, pojištěná",
-                "Skladování přes celou sezónu",
-                "Zázemí pro opakované příjezdy",
+                "Kolo čeká v BASE celou sezónu",
+                "Zázemí pro opakované příjezdy (sprcha, káva, šatna)",
                 "Servisní podpora a tipy na trasy",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">

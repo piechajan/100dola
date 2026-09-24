@@ -98,7 +98,7 @@ export default function UskladneniPage() {
 
           <div className="mt-8 text-sm text-[#5A6480] max-w-3xl">
             Sezóna {MALAGA_FACTS.seasonLabel} ({MALAGA_FACTS.seasonMonths} měsíců). Mimo sezónu
-            (červen–září) skladujeme po individuální dohodě — napiš nám termín a domluvíme.
+            (červen–září) kolo pohlídáme po individuální dohodě — napiš nám termín a domluvíme.
           </div>
         </div>
       </section>
@@ -109,11 +109,12 @@ export default function UskladneniPage() {
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-20 items-start">
             <div>
               <h2 className="text-3xl md:text-4xl font-black text-[#1a1a2e] mb-5 leading-[0.95]">
-                Co skladování zahrnuje.
+                Co 100dola Malaga BASE zahrnuje.
               </h2>
               <p className="text-[#5A6480] leading-relaxed">
-                Není to kotec za rohem. Sklad je monitorovaný, pojištěný a 10 minut od letiště
-                Malaga (AGP). Když kolo potřebuješ, vyzvedneš a jedeš.
+                Není to kotec za rohem — je to naše základna. <strong>100dola Malaga BASE</strong> je
+                monitorované zázemí se sprchou, šatnou, kávou a posezením, pojištěné a 10 minut od
+                letiště Malaga (AGP). Přijdeš z letiště, převlékneš se, dáš si kafe a vyrážíš na svém.
               </p>
             </div>
 
@@ -151,7 +152,7 @@ export default function UskladneniPage() {
               Jezdíš víckrát za zimu? Tady to dává největší smysl.
             </h2>
             <p className="text-[#5A6480] text-lg leading-relaxed mb-6">
-              Skladování je celá pointa modelu. Jeden dovoz na podzim, kolo zůstane.
+              Právě tohle je celá pointa modelu. Jeden dovoz na podzim, kolo zůstane v BASE.
               Přiletíš v listopadu, jedeš týden, vrátíš se domů — kolo zůstává připravené.
               Příště přijedeš v lednu, sedneš a jedeš znovu. A tak pětkrát za sezónu.
             </p>
@@ -181,7 +182,7 @@ export default function UskladneniPage() {
             </div>
             <p className="text-sm text-[#5A6480] mt-1 leading-snug">
               Po celou dobu uskladnění máš kolo pojištěné — je to v ceně, <strong>nemusíš nic
-              připojišťovat.</strong> A kdybys chtěl kolo pojistit i mimo náš sklad (doma, na
+              připojišťovat.</strong> A kdybys chtěl kolo pojistit i mimo naše zázemí (doma, na
               trénincích) nebo cestovní pojištění na cestu, rádi{" "}
               <Link href="/pojisteni?zajem=kolo" className="font-bold text-[#E8431A] hover:underline">
                 zajistíme navíc →
@@ -199,7 +200,7 @@ export default function UskladneniPage() {
               <div className="flex items-center gap-2 mb-4">
                 <span className="w-5 h-px" style={{ backgroundColor: accent }} />
                 <span className="text-xs tracking-[0.22em] uppercase font-bold" style={{ color: accent }}>
-                  Poptávka skladování
+                  Poptávka uskladnění
                 </span>
               </div>
               <h2 className="text-4xl md:text-5xl font-black leading-[0.95] mb-5">

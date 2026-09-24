@@ -207,7 +207,7 @@ export const ARTICLES: Article[] = [
     slug: "doprava-kola-do-malagy",
     title: "Doprava kola do Malagy: jak to funguje krok za krokem",
     summary:
-      "Sběr v Šternberku / Olomouci / Valašském Meziříčí / Praze. Fyzický transport dodávkou. Sklad v Malaze 10 minut od letiště. Pojištění, ceník, srovnání s půjčovnou. Realistický návod od Jana, který to dělá od 2024.",
+      "Sběr v Šternberku / Olomouci / Valašském Meziříčí / Praze. Fyzický transport dodávkou. Zázemí (100dola Malaga BASE) 10 minut od letiště — se sprchou a kávou. Pojištění, ceník, srovnání s půjčovnou. Realistický návod od Jana, který to dělá od 2024.",
     category: "malaga",
     publishedAt: "2026-06-03",
     author: { name: "Jan Piecha", role: "100dola Malaga" },

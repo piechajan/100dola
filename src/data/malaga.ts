@@ -66,13 +66,13 @@ export const TRANSPORT_PRICES: PriceEntry[] = [
 
 export const STORAGE_PRICES: PriceEntry[] = [
   {
-    label: "Skladování — měsíčně",
+    label: "Uskladnění v BASE — měsíčně",
     priceFromEur: 69,
     unit: "za kolo / měsíc",
     note: "Bez závazku délky, fakturace po měsících.",
   },
   {
-    label: "Skladování — celá sezóna",
+    label: "Uskladnění v BASE — celá sezóna",
     priceFromEur: 449,
     unit: "za kolo / sezóna (8 měs)",
     note: "Říjen–květen. Ušetříš 111 € oproti měsíčnímu tarifu.",
@@ -100,7 +100,7 @@ export const PACKAGES: Package[] = [
     priceEbikeFromEur: 659,
     whatsIncluded: [
       "Doprava CZ → Malaga → CZ (round trip)",
-      "Skladování 6 měsíců (např. listopad–duben)",
+      "Uskladnění v BASE 6 měsíců (např. listopad–duben)",
       "Předání připraveného kola v Malaze",
     ],
     whatYouDo: [
@@ -217,8 +217,8 @@ export const WHY_OWN_BIKE: { title: string; body: string }[] = [
 
 export const TRUST_FACTS: { icon: string; text: string }[] = [
   { icon: "🔒", text: "Pojištění během transportu" },
-  { icon: "📦", text: "Monitorovaný a zabezpečený sklad" },
-  { icon: "🛠", text: "Servisní zázemí na místě — sprcha, kafe, šatna pro tebe" },
+  { icon: "📦", text: "Monitorované a zabezpečené zázemí (100dola Malaga BASE)" },
+  { icon: "🛠", text: "Servisní zázemí na místě — sprcha, káva, šatna a posezení pro tebe" },
   { icon: "📍", text: "10 minut od letiště Malaga (AGP)" },
   { icon: "🇨🇿", text: "Komunikace v češtině, smlouva v češtině" },
 ];

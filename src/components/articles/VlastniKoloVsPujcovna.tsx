@@ -23,7 +23,7 @@ export default function VlastniKoloVsPujcovna() {
           <ul className="space-y-1.5 text-sm text-[#1a1a2e]">
             <li>• <strong>1 cesta v životě</strong> → půjčovna 90 % případů</li>
             <li>• <strong>1–2 cesty / sezónu</strong> → záleží na úrovni (race / hobby), spočítej dopravu <em>včetně cesty na letiště a zpět</em></li>
-            <li>• <strong>3+ cesty / sezónu</strong> → vlastní kolo + sklad jednoznačně levnější</li>
+            <li>• <strong>3+ cesty / sezónu</strong> → vlastní kolo + zázemí (BASE) jednoznačně levnější</li>
             <li>• <strong>Race carbon kolo (150 000 Kč+)</strong> → vždy vlastní, fit a komfort jsou nepřenositelné</li>
             <li>• <strong>Logistika na místě</strong> → kdo tě vyzvedne na letišti a hodí na ubytování i zpátky (s kufrem i bike boxem) — bez toho to v Malaze zaplatíš třikrát</li>
           </ul>
@@ -58,13 +58,13 @@ export default function VlastniKoloVsPujcovna() {
         <h3 className="text-xl font-bold text-[#1a1a2e] mt-8 mb-3">Profil 2: „Jedu 2× zimou + 1× jaro"</h3>
         <p className="text-sm text-[#5A6480] mb-5">
           Cca 3 týdny ročně v Malaze, hobby cyklista 150–200 km/týden doma. Půjčovna stojí
-          ~900 € za 3 týdny. 100dola: round-trip doprava 200 € + 4 měsíce skladu ~276 € = ~476 €. <strong>Levnější — a jezdíš na svém.</strong>
+          ~900 € za 3 týdny. 100dola: round-trip doprava 200 € + 4 měsíce v BASE ~276 € = ~476 €. <strong>Levnější — a jezdíš na svém.</strong>
           Mínus komfort, plus radost.
         </p>
 
         <h3 className="text-xl font-bold text-[#1a1a2e] mt-8 mb-3">Profil 3: „4+ cesty + race víkendy"</h3>
         <p className="text-sm text-[#5A6480] mb-5">
-          Závodník nebo serious hobbyista — 5–7 týdnů v Malaze. Půjčovna ~2 000 €. 100dola: round-trip 250 € + sklad na celou sezónu ~449 € = ~700 €. <strong>Úspora ~1 300 € + vlastní race kolo.</strong>
+          Závodník nebo serious hobbyista — 5–7 týdnů v Malaze. Půjčovna ~2 000 €. 100dola: round-trip 250 € + BASE na celou sezónu ~449 € = ~700 €. <strong>Úspora ~1 300 € + vlastní race kolo.</strong>
         </p>
 
         <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mt-12 mb-4">

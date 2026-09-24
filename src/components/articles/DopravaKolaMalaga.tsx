@@ -32,9 +32,9 @@ export default function DopravaKolaMalaga() {
           <ul className="space-y-1.5 text-sm text-[#1a1a2e]">
             <li>• <strong>Sběr</strong> — kolo si vyzvedneme nebo ho přivezete na sběrné místo (Šternberk / Olomouc / Valašské Meziříčí / Praha přes partnera).</li>
             <li>• <strong>Transport</strong> — fyzicky dopravujeme v ucelených dodávkách, ne kurýrem. Typicky 5-8 dní podle bloku odjezdu.</li>
-            <li>• <strong>Sklad v Malaze</strong> — kolo má svůj prostor, schované, monitorované, připravené.</li>
+            <li>• <strong>Zázemí v Malaze (100dola Malaga BASE)</strong> — kolo má svůj prostor, monitorované a připravené; sprcha, šatna a káva pro tebe.</li>
             <li>• <strong>Vy pak létáte light</strong> — ruční zavazadlo s helmou a tretrami, kolo na vás čeká.</li>
-            <li>• <strong>Cena</strong> — od 145 € jednosměrně, round-trip od 200 €. Sklad od 69 €/měsíc.</li>
+            <li>• <strong>Cena</strong> — od 145 € jednosměrně, round-trip od 200 €. Zázemí (BASE) od 69 €/měsíc.</li>
           </ul>
           <div className="mt-4 pt-4 border-t border-[#FBC9A8]">
             <Link
@@ -53,7 +53,7 @@ export default function DopravaKolaMalaga() {
           <li><a href="#proces" className="text-[#3B7CF4] hover:underline">Jak proces vypadá krok po kroku</a></li>
           <li><a href="#balicky" className="text-[#3B7CF4] hover:underline">One-way vs round-trip: co je v ceně</a></li>
           <li><a href="#cena" className="text-[#3B7CF4] hover:underline">Kolik to stojí (a kdy se to vyplatí)</a></li>
-          <li><a href="#sklad" className="text-[#3B7CF4] hover:underline">Co dělá sklad v Malaze jiným</a></li>
+          <li><a href="#sklad" className="text-[#3B7CF4] hover:underline">Co dělá naše zázemí (BASE) v Malaze jiným</a></li>
           <li><a href="#pojisteni" className="text-[#3B7CF4] hover:underline">Pojištění, riziko, co když se něco pokazí</a></li>
           <li><a href="#faq" className="text-[#3B7CF4] hover:underline">Časté otázky</a></li>
         </ol>
@@ -90,8 +90,8 @@ export default function DopravaKolaMalaga() {
                 <td className="p-3">Riziko spíš v komfortu — neumíš to kolo, fit nesedí</td>
               </tr>
               <tr className="bg-[#FFF1EA]">
-                <td className="p-3 font-bold">100dola transport + sklad</td>
-                <td className="p-3">Jednou dovoz od 145 € + 69 €/měsíc sklad</td>
+                <td className="p-3 font-bold">100dola transport + BASE</td>
+                <td className="p-3">Jednou dovoz od 145 € + 69 €/měsíc zázemí (BASE)</td>
                 <td className="p-3">Nulový — kolo už tam je</td>
                 <td className="p-3">Nízké — víme co děláme, monitor, pojištěno</td>
               </tr>
@@ -101,7 +101,7 @@ export default function DopravaKolaMalaga() {
         <p className="text-base text-[#5A6480] leading-relaxed mb-5">
           Skutečný break-even je <strong>dvě cesty za sezónu</strong>. Pokud jedeš jen jednou
           v životě, půjčovna nebo letecky je v pořádku. Pokud jezdíš v zimě pravidelně (cyklistický
-          přípravný kemp, několik víkendů, listopad–březen), <strong>vlastní kolo skladované
+          přípravný kemp, několik víkendů, listopad–březen), <strong>vlastní kolo v zázemí
           v Malaze</strong> šetří peníze i nervy.
         </p>
 
@@ -130,7 +130,7 @@ export default function DopravaKolaMalaga() {
             {
               n: "4",
               title: "Uložení v Malaze",
-              body: "Kolo dorazí do našeho skladu (vnitřní prostor, monitorovaný, suchý, kontrola teploty). Dostane svůj věšák, popisek, fotografii ve stavu při příjezdu. Posíláme ti potvrzení s fotkou.",
+              body: "Kolo dorazí do našeho zázemí — 100dola Malaga BASE (vnitřní prostor, monitorovaný, suchý, kontrola teploty). Dostane svůj věšák, popisek, fotografii ve stavu při příjezdu. Posíláme ti potvrzení s fotkou.",
             },
             {
               n: "5",
@@ -140,12 +140,12 @@ export default function DopravaKolaMalaga() {
             {
               n: "6",
               title: "Vyzvednutí v Malaze",
-              body: "Z letiště přijdeš/přijedeš ke skladu (10 min od letiště Málaga, AGP), my máme kolo pumpu, lehký servis, mazání, kontrolu, kafe. Vyjedeš do hor.",
+              body: "Z letiště přijdeš/přijedeš do zázemí (BASE, 10 min od letiště Málaga, AGP) — sprcha, šatna, kafe, kolo pumpu, lehký servis, mazání, kontrola. Převlékneš se a vyjedeš do hor.",
             },
             {
               n: "7",
               title: "Po sezóně",
-              body: "Buď kolo zůstává až do další cesty (sklad běží od 69 €/měsíc), nebo ho stejnou cestou vezeme zpátky.",
+              body: "Buď kolo zůstává až do další cesty (zázemí/BASE běží od 69 €/měsíc), nebo ho stejnou cestou vezeme zpátky.",
             },
           ].map((step) => (
             <div key={step.n} className="flex gap-4">
@@ -196,7 +196,7 @@ export default function DopravaKolaMalaga() {
               <li>✓ Vše z one-way</li>
               <li>✓ <strong>Cesta tam i zpět</strong> v jedné objednávce</li>
               <li>✓ <strong>Ušetříš 50 €</strong> oproti dvěma jednosměrkám</li>
-              <li>✓ Mezi cestami kolo hlídáme ve skladu (od 69 €/měsíc)</li>
+              <li>✓ Mezi cestami kolo hlídáme v zázemí (BASE, od 69 €/měsíc)</li>
               <li>✓ Kolo na tebe čeká rideable, ať přiletíš kdykoliv</li>
             </ul>
           </div>
@@ -237,7 +237,7 @@ export default function DopravaKolaMalaga() {
                 <td className="py-2 text-right font-bold">~900 €</td>
               </tr>
               <tr>
-                <td className="py-2 font-bold text-[#1a1a2e]">100dola: round-trip doprava (200 €) + 4 měsíce skladu</td>
+                <td className="py-2 font-bold text-[#1a1a2e]">100dola: round-trip doprava (200 €) + 4 měsíce v BASE</td>
                 <td className="py-2 text-right font-black text-[#E8431A]">~476 €</td>
               </tr>
             </tbody>
@@ -252,11 +252,12 @@ export default function DopravaKolaMalaga() {
 
         {/* Section 5 — Storage */}
         <h2 id="sklad" className="text-2xl md:text-3xl font-black text-[#1a1a2e] mt-16 mb-4">
-          Co dělá sklad v Malaze jiným
+          Co dělá naše zázemí (BASE) v Malaze jiným
         </h2>
         <p className="text-base text-[#5A6480] leading-relaxed mb-5">
-          Nejsme garážové family business kde se kola hází na sebe. Sklad v Malaze je
-          dedikovaný prostor, kde každé kolo má své místo. Konkrétně:
+          Nejsme garážový family business, kde se kola hází na sebe. 100dola Malaga BASE je
+          dedikované zázemí, kde každé kolo má své místo — a ty tu máš sprchu, šatnu a kávu.
+          Konkrétně:
         </p>
         <ul className="space-y-2 text-base text-[#5A6480] mb-8 ml-5 list-disc">
           <li>Vnitřní prostor (žádné kolísání teploty z vlhka nebo přímého slunce)</li>
@@ -267,9 +268,9 @@ export default function DopravaKolaMalaga() {
           <li>10 minut od letiště Málaga (AGP) — fakt 10 minut, žádné „90 minut autobusem"</li>
         </ul>
         <p className="text-base text-[#5A6480] leading-relaxed mb-8">
-          Když si nás <strong>napíšeš den před příletem</strong>, máme kolo připraveno před
-          skladem, pláště nafouknuté, řetěz namazaný, brzdy zkontrolované. Vyzvedneš,
-          ujedeš.
+          Když si nás <strong>napíšeš den před příletem</strong>, máme kolo připraveno v
+          zázemí, pláště nafouknuté, řetěz namazaný, brzdy zkontrolované. Převlékneš se,
+          vyzvedneš, ujedeš.
         </p>
 
         {/* Section 6 — Insurance */}
@@ -282,8 +283,8 @@ export default function DopravaKolaMalaga() {
           Vyžadujeme jen fotografie aktuálního stavu a doklad o pořízení (nebo expertní odhad).
         </p>
         <p className="text-base text-[#5A6480] leading-relaxed mb-5">
-          Sklad v Malaze je <strong>oddělené pojištění</strong> — kryje krádež, požár, vodní škodu.
-          Kolo je u nás pojištěno po celou dobu skladování, ne jen v aktivním měsíci.
+          Zázemí (BASE) v Malaze má <strong>oddělené pojištění</strong> — kryje krádež, požár, vodní škodu.
+          Kolo je u nás pojištěno po celou dobu uskladnění, ne jen v aktivním měsíci.
         </p>
         <p className="text-base text-[#5A6480] leading-relaxed mb-8">
           A když se něco pokazí cestou? Jsi v Malaze, řešíš zraněnou hlavu, ne reklamaci.
@@ -314,12 +315,12 @@ export default function DopravaKolaMalaga() {
               a: "Ano — do 100 km od kteréhokoliv ze sběrných míst (Šternberk, Olomouc, Valašské Meziříčí, Praha) obvykle zdarma, jinak po domluvě.",
             },
             {
-              q: "Můžu během skladování poslat / vyměnit komponenty (sedlo, kazetu)?",
-              a: "Ano. Pošli nám díl poštou na sklad v Malaze, dáme to na kolo před tvým příletem. Standardně účtujeme jen práci servisu (od 15 € podle úkonu).",
+              q: "Můžu během uskladnění poslat / vyměnit komponenty (sedlo, kazetu)?",
+              a: "Ano. Pošli nám díl poštou do zázemí (BASE) v Malaze, dáme to na kolo před tvým příletem. Standardně účtujeme jen práci servisu (od 15 € podle úkonu).",
             },
             {
               q: "A když nezbudu jezdit a kolo bude v Malaze dlouho?",
-              a: "Sklad můžeš zrušit kdykoliv. Buď ho vezeme zpátky (Basic 145 €), nebo ho prodáme v Malaze přes naše kontakty (komise 12 %, většinou rychle pro race carbon kola).",
+              a: "Uskladnění můžeš zrušit kdykoliv. Buď kolo vezeme zpátky (Basic 145 €), nebo ho prodáme v Malaze přes naše kontakty (komise 12 %, většinou rychle pro race carbon kola).",
             },
           ].map((item) => (
             <div key={item.q} className="border-b border-[#E2E6F3] pb-5">
