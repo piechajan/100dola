@@ -588,10 +588,9 @@ Na trase plánujeme oběd v horské boudě a kávovou zastávku na Pustevnách.`
     whatToBring: [
       "Pohodlná turistická obuv — povinná",
       "Batoh s vodou min. 1,5 l",
-      "Svačina a peníze na oběd (cca 200 Kč)",
+      "Svačina a peníze na oběd",
       "Lehká nepromokavá bunda",
       "Sluneční ochrana a brýle",
-      "Trekingové hole — doporučeny",
     ],
     whoIsItFor: "Kdokoliv v dobré fyzické kondici. Zkušenost s horskou turistikou výhodou.",
     organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
