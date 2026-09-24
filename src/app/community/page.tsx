@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CommunityHero from "@/components/community/CommunityHero";
 import EventListing from "@/components/community/EventListing";
+import { getCommunityListingEvents } from "@/lib/community-events";
 import WhyJoin from "@/components/community/WhyJoin";
 import CommunityRules from "@/components/community/CommunityRules";
 import GalleryRecap from "@/components/community/GalleryRecap";
@@ -48,7 +49,8 @@ const organizationJsonLd = {
   sport: ["Road cycling", "Gravel cycling", "Mountain biking", "Ski touring", "Cross-country skiing", "Hiking"],
 };
 
-export default function CommunityPage() {
+export default async function CommunityPage() {
+  const events = await getCommunityListingEvents();
   return (
     <>
       <script
@@ -63,7 +65,7 @@ export default function CommunityPage() {
       <Navbar />
       <main>
         <CommunityHero />
-        <EventListing />
+        <EventListing events={events} />
         <WhyJoin />
         <CommunityRules />
         <GalleryRecap />
