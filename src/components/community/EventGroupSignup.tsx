@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
+import { getAttribution } from "@/lib/attribution";
 import { uploadSignupPhoto } from "@/lib/resize-image";
 import PublicProfileFields from "@/components/community/PublicProfileFields";
 import type { PublicProfile } from "@/data/public-profile";
@@ -149,6 +150,7 @@ function SignupModal({
           publicProfile: publicConsent ? publicProfile : undefined,
           mediaConsent,
           website,
+          attribution: getAttribution(),
         }),
       });
       if (!res.ok) {

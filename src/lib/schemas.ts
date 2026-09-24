@@ -284,6 +284,8 @@ export const EventSignupPayloadSchema = z
     photoUrl: z.string().max(600).optional().or(z.literal("")),
     publicProfile: PublicProfileSchema,
     mediaConsent: z.boolean().optional().default(false),
+    // Zdroj příchodu (UTM + referrer + fb/google click) — klient posílá getAttribution().
+    attribution: AttributionSchema.optional(),
     // Cloudflare Turnstile — volitelné (env-gated no-op když klíče chybí).
     turnstileToken: z.string().max(4000).optional(),
   })

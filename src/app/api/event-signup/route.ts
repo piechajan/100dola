@@ -13,9 +13,9 @@ import { stayLabel, formatNights } from "@/data/events-signup";
 import {
   sendMetaCapiEvent,
   extractClientContext,
-  extractFbCookies,
   extractMarketingConsent,
 } from "@/lib/meta-capi";
+import { resolveAttribution } from "@/lib/attribution-server";
 
 function honeypotTriggered(body: unknown): boolean {
   if (!body || typeof body !== "object") return false;
@@ -78,6 +78,10 @@ export async function POST(req: NextRequest) {
   const groupOptions: Record<string, unknown> = {};
   if (data.publicConsent && data.publicProfile) groupOptions.profile = data.publicProfile;
   if (data.mediaConsent) groupOptions.mediaConsent = true;
+
+  // Zdroj příchodu (Strava/IG/Google/…) → do options.attribution.
+  const { attribution, fbp, fbc } = resolveAttribution(req.headers, data.attribution);
+  if (attribution) groupOptions.attribution = attribution;
 
   // ── Uložení do DB ─────────────────────────────────────────────────────────
   if (!isSupabaseConfigured()) {
@@ -161,7 +165,6 @@ export async function POST(req: NextRequest) {
   };
 
   const { clientIp, userAgent } = extractClientContext(req.headers);
-  const { fbp, fbc } = extractFbCookies(req.headers);
   const marketingConsent = extractMarketingConsent(req.headers);
   const eventSourceUrl =
     req.headers.get("referer") ?? `https://www.100dola.com/community/event/${data.eventSlug}`;
