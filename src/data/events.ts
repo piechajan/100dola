@@ -595,7 +595,7 @@ Na trase plánujeme oběd v horské boudě a kávovou zastávku na Pustevnách.`
     whoIsItFor: "Kdokoliv v dobré fyzické kondici. Zkušenost s horskou turistikou výhodou.",
     organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
     photo: "/media/turistika-beskydy.webp",
-    photoPosition: "center 67%",
+    photoPosition: "center 62%",
   },
   {
     id: 3,
