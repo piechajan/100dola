@@ -9,6 +9,7 @@ import {
   extractFbCookies,
   extractMarketingConsent,
 } from "@/lib/meta-capi";
+import { logConversionAttribution } from "@/lib/attribution-server";
 
 function honeypotTriggered(body: unknown): boolean {
   if (!body || typeof body !== "object") return false;
@@ -68,6 +69,14 @@ export async function POST(req: NextRequest) {
     topic: data.topic,
     message: data.message,
   };
+
+  // Zdroj příchodu → sdílená tabulka conversion_attribution (best-effort).
+  await logConversionAttribution({
+    type: "contact",
+    email: data.email,
+    headers: req.headers,
+    clientAttribution: data.attribution,
+  });
 
   // Server-side Meta CAPI event (mirror browser pixel Lead event)
   const { clientIp, userAgent } = extractClientContext(req.headers);

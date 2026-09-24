@@ -5,6 +5,7 @@ import Link from "next/link";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 import Turnstile, { isTurnstileConfigured } from "@/components/Turnstile";
+import { getAttribution } from "@/lib/attribution";
 
 const TOPICS = [
   { value: "general", label: "Obecná otázka" },
@@ -60,6 +61,7 @@ export default function ContactForm() {
           name, email, phone: phone || undefined, topic, message,
           consentGdpr: true,
           turnstileToken: turnstileToken || undefined,
+          attribution: getAttribution(),
         }),
       });
       const data = await res.json();

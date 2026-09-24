@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
+import { logConversionAttribution } from "@/lib/attribution-server";
+import type { Attribution } from "@/lib/attribution";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -20,6 +22,7 @@ interface Body {
   itemsDescription?: string;
   reason?: string;
   honeypot?: string;
+  attribution?: Partial<Attribution>;
 }
 
 const RATE_LIMIT_PER_HOUR = 3;
@@ -99,6 +102,15 @@ export async function POST(req: Request) {
     console.error("[api] insert failed:", insErr.message);
     return NextResponse.json({ ok: false, error: "Nepodařilo se uložit, zkus to prosím znovu." }, { status: 500 });
   }
+
+  // Zdroj příchodu → sdílená tabulka conversion_attribution (best-effort).
+  await logConversionAttribution({
+    type: "return",
+    id: (row as { id: string }).id,
+    email: customerEmail,
+    headers: req.headers,
+    clientAttribution: body.attribution,
+  });
 
   const resendKey = process.env.RESEND_API_KEY;
   if (resendKey) {

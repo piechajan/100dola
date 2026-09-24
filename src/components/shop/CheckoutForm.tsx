@@ -9,6 +9,7 @@ import { useCart, getCartTotals } from "@/lib/cart-store";
 import { formatPrice } from "@/data/products";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
+import { getAttribution } from "@/lib/attribution";
 import {
   calcShippingFee,
   isPaymentAvailable,
@@ -242,6 +243,7 @@ export default function CheckoutForm() {
       gdprConsent: true as const,
       website,
       turnstileToken: turnstileToken || undefined,
+      attribution: getAttribution(),
     };
 
     try {

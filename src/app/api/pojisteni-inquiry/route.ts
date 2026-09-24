@@ -3,6 +3,8 @@ import { z } from "zod";
 import { Resend } from "resend";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { verifyTurnstile } from "@/lib/turnstile";
+import { AttributionSchema } from "@/lib/schemas";
+import { logConversionAttribution } from "@/lib/attribution-server";
 
 /**
  * Poptávka na pojištění (kolo / cestovní / úrazové). Zpracovává kamarádova
@@ -27,6 +29,8 @@ const PayloadSchema = z.object({
   interests: z.array(z.enum(INTEREST_VALUES)).min(1).max(3),
   notes: z.string().max(2000).optional(),
   consent: z.literal(true),
+  // Zdroj příchodu (UTM + referrer + fb/google click).
+  attribution: AttributionSchema.optional(),
   // Honeypot — bot vyplní, člověk ne. Ticho zahodíme.
   company: z.string().max(0).optional().or(z.literal("")),
   turnstileToken: z.string().max(4000).optional(),
@@ -71,6 +75,14 @@ export async function POST(req: NextRequest) {
   }
 
   const interestLabels = data.interests.map((i) => INTEREST_LABELS[i]);
+
+  // Zdroj příchodu → sdílená tabulka conversion_attribution (best-effort).
+  await logConversionAttribution({
+    type: "pojisteni",
+    email: data.email,
+    headers: req.headers,
+    clientAttribution: data.attribution,
+  });
 
   const resendKey = process.env.RESEND_API_KEY;
   if (resendKey) {

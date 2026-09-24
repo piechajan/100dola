@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { getAttribution } from "@/lib/attribution";
 
 const RETURN_TYPES = [
   { value: "withdrawal", label: "Odstoupení od smlouvy (do 14 dnů)" },
@@ -35,6 +36,7 @@ export default function ReturnForm({
       itemsDescription: String(fd.get("itemsDescription") ?? "").trim(),
       reason: String(fd.get("reason") ?? "").trim(),
       honeypot: String(fd.get("website") ?? ""),
+      attribution: getAttribution(),
     };
     try {
       const res = await fetch("/api/returns", {

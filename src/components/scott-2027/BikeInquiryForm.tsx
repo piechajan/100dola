@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Turnstile, { isTurnstileConfigured } from "@/components/Turnstile";
+import { getAttribution } from "@/lib/attribution";
 
 interface Props {
   bikeModel: string;
@@ -40,6 +41,7 @@ export default function BikeInquiryForm({ bikeModel, bikeVariant, models, classN
       notes: String(fd.get("notes") ?? ""),
       consent: fd.get("consent") === "on",
       turnstileToken: turnstileToken || undefined,
+      attribution: getAttribution(),
     };
     if (!data.consent || !data.email || !data.full_name) {
       setStatus("error");

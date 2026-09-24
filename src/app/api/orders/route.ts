@@ -25,6 +25,7 @@ import {
   extractFbCookies,
   extractMarketingConsent,
 } from "@/lib/meta-capi";
+import { logConversionAttribution } from "@/lib/attribution-server";
 import { revalidateTag } from "next/cache";
 
 /** Limitované „1 kus" produkty — po prodeji už nejdou objednat (viz guard níže). */
@@ -563,6 +564,15 @@ export async function POST(req: NextRequest) {
   const { fbp, fbc } = extractFbCookies(req.headers);
   const marketingConsent = extractMarketingConsent(req.headers);
   const eventSourceUrl = req.headers.get("referer") ?? "https://www.100dola.com/objednavka";
+
+  // Zdroj příchodu → sdílená tabulka conversion_attribution (best-effort). Nikdy neshodí objednávku.
+  await logConversionAttribution({
+    type: "order",
+    id,
+    email: data.email,
+    headers: req.headers,
+    clientAttribution: data.attribution,
+  });
 
   Promise.allSettled([
     sendOrderConfirmation(emailPayload),

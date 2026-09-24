@@ -21,6 +21,7 @@ import {
   extractFbCookies,
   extractMarketingConsent,
 } from "@/lib/meta-capi";
+import { logConversionAttribution } from "@/lib/attribution-server";
 
 function honeypotTriggered(body: unknown): boolean {
   if (!body || typeof body !== "object") return false;
@@ -150,6 +151,15 @@ export async function POST(req: NextRequest) {
   // Obnovit počet přihlášených (kapacita bar + karty) po nové přihlášce.
   revalidateTag(`signups-${data.eventSlug}`, "max");
   revalidateTag("event-signups-counts", "max");
+
+  // Zdroj příchodu → sdílená tabulka conversion_attribution (best-effort, i vedle options.attribution).
+  await logConversionAttribution({
+    type: "malaga-signup",
+    id: signupId,
+    email: data.leadEmail,
+    headers: req.headers,
+    clientAttribution: data.attribution,
+  });
 
   if (members.length > 0) {
     const { error: memErr } = await sb.from("event_signup_members").insert(

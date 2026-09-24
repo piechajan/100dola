@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { getAttribution } from "@/lib/attribution";
 
 const SERVICE_OPTIONS = [
   { value: "servis", label: "Servis kola" },
@@ -47,6 +48,7 @@ export default function ServiceBookingForm() {
       flexibility: String(fd.get("flexibility") ?? "").trim(),
       description: String(fd.get("description") ?? "").trim(),
       honeypot: String(fd.get("website") ?? ""),
+      attribution: getAttribution(),
     };
     try {
       const res = await fetch("/api/service-booking", {

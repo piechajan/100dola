@@ -2,6 +2,8 @@ import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import type { NextRequest } from "next/server";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { AttributionSchema } from "@/lib/schemas";
+import { logConversionAttribution } from "@/lib/attribution-server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -11,6 +13,7 @@ const Schema = z.object({
   variant_external_id: z.string().min(1).max(100).optional().nullable(),
   customer_email: z.string().email().max(200),
   customer_name: z.string().max(80).optional().nullable(),
+  attribution: AttributionSchema.optional(),
   website: z.string().max(0).optional(), // honeypot
 });
 
@@ -86,6 +89,13 @@ export async function POST(request: NextRequest) {
     console.error("[stock-notify] insert:", error);
     return Response.json({ ok: false, error: "db" }, { status: 500 });
   }
+
+  await logConversionAttribution({
+    type: "stock-notify",
+    email: data.customer_email,
+    headers: request.headers,
+    clientAttribution: data.attribution,
+  });
 
   return Response.json({ ok: true });
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { getAttribution } from "@/lib/attribution";
 
 export default function RestockNotifyButton({
   supplierProductId,
@@ -32,6 +33,7 @@ export default function RestockNotifyButton({
           variant_external_id: variantExternalId ?? null,
           customer_email: email.trim().toLowerCase(),
           website,
+          attribution: getAttribution(),
         }),
       });
       if (r.status === 429) {

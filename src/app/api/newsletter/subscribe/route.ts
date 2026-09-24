@@ -2,6 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { Resend } from "resend";
 import { upsertSubscriber } from "@/lib/newsletter-subscribers";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { logConversionAttribution } from "@/lib/attribution-server";
+import type { Attribution } from "@/lib/attribution";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -11,6 +13,7 @@ interface Body {
   name?: string;
   source?: "shop" | "community" | "malaga" | "lab";
   honeypot?: string;
+  attribution?: Partial<Attribution>;
 }
 
 export async function POST(req: NextRequest) {
@@ -50,6 +53,14 @@ export async function POST(req: NextRequest) {
   if (!result.ok) {
     return NextResponse.json({ ok: false, error: result.error ?? "subscribe_failed" }, { status: 500 });
   }
+
+  // Zdroj příchodu → sdílená tabulka conversion_attribution (best-effort).
+  await logConversionAttribution({
+    type: "newsletter",
+    email,
+    headers: req.headers,
+    clientAttribution: body.attribution,
+  });
 
   if (result.alreadyConfirmed) {
     return NextResponse.json({ ok: true, status: "already_confirmed" });

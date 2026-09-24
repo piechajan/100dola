@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { getAttribution } from "@/lib/attribution";
 
 interface Props {
   variant?: "footer" | "inline";
@@ -22,6 +23,7 @@ export default function NewsletterSignup({ variant = "footer", source = "shop" }
       name: String(fd.get("name") ?? "").trim(),
       source,
       honeypot: String(fd.get("website") ?? ""),
+      attribution: getAttribution(),
     };
     try {
       const res = await fetch("/api/newsletter/subscribe", {

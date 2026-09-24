@@ -4,6 +4,8 @@ import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { verifyTurnstile } from "@/lib/turnstile";
+import { AttributionSchema } from "@/lib/schemas";
+import { logConversionAttribution } from "@/lib/attribution-server";
 
 const PayloadSchema = z.object({
   bike_model: z.string().min(1).max(200),
@@ -13,6 +15,8 @@ const PayloadSchema = z.object({
   phone: z.string().max(40).optional(),
   notes: z.string().max(2000).optional(),
   consent: z.literal(true),
+  // Zdroj příchodu (UTM + referrer + fb/google click).
+  attribution: AttributionSchema.optional(),
   // Cloudflare Turnstile — volitelné (env-gated no-op když klíče chybí).
   turnstileToken: z.string().max(4000).optional(),
 });
@@ -69,6 +73,14 @@ export async function POST(req: NextRequest) {
       // Pokračujeme, e-mail je primární cesta — DB je backup pro CRM.
     }
   }
+
+  // Zdroj příchodu → sdílená tabulka conversion_attribution (best-effort).
+  await logConversionAttribution({
+    type: "bike-inquiry",
+    email: data.email,
+    headers: req.headers,
+    clientAttribution: data.attribution,
+  });
 
   // E-mail notifikace Janovi (primární cesta — Jan zavolá zpět)
   const resendKey = process.env.RESEND_API_KEY;

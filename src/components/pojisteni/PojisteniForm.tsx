@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Turnstile, { isTurnstileConfigured } from "@/components/Turnstile";
+import { getAttribution } from "@/lib/attribution";
 
 type Interest = "kolo" | "cestovni" | "urazove";
 
@@ -69,6 +70,7 @@ export default function PojisteniForm({ className }: { className?: string }) {
       consent: fd.get("consent") === "on",
       company: String(fd.get("company") ?? ""), // honeypot
       turnstileToken: turnstileToken || undefined,
+      attribution: getAttribution(),
     };
     if (!payload.consent || !payload.email || !payload.full_name) {
       setStatus("error");
