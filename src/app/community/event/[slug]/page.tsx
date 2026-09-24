@@ -515,7 +515,17 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                           Tato akce už proběhla. Sleduj{" "}
                           <Link href="/community" className="font-bold" style={{ color }}>
                             nadcházející eventy
-                          </Link>
+                          </Link>{" "}
+                          nebo nás na Instagramu{" "}
+                          <a
+                            href="https://www.instagram.com/100dola_malaga/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-bold"
+                            style={{ color }}
+                          >
+                            @100dola_malaga
+                          </a>
                           .
                         </p>
                       </div>

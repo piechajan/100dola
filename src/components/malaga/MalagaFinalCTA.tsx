@@ -53,6 +53,18 @@ export default function MalagaFinalCTA() {
                   {FINAL_CTA_COPY.phone}
                 </a>
               </div>
+              <div>
+                <span className="text-white/40">Instagram · </span>
+                <a
+                  href="https://www.instagram.com/100dola_malaga/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white"
+                  style={{ color: accent }}
+                >
+                  @100dola_malaga
+                </a>
+              </div>
             </div>
           </div>
 
