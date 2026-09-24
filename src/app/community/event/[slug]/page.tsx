@@ -606,7 +606,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           {event.sport === "Malaga" && (
             <section className="mt-16 pt-12 border-t border-[#E2E6F3]">
               <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#E8431A] mb-2">
-                Celý 100dola Malaga
+                Projekt 100dola Malaga
               </div>
               <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-3">
                 Jeď v Malaze na svém kole
