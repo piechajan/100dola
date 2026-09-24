@@ -94,7 +94,7 @@ const TYPES = [
     tagColor: "#3B7CF4",
     zajem: "kolo",
     title: "Pojištění kola — krádež a poškození",
-    lead: "Pro dražší kola (silničky, gravely, elektrokola) je samostatné pojištění nejrozumnější ochrana. Kryje krádež, vandalismus, živly, nehodu i poškození při přepravě.",
+    lead: "Pro dražší kola (silničky, gravely, elektrokola) je samostatné pojištění nejrozumnější ochrana. Kryje krádež, vandalismus, živly a nehodu. Přepravu kola do Malagy máme pojištěnou my — o tu se starat nemusíš.",
     points: [
       "Dává smysl hlavně nad 100 000 Kč — tam běžné pojištění domácnosti nestačí limitem.",
       "Podmínka plnění: schválený zámek (často třmen ≥ 6 mm) + kolo připevněné k pevnému objektu.",
