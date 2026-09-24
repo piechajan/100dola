@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { getAttribution } from "@/lib/attribution";
 
 const HIDDEN_PREFIXES = ["/admin", "/checkout", "/objednavka"];
 
@@ -45,6 +46,7 @@ export default function ContactBubble() {
       honeypot: String(fd.get("website") ?? ""),
       pageUrl: typeof window !== "undefined" ? window.location.href : null,
       productSlug,
+      attribution: getAttribution(),
     };
     try {
       const res = await fetch("/api/contact-widget", {

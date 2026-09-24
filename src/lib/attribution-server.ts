@@ -39,6 +39,7 @@ export type ConversionType =
   | "return"
   | "stock-notify"
   | "contact"
+  | "chat"
   | "pojisteni";
 
 // JEDINÝ zápis zdroje pro VŠECHNY konverze → tabulka conversion_attribution (migrace 039).
