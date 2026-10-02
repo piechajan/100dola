@@ -46,6 +46,19 @@ export const CATEGORY_COLOR: Record<ArticleCategory, string> = {
 
 export const ARTICLES: Article[] = [
   {
+    slug: "tlak-v-plastich-silnicni-kolo",
+    title: "Tlak v pláštích na silničce: tabulka podle váhy a šířky pláště",
+    summary:
+      "Konkrétní hodnoty pro 25–32 mm podle vaší váhy, kalkulačka a vysvětlení, proč tvrdší plášť není rychlejší. Včetně limitu hookless ráfků.",
+    category: "sport",
+    publishedAt: "2026-10-01",
+    author: { name: "Jan Piecha", role: "100dola sport" },
+    image: "/media/articles/tlak-v-plastich-silnicni.webp",
+    heroImage: "/media/articles/tlak-v-plastich-silnicni-hero.webp",
+    status: "published",
+    readMinutes: 8,
+  },
+  {
     slug: "scott-karbony-hmf-hmx-hmx-sl",
     title: "Karbon SCOTT: HMF vs HMX vs HMX-SL — jaký rám vybrat",
     summary:
