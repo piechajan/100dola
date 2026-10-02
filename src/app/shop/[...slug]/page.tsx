@@ -20,6 +20,7 @@ import ProductSpecTable from "@/components/shop/ProductSpecTable";
 import ProductGeometryTable from "@/components/shop/ProductGeometryTable";
 import GoogleReviewsCompact from "@/components/shop/GoogleReviewsCompact";
 import EbikeRangeCalculator from "@/components/tools/EbikeRangeCalculator";
+import TirePressureCalculator from "@/components/tools/TirePressureCalculator";
 import MobileStickyCTA from "@/components/shop/MobileStickyCTA";
 import ReviewsSection from "@/components/shop/ReviewsSection";
 import Stars from "@/components/shop/Stars";
@@ -504,6 +505,32 @@ function renderProduct(
                 </h2>
               </div>
               <EbikeRangeCalculator defaultBattery={product.ebikeBatteryWh} />
+            </div>
+          </section>
+        )}
+
+        {product.categoryId?.startsWith("plastre") && (
+          <section className="bg-[#F7F9FF] py-12 border-t border-[#E2E6F3]">
+            <div className="max-w-[900px] mx-auto px-6 md:px-12">
+              <div className="mb-6 text-center">
+                <div className="text-xs tracking-[0.22em] uppercase font-bold text-[#3B7CF4] mb-2">
+                  Na kolik ho foukat
+                </div>
+                <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e]">
+                  Spočítej si tlak pro tenhle plášť
+                </h2>
+              </div>
+              <TirePressureCalculator />
+              <p className="mt-5 text-center text-sm text-[#5A6480]">
+                Proč čísla vycházejí takhle a kdy od nich ubrat{" "}
+                <Link
+                  href="/clanky/tlak-v-plastich-silnicni-kolo"
+                  className="font-bold text-[#3B7CF4] underline underline-offset-2"
+                >
+                  rozebíráme v návodu
+                </Link>
+                .
+              </p>
             </div>
           </section>
         )}

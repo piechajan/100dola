@@ -15,6 +15,7 @@ const links: Record<string, { label: string; href: string; external?: boolean }[
     { label: "Pojištění kola", href: "/pojisteni" },
     { label: "Vyzkoušej SCOTT", href: "/vyzkousej-scott" },
     { label: "Kalkulačka dojezdu e-kola", href: "/kalkulacka-dojezdu-elektrokola" },
+    { label: "Kalkulačka tlaku v pláštích", href: "/kalkulacka-tlaku-v-plastich" },
     { label: "Předobjednávka Spark RC", href: "/predobjednavka/spark-rc-2027" },
     { label: "@100dolasport.cz", href: "https://www.instagram.com/100dolasport.cz/", external: true },
     { label: "@100dola_lab", href: "https://www.instagram.com/100dola_lab/", external: true },

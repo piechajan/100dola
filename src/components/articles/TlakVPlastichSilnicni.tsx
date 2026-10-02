@@ -1,5 +1,6 @@
 import Link from "next/link";
-import TlakKalkulacka from "./TlakKalkulacka";
+import JsonLd from "@/components/JsonLd";
+import TirePressureCalculator from "@/components/tools/TirePressureCalculator";
 
 /**
  * SEO článek „Tlak v pláštích na silničce“ — target keywords:
@@ -13,9 +14,43 @@ import TlakKalkulacka from "./TlakKalkulacka";
  * Pozicování: ryze užitkové. Konkrétní čísla hned, pak vysvětlení proč.
  * Prodejní hook až na konci (servis, bezdušový přechod, výběr plášťů).
  */
+const FAQ = [
+  {
+    q: "Na kolik foukat silniční kolo, když vážím 75 kg?",
+    a: "Na 28 mm plášti s duší zhruba 4,6 bar vzadu a 4,1 bar vpředu. Na 25 mm asi 5,4 / 4,8 bar. S bezdušovým systémem jděte o 0,3 bar níž.",
+  },
+  {
+    q: "Je lepší foukat víc, nebo míň?",
+    a: "Pokud váháte, foukejte spíš míň. Mírně podhuštěný plášť stojí pár wattů, ale jede bezpečně a pohodlně. Přefouklý ztrácí přilnavost a na nerovném povrchu je i pomalejší.",
+  },
+  {
+    q: "Jak poznám, že mám málo?",
+    a: "Plášť se v zatáčce „kroutí“ a kolo působí měkce, při nájezdu do hrany uslyšíte dosednutí na ráfek. U bezdušového se může objevit bublání tmelu. Přidejte po 0,2 bar, než to zmizí.",
+  },
+  {
+    q: "Platí tyhle hodnoty i pro gravel?",
+    a: "Ne. Gravel plášť 38–45 mm jede na 2–3 barech a tlak se řídí hlavně povrchem. Tenhle návod je čistě pro silnici.",
+  },
+  {
+    q: "Kolik psi je 5 bar?",
+    a: "Zhruba 72,5 psi. Pro rychlý přepočet: 1 bar ≈ 14,5 psi.",
+  },
+];
+
 export default function TlakVPlastichSilnicni() {
   return (
     <article className="bg-white">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: FAQ.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }}
+      />
       <div className="max-w-[820px] mx-auto px-6 md:px-12 py-12 md:py-16">
         {/* Lead */}
         <p className="text-lg text-[#5A6480] leading-relaxed mb-10">
@@ -60,7 +95,9 @@ export default function TlakVPlastichSilnicni() {
           </ul>
         </div>
 
-        <TlakKalkulacka />
+        <div className="my-10">
+          <TirePressureCalculator />
+        </div>
 
         {/* 1. Proč na tlaku záleží */}
         <section className="mb-12">
@@ -329,28 +366,7 @@ export default function TlakVPlastichSilnicni() {
             Časté dotazy
           </h2>
           <div className="space-y-5">
-            {[
-              {
-                q: "Na kolik foukat silniční kolo, když vážím 75 kg?",
-                a: "Na 28 mm plášti s duší zhruba 4,6 bar vzadu a 4,1 bar vpředu. Na 25 mm asi 5,4 / 4,8 bar. S bezdušovým systémem jděte o 0,3 bar níž.",
-              },
-              {
-                q: "Je lepší foukat víc, nebo míň?",
-                a: "Pokud váháte, foukejte spíš míň. Mírně podhuštěný plášť stojí pár wattů, ale jede bezpečně a pohodlně. Přefouklý ztrácí přilnavost a na nerovném povrchu je i pomalejší.",
-              },
-              {
-                q: "Jak poznám, že mám málo?",
-                a: "Plášť se v zatáčce „kroutí“ a kolo působí měkce, při nájezdu do hrany uslyšíte dosednutí na ráfek. U bezdušového se může objevit bublání tmelu. Přidejte po 0,2 bar, než to zmizí.",
-              },
-              {
-                q: "Platí tyhle hodnoty i pro gravel?",
-                a: "Ne. Gravel plášť 38–45 mm jede na 2–3 barech a tlak se řídí hlavně povrchem. Tenhle návod je čistě pro silnici.",
-              },
-              {
-                q: "Kolik psi je 5 bar?",
-                a: "Zhruba 72,5 psi. Pro rychlý přepočet: 1 bar ≈ 14,5 psi.",
-              },
-            ].map((f) => (
+            {FAQ.map((f) => (
               <div key={f.q}>
                 <div className="font-bold text-[#1a1a2e] mb-1">{f.q}</div>
                 <p className="text-base text-[#5A6480] leading-relaxed">

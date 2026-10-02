@@ -28,8 +28,8 @@ export default function EbikeRangeCalculatorPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-gradient-to-b from-[#F7F9FF] to-white min-h-screen">
-        <section className="max-w-[900px] mx-auto px-4 md:px-6 pt-10 md:pt-16 pb-16">
+      <main className="pt-28 md:pt-32 bg-gradient-to-b from-[#F7F9FF] to-white min-h-screen">
+        <section className="max-w-[900px] mx-auto px-4 md:px-6 pb-16">
           <div className="text-center mb-8 md:mb-10">
             <div className="text-xs tracking-[0.22em] uppercase font-bold text-[#3B7CF4] mb-3">
               Nástroj

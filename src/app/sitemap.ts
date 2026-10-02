@@ -102,6 +102,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/clanky",
     "/kontakt",
     "/kalkulacka-dojezdu-elektrokola",
+    "/kalkulacka-tlaku-v-plastich",
   ]) {
     entries.push({ path: p, priority: 0.7, changefreq: "monthly" });
   }
