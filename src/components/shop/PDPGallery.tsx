@@ -87,7 +87,7 @@ export default function PDPGallery({ mainPhoto, gallery, alt, badges = [] }: PDP
           alt={alt}
           fill
           sizes="(max-width: 1024px) 100vw, 60vw"
-          className="object-contain p-8 pointer-events-none"
+          className="object-contain p-3 md:p-4 pointer-events-none"
           priority
           unoptimized={isProxiedImage(currentImage)}
         />
@@ -159,7 +159,7 @@ export default function PDPGallery({ mainPhoto, gallery, alt, badges = [] }: PDP
                 alt=""
                 fill
                 sizes="100px"
-                className="object-contain p-1"
+                className="object-contain"
                 unoptimized={isProxiedImage(url)}
               />
             </button>

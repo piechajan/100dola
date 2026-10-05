@@ -6,6 +6,18 @@ import { checkRateLimit } from "@/lib/rate-limit";
 const Schema = z.object({
   code: z.string().min(1).max(40),
   subtotal: z.number().min(0),
+  // Potřebné u kódů omezených na část sortimentu (např. jen trenažéry).
+  // Cena i kategorie se na serveru stejně dohledávají z katalogu.
+  items: z
+    .array(
+      z.object({
+        slug: z.string().min(1).max(200),
+        priceWithVat: z.number().min(0),
+        qty: z.number().int().min(1).max(99),
+      }),
+    )
+    .max(99)
+    .optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -26,7 +38,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
   }
 
-  const result = await validateDiscountCode(parsed.data.code, { subtotal: parsed.data.subtotal });
+  const result = await validateDiscountCode(parsed.data.code, {
+    subtotal: parsed.data.subtotal,
+    items: parsed.data.items,
+  });
   if (!result.ok) {
     return NextResponse.json({ ok: false, error: result.error }, { status: 200 });
   }

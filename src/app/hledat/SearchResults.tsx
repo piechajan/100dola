@@ -35,16 +35,64 @@ const TYPE_COLOR: Record<ContentHit["type"], string> = {
   Stránka: "#3B7CF4",
 };
 
+/** Karta produktu — sdílená mezi výsledky a pruhem „K tomu se hodí". */
+function ProductCard({ hit }: { hit: Hit }) {
+  return (
+    <Link
+      href={`/shop/${hit.slug}`}
+      className="group bg-white rounded-2xl border border-[#E2E6F3] overflow-hidden hover:border-[#3B7CF4]/40 hover:shadow-lg transition-all"
+    >
+      <div className="relative aspect-square bg-[#F0F2FA]">
+        <Image
+          src={hit.photo}
+          alt={hit.name}
+          fill
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          className="object-contain p-2"
+          unoptimized={isProxiedImage(hit.photo)}
+        />
+      </div>
+      <div className="p-4">
+        <div className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold">
+          {hit.brand}
+        </div>
+        <div className="text-sm font-bold text-[#1a1a2e] line-clamp-2 mt-0.5 min-h-[2.5rem]">
+          {hit.name}
+        </div>
+        <div className="mt-1 flex items-baseline gap-2 flex-wrap">
+          {hit.originalPriceWithVat && hit.originalPriceWithVat > hit.priceWithVat && (
+            <span className="text-xs text-[#9AA3C2] line-through">
+              {formatPrice(hit.originalPriceWithVat)}
+            </span>
+          )}
+          <span
+            className={`text-base font-black ${
+              hit.originalPriceWithVat && hit.originalPriceWithVat > hit.priceWithVat
+                ? "text-[#E8431A]"
+                : "text-[#1a1a2e]"
+            }`}
+          >
+            {formatPrice(hit.priceWithVat)}
+          </span>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
 export default function SearchResults() {
   const sp = useSearchParams();
   const q = (sp.get("q") ?? "").trim();
   const [hits, setHits] = useState<Hit[]>([]);
+  // Doplňky k nalezeným produktům — co si k tomu lidi stejně dokupují.
+  const [related, setRelated] = useState<Hit[]>([]);
   const [content, setContent] = useState<ContentHit[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (q.length < 2) {
       setHits([]);
+      setRelated([]);
       setContent([]);
       setLoading(false);
       return;
@@ -54,8 +102,8 @@ export default function SearchResults() {
     Promise.all([
       fetch(`/api/shop/search?q=${encodeURIComponent(q)}&limit=48`)
         .then((r) => r.json())
-        .then((d) => (d.hits ?? []) as Hit[])
-        .catch(() => [] as Hit[]),
+        .then((d) => ({ hits: (d.hits ?? []) as Hit[], related: (d.related ?? []) as Hit[] }))
+        .catch(() => ({ hits: [] as Hit[], related: [] as Hit[] })),
       fetch(`/api/content/search?q=${encodeURIComponent(q)}&limit=24`)
         .then((r) => r.json())
         .then((d) => (d.hits ?? []) as ContentHit[])
@@ -63,7 +111,8 @@ export default function SearchResults() {
     ])
       .then(([products, contentHits]) => {
         if (!alive) return;
-        setHits(products);
+        setHits(products.hits);
+        setRelated(products.related);
         setContent(contentHits);
       })
       .finally(() => {
@@ -167,46 +216,25 @@ export default function SearchResults() {
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {hits.map((hit) => (
-              <Link
-                key={hit.id}
-                href={`/shop/${hit.slug}`}
-                className="group bg-white rounded-2xl border border-[#E2E6F3] overflow-hidden hover:border-[#3B7CF4]/40 hover:shadow-lg transition-all"
-              >
-                <div className="relative aspect-square bg-[#F0F2FA]">
-                  <Image
-                    src={hit.photo}
-                    alt={hit.name}
-                    fill
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    className="object-contain p-3"
-                    unoptimized={isProxiedImage(hit.photo)}
-                  />
-                </div>
-                <div className="p-4">
-                  <div className="text-[10px] uppercase tracking-wider text-[#9AA3C2] font-bold">
-                    {hit.brand}
-                  </div>
-                  <div className="text-sm font-bold text-[#1a1a2e] line-clamp-2 mt-0.5 min-h-[2.5rem]">
-                    {hit.name}
-                  </div>
-                  <div className="mt-1 flex items-baseline gap-2 flex-wrap">
-                    {hit.originalPriceWithVat && hit.originalPriceWithVat > hit.priceWithVat && (
-                      <span className="text-xs text-[#9AA3C2] line-through">
-                        {formatPrice(hit.originalPriceWithVat)}
-                      </span>
-                    )}
-                    <span
-                      className={`text-base font-black ${
-                        hit.originalPriceWithVat && hit.originalPriceWithVat > hit.priceWithVat
-                          ? "text-[#E8431A]"
-                          : "text-[#1a1a2e]"
-                      }`}
-                    >
-                      {formatPrice(hit.priceWithVat)}
-                    </span>
-                  </div>
-                </div>
-              </Link>
+              <ProductCard key={hit.id} hit={hit} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Doplňky k nálezu — co si k tomu lidi reálně dokupují. Vedle výsledků,
+          ne mezi nimi, ať je jasné, že to není to, co hledali. */}
+      {related.length > 0 && (
+        <section className="mt-12 pt-10 border-t border-[#E2E6F3]">
+          <h2 className="text-xs tracking-[0.14em] uppercase font-bold text-[#9AA3C2] mb-1">
+            K tomu se hodí
+          </h2>
+          <p className="text-sm text-[#5B6478] mb-4">
+            Co si k tomu zákazníci nejčastěji dokupují.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {related.map((hit) => (
+              <ProductCard key={hit.id} hit={hit} />
             ))}
           </div>
         </section>

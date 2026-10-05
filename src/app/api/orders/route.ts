@@ -334,7 +334,14 @@ export async function POST(req: NextRequest) {
   let discountCode: string | undefined;
   if (data.discountCode) {
     const subtotalCheck = data.items.reduce((s, i) => s + i.priceWithVat * i.qty, 0);
-    const v = await validateDiscountCode(data.discountCode, { subtotal: subtotalCheck });
+    const v = await validateDiscountCode(data.discountCode, {
+      subtotal: subtotalCheck,
+      items: data.items.map((i) => ({
+        slug: i.slug,
+        priceWithVat: i.priceWithVat,
+        qty: i.qty,
+      })),
+    });
     if (v.ok) {
       discountAmount = v.discount.amount;
       discountCode = v.discount.code;

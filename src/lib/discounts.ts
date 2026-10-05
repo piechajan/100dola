@@ -4,6 +4,7 @@
 
 import { getSupabase, isSupabaseConfigured } from "./supabase";
 import type { DiscountCodeRow } from "./supabase";
+import { PRODUCTS } from "@/data/products";
 
 export interface AppliedDiscount {
   code: string;
@@ -17,7 +18,31 @@ export interface AppliedDiscount {
 export interface ValidateOptions {
   /** Mezisoučet objednávky vč. DPH (Kč). */
   subtotal: number;
+  /**
+   * Řádky košíku. Povinné u kódů s omezeným rozsahem (viz CODE_SCOPES) —
+   * bez nich nejde spočítat, z čeho se sleva počítá. Kategorie se dohledává
+   * na serveru podle slugu, klientovi se v tomhle nevěří.
+   */
+  items?: Array<{ slug: string; priceWithVat: number; qty: number }>;
 }
+
+/**
+ * Kódy omezené jen na část sortimentu.
+ *
+ * Rozsah držíme v kódu, ne v DB: tabulka `discount_codes` sloupec pro rozsah
+ * nemá a přidat ho znamená migraci (ta je Gate). Pro jednorázové kampaňové
+ * kódy je tohle dostatečné — až jich bude víc, přesunout do DB.
+ */
+const CODE_SCOPES: Record<string, { categoryIds: string[]; label: string }> = {
+  // Kampaň „Venku tma a zima", platnost do 11. 10. 2026.
+  // Chytré trenažéry + smart bike T7. Příslušenství (`trenazery-prislusenstvi`
+  // — ventilátor, osy) ve slevě schválně NENÍ: u F1 jsme přesně na mediánu
+  // trhu a slevou bychom si zbytečně ukrojili marži.
+  "100DOLA": {
+    categoryIds: ["trenazery-chytre", "trenazery-smart-bike"],
+    label: "trenažéry a smart bike",
+  },
+};
 
 export type DiscountValidation =
   | { ok: true; discount: AppliedDiscount }
@@ -69,14 +94,32 @@ export async function validateDiscountCode(
       };
     }
 
+    // Základ pro výpočet slevy. U kódů s omezeným rozsahem je to jen ta část
+    // košíku, která do rozsahu patří — ne celý mezisoučet.
+    let base = opts.subtotal;
+    const scope = CODE_SCOPES[normalized];
+    if (scope) {
+      if (!opts.items) {
+        return { ok: false, error: "Tento kód jde uplatnit až v košíku." };
+      }
+      base = opts.items.reduce((sum, i) => {
+        const p = PRODUCTS.find((x) => x.slug === i.slug);
+        if (!p || !scope.categoryIds.includes(p.categoryId)) return sum;
+        return sum + i.priceWithVat * i.qty;
+      }, 0);
+      if (base <= 0) {
+        return { ok: false, error: `Kód platí jen na ${scope.label}.` };
+      }
+    }
+
     let amount: number;
     if (row.type === "percent") {
-      amount = Math.round((opts.subtotal * row.value) / 100);
+      amount = Math.round((base * row.value) / 100);
     } else {
       amount = row.value;
     }
-    // Nikdy větší než subtotal
-    amount = Math.min(amount, opts.subtotal);
+    // Nikdy větší než základ, na který se kód vztahuje
+    amount = Math.min(amount, base);
 
     return {
       ok: true,

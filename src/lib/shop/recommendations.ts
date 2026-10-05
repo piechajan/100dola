@@ -40,10 +40,19 @@ export const SYNERGY_MAP: Record<string, string[]> = {
   "pece-myti": ["pece-retez", "pece-ram"],
   "pece-retez": ["pece-myti", "vyziva-iontaky"],
 
-  // Trenažéry — co k nim člověk reálně potřebuje dokoupit
-  "trenazery-chytre": ["trenazery-prislusenstvi", "servis-retez", "plastre-silnicni"],
-  "trenazery-smart-bike": ["trenazery-prislusenstvi", "servis-retez"],
-  "trenazery-prislusenstvi": ["trenazery-chytre", "servis-retez"],
+  // Trenažéry — co k nim člověk reálně potřebuje dokoupit.
+  // Pořadí = priorita: nejdřív to, bez čeho trenažér nerozjede (osy, kazeta,
+  // voskovaný řetěz), pak komfort (ventilátor), pak to, co stejně kupuje
+  // k zimnímu tréninku (ionťák, kompresor, blikačky na ven).
+  "trenazery-chytre": [
+    "trenazery-prislusenstvi",
+    "servis-retez",
+    "vyziva-iontaky",
+    "pumpy-elektricke",
+    "osvetleni",
+  ],
+  "trenazery-smart-bike": ["trenazery-prislusenstvi", "servis-retez", "vyziva-iontaky", "osvetleni"],
+  "trenazery-prislusenstvi": ["trenazery-chytre", "servis-retez", "vyziva-iontaky"],
 
   // Servis řetězu — vosk, voskovačka, nový řetěz
   "servis-retez": ["trenazery-chytre", "pece-retez"],
@@ -90,6 +99,47 @@ export function recommendForProduct(
     return [...picked, ...rest];
   }
   return recommendByRules(source, catalog, limit);
+}
+
+/**
+ * Doporučení pro CELOU sadu výsledků vyhledávání, ne pro jeden produkt.
+ *
+ * Když někdo hledá „trenažer", nechceme pod výsledky další trenažéry — chceme
+ * to, co si k němu stejně bude muset dokoupit (osa, kazeta, voskovaný řetěz,
+ * ventilátor) a co k zimnímu tréninku patří (ionťák, kompresor, blikačky).
+ *
+ * Kategorie se berou ze SYNERGY_MAP nalezených produktů; cokoliv, co už je
+ * mezi výsledky, se vyhodí — jinak by se pruh duplikoval s tím nad ním.
+ */
+export function recommendForResultSet(
+  found: Product[],
+  catalog: Product[],
+  limit = 8,
+): Product[] {
+  if (found.length === 0) return [];
+
+  const foundIds = new Set(found.map((p) => p.id));
+  const foundCats = new Set(found.map((p) => p.categoryId));
+
+  // Cílové kategorie v pořadí priority, bez duplicit a bez těch, co už máme.
+  const targets: string[] = [];
+  for (const p of found) {
+    for (const t of SYNERGY_MAP[p.categoryId] ?? []) {
+      if (!foundCats.has(t) && !targets.includes(t)) targets.push(t);
+    }
+  }
+  if (targets.length === 0) return [];
+
+  // Dřívější cílová kategorie = vyšší priorita. V rámci kategorie bereme
+  // levnější první — doplněk k nákupu, ne další velká investice.
+  const rank = new Map(targets.map((t, i) => [t, i]));
+  return catalog
+    .filter((p) => !foundIds.has(p.id) && rank.has(p.categoryId) && !p.hasConfigurator)
+    .sort((a, b) => {
+      const d = (rank.get(a.categoryId) ?? 99) - (rank.get(b.categoryId) ?? 99);
+      return d !== 0 ? d : a.priceWithVat - b.priceWithVat;
+    })
+    .slice(0, limit);
 }
 
 function recommendByRules(

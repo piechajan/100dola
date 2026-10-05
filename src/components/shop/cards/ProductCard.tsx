@@ -59,7 +59,7 @@ export default function ProductCard({ product }: { product: Product }) {
           src={product.photo}
           alt={product.name}
           fill
-          className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+          className="object-contain p-2 transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           unoptimized={isProxiedImage(product.photo)}
         />

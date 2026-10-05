@@ -128,7 +128,17 @@ export default function CheckoutForm() {
       const res = await fetch("/api/discounts/validate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code, subtotal: subtotalWithVat }),
+        body: JSON.stringify({
+          code,
+          subtotal: subtotalWithVat,
+          // Kódy omezené na část sortimentu (např. jen trenažéry) potřebují
+          // vědět, z čeho se sleva počítá. Server si kategorii stejně dohledá sám.
+          items: items.map((i) => ({
+            slug: i.slug,
+            priceWithVat: i.priceWithVat,
+            qty: i.qty,
+          })),
+        }),
       });
       const data = await res.json();
       if (data.ok) {

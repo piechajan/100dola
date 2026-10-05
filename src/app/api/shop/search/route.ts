@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { PRODUCTS } from "@/data/products";
+import { recommendForResultSet } from "@/lib/shop/recommendations";
 import {
   defaultPublicSlug,
   wrapSupplierImage,
@@ -21,6 +22,39 @@ interface SearchHit {
 }
 
 /**
+ * Shodí diakritiku, ať „trenazer" najde „trenažér".
+ *
+ * Lidi do vyhledávání diakritiku většinou nepíšou — bez tohohle vracel dotaz
+ * „trenazer" nula výsledků, zatímco „trenažér" deset. Normalizuje se dotaz
+ * i prohledávaný text, takže to funguje v obou směrech (i když někdo napíše
+ * diakritiku u produktu, který ji v názvu nemá).
+ */
+function deburr(s: string): string {
+  return s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
+}
+
+/**
+ * Shoda dotazu proti textu produktu.
+ *
+ * Nestačí prosté `includes` celého dotazu — „chytry trenazer" by neprošlo,
+ * protože ta dvě slova nejsou v názvu vedle sebe. Dotaz se proto rozpadne na
+ * slova a každé musí sedět samostatně.
+ *
+ * Česká koncovka se řeší zkrácením, ne stemmerem: „trenazery" se zkusí i jako
+ * „trenazer". Na dvě písmena to stačí („trenazeru", „trenazerum") a nehrozí,
+ * že by se krátká slova rozpadla na nesmysl — zkracujeme až od pěti znaků.
+ */
+function matchesQuery(hay: string, tokens: string[]): boolean {
+  return tokens.every((t) => {
+    if (hay.includes(t)) return true;
+    for (let cut = 1; cut <= 2; cut++) {
+      if (t.length - cut >= 4 && hay.includes(t.slice(0, -cut))) return true;
+    }
+    return false;
+  });
+}
+
+/**
  * GET /api/shop/search?q=<query>
  * Vrací top 8 hitů (vlastní + supplier merged, ranked podle exact match v name).
  * Bez auth — public endpoint.
@@ -33,15 +67,16 @@ export async function GET(request: Request) {
   // Dropdown volá bez limitu (default 8); stránka výsledků /hledat s vyšším limitem.
   const limit = Math.min(48, Math.max(1, Number(searchParams.get("limit")) || 8));
 
-  const qLower = q.toLowerCase();
+  const qLower = deburr(q);
+  const qTokens = qLower.split(/\s+/).filter(Boolean);
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   // Match i v popisu/specs — aby šlo najít i produkty s cizojazyčným názvem
   // (např. „Sponser Electrolytes" přes české „elektrolyt" v popisu).
   const ownHits: SearchHit[] = PRODUCTS.filter((p) => {
-    const hay = `${p.name} ${p.brand} ${p.note} ${p.specs.join(" ")}`.toLowerCase();
-    return hay.includes(qLower);
+    const hay = deburr(`${p.name} ${p.brand} ${p.note} ${p.specs.join(" ")}`);
+    return matchesQuery(hay, qTokens);
   })
     .slice(0, limit)
     .map((p) => ({
@@ -141,13 +176,14 @@ export async function GET(request: Request) {
     }
   }
 
-  // Rank: exact-name match nahoře, brand match dál
+  // Rank: exact-name match nahoře, brand match dál.
+  // Porovnává se bez diakritiky, aby „trenazer" skórovalo stejně jako „trenažér".
   function score(hit: SearchHit): number {
-    const n = hit.name.toLowerCase();
+    const n = deburr(hit.name);
     if (n === qLower) return 100;
     if (n.startsWith(qLower)) return 80;
     if (n.includes(qLower)) return 60;
-    if (hit.brand.toLowerCase().includes(qLower)) return 40;
+    if (deburr(hit.brand).includes(qLower)) return 40;
     return 0;
   }
 
@@ -160,5 +196,21 @@ export async function GET(request: Request) {
       return rest;
     });
 
-  return Response.json({ hits: merged });
+  // „K tomu se hodí" — doplňky k tomu, co člověk právě našel. Počítá se jen
+  // z vlastního katalogu (u supplier produktů kategorie neznáme spolehlivě).
+  const foundOwn = PRODUCTS.filter((p) =>
+    ownHits.some((h) => h.slug === p.slug),
+  );
+  const related: SearchHit[] = recommendForResultSet(foundOwn, PRODUCTS, 8).map((p) => ({
+    id: `rel:${p.id}`,
+    slug: p.slug,
+    name: p.name,
+    brand: p.brand,
+    priceWithVat: p.priceWithVat,
+    originalPriceWithVat: p.originalPriceWithVat,
+    photo: p.photo,
+    kind: "own" as const,
+  }));
+
+  return Response.json({ hits: merged, related });
 }

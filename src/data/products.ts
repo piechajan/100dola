@@ -1003,13 +1003,47 @@ export const PRODUCTS: Product[] = [
     priceWithVat: 152870,
     vatRate: 21,
     bulky: true,
-    badges: ["Novinka 2027", "Poslední kusy"],
+    badges: ["Novinka 2027", "Skladem"],
     note: "Gravel elektrokolo, které nevypadá jako elektrokolo. Karbonový rám, 14,3 kg a motor TQ, o kterém většina lidí ani nepozná, že tam je — dokud nezačne kopec.",
-    photo: "/media/products/scott-solace-gravel-30-1.webp",
+    photo: "/media/products/scott-solace-gravel-30-cream.webp",
     gallery: [
-      "/media/products/scott-solace-gravel-30-1.webp",
+      "/media/products/scott-solace-gravel-30-cream.webp",
       "/media/products/scott-solace-gravel-30-2.webp",
       "/media/products/scott-solace-gravel-30-3.webp",
+      "/media/products/scott-solace-gravel-30-4.webp",
+      "/media/products/scott-solace-gravel-30-5.webp",
+    ],
+    colorOptions: [
+      {
+        name: "Cream green / Grove green",
+        hex: "#CFE0BE",
+        photo: "/media/products/scott-solace-gravel-30-cream.webp",
+      },
+      {
+        name: "Carbon black",
+        hex: "#2B2B2E",
+        photo: "/media/products/scott-solace-gravel-30-black.webp",
+      },
+      {
+        name: "Mineral pink / Flint purple",
+        hex: "#8A5F72",
+        photo: "/media/products/scott-solace-gravel-30-pink.webp",
+      },
+    ],
+    // Dostupnost ověřená v B2B SPORT PORT 5. 10. 2026. Velikosti, které dodavatel
+    // nemá a neumí doobjednat, tu schválně nejsou — ať je nenabízíme naprázdno.
+    // `isInStock` = fyzicky k dispozici (zbytek = na objednávku).
+    //
+    // Jednorázová výjimka: cream green XS má portál na 0 ks, ale kolo u dodavatele
+    // je — Jan k němu posílá odkaz konkrétnímu zákazníkovi. Až bude obchod
+    // uzavřený, řádek se vrací na stav podle portálu. Platí jen pro tenhle řádek.
+    variants: [
+      { size: "XS", color: "Cream green / Grove green", isInStock: true },
+      { size: "S", color: "Cream green / Grove green", isInStock: true },
+      { size: "S", color: "Carbon black", isInStock: false },
+      { size: "M", color: "Carbon black", isInStock: true },
+      { size: "L", color: "Carbon black", isInStock: true },
+      { size: "M", color: "Mineral pink / Flint purple", isInStock: false },
     ],
     specs: ["TQ HPR60, 60 Nm", "Baterie 360 Wh + rozšíření", "14,3 kg, karbon HMX"],
     ebikeBatteryWh: 360,
@@ -1031,15 +1065,13 @@ export const PRODUCTS: Product[] = [
       { label: "Sedlovka", value: "Syncros Duncan 1.0 iL, D-shape" },
       { label: "Sedlo", value: "Syncros Tofino R 2.0 Cut-out" },
       { label: "Hmotnost", value: "cca 14,3 kg" },
-      { label: "Velikosti", value: "XS, S, M, L, XL" },
-      { label: "Barva", value: "Cream green / Grove green" },
+      { label: "Velikosti", value: "XS, S, M, L, XL (podle barvy — viz výběr výše)" },
+      { label: "Barvy", value: "Cream green/Grove green, Carbon black, Mineral pink/Flint purple" },
       { label: "Maximální celková hmotnost", value: "120 kg (kolo + jezdec + výbava)" },
       { label: "Pedály", value: "Nejsou součástí" },
     ],
     relatedSlugs: ["navoskovani-retezu", "cycplus-as2-pro", "silca-super-secret-120ml", "cycplus-t2h"],
     fulfillment: "supplier",
-    stockStatus: "on_request",
-    deliveryNote: "Dostupnost ověřujeme u dodavatele — poslední kusy. Ozveme se do 24 hodin s potvrzením velikosti a termínu.",
   },
   {
     id: 9600,
