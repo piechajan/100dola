@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 
@@ -188,24 +189,28 @@ export default function TrenazeryVirtualniAplikace() {
             {[
               {
                 href: "/shop/cycplus-r200",
+                photo: "/media/products/cycplus-r200-1.webp",
                 name: "CYCPLUS R200",
                 price: "11 249 Kč",
                 for: "Začínáte s trenažérem a nechcete utopit majlant. Přesnost ±1 % máte stejnou jako u dražších.",
               },
               {
                 href: "/shop/cycplus-t2h",
+                photo: "/media/products/cycplus-t2h-1.webp",
                 name: "CYCPLUS T2H",
                 price: "14 990 Kč",
                 for: "Nejlepší poměr v nabídce. 85 Nm a stoupání do 20 % utáhne i těžší intervaly.",
               },
               {
                 href: "/shop/cycplus-t2",
+                photo: "/media/products/cycplus-t2-1.webp",
                 name: "CYCPLUS T2",
                 price: "19 990 Kč",
                 for: "Výkyv do stran 8° a provoz bez zásuvky. Nejrealističtější pocit z jízdy za rozumné peníze.",
               },
               {
                 href: "/shop/cycplus-t3",
+                photo: "/media/products/cycplus-t3-1.webp",
                 name: "CYCPLUS T3",
                 price: "27 490 Kč",
                 for: "Stoupání do 27 % a měření rovnováhy levé a pravé nohy. Pro trénink podle dat.",
@@ -214,29 +219,56 @@ export default function TrenazeryVirtualniAplikace() {
               <Link
                 key={t.href}
                 href={t.href}
-                className="block rounded-2xl border border-[#E2E6F3] p-5 hover:border-[#3B7CF4] transition"
+                className="flex gap-4 rounded-2xl border border-[#E2E6F3] p-4 hover:border-[#3B7CF4] transition"
               >
-                <div className="flex items-baseline justify-between gap-3 mb-2">
-                  <span className="font-black text-[#1a1a2e]">{t.name}</span>
-                  <span className="text-sm font-bold text-[#3B7CF4] whitespace-nowrap">
-                    {t.price}
-                  </span>
+                <div className="relative w-[88px] h-[88px] shrink-0 rounded-xl bg-[#F7F9FC] overflow-hidden">
+                  <Image
+                    src={t.photo}
+                    alt={`${t.name} — chytrý cyklistický trenažér`}
+                    fill
+                    sizes="88px"
+                    className="object-contain p-1.5"
+                  />
                 </div>
-                <p className="text-sm text-[#5A6480] leading-relaxed">{t.for}</p>
+                <div className="min-w-0">
+                  <div className="flex items-baseline justify-between gap-3 mb-1">
+                    <span className="font-black text-[#1a1a2e]">{t.name}</span>
+                    <span className="text-sm font-bold text-[#3B7CF4] whitespace-nowrap">
+                      {t.price}
+                    </span>
+                  </div>
+                  <p className="text-sm text-[#5A6480] leading-relaxed">{t.for}</p>
+                </div>
               </Link>
             ))}
           </div>
-          <p className="text-sm text-[#8A94AB] leading-relaxed mt-4">
-            K tomu se hodí{" "}
-            <Link
-              href="/shop/cycplus-f1-ventilator"
-              className="font-bold text-[#3B7CF4] underline underline-offset-2"
-            >
-              ventilátor F1
-            </Link>
-            , který fouká podle vašeho tepu — bez chlazení je hodina na trenažéru
-            výrazně těžší, než musí být.
-          </p>
+
+          <Link
+            href="/shop/cycplus-f1-ventilator"
+            className="mt-4 flex gap-4 rounded-2xl border border-[#E2E6F3] p-4 hover:border-[#3B7CF4] transition"
+          >
+            <div className="relative w-[88px] h-[88px] shrink-0 rounded-xl bg-[#F7F9FC] overflow-hidden">
+              <Image
+                src="/media/products/cycplus-f1-1.webp"
+                alt="CYCPLUS F1 — elektronicky řízený ventilátor pro indoor trénink"
+                fill
+                sizes="88px"
+                className="object-contain p-1.5"
+              />
+            </div>
+            <div className="min-w-0">
+              <div className="flex items-baseline justify-between gap-3 mb-1">
+                <span className="font-black text-[#1a1a2e]">CYCPLUS F1</span>
+                <span className="text-sm font-bold text-[#3B7CF4] whitespace-nowrap">
+                  5 799 Kč
+                </span>
+              </div>
+              <p className="text-sm text-[#5A6480] leading-relaxed">
+                Ventilátor, který fouká podle vašeho tepu. Bez chlazení je hodina
+                na trenažéru výrazně těžší, než musí být.
+              </p>
+            </div>
+          </Link>
         </section>
 
         <section className="mb-12">
