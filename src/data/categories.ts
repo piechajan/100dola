@@ -215,6 +215,15 @@ export const categories: TopCategory[] = [
         ],
       },
       {
+        id: "trenazery",
+        name: "Trenažéry",
+        children: [
+          { id: "trenazery-chytre", name: "Chytré trenažéry" },
+          { id: "trenazery-smart-bike", name: "Smart Bike" },
+          { id: "trenazery-prislusenstvi", name: "Příslušenství" },
+        ],
+      },
+      {
         id: "pumpy",
         name: "Pumpy & kompresory",
         children: [

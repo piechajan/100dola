@@ -32,6 +32,7 @@ import OchranaLakuPPF from "@/components/articles/OchranaLakuPPF";
 import CestovaniSKolemMalaga from "@/components/articles/CestovaniSKolemMalaga";
 import ScottKarbony from "@/components/articles/ScottKarbony";
 import TlakVPlastichSilnicni from "@/components/articles/TlakVPlastichSilnicni";
+import TrenazeryVirtualniAplikace from "@/components/articles/TrenazeryVirtualniAplikace";
 
 const SITE = "https://www.100dola.com";
 
@@ -93,6 +94,7 @@ const RENDERERS: Record<string, () => React.ReactElement> = {
   "cestovani-s-kolem-malaga": () => <CestovaniSKolemMalaga />,
   "scott-karbony-hmf-hmx-hmx-sl": () => <ScottKarbony />,
   "tlak-v-plastich-silnicni-kolo": () => <TlakVPlastichSilnicni />,
+  "trenazery-a-virtualni-aplikace": () => <TrenazeryVirtualniAplikace />,
 };
 
 export default async function ArticleDetailPage({

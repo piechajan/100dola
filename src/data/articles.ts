@@ -46,6 +46,19 @@ export const CATEGORY_COLOR: Record<ArticleCategory, string> = {
 
 export const ARTICLES: Article[] = [
   {
+    slug: "trenazery-a-virtualni-aplikace",
+    title: "Chytré trenažéry a virtuální aplikace: Zwift, Rouvy, MyWhoosh",
+    summary:
+      "Co znamená FE-C a FTMS, proč nekupujete uzamčený ekosystém a která ze tří největších aplikací sedne vám. Plus který model podle toho, jak trénujete.",
+    category: "sport",
+    publishedAt: "2026-10-05",
+    author: { name: "Jan Piecha", role: "100dola sport" },
+    image: "/media/articles/trenazery-virtualni-aplikace.webp",
+    heroImage: "/media/articles/trenazery-virtualni-aplikace-hero.webp",
+    status: "published",
+    readMinutes: 7,
+  },
+  {
     slug: "tlak-v-plastich-silnicni-kolo",
     title: "Tlak v pláštích na silničce: tabulka podle váhy a šířky pláště",
     summary:
