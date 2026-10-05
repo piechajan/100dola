@@ -100,7 +100,7 @@ export default function TrenazeryVirtualniAplikace() {
           <div className="space-y-3">
             {[
               ["Bluetooth (BLE)", "Spojení s telefonem, tabletem nebo počítačem. Nejjednodušší cesta — nic navíc nekupujete."],
-              ["ANT+", "Starší, ale extrémně spolehlivý standard. Používají ho cyklopočítače Garmin a Wahoo. Na počítači potřebujete USB klíčenku."],
+              ["ANT+", "Starší, ale extrémně spolehlivý standard. Používají ho cyklopočítače Garmin a Wahoo. Na počítači potřebujete USB adaptér (malý přijímač do USB portu)."],
               ["FE-C", "Nástavba nad ANT+, která umožňuje aplikaci trenažér OVLÁDAT, ne jen číst data. Tohle je ta důležitá zkratka."],
               ["FTMS", "To samé co FE-C, ale po Bluetooth. Dnešní standard, který podporují všechny velké aplikace."],
             ].map(([k, v]) => (
@@ -148,13 +148,13 @@ export default function TrenazeryVirtualniAplikace() {
                     "Zwift",
                     "Herní svět, animovaný",
                     "Kdo chce jezdit s lidmi — hromadné starty, závody, skupinovky prakticky nonstop",
-                    "Předplatné. Nejvíc lidí online, takže na doják nikdy nejste sami",
+                    "Předplatné jen pro jednoho — rodinný tarif Zwift nemá. Zato je tu nejvíc lidí online, takže na doják nikdy nejste sami",
                   ],
                   [
                     "Rouvy",
                     "Reálné video z tratí",
                     "Kdo si chce projet konkrétní stoupání nebo trénovat na závod, který ho čeká",
-                    "Předplatné. Česká aplikace, trasy včetně domácích kopců",
+                    "Česká aplikace, trasy včetně domácích kopců. Jako jediná má sdílené tarify — ve dvou i pro pět jezdců vyjde na osobu zlomek",
                   ],
                   [
                     "MyWhoosh",
