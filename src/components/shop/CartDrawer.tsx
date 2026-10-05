@@ -97,7 +97,7 @@ export default function CartDrawer() {
   const remove = useCart((s) => s.remove);
   const [showCrossSell, setShowCrossSell] = useState(false);
 
-  const { subtotalWithVat, totalItems, hasBulky } = getCartTotals(items);
+  const { subtotalWithVat, totalItems, hasBulky, savedVsRecommended } = getCartTotals(items);
 
   // Lock body scroll when drawer is open
   useEffect(() => {
@@ -280,6 +280,16 @@ export default function CartDrawer() {
                 <span className="text-sm text-[#5A6480]">Mezisoučet (s DPH)</span>
                 <span className="text-xl font-black text-[#1a1a2e]">{formatPrice(subtotalWithVat)}</span>
               </div>
+              {savedVsRecommended > 0 && (
+                <div className="flex items-center justify-between -mt-2 rounded-xl bg-[#F0FDF4] border border-[#A7F3D0] px-3 py-2">
+                  <span className="text-xs font-bold text-[#065F46]">
+                    Ušetříš proti doporučeným cenám
+                  </span>
+                  <span className="text-sm font-black text-[#065F46]">
+                    −{formatPrice(savedVsRecommended)}
+                  </span>
+                </div>
+              )}
               <div className="text-[11px] text-[#9AA3C2] -mt-2">
                 Cena dopravy se přidá v dalším kroku.
               </div>

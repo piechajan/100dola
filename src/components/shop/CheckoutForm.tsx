@@ -66,7 +66,8 @@ export default function CheckoutForm() {
   const items = useCart((s) => s.items);
   const clear = useCart((s) => s.clear);
 
-  const { subtotalWithVat, vatAmount, subtotalWithoutVat, hasBulky } = getCartTotals(items);
+  const { subtotalWithVat, vatAmount, subtotalWithoutVat, hasBulky, savedVsRecommended } =
+    getCartTotals(items);
 
   // Form state
   const [name, setName] = useState("");
@@ -668,6 +669,18 @@ export default function CheckoutForm() {
               <span className="text-base font-black text-[#1a1a2e]">Celkem</span>
               <span className="text-xl font-black text-[#1a1a2e]">{formatPrice(total)}</span>
             </div>
+            {/* Celková úspora = rozdíl proti doporučeným cenám + uplatněný kód.
+                Jedno číslo na konci je čitelnější než rozpad po položkách. */}
+            {savedVsRecommended + discountAmount > 0 && (
+              <div className="flex justify-between items-center mt-3 rounded-xl bg-[#F0FDF4] border border-[#A7F3D0] px-3 py-2">
+                <span className="text-xs font-bold text-[#065F46]">
+                  Ušetřil/a jsi proti doporučeným cenám
+                </span>
+                <span className="text-sm font-black text-[#065F46]">
+                  −{formatPrice(savedVsRecommended + discountAmount)}
+                </span>
+              </div>
+            )}
           </div>
 
           <Turnstile onToken={setTurnstileToken} className="mt-4" />

@@ -30,6 +30,12 @@ export interface Product {
   priceWithVat: number;
   /** Volitelná originální cena, pro slevy. */
   originalPriceWithVat?: number;
+  /**
+   * Doporučená cena výrobce (MOC). Není to „původní cena ve slevě" —
+   * u většiny komponent prodáváme trvale pod MOC, abychom byli na trhu.
+   * Slouží jen k vyčíslení úspory v košíku, ne k přeškrtnuté ceně na kartě.
+   */
+  recommendedPriceWithVat?: number;
   /** Sazba DPH v procentech. Default 21 (standardní). */
   vatRate: VatRate;
   /** Velký balík (kola, lyže, snowboardy) — dražší doprava 400 Kč místo 100 Kč. */
@@ -1028,6 +1034,7 @@ export const PRODUCTS: Product[] = [
     brand: "scott",
     categoryId: "elektro",
     priceWithVat: 152870,
+    recommendedPriceWithVat: 155990,
     vatRate: 21,
     bulky: true,
     badges: ["Novinka 2027", "Skladem"],
@@ -1108,6 +1115,7 @@ export const PRODUCTS: Product[] = [
     brand: "sram",
     categoryId: "kazety-silnicni",
     priceWithVat: 2449,
+    recommendedPriceWithVat: 2690,
     vatRate: 21,
     bulky: false,
     badges: ["Skladem"],

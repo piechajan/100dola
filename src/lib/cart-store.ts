@@ -21,6 +21,8 @@ export interface CartItem {
   slug: string;
   name: string;
   priceWithVat: number;
+  /** MOC — pro vyčíslení celkové úspory v košíku. */
+  recommendedPriceWithVat?: number;
   vatRate: number;
   bulky: boolean;
   photo: string;
@@ -96,6 +98,7 @@ export const useCart = create<CartState>()(
                 slug: product.slug,
                 name: product.name,
                 priceWithVat: product.priceWithVat,
+                recommendedPriceWithVat: product.recommendedPriceWithVat,
                 vatRate: product.vatRate,
                 bulky: product.bulky,
                 photo: variant?.photo ?? product.photo,
@@ -165,5 +168,21 @@ export function getCartTotals(items: CartItem[]) {
   );
   const vatAmount = subtotalWithVat - subtotalWithoutVat;
 
-  return { subtotalWithVat, subtotalWithoutVat, vatAmount, totalItems, hasBulky };
+  // Úspora proti doporučeným cenám. Položky bez MOC se počítají svou cenou,
+  // takže nic neumělého nepřidávají — u nich je úspora prostě nula.
+  const recommendedTotal = items.reduce(
+    (sum, i) => sum + (i.recommendedPriceWithVat ?? i.priceWithVat) * i.qty,
+    0,
+  );
+  const savedVsRecommended = Math.max(0, recommendedTotal - subtotalWithVat);
+
+  return {
+    subtotalWithVat,
+    subtotalWithoutVat,
+    vatAmount,
+    totalItems,
+    hasBulky,
+    recommendedTotal,
+    savedVsRecommended,
+  };
 }
