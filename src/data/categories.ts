@@ -27,6 +27,7 @@ export const BRANDS = [
   { id: "continental", name: "Continental",  logo: "/brands/continental.svg" },
   { id: "magicshine",  name: "MagicShine",   logo: "/brands/magicshine.png" },
   { id: "cycplus",     name: "CYCPLUS",      logo: "" },
+  { id: "silca",       name: "SILCA",        logo: "" },
   { id: "muc-off",     name: "Muc-Off",      logo: "/brands/muc-off.png" },
   { id: "sponser",     name: "Sponser",      logo: "/brands/sponser.png" },
 ] as const;
