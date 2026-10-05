@@ -5,6 +5,7 @@ import type { Product } from "@/data/products";
 import { usePdpImage } from "@/lib/pdp-image-store";
 import { swatchBackground } from "@/lib/shop/colors";
 import AddToCartButton from "./AddToCartButton";
+import { PRODUCTS } from "@/data/products";
 import RestockNotifyButton from "./RestockNotifyButton";
 import ProductInquiryButton from "./ProductInquiryButton";
 import SizeGuide from "./SizeGuide";
@@ -32,6 +33,17 @@ export default function PdpBuyBox({
 }) {
   const colors = product.colorOptions ?? [];
   const setPhoto = usePdpImage((s) => s.setPhoto);
+
+  // Voskování řetězu nabízíme ke každému kolu — na novém kole se dělá před
+  // předáním, takže zákazník odjede s čistým a tichým pohonem hned.
+  const isBike =
+    product.categoryId.startsWith("silnicni") ||
+    product.categoryId.startsWith("gravel") ||
+    product.categoryId.startsWith("mtb") ||
+    product.categoryId.startsWith("triatlon");
+  const waxAddOn = isBike
+    ? PRODUCTS.find((p) => p.slug === "navoskovani-retezu-k-novemu-kolu")
+    : undefined;
   // Limitovaný „1 kus": skladová velikost jde koupit, ostatní na dotaz.
   // Po prodeji (soldOut) je na dotaz i skladová velikost.
   const isLimited = product.limitedOneOff === true;
@@ -268,6 +280,8 @@ export default function PdpBuyBox({
           variant={variant}
           disabled={missing}
           disabledLabel={needSize && !sizeLabel ? "Zvol velikost" : "Zvol barvu"}
+          addOn={waxAddOn}
+          addOnLabel="Navoskovat řetěz před předáním"
         />
       )}
 

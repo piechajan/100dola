@@ -14,10 +14,19 @@ interface Props {
   /** Blokace tlačítka, dokud uživatel nezvolí povinnou variantu. */
   disabled?: boolean;
   disabledLabel?: string;
+  /**
+   * Volitelný doplněk se zaškrtávátkem (např. navoskování řetězu ke kolu).
+   * Přidává se do košíku jako SAMOSTATNÁ položka — cena hlavního produktu
+   * se nepřepisuje, server si ji dál počítá z katalogu a zákazník i faktura
+   * vidí, co přesně si objednal.
+   */
+  addOn?: Product;
+  addOnLabel?: string;
 }
 
-export default function AddToCartButton({ product, large, variant, disabled, disabledLabel }: Props) {
+export default function AddToCartButton({ product, large, variant, disabled, disabledLabel, addOn, addOnLabel }: Props) {
   const [qty, setQty] = useState(1);
+  const [withAddOn, setWithAddOn] = useState(false);
   const addToCart = useCart((s) => s.add);
   const openDrawer = useCart((s) => s.openDrawer);
   const [adding, setAdding] = useState(false);
@@ -26,6 +35,7 @@ export default function AddToCartButton({ product, large, variant, disabled, dis
     if (disabled) return;
     setAdding(true);
     addToCart(product, qty, variant);
+    if (addOn && withAddOn) addToCart(addOn, 1);
     openDrawer();
     trackMetaEvent("AddToCart", {
       content_ids: [product.slug],
@@ -51,7 +61,27 @@ export default function AddToCartButton({ product, large, variant, disabled, dis
   };
 
   return (
-    <div className={`flex ${large ? "gap-3" : "gap-2"} items-stretch`}>
+    <div className="flex flex-col gap-3">
+      {addOn && (
+        <label className="flex items-start gap-3 cursor-pointer rounded-2xl border-2 border-[#E2E6F3] hover:border-[#3B7CF4]/50 transition p-3.5">
+          <input
+            type="checkbox"
+            checked={withAddOn}
+            onChange={(e) => setWithAddOn(e.target.checked)}
+            className="mt-0.5 w-4 h-4 accent-[#3B7CF4]"
+          />
+          <span className="text-sm leading-relaxed">
+            <span className="font-bold text-[#1a1a2e]">
+              {addOnLabel ?? addOn.name}
+            </span>{" "}
+            <span className="font-bold text-[#3B7CF4] whitespace-nowrap">
+              +{addOn.priceWithVat.toLocaleString("cs-CZ")} Kč
+            </span>
+            <span className="block text-[#5A6480] mt-0.5">{addOn.note}</span>
+          </span>
+        </label>
+      )}
+      <div className={`flex ${large ? "gap-3" : "gap-2"} items-stretch`}>
       <div className="inline-flex items-stretch border-2 border-[#E2E6F3] rounded-full overflow-hidden">
         <button
           type="button"
@@ -90,6 +120,7 @@ export default function AddToCartButton({ product, large, variant, disabled, dis
           </svg>
         )}
       </button>
+      </div>
     </div>
   );
 }
