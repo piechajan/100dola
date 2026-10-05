@@ -41,8 +41,17 @@ export default function PdpBuyBox({
     product.categoryId.startsWith("gravel") ||
     product.categoryId.startsWith("mtb") ||
     product.categoryId.startsWith("triatlon");
+  // U silničních kol nad 70 000 Kč je voskování zdarma — u takové ceny je to
+  // levný způsob, jak kolo předat připravené, a zákazník to vnímá jako službu,
+  // ne jako další poplatek. U ostatních kol zůstává zvýhodněná cena 400 Kč.
+  const waxFree =
+    product.categoryId.startsWith("silnicni") && product.priceWithVat >= 70000;
   const waxAddOn = isBike
-    ? PRODUCTS.find((p) => p.slug === "navoskovani-retezu-k-novemu-kolu")
+    ? PRODUCTS.find(
+        (p) =>
+          p.slug ===
+          (waxFree ? "navoskovani-retezu-zdarma" : "navoskovani-retezu-k-novemu-kolu"),
+      )
     : undefined;
   // Limitovaný „1 kus": skladová velikost jde koupit, ostatní na dotaz.
   // Po prodeji (soldOut) je na dotaz i skladová velikost.
@@ -281,7 +290,14 @@ export default function PdpBuyBox({
           disabled={missing}
           disabledLabel={needSize && !sizeLabel ? "Zvol velikost" : "Zvol barvu"}
           addOn={waxAddOn}
-          addOnLabel="Navoskovat řetěz před předáním"
+          addOnLabel={
+            waxFree
+              ? "Navoskovat řetěz před předáním — zdarma"
+              : "Navoskovat řetěz před předáním"
+          }
+          // Zdarma = předzaškrtnuté. Kdo o to nestojí, odškrtne; většina
+          // lidí by si jinak bonus nevšimla.
+          addOnDefaultChecked={waxFree}
         />
       )}
 

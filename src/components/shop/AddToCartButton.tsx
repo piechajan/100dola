@@ -22,11 +22,13 @@ interface Props {
    */
   addOn?: Product;
   addOnLabel?: string;
+  /** Předzaškrtnout doplněk — používá se tam, kde je zdarma. */
+  addOnDefaultChecked?: boolean;
 }
 
-export default function AddToCartButton({ product, large, variant, disabled, disabledLabel, addOn, addOnLabel }: Props) {
+export default function AddToCartButton({ product, large, variant, disabled, disabledLabel, addOn, addOnLabel, addOnDefaultChecked = false }: Props) {
   const [qty, setQty] = useState(1);
-  const [withAddOn, setWithAddOn] = useState(false);
+  const [withAddOn, setWithAddOn] = useState(addOnDefaultChecked);
   const addToCart = useCart((s) => s.add);
   const openDrawer = useCart((s) => s.openDrawer);
   const [adding, setAdding] = useState(false);
@@ -74,9 +76,13 @@ export default function AddToCartButton({ product, large, variant, disabled, dis
             <span className="font-bold text-[#1a1a2e]">
               {addOnLabel ?? addOn.name}
             </span>{" "}
-            <span className="font-bold text-[#3B7CF4] whitespace-nowrap">
-              +{addOn.priceWithVat.toLocaleString("cs-CZ")} Kč
-            </span>
+            {addOn.priceWithVat > 0 ? (
+              <span className="font-bold text-[#3B7CF4] whitespace-nowrap">
+                +{addOn.priceWithVat.toLocaleString("cs-CZ")} Kč
+              </span>
+            ) : (
+              <span className="font-bold text-[#065F46] whitespace-nowrap">ZDARMA</span>
+            )}
             <span className="block text-[#5A6480] mt-0.5">{addOn.note}</span>
           </span>
         </label>

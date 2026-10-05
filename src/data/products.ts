@@ -796,6 +796,33 @@ export const PRODUCTS: Product[] = [
     relatedSlugs: ["navoskovani-retezu", "cycplus-t2h", "continental-grand-prix-5000-700x28c"],
   },
   {
+    // Vlastní položka za 0 Kč místo slevy na placené službě: v košíku,
+    // objednávce i na faktuře je pak vidět, že se voskování opravdu dělá —
+    // kdyby to byla jen sleva, na dílně by o tom nikdo nevěděl.
+    // Nabízí se jen u silničních kol nad 70 000 Kč (viz PdpBuyBox).
+    id: 8902,
+    slug: "navoskovani-retezu-zdarma",
+    name: "Navoskování řetězu — zdarma k silničnímu kolu",
+    year: null,
+    brand: "100dola",
+    categoryId: "servis-retez",
+    priceWithVat: 0,
+    vatRate: 21,
+    bulky: false,
+    badges: ["Zdarma"],
+    note: "K silničním kolům nad 70 000 Kč navoskujeme řetěz zdarma ještě před předáním. Odjedete s čistým a tichým pohonem od prvního kilometru.",
+    photo: "/media/products/navoskovani-retezu.webp",
+    specs: ["Zdarma ke kolu nad 70 000 Kč", "Hotové před předáním", "Řetěz vydrží násobně déle"],
+    specTable: [
+      { label: "Pro koho", value: "Zdarma k silničnímu kolu nad 70 000 Kč" },
+      { label: "Běžná cena", value: "499 Kč samostatně, 400 Kč k novému kolu" },
+      { label: "Kdy se dělá", value: "Před předáním kola, takže nepřijdete o jediný kilometr" },
+      { label: "Proč hned u nového", value: "Tovární mazivo je konzervační, ne jízdní. Navoskovaný řetěz od začátku méně opotřebovává kazetu a převodník" },
+      { label: "Údržba", value: "Doplnit zhruba po 300–500 km podle počasí a povrchu" },
+    ],
+    relatedSlugs: ["silca-super-secret-120ml", "navoskovani-retezu", "cycplus-t2h"],
+  },
+  {
     id: 9300,
     slug: "cycplus-r200",
     name: "CYCPLUS R200 — DirectDrive smart trenažér",
