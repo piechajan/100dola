@@ -215,6 +215,13 @@ export const categories: TopCategory[] = [
         ],
       },
       {
+        id: "servis",
+        name: "Servis & péče",
+        children: [
+          { id: "servis-retez", name: "Řetěz a pohon" },
+        ],
+      },
+      {
         id: "trenazery",
         name: "Trenažéry",
         children: [
