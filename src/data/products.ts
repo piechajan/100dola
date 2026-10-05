@@ -78,6 +78,12 @@ export interface Product {
   garmentLength?: "kratke" | "dlouhe";
   /** Volitelné další fotky pro PDP galerii (carousel + thumbs). */
   gallery?: string[];
+  /**
+   * Ruční výběr souvisejících produktů (slugy) — má přednost před pravidly
+   * v recommendations.ts. Použít tam, kde kategoriální synergie netrefí to,
+   * co si zákazník reálně dokupuje.
+   */
+  relatedSlugs?: string[];
   /** Barevné varianty k výběru na PDP (název + hex swatch + foto). */
   colorOptions?: Array<{ name: string; hex?: string; photo: string }>;
   /** Příchutě k výběru na PDP (výživa) — zvolená se propíše do košíku i objednávky. */
@@ -562,6 +568,7 @@ export const PRODUCTS: Product[] = [
       { label: "Kód výrobce", value: "RAPTR12M12X10" },
     ],
     fulfillment: "supplier",
+    relatedSlugs: ["cycplus-t2h", "cycplus-t2", "cycplus-r200", "navoskovani-retezu"],
   },
   {
     id: 9401,
@@ -586,6 +593,7 @@ export const PRODUCTS: Product[] = [
       { label: "Kód výrobce", value: "RAPTR12M12X15" },
     ],
     fulfillment: "supplier",
+    relatedSlugs: ["cycplus-t2h", "cycplus-t2", "cycplus-r200", "navoskovani-retezu"],
   },
   {
     id: 9402,
@@ -609,6 +617,7 @@ export const PRODUCTS: Product[] = [
       { label: "Kód výrobce", value: "RAPTRRFRATBST" },
     ],
     fulfillment: "supplier",
+    relatedSlugs: ["cycplus-t2h", "cycplus-t2", "cycplus-r200", "navoskovani-retezu"],
   },
   {
     id: 9410,
@@ -636,6 +645,7 @@ export const PRODUCTS: Product[] = [
       { label: "Údržba", value: "Doplnit zhruba po 300–500 km podle počasí a povrchu" },
       { label: "Kde", value: "100dola Lab, Šternberk — řetěz můžete i poslat" },
     ],
+    relatedSlugs: ["cycplus-t2h", "continental-grand-prix-5000-700x28c", "cycplus-f1-ventilator", "cycplus-t2"],
   },
   {
     id: 9411,
@@ -659,6 +669,7 @@ export const PRODUCTS: Product[] = [
       { label: "Co získáte", value: "Čistý a tichý pohon na silnici, gravelu i na trenažéru" },
       { label: "Údržba", value: "Doplnit zhruba po 300–500 km podle počasí a povrchu" },
     ],
+    relatedSlugs: ["navoskovani-retezu", "cycplus-t2h", "continental-grand-prix-5000-700x28c"],
   },
   {
     id: 9300,
@@ -692,6 +703,7 @@ export const PRODUCTS: Product[] = [
       { label: "Kazeta", value: "Není součástí balení" },
     ],
     fulfillment: "supplier",
+    relatedSlugs: ["cycplus-f1-ventilator", "navoskovani-retezu", "osa-trenazer-12mm-m12x10", "osa-trenazer-12mm-m12x15"],
   },
   {
     id: 9301,
@@ -726,6 +738,7 @@ export const PRODUCTS: Product[] = [
       { label: "Balení", value: "Podložka pod trenažér součástí" },
     ],
     fulfillment: "supplier",
+    relatedSlugs: ["cycplus-f1-ventilator", "navoskovani-retezu", "osa-trenazer-12mm-m12x10", "osa-trenazer-12mm-m12x15"],
   },
   {
     id: 9302,
@@ -756,6 +769,7 @@ export const PRODUCTS: Product[] = [
       { label: "Kazeta", value: "Není součástí balení" },
     ],
     fulfillment: "supplier",
+    relatedSlugs: ["cycplus-f1-ventilator", "navoskovani-retezu", "osa-trenazer-12mm-m12x10", "osa-trenazer-12mm-m12x15"],
   },
   {
     id: 9303,
@@ -789,6 +803,7 @@ export const PRODUCTS: Product[] = [
       { label: "Hmotnost", value: "19,4 kg" },
     ],
     fulfillment: "supplier",
+    relatedSlugs: ["cycplus-f1-ventilator", "navoskovani-retezu", "osa-trenazer-12mm-m12x10", "osa-trenazer-12mm-m12x15"],
   },
   {
     id: 9304,
@@ -823,6 +838,7 @@ export const PRODUCTS: Product[] = [
     ],
     fulfillment: "supplier",
     stockStatus: "on_request",
+    relatedSlugs: ["cycplus-f1-ventilator", "navoskovani-retezu", "osa-trenazer-12mm-m12x10", "osa-trenazer-12mm-m12x15"],
   },
   {
     id: 9305,
@@ -851,6 +867,7 @@ export const PRODUCTS: Product[] = [
     ],
     fulfillment: "supplier",
     stockStatus: "on_request",
+    relatedSlugs: ["cycplus-t2h", "cycplus-t2", "cycplus-t3", "navoskovani-retezu"],
   },
   {
     id: 9200,
@@ -879,6 +896,7 @@ export const PRODUCTS: Product[] = [
       { label: "Barva", value: "Černá" },
       { label: "Kód výrobce", value: "0101624" },
     ],
+    relatedSlugs: ["cycplus-as2-pro", "cycplus-as2-ultra", "navoskovani-retezu", "magicshine-airro-mini"],
   },
   {
     id: 9201,
@@ -907,6 +925,7 @@ export const PRODUCTS: Product[] = [
       { label: "Barva", value: "Černá" },
       { label: "Kód výrobce", value: "0101625" },
     ],
+    relatedSlugs: ["cycplus-as2-pro", "cycplus-as2-ultra", "navoskovani-retezu", "magicshine-airro-mini"],
   },
   {
     id: 9202,
@@ -935,6 +954,7 @@ export const PRODUCTS: Product[] = [
       { label: "Barva", value: "Černá" },
       { label: "Kód výrobce", value: "0101813" },
     ],
+    relatedSlugs: ["cycplus-as2-pro", "cycplus-as2-ultra", "navoskovani-retezu", "magicshine-airro-mini"],
   },
   {
     id: 9101,
@@ -969,6 +989,7 @@ export const PRODUCTS: Product[] = [
     ],
     fulfillment: "own",
     stockStatus: "on_request",
+    relatedSlugs: ["continental-grand-prix-5000-700x28c", "continental-grand-prix-5000-700x30c", "continental-grand-prix-5000-700x32c", "navoskovani-retezu"],
   },
   {
     id: 9102,
@@ -1003,6 +1024,7 @@ export const PRODUCTS: Product[] = [
     ],
     fulfillment: "own",
     stockStatus: "on_request",
+    relatedSlugs: ["continental-grand-prix-5000-700x28c", "continental-grand-prix-5000-700x30c", "continental-grand-prix-5000-700x32c", "navoskovani-retezu"],
   },
   {
     id: 9103,
@@ -1036,6 +1058,7 @@ export const PRODUCTS: Product[] = [
     ],
     fulfillment: "own",
     stockStatus: "on_request",
+    relatedSlugs: ["continental-grand-prix-5000-700x28c", "continental-grand-prix-5000-700x30c", "continental-grand-prix-5000-700x32c", "navoskovani-retezu"],
   },
   {
     id: 3,

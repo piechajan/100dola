@@ -221,13 +221,13 @@ export default function TrenazeryVirtualniAplikace() {
                 href={t.href}
                 className="flex gap-4 rounded-2xl border border-[#E2E6F3] p-4 hover:border-[#3B7CF4] transition"
               >
-                <div className="relative w-[88px] h-[88px] shrink-0 rounded-xl bg-[#F7F9FC] overflow-hidden">
+                <div className="relative w-[96px] h-[96px] shrink-0">
                   <Image
                     src={t.photo}
                     alt={`${t.name} — chytrý cyklistický trenažér`}
                     fill
                     sizes="88px"
-                    className="object-contain p-1.5"
+                    className="object-contain"
                   />
                 </div>
                 <div className="min-w-0">
@@ -247,13 +247,13 @@ export default function TrenazeryVirtualniAplikace() {
             href="/shop/cycplus-f1-ventilator"
             className="mt-4 flex gap-4 rounded-2xl border border-[#E2E6F3] p-4 hover:border-[#3B7CF4] transition"
           >
-            <div className="relative w-[88px] h-[88px] shrink-0 rounded-xl bg-[#F7F9FC] overflow-hidden">
+            <div className="relative w-[96px] h-[96px] shrink-0">
               <Image
                 src="/media/products/cycplus-f1-1.webp"
                 alt="CYCPLUS F1 — elektronicky řízený ventilátor pro indoor trénink"
                 fill
                 sizes="88px"
-                className="object-contain p-1.5"
+                className="object-contain"
               />
             </div>
             <div className="min-w-0">
@@ -275,26 +275,71 @@ export default function TrenazeryVirtualniAplikace() {
           <h2 className="text-2xl md:text-3xl font-black text-[#1a1a2e] mb-4">
             Na co lidi narazí při prvním zapojení
           </h2>
-          <ol className="space-y-3 text-base text-[#5A6480]">
+          <ol className="space-y-4 text-base text-[#5A6480]">
             <li>
-              <strong className="text-[#1a1a2e]">Chybí kazeta.</strong> Direct-drive
-              trenažér ji nemá v balení. Buď si koupíte druhou, nebo budete
-              přendávat tu z kola — a to vás po třetí jízdě přestane bavit.
+              <strong className="text-[#1a1a2e]">1. Chybí kazeta.</strong>{" "}
+              Direct-drive trenažér ji nemá v balení. Buď si koupíte druhou,
+              nebo budete přendávat tu z kola — a to vás po třetí jízdě přestane
+              bavit.{" "}
+              <Link
+                href="/kontakt"
+                className="font-bold text-[#3B7CF4] underline underline-offset-2"
+              >
+                Napište nám, jakou máte sadu
+              </Link>{" "}
+              a kazetu doobjednáme ve správném odstupňování.
             </li>
             <li>
-              <strong className="text-[#1a1a2e]">Nesedí osa.</strong> Trenažér má
-              adaptéry na rychloupínák i pevnou osu, ale u některých rámů (Focus
-              R.A.T. a podobné) potřebujete specifický adaptér.
+              <strong className="text-[#1a1a2e]">2. Nesedí osa.</strong>{" "}
+              Trenažér má adaptéry na rychloupínák i pevnou osu, ale u některých
+              rámů potřebujete specifickou.{" "}
+              <Link
+                href="/shop/osa-trenazer-12mm-m12x10"
+                className="font-bold text-[#3B7CF4] underline underline-offset-2"
+              >
+                M12 × 1.0
+              </Link>
+              ,{" "}
+              <Link
+                href="/shop/osa-trenazer-12mm-m12x15"
+                className="font-bold text-[#3B7CF4] underline underline-offset-2"
+              >
+                M12 × 1.5
+              </Link>{" "}
+              i{" "}
+              <Link
+                href="/shop/osa-trenazer-focus-rat-boost"
+                className="font-bold text-[#3B7CF4] underline underline-offset-2"
+              >
+                Focus R.A.T. BOOST
+              </Link>{" "}
+              máme skladem. Druhá osa navíc znamená, že kolo do trenažéru jen
+              zacvaknete.
             </li>
             <li>
-              <strong className="text-[#1a1a2e]">Spárováno dvakrát.</strong> Když
-              trenažér připojíte zároveň po Bluetooth i ANT+, aplikace se může
-              chovat podivně. Vyberte jednu cestu.
+              <strong className="text-[#1a1a2e]">3. Spárováno dvakrát.</strong>{" "}
+              Když trenažér připojíte zároveň po Bluetooth i ANT+, aplikace se
+              může chovat podivně. Vyberte jednu cestu.
             </li>
             <li>
-              <strong className="text-[#1a1a2e]">Opotřebení řetězu.</strong> Na
-              trenažéru jedete pořád na stejném převodu a pod zátěží. Řetěz a
-              kazeta jdou dolů rychleji než venku — mazání neošidit.
+              <strong className="text-[#1a1a2e]">4. Opotřebení řetězu.</strong>{" "}
+              Na trenažéru jedete pořád na stejném převodu a pod zátěží, takže
+              řetěz i kazeta jdou dolů rychleji než venku. Olej navíc odhazuje
+              mazivo na podlahu a nábytek.{" "}
+              <Link
+                href="/shop/navoskovani-retezu"
+                className="font-bold text-[#3B7CF4] underline underline-offset-2"
+              >
+                Navoskovaný řetěz
+              </Link>{" "}
+              tohle řeší obojí — je suchý na dotek a vydrží 2–3× déle.{" "}
+              <Link
+                href="/clanky/voskovani-retezu"
+                className="font-bold text-[#3B7CF4] underline underline-offset-2"
+              >
+                Jak voskování funguje
+              </Link>
+              .
             </li>
           </ol>
         </section>

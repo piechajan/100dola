@@ -10,16 +10,16 @@ import type { Product } from "@/data/products";
  */
 export const SYNERGY_MAP: Record<string, string[]> = {
   // Kola → pláště, kazety, sedla, helmy, tretry, řídítka
-  "silnicni-aero": ["plastre-silnicni", "helmy-kolo", "tretry-silnicni", "sedla-silnicni", "vyplety-silnicni"],
-  "silnicni-endurance": ["plastre-silnicni", "helmy-kolo", "tretry-silnicni", "sedla-silnicni"],
-  "silnicni-race": ["plastre-silnicni", "vyplety-silnicni", "wattmetry", "helmy-kolo"],
-  "gravel": ["plastre-gravel", "helmy-kolo", "tretry-gravel", "sedla-gravel", "vyplety-gravel"],
-  "gravel-1x": ["plastre-gravel", "helmy-kolo", "tretry-gravel", "sedla-gravel"],
-  "gravel-2x": ["plastre-gravel", "helmy-kolo", "tretry-gravel"],
+  "silnicni-aero": ["plastre-silnicni", "helmy-kolo", "tretry-silnicni", "sedla-silnicni", "vyplety-silnicni", "servis-retez"],
+  "silnicni-endurance": ["plastre-silnicni", "helmy-kolo", "tretry-silnicni", "sedla-silnicni", "servis-retez"],
+  "silnicni-race": ["plastre-silnicni", "vyplety-silnicni", "wattmetry", "helmy-kolo", "servis-retez"],
+  "gravel": ["plastre-gravel", "helmy-kolo", "tretry-gravel", "sedla-gravel", "vyplety-gravel", "servis-retez"],
+  "gravel-1x": ["plastre-gravel", "helmy-kolo", "tretry-gravel", "sedla-gravel", "servis-retez"],
+  "gravel-2x": ["plastre-gravel", "helmy-kolo", "tretry-gravel", "servis-retez"],
   "triatlon": ["plastre-silnicni", "vyplety-triatlon", "wattmetry"],
   "mtb-pevna": ["plastre-mtb", "helmy-kolo", "tretry-mtb"],
-  "mtb-hardtail": ["plastre-mtb", "helmy-kolo", "tretry-mtb"],
-  "mtb-celoodpruzena": ["plastre-mtb", "helmy-kolo", "tretry-mtb"],
+  "mtb-hardtail": ["plastre-mtb", "helmy-kolo", "tretry-mtb", "servis-retez"],
+  "mtb-celoodpruzena": ["plastre-mtb", "helmy-kolo", "tretry-mtb", "servis-retez"],
 
   // Oblečení → komplementární kusy
   "obleceni-dresy": ["obleceni-kalhoty", "obleceni-rukavice-ponozky", "vyziva-iontaky"],
@@ -39,6 +39,19 @@ export const SYNERGY_MAP: Record<string, string[]> = {
   // Péče - po koupi kola = údržba
   "pece-myti": ["pece-retez", "pece-ram"],
   "pece-retez": ["pece-myti", "vyziva-iontaky"],
+
+  // Trenažéry — co k nim člověk reálně potřebuje dokoupit
+  "trenazery-chytre": ["trenazery-prislusenstvi", "servis-retez", "plastre-silnicni"],
+  "trenazery-smart-bike": ["trenazery-prislusenstvi", "servis-retez"],
+  "trenazery-prislusenstvi": ["trenazery-chytre", "servis-retez"],
+
+  // Servis řetězu — vosk, voskovačka, nový řetěz
+  "servis-retez": ["trenazery-chytre", "pece-retez"],
+
+  // Pumpy a pláště se doplňují
+  "pumpy-elektricke": ["plastre-silnicni", "plastre-gravel"],
+  "plastre-silnicni": ["pumpy-elektricke", "servis-retez"],
+  "plastre-gravel": ["pumpy-elektricke", "servis-retez"],
 };
 
 interface ScoredProduct {
@@ -64,11 +77,32 @@ export function recommendForProduct(
   catalog: Product[],
   limit = 4,
 ): Product[] {
+  // Ruční výběr má vždy přednost — u některých produktů dávají smysl jen
+  // konkrétní kusy a žádné kategoriální pravidlo to netrefí.
+  if (source.relatedSlugs?.length) {
+    const bySlug = new Map(catalog.map((p) => [p.slug, p]));
+    const picked = source.relatedSlugs
+      .map((slug) => bySlug.get(slug))
+      .filter((p): p is Product => !!p && p.id !== source.id);
+    if (picked.length >= limit) return picked.slice(0, limit);
+    // doplníme zbytek pravidly, ať karta není poloprázdná
+    const rest = recommendByRules(source, catalog, limit - picked.length, new Set(picked.map((p) => p.id)));
+    return [...picked, ...rest];
+  }
+  return recommendByRules(source, catalog, limit);
+}
+
+function recommendByRules(
+  source: Product,
+  catalog: Product[],
+  limit: number,
+  exclude: Set<number> = new Set(),
+): Product[] {
   const targets = SYNERGY_MAP[source.categoryId] ?? [];
   const targetSet = new Set(targets);
 
   const scored: ScoredProduct[] = catalog
-    .filter((p) => p.id !== source.id)
+    .filter((p) => p.id !== source.id && !exclude.has(p.id))
     .map((p) => {
       const sameBrand = p.brand === source.brand;
       const inSynergy = targetSet.has(p.categoryId);
@@ -84,7 +118,10 @@ export function recommendForProduct(
         score = 60;
         reason = "synergy";
       } else if (sameBrand) {
-        score = 40;
+        // Slabý signál: „stejná značka, jiná kategorie" tahalo k drahým kolům
+        // náhradní díly (kryt baterie, podložky, antipadač). Pod úroveň
+        // „stejná kategorie", ať to nepředbíhá smysluplnější návrhy.
+        score = 15;
         reason = "stejná značka";
       } else if (sameCategory) {
         score = 20;
