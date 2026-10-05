@@ -28,6 +28,7 @@ export const BRANDS = [
   { id: "magicshine",  name: "MagicShine",   logo: "/brands/magicshine.png" },
   { id: "cycplus",     name: "CYCPLUS",      logo: "" },
   { id: "silca",       name: "SILCA",        logo: "" },
+  { id: "sram",        name: "SRAM",         logo: "" },
   { id: "muc-off",     name: "Muc-Off",      logo: "/brands/muc-off.png" },
   { id: "sponser",     name: "Sponser",      logo: "/brands/sponser.png" },
 ] as const;
@@ -213,6 +214,13 @@ export const categories: TopCategory[] = [
           { id: "tretry-silnicni", name: "Silniční" },
           { id: "tretry-gravel", name: "Gravel" },
           { id: "tretry-mtb", name: "MTB" },
+        ],
+      },
+      {
+        id: "kazety",
+        name: "Kazety",
+        children: [
+          { id: "kazety-silnicni", name: "Silniční" },
         ],
       },
       {
