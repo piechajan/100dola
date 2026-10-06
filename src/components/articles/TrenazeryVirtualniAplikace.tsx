@@ -358,17 +358,24 @@ export default function TrenazeryVirtualniAplikace() {
               může chovat podivně. Vyberte jednu cestu.
             </li>
             <li>
-              <strong className="text-[#1a1a2e]">4. Opotřebení řetězu.</strong>{" "}
+              <strong className="text-[#1a1a2e]">4. Opotřebení řetězu a nepořádek doma.</strong>{" "}
               Na trenažéru jedete pořád na stejném převodu a pod zátěží, takže
-              řetěz i kazeta jdou dolů rychleji než venku. Olej navíc odhazuje
-              mazivo na podlahu a nábytek.{" "}
+              řetěz i kazeta jdou dolů rychleji než venku. A olejové mazivo si
+              najde cestu na podlahu, koberec i lýtka — v obýváku to poznáte
+              mnohem dřív než na silnici.{" "}
+              <strong className="text-[#1a1a2e]">
+                Navoskovaný řetěz je suchý na dotek, takže nemaže nic kolem sebe,
+                a vydrží 2–3× déle než s olejem.
+              </strong>{" "}
+              U nás si k trenažéru rovnou vyberete nový řetěz a my ho navoskujeme
+              ještě před odesláním — přijde připravený k nasazení.{" "}
               <Link
-                href="/shop/navoskovani-retezu"
+                href="/kontakt"
                 className="font-bold text-[#3B7CF4] underline underline-offset-2"
               >
-                Navoskovaný řetěz
-              </Link>{" "}
-              tohle řeší obojí — je suchý na dotek a vydrží 2–3× déle.{" "}
+                Napište nám, jakou máte skupinu
+              </Link>
+              , a vybereme správný.{" "}
               <Link
                 href="/clanky/voskovani-retezu"
                 className="font-bold text-[#3B7CF4] underline underline-offset-2"
@@ -388,8 +395,10 @@ export default function TrenazeryVirtualniAplikace() {
             </div>
             <p className="text-base text-[#5A4520] leading-relaxed">
               <strong>Složíme vám trenažér jako balíček</strong> — kazeta ve správném
-              odstupňování, osa přesně na váš rám a navoskovaný řetěz. Přijde to připravené,
-              takže odpadne dohledávání kompatibility i tři objednávky z různých e-shopů.
+              odstupňování, osa přesně na váš rám a <strong>nový řetěz, který u nás
+              navoskujeme</strong> ještě před odesláním. Přijde to připravené, takže odpadne
+              dohledávání kompatibility i tři objednávky z různých e-shopů. A hlavně: doma
+              nebudete mít mastné stopy po koberci a řetěz vydrží násobně déle.
             </p>
             {ACTIVE_PROMO && isPromoLive() && (
               <p className="text-sm text-[#7A5615] mt-2.5">
