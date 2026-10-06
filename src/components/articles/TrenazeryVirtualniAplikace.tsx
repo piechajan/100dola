@@ -284,7 +284,19 @@ export default function TrenazeryVirtualniAplikace() {
               <div className="flex items-baseline justify-between gap-3 mb-1">
                 <span className="font-black text-[#1a1a2e]">CYCPLUS F1</span>
                 <span className="text-sm font-bold text-[#3B7CF4] whitespace-nowrap">
-                  {cenaProduktu("cycplus-f1-ventilator").bezna}
+                  <span className="block">{cenaProduktu("cycplus-f1-ventilator").bezna}</span>
+                  {ACTIVE_PROMO && (
+                    <span className="block text-[11px] font-bold text-[#7A5615]">
+                      {formatPrice(
+                        Math.round(
+                          (PRODUCTS.find((x) => x.slug === "cycplus-f1-ventilator")
+                            ?.priceWithVat ?? 0) *
+                            (1 - ACTIVE_PROMO.percentWithBundle / 100),
+                        ),
+                      )}{" "}
+                      v sadě s trenažérem
+                    </span>
+                  )}
                 </span>
               </div>
               <p className="text-sm text-[#5A6480] leading-relaxed">
