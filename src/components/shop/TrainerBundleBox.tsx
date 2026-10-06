@@ -60,7 +60,7 @@ export default function TrainerBundleBox() {
 
       <div className="p-4">
         <p className="text-sm text-[#5A4520] mb-3.5">
-          Když si vezmeš doplněk, zvedne se sleva kódem{" "}
+          Když si vezmeš ventilátor, zvedne se sleva kódem{" "}
           <strong>{ACTIVE_PROMO.code}</strong> z {ACTIVE_PROMO.percent} % na{" "}
           <strong>{ACTIVE_PROMO.percentWithBundle} % — a to na celou objednávku</strong>.
           Samostatně doplňky jedou za běžnou cenu.
@@ -83,7 +83,7 @@ export default function TrainerBundleBox() {
                   {formatPrice(p.priceWithVat)}
                 </span>
                 <span className="text-sm font-black text-[#7A5615]">
-                  {formatPrice(promoBundleItemPrice(p.priceWithVat))}
+                  {formatPrice(promoBundleItemPrice(p.priceWithVat, p.slug))}
                 </span>
               </div>
             </div>

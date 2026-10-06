@@ -65,7 +65,7 @@ export default function PDPHeroPrice({
             <strong className="text-base">{formatPrice(promoPrice(effective))}</strong>
           </div>
           <div className="text-[11px] text-[#0B7A5A] mt-0.5">
-            Kód zadáš v košíku · platí {promoDeadlineLabel()}. S doplňkem se sleva
+            Kód zadáš v košíku · platí {promoDeadlineLabel()}. S ventilátorem se sleva
             zvedne na {ACTIVE_PROMO.percentWithBundle} %.
           </div>
         </div>
@@ -74,7 +74,7 @@ export default function PDPHeroPrice({
         <div className="mt-2.5 rounded-xl bg-[#FFF7ED] border border-[#FBD38D] px-3 py-2.5">
           <div className="text-sm text-[#7A5615]">
             <strong>Výhodná sada:</strong> s trenažérem za{" "}
-            <strong className="text-base">{formatPrice(promoBundleItemPrice(effective))}</strong>
+            <strong className="text-base">{formatPrice(promoBundleItemPrice(effective, slug))}</strong>
           </div>
           <div className="text-[11px] text-[#8A6520] mt-0.5">
             Kód{" "}

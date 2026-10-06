@@ -405,7 +405,8 @@ export default function TrenazeryVirtualniAplikace() {
                 Do {promoDeadlineLabel()} navíc s kódem{" "}
                 <span className="font-mono font-black">{ACTIVE_PROMO.code}</span> sleva{" "}
                 <strong>{ACTIVE_PROMO.percent} % na trenažér</strong> a{" "}
-                <strong>{ACTIVE_PROMO.percentWithBundle} %, když si vezmete i doplněk</strong>.
+                <strong>{ACTIVE_PROMO.percentWithBundle} %, když si vezmete i ventilátor</strong>
+                {" "}(osa se zlevní o {ACTIVE_PROMO.percent} % jako trenažér).
               </p>
             )}
             <Link

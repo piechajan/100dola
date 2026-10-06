@@ -27,6 +27,11 @@ export interface Promo {
   categoryIds: string[];
   /** Slugy zlevněné jen v sadě s produktem z `categoryIds` — výhodná sada. */
   bundleSlugs: string[];
+  /**
+   * Které z `bundleSlugs` zvedají sazbu na `percentWithBundle` (ventilátor).
+   * Ostatní doplňky (osy — levná položka) se zlevní základní sazbou `percent`.
+   */
+  boostSlugs: string[];
   /** Krátký text do promo lišty. */
   barText: string;
 }
@@ -43,6 +48,7 @@ export const ACTIVE_PROMO: Promo | null = {
     "osa-trenazer-12mm-m12x15",
     "osa-trenazer-focus-rat-boost",
   ],
+  boostSlugs: ["cycplus-f1-ventilator"],
   barText: "až −15 % na trenažéry s kódem",
 };
 
@@ -73,10 +79,17 @@ export function promoPrice(priceWithVat: number): number {
   return Math.round(priceWithVat * (1 - ACTIVE_PROMO.percent / 100));
 }
 
-/** Cena, když je produkt součástí sady (trenažér + doplněk). */
-export function promoBundleItemPrice(priceWithVat: number): number {
+/**
+ * Cena doplňku v sadě s trenažérem. Ventilátor (boost) dostane vyšší sazbu,
+ * osa jen základní — musí odpovídat `boostSlugs` v `lib/discounts.ts`.
+ */
+export function promoBundleItemPrice(priceWithVat: number, slug?: string): number {
   if (!ACTIVE_PROMO) return priceWithVat;
-  return Math.round(priceWithVat * (1 - ACTIVE_PROMO.percentWithBundle / 100));
+  const pct =
+    slug && ACTIVE_PROMO.boostSlugs.includes(slug)
+      ? ACTIVE_PROMO.percentWithBundle
+      : ACTIVE_PROMO.percent;
+  return Math.round(priceWithVat * (1 - pct / 100));
 }
 
 /** „do neděle 11. 10." — pro lidský text v liště a u ceny. */

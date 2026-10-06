@@ -47,6 +47,12 @@ interface CodeScope {
    * vyšší sleva vydělá v absolutní částce víc než trenažér samotný.
    */
   percentWithBundle?: number;
+  /**
+   * Které slugy z `bundleSlugs` zvedají sazbu na `percentWithBundle`.
+   * Ostatní doplňky (osy — levná položka) se jen zlevní stejnou základní sazbou
+   * jako trenažér. Bez tohoto pole zvedá sazbu jakýkoli doplněk.
+   */
+  boostSlugs?: string[];
   label: string;
 }
 
@@ -67,6 +73,8 @@ const CODE_SCOPES: Record<string, CodeScope> = {
       "osa-trenazer-focus-rat-boost",
     ],
     percentWithBundle: 15,
+    // Jen ventilátor zvedá sazbu na 15 %; osa s trenažérem dostane stejných 12 %.
+    boostSlugs: ["cycplus-f1-ventilator"],
     label: "trenažéry a smart bike",
   },
 };
@@ -146,7 +154,10 @@ export async function validateDiscountCode(
           0,
         );
         base += doplnky;
-        if (doplnky > 0 && scope.percentWithBundle) bundlePercent = scope.percentWithBundle;
+        const zvedaSazbu = opts.items.some((i) =>
+          (scope.boostSlugs ?? scope.bundleSlugs!).includes(i.slug),
+        );
+        if (zvedaSazbu && scope.percentWithBundle) bundlePercent = scope.percentWithBundle;
       }
     }
 
