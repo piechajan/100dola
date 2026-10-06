@@ -71,6 +71,10 @@ const CODE_SCOPES: Record<string, CodeScope> = {
       "osa-trenazer-12mm-m12x10",
       "osa-trenazer-12mm-m12x15",
       "osa-trenazer-focus-rat-boost",
+      // Kazety: jen Rival a RED. Force (XG-1270) by po slevě 12 % vyšel pod
+      // nákupem (3 775 Kč vs. 3 782 Kč s DPH z Cykložitného), proto ho vynecháváme.
+      "sram-rival-xg-1250-d1-10-30",
+      "sram-red-xg-1290-e1-10-33",
     ],
     percentWithBundle: 15,
     // Jen ventilátor zvedá sazbu na 15 %; osa s trenažérem dostane stejných 12 %.

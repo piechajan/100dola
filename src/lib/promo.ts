@@ -47,6 +47,8 @@ export const ACTIVE_PROMO: Promo | null = {
     "osa-trenazer-12mm-m12x10",
     "osa-trenazer-12mm-m12x15",
     "osa-trenazer-focus-rat-boost",
+    "sram-rival-xg-1250-d1-10-30",
+    "sram-red-xg-1290-e1-10-33",
   ],
   boostSlugs: ["cycplus-f1-ventilator"],
   barText: "až −15 % na trenažéry s kódem",
