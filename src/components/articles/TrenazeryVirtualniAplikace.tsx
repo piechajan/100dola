@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import { PRODUCTS, formatPrice } from "@/data/products";
-import { ACTIVE_PROMO, promoApplies, promoPrice } from "@/lib/promo";
+import { ACTIVE_PROMO, isPromoLive, promoApplies, promoPrice, promoDeadlineLabel } from "@/lib/promo";
 
 /**
  * Cena se bere z katalogu, ne z textu článku.
@@ -378,6 +378,38 @@ export default function TrenazeryVirtualniAplikace() {
               .
             </li>
           </ol>
+
+          {/* Vyústění sekce: čtenář právě přečetl čtyři problémy, tak mu
+              nabídneme, že je vyřešíme za něj. Prodejní, ale v místě, kde to
+              dává smysl — ne vražené doprostřed textu. */}
+          <div className="mt-6 rounded-2xl border-2 border-[#FBD38D] bg-[#FFFBF5] p-5">
+            <div className="text-[11px] font-black tracking-[0.14em] uppercase text-[#7A5615] mb-2">
+              Nebo to necháte na nás
+            </div>
+            <p className="text-base text-[#5A4520] leading-relaxed">
+              <strong>Složíme vám trenažér jako balíček</strong> — kazeta ve správném
+              odstupňování, osa přesně na váš rám a navoskovaný řetěz. Přijde to připravené,
+              takže odpadne dohledávání kompatibility i tři objednávky z různých e-shopů.
+            </p>
+            {ACTIVE_PROMO && isPromoLive() && (
+              <p className="text-sm text-[#7A5615] mt-2.5">
+                Do {promoDeadlineLabel()} navíc s kódem{" "}
+                <span className="font-mono font-black">{ACTIVE_PROMO.code}</span> sleva{" "}
+                <strong>{ACTIVE_PROMO.percent} % na trenažér</strong> a{" "}
+                <strong>{ACTIVE_PROMO.percentWithBundle} %, když si vezmete i doplněk</strong>.
+              </p>
+            )}
+            <Link
+              href="/kontakt"
+              className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 text-sm font-bold text-white rounded-full bg-[#1a1a2e] hover:opacity-90 transition"
+            >
+              Napište nám, co máte za kolo →
+            </Link>
+            <p className="text-xs text-[#8A6520] mt-2.5">
+              Stačí značka kola a typ řazení. Osu i kazetu ověříme za vás — špatně zvolená
+              osa znamená vracení.
+            </p>
+          </div>
         </section>
 
         {/* Cross-sell Malaga */}
