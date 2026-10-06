@@ -6,6 +6,7 @@ import { usePdpImage } from "@/lib/pdp-image-store";
 import { swatchBackground } from "@/lib/shop/colors";
 import AddToCartButton from "./AddToCartButton";
 import { PRODUCTS } from "@/data/products";
+import TrainerBundleBox from "./TrainerBundleBox";
 import RestockNotifyButton from "./RestockNotifyButton";
 import ProductInquiryButton from "./ProductInquiryButton";
 import SizeGuide from "./SizeGuide";
@@ -300,6 +301,10 @@ export default function PdpBuyBox({
           addOnDefaultChecked={waxFree}
         />
       )}
+
+      {/* Výhodná sada — jen u trenažérů, kde se rozhoduje o nákupu. */}
+      {(product.categoryId === "trenazery-chytre" ||
+        product.categoryId === "trenazery-smart-bike") && <TrainerBundleBox />}
 
       {product.supplierProductId && activeSize && !activeSize.isInStock && (
         <RestockNotifyButton
