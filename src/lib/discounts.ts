@@ -41,6 +41,12 @@ interface CodeScope {
    * Samostatně je kód odmítne.
    */
   bundleSlugs?: string[];
+  /**
+   * Vyšší sazba, když si zákazník vezme i doplněk ze `bundleSlugs`.
+   * Sada jede v jedné krabici, takže dopravu platíme jednou — díky tomu
+   * vyšší sleva vydělá v absolutní částce víc než trenažér samotný.
+   */
+  percentWithBundle?: number;
   label: string;
 }
 
@@ -60,6 +66,7 @@ const CODE_SCOPES: Record<string, CodeScope> = {
       "osa-trenazer-12mm-m12x15",
       "osa-trenazer-focus-rat-boost",
     ],
+    percentWithBundle: 15,
     label: "trenažéry a smart bike",
   },
 };
@@ -117,6 +124,7 @@ export async function validateDiscountCode(
     // Základ pro výpočet slevy. U kódů s omezeným rozsahem je to jen ta část
     // košíku, která do rozsahu patří — ne celý mezisoučet.
     let base = opts.subtotal;
+    let bundlePercent: number | null = null;
     const scope = CODE_SCOPES[normalized];
     if (scope) {
       if (!opts.items) {
@@ -133,16 +141,18 @@ export async function validateDiscountCode(
       }
       // Sada: doplňky se přidají do základu, až když je hlavní produkt v košíku.
       if (scope.bundleSlugs?.length) {
-        base += opts.items.reduce(
+        const doplnky = opts.items.reduce(
           (sum, i) => (scope.bundleSlugs!.includes(i.slug) ? sum + i.priceWithVat * i.qty : sum),
           0,
         );
+        base += doplnky;
+        if (doplnky > 0 && scope.percentWithBundle) bundlePercent = scope.percentWithBundle;
       }
     }
 
     let amount: number;
     if (row.type === "percent") {
-      amount = Math.round((base * row.value) / 100);
+      amount = Math.round((base * (bundlePercent ?? row.value)) / 100);
     } else {
       amount = row.value;
     }
@@ -154,7 +164,7 @@ export async function validateDiscountCode(
       discount: {
         code: row.code,
         type: row.type,
-        value: row.value,
+        value: bundlePercent ?? row.value,
         amount,
         description: row.description || undefined,
       },

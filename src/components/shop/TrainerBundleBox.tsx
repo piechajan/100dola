@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/lib/cart-store";
 import { PRODUCTS, formatPrice, type Product } from "@/data/products";
-import { ACTIVE_PROMO, isPromoLive, promoPrice, promoDeadlineLabel } from "@/lib/promo";
+import { ACTIVE_PROMO, isPromoLive, promoBundleItemPrice, promoDeadlineLabel } from "@/lib/promo";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 
 /** Co nabízíme k trenažéru. Osy tu schválně nejsou — viz komentář níž. */
@@ -60,9 +60,10 @@ export default function TrainerBundleBox() {
 
       <div className="p-4">
         <p className="text-sm text-[#5A4520] mb-3.5">
-          S trenažérem máš na tohle{" "}
-          <strong>−{ACTIVE_PROMO.percent} % s kódem {ACTIVE_PROMO.code}</strong>. Samostatně
-          jedou za běžnou cenu.
+          Když si vezmeš doplněk, zvedne se sleva kódem{" "}
+          <strong>{ACTIVE_PROMO.code}</strong> z {ACTIVE_PROMO.percent} % na{" "}
+          <strong>{ACTIVE_PROMO.percentWithBundle} % — a to na celou objednávku</strong>.
+          Samostatně doplňky jedou za běžnou cenu.
         </p>
 
         {items.map((p) => (
@@ -82,7 +83,7 @@ export default function TrainerBundleBox() {
                   {formatPrice(p.priceWithVat)}
                 </span>
                 <span className="text-sm font-black text-[#7A5615]">
-                  {formatPrice(promoPrice(p.priceWithVat))}
+                  {formatPrice(promoBundleItemPrice(p.priceWithVat))}
                 </span>
               </div>
             </div>

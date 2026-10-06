@@ -13,8 +13,14 @@ import { PRODUCTS } from "@/data/products";
  */
 export interface Promo {
   code: string;
-  /** Sleva v procentech. */
+  /** Základní sleva na trenažér samotný. */
   percent: number;
+  /**
+   * Vyšší sazba na celou objednávku, když si zákazník vezme i doplněk.
+   * Sada jede v jedné krabici, takže dopravu platíme jednou — vyšší sleva
+   * tak vydělá v absolutní částce víc než trenažér samotný.
+   */
+  percentWithBundle: number;
   /** Konec platnosti (lokální čas Praha). */
   endsAt: Date;
   /** Kategorie, na které sleva platí vždy. */
@@ -27,7 +33,8 @@ export interface Promo {
 
 export const ACTIVE_PROMO: Promo | null = {
   code: "100dola",
-  percent: 10,
+  percent: 12,
+  percentWithBundle: 15,
   endsAt: new Date("2026-10-11T23:59:59+02:00"),
   categoryIds: ["trenazery-chytre", "trenazery-smart-bike"],
   bundleSlugs: [
@@ -36,7 +43,7 @@ export const ACTIVE_PROMO: Promo | null = {
     "osa-trenazer-12mm-m12x15",
     "osa-trenazer-focus-rat-boost",
   ],
-  barText: "−10 % na trenažéry s kódem",
+  barText: "až −15 % na trenažéry s kódem",
 };
 
 /** Běží akce právě teď? Po expiraci se všechno samo schová. */
@@ -60,10 +67,16 @@ export function promoBundleOnly(slug: string, now: Date = new Date()): boolean {
   return ACTIVE_PROMO.bundleSlugs.includes(slug);
 }
 
-/** Cena po uplatnění kódu, zaokrouhlená na koruny. */
+/** Cena po uplatnění kódu na samotný produkt. */
 export function promoPrice(priceWithVat: number): number {
   if (!ACTIVE_PROMO) return priceWithVat;
   return Math.round(priceWithVat * (1 - ACTIVE_PROMO.percent / 100));
+}
+
+/** Cena, když je produkt součástí sady (trenažér + doplněk). */
+export function promoBundleItemPrice(priceWithVat: number): number {
+  if (!ACTIVE_PROMO) return priceWithVat;
+  return Math.round(priceWithVat * (1 - ACTIVE_PROMO.percentWithBundle / 100));
 }
 
 /** „do neděle 11. 10." — pro lidský text v liště a u ceny. */
