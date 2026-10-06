@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ShopLayout from "@/components/shop/ShopLayout";
 import ProductViewTracker from "@/components/shop/ProductViewTracker";
+import CategoryViewTracker from "@/components/shop/CategoryViewTracker";
 import HeurekaOcm from "@/components/analytics/HeurekaOcm";
 import PDPGallery from "@/components/shop/PDPGallery";
 import ConfiguratorUI from "@/components/shop/ConfiguratorUI";
@@ -182,6 +183,11 @@ export default async function ShopCatchAllPage({
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(breadcrumbLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(itemListLd) }} />
+      <CategoryViewTracker
+        categoryId={resolved.child?.id ?? resolved.sub?.id ?? resolved.top.id}
+        name={resolved.title}
+        productSlugs={inCategory.slice(0, 20).map((p) => p.slug)}
+      />
       <Navbar />
       <main className="pt-20">
         <ShopLayout
