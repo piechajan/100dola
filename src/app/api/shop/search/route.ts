@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { PRODUCTS } from "@/data/products";
 import { recommendForResultSet } from "@/lib/shop/recommendations";
+import { categories } from "@/data/categories";
 import {
   defaultPublicSlug,
   wrapSupplierImage,
@@ -19,6 +20,8 @@ interface SearchHit {
   originalPriceWithVat?: number;
   photo: string;
   kind: "own" | "supplier";
+  /** Předpočítaná relevance z kategorie a typu produktu (jen vlastní katalog). */
+  bonus?: number;
 }
 
 /**
@@ -54,6 +57,36 @@ function matchesQuery(hay: string, tokens: string[]): boolean {
   });
 }
 
+/** categoryId → celá cesta bez diakritiky („doplnky trenazery chytre trenazery"). */
+function buildCategoryPaths(): Map<string, string> {
+  const m = new Map<string, string>();
+  for (const top of categories) {
+    for (const sub of top.subcategories) {
+      m.set(sub.id, deburr(`${top.name} ${sub.name}`));
+      for (const ch of sub.children ?? []) {
+        m.set(ch.id, deburr(`${top.name} ${sub.name} ${ch.name}`));
+      }
+    }
+  }
+  return m;
+}
+const CATEGORY_PATHS = buildCategoryPaths();
+
+/**
+ * Je produkt příslušenstvím k hledané věci?
+ *
+ * Na dotaz „trenažér" vracela osa „Zadní osa pro trenažér" stejné skóre jako
+ * trenažér samotný — obojí má to slovo v názvu. Čeština to ale rozlišuje
+ * předložkou: „osa PRO trenažér", „kazeta K trenažéru". Když za předložkou
+ * následuje hledané slovo, je to doplněk a patří až za samotné trenažéry.
+ */
+function isAccessoryTo(hay: string, tokens: string[]): boolean {
+  return tokens.some((t) => {
+    const stem = t.length >= 6 ? t.slice(0, -2) : t;
+    return new RegExp(`\\b(pro|k|ke|do|na)\\s+\\S*${stem}`).test(hay);
+  });
+}
+
 /**
  * GET /api/shop/search?q=<query>
  * Vrací top 8 hitů (vlastní + supplier merged, ranked podle exact match v name).
@@ -79,16 +112,26 @@ export async function GET(request: Request) {
     return matchesQuery(hay, qTokens);
   })
     .slice(0, limit)
-    .map((p) => ({
-      id: `own:${p.id}`,
-      slug: p.slug,
-      name: p.name,
-      brand: p.brand,
-      priceWithVat: p.priceWithVat,
-      originalPriceWithVat: p.originalPriceWithVat,
-      photo: p.photo,
-      kind: "own" as const,
-    }));
+    .map((p) => {
+      // Bonus za kategorii a postih za příslušenství se počítají tady, dokud
+      // máme po ruce celý produkt — score() už vidí jen SearchHit.
+      const catPath = CATEGORY_PATHS.get(p.categoryId) ?? "";
+      const nameHay = deburr(p.name);
+      let bonus = 0;
+      if (qTokens.every((t) => matchesQuery(catPath, [t]))) bonus += 50;
+      if (isAccessoryTo(nameHay, qTokens)) bonus -= 70;
+      return {
+        id: `own:${p.id}`,
+        slug: p.slug,
+        name: p.name,
+        brand: p.brand,
+        priceWithVat: p.priceWithVat,
+        originalPriceWithVat: p.originalPriceWithVat,
+        photo: p.photo,
+        kind: "own" as const,
+        bonus,
+      };
+    });
 
   let supHits: SearchHit[] = [];
   if (url && key) {
@@ -188,11 +231,12 @@ export async function GET(request: Request) {
   }
 
   const merged = [...ownHits, ...supHits]
-    .map((h) => ({ ...h, _score: score(h) }))
+    .map((h) => ({ ...h, _score: score(h) + (h.bonus ?? 0) }))
     .sort((a, b) => b._score - a._score)
     .slice(0, limit)
-    .map(({ _score, ...rest }) => {
+    .map(({ _score, bonus, ...rest }) => {
       void _score;
+      void bonus;
       return rest;
     });
 
