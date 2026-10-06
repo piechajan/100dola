@@ -5,6 +5,8 @@ import Image from "next/image";
 import { isProxiedImage } from "@/lib/shop/image-utils";
 import Link from "next/link";
 import { useCart, getCartTotals, type CartItem } from "@/lib/cart-store";
+import { PRODUCTS } from "@/data/products";
+import { ACTIVE_PROMO, isPromoLive, promoApplies, promoPrice } from "@/lib/promo";
 import { formatPrice } from "@/data/products";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/orders";
 import CrossSellModal from "./CrossSellModal";
@@ -280,6 +282,28 @@ export default function CartDrawer() {
                 <span className="text-sm text-[#5A6480]">Mezisoučet (s DPH)</span>
                 <span className="text-xl font-black text-[#1a1a2e]">{formatPrice(subtotalWithVat)}</span>
               </div>
+              {/* Pobídka: v košíku je zlevnitelný produkt, ale člověk o kódu
+                  neví. Bez téhle připomínky by slevu minul a odešel s pocitem,
+                  že jsme dražší, než jsme. */}
+              {(() => {
+                if (!ACTIVE_PROMO || !isPromoLive()) return null;
+                const usetri = items.reduce((sum, i) => {
+                  const p = PRODUCTS.find((x) => x.slug === i.slug);
+                  if (!p || !promoApplies(p.categoryId)) return sum;
+                  return sum + (i.priceWithVat - promoPrice(i.priceWithVat)) * i.qty;
+                }, 0);
+                if (usetri <= 0) return null;
+                return (
+                  <div className="rounded-xl bg-[#F0FDF4] border border-[#A7F3D0] px-3 py-2.5 -mt-1">
+                    <div className="text-xs font-bold text-[#065F46]">
+                      Zadej v dalším kroku kód{" "}
+                      <span className="font-mono tracking-wide">{ACTIVE_PROMO.code}</span> a
+                      ušetříš {formatPrice(usetri)}
+                    </div>
+                  </div>
+                );
+              })()}
+
               {savedVsRecommended > 0 && (
                 <div className="flex items-center justify-between -mt-2 rounded-xl bg-[#F0FDF4] border border-[#A7F3D0] px-3 py-2">
                   <span className="text-xs font-bold text-[#065F46]">

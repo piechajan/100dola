@@ -10,6 +10,7 @@ import { formatPrice } from "@/data/products";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
 import { getAttribution } from "@/lib/attribution";
+import { PROMO_STORAGE_KEY, ACTIVE_PROMO, isPromoLive } from "@/lib/promo";
 import {
   calcShippingFee,
   isPaymentAvailable,
@@ -97,6 +98,20 @@ export default function CheckoutForm() {
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Kód z reklamy (?kod=…) se zachytil na produktu — tady ho jen předvyplníme,
+  // ať ho zákazník nemusí opisovat. Uplatní se až kliknutím, aby bylo vidět,
+  // co se děje, a aby se nenavázal na košík, kde neplatí.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!ACTIVE_PROMO || !isPromoLive()) return;
+    try {
+      const stored = window.localStorage.getItem(PROMO_STORAGE_KEY);
+      if (stored) setDiscountInput((cur) => cur || stored);
+    } catch {
+      // localStorage nedostupné — jen se nepředvyplní
+    }
+  }, []);
 
   // Auto-přepni platbu pokud nesedí s dopravou
   useEffect(() => {

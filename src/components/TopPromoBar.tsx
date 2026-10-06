@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { ACTIVE_PROMO, isPromoLive, promoDeadlineLabel } from "@/lib/promo";
 
-const STORAGE_KEY = "100dola-promo-dismissed-2026-06";
+// Bump při nové akci — kdo lištu zavřel dřív, uvidí novou.
+const STORAGE_KEY = "100dola-promo-dismissed-2026-10-trenazery";
 
 /**
  * Top sticky promo bar — viditelný hned nad Navbar.
@@ -20,20 +23,37 @@ export default function TopPromoBar() {
 
   if (dismissed !== false) return null;
 
+  // Po skončení akce zmizí sama, nic se nemusí ručně vypínat.
+  const promo = ACTIVE_PROMO && isPromoLive() ? ACTIVE_PROMO : null;
+
   return (
-    <div className="bg-[#1a1a2e] text-white text-xs">
+    <div className={promo ? "bg-[#0B3B2E] text-white text-xs" : "bg-[#1a1a2e] text-white text-xs"}>
       <div className="max-w-[1440px] mx-auto px-4 md:px-6 py-2 flex items-center justify-between gap-3">
         <div className="flex items-center gap-4 text-[11px] md:text-xs">
-          <span className="flex items-center gap-1.5">
-            <span aria-hidden="true">🚚</span>
-            <span>
-              <strong>Doprava zdarma</strong> nad 2 500 Kč
+          {promo ? (
+            <Link
+              href={`/shop/doplnky/trenazery/trenazery-chytre?kod=${promo.code}`}
+              className="flex items-center gap-1.5 hover:underline"
+            >
+              <span aria-hidden="true">⏳</span>
+              <span>
+                <strong>{promo.barText}</strong>{" "}
+                <span className="font-mono tracking-wide">{promo.code}</span>
+                <span className="hidden sm:inline"> · platí {promoDeadlineLabel()}</span>
+              </span>
+            </Link>
+          ) : (
+            <span className="flex items-center gap-1.5">
+              <span aria-hidden="true">🚚</span>
+              <span>
+                <strong>Doprava zdarma</strong> nad 2 500 Kč
+              </span>
             </span>
-          </span>
+          )}
           <span className="hidden sm:inline text-white/40">·</span>
           <span className="hidden sm:flex items-center gap-1.5">
-            <span aria-hidden="true">🛡</span>
-            <span>14 dní vrácení zdarma</span>
+            <span aria-hidden="true">🚚</span>
+            <span>Doprava zdarma nad 2 500 Kč</span>
           </span>
         </div>
         <button

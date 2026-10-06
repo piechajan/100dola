@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import ShopLayout from "@/components/shop/ShopLayout";
 import ProductViewTracker from "@/components/shop/ProductViewTracker";
 import CategoryViewTracker from "@/components/shop/CategoryViewTracker";
+import PromoCapture from "@/components/shop/PromoCapture";
 import HeurekaOcm from "@/components/analytics/HeurekaOcm";
 import PDPGallery from "@/components/shop/PDPGallery";
 import ConfiguratorUI from "@/components/shop/ConfiguratorUI";
@@ -183,6 +184,7 @@ export default async function ShopCatchAllPage({
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(breadcrumbLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(itemListLd) }} />
+      <PromoCapture />
       <CategoryViewTracker
         categoryId={resolved.child?.id ?? resolved.sub?.id ?? resolved.top.id}
         name={resolved.title}
@@ -331,6 +333,7 @@ function renderProduct(
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdString(pdpBreadcrumbLd) }}
       />
+      <PromoCapture />
       <ProductViewTracker
         slug={product.slug}
         name={product.name}
@@ -426,6 +429,7 @@ function renderProduct(
                   originalPriceWithVat={product.originalPriceWithVat}
                   vatRate={product.vatRate}
                   hasConfigurator={!!product.hasConfigurator}
+                  categoryId={product.categoryId}
                 />
               </div>
 
