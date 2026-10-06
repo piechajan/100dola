@@ -97,6 +97,18 @@ const nextConfig: NextConfig = {
       { source: "/oblibene/:path*", destination: "/wishlist/:path*", permanent: true },
       // Přejmenovaná trasa: slug „marbella-ronda-ojen" mátl (na Rondu nejede) → Ojén/Monda.
       { source: "/malaga/trasy/marbella-ronda-ojen", destination: "/malaga/trasy/marbella-ojen-monda", permanent: true },
+      // Krátké odkazy pro Instagram Stories (link sticker nezvládne dlouhé URL s UTM).
+      // Dočasné (307): cíl se může měnit podle kampaně. Příchozí query se předává dál.
+      {
+        source: "/vyber",
+        destination: "/clanky/trenazery-a-virtualni-aplikace?kod=100dola&utm_source=instagram&utm_medium=social&utm_campaign=trenazery-2026-10&utm_content=story-vyber",
+        permanent: false,
+      },
+      {
+        source: "/trenazery",
+        destination: "/shop/doplnky/trenazery/trenazery-chytre?kod=100dola&utm_source=instagram&utm_medium=social&utm_campaign=trenazery-2026-10&utm_content=story-trenazery",
+        permanent: false,
+      },
     ];
   },
 };
