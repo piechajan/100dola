@@ -1,6 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
+import { PRODUCTS, formatPrice } from "@/data/products";
+import { ACTIVE_PROMO, promoApplies, promoPrice } from "@/lib/promo";
+
+/**
+ * Cena se bere z katalogu, ne z textu článku.
+ *
+ * Když jsme přecenili T2 a T3 podle trhu, článek dál ukazoval staré částky —
+ * přesně ten rozchod, kvůli kterému se nemá cena psát na dvě místa.
+ */
+function cenaProduktu(slug: string): { bezna: string; sKodem: string | null } {
+  const p = PRODUCTS.find((x) => x.slug === slug);
+  if (!p) return { bezna: "", sKodem: null };
+  const akce = ACTIVE_PROMO && promoApplies(p.categoryId);
+  return {
+    bezna: formatPrice(p.priceWithVat),
+    sKodem: akce ? formatPrice(promoPrice(p.priceWithVat)) : null,
+  };
+}
 
 /**
  * SEO článek „Trenažéry a virtuální aplikace" — target keywords:
@@ -191,28 +209,24 @@ export default function TrenazeryVirtualniAplikace() {
                 href: "/shop/cycplus-r200",
                 photo: "/media/products/cycplus-r200-1.webp",
                 name: "CYCPLUS R200",
-                price: "11 249 Kč",
                 for: "Začínáte s trenažérem a nechcete utopit majlant. Přesnost ±1 % máte stejnou jako u dražších.",
               },
               {
                 href: "/shop/cycplus-t2h",
                 photo: "/media/products/cycplus-t2h-1.webp",
                 name: "CYCPLUS T2H",
-                price: "14 990 Kč",
                 for: "Nejlepší poměr v nabídce. 85 Nm a stoupání do 20 % utáhne i těžší intervaly.",
               },
               {
                 href: "/shop/cycplus-t2",
                 photo: "/media/products/cycplus-t2-1.webp",
                 name: "CYCPLUS T2",
-                price: "19 990 Kč",
                 for: "Výkyv do stran 8° a provoz bez zásuvky. Nejrealističtější pocit z jízdy za rozumné peníze.",
               },
               {
                 href: "/shop/cycplus-t3",
                 photo: "/media/products/cycplus-t3-1.webp",
                 name: "CYCPLUS T3",
-                price: "27 490 Kč",
                 for: "Stoupání do 27 % a měření rovnováhy levé a pravé nohy. Pro trénink podle dat.",
               },
             ].map((t) => (
@@ -233,9 +247,19 @@ export default function TrenazeryVirtualniAplikace() {
                 <div className="min-w-0">
                   <div className="flex items-baseline justify-between gap-3 mb-1">
                     <span className="font-black text-[#1a1a2e]">{t.name}</span>
-                    <span className="text-sm font-bold text-[#3B7CF4] whitespace-nowrap">
-                      {t.price}
-                    </span>
+                    {(() => {
+                      const c = cenaProduktu(t.href.replace("/shop/", ""));
+                      return (
+                        <span className="text-right whitespace-nowrap">
+                          <span className="text-sm font-bold text-[#3B7CF4]">{c.bezna}</span>
+                          {c.sKodem && (
+                            <span className="block text-[11px] font-bold text-[#065F46]">
+                              {c.sKodem} s kódem
+                            </span>
+                          )}
+                        </span>
+                      );
+                    })()}
                   </div>
                   <p className="text-sm text-[#5A6480] leading-relaxed">{t.for}</p>
                 </div>
@@ -260,7 +284,7 @@ export default function TrenazeryVirtualniAplikace() {
               <div className="flex items-baseline justify-between gap-3 mb-1">
                 <span className="font-black text-[#1a1a2e]">CYCPLUS F1</span>
                 <span className="text-sm font-bold text-[#3B7CF4] whitespace-nowrap">
-                  5 799 Kč
+                  {cenaProduktu("cycplus-f1-ventilator").bezna}
                 </span>
               </div>
               <p className="text-sm text-[#5A6480] leading-relaxed">
