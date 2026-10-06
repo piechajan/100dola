@@ -430,6 +430,7 @@ function renderProduct(
                   vatRate={product.vatRate}
                   hasConfigurator={!!product.hasConfigurator}
                   categoryId={product.categoryId}
+                  slug={product.slug}
                 />
               </div>
 

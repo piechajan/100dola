@@ -2,7 +2,7 @@
 
 import { useConfiguratorTotal } from "@/lib/configurator-store";
 import { splitVat, formatPrice, type VatRate } from "@/data/products";
-import { ACTIVE_PROMO, promoApplies, promoPrice, promoDeadlineLabel } from "@/lib/promo";
+import { ACTIVE_PROMO, promoApplies, promoBundleOnly, promoPrice, promoDeadlineLabel } from "@/lib/promo";
 
 interface Props {
   productId: number;
@@ -12,6 +12,8 @@ interface Props {
   hasConfigurator: boolean;
   /** Kategorie produktu — rozhoduje, jestli se na něj vztahuje akce. */
   categoryId?: string;
+  /** Slug — kvůli produktům zlevněným jen v sadě. */
+  slug?: string;
 }
 
 /**
@@ -25,6 +27,7 @@ export default function PDPHeroPrice({
   vatRate,
   hasConfigurator,
   categoryId,
+  slug,
 }: Props) {
   const configTotal = useConfiguratorTotal(productId);
   const effective = hasConfigurator && configTotal !== undefined ? configTotal : basePriceWithVat;
@@ -34,6 +37,9 @@ export default function PDPHeroPrice({
   // Bez něj by člověk z reklamy viděl plnou cenu a odešel — slib z reklamy
   // musí být vidět tam, kde se rozhoduje, ne až v košíku.
   const showPromo = categoryId ? promoApplies(categoryId) && !hasConfigurator : false;
+  // Doplňky mají slevu jen v sadě — ukážeme podmínku, ne cenu. Jinak by
+  // člověk čekal slevu, kterou mu košík samostatně nedá.
+  const showBundle = slug ? promoBundleOnly(slug) && !hasConfigurator : false;
 
   return (
     <>
@@ -60,6 +66,19 @@ export default function PDPHeroPrice({
           </div>
           <div className="text-[11px] text-[#0B7A5A] mt-0.5">
             Kód zadáš v košíku · platí {promoDeadlineLabel()}
+          </div>
+        </div>
+      )}
+      {showBundle && ACTIVE_PROMO && (
+        <div className="mt-2.5 rounded-xl bg-[#FFF7ED] border border-[#FBD38D] px-3 py-2.5">
+          <div className="text-sm text-[#7A5615]">
+            <strong>Výhodná sada:</strong> s trenažérem za{" "}
+            <strong className="text-base">{formatPrice(promoPrice(effective))}</strong>
+          </div>
+          <div className="text-[11px] text-[#8A6520] mt-0.5">
+            Kód{" "}
+            <span className="font-mono font-bold">{ACTIVE_PROMO.code}</span> v košíku ·
+            platí {promoDeadlineLabel()}. Samostatně za plnou cenu.
           </div>
         </div>
       )}

@@ -33,13 +33,33 @@ export interface ValidateOptions {
  * nemá a přidat ho znamená migraci (ta je Gate). Pro jednorázové kampaňové
  * kódy je tohle dostatečné — až jich bude víc, přesunout do DB.
  */
-const CODE_SCOPES: Record<string, { categoryIds: string[]; label: string }> = {
+interface CodeScope {
+  /** Kategorie, na které sleva platí vždy. */
+  categoryIds: string[];
+  /**
+   * Slugy, které se zlevní jen **spolu** s něčím z `categoryIds` — výhodná sada.
+   * Samostatně je kód odmítne.
+   */
+  bundleSlugs?: string[];
+  label: string;
+}
+
+const CODE_SCOPES: Record<string, CodeScope> = {
   // Kampaň „Venku tma a zima", platnost do 11. 10. 2026.
-  // Chytré trenažéry + smart bike T7. Příslušenství (`trenazery-prislusenstvi`
-  // — ventilátor, osy) ve slevě schválně NENÍ: u F1 jsme přesně na mediánu
-  // trhu a slevou bychom si zbytečně ukrojili marži.
+  //
+  // Chytré trenažéry + smart bike T7 vždy. Ventilátor a osy jen v sadě
+  // s trenažérem: samostatně jsme u ventilátoru přesně na mediánu trhu
+  // (5 799 Kč drží šest z deseti prodejců), takže sleva by jen ukrojila marži
+  // bez konkurenční výhody. V sadě je to jiná situace — zvedá to hodnotu
+  // košíku a osu i chlazení k trenažéru stejně člověk potřebuje.
   "100DOLA": {
     categoryIds: ["trenazery-chytre", "trenazery-smart-bike"],
+    bundleSlugs: [
+      "cycplus-f1-ventilator",
+      "osa-trenazer-12mm-m12x10",
+      "osa-trenazer-12mm-m12x15",
+      "osa-trenazer-focus-rat-boost",
+    ],
     label: "trenažéry a smart bike",
   },
 };
@@ -102,6 +122,7 @@ export async function validateDiscountCode(
       if (!opts.items) {
         return { ok: false, error: "Tento kód jde uplatnit až v košíku." };
       }
+      // Nejdřív hlavní produkty — podle nich se pozná, jestli vznikla sada.
       base = opts.items.reduce((sum, i) => {
         const p = PRODUCTS.find((x) => x.slug === i.slug);
         if (!p || !scope.categoryIds.includes(p.categoryId)) return sum;
@@ -109,6 +130,13 @@ export async function validateDiscountCode(
       }, 0);
       if (base <= 0) {
         return { ok: false, error: `Kód platí jen na ${scope.label}.` };
+      }
+      // Sada: doplňky se přidají do základu, až když je hlavní produkt v košíku.
+      if (scope.bundleSlugs?.length) {
+        base += opts.items.reduce(
+          (sum, i) => (scope.bundleSlugs!.includes(i.slug) ? sum + i.priceWithVat * i.qty : sum),
+          0,
+        );
       }
     }
 

@@ -17,8 +17,10 @@ export interface Promo {
   percent: number;
   /** Konec platnosti (lokální čas Praha). */
   endsAt: Date;
-  /** Kategorie, na které sleva platí. */
+  /** Kategorie, na které sleva platí vždy. */
   categoryIds: string[];
+  /** Slugy zlevněné jen v sadě s produktem z `categoryIds` — výhodná sada. */
+  bundleSlugs: string[];
   /** Krátký text do promo lišty. */
   barText: string;
 }
@@ -28,6 +30,12 @@ export const ACTIVE_PROMO: Promo | null = {
   percent: 10,
   endsAt: new Date("2026-10-11T23:59:59+02:00"),
   categoryIds: ["trenazery-chytre", "trenazery-smart-bike"],
+  bundleSlugs: [
+    "cycplus-f1-ventilator",
+    "osa-trenazer-12mm-m12x10",
+    "osa-trenazer-12mm-m12x15",
+    "osa-trenazer-focus-rat-boost",
+  ],
   barText: "−10 % na trenažéry s kódem",
 };
 
@@ -40,6 +48,16 @@ export function isPromoLive(now: Date = new Date()): boolean {
 export function promoApplies(categoryId: string, now: Date = new Date()): boolean {
   if (!ACTIVE_PROMO || !isPromoLive(now)) return false;
   return ACTIVE_PROMO.categoryIds.includes(categoryId);
+}
+
+/**
+ * Je produkt zlevněný jen v sadě s trenažérem?
+ * Na jeho stránce se pak místo ceny ukáže podmínka, ať nikdo nečeká slevu,
+ * kterou mu košík samostatně nedá.
+ */
+export function promoBundleOnly(slug: string, now: Date = new Date()): boolean {
+  if (!ACTIVE_PROMO || !isPromoLive(now)) return false;
+  return ACTIVE_PROMO.bundleSlugs.includes(slug);
 }
 
 /** Cena po uplatnění kódu, zaokrouhlená na koruny. */
