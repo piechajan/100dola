@@ -236,6 +236,11 @@ async function handlePaidTransition(orderId: string): Promise<void> {
         zip: order.zip,
         methodLabel: order.shipping_method_label,
       },
+      billing: {
+        street: order.billing_street ?? null,
+        city: order.billing_city ?? null,
+        zip: order.billing_zip ?? null,
+      },
       items: items.map((i: Record<string, unknown>) => ({
         name: i.name as string,
         qty: i.qty as number,

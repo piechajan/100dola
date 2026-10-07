@@ -28,6 +28,12 @@ export interface OrderForInvoice {
     zip?: string | null;
     methodLabel: string;
   };
+  /** Fakturační adresa (sídlo firmy / jiná než doručovací). Bez ní se použije doručovací. */
+  billing?: {
+    street?: string | null;
+    city?: string | null;
+    zip?: string | null;
+  };
   items: Array<{
     name: string;
     qty: number;
@@ -75,9 +81,10 @@ export async function invoiceOrder(order: OrderForInvoice): Promise<FakturoidInv
     name: order.contact.companyName || order.contact.name,
     email: order.contact.email,
     phone: order.contact.phone,
-    street: order.shipping.street || undefined,
-    city: order.shipping.city || undefined,
-    zip: order.shipping.zip || undefined,
+    // Faktura patří na fakturační adresu (u firmy sídlo), ne na doručovací.
+    street: (order.billing?.street || order.shipping.street) || undefined,
+    city: (order.billing?.street ? order.billing.city : order.shipping.city) || undefined,
+    zip: (order.billing?.street ? order.billing.zip : order.shipping.zip) || undefined,
     country: "CZ",
     registrationNo: order.contact.companyIco || undefined,
     vatNo: order.contact.companyDic || undefined,

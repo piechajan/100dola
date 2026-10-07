@@ -598,6 +598,7 @@ interface OrderEmailPayload {
     zip?: string;
     zasilkovnaPickup?: string;
   };
+  billing?: { street?: string; city?: string; zip?: string };
   payment: {
     method: string;
     methodLabel: string;
@@ -855,7 +856,8 @@ export async function sendOrderNotification(order: OrderEmailPayload): Promise<v
     `CELKEM: ${fmtPrice(order.total)}`,
     ``,
     `Doprava: ${order.shipping.methodLabel}`,
-    order.shipping.street ? `Adresa: ${order.shipping.street}, ${order.shipping.city || ""} ${order.shipping.zip || ""}` : "",
+    order.shipping.street ? `Doručovací adresa: ${order.shipping.street}, ${order.shipping.city || ""} ${order.shipping.zip || ""}` : "",
+    order.billing?.street ? `Fakturační adresa: ${order.billing.street}, ${order.billing.city || ""} ${order.billing.zip || ""}` : "",
     order.shipping.zasilkovnaPickup ? `Zásilkovna pobočka: ${order.shipping.zasilkovnaPickup}` : "",
     ``,
     `Platba: ${order.payment.methodLabel}`,

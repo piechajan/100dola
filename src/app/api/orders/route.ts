@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 import { OrderPayloadSchema, HONEYPOT_NAME } from "@/lib/schemas";
+import { isValidIco } from "@/lib/ico";
 import { PRODUCTS } from "@/data/products";
 import {
   calcOrderTotal,
@@ -130,6 +131,26 @@ export async function POST(req: NextRequest) {
   }
 
   const data = parsed.data;
+
+  // Firma: IČO se správným kontrolním součtem, název a fakturační adresa (sídlo) jsou povinné —
+  // faktura bez nich by byla nepoužitelná a vracela by se na ruční doplnění.
+  if (data.companyIco || data.companyName) {
+    const ico = (data.companyIco ?? "").replace(/\s/g, "");
+    if (!isValidIco(ico)) {
+      return NextResponse.json({ error: "IČO firmy není správně zadané (8 číslic)." }, { status: 400 });
+    }
+    if (!data.companyName) {
+      return NextResponse.json({ error: "Doplň název firmy." }, { status: 400 });
+    }
+    if (!data.billingStreet || !data.billingCity || !data.billingZip) {
+      return NextResponse.json({ error: "Doplň fakturační adresu firmy (sídlo)." }, { status: 400 });
+    }
+    data.companyIco = ico;
+  }
+  const hasBilling = !!(data.billingStreet && data.billingCity && data.billingZip);
+  const billingText = hasBilling
+    ? `${data.billingStreet}, ${data.billingZip} ${data.billingCity}`
+    : null;
 
   // Turnstile — no-op když TURNSTILE_SECRET_KEY není nastaven (viz lib/turnstile).
   const clientIpForTurnstile =
@@ -391,6 +412,9 @@ export async function POST(req: NextRequest) {
       zip: data.zip,
       zasilkovnaPickup: data.zasilkovnaPickup,
     },
+    billing: hasBilling
+      ? { street: data.billingStreet, city: data.billingCity, zip: data.billingZip }
+      : undefined,
     payment: {
       method: data.paymentMethod,
       methodLabel: PAYMENT_LABELS[data.paymentMethod],
@@ -402,7 +426,7 @@ export async function POST(req: NextRequest) {
   if (isSupabaseConfigured()) {
     try {
       const sb = getSupabase();
-      const { error: orderErr } = await sb.from("orders").insert({
+      const orderRow = {
         id,
         status: "pending",
         subtotal,
@@ -427,7 +451,25 @@ export async function POST(req: NextRequest) {
         discount_amount: discount,
         notes: data.notes || null,
         registered_at: registeredAt,
-      });
+      };
+      // Sloupce billing_* přidává migrace 008 (čeká na schválení). Dokud neexistují,
+      // objednávka se uloží bez nich a fakturační adresa jde do poznámky — nic se neztratí.
+      const rowWithBilling: Record<string, unknown> = hasBilling
+        ? {
+            ...orderRow,
+            billing_street: data.billingStreet,
+            billing_city: data.billingCity,
+            billing_zip: data.billingZip,
+          }
+        : orderRow;
+      let { error: orderErr } = await sb.from("orders").insert(rowWithBilling);
+      if (orderErr && hasBilling && /billing_/.test(String(orderErr.message ?? ""))) {
+        console.warn("[api/orders] sloupce billing_* zatím nejsou v DB — ukládám do poznámky");
+        ({ error: orderErr } = await sb.from("orders").insert({
+          ...orderRow,
+          notes: [orderRow.notes, `Fakturační adresa: ${billingText}`].filter(Boolean).join("\n"),
+        }));
+      }
       if (orderErr) throw orderErr;
 
       const { error: itemsErr } = await sb.from("order_items").insert(
@@ -522,6 +564,9 @@ export async function POST(req: NextRequest) {
       zip: data.zip ?? null,
       methodLabel: SHIPPING_LABELS[data.shippingMethod],
     },
+    billing: hasBilling
+      ? { street: data.billingStreet, city: data.billingCity, zip: data.billingZip }
+      : undefined,
     items: data.items.map((i) => ({
       name: i.name,
       qty: i.qty,
@@ -561,6 +606,9 @@ export async function POST(req: NextRequest) {
       zip: data.zip,
       zasilkovnaPickup: data.zasilkovnaPickup,
     },
+    billing: hasBilling
+      ? { street: data.billingStreet, city: data.billingCity, zip: data.billingZip }
+      : undefined,
     payment: {
       method: data.paymentMethod,
       methodLabel: PAYMENT_LABELS[data.paymentMethod],

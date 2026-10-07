@@ -173,6 +173,11 @@ export const OrderPayloadSchema = z
     companyIco: z.string().max(20).trim().optional(),
     companyDic: z.string().max(20).trim().optional(),
 
+    // Fakturační adresa — jen když se liší od doručovací, u firmy sídlo (předvyplní ARES).
+    billingStreet: z.string().max(200).trim().optional(),
+    billingCity: z.string().max(120).trim().optional(),
+    billingZip: z.string().max(20).trim().optional(),
+
     // Shipping address (vyžadováno pro zasilkovna / gls, volitelné pro personal-*)
     street: z.string().max(200).trim().optional(),
     city: z.string().max(120).trim().optional(),

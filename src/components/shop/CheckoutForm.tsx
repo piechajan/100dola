@@ -80,6 +80,14 @@ export default function CheckoutForm() {
   const [companyIco, setCompanyIco] = useState("");
   const [companyDic, setCompanyDic] = useState("");
   const [showCompany, setShowCompany] = useState(false);
+  // Fakturační adresa: u firmy sídlo (předvyplní ARES), u soukromé osoby jen když se liší od doručovací.
+  const [billingDiffers, setBillingDiffers] = useState(false);
+  const [billingStreet, setBillingStreet] = useState("");
+  const [billingCity, setBillingCity] = useState("");
+  const [billingZip, setBillingZip] = useState("");
+  const [aresState, setAresState] = useState<
+    { kind: "idle" } | { kind: "loading" } | { kind: "ok"; name: string } | { kind: "error"; message: string }
+  >({ kind: "idle" });
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [zip, setZip] = useState("");
@@ -91,6 +99,49 @@ export default function CheckoutForm() {
   const [newsletterOptIn, setNewsletterOptIn] = useState(false);
   const [website, setWebsite] = useState(""); // honeypot
   const [turnstileToken, setTurnstileToken] = useState("");
+
+  // IČO → ARES: po zadání 8 číslic se předvyplní název, DIČ a sídlo. Vše jde dál upravit.
+  useEffect(() => {
+    if (!showCompany) return;
+    const ico = companyIco.replace(/\s/g, "");
+    if (!/^\d{8}$/.test(ico)) {
+      setAresState({ kind: "idle" });
+      return;
+    }
+    const ctrl = new AbortController();
+    setAresState({ kind: "loading" });
+    const t = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/ares?ico=${ico}`, { signal: ctrl.signal });
+        const data = await res.json();
+        if (!data.ok) {
+          setAresState({ kind: "error", message: data.error ?? "Firmu se nepodařilo načíst." });
+          return;
+        }
+        const sub = data.subject as {
+          name: string;
+          dic: string | null;
+          street: string | null;
+          city: string | null;
+          zip: string | null;
+        };
+        setCompanyName(sub.name);
+        if (sub.dic) setCompanyDic(sub.dic);
+        if (sub.street) setBillingStreet(sub.street);
+        if (sub.city) setBillingCity(sub.city);
+        if (sub.zip) setBillingZip(sub.zip);
+        setAresState({ kind: "ok", name: sub.name });
+      } catch (e) {
+        if ((e as Error).name !== "AbortError") {
+          setAresState({ kind: "error", message: "ARES teď neodpovídá — vyplň údaje ručně." });
+        }
+      }
+    }, 350);
+    return () => {
+      clearTimeout(t);
+      ctrl.abort();
+    };
+  }, [companyIco, showCompany]);
 
   // Discount code state
   const [discountInput, setDiscountInput] = useState("");
@@ -260,6 +311,9 @@ export default function CheckoutForm() {
       companyName: showCompany ? companyName.trim() || undefined : undefined,
       companyIco: showCompany ? companyIco.trim() || undefined : undefined,
       companyDic: showCompany ? companyDic.trim() || undefined : undefined,
+      billingStreet: showCompany || billingDiffers ? billingStreet.trim() || undefined : undefined,
+      billingCity: showCompany || billingDiffers ? billingCity.trim() || undefined : undefined,
+      billingZip: showCompany || billingDiffers ? billingZip.trim() || undefined : undefined,
       street: needsAddress ? street.trim() : undefined,
       city: needsAddress ? city.trim() : undefined,
       zip: needsAddress ? zip.trim() : undefined,
@@ -397,18 +451,59 @@ export default function CheckoutForm() {
           </button>
           {showCompany && (
             <div className="grid sm:grid-cols-3 gap-3 mt-3 pt-4 border-t border-[#F0F2FA]">
-              <div className="sm:col-span-3">
-                <label className={labelClass}>Název firmy</label>
-                <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} className={inputClass} />
-              </div>
               <div>
-                <label className={labelClass}>IČO</label>
-                <input type="text" value={companyIco} onChange={(e) => setCompanyIco(e.target.value)} className={inputClass} />
+                <label className={labelClass}>IČO *</label>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={companyIco}
+                  onChange={(e) => setCompanyIco(e.target.value)}
+                  required
+                  maxLength={12}
+                  placeholder="12345678"
+                  className={inputClass}
+                />
+              </div>
+              <div className="sm:col-span-2 flex items-end pb-2 text-[11px] min-h-[1.5rem]">
+                {aresState.kind === "loading" && (
+                  <span className="text-[#9AA3C2]">Načítám firmu z ARES…</span>
+                )}
+                {aresState.kind === "ok" && (
+                  <span className="text-[#065F46] font-bold">✓ Načteno z ARES: {aresState.name}</span>
+                )}
+                {aresState.kind === "error" && (
+                  <span className="text-[#B45309]">{aresState.message}</span>
+                )}
+                {aresState.kind === "idle" && (
+                  <span className="text-[#9AA3C2]">Zadej IČO a zbytek doplníme z ARES.</span>
+                )}
+              </div>
+              <div className="sm:col-span-3">
+                <label className={labelClass}>Název firmy *</label>
+                <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} required className={inputClass} />
+              </div>
+              <div className="sm:col-span-3">
+                <label className={labelClass}>DIČ (jen plátci DPH)</label>
+                <input type="text" value={companyDic} onChange={(e) => setCompanyDic(e.target.value)} className={inputClass} placeholder="CZ12345678" />
+              </div>
+              <div className="sm:col-span-3 text-xs font-bold text-[#5A6480] tracking-wide mt-1">
+                Fakturační adresa (sídlo firmy)
+              </div>
+              <div className="sm:col-span-3">
+                <label className={labelClass}>Ulice a č.p. *</label>
+                <input type="text" value={billingStreet} onChange={(e) => setBillingStreet(e.target.value)} required className={inputClass} />
               </div>
               <div className="sm:col-span-2">
-                <label className={labelClass}>DIČ</label>
-                <input type="text" value={companyDic} onChange={(e) => setCompanyDic(e.target.value)} className={inputClass} />
+                <label className={labelClass}>Město *</label>
+                <input type="text" value={billingCity} onChange={(e) => setBillingCity(e.target.value)} required className={inputClass} />
               </div>
+              <div>
+                <label className={labelClass}>PSČ *</label>
+                <input type="text" value={billingZip} onChange={(e) => setBillingZip(e.target.value)} required className={inputClass} />
+              </div>
+              <p className="sm:col-span-3 text-[11px] text-[#9AA3C2]">
+                Doručit můžeme na jinou adresu — doručovací adresu zadáš v kroku Doprava.
+              </p>
             </div>
           )}
         </section>
@@ -468,6 +563,36 @@ export default function CheckoutForm() {
                 <label className={labelClass}>PSČ *</label>
                 <input type="text" value={zip} onChange={(e) => setZip(e.target.value)} required={needsAddress} className={inputClass} />
               </div>
+            </div>
+          )}
+
+          {!showCompany && (
+            <div className="mt-5 pt-5 border-t border-[#F0F2FA]">
+              <label className="flex items-center gap-2 text-sm text-[#1a1a2e] cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={billingDiffers}
+                  onChange={(e) => setBillingDiffers(e.target.checked)}
+                  className="w-4 h-4 accent-[#3B7CF4]"
+                />
+                Fakturační adresa je jiná než doručovací
+              </label>
+              {billingDiffers && (
+                <div className="mt-3 grid sm:grid-cols-[1fr_140px_120px] gap-3">
+                  <div className="sm:col-span-3">
+                    <label className={labelClass}>Fakturační ulice a č.p. *</label>
+                    <input type="text" value={billingStreet} onChange={(e) => setBillingStreet(e.target.value)} required className={inputClass} />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className={labelClass}>Město *</label>
+                    <input type="text" value={billingCity} onChange={(e) => setBillingCity(e.target.value)} required className={inputClass} />
+                  </div>
+                  <div>
+                    <label className={labelClass}>PSČ *</label>
+                    <input type="text" value={billingZip} onChange={(e) => setBillingZip(e.target.value)} required className={inputClass} />
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
