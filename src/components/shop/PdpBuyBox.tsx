@@ -6,6 +6,7 @@ import { usePdpImage } from "@/lib/pdp-image-store";
 import { swatchBackground } from "@/lib/shop/colors";
 import AddToCartButton from "./AddToCartButton";
 import { PRODUCTS } from "@/data/products";
+import { useCart } from "@/lib/cart-store";
 import TrainerBundleBox from "./TrainerBundleBox";
 import RestockNotifyButton from "./RestockNotifyButton";
 import ProductInquiryButton from "./ProductInquiryButton";
@@ -47,7 +48,22 @@ export default function PdpBuyBox({
   // ne jako další poplatek. U ostatních kol zůstává zvýhodněná cena 400 Kč.
   const waxFree =
     product.categoryId.startsWith("silnicni") && product.priceWithVat >= 70000;
-  const waxAddOn = isBike
+  // Nový řetěz z našeho e-shopu: voskování +490 Kč, zdarma při nákupu s trenažérem.
+  const isChain = product.categoryId.startsWith("retezy");
+  const trainerInCart = useCart((s) =>
+    s.items.some((i) => {
+      const c = PRODUCTS.find((p) => p.id === i.productId)?.categoryId;
+      return c === "trenazery-chytre" || c === "trenazery-smart-bike";
+    }),
+  );
+  const chainWaxFree = isChain && trainerInCart;
+  const waxAddOn = isChain
+    ? PRODUCTS.find(
+        (p) =>
+          p.slug ===
+          (chainWaxFree ? "navoskovani-noveho-retezu-zdarma" : "navoskovani-noveho-retezu"),
+      )
+    : isBike
     ? PRODUCTS.find(
         (p) =>
           p.slug ===
@@ -285,6 +301,7 @@ export default function PdpBuyBox({
         />
       ) : (
         <AddToCartButton
+          key={waxAddOn?.slug}
           product={product}
           large
           variant={variant}
@@ -292,13 +309,17 @@ export default function PdpBuyBox({
           disabledLabel={needSize && !sizeLabel ? "Zvol velikost" : "Zvol barvu"}
           addOn={waxAddOn}
           addOnLabel={
-            waxFree
+            isChain
+              ? chainWaxFree
+                ? "Navoskovat řetěz před odesláním — zdarma"
+                : "Navoskovat řetěz před odesláním"
+              : waxFree
               ? "Navoskovat řetěz před předáním — zdarma"
               : "Navoskovat řetěz před předáním"
           }
           // Zdarma = předzaškrtnuté. Kdo o to nestojí, odškrtne; většina
           // lidí by si jinak bonus nevšimla.
-          addOnDefaultChecked={waxFree}
+          addOnDefaultChecked={waxFree || chainWaxFree}
         />
       )}
 

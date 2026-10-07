@@ -229,6 +229,12 @@ export default function TrenazeryVirtualniAplikace() {
                 name: "CYCPLUS T3",
                 for: "Stoupání do 27 % a měření rovnováhy levé a pravé nohy. Pro trénink podle dat.",
               },
+              {
+                href: "/shop/cycplus-t7-smart-bike",
+                photo: "/media/products/cycplus-t7-1.webp",
+                name: "CYCPLUS T7 Smart Bike",
+                for: "Kolo, které je trenažér. Nic neupínáte, kazetu ani osu neřešíte a geometrii nastavíte pro víc jezdců.",
+              },
             ].map((t) => (
               <Link
                 key={t.href}
