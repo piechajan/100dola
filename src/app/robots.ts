@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.100dola.com";
 
 // Zakázané cesty (admin, přihlášení, API, checkout) — platí pro všechny.
-const DISALLOW = ["/admin", "/login", "/login-ucetni", "/api/", "/objednavka/"];
+const DISALLOW = ["/admin", "/login", "/login-ucetni", "/api/", "/objednavka/", "/reviews/submit"];
 
 // AI vyhledávače a asistenti — explicitně vítáni (roste podíl lidí hledajících
 // přes ChatGPT / Perplexity / Claude / Google AI Overviews místo klasického
