@@ -290,7 +290,7 @@ export default function CartDrawer() {
                 const usetri = items.reduce((sum, i) => {
                   const p = PRODUCTS.find((x) => x.slug === i.slug);
                   if (!p || !promoApplies(p.categoryId)) return sum;
-                  return sum + (i.priceWithVat - promoPrice(i.priceWithVat)) * i.qty;
+                  return sum + (i.priceWithVat - promoPrice(i.priceWithVat, i.slug)) * i.qty;
                 }, 0);
                 if (usetri <= 0) return null;
                 return (

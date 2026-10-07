@@ -325,7 +325,7 @@ export default function PdpBuyBox({
 
       {/* Výhodná sada — jen u trenažérů, kde se rozhoduje o nákupu. */}
       {(product.categoryId === "trenazery-chytre" ||
-        product.categoryId === "trenazery-smart-bike") && <TrainerBundleBox />}
+        product.categoryId === "trenazery-smart-bike") && <TrainerBundleBox trainer={product} />}
 
       {product.supplierProductId && activeSize && !activeSize.isInStock && (
         <RestockNotifyButton

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import { PRODUCTS, formatPrice } from "@/data/products";
-import { ACTIVE_PROMO, isPromoLive, promoApplies, promoPrice, promoDeadlineLabel } from "@/lib/promo";
+import { ACTIVE_PROMO, isPromoLive, promoApplies, promoPrice, promoPriceWithBoost, promoDeadlineLabel } from "@/lib/promo";
 
 /**
  * Cena se bere z katalogu, ne z textu článku.
@@ -10,13 +10,14 @@ import { ACTIVE_PROMO, isPromoLive, promoApplies, promoPrice, promoDeadlineLabel
  * Když jsme přecenili T2 a T3 podle trhu, článek dál ukazoval staré částky —
  * přesně ten rozchod, kvůli kterému se nemá cena psát na dvě místa.
  */
-function cenaProduktu(slug: string): { bezna: string; sKodem: string | null } {
+function cenaProduktu(slug: string): { bezna: string; sKodem: string | null; sVentilatorem: string | null } {
   const p = PRODUCTS.find((x) => x.slug === slug);
-  if (!p) return { bezna: "", sKodem: null };
+  if (!p) return { bezna: "", sKodem: null, sVentilatorem: null };
   const akce = ACTIVE_PROMO && promoApplies(p.categoryId);
   return {
     bezna: formatPrice(p.priceWithVat),
-    sKodem: akce ? formatPrice(promoPrice(p.priceWithVat)) : null,
+    sKodem: akce ? formatPrice(promoPrice(p.priceWithVat, p.slug)) : null,
+    sVentilatorem: akce ? formatPrice(promoPriceWithBoost(p.priceWithVat, p.slug)) : null,
   };
 }
 
@@ -261,6 +262,11 @@ export default function TrenazeryVirtualniAplikace() {
                           {c.sKodem && (
                             <span className="block text-[11px] font-bold text-[#065F46]">
                               {c.sKodem} s kódem
+                            </span>
+                          )}
+                          {c.sVentilatorem && (
+                            <span className="block text-[11px] font-bold text-[#7A5615]">
+                              {c.sVentilatorem} s ventilátorem
                             </span>
                           )}
                         </span>

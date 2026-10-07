@@ -15,4 +15,8 @@ npx tsc --noEmit
 echo "→ content reference linter…"
 bash ./scripts/lint-content-refs.sh
 
+# 4. Promo kontrola: sleva kódem nesmí být zbytečně hluboko pod nejnižší tržní cenou
+echo "→ promo price guard…"
+npx tsx scripts/check-promo-prices.ts
+
 echo "✓ pre-commit checks passed"

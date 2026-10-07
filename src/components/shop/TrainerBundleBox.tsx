@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/lib/cart-store";
 import { PRODUCTS, formatPrice, type Product } from "@/data/products";
-import { ACTIVE_PROMO, isPromoLive, promoBundleItemPrice, promoDeadlineLabel } from "@/lib/promo";
+import { ACTIVE_PROMO, isPromoLive, promoBundleItemPrice, promoDeadlineLabel, promoPriceWithBoost } from "@/lib/promo";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 
 /** Co nabízíme k trenažéru. Osy tu schválně nejsou — viz komentář níž. */
@@ -23,7 +23,7 @@ const BUNDLE_SLUGS = ["cycplus-f1-ventilator"];
  * a většina lidí netuší, kterou má. Špatně zvolená osa znamená vrácení, které
  * stojí víc, než kolik upsell vydělá — proto raději odkaz a nabídka pomoci.
  */
-export default function TrainerBundleBox() {
+export default function TrainerBundleBox({ trainer }: { trainer?: Product }) {
   const addToCart = useCart((s) => s.add);
   const openDrawer = useCart((s) => s.openDrawer);
   const [added, setAdded] = useState<string | null>(null);
@@ -60,10 +60,26 @@ export default function TrainerBundleBox() {
 
       <div className="p-4">
         <p className="text-sm text-[#5A4520] mb-3.5">
-          Když si vezmeš ventilátor, zvedne se sleva kódem{" "}
-          <strong>{ACTIVE_PROMO.code}</strong> z {ACTIVE_PROMO.percent} % na{" "}
-          <strong>{ACTIVE_PROMO.percentWithBundle} % — a to na celou objednávku</strong>.
-          Samostatně doplňky jedou za běžnou cenu.
+          {trainer && ACTIVE_PROMO.fixedOff[trainer.slug] ? (
+            <>
+              Když si vezmeš ventilátor, zvedne se sleva kódem{" "}
+              <strong>{ACTIVE_PROMO.code}</strong> na trenažéru na{" "}
+              <strong>
+                {formatPrice(ACTIVE_PROMO.fixedOff[trainer.slug].withBoost)}
+              </strong>{" "}
+              (trenažér pak za{" "}
+              <strong>{formatPrice(promoPriceWithBoost(trainer.priceWithVat, trainer.slug))}</strong>
+              ), ventilátor a další doplňky mají {ACTIVE_PROMO.percentWithBundle} %.
+              Samostatně doplňky jedou za běžnou cenu.
+            </>
+          ) : (
+            <>
+              Když si vezmeš ventilátor, zvedne se sleva kódem{" "}
+              <strong>{ACTIVE_PROMO.code}</strong> z {ACTIVE_PROMO.percent} % na{" "}
+              <strong>{ACTIVE_PROMO.percentWithBundle} % — a to na celou objednávku</strong>.
+              Samostatně doplňky jedou za běžnou cenu.
+            </>
+          )}
         </p>
 
         {items.map((p) => (

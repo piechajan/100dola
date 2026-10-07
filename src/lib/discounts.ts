@@ -53,6 +53,12 @@ interface CodeScope {
    * jako trenažér. Bez tohoto pole zvedá sazbu jakýkoli doplněk.
    */
   boostSlugs?: string[];
+  /**
+   * Pevná sleva v Kč na kus místo procent u vybraných produktů (T7: nikde není levnější,
+   * procenta by byla zbytečně vysoká). `base` = s kódem, `withBoost` = s ventilátorem
+   * v košíku. Musí odpovídat `fixedOff` v `lib/promo.ts`.
+   */
+  fixedOff?: Record<string, { base: number; withBoost: number }>;
   label: string;
 }
 
@@ -79,6 +85,7 @@ const CODE_SCOPES: Record<string, CodeScope> = {
     percentWithBundle: 15,
     // Jen ventilátor zvedá sazbu na 15 %; osa s trenažérem dostane stejných 12 %.
     boostSlugs: ["cycplus-f1-ventilator"],
+    fixedOff: { "cycplus-t7-smart-bike": { base: 4000, withBoost: 5000 } },
     label: "trenažéry a smart bike",
   },
 };
@@ -167,7 +174,19 @@ export async function validateDiscountCode(
 
     let amount: number;
     if (row.type === "percent") {
-      amount = Math.round((base * (bundlePercent ?? row.value)) / 100);
+      // Produkty s pevnou slevou (T7) se z procentního základu vyjmou a odečtou se zvlášť.
+      let fixedBase = 0;
+      let fixedTotal = 0;
+      if (scope?.fixedOff && opts.items) {
+        for (const i of opts.items) {
+          const f = scope.fixedOff[i.slug];
+          if (!f) continue;
+          fixedBase += i.priceWithVat * i.qty;
+          fixedTotal += (bundlePercent !== null ? f.withBoost : f.base) * i.qty;
+        }
+      }
+      amount =
+        Math.round(((base - fixedBase) * (bundlePercent ?? row.value)) / 100) + fixedTotal;
     } else {
       amount = row.value;
     }

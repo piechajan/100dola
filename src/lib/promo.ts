@@ -32,6 +32,13 @@ export interface Promo {
    * Ostatní doplňky (osy — levná položka) se zlevní základní sazbou `percent`.
    */
   boostSlugs: string[];
+  /**
+   * Pevná sleva v Kč místo procent u produktů, kde by procenta byla příliš vysoká
+   * (nikde na trhu není levnější — viz `MARKET_MIN_PRICE`). `base` = jen s kódem,
+   * `withBoost` = když je v košíku i ventilátor. Musí odpovídat `fixedOff`
+   * v `CODE_SCOPES` v `lib/discounts.ts`.
+   */
+  fixedOff: Record<string, { base: number; withBoost: number }>;
   /** Krátký text do promo lišty. */
   barText: string;
 }
@@ -51,6 +58,8 @@ export const ACTIVE_PROMO: Promo | null = {
     "sram-red-xg-1290-e1-10-33",
   ],
   boostSlugs: ["cycplus-f1-ventilator"],
+  // T7 Smart Bike: nikde na trhu není pod 47 490 Kč, 12 % (5 699 Kč) by byla zbytečně moc.
+  fixedOff: { "cycplus-t7-smart-bike": { base: 4000, withBoost: 5000 } },
   barText: "až −15 % na trenažéry s kódem",
 };
 
@@ -75,10 +84,40 @@ export function promoBundleOnly(slug: string, now: Date = new Date()): boolean {
   return ACTIVE_PROMO.bundleSlugs.includes(slug);
 }
 
-/** Cena po uplatnění kódu na samotný produkt. */
-export function promoPrice(priceWithVat: number): number {
+/**
+ * Nejnižší cena produktu, kterou jsme na trhu našli (s DPH, Kč).
+ * Pojistka proti zbytečně velké slevě: kdo nikde není levnější, nemá smysl
+ * zlevňovat o 12 %. Hlídá to `scripts/check-promo-prices.ts` v pre-commitu.
+ * Aktualizovat při každé kontrole trhu.
+ */
+export const MARKET_MIN_PRICE: Record<string, number> = {
+  // CENY_KONKURENCE.md, ověřeno 5. 10. 2026
+  "cycplus-r200": 9999,
+  "cycplus-t2h": 12990,
+  "cycplus-t2": 13819,
+  "cycplus-t3": 19147,
+  "cycplus-f1-ventilator": 4790,
+  // Jan 7. 10. 2026: T7 nikde levněji než za 47 490 Kč
+  "cycplus-t7-smart-bike": 47490,
+};
+
+/** O kolik % pod nejnižší tržní cenu smí kód cenu stlačit (jinak slevujeme zbytečně). */
+export const MAX_UNDERCUT_PCT = 11;
+
+/** Cena po uplatnění kódu na samotný produkt (bez ventilátoru v košíku). */
+export function promoPrice(priceWithVat: number, slug?: string): number {
   if (!ACTIVE_PROMO) return priceWithVat;
+  const fixed = slug ? ACTIVE_PROMO.fixedOff[slug] : undefined;
+  if (fixed) return priceWithVat - fixed.base;
   return Math.round(priceWithVat * (1 - ACTIVE_PROMO.percent / 100));
+}
+
+/** Cena trenažéru s kódem, když je v košíku i ventilátor (vyšší sleva). */
+export function promoPriceWithBoost(priceWithVat: number, slug?: string): number {
+  if (!ACTIVE_PROMO) return priceWithVat;
+  const fixed = slug ? ACTIVE_PROMO.fixedOff[slug] : undefined;
+  if (fixed) return priceWithVat - fixed.withBoost;
+  return Math.round(priceWithVat * (1 - ACTIVE_PROMO.percentWithBundle / 100));
 }
 
 /**

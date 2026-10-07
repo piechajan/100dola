@@ -2,7 +2,7 @@
 
 import { useConfiguratorTotal } from "@/lib/configurator-store";
 import { splitVat, formatPrice, type VatRate } from "@/data/products";
-import { ACTIVE_PROMO, promoApplies, promoBundleOnly, promoPrice, promoBundleItemPrice, promoDeadlineLabel } from "@/lib/promo";
+import { ACTIVE_PROMO, promoApplies, promoBundleOnly, promoPrice, promoPriceWithBoost, promoBundleItemPrice, promoDeadlineLabel } from "@/lib/promo";
 
 interface Props {
   productId: number;
@@ -62,11 +62,13 @@ export default function PDPHeroPrice({
             S kódem{" "}
             <span className="font-mono font-black tracking-wide">{ACTIVE_PROMO.code}</span>{" "}
             zaplatíš{" "}
-            <strong className="text-base">{formatPrice(promoPrice(effective))}</strong>
+            <strong className="text-base">{formatPrice(promoPrice(effective, slug))}</strong>
           </div>
           <div className="text-[11px] text-[#0B7A5A] mt-0.5">
             Kód zadáš v košíku · platí {promoDeadlineLabel()}. S ventilátorem se sleva
-            zvedne na {ACTIVE_PROMO.percentWithBundle} %.
+            zvedne {slug && ACTIVE_PROMO.fixedOff[slug]
+              ? `— trenažér pak za ${formatPrice(promoPriceWithBoost(effective, slug))}`
+              : `na ${ACTIVE_PROMO.percentWithBundle} %`}.
           </div>
         </div>
       )}
