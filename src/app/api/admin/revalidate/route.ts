@@ -1,4 +1,5 @@
 import { revalidatePath, revalidateTag } from "next/cache";
+import { isAuthorizedCron } from "@/lib/cron-auth";
 import { getAdminContext } from "@/lib/admin-auth";
 
 export const runtime = "nodejs";
@@ -14,8 +15,7 @@ export async function GET(request: Request) {
   const adminCtx = await getAdminContext();
 
   const bearer = request.headers.get("authorization");
-  const cronAuth =
-    !!process.env.CRON_SECRET && bearer === `Bearer ${process.env.CRON_SECRET}`;
+  const cronAuth = isAuthorizedCron(bearer);
 
   if (!adminCtx && !cronAuth) {
     return Response.json({ ok: false, error: "unauthorized" }, { status: 401 });

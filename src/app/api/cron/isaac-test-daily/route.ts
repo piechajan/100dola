@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isAuthorizedCron } from "@/lib/cron-auth";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { ISAAC_DAYS } from "@/data/isaac-bikes";
 import {
@@ -40,12 +41,8 @@ function dateInPragueTimezone(): string {
 }
 
 export async function GET(req: NextRequest) {
-  const expected = process.env.CRON_SECRET;
-  if (expected) {
-    const got = req.headers.get("authorization");
-    if (got !== `Bearer ${expected}`) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+  if (!isAuthorizedCron(req.headers.get("authorization"))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   return logCronRun("isaac-test-daily", "0 4,20 * * *", async () => {

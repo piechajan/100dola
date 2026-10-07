@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isAuthorizedCron } from "@/lib/cron-auth";
 import { revalidateTag, revalidatePath } from "next/cache";
 import { getServiceSupabase, importBrand, type ImportResult } from "@/lib/suppliers/importer";
 import { getShopProducts } from "@/lib/shop/get-products";
@@ -17,12 +18,8 @@ export const maxDuration = 300; // 5 min — ALE s 923 items může trvat
  */
 export async function GET(req: NextRequest) {
   // Auth check
-  const expected = process.env.CRON_SECRET;
-  if (expected) {
-    const got = req.headers.get("authorization");
-    if (got !== `Bearer ${expected}`) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+  if (!isAuthorizedCron(req.headers.get("authorization"))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   return logCronRun("import-supplier-feeds", "0 3 * * *", async () => {

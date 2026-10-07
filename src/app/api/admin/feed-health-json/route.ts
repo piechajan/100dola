@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isAuthorizedCron } from "@/lib/cron-auth";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 
 export const runtime = "nodejs";
@@ -11,9 +12,7 @@ export const dynamic = "force-dynamic";
  * ŽÁDNÉ zápisy. ŽÁDNÉ secrety ve výstupu.
  */
 export async function GET(req: NextRequest): Promise<Response> {
-  const secret = process.env.CRON_SECRET;
-  const auth = req.headers.get("authorization");
-  if (!secret || auth !== `Bearer ${secret}`) {
+  if (!isAuthorizedCron(req.headers.get("authorization"))) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   if (!isSupabaseConfigured()) {

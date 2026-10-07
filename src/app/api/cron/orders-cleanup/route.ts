@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isAuthorizedCron } from "@/lib/cron-auth";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { logCronRun } from "@/lib/cron-monitor";
 import {
@@ -31,12 +32,8 @@ export const maxDuration = 60;
 
 export async function GET(req: NextRequest) {
   // Vercel Cron job auth: header `Authorization: Bearer <CRON_SECRET>` pokud je nastavený
-  const expected = process.env.CRON_SECRET;
-  if (expected) {
-    const got = req.headers.get("authorization");
-    if (got !== `Bearer ${expected}`) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+  if (!isAuthorizedCron(req.headers.get("authorization"))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   return logCronRun("orders-cleanup", "0 8 * * *", async () => {

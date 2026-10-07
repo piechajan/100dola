@@ -92,6 +92,14 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Apex → www jako trvalý 308 (SEO). Pokud doménový redirect na Vercelu /
+      // Cloudflare zasáhne dřív (307), tohle je jen pojistka.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "100dola.com" }],
+        destination: "https://www.100dola.com/:path*",
+        permanent: true,
+      },
       // Český alias pro wishlist (canonical zůstává /wishlist).
       { source: "/oblibene", destination: "/wishlist", permanent: true },
       { source: "/oblibene/:path*", destination: "/wishlist/:path*", permanent: true },

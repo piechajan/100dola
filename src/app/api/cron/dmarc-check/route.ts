@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isAuthorizedCron } from "@/lib/cron-auth";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import { withCronLog } from "@/lib/cron-monitor";
@@ -41,8 +42,7 @@ function isKnownIp(ip: string): boolean {
 
 export async function GET(request: Request) {
   const auth = request.headers.get("authorization");
-  const expected = `Bearer ${process.env.CRON_SECRET ?? ""}`;
-  if (!process.env.CRON_SECRET || auth !== expected) {
+  if (!isAuthorizedCron(auth)) {
     return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
   }
   return withCronLog(CRON_NAME, SCHEDULE, runDmarcCheck)();

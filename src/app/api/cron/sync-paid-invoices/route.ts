@@ -8,13 +8,12 @@
 // nedoletí (např. neemit pro určité typy mark-paid akcí).
 
 import { NextRequest, NextResponse } from "next/server";
+import { isAuthorizedCron } from "@/lib/cron-auth";
 import { logCronRun } from "@/lib/cron-monitor";
 import { listInvoices, isFakturoidConfigured } from "@/lib/fakturoid";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import { sendOrderPaidNotification } from "@/lib/email";
 import { getAdminContext } from "@/lib/admin-auth";
-
-const CRON_SECRET = process.env.CRON_SECRET;
 
 interface SyncStats {
   invoicesScanned: number;
@@ -124,7 +123,7 @@ export async function GET(req: NextRequest) {
   // Vercel Cron posílá hlavičku Authorization: Bearer <CRON_SECRET>
   // Plus podpora ručního spuštění z admina (přihlášená admin session)
   const authHeader = req.headers.get("authorization");
-  const isCron = CRON_SECRET && authHeader === `Bearer ${CRON_SECRET}`;
+  const isCron = isAuthorizedCron(authHeader);
   const adminCtx = await getAdminContext();
   const isAdmin = Boolean(adminCtx);
 
