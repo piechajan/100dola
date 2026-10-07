@@ -1040,7 +1040,7 @@ export const PRODUCTS: Product[] = [
     ],
     fulfillment: "supplier",
     stockStatus: "on_request",
-    relatedSlugs: ["cycplus-f1-ventilator", "navoskovani-retezu", "osa-trenazer-12mm-m12x10", "osa-trenazer-12mm-m12x15"],
+    relatedSlugs: ["cycplus-f1-ventilator"],
   },
   {
     id: 9305,

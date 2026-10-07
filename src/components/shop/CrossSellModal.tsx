@@ -5,14 +5,13 @@ import Image from "next/image";
 import { isProxiedImage } from "@/lib/shop/image-utils";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-store";
-import { PRODUCTS, formatPrice } from "@/data/products";
+import { formatPrice } from "@/data/products";
+import { recommendForCart } from "@/lib/shop/cart-recommendations";
 
 /**
  * Cross-sell modal — zobrazí se po prvním kliku na "K objednávce".
- * Doporučí 2-3 produkty, které ještě nejsou v košíku, na základě jednoduché heuristiky:
- *  - vyjma produktů už v košíku
- *  - prioritně produkty s "Doporučuje tým" badge
- *  - kategorie doplňky / výživa (low-friction add)
+ * Doporučí produkty, které s košíkem souvisí a zákazník je nejspíš koupí
+ * (viz `recommendForCart` — pravidlo: žádná kola ani náhodné drahé kusy).
  *
  * Pokud klient klik na "Pokračovat k objednávce", přesměrujeme na /objednavka.
  */
@@ -27,17 +26,7 @@ export default function CrossSellModal({ open, onClose }: Props) {
   const items = useCart((s) => s.items);
   const add = useCart((s) => s.add);
 
-  const recommendations = useMemo(() => {
-    const inCart = new Set(items.map((i) => i.productId));
-    return PRODUCTS.filter((p) => !inCart.has(p.id))
-      .sort((a, b) => {
-        const aTeam = a.badges.includes("Doporučuje tým") ? -1 : 0;
-        const bTeam = b.badges.includes("Doporučuje tým") ? -1 : 0;
-        if (aTeam !== bTeam) return aTeam - bTeam;
-        return a.priceWithVat - b.priceWithVat;
-      })
-      .slice(0, 3);
-  }, [items]);
+  const recommendations = useMemo(() => recommendForCart(items), [items]);
 
   useEffect(() => {
     if (!open) return;
