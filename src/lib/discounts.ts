@@ -85,7 +85,7 @@ const CODE_SCOPES: Record<string, CodeScope> = {
     percentWithBundle: 15,
     // Jen ventilátor zvedá sazbu na 15 %; osa s trenažérem dostane stejných 12 %.
     boostSlugs: ["cycplus-f1-ventilator"],
-    fixedOff: { "cycplus-t7-smart-bike": { base: 4000, withBoost: 5000 } },
+    fixedOff: { "cycplus-t7-smart-bike": { base: 3000, withBoost: 4000 } },
     label: "trenažéry a smart bike",
   },
 };

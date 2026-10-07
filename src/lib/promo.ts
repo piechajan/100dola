@@ -59,7 +59,7 @@ export const ACTIVE_PROMO: Promo | null = {
   ],
   boostSlugs: ["cycplus-f1-ventilator"],
   // T7 Smart Bike: nikde na trhu není pod 47 490 Kč, 12 % (5 699 Kč) by byla zbytečně moc.
-  fixedOff: { "cycplus-t7-smart-bike": { base: 4000, withBoost: 5000 } },
+  fixedOff: { "cycplus-t7-smart-bike": { base: 3000, withBoost: 4000 } },
   barText: "až −15 % na trenažéry s kódem",
 };
 
