@@ -13,6 +13,11 @@ export interface AppliedDiscount {
   /** Konkrétní Kč částka aplikované slevy (vždy ne větší než subtotal). */
   amount: number;
   description?: string;
+  /**
+   * Rozpis slevy po položkách — jen když se mísí pevná sleva (T7) s procenty,
+   * aby zákazník viděl, odkud se částka bere. Jinak chybí.
+   */
+  lines?: Array<{ label: string; amount: number }>;
 }
 
 export interface ValidateOptions {
@@ -173,20 +178,32 @@ export async function validateDiscountCode(
     }
 
     let amount: number;
+    let lines: AppliedDiscount["lines"];
     if (row.type === "percent") {
       // Produkty s pevnou slevou (T7) se z procentního základu vyjmou a odečtou se zvlášť.
       let fixedBase = 0;
       let fixedTotal = 0;
+      const fixedNames: string[] = [];
       if (scope?.fixedOff && opts.items) {
         for (const i of opts.items) {
           const f = scope.fixedOff[i.slug];
           if (!f) continue;
           fixedBase += i.priceWithVat * i.qty;
           fixedTotal += (bundlePercent !== null ? f.withBoost : f.base) * i.qty;
+          fixedNames.push(PRODUCTS.find((x) => x.slug === i.slug)?.name ?? i.slug);
         }
       }
-      amount =
-        Math.round(((base - fixedBase) * (bundlePercent ?? row.value)) / 100) + fixedTotal;
+      const percentPart = Math.round(((base - fixedBase) * (bundlePercent ?? row.value)) / 100);
+      amount = percentPart + fixedTotal;
+      if (fixedTotal > 0) {
+        lines = [{ label: `${fixedNames.join(", ")} — pevná sleva`, amount: fixedTotal }];
+        if (percentPart > 0) {
+          lines.push({
+            label: `ventilátor a doplňky −${bundlePercent ?? row.value} %`,
+            amount: percentPart,
+          });
+        }
+      }
     } else {
       amount = row.value;
     }
@@ -201,6 +218,7 @@ export async function validateDiscountCode(
         value: bundlePercent ?? row.value,
         amount,
         description: row.description || undefined,
+        lines,
       },
     };
   } catch (e) {

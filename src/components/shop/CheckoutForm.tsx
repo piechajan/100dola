@@ -26,6 +26,8 @@ interface AppliedDiscount {
   type: "percent" | "fixed";
   value: number;
   amount: number;
+  /** Rozpis slevy po položkách (pevná sleva + procenta) — přijde ze serveru. */
+  lines?: Array<{ label: string; amount: number }>;
 }
 
 const accent = "#3B7CF4";
@@ -594,13 +596,25 @@ export default function CheckoutForm() {
                 <div>
                   <div className="text-xs font-black text-[#065F46]">
                     ✓ {discount.code}
-                    <span className="ml-2 text-[10px] uppercase tracking-wider">
-                      {discount.type === "percent" ? `-${discount.value} %` : `-${formatPrice(discount.value)}`}
-                    </span>
+                    {!discount.lines && (
+                      <span className="ml-2 text-[10px] uppercase tracking-wider">
+                        {discount.type === "percent" ? `-${discount.value} %` : `-${formatPrice(discount.value)}`}
+                      </span>
+                    )}
                   </div>
-                  <div className="text-[11px] text-[#065F46] mt-0.5">
-                    Sleva: {formatPrice(discount.amount)}
-                  </div>
+                  {discount.lines ? (
+                    <div className="text-[11px] text-[#065F46] mt-0.5 space-y-0.5">
+                      {discount.lines.map((l) => (
+                        <div key={l.label}>
+                          {l.label}: −{formatPrice(l.amount)}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-[11px] text-[#065F46] mt-0.5">
+                      Sleva: {formatPrice(discount.amount)}
+                    </div>
+                  )}
                 </div>
                 <button type="button" onClick={removeDiscount} className="text-xs text-[#065F46] hover:underline">
                   Odebrat
