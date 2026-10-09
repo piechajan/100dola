@@ -189,7 +189,7 @@ export default function PrepravaPage() {
             </h2>
             <p className="text-[#5A6480] leading-relaxed mb-5">
               Do Malagy (letiště AGP) se dostaneš z Prahy i Vídně{" "}
-              <strong>přímým letem za ~3 hodiny</strong>. Z Ostravy a Bratislavy se obvykle letí
+              <strong>přímým letem za ~3 hodiny</strong>. Z Ostravy, Bratislavy, Brna a Pardubic se obvykle letí
               s přestupem — vyhledávač najde nejlepší spojení. Klikni na letiště, odkud pojedeš:
             </p>
             <p className="text-xs font-bold uppercase tracking-wider text-[#9AA3C2] mb-2">Přímé linky</p>
@@ -244,6 +244,30 @@ export default function PrepravaPage() {
                   Blízko pro Slovensko a jižní Moravu. Obvykle s přestupem — vyhledávač poradí.
                 </div>
                 <div className="text-sm font-bold mt-2" style={{ color: accent }}>Najít letenky BTS → AGP →</div>
+              </a>
+              <a
+                href="https://www.google.com/travel/flights?q=Flights%20from%20BRQ%20to%20AGP"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-2xl border border-[#E2E6F3] p-5 hover:border-[#E8431A] transition-colors"
+              >
+                <div className="font-black text-[#1a1a2e]">✈ Brno (BRQ)</div>
+                <div className="text-sm text-[#5A6480] mt-1">
+                  Přímé spojení se mění podle sezóny — vyhledávač ukáže aktuální nabídku, jinak s přestupem.
+                </div>
+                <div className="text-sm font-bold mt-2" style={{ color: accent }}>Najít letenky BRQ → AGP →</div>
+              </a>
+              <a
+                href="https://www.google.com/travel/flights?q=Flights%20from%20PED%20to%20AGP"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-2xl border border-[#E2E6F3] p-5 hover:border-[#E8431A] transition-colors"
+              >
+                <div className="font-black text-[#1a1a2e]">✈ Pardubice (PED)</div>
+                <div className="text-sm text-[#5A6480] mt-1">
+                  Přímé spojení do Malagy obvykle není — vyhledávač najde nejlepší spojení s přestupem.
+                </div>
+                <div className="text-sm font-bold mt-2" style={{ color: accent }}>Najít letenky PED → AGP →</div>
               </a>
             </div>
             <p className="text-sm text-[#9AA3C2] leading-relaxed">

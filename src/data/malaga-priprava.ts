@@ -104,9 +104,9 @@ export const PACKING_TIPS: PrepItem[] = [
       "Přehazovačku zabal do pěny nebo ji sundej. Do vidlice a zadních patek dej rozpěrky.",
   },
   {
-    title: "Pevné uchycení",
+    title: "Zafixuj kolo v krabici",
     detail:
-      "Kolo ve krabici nesmí hrát. Vyplň prázdná místa pěnou, kartonem nebo oblečením.",
+      "Kolo se v krabici nesmí při převozu pohybovat. Volná místa vyplň pěnou, kartonem nebo oblečením a sundaná kola a řídítka stáhni k rámu stahovacími páskami.",
   },
 ];
 
