@@ -24,6 +24,8 @@ import GoogleReviewsCompact from "@/components/shop/GoogleReviewsCompact";
 import EbikeRangeCalculator from "@/components/tools/EbikeRangeCalculator";
 import TirePressureCalculator from "@/components/tools/TirePressureCalculator";
 import MobileStickyCTA from "@/components/shop/MobileStickyCTA";
+import AdvisorStrip from "@/components/shop/AdvisorStrip";
+import TrainerPick from "@/components/shop/TrainerPick";
 import ReviewsSection from "@/components/shop/ReviewsSection";
 import Stars from "@/components/shop/Stars";
 import { getReviewAggregate, getPublicReviews } from "@/lib/shop/reviews";
@@ -192,6 +194,12 @@ export default async function ShopCatchAllPage({
       />
       <Navbar />
       <main className="pt-20">
+        {resolved.pathSlugs.some((s) => s.startsWith("trenazery")) && (
+          <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pt-8 space-y-4">
+            <TrainerPick />
+            <AdvisorStrip context="category" />
+          </div>
+        )}
         <ShopLayout
           products={all}
           initialCategoryId={resolved.top.id}
@@ -459,6 +467,12 @@ function renderProduct(
                   <PdpBuyBox product={product} soldOut={soldOut} />
                 )}
               </div>
+
+              {(product.categoryId.startsWith("trenazery") || product.priceWithVat >= 10000) && (
+                <div className="mt-6">
+                  <AdvisorStrip context="pdp" productName={product.name} productSlug={product.slug} />
+                </div>
+              )}
 
               <div className="mt-6 space-y-2">
                 {product.bulky && product.priceWithVat < 2500 && (
