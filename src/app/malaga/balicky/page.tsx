@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { MALAGA_BRAND, PACKAGES, ADDONS, GROUP_NOTE, FAQ_FULL, EBIKE_SURCHARGE } from "@/data/malaga";
+import { MALAGA_BRAND, PACKAGES, ADDONS, GROUP_NOTE, FAQ_FULL, EBIKE_SURCHARGE, STORAGE_PRICES } from "@/data/malaga";
 import MalagaLeadForm from "@/components/malaga/MalagaLeadForm";
 
 const accent = MALAGA_BRAND.color;
@@ -179,6 +179,31 @@ export default function BalickyPage() {
             </div>
             <div className="text-sm text-[#5A6480] leading-relaxed rounded-2xl p-5 bg-white border border-[#E2E6F3]">
               <span className="font-bold text-[#1a1a2e]">Skupina nebo klub?</span> {GROUP_NOTE}
+            </div>
+          </div>
+
+          <div className="mt-5 rounded-2xl border border-[#E2E6F3] bg-white p-6 md:p-7 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+            <div className="max-w-2xl">
+              <div className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: accent }}>
+                Uskladnění
+              </div>
+              <h3 className="text-xl font-black text-[#1a1a2e]">Uskladnění tvého kola v Malaze</h3>
+              <p className="mt-1 text-sm text-[#5A6480] leading-relaxed">
+                Kolo čeká v monitorovaném zázemí BASE, až přiletíš. {STORAGE_PRICES[0].note}{" "}
+                Na celou sezónu (říjen–květen) vyjde uskladnění od {STORAGE_PRICES[1].priceFromEur} €.
+              </p>
+            </div>
+            <div className="shrink-0 text-left md:text-right">
+              <div className="text-3xl font-black text-[#1a1a2e]">
+                {STORAGE_PRICES[0].priceFromEur} € <span className="text-base font-bold text-[#9AA3C2]">/ měsíc</span>
+              </div>
+              <Link
+                href="/malaga/uskladneni"
+                className="mt-2 inline-flex text-sm font-bold hover:underline"
+                style={{ color: accent }}
+              >
+                Více o uskladnění →
+              </Link>
             </div>
           </div>
         </div>

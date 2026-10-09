@@ -96,7 +96,7 @@ export const MALAGA_ADDON_LABELS: Record<string, string> = MALAGA_ADDON_OPTIONS.
 
 export const STORAGE_AFTER_OPTIONS: OptionCard<MalagaStorageAfter>[] = [
   { value: "no", label: "Ne, vezu zpět", icon: "↩️", description: "Kolo se vrací s tebou." },
-  { value: "winter", label: "Přes zimu", icon: "❄️", description: "Kolo počká v Malaze do jara. Od 69 €/měs, sezóna od 449 €." },
+  { value: "winter", label: "Přes zimu", icon: "❄️", description: "Kolo počká v Malaze do jara. Od 70 €/měs, sezóna od 449 €." },
   { value: "yearround", label: "Celoročně", icon: "🗓️", description: "Kolo zůstává v Malaze jako základna." },
 ];
 

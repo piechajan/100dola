@@ -34,7 +34,7 @@ export default function DopravaKolaMalaga() {
             <li>• <strong>Transport</strong> — fyzicky dopravujeme v ucelených dodávkách, ne kurýrem. Typicky 5-8 dní podle bloku odjezdu.</li>
             <li>• <strong>Zázemí v Malaze (100dola Malaga BASE)</strong> — kolo má svůj prostor, monitorované a připravené; sprcha, šatna a káva pro tebe.</li>
             <li>• <strong>Vy pak létáte light</strong> — ruční zavazadlo s helmou a tretrami, kolo na vás čeká.</li>
-            <li>• <strong>Cena</strong> — od 145 € jednosměrně, round-trip od 200 €. Zázemí (BASE) od 69 €/měsíc.</li>
+            <li>• <strong>Cena</strong> — od 145 € jednosměrně, round-trip od 200 €. Zázemí (BASE) od 70 €/měsíc.</li>
           </ul>
           <div className="mt-4 pt-4 border-t border-[#FBC9A8]">
             <Link
@@ -91,7 +91,7 @@ export default function DopravaKolaMalaga() {
               </tr>
               <tr className="bg-[#FFF1EA]">
                 <td className="p-3 font-bold">100dola transport + BASE</td>
-                <td className="p-3">Jednou dovoz od 145 € + 69 €/měsíc zázemí (BASE)</td>
+                <td className="p-3">Jednou dovoz od 145 € + 70 €/měsíc zázemí (BASE)</td>
                 <td className="p-3">Nulový — kolo už tam je</td>
                 <td className="p-3">Nízké — víme co děláme, monitor, pojištěno</td>
               </tr>
@@ -145,7 +145,7 @@ export default function DopravaKolaMalaga() {
             {
               n: "7",
               title: "Po sezóně",
-              body: "Buď kolo zůstává až do další cesty (zázemí/BASE běží od 69 €/měsíc), nebo ho stejnou cestou vezeme zpátky.",
+              body: "Buď kolo zůstává až do další cesty (zázemí/BASE běží od 70 €/měsíc), nebo ho stejnou cestou vezeme zpátky.",
             },
           ].map((step) => (
             <div key={step.n} className="flex gap-4">
@@ -196,7 +196,7 @@ export default function DopravaKolaMalaga() {
               <li>✓ Vše z one-way</li>
               <li>✓ <strong>Cesta tam i zpět</strong> v jedné objednávce</li>
               <li>✓ <strong>Ušetříš 50 €</strong> oproti dvěma jednosměrkám</li>
-              <li>✓ Mezi cestami kolo hlídáme v zázemí (BASE, od 69 €/měsíc)</li>
+              <li>✓ Mezi cestami kolo hlídáme v zázemí (BASE, od 70 €/měsíc)</li>
               <li>✓ Kolo na tebe čeká rideable, ať přiletíš kdykoliv</li>
             </ul>
           </div>

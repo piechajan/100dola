@@ -67,7 +67,7 @@ export const TRANSPORT_PRICES: PriceEntry[] = [
 export const STORAGE_PRICES: PriceEntry[] = [
   {
     label: "Uskladnění v BASE — měsíčně",
-    priceFromEur: 69,
+    priceFromEur: 70,
     unit: "za kolo / měsíc",
     note: "Bez závazku délky, fakturace po měsících.",
   },
