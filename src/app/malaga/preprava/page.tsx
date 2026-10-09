@@ -281,7 +281,7 @@ export default function PrepravaPage() {
           <div className="rounded-2xl border border-[#E2E6F3] bg-[#F7F9FF] p-6 md:p-7">
             <div className="text-lg font-black text-[#1a1a2e]">Co s sebou a jak kolo přichystat</div>
             <p className="text-sm text-[#5A6480] mt-1 leading-snug">
-              Rozměry krabice (25–30 × 86 × 170 cm), výbava, nabíječky a co patří do příručního zavazadla.{" "}
+              Rozměry krabice (25 × 86 × 170 cm), výbava, nabíječky a co patří do příručního zavazadla.{" "}
               <Link href="/malaga/priprava-kola" className="font-bold text-[#E8431A] hover:underline">
                 Zobrazit seznam →
               </Link>

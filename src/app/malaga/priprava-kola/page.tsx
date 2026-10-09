@@ -17,7 +17,7 @@ const accent = MALAGA_BRAND.color;
 export const metadata: Metadata = {
   title: "Příprava kola do Malagy — co s sebou a jak ho zabalit",
   description:
-    "Jak připravit kolo na přepravu do Malagy: doporučené rozměry krabice (25–30 × 86 × 170 cm), výbava, nabíječky, duše, imbusy a co patří do příručního zavazadla.",
+    "Jak připravit kolo na přepravu do Malagy: doporučené rozměry krabice (25 × 86 × 170 cm), výbava, nabíječky, duše, imbusy a co patří do příručního zavazadla.",
   alternates: { canonical: "/malaga/priprava-kola" },
 };
 
