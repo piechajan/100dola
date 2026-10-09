@@ -8,9 +8,9 @@ import MalagaLeadForm from "@/components/malaga/MalagaLeadForm";
 const accent = MALAGA_BRAND.color;
 
 export const metadata: Metadata = {
-  title: "Balíčky a ceny — Basic od 849 € a Exclusive od 1 349 €",
+  title: "Balíčky a ceny — Basic od 559 € a Exclusive od 1 349 €",
   description:
-    "Vyber si, kolik servisu chceš. Basic (od 849 €) — doprava + uskladnění celou sezónu. Exclusive (od 1 349 €) — kompletní balení, sestavení a vyzvednutí na letišti.",
+    "Vyber si, kolik servisu chceš. Basic (od 559 €) — doprava + uskladnění celou sezónu. Exclusive (od 1 349 €) — kompletní balení, sestavení a vyzvednutí na letišti.",
   alternates: { canonical: "/malaga/balicky" },
 };
 

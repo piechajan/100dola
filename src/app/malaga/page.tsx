@@ -17,7 +17,7 @@ import { FAQ_PREVIEW } from "@/data/malaga";
 export const metadata: Metadata = {
   title: { absolute: "100dola Malaga — vlastní kolo v Malaze, bez krabice na letišti" },
   description:
-    "Uteč české zimě — dovezeme tvoje kolo z Česka do Malagy a uskladníme přes celou zimu (říjen–květen). Letíš nalehko, jezdíš na svém. Balíčky od 849 €.",
+    "Uteč české zimě — dovezeme tvoje kolo z Česka do Malagy a uskladníme přes celou zimu (říjen–květen). Letíš nalehko, jezdíš na svém. Balíčky od 559 €.",
   alternates: {
     canonical: "/malaga",
   },
@@ -50,7 +50,7 @@ const serviceJsonLd = {
   },
   areaServed: ["CZ", "ES"],
   offers: [
-    { "@type": "Offer", name: "Basic", priceCurrency: "EUR", price: "849" },
+    { "@type": "Offer", name: "Basic", priceCurrency: "EUR", price: "559" },
     { "@type": "Offer", name: "Exclusive", priceCurrency: "EUR", price: "1349" },
   ],
 };

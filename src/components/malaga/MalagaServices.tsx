@@ -33,7 +33,7 @@ const services: ServiceCard[] = [
   {
     tag: "Balíčky",
     title: "Basic nebo Exclusive",
-    desc: "Vyber si, kolik servisu chceš. Od 849 € (Basic) až po 1 349 € (Exclusive — sedneš a jedeš).",
+    desc: "Vyber si, kolik servisu chceš. Od 559 € (Basic) až po 1 349 € (Exclusive — sedneš a jedeš).",
     href: "/malaga/balicky",
     photo: "/media/sport-hero.jpg",
     photoCrop: "object-[35%_30%]",

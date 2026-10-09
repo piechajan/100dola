@@ -59,7 +59,7 @@
   feedu nejde auto-launch ani stock-sync. Soupis: `~/Desktop/sportmall-feed-soupis-2026-08-12.md`.
 - **ComGate KYC** → spustit kartu/Apple/Google Pay (pořád jen QR/převod/hotovost).
 - **Heureka Ověřeno** → registrace + API klíč (CSP odblokován, SDK teď načítá).
-- **Malaga pricing konflikt** (Basic 559 € vs 849 €) — pořád nerozhodnuto (viz níže).
+- ✅ Malaga pricing konflikt (Basic 559 €) — vyřešeno 2026-10-09.
 - **Sufan tyčinka (Flapjack Třešeň s čokoládou)** → BLOKOVÁNO: sufan velkoobchod
   je za loginem. Pošli **login do sufan velkoobchodu** (URL + jméno/heslo) NEBO
   rovnou **cenu 1 ks + cenu balení 16 ks** (a jestli −30 % z nich nebo z MOC) +
@@ -105,13 +105,7 @@
 
 ## 🟡 Rozhodnutí čekající na Jana
 
-- **Malaga pricing konflikt (Basic 849€ vs 559€)** — `data/malaga.ts` má potvrzený
-  (30.4. tebou) **Basic od 559 €**, ale `MalagaServices.tsx` karta + meta na
-  `/malaga/balicky` ukazují **849 €** (stará hardcoded hodnota). Zákazník vidí
-  dvě různé ceny Basicu. **Rozhodni:** srovnat displej na 559 € (doporučeno,
-  jen oprava zobrazení dle tvého potvrzeného ceníku), nebo je 849 € správně a
-  opravit data? Řekni a Claude srovná. Místa: `src/components/malaga/MalagaServices.tsx:36`,
-  `src/app/malaga/balicky/page.tsx:11-13`.
+- ✅ **Malaga pricing konflikt (Basic 559 € vs 849 €)** — VYŘEŠENO 2026-10-09: Jan potvrdil **Basic od 559 €**; titulek/popis `/malaga/balicky`, `/malaga` (popis + JSON-LD) a `MalagaServices.tsx` srovnány na 559 €.
 
 ---
 
