@@ -33,7 +33,7 @@ export const CARRY: PrepItem[] = [
   },
   {
     title: "Pumpa nebo kompresor",
-    detail: "Malá ruční pumpa stačí. Pozor: CO₂ patrony do letadla nepatří.",
+    detail: "Malá ruční pumpa stačí.",
   },
   {
     title: "Dvě duše a montpáky",
@@ -73,9 +73,8 @@ export const EXTRA: PrepItem[] = [
   },
 ];
 
-/** Co dát do příručního zavazadla, ne do krabice. */
+/** Co si vzít do příručního zavazadla (kola jedou v krabicích po zemi). */
 export const CABIN_ONLY: string[] = [
-  "Powerbanky a lithiové baterie (včetně baterií Di2 a AXS) — vozí se v příručním zavazadle, ne v krabici. Konkrétní pravidla si ověř u své aerolinky.",
   "Helma, boty a oblečení na první den na kole.",
   "Doklady a pojištění.",
 ];
@@ -88,7 +87,7 @@ export const PACKING_TIPS: PrepItem[] = [
   },
   {
     title: "Vypusť část vzduchu",
-    detail: "Pláště nech jen napůl nahuštěné, ať je krabice odolnější vůči změnám tlaku.",
+    detail: "S částečně vypuštěnými plášti se kolo snáz balí a ve krabici lépe sedí.",
   },
   {
     title: "Chraň přehazovačku a vidlici",
@@ -114,7 +113,7 @@ export function prepBlockText(): string {
   lines.push("Výbava:");
   for (const i of CARRY) lines.push(`  • ${i.title} — ${i.detail}`);
   lines.push("");
-  lines.push("Do příručního zavazadla (ne do krabice):");
+  lines.push("Do příručního zavazadla:");
   for (const i of CABIN_ONLY) lines.push(`  • ${i}`);
   lines.push("");
   lines.push(`Celý seznam i doporučení k balení: ${PRIPRAVA_URL}`);
@@ -143,7 +142,7 @@ export function prepBlockHtml(accent = "#E8431A"): string {
         <ul style="margin:0 0 8px;padding-left:18px;font-size:13px;line-height:1.5;color:#5A6480">
           ${CARRY.map((i) => li(i.title, i.detail)).join("")}
         </ul>
-        <div style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a2e">Do příručního zavazadla, ne do krabice</div>
+        <div style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a2e">Do příručního zavazadla</div>
         <ul style="margin:0 0 8px;padding-left:18px;font-size:13px;line-height:1.5;color:#5A6480">
           ${CABIN_ONLY.map((t) => li(t)).join("")}
         </ul>

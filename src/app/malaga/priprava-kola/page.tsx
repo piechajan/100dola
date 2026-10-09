@@ -119,7 +119,7 @@ export default function PripravaKolaPage() {
         <section className="py-10 bg-white">
           <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
             <div className="rounded-2xl border border-[#FBD38D] bg-[#FFF7ED] p-6 md:p-8">
-              <h2 className="text-2xl font-black text-[#1a1a2e]">Do příručního zavazadla, ne do krabice</h2>
+              <h2 className="text-2xl font-black text-[#1a1a2e]">Do příručního zavazadla</h2>
               <ul className="mt-4 space-y-2 text-sm text-[#7A5615] leading-relaxed">
                 {CABIN_ONLY.map((t) => (
                   <li key={t} className="flex gap-2">
