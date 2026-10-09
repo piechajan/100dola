@@ -23,7 +23,7 @@ export default function StorageBasePanel({ ctaHref = "#poptavka" }: { ctaHref?: 
         </h2>
         <p className="mt-3 text-[#5A6480] leading-relaxed max-w-xl">
           Kolo čeká na naší základně, jen {MALAGA_FACTS.baseAirportMinutes} minut od letiště.
-          Přiletíš, vyzvedneš si ho a jedeš. {STORAGE_PRICES[0].note}
+          Přiletíš, vyzvedneš si ho a jedeš. Po domluvě ti ho dovezeme na tvé ubytování i zpět na základnu. {STORAGE_PRICES[0].note}
         </p>
         <div className="mt-5 text-sm font-bold text-[#1a1a2e]">
           K dispozici je kompletní zázemí:
