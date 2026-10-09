@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MALAGA_BRAND, PACKAGES, GROUP_NOTE } from "@/data/malaga";
+import StorageBasePanel from "./StorageBasePanel";
 
 const accent = MALAGA_BRAND.color;
 
@@ -113,6 +114,11 @@ export default function MalagaPackagesPreview() {
           <div className="text-sm text-[#5A6480] leading-relaxed rounded-2xl p-5 bg-white border border-[#E2E6F3]">
             <span className="font-bold text-[#1a1a2e]">Skupina nebo klub?</span> {GROUP_NOTE}
           </div>
+        </div>
+
+        {/* Uskladnění kola na základně — samostatný panel */}
+        <div className="mt-10">
+          <StorageBasePanel ctaHref="/malaga/balicky#poptavka" />
         </div>
       </div>
     </section>
