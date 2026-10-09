@@ -4,6 +4,7 @@
 import "server-only";
 import { Resend } from "resend";
 import type { MalagaLeadRow, RegistrationRow } from "./supabase";
+import { prepBlockHtml, prepBlockText } from "../data/malaga-priprava";
 import { TRANSPORT_TIER_LABELS, STORAGE_AFTER_LABELS } from "../data/malaga-signup";
 import { FEEDBACK_PS } from "../data/event-feedback";
 
@@ -195,6 +196,8 @@ export async function sendMalagaLeadConfirmation(lead: MalagaLeadRow): Promise<v
         Pokud spěcháš nebo si chceš v něčem doupřesnit hned, klidně mi rovnou napiš nebo zavolej.
       </p>
 
+      <div style="margin-top: 20px;">${prepBlockHtml("#E8431A")}</div>
+
       <div style="margin-top: 28px; padding: 18px; background: #FFEFE9; border-radius: 12px;">
         <div style="font-weight: 700; margin-bottom: 4px;">Jan Piecha</div>
         <div style="font-size: 14px; color: #5A6480;">FUTUNATU s.r.o.</div>
@@ -215,6 +218,8 @@ export async function sendMalagaLeadConfirmation(lead: MalagaLeadRow): Promise<v
     `Díky za poptávku, ${lead.name.split(" ")[0]}.`,
     ``,
     `Mám tvoji zprávu. Ozvu se ti do 48 hodin s konkrétním dalším krokem — termín, cena na míru, co potřebuju vědět.`,
+    ``,
+    prepBlockText(),
     ``,
     `Pokud spěcháš, klidně mi napiš nebo zavolej:`,
     `info@100dola.com`,
@@ -1699,6 +1704,8 @@ export async function sendMalagaSignupConfirmation(p: MalagaSignupEmailPayload):
     `a věci na cestu — na palubu ti pak stačí jen příručák. Ubytování i výživu (SPONSER)`,
     `řešíme na místě.`,
     ``,
+    prepBlockText(),
+    ``,
     `Než se ozveme, mrkni:`,
     `  Jak to funguje: https://www.100dola.com/malaga`,
     `  Trasy: https://www.100dola.com/malaga/trasy`,
@@ -1732,6 +1739,8 @@ export async function sendMalagaSignupConfirmation(p: MalagaSignupEmailPayload):
       <div style="background:#FFF3EE;border:1px solid #F5D2C4;border-radius:12px;padding:14px;font-size:14px;color:#1a1a2e;line-height:1.6;margin:0 0 16px">
         <strong>Vlastní kolo v Malaze, letíš jen s příručákem.</strong> Kolo dopravíme, do boxu si dáš i výbavu a věci na cestu. Ubytování i výživu (SPONSER) řešíme na místě.
       </div>
+
+      ${prepBlockHtml(MALAGA_RED)}
 
       <p style="margin:0 0 8px;font-size:13px;color:#5A6480">Než se ozveme, mrkni:</p>
       <p style="margin:0 0 16px;font-size:13px;line-height:1.9">

@@ -275,8 +275,23 @@ export default function PrepravaPage() {
         </div>
       </section>
 
+      {/* Příprava kola cross-link */}
+      <section className="py-8 bg-white">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+          <div className="rounded-2xl border border-[#E2E6F3] bg-[#F7F9FF] p-6 md:p-7">
+            <div className="text-lg font-black text-[#1a1a2e]">Co s sebou a jak kolo přichystat</div>
+            <p className="text-sm text-[#5A6480] mt-1 leading-snug">
+              Rozměry krabice (25–30 × 86 × 170 cm), výbava, nabíječky a co patří do příručního zavazadla.{" "}
+              <Link href="/malaga/priprava-kola" className="font-bold text-[#E8431A] hover:underline">
+                Zobrazit seznam →
+              </Link>
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Lead form */}
-      <section className="py-16 md:py-24 bg-[#1a0e08]">
+      <section id="poptavka" className="py-16 md:py-24 bg-[#1a0e08] scroll-mt-24">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-10 items-start">
             <div className="text-white">

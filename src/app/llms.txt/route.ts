@@ -48,6 +48,7 @@ ${getPublishedLocations()
 ## Služby
 - [Malaga — cyklistická základna](${BASE_URL}/malaga): doprava kola do Malagy, uskladnění přes zimu i celoročně, ježdění na vlastním kole v Andalusii, balíčky a vedené i self-guided vyjížďky. Létáš nalehko, jezdíš na svém kole, bez opakovaného balení a kompromisů s půjčovnou.
 - [Balíčky Malaga](${BASE_URL}/malaga/balicky): Basic vs Exclusive úroveň servisu (od základní přepravy po kolo připravené k jízdě po příletu).
+- [Příprava kola do Malagy](${BASE_URL}/malaga/priprava-kola): co s sebou (nabíječky, pumpa, duše, imbusy), doporučené rozměry krabice 25–30 × 86 × 170 cm a co patří do příručního zavazadla.
 - [Lab — bike detailing & péče o kolo](${BASE_URL}/lab): profesionální mytí, konzervace, ošetření ložisek, voskování řetězu, bikefitting.
 - [Social rides & komunita](${BASE_URL}/social-rides): pravidelné skupinové vyjížďky a kalendář akcí.
 - [Vyzkoušej Scott](${BASE_URL}/vyzkousej-scott): testovací jízdy na kolech Scott.
