@@ -74,9 +74,18 @@ export const EXTRA: PrepItem[] = [
 ];
 
 /** Co si vzít do příručního zavazadla (kola jedou v krabicích po zemi). */
-export const CABIN_ONLY: string[] = [
-  "Helma, boty a oblečení na první den na kole.",
-  "Doklady a pojištění.",
+export interface CabinItem {
+  text: string;
+  /** Volitelný proklik (např. na pojištění). */
+  link?: { label: string; path: string };
+}
+
+export const CABIN_ONLY: CabinItem[] = [
+  { text: "Helma, boty a oblečení na první den na kole." },
+  {
+    text: "Doklady a pojištění.",
+    link: { label: "Pojištění zajistíme →", path: "/pojisteni?zajem=cestovni" },
+  },
 ];
 
 export const PACKING_TIPS: PrepItem[] = [
@@ -114,7 +123,7 @@ export function prepBlockText(): string {
   for (const i of CARRY) lines.push(`  • ${i.title} — ${i.detail}`);
   lines.push("");
   lines.push("Do příručního zavazadla:");
-  for (const i of CABIN_ONLY) lines.push(`  • ${i}`);
+  for (const i of CABIN_ONLY) lines.push(`  • ${i.text}${i.link ? ` ${i.link.label} https://www.100dola.com${i.link.path}` : ""}`);
   lines.push("");
   lines.push(`Celý seznam i doporučení k balení: ${PRIPRAVA_URL}`);
   return lines.join("\n");
@@ -144,7 +153,7 @@ export function prepBlockHtml(accent = "#E8431A"): string {
         </ul>
         <div style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a2e">Do příručního zavazadla</div>
         <ul style="margin:0 0 8px;padding-left:18px;font-size:13px;line-height:1.5;color:#5A6480">
-          ${CABIN_ONLY.map((t) => li(t)).join("")}
+          ${CABIN_ONLY.map((i) => i.link ? `<li style="margin:0 0 6px">${esc(i.text)} <a href="https://www.100dola.com${i.link.path}" style="color:${accent};font-weight:700">${esc(i.link.label)}</a></li>` : li(i.text)).join("")}
         </ul>
         <p style="margin:10px 0 0;font-size:13px">
           <a href="${PRIPRAVA_URL}" style="color:${accent};font-weight:700">Celý seznam a doporučení k balení →</a>

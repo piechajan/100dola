@@ -121,10 +121,20 @@ export default function PripravaKolaPage() {
             <div className="rounded-2xl border border-[#FBD38D] bg-[#FFF7ED] p-6 md:p-8">
               <h2 className="text-2xl font-black text-[#1a1a2e]">Do příručního zavazadla</h2>
               <ul className="mt-4 space-y-2 text-sm text-[#7A5615] leading-relaxed">
-                {CABIN_ONLY.map((t) => (
-                  <li key={t} className="flex gap-2">
+                {CABIN_ONLY.map((i) => (
+                  <li key={i.text} className="flex gap-2">
                     <span aria-hidden>•</span>
-                    <span>{t}</span>
+                    <span>
+                      {i.text}
+                      {i.link && (
+                        <>
+                          {" "}
+                          <Link href={i.link.path} className="font-bold text-[#E8431A] hover:underline">
+                            {i.link.label}
+                          </Link>
+                        </>
+                      )}
+                    </span>
                   </li>
                 ))}
               </ul>
