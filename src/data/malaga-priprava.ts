@@ -62,10 +62,6 @@ export const EXTRA: PrepItem[] = [
     detail: "Malá lahvička na řetěz stačí.",
   },
   {
-    title: "Nahrané trasy v Garminu",
-    detail: "Ať po příletu nehledáš wifi. Naše trasy najdeš na stránce tras.",
-  },
-  {
     title: "Fotky kola před předáním",
     detail:
       "Pár záběrů celého kola a sériové číslo si schovej. Je to užitečné při jakékoli reklamaci.",
