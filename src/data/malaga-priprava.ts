@@ -10,13 +10,13 @@ export const PRIPRAVA_URL = "https://www.100dola.com/malaga/priprava-kola";
 export const BOX = {
   title: "Krabice na kolo",
   intro:
-    "Pokud kolo předáváš zabalené, doporučujeme krabici, která se vejde do našeho transportního boxu:",
+    "Pokud kolo předáváš zabalené, doporučujeme krabici o těchto rozměrech:",
   dims: [
-    { label: "Šířka", value: "25–30 cm" },
+    { label: "Šířka", value: "25 cm" },
     { label: "Výška", value: "86 cm" },
     { label: "Délka", value: "170 cm" },
   ],
-  note: "Rozměry jsou doporučené maximum. Kolo, které se do nich nevejde, nám raději předem napiš — vyřešíme to dřív, než ho začneš balit.",
+  note: "Standardní kartonová krabice na silniční kolo, kterou ti obvykle dají téměř v každém cyklistickém obchodě. Kolo, které se do těchto rozměrů nevejde, nám raději předem napiš — vyřešíme to dřív, než ho začneš balit.",
 } as const;
 
 export interface PrepItem {
