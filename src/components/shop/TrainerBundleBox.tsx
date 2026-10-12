@@ -7,6 +7,8 @@ import { useCart } from "@/lib/cart-store";
 import { PRODUCTS, formatPrice, type Product } from "@/data/products";
 import { ACTIVE_PROMO, isPromoLive, promoBundleItemPrice, promoDeadlineLabel, promoPriceWithBoost } from "@/lib/promo";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
+import { trackSemEvent } from "@/components/analytics/SeznamSem";
+import { netPrice } from "@/lib/seznam-sem";
 
 /** Co nabízíme k trenažéru. Osy tu schválně nejsou — viz komentář níž. */
 const BUNDLE_SLUGS = ["cycplus-f1-ventilator"];
@@ -45,6 +47,12 @@ export default function TrainerBundleBox({ trainer }: { trainer?: Product }) {
       content_type: "product",
       value: p.priceWithVat,
       currency: "CZK",
+    });
+    trackSemEvent("AddToCart", {
+      content_type: "product",
+      currency: "CZK",
+      value: netPrice(p.priceWithVat, p.vatRate),
+      contents: [{ id: p.slug, quantity: 1, unit_price: p.priceWithVat, content_name: p.name }],
     });
     setTimeout(() => setAdded(null), 2000);
   };

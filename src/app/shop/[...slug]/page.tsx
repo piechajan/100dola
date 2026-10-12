@@ -353,6 +353,7 @@ function renderProduct(
         id={product.id}
         brand={product.brand}
         photo={product.photo}
+        vatRate={product.vatRate}
       />
       <HeurekaOcm page="product_detail" />
       <Navbar />

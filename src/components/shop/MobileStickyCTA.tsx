@@ -7,6 +7,8 @@ import { formatPrice, type Product } from "@/data/products";
 import { isProxiedImage } from "@/lib/shop/image-utils";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
+import { trackSemEvent } from "@/components/analytics/SeznamSem";
+import { netPrice } from "@/lib/seznam-sem";
 
 /**
  * Sticky bottom bar pro PDP mobile.
@@ -53,6 +55,14 @@ export default function MobileStickyCTA({ product }: { product: Product }) {
       value: product.priceWithVat,
       currency: "CZK",
       contents: [{ id: product.slug, quantity: 1, item_price: product.priceWithVat }],
+    });
+    trackSemEvent("AddToCart", {
+      content_type: "product",
+      currency: "CZK",
+      value: netPrice(product.priceWithVat, product.vatRate),
+      contents: [
+        { id: product.slug, quantity: 1, unit_price: product.priceWithVat, content_name: product.name },
+      ],
     });
     trackGoogleEvent("add_to_cart", {
       currency: "CZK",

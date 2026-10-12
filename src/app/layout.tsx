@@ -5,6 +5,7 @@ import CookiesBanner from "@/components/CookiesBanner";
 import ContactBubble from "@/components/ContactBubble";
 import IsaacTestPopup from "@/components/IsaacTestPopup";
 import MetaPixel from "@/components/analytics/MetaPixel";
+import SeznamSem from "@/components/analytics/SeznamSem";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import MicrosoftClarity from "@/components/analytics/MicrosoftClarity";
 import AttributionTracker from "@/components/analytics/AttributionTracker";
@@ -90,6 +91,7 @@ export default async function RootLayout({
         <ContactBubble />
         <CookiesBanner />
         <MetaPixel />
+        <SeznamSem />
         <GoogleAnalytics />
         <MicrosoftClarity />
         <AttributionTracker />

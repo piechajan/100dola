@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
+import { trackSemEvent } from "@/components/analytics/SeznamSem";
 
 interface Props {
   /** Identifikátor kategorie, např. „trenazery-chytre". */
@@ -35,6 +36,12 @@ export default function CategoryViewTracker({ categoryId, name, productSlugs }: 
     trackGoogleEvent("view_item_list", {
       item_list_id: categoryId,
       item_list_name: name,
+    });
+    trackSemEvent("ViewContent", {
+      content_type: "product_group",
+      currency: "CZK",
+      value: 0,
+      contents: [{ content_category: name }],
     });
     // Jen při změně kategorie, ne při každém překreslení filtrů.
     // eslint-disable-next-line react-hooks/exhaustive-deps

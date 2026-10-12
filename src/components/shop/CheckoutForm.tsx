@@ -9,6 +9,8 @@ import { useCart, getCartTotals } from "@/lib/cart-store";
 import { formatPrice } from "@/data/products";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
+import { trackSemEvent } from "@/components/analytics/SeznamSem";
+import { semContents, semValue } from "@/lib/seznam-sem";
 import { getAttribution } from "@/lib/attribution";
 import { PROMO_STORAGE_KEY, ACTIVE_PROMO, isPromoLive } from "@/lib/promo";
 import {
@@ -275,6 +277,12 @@ export default function CheckoutForm() {
       num_items: items.reduce((sum, i) => sum + i.qty, 0),
       value: total,
       currency: "CZK",
+    });
+    trackSemEvent("InitiateCheckout", {
+      content_type: "product",
+      currency: "CZK",
+      value: semValue(items),
+      contents: semContents(items),
     });
     trackGoogleEvent("begin_checkout", {
       currency: "CZK",

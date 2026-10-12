@@ -5,6 +5,7 @@ import path from "path";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HeurekaOcm from "@/components/analytics/HeurekaOcm";
+import SeznamSemPurchase from "@/components/analytics/SeznamSemPurchase";
 import { buildSpaydQrDataUrl, FUTUNATU_IBAN } from "@/lib/spayd";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 
@@ -132,6 +133,19 @@ export default async function OrderConfirmationPage({
                   qty: i.qty,
                 }))}
                 totalWithVat={order.total}
+              />
+              <SeznamSemPurchase
+                orderId={order.id}
+                registeredAt={order.registeredAt}
+                items={order.items.map((i) => ({
+                  slug: i.slug,
+                  name: i.name,
+                  priceWithVat: i.priceWithVat,
+                  vatRate: i.vatRate,
+                  qty: i.qty,
+                }))}
+                shippingFee={order.shippingFee}
+                deliveryLabel={order.shipping.methodLabel}
               />
               {/* Header */}
               <div className="text-center mb-10">

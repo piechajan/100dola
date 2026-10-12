@@ -5,6 +5,8 @@ import { useCart, type CartVariant } from "@/lib/cart-store";
 import type { Product } from "@/data/products";
 import { trackMetaEvent } from "@/components/analytics/MetaPixel";
 import { trackGoogleEvent } from "@/components/analytics/GoogleAnalytics";
+import { trackSemEvent } from "@/components/analytics/SeznamSem";
+import { netPrice } from "@/lib/seznam-sem";
 
 interface Props {
   product: Product;
@@ -46,6 +48,14 @@ export default function AddToCartButton({ product, large, variant, disabled, dis
       value: product.priceWithVat * qty,
       currency: "CZK",
       contents: [{ id: product.slug, quantity: qty, item_price: product.priceWithVat }],
+    });
+    trackSemEvent("AddToCart", {
+      content_type: "product",
+      currency: "CZK",
+      value: netPrice(product.priceWithVat, product.vatRate) * qty,
+      contents: [
+        { id: product.slug, quantity: qty, unit_price: product.priceWithVat, content_name: product.name },
+      ],
     });
     trackGoogleEvent("add_to_cart", {
       currency: "CZK",

@@ -74,3 +74,10 @@ Odolnost proti blokování skriptů a opuštění stránky: z `api/orders/route.
 - Souhlas se **vstupem env proměnné** `NEXT_PUBLIC_SEZNAM_SEM_ID` na Vercelu (Gate).
 - Rozhodnutí o souhlasu: **A) jen po marketing souhlasu (doporučuji)** vs B) vždy s consent mode.
 - Rozhodnutí o `review_email` (zapnout hodnocení zákazníků na Zboží.cz? vyžaduje opt-out a DB migraci).
+
+## 9. Stav implementace (fáze 1, 12. 10. 2026) — hotovo na větvi, NENASAZENO
+- `src/lib/seznam-sem.ts` (čisté funkce: cena bez DPH, `contents`, `value`/`value_tax`, mapování souhlasu → consent_mode), `components/analytics/SeznamSem.tsx` (skript jen po marketingovém souhlasu, fronta událostí, PageView při změně route, odvolání souhlasu), `components/analytics/SeznamSemPurchase.tsx` (Purchase na `/objednavka/[id]`, 1× na objednávku, jen čerstvá do 30 min).
+- Události napojené vedle Meta/GA: ViewContent (produkt, kategorie), AddToCart (3 místa), InitiateCheckout, Purchase. `review_email` zatím NE (fáze 2).
+- **CSP:** `next.config.ts` doplněno `https://*.seznam.cz` do `script-src` a `connect-src` — bez toho prohlížeč `sul.js` blokoval (zachyceno při lokálním testu).
+- Lokální ověření (zachycený sul.js): bez souhlasu a jen s analytikou se skript NEnačte; s marketingovým souhlasem pořadí `updateConsent → PageView → události`; SPA navigace = nový PageView; po odvolání souhlasu se neodesílá nic. Typy a lint čisté. V dev režimu se ViewContent odesílá 2× (React StrictMode, stejně jako Meta) — v produkčním buildu 1×.
+- **Před nasazením:** na Vercelu nastavit `NEXT_PUBLIC_SEZNAM_SEM_ID=hn4zuuj64pbfam5glaok1p3e` (Production), ověřit sandbox/Seznam diagnostiku, teprve potom „Zapnout měření konverzí" v Centru prodejce; doplnit GDPR/cookies texty cs+en.
