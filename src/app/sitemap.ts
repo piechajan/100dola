@@ -169,6 +169,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const eventsList = await getPublishedEvents();
   for (const e of eventsList) {
     if (e.externalUrl) continue;
+    // Slug s diakritikou je duplicita ASCII verze téže akce (→ „duplicitní bez
+    // kanonické"); do sitemapy jen čisté ASCII slugy.
+    if (/[^\x00-\x7F]/.test(e.slug)) continue;
     entries.push({
       path: `/community/event/${e.slug}`,
       priority: 0.6,

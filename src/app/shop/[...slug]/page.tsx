@@ -68,7 +68,11 @@ export async function generateMetadata({
       // se v Google ukazují jako duplicitní → noindex, follow (Google jde po
       // linkách dál, ale neukáže URL v search results). Vlastní PRODUCTS i
       // supplier produkty s `note` zachovat indexovatelné.
+      // Ručně kurátorované produkty z PRODUCTS (vlastní popis, i krátký) nikdy
+      // thin — jinak by noindex dostaly i produkty zařazené do sitemapy.
+      const isCurated = PRODUCTS.some((p) => p.slug === product.slug);
       const isThin =
+        !isCurated &&
         product.fulfillment === "supplier" &&
         (!product.note || product.note.length < 80);
       return {

@@ -76,6 +76,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${event.title} — Open Miles Clinic | 100dola`,
     description: event.description,
+    alternates: { canonical: `/community/event/${event.slug}` },
   };
 }
 
