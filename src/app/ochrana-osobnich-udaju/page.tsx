@@ -121,6 +121,14 @@ export default function PrivacyPage() {
                   jen s vaším souhlasem v cookie banneru.
                 </li>
                 <li>
+                  <strong>Seznam.cz, a.s.</strong> (ČR, IČ 26168685) — měření reklam Sklik
+                  a Seznam Nákupy / Zboží.cz. Měřicí skript spouštíme jen s vaším souhlasem
+                  s marketingem; předává se číslo objednávky, hodnota a položky nákupu,
+                  způsob dopravy a online identifikátory (cookies <code>sid</code>,{" "}
+                  <code>udid</code>). Zpracování probíhá na základě dohody o zpracování
+                  osobních údajů uzavřené při zapnutí služby (Měření konverzí Seznam Nákupy).
+                </li>
+                <li>
                   <strong>Strava Inc.</strong> (USA) — propojení Open Miles Clinic
                   akcí (jen pokud se přihlásíte přes Stravu).
                 </li>

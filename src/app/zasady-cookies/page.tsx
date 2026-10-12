@@ -57,7 +57,12 @@ export default function CookiesPage() {
             pro měření konverzí a remarketing — řídí se tvým souhlasem s marketingem (se souhlasem
             plná data, bez souhlasu bez osobních údajů). <strong>Heureka „Ověřeno zákazníky"</strong>{" "}
             — po nákupu můžeme předat tvůj e-mail Heurece pro dotazník spokojenosti na základě
-            oprávněného zájmu; kdykoli máš právo vznést námitku.
+            oprávněného zájmu; kdykoli máš právo vznést námitku.{" "}
+            <strong>Seznam.cz (Sklik, Seznam Nákupy / Zboží.cz)</strong> — měřicí skript Seznamu
+            (SEM) spouštíme až po tvém souhlasu s marketingem. Posílá zobrazené stránky a produkty,
+            přidání do košíku a dokončenou objednávku (číslo objednávky, hodnota, zboží, způsob
+            dopravy) a používá cookies <code>sid</code> a <code>udid</code>. Bez souhlasu se skript
+            nenačte a Seznamu se nic neposílá.
           </p>
 
           <h2 className="text-xl font-black text-[#1a1a2e] mt-10 mb-3">Externí služby</h2>
@@ -70,6 +75,7 @@ export default function CookiesPage() {
             <li><strong>Microsoft Clarity</strong> — anonymní heat-mapy a analytika chování (jen se souhlasem s analytikou)</li>
             <li><strong>Meta Platforms</strong> — Meta Pixel a Conversions API pro měření reklam (jen se souhlasem s marketingem)</li>
             <li><strong>Google</strong> — Google Analytics 4 / Ads (jen se souhlasem s analytikou/marketingem)</li>
+            <li><strong>Seznam.cz, a.s.</strong> — měření reklam Sklik a Seznam Nákupy / Zboží.cz (jen se souhlasem s marketingem). Detaily: o-seznam.cz/pravni-informace/ochrana-udaju</li>
             <li><strong>Strava</strong> — propojení s Open Miles Clinic eventy</li>
           </ul>
 
