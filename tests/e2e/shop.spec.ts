@@ -85,8 +85,11 @@ test.describe("Shop smoke", () => {
       await expect(page.locator("h1")).toContainText(/Isaac/i, { timeout: 20_000 });
     }
 
-    // PDP má buď „Do košíku" nebo „Sestavit a přidat do košíku" (ISAAC configurator)
-    const cta = page.getByRole("button", { name: /košíku|Sestavit|Domluvit/i });
+    // PDP má buď tlačítko „Do košíku" / „Sestavit a přidat do košíku", nebo (kola
+    // CUSTOM, konfigurátor vypnutý od 24. 7.) odkaz „Poptat sestavení na míru".
+    const cta = page
+      .getByRole("button", { name: /košíku|Sestavit|Domluvit/i })
+      .or(page.getByRole("link", { name: /Poptat sestavení|Domluvit/i }));
     await expect(cta.first()).toBeVisible({ timeout: 20_000 });
   });
 
