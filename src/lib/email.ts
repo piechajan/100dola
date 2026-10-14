@@ -1686,6 +1686,36 @@ export async function sendMalagaSignupNotification(p: MalagaSignupEmailPayload):
 }
 
 // Potvrzení zákazníkovi — rekap + „ozveme se s nabídkou" + cross-sell.
+const MALAGA_STORNO_URL = "https://www.100dola.com/malaga/storno-podminky";
+
+// Storno podmínky cyklistických služeb Malaga — stejný obsah jako /malaga/storno-podminky.
+function malagaStornoText(): string {
+  return [
+    `Storno podmínky (cyklistické služby 100dola Malaga):`,
+    `  • Více než 30 dní před zahájením: vracíme 20 % uhrazené ceny.`,
+    `  • 30 dní a méně před zahájením: nevracíme nic.`,
+    `  • Místo sebe můžeš kdykoli poslat náhradníka, bez poplatku.`,
+    `  • Storno pošli e-mailem na info@100dola.com. Platí dnem doručení, potvrdíme do 2 pracovních dnů.`,
+    `  • Letenky, ubytování, stravu ani přepravu osob nezajišťujeme; řídí se podmínkami jejich dodavatelů.`,
+    `  Celé znění: ${MALAGA_STORNO_URL}`,
+  ].join("\n");
+}
+
+function malagaStornoHtml(accent: string): string {
+  return `
+      <div style="border:1px solid #E2E6F3;border-radius:12px;padding:14px;font-size:13px;color:#1a1a2e;line-height:1.6;margin:0 0 16px">
+        <div style="font-weight:700;font-size:13px;margin:0 0 6px">Storno podmínky (cyklistické služby 100dola Malaga)</div>
+        <ul style="margin:0 0 8px;padding-left:18px;color:#5A6480">
+          <li>Více než 30 dní před zahájením: vracíme <strong>20 %</strong> uhrazené ceny.</li>
+          <li>30 dní a méně před zahájením: <strong>nevracíme nic</strong>.</li>
+          <li>Místo sebe můžeš kdykoli poslat <strong>náhradníka</strong>, bez poplatku.</li>
+          <li>Storno pošli e-mailem na <a href="mailto:info@100dola.com" style="color:${accent};font-weight:700">info@100dola.com</a>. Platí dnem doručení, potvrdíme do 2 pracovních dnů.</li>
+          <li>Letenky, ubytování, stravu ani přepravu osob nezajišťujeme; řídí se podmínkami jejich dodavatelů.</li>
+        </ul>
+        <a href="${MALAGA_STORNO_URL}" style="color:${accent};font-weight:700">Celé znění storno podmínek</a>
+      </div>`;
+}
+
 export async function sendMalagaSignupConfirmation(p: MalagaSignupEmailPayload): Promise<void> {
   if (!isEmailConfigured()) return;
 
@@ -1705,6 +1735,8 @@ export async function sendMalagaSignupConfirmation(p: MalagaSignupEmailPayload):
     `řešíme na místě.`,
     ``,
     prepBlockText(),
+    ``,
+    malagaStornoText(),
     ``,
     `Než se ozveme, mrkni:`,
     `  Jak to funguje: https://www.100dola.com/malaga`,
@@ -1741,6 +1773,8 @@ export async function sendMalagaSignupConfirmation(p: MalagaSignupEmailPayload):
       </div>
 
       ${prepBlockHtml(MALAGA_RED)}
+
+      ${malagaStornoHtml(MALAGA_RED)}
 
       <p style="margin:0 0 8px;font-size:13px;color:#5A6480">Než se ozveme, mrkni:</p>
       <p style="margin:0 0 16px;font-size:13px;line-height:1.9">
