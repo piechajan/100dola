@@ -1692,7 +1692,8 @@ const MALAGA_STORNO_URL = "https://www.100dola.com/malaga/storno-podminky";
 function malagaStornoText(): string {
   return [
     `Storno podmínky (cyklistické služby 100dola Malaga):`,
-    `  • Více než 30 dní před zahájením: vracíme 20 % uhrazené ceny.`,
+    `  • Více než 60 dní před zahájením: vracíme 40 % uhrazené ceny.`,
+    `  • 30 až 60 dní před zahájením: vracíme 20 % uhrazené ceny.`,
     `  • 30 dní a méně před zahájením: nevracíme nic.`,
     `  • Místo sebe můžeš poslat náhradníka bez poplatku. Náhradník podléhá našemu schválení (rozhodujeme výhradně my, neodepřeme ho bez vážného důvodu).`,
     `  • Storno pošli e-mailem na info@100dola.com. Platí dnem doručení, potvrdíme do 2 pracovních dnů.`,
@@ -1706,7 +1707,8 @@ function malagaStornoHtml(accent: string): string {
       <div style="border:1px solid #E2E6F3;border-radius:12px;padding:14px;font-size:13px;color:#1a1a2e;line-height:1.6;margin:0 0 16px">
         <div style="font-weight:700;font-size:13px;margin:0 0 6px">Storno podmínky (cyklistické služby 100dola Malaga)</div>
         <ul style="margin:0 0 8px;padding-left:18px;color:#5A6480">
-          <li>Více než 30 dní před zahájením: vracíme <strong>20 %</strong> uhrazené ceny.</li>
+          <li>Více než 60 dní před zahájením: vracíme <strong>40 %</strong> uhrazené ceny.</li>
+          <li>30 až 60 dní před zahájením: vracíme <strong>20 %</strong> uhrazené ceny.</li>
           <li>30 dní a méně před zahájením: <strong>nevracíme nic</strong>.</li>
           <li>Místo sebe můžeš poslat <strong>náhradníka</strong> bez poplatku. Náhradník podléhá našemu schválení (rozhodujeme výhradně my, neodepřeme ho bez vážného důvodu).</li>
           <li>Storno pošli e-mailem na <a href="mailto:info@100dola.com" style="color:${accent};font-weight:700">info@100dola.com</a>. Platí dnem doručení, potvrdíme do 2 pracovních dnů.</li>

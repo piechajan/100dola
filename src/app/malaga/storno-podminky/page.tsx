@@ -27,9 +27,10 @@ export default function MalagaStornoPage() {
 
           <div className="bg-white rounded-2xl border border-[#E2E6F3] p-6 md:p-8 space-y-6 text-sm text-[#1a1a2e] leading-relaxed">
             <div className="bg-[#FFF3EE] border border-[#F5D2C4] rounded-xl p-4 text-[#1a1a2e]">
-              <strong>Shrnutí:</strong> storno více než 30 dní před zahájením = vracíme{" "}
-              <strong>20 %</strong> uhrazené ceny. Storno 30 dní a méně před zahájením = nevracíme
-              nic. Místo sebe můžeš poslat náhradníka bez poplatku, po našem schválení.
+              <strong>Shrnutí:</strong> storno více než 60 dní před zahájením = vracíme{" "}
+              <strong>40 %</strong> uhrazené ceny, storno 30 až 60 dní před zahájením = vracíme{" "}
+              <strong>20 %</strong>, storno 30 dní a méně před zahájením = nevracíme nic. Místo
+              sebe můžeš poslat náhradníka bez poplatku, po našem schválení.
             </div>
 
             <section>
@@ -60,7 +61,11 @@ export default function MalagaStornoPage() {
                   </thead>
                   <tbody>
                     <tr className="border-t border-[#E2E6F3]">
-                      <td className="px-4 py-3">Více než 30 dní před zahájením</td>
+                      <td className="px-4 py-3">Více než 60 dní před zahájením</td>
+                      <td className="px-4 py-3 font-bold">40 % uhrazené ceny</td>
+                    </tr>
+                    <tr className="border-t border-[#E2E6F3]">
+                      <td className="px-4 py-3">30 až 60 dní před zahájením</td>
                       <td className="px-4 py-3 font-bold">20 % uhrazené ceny</td>
                     </tr>
                     <tr className="border-t border-[#E2E6F3]">
