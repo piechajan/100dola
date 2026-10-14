@@ -788,7 +788,7 @@ export default function MalagaEventSignup({
         <div className="text-xs text-[#9AA3C2] font-medium uppercase tracking-wider mb-1">Přihlášení</div>
         <div className="font-black text-[#1a1a2e] text-lg leading-tight mb-1">Vlastní kolo v Malaze</div>
         <p className="text-xs text-[#5A6480] leading-relaxed">
-          Kolo dovezeme, ubytování i výživu (SPONSER) řešíme na místě. Ty letíš jen s příručákem.
+          Kolo dovezeme a čeká na tebe v Malaze. Letenku a ubytování si zajišťuješ sám, rádi poradíme. Ty letíš jen s příručákem.
         </p>
       </div>
 
