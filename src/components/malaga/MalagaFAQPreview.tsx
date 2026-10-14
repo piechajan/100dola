@@ -71,6 +71,16 @@ export default function MalagaFAQPreview() {
                 Napiš nám
               </Link>
             </div>
+            <div className="mt-3 flex items-center gap-3 text-sm">
+              <span className="text-[#9AA3C2]">Co když to nevyjde?</span>
+              <Link
+                href="/malaga/storno-podminky"
+                className="font-bold underline underline-offset-4"
+                style={{ color: accent }}
+              >
+                Storno podmínky
+              </Link>
+            </div>
           </div>
         </div>
       </div>
