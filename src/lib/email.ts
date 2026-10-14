@@ -1694,7 +1694,7 @@ function malagaStornoText(): string {
     `Storno podmínky (cyklistické služby 100dola Malaga):`,
     `  • Více než 30 dní před zahájením: vracíme 20 % uhrazené ceny.`,
     `  • 30 dní a méně před zahájením: nevracíme nic.`,
-    `  • Místo sebe můžeš kdykoli poslat náhradníka, bez poplatku.`,
+    `  • Místo sebe můžeš poslat náhradníka bez poplatku. Náhradník podléhá našemu schválení (rozhodujeme výhradně my, neodepřeme ho bez vážného důvodu).`,
     `  • Storno pošli e-mailem na info@100dola.com. Platí dnem doručení, potvrdíme do 2 pracovních dnů.`,
     `  • Letenky, ubytování, stravu ani přepravu osob nezajišťujeme; řídí se podmínkami jejich dodavatelů.`,
     `  Celé znění: ${MALAGA_STORNO_URL}`,
@@ -1708,7 +1708,7 @@ function malagaStornoHtml(accent: string): string {
         <ul style="margin:0 0 8px;padding-left:18px;color:#5A6480">
           <li>Více než 30 dní před zahájením: vracíme <strong>20 %</strong> uhrazené ceny.</li>
           <li>30 dní a méně před zahájením: <strong>nevracíme nic</strong>.</li>
-          <li>Místo sebe můžeš kdykoli poslat <strong>náhradníka</strong>, bez poplatku.</li>
+          <li>Místo sebe můžeš poslat <strong>náhradníka</strong> bez poplatku. Náhradník podléhá našemu schválení (rozhodujeme výhradně my, neodepřeme ho bez vážného důvodu).</li>
           <li>Storno pošli e-mailem na <a href="mailto:info@100dola.com" style="color:${accent};font-weight:700">info@100dola.com</a>. Platí dnem doručení, potvrdíme do 2 pracovních dnů.</li>
           <li>Letenky, ubytování, stravu ani přepravu osob nezajišťujeme; řídí se podmínkami jejich dodavatelů.</li>
         </ul>

@@ -29,7 +29,7 @@ export default function MalagaStornoPage() {
             <div className="bg-[#FFF3EE] border border-[#F5D2C4] rounded-xl p-4 text-[#1a1a2e]">
               <strong>Shrnutí:</strong> storno více než 30 dní před zahájením = vracíme{" "}
               <strong>20 %</strong> uhrazené ceny. Storno 30 dní a méně před zahájením = nevracíme
-              nic. Místo sebe můžeš kdykoli poslat náhradníka bez poplatku.
+              nic. Místo sebe můžeš poslat náhradníka bez poplatku, po našem schválení.
             </div>
 
             <section>
@@ -90,10 +90,12 @@ export default function MalagaStornoPage() {
             <section>
               <h2 className="text-lg font-black mb-2">4. Náhradník</h2>
               <p className="text-[#5A6480]">
-                Místo sebe můžeš kdykoli určit jiného účastníka (jméno, kontakt, velikost kola),
-                bez poplatku. Vyrovnání mezi tebou a náhradníkem řešíte mezi sebou. Změnu nám
-                oznam co nejdřív, nejpozději 30 dní před zahájením, ať stihneme připravit kolo a
-                doplňky.
+                Místo sebe můžeš určit jiného účastníka (jméno, kontakt, velikost kola), bez poplatku.
+                Náhradník podléhá schválení. O jeho schválení rozhoduje výhradně 100dola. Schválení
+                neodepřeme bez vážného důvodu (kapacita, bezpečnost a způsobilost účastníka,
+                nesplnění podmínek účasti) a rozhodneme bez zbytečného odkladu. Vyrovnání mezi
+                tebou a náhradníkem řešíte mezi sebou. Změnu nám oznam co nejdřív, nejpozději 30
+                dní před zahájením, ať stihneme připravit kolo a doplňky.
               </p>
             </section>
 
