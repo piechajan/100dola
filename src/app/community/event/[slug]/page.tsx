@@ -352,6 +352,18 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
               {event.included && event.included.length > 0 && (
                 <div className="bg-white rounded-2xl p-6 border border-[#E2E6F3]">
                   <h3 className="font-black text-[#1a1a2e] mb-4 text-lg">V ceně</h3>
+                  {event.priceInfo && (
+                    <div className="mb-4 rounded-xl bg-[#FFF3EE] border border-[#F5D2C4] px-4 py-3">
+                      <div className="text-xs text-[#9AA3C2] font-medium uppercase tracking-wider">Cena cyklistických služeb 100dola</div>
+                      <div className="mt-1 font-black text-[#1a1a2e] text-2xl">
+                        {event.priceInfo.amountIncVat.toLocaleString("cs-CZ")} Kč
+                        <span className="ml-2 text-sm font-bold text-[#5A6480]">vč. DPH {event.priceInfo.vatRate} %</span>
+                      </div>
+                      <div className="text-xs text-[#5A6480]">
+                        {event.priceInfo.amountExVat.toLocaleString("cs-CZ")} Kč bez DPH · cena za balíček služeb níže
+                      </div>
+                    </div>
+                  )}
                   <ul className="space-y-2.5">
                     {event.included.map((item, i) => (
                       <li key={i} className="flex items-start gap-3 text-sm text-[#5A6480]">
@@ -361,10 +373,10 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                     ))}
                   </ul>
                   <p className="mt-4 text-xs text-[#9AA3C2] leading-relaxed">
-                    <strong className="text-[#5A6480]">Letenku a ubytování si pořizuješ sám</strong> — poradíme
-                    s výběrem a předáme prověřené kontakty, ale nejsou součástí ceny našich služeb. Bez jídla
-                    (možnost snídaní / večeří řešíme). Přesný rozpočet našich služeb pošleme na vyžádání —
-                    napiš si přes přihlášku níže.
+                    <strong className="text-[#5A6480]">Cena zahrnuje jen cyklistické služby 100dola.</strong> Letenku, ubytování,
+                    stravu ani přepravu osob nezajišťujeme a nejsou součástí ceny. Rádi poradíme s výběrem a
+                    předáme prověřené kontakty, ale smlouvu uzavíráš přímo s jejich dodavatelem.
+                    <a href="/malaga/storno-podminky" className="underline font-bold" style={{ color }}> Storno podmínky</a>.
                   </p>
                 </div>
               )}

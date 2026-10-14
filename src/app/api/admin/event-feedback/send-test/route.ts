@@ -9,7 +9,7 @@ export async function POST() {
 
   await sendEventFeedbackRequest({
     eventTitle: "Malaga fall ride I (ZKUŠEBNÍ)",
-    eventDate: "30. října – 6. listopadu",
+    eventDate: "31. října – 7. listopadu",
     eventLocation: "Málaga, Španělsko",
     leadName: "Jan",
     leadEmail: admin.email,

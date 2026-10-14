@@ -1733,8 +1733,8 @@ export async function sendMalagaSignupConfirmation(p: MalagaSignupEmailPayload):
     p.accommodationTerm ? `  Termín ubytování: ${p.accommodationTerm}` : "",
     ``,
     `Model je jednoduchý: vlastní kolo dopravíme do Malagy, do boxu si dáš i výbavu`,
-    `a věci na cestu — na palubu ti pak stačí jen příručák. Ubytování i výživu (SPONSER)`,
-    `řešíme na místě.`,
+    `a věci na cestu — na palubu ti pak stačí jen příručák. Letenku a ubytování`,
+    `si zajišťuješ sám, rádi poradíme.`,
     ``,
     prepBlockText(),
     ``,
@@ -1771,7 +1771,7 @@ export async function sendMalagaSignupConfirmation(p: MalagaSignupEmailPayload):
       </table>
 
       <div style="background:#FFF3EE;border:1px solid #F5D2C4;border-radius:12px;padding:14px;font-size:14px;color:#1a1a2e;line-height:1.6;margin:0 0 16px">
-        <strong>Vlastní kolo v Malaze, letíš jen s příručákem.</strong> Kolo dopravíme, do boxu si dáš i výbavu a věci na cestu. Ubytování i výživu (SPONSER) řešíme na místě.
+        <strong>Vlastní kolo v Malaze, letíš jen s příručákem.</strong> Kolo dopravíme, do boxu si dáš i výbavu a věci na cestu. Letenku a ubytování si zajišťuješ sám, rádi poradíme.
       </div>
 
       ${prepBlockHtml(MALAGA_RED)}
@@ -1821,7 +1821,7 @@ export async function sendMalagaSignupReminder(p: MalagaSignupEmailPayload): Pro
     `• Baterii k e-biku ber s sebou v příručním zavazadle dle leteckých pravidel.`,
     `• Termín dovozu kola na sběrné místo ti potvrdíme e-mailem/telefonicky.`,
     ``,
-    `Ubytování i výživa (SPONSER) na tebe čekají na místě.`,
+    `Sportovní výživa SPONSER na tebe čeká na základně.`,
     ``,
     `Kdyby cokoliv, napiš na info@100dola.com nebo zavolej +420 739 045 057.`,
     ``,
@@ -1848,7 +1848,7 @@ export async function sendMalagaSignupReminder(p: MalagaSignupEmailPayload): Pro
       </div>
 
       <p style="margin:0 0 16px;font-size:14px;color:#5A6480;line-height:1.5">
-        Ubytování i výživa (SPONSER) na tebe čekají na místě.
+        Sportovní výživa SPONSER na tebe čeká na základně.
       </p>
 
       <p style="margin:16px 0;font-size:13px;color:#5A6480;line-height:1.5">

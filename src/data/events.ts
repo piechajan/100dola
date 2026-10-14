@@ -60,7 +60,9 @@ export interface Event {
   signupVenue?: string;
   /** Prodejní Malaga přihláška (doprava kola / uskladnění / ubytování / výživa) místo standardní registrace. */
   malagaSignup?: boolean;
-  /** „V ceně" — co pobyt/akce zahrnuje (bulletpoints). Cena samotná se NEzveřejňuje. */
+  /** Cena cyklistických služeb 100dola (jen naše služby; letenka, ubytování a stravování nejsou součástí). */
+  priceInfo?: { amountIncVat: number; amountExVat: number; vatRate: number };
+  /** „V ceně" — co akce zahrnuje (bulletpoints): jen vlastní cyklistické služby 100dola. */
   included?: string[];
   /** „Volitelně / za příplatek" — upsell add-ony (příruční zavazadlo, snídaně, výživa…). */
   addons?: string[];
@@ -605,8 +607,8 @@ Na trase plánujeme oběd v horské boudě a kávovou zastávku na Pustevnách.`
     slug: "malaga-fall-ride-1",
     title: "Malaga fall ride I",
     sport: "Malaga",
-    date: "30. října – 6. listopadu",
-    dateISO: "2026-10-30",
+    date: "31. října – 7. listopadu",
+    dateISO: "2026-10-31",
     time: "—",
     location: "Málaga, Španělsko",
     locationDetail: "Zázemí 100dola Malaga, Málaga",
@@ -623,24 +625,20 @@ Není to jen o kilometrech. Kromě ježdění zajdeme i do města, na dobré jí
 Konec října a začátek listopadu jsou v Malaze ideální — na pobřeží přes den 22–25 °C, zlaté světlo a prázdné silnice. Počítej ale s chladnějšími rány a večery (na pobřeží kolem 15 °C, a právě ráno a k večeru se vyjíždí i vrací) a hlavně s vnitrozemím a kopci, kam se dá dojet — tam bývá přes den kolem 20 °C a po ránu klidně jen 8–10 °C. Proto ber i teplejší vrstvu. Kopce nad městem dají zabrat zkušeným, pobřežní trasy jsou parádní na pohodovější dny; tempo i náročnost si řídí každý sám.
 
 O logistiku kolem kola se staráme my — dopravu kola, servis a podporu na místě. S letenkou a ubytováním ti poradíme a doporučíme prověřené možnosti, ale pořizuješ si je sám (nejsou součástí ceny našich služeb). Ty se soustředíš na ježdění. Rozpočet a detaily našich služeb pošleme na vyžádání přes přihlášku níže.`,
+    priceInfo: { amountIncVat: 39809, amountExVat: 32900, vatRate: 21 },
     included: [
-      "**Doprava kola tam i zpět** — ty ho jen zabalíš do krabice a předáš na domluveném místě. V Malaze na tebe krabice s kolem čeká na ubytování.",
-      "**Transfer letiště → ubytování.**",
-      "**6 dní vyjížděk** — jezdíme i poslední den (po dojezdu sprcha a zabalení kola na naší základně — 100dola Base).",
-      "**Servisní zázemí**, když se něco pokazí.",
-      "**Pick-up na trase** — když nastane problém, svezeme tě na ubytování nebo na základnu.",
-      "**Poslední den:** odvoz tvých věcí z apartmánu na 100dola Base (vyjedeš z apartmánu, dojedeš na základnu).",
-      "**100dola Base:** sprcha a prostor na složení a zabalení kola.",
-      "**Transfer ze základny → letiště** (kam poslední den dojedeme).",
-      "**Dovoz kol zpět do ČR** na smluvené místo předání.",
+      "**Vedení vyjížděk (guiding)** v Málaze a okolí — jezdíme i poslední den, trasy, mapy a GPX.",
+      "**Doprava kola z ČR do Málagy a zpět**, včetně uskladnění — ty ho jen zabalíš do krabice a předáš na domluveném místě.",
+      "**Zázemí základny 100dola Base:** základní servis kol (náhradní díly zvlášť), sprcha a prostor na složení a zabalení kola.",
+      "**Doprava kola v rámci Málagy** z a na ubytování.",
+      "**Svoz zavazadel a vybavení** z ubytování na základnu.",
+      "**Foto a video** z vyjížděk.",
+      "**Sportovní výživa na základně** (gely, iontové nápoje, proteiny).",
+      "**Organizační pomoc a informace.**",
     ],
     addons: [
-      "**Příruční zavazadlo** do letadla — dle dohody přiobjednáme.",
-      "**Snídaně, případně večeře** za příplatek — možnost aktuálně řešíme, upřesníme.",
-      "**Sportovní výživa SPONSER** za zvýhodněné ceny (gely, tyčinky, ionťák, protein) — čeká na tebe na ubytování, vybereš v přihlášce.",
       "**Náhradní duše, CO2 a servisní materiál** — dovezeme, ať to nevláčíš přes letiště.",
       "**Péče o kolo v Lab** před cestou — mytí, vosk řetězu a profi zabalení do krabice.",
-      "**Cestovní pojištění i pojištění kola** — [zajistíme](/pojisteni?zajem=cestovni).",
     ],
     whatToBring: [
       "**Cyklistické oblečení na proměnlivé počasí** — přes den 20–25 °C na dres a kraťasy, ale ber i **teplejší vrstvy** na chladná rána/večery a do vnitrozemí (8–10 °C): dlouhý dres nebo termo triko, návleky na nohy i ruce, dlouhé rukavice, nákrčník",
@@ -656,7 +654,7 @@ O logistiku kolem kola se staráme my — dopravu kola, servis a podporu na mís
       "**Pedály**, pokud kolo posíláš bez nich",
       "**Civilní oblečení, plavky a pohodlné boty do města** — chodíme i mimo kolo",
       "**Doklady (občanka/pas), kartička pojišťovny**, osobní léky",
-      "**Cestovní pojištění** — [zajistíme cestovní i pojištění kola](/pojisteni?zajem=cestovni)",
+      "**Cestovní pojištění** — doporučujeme sjednat samostatně ([doporučení najdeš zde](/pojisteni?zajem=cestovni))",
     ],
     whoIsItFor:
       "Cyklisté všech úrovní — ideální pro ty, kdo mají kolo v zázemí 100dola Malaga. Jak to pojmeš, je na tobě: můžeš jet po svém a připojit se třeba jen na společnou večeři, svézt se s partou po naplánované trase, nebo to den ode dne kombinovat podle chuti a nohou. Nikdo tě nikam netlačí — jsme základna, ze které vyrážíš.",
@@ -665,8 +663,8 @@ O logistiku kolem kola se staráme my — dopravu kola, servis a podporu na mís
     malagaSignup: true,
     packageIncludesTransport: true,
     stayOptions: [
-      { key: "term", label: "Po dobu akce (30.10.–6.11.)", from: "2026-10-30", to: "2026-11-06" },
-      { key: "both", label: "Oba termíny — dva týdny (30.10.–20.11.)", from: "2026-10-30", to: "2026-11-20" },
+      { key: "term", label: "Po dobu akce (31.10.–7.11.)", from: "2026-10-31", to: "2026-11-07" },
+      { key: "both", label: "Oba termíny — dva týdny (31.10.–20.11.)", from: "2026-10-31", to: "2026-11-20" },
     ],
   },
   {
@@ -692,24 +690,20 @@ Není to jen o kilometrech. Kromě ježdění zajdeme i do města, na dobré jí
 Konec října a začátek listopadu jsou v Malaze ideální — na pobřeží přes den 22–25 °C, zlaté světlo a prázdné silnice. Počítej ale s chladnějšími rány a večery (na pobřeží kolem 15 °C, a právě ráno a k večeru se vyjíždí i vrací) a hlavně s vnitrozemím a kopci, kam se dá dojet — tam bývá přes den kolem 20 °C a po ránu klidně jen 8–10 °C. Proto ber i teplejší vrstvu. Kopce nad městem dají zabrat zkušeným, pobřežní trasy jsou parádní na pohodovější dny; tempo i náročnost si řídí každý sám.
 
 O logistiku kolem kola se staráme my — dopravu kola, servis a podporu na místě. S letenkou a ubytováním ti poradíme a doporučíme prověřené možnosti, ale pořizuješ si je sám (nejsou součástí ceny našich služeb). Ty se soustředíš na ježdění. Rozpočet a detaily našich služeb pošleme na vyžádání přes přihlášku níže.`,
+    priceInfo: { amountIncVat: 39809, amountExVat: 32900, vatRate: 21 },
     included: [
-      "**Doprava kola tam i zpět** — ty ho jen zabalíš do krabice a předáš na domluveném místě. V Malaze na tebe krabice s kolem čeká na ubytování.",
-      "**Transfer letiště → ubytování.**",
-      "**6 dní vyjížděk** — jezdíme i poslední den (po dojezdu sprcha a zabalení kola na naší základně — 100dola Base).",
-      "**Servisní zázemí**, když se něco pokazí.",
-      "**Pick-up na trase** — když nastane problém, svezeme tě na ubytování nebo na základnu.",
-      "**Poslední den:** odvoz tvých věcí z apartmánu na 100dola Base (vyjedeš z apartmánu, dojedeš na základnu).",
-      "**100dola Base:** sprcha a prostor na složení a zabalení kola.",
-      "**Transfer ze základny → letiště** (kam poslední den dojedeme).",
-      "**Dovoz kol zpět do ČR** na smluvené místo předání.",
+      "**Vedení vyjížděk (guiding)** v Málaze a okolí — jezdíme i poslední den, trasy, mapy a GPX.",
+      "**Doprava kola z ČR do Málagy a zpět**, včetně uskladnění — ty ho jen zabalíš do krabice a předáš na domluveném místě.",
+      "**Zázemí základny 100dola Base:** základní servis kol (náhradní díly zvlášť), sprcha a prostor na složení a zabalení kola.",
+      "**Doprava kola v rámci Málagy** z a na ubytování.",
+      "**Svoz zavazadel a vybavení** z ubytování na základnu.",
+      "**Foto a video** z vyjížděk.",
+      "**Sportovní výživa na základně** (gely, iontové nápoje, proteiny).",
+      "**Organizační pomoc a informace.**",
     ],
     addons: [
-      "**Příruční zavazadlo** do letadla — dle dohody přiobjednáme.",
-      "**Snídaně, případně večeře** za příplatek — možnost aktuálně řešíme, upřesníme.",
-      "**Sportovní výživa SPONSER** za zvýhodněné ceny (gely, tyčinky, ionťák, protein) — čeká na tebe na ubytování, vybereš v přihlášce.",
       "**Náhradní duše, CO2 a servisní materiál** — dovezeme, ať to nevláčíš přes letiště.",
       "**Péče o kolo v Lab** před cestou — mytí, vosk řetězu a profi zabalení do krabice.",
-      "**Cestovní pojištění i pojištění kola** — [zajistíme](/pojisteni?zajem=cestovni).",
     ],
     whatToBring: [
       "**Cyklistické oblečení na proměnlivé počasí** — přes den 20–25 °C na dres a kraťasy, ale ber i **teplejší vrstvy** na chladná rána/večery a do vnitrozemí (8–10 °C): dlouhý dres nebo termo triko, návleky na nohy i ruce, dlouhé rukavice, nákrčník",
@@ -725,7 +719,7 @@ O logistiku kolem kola se staráme my — dopravu kola, servis a podporu na mís
       "**Pedály**, pokud kolo posíláš bez nich",
       "**Civilní oblečení, plavky a pohodlné boty do města** — chodíme i mimo kolo",
       "**Doklady (občanka/pas), kartička pojišťovny**, osobní léky",
-      "**Cestovní pojištění** — [zajistíme cestovní i pojištění kola](/pojisteni?zajem=cestovni)",
+      "**Cestovní pojištění** — doporučujeme sjednat samostatně ([doporučení najdeš zde](/pojisteni?zajem=cestovni))",
     ],
     whoIsItFor:
       "Cyklisté všech úrovní — ideální pro ty, kdo mají kolo v zázemí 100dola Malaga. Jak to pojmeš, je na tobě: můžeš jet po svém a připojit se třeba jen na společnou večeři, svézt se s partou po naplánované trase, nebo to den ode dne kombinovat podle chuti a nohou. Nikdo tě nikam netlačí — jsme základna, ze které vyrážíš.",

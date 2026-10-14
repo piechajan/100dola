@@ -90,6 +90,7 @@ function overlayCodeOnlyFields(dbEvent: Event, staticEvent: Event | undefined): 
     addons: staticEvent.addons ?? dbEvent.addons,
     packageIncludesTransport: staticEvent.packageIncludesTransport ?? dbEvent.packageIncludesTransport,
     stayOptions: staticEvent.stayOptions ?? dbEvent.stayOptions,
+    priceInfo: staticEvent.priceInfo ?? dbEvent.priceInfo,
   };
 }
 
