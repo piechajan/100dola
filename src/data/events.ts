@@ -63,7 +63,12 @@ export interface Event {
   /** Prodejní Malaga přihláška (doprava kola / uskladnění / ubytování / výživa) místo standardní registrace. */
   malagaSignup?: boolean;
   /** Zjednodušená přihláška (jméno, město, volitelný telefon) s volbou přespání — bez e-mailu, bez členství. */
-  lightSignup?: { overnightOptions: { value: string; label: string }[]; askShoes?: boolean };
+  lightSignup?: {
+    overnightOptions: { value: string; label: string }[];
+    askShoes?: boolean;
+    /** Výběr jídla (checkbox + počet kusů); `note` je info u položky. */
+    foodOptions?: { value: string; label: string; note?: string }[];
+  };
   /** Cena cyklistických služeb 100dola (jen naše služby; letenka, ubytování a stravování nejsou součástí). */
   priceInfo?: { amountIncVat: number; amountExVat: number; vatRate: number };
   /** „V ceně" — co akce zahrnuje (bulletpoints): jen vlastní cyklistické služby 100dola. */
@@ -388,7 +393,7 @@ Cíl je soukromá chata Honzy Jurči v Semetíně u Vsetína — Honza nám ji l
 
 Věci na přespání a na chatu (spacák, oblečení na večer) můžeš přivézt už v pátek 23. 10. v 17:00 k Apollu ve Valašském Meziříčí — odvezeme je na chatu autem, ať nemusíš nic vézt na kole.
 
-V přihlášce vyplníš jméno a město a případně zaškrtneš, jak chceš přespat (auto, vlastní stan, pod hvězdami, nebo v chatě s vlastním spacákem), protože některá místa jsou omezená.`,
+V přihlášce vyplníš jméno a město, zaškrtneš, co chceš na gril a k ohni (špekáček, kuřecí prso, krkovička — s počtem kusů, nebo vlastní), a případně jak chceš přespat (auto, vlastní stan, pod hvězdami, nebo v chatě s vlastním spacákem), protože některá místa jsou omezená.`,
     whatToBring: [
       "MTB (trailové / enduro) nebo silniční kolo podle skupiny",
       "Helma — povinná, na MTB ideálně i chrániče",
@@ -411,6 +416,11 @@ V přihlášce vyplníš jméno a město a případně zaškrtneš, jak chceš p
         { value: "cabin", label: "V chatě (vlastní spacák)" },
       ],
       askShoes: true,
+      foodOptions: [
+        { value: "spekacek", label: "Špekáček" },
+        { value: "kureci-prso", label: "Kuřecí prso", note: "steak cca 300 g" },
+        { value: "krkovicka", label: "Krkovička", note: "steak cca 300 g" },
+      ],
     },
   },
   {

@@ -11,6 +11,12 @@ export interface OvernightOption {
   label: string;
 }
 
+export interface FoodOption {
+  value: string;
+  label: string;
+  note?: string;
+}
+
 function Portal({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -27,6 +33,7 @@ function SignupModal({
   color,
   overnightOptions,
   askShoes,
+  foodOptions,
   onClose,
   onSuccess,
 }: {
@@ -35,6 +42,7 @@ function SignupModal({
   color: string;
   overnightOptions: OvernightOption[];
   askShoes: boolean;
+  foodOptions: FoodOption[];
   onClose: () => void;
   onSuccess: () => void;
 }) {
@@ -45,6 +53,8 @@ function SignupModal({
   const [overnight, setOvernight] = useState<string[]>([]);
   const [footSize, setFootSize] = useState("");
   const [shoeColor, setShoeColor] = useState("");
+  const [food, setFood] = useState<Record<string, number>>({});
+  const [ownFood, setOwnFood] = useState(false);
   const [gdpr, setGdpr] = useState(false);
   const [website, setWebsite] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -52,6 +62,20 @@ function SignupModal({
 
   const toggle = (value: string) =>
     setOvernight((prev) => (prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]));
+
+  const toggleFood = (value: string) =>
+    setFood((prev) => {
+      const next = { ...prev };
+      if (next[value]) delete next[value];
+      else next[value] = 1;
+      return next;
+    });
+  const changeQty = (value: string, delta: number) =>
+    setFood((prev) => ({ ...prev, [value]: Math.min(20, Math.max(1, (prev[value] ?? 1) + delta)) }));
+  const toggleOwnFood = () => {
+    setOwnFood((v) => !v);
+    setFood({});
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,6 +103,8 @@ function SignupModal({
           overnight,
           footSize: footSize.trim(),
           shoeColor: shoeColor.trim(),
+          food: Object.entries(food).map(([value, qty]) => ({ value, qty })),
+          ownFood,
           consentGdpr: true,
           website,
           attribution: getAttribution(),
@@ -218,6 +244,59 @@ function SignupModal({
               <p className="text-[11px] text-[#9AA3C2] mt-2">Nepovinné — nechceš-li přespat, nech prázdné.</p>
             </fieldset>
 
+            {foodOptions.length > 0 && (
+              <fieldset>
+                <legend className="text-xs font-bold uppercase tracking-wider text-[#9AA3C2] mb-2">Co chceš na gril a k ohni</legend>
+                <div className="space-y-2">
+                  {foodOptions.map((opt) => {
+                    const qty = food[opt.value] ?? 0;
+                    const active = qty > 0;
+                    return (
+                      <div
+                        key={opt.value}
+                        className="flex items-center gap-3 rounded-xl border-2 px-3 py-2.5 select-none transition-all"
+                        style={{
+                          borderColor: active ? color : "#E2E6F3",
+                          backgroundColor: active ? `${color}08` : "transparent",
+                          opacity: ownFood ? 0.45 : 1,
+                        }}
+                      >
+                        <label className="flex items-center gap-3 flex-1 cursor-pointer min-w-0">
+                          <input
+                            type="checkbox"
+                            checked={active}
+                            disabled={ownFood}
+                            onChange={() => toggleFood(opt.value)}
+                            className="w-4 h-4 shrink-0"
+                            style={{ accentColor: color }}
+                          />
+                          <span className="text-sm font-semibold text-[#1a1a2e]">
+                            {opt.label}
+                            {opt.note && <span className="block text-[11px] font-medium text-[#9AA3C2]">{opt.note}</span>}
+                          </span>
+                        </label>
+                        {active && (
+                          <div className="flex items-center gap-2 shrink-0">
+                            <button type="button" onClick={() => changeQty(opt.value, -1)} aria-label={`Méně kusů: ${opt.label}`} className="w-7 h-7 rounded-full bg-[#F0F2FA] font-black text-[#1a1a2e]">−</button>
+                            <span className="w-8 text-center text-sm font-black text-[#1a1a2e]">{qty} ks</span>
+                            <button type="button" onClick={() => changeQty(opt.value, 1)} aria-label={`Více kusů: ${opt.label}`} className="w-7 h-7 rounded-full bg-[#F0F2FA] font-black text-[#1a1a2e]">+</button>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                  <label
+                    className="flex items-center gap-3 rounded-xl border-2 px-3 py-2.5 cursor-pointer select-none transition-all"
+                    style={{ borderColor: ownFood ? color : "#E2E6F3", backgroundColor: ownFood ? `${color}08` : "transparent" }}
+                  >
+                    <input type="checkbox" checked={ownFood} onChange={toggleOwnFood} className="w-4 h-4 shrink-0" style={{ accentColor: color }} />
+                    <span className="text-sm font-semibold text-[#1a1a2e]">Budu mít vlastní</span>
+                  </label>
+                </div>
+                <p className="text-[11px] text-[#9AA3C2] mt-2">Pití si bere každý své.</p>
+              </fieldset>
+            )}
+
             <label className="flex items-start gap-3 cursor-pointer select-none">
               <input type="checkbox" checked={gdpr} onChange={(e) => setGdpr(e.target.checked)} className="mt-0.5 w-4 h-4 shrink-0" style={{ accentColor: color }} />
               <span className="text-xs text-[#5A6480] leading-relaxed">
@@ -251,6 +330,7 @@ export default function EventLightSignup({
   capacity,
   overnightOptions,
   askShoes = false,
+  foodOptions = [],
 }: {
   eventSlug: string;
   eventTitle: string;
@@ -259,6 +339,7 @@ export default function EventLightSignup({
   capacity: number;
   overnightOptions: OvernightOption[];
   askShoes?: boolean;
+  foodOptions?: FoodOption[];
 }) {
   const [showForm, setShowForm] = useState(false);
   const [done, setDone] = useState(false);
@@ -274,7 +355,7 @@ export default function EventLightSignup({
           </svg>
         </div>
         <div className="font-black text-[#1a1a2e] text-sm">Jsi přihlášený!</div>
-        <div className="text-xs text-[#9AA3C2] mt-1 leading-relaxed">Díky, vidíme se na startu. Detaily (gril, oheň) ještě doladíme.</div>
+        <div className="text-xs text-[#9AA3C2] mt-1 leading-relaxed">Díky, vidíme se na startu. Těšíme se na tebe.</div>
       </div>
     );
   }
@@ -314,6 +395,7 @@ export default function EventLightSignup({
           color={color}
           overnightOptions={overnightOptions}
           askShoes={askShoes}
+          foodOptions={foodOptions}
           onClose={() => setShowForm(false)}
           onSuccess={() => {
             setShowForm(false);

@@ -565,6 +565,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                         capacity={event.capacity}
                         overnightOptions={event.lightSignup.overnightOptions}
                         askShoes={event.lightSignup.askShoes}
+                        foodOptions={event.lightSignup.foodOptions}
                       />
                     ) : event.groupSignup ? (
                       /* Skupinová přihláška (lead + členové + pobyt) */

@@ -314,6 +314,13 @@ export const LightSignupPayloadSchema = z
     // Velikost nohy (EU, např. 40 nebo 42,5) a barva treter — volitelné.
     footSize: z.string().max(10).trim().optional().or(z.literal("")),
     shoeColor: z.string().max(60).trim().optional().or(z.literal("")),
+    // Jídlo na gril/oheň: položky s počtem kusů + „budu mít vlastní".
+    food: z
+      .array(z.object({ value: z.string().max(40), qty: z.number().int().min(1).max(20) }))
+      .max(10)
+      .optional()
+      .default([]),
+    ownFood: z.boolean().optional().default(false),
     consentGdpr: z.literal(true),
     attribution: AttributionSchema.optional(),
   })

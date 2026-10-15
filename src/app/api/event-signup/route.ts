@@ -37,6 +37,16 @@ async function handleLightSignup(req: NextRequest, body: unknown): Promise<NextR
   // Jen hodnoty, které akce nabízí (nic z klienta se neukládá naslepo).
   const allowed = new Map(event.lightSignup.overnightOptions.map((o) => [o.value, o.label]));
   const overnight = [...new Set(data.overnight)].filter((v) => allowed.has(v));
+  const foodAllowed = new Map((event.lightSignup.foodOptions ?? []).map((o) => [o.value, o.label]));
+  const foodSeen = new Set<string>();
+  const food = data.ownFood
+    ? []
+    : data.food.filter((f) => {
+        if (!foodAllowed.has(f.value) || foodSeen.has(f.value)) return false;
+        foodSeen.add(f.value);
+        return true;
+      });
+  const ownFood = foodAllowed.size > 0 && data.ownFood;
   if (!isSupabaseConfigured()) {
     return NextResponse.json(
       { error: "Přihlášky dočasně nedostupné. Napiš nám prosím na info@100dola.com." },
@@ -46,6 +56,8 @@ async function handleLightSignup(req: NextRequest, body: unknown): Promise<NextR
 
   const { attribution } = resolveAttribution(req.headers, data.attribution);
   const options: Record<string, unknown> = { light: true, overnight };
+  if (food.length) options.food = food;
+  if (ownFood) options.ownFood = true;
   if (data.city) options.city = data.city;
   if (event.lightSignup.askShoes) {
     if (data.footSize) options.footSize = data.footSize;
@@ -58,6 +70,8 @@ async function handleLightSignup(req: NextRequest, body: unknown): Promise<NextR
     data.city ? `Město: ${data.city}` : "",
     event.lightSignup.askShoes && data.footSize ? `Velikost nohy: ${data.footSize}` : "",
     event.lightSignup.askShoes && data.shoeColor ? `Barva treter: ${data.shoeColor}` : "",
+    food.length ? `Jídlo: ${food.map((f) => `${foodAllowed.get(f.value)} ${f.qty}×`).join(", ")}` : "",
+    ownFood ? "Jídlo: bude mít vlastní" : "",
   ].filter(Boolean);
   const sb = getSupabase();
   const { data: inserted, error: insErr } = await sb
