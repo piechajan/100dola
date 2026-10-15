@@ -26,6 +26,7 @@ function SignupModal({
   eventTitle,
   color,
   overnightOptions,
+  askShoes,
   onClose,
   onSuccess,
 }: {
@@ -33,6 +34,7 @@ function SignupModal({
   eventTitle: string;
   color: string;
   overnightOptions: OvernightOption[];
+  askShoes: boolean;
   onClose: () => void;
   onSuccess: () => void;
 }) {
@@ -41,6 +43,8 @@ function SignupModal({
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
   const [overnight, setOvernight] = useState<string[]>([]);
+  const [footSize, setFootSize] = useState("");
+  const [shoeColor, setShoeColor] = useState("");
   const [gdpr, setGdpr] = useState(false);
   const [website, setWebsite] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -73,6 +77,8 @@ function SignupModal({
           city: city.trim(),
           phone: phone.trim(),
           overnight,
+          footSize: footSize.trim(),
+          shoeColor: shoeColor.trim(),
           consentGdpr: true,
           website,
           attribution: getAttribution(),
@@ -152,6 +158,40 @@ function SignupModal({
             <input type="text" placeholder="Město" value={city} onChange={(e) => setCity(e.target.value)} className={inputClass} autoComplete="address-level2" />
             <input type="tel" placeholder="Telefon (nepovinné)" value={phone} onChange={(e) => setPhone(e.target.value)} className={inputClass} autoComplete="tel" />
 
+            {askShoes && (
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label htmlFor={`foot-${eventSlug}`} className="block text-xs font-bold uppercase tracking-wider text-[#9AA3C2] mb-1.5">
+                    Velikost nohy (EU)
+                  </label>
+                  <input
+                    id={`foot-${eventSlug}`}
+                    type="text"
+                    inputMode="decimal"
+                    placeholder="např. 40 nebo 43"
+                    value={footSize}
+                    onChange={(e) => setFootSize(e.target.value)}
+                    maxLength={10}
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label htmlFor={`shoe-${eventSlug}`} className="block text-xs font-bold uppercase tracking-wider text-[#9AA3C2] mb-1.5">
+                    Barva treter
+                  </label>
+                  <input
+                    id={`shoe-${eventSlug}`}
+                    type="text"
+                    placeholder="např. černá"
+                    value={shoeColor}
+                    onChange={(e) => setShoeColor(e.target.value)}
+                    maxLength={60}
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+            )}
+
             <fieldset>
               <legend className="text-xs font-bold uppercase tracking-wider text-[#9AA3C2] mb-2">Chtěl bych přespat</legend>
               <div className="space-y-2">
@@ -210,6 +250,7 @@ export default function EventLightSignup({
   filledCount = 0,
   capacity,
   overnightOptions,
+  askShoes = false,
 }: {
   eventSlug: string;
   eventTitle: string;
@@ -217,6 +258,7 @@ export default function EventLightSignup({
   filledCount?: number;
   capacity: number;
   overnightOptions: OvernightOption[];
+  askShoes?: boolean;
 }) {
   const [showForm, setShowForm] = useState(false);
   const [done, setDone] = useState(false);
@@ -271,6 +313,7 @@ export default function EventLightSignup({
           eventTitle={eventTitle}
           color={color}
           overnightOptions={overnightOptions}
+          askShoes={askShoes}
           onClose={() => setShowForm(false)}
           onSuccess={() => {
             setShowForm(false);

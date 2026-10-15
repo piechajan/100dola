@@ -564,6 +564,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                         filledCount={Math.max(realFilled, event.filled)}
                         capacity={event.capacity}
                         overnightOptions={event.lightSignup.overnightOptions}
+                        askShoes={event.lightSignup.askShoes}
                       />
                     ) : event.groupSignup ? (
                       /* Skupinová přihláška (lead + členové + pobyt) */

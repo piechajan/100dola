@@ -61,7 +61,7 @@ export interface Event {
   /** Prodejní Malaga přihláška (doprava kola / uskladnění / ubytování / výživa) místo standardní registrace. */
   malagaSignup?: boolean;
   /** Zjednodušená přihláška (jméno, město, volitelný telefon) s volbou přespání — bez e-mailu, bez členství. */
-  lightSignup?: { overnightOptions: { value: string; label: string }[] };
+  lightSignup?: { overnightOptions: { value: string; label: string }[]; askShoes?: boolean };
   /** Cena cyklistických služeb 100dola (jen naše služby; letenka, ubytování a stravování nejsou součástí). */
   priceInfo?: { amountIncVat: number; amountExVat: number; vatRate: number };
   /** „V ceně" — co akce zahrnuje (bulletpoints): jen vlastní cyklistické služby 100dola. */
@@ -395,6 +395,15 @@ Na chatě nás čeká opékání na ohni, grilování a pivo. Zváni jsou všich
     photo: "/media/mtb-krivoklatsko.jpg",
     photoPosition: "50% 30%",
     heroPosition: "50% 21%",
+    lightSignup: {
+      overnightOptions: [
+        { value: "car", label: "Auto" },
+        { value: "tent", label: "Stan (vlastní)" },
+        { value: "stars", label: "Pod hvězdami" },
+        { value: "cabin", label: "V chatě (vlastní spacák)" },
+      ],
+      askShoes: true,
+    },
   },
   {
     id: 43,

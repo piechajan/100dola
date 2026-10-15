@@ -47,9 +47,18 @@ async function handleLightSignup(req: NextRequest, body: unknown): Promise<NextR
   const { attribution } = resolveAttribution(req.headers, data.attribution);
   const options: Record<string, unknown> = { light: true, overnight };
   if (data.city) options.city = data.city;
+  if (event.lightSignup.askShoes) {
+    if (data.footSize) options.footSize = data.footSize;
+    if (data.shoeColor) options.shoeColor = data.shoeColor;
+  }
   if (attribution) options.attribution = attribution;
 
   const leadName = `${data.firstName} ${data.lastName}`;
+  const noteParts = [
+    data.city ? `Město: ${data.city}` : "",
+    event.lightSignup.askShoes && data.footSize ? `Velikost nohy: ${data.footSize}` : "",
+    event.lightSignup.askShoes && data.shoeColor ? `Barva treter: ${data.shoeColor}` : "",
+  ].filter(Boolean);
   const sb = getSupabase();
   const { data: inserted, error: insErr } = await sb
     .from("event_signups")
@@ -60,7 +69,7 @@ async function handleLightSignup(req: NextRequest, body: unknown): Promise<NextR
       lead_phone: data.phone || "",
       party_size: 1,
       stay_type: null,
-      note: data.city ? `Město: ${data.city}` : null,
+      note: noteParts.length ? noteParts.join(" · ") : null,
       gdpr_consent: data.consentGdpr,
       public_consent: false,
       options,
@@ -87,7 +96,7 @@ async function handleLightSignup(req: NextRequest, body: unknown): Promise<NextR
     partySize: 1,
     members: [],
     stayLabel: `Přespání: ${sleep}`,
-    note: data.city ? `Město: ${data.city}` : undefined,
+    note: noteParts.length ? noteParts.join("\n") : undefined,
   };
   Promise.allSettled([sendEventSignupNotification(emailPayload)]);
 
