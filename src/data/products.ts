@@ -1619,7 +1619,7 @@ export const PRODUCTS: Product[] = [
     year: "2025",
     brand: "scott",
     categoryId: "tretry-silnicni",
-    priceWithVat: 3560,
+    priceWithVat: 3633,
     vatRate: 21,
     bulky: false,
     badges: ["Silnice", "BOA"],
