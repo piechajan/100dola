@@ -377,12 +377,14 @@ Kdo dojede Kohútku, ten má den splněný. Detaily jízdy najdeš i na Stravě.
     difficulty: "Střední",
     capacity: 20,
     filled: 0,
-    description: "Závěrečná sezónní jízda: z náměstí ve Valmezu po hřebeni do Semetína, pár místních trailů a pak opékání, gril a pivo u ohně na soukromé chatě. Zváni jsou všichni, kdo s námi aspoň jednou jeli.",
+    description: "Závěrečná sezónní jízda: z náměstí ve Valmezu po hřebeni do Semetína, pár místních trailů a pak opékání, gril a pivo u ohně na soukromé chatě. Zváni jsou všichni, kdo s námi jeli aspoň jednou na vyjížďce.",
     longDescription: `Závěrečná jízda sezóny. Sraz v sobotu ve 14:00 u Tucanu na náměstí ve Valašském Meziříčí a vyrážíme ve dvou skupinách — jedna na MTB, druhá na silničkách.
 
 MTB skupina jede po hřebeni do Semetína, kde dáme jeden až dva místní traily, a dojedeme na soukromou chatu Honzy Jurči. Silniční skupina míří na chatu po silnici (trasu upřesníme).
 
-Na chatě nás čeká opékání na ohni, grilování a pivo. Zváni jsou všichni, kdo s námi aspoň jednou jeli. Do přihlášky doplníme výběr, co chceš na gril a k ohni — stačí jméno a město a případně zaškrtni, jak chceš přespat (auto, vlastní stan, pod hvězdami, nebo v chatě s vlastním spacákem).`,
+Na chatě nás čeká opékání na ohni, grilování a pivo. Zváni jsou všichni, kdo s námi jeli aspoň jednou na vyjížďce.
+
+V přihlášce vyplníš jméno a město a případně zaškrtneš, jak chceš přespat (auto, vlastní stan, pod hvězdami, nebo v chatě s vlastním spacákem).`,
     whatToBring: [
       "MTB (trailové / enduro) nebo silniční kolo podle skupiny",
       "Helma — povinná, na MTB ideálně i chrániče",
@@ -390,7 +392,7 @@ Na chatě nás čeká opékání na ohni, grilování a pivo. Zváni jsou všich
       "Světla (domů se může jet za tmy)",
       "Teplejší vrstva na posezení u ohně",
     ],
-    whoIsItFor: "Pro každého, kdo s námi aspoň jednou jel. MTB skupina je pro jezdce se základní technikou, silniční skupina jede v pohodě.",
+    whoIsItFor: "Pro každého, kdo s námi jel aspoň jednou na vyjížďce. MTB skupina je pro jezdce se základní technikou, silniční skupina jede v pohodě.",
     organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
     photo: "/media/mtb-krivoklatsko.jpg",
     photoPosition: "50% 30%",
