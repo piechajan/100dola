@@ -238,7 +238,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                         />
                       </div>
                       <a
-                        href="https://www.google.com/maps/place/Partyz%C3%A1nsk%C3%A1+2,+785+01+%C5%A0ternberk/"
+                        href={event.mapLinkUrl ?? "https://www.google.com/maps/place/Partyz%C3%A1nsk%C3%A1+2,+785+01+%C5%A0ternberk/"}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 mt-3 text-xs font-bold text-[#3B7CF4] hover:underline"

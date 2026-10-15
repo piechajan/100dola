@@ -37,6 +37,8 @@ export interface Event {
   photoGallery?: string[];
   routeUrl?: string;
   mapUrl?: string;
+  /** Odkaz Navigovat pod mapou (default: prodejna Sternberk). */
+  mapLinkUrl?: string;
   stravaActivityUrl?: string;
   isPast?: boolean;
   /** Externí URL pro CTA — pokud je nastaveno, event se nepoužívá standardní /community registrační flow, ale rovnou link sem (např. ISAAC test → /isaac-test). */
@@ -377,12 +379,12 @@ Kdo dojede Kohútku, ten má den splněný. Detaily jízdy najdeš i na Stravě.
     difficulty: "Střední",
     capacity: 20,
     filled: 0,
-    description: "Závěrečná sezónní jízda: z náměstí ve Valmezu po hřebeni do Semetína, pár místních trailů a pak opékání, gril a pivo u ohně na soukromé chatě. Zváni jsou všichni, kdo s námi jeli aspoň jednou na vyjížďce.",
+    description: "Závěrečná jízda sezóny s grilováním: z náměstí ve Valmezu po hřebeni do Semetína u Vsetína, pár místních trailů a pak opékání, gril a pivo u ohně na soukromé chatě Honzy Jurči. Zváni jsou všichni, kdo s námi jeli aspoň jednou na vyjížďce.",
     longDescription: `Závěrečná jízda sezóny. Sraz v sobotu ve 14:00 u Tucanu na náměstí ve Valašském Meziříčí a vyrážíme ve dvou skupinách — jedna na MTB, druhá na silničkách.
 
 MTB skupina jede po hřebeni do Semetína, kde dáme jeden až dva místní traily, a dojedeme na soukromou chatu Honzy Jurči. Silniční skupina míří na chatu po silnici (trasu upřesníme).
 
-Na chatě nás čeká opékání na ohni, grilování a pivo. Zváni jsou všichni, kdo s námi jeli aspoň jednou na vyjížďce.
+Cíl je soukromá chata Honzy Jurči v Semetíně u Vsetína — Honza nám ji laskavě nabídl pro závěr sezóny. Čeká nás tam opékání na ohni, grilování a pivo. Zváni jsou všichni, kdo s námi jeli aspoň jednou na vyjížďce.
 
 Věci na přespání a na chatu (spacák, oblečení na večer) můžeš přivézt už v pátek 23. 10. v 17:00 k Apollu ve Valašském Meziříčí — odvezeme je na chatu autem, ať nemusíš nic vézt na kole.
 
@@ -399,6 +401,8 @@ V přihlášce vyplníš jméno a město a případně zaškrtneš, jak chceš p
     photo: "/media/mtb-krivoklatsko.jpg",
     photoPosition: "50% 30%",
     heroPosition: "50% 21%",
+    mapUrl: "https://www.google.com/maps?q=49.3484,17.9536+(Semet%C3%ADn)&output=embed&z=14",
+    mapLinkUrl: "https://www.google.com/maps/search/?api=1&query=Semet%C3%ADn%2C+Vset%C3%ADn",
     lightSignup: {
       overnightOptions: [
         { value: "car", label: "Auto" },
