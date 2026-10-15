@@ -54,7 +54,7 @@ const OVERRIDES: Record<
   "dlouhe-strane-czech-cycling-tour": { photo: "/media/road-event.jpg", replacesStravaTitle: "Dlouhé stráně, Czech Cycling Tour" },
   "odry-2026": { photo: "/media/road-event.jpg" },
   "isaac-test-sternberk": { photo: "/media/sport-hero.jpg" },
-  "mtb-semetin-trails": { photoPosition: "50% 30%" },
+  "mtb-semetin-zaverecna": { photoPosition: "50% 30%" },
 };
 
 export async function getCommunityListingEvents(): Promise<ListingEvent[]> {

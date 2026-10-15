@@ -107,6 +107,10 @@ const nextConfig: NextConfig = {
       { source: "/malaga/trasy/marbella-ronda-ojen", destination: "/malaga/trasy/marbella-ojen-monda", permanent: true },
       // Přejmenovaný termín: Malaga fall ride II → Malaga winter ride (15.–21. 2. 2027).
       { source: "/community/event/malaga-fall-ride-2", destination: "/community/event/malaga-winter-ride", permanent: true },
+      // Přejmenovaná akce: MTB Semetín trails → MTB Semetín trails — závěrečná (23.–24. 10. 2026).
+      { source: "/community/event/mtb-semetin-trails", destination: "/community/event/mtb-semetin-zaverecna", permanent: true },
+      // Smazaná prázdná událost (duplicitní karta) → přehled akcí.
+      { source: "/community/event/vyjizdka-od-chochina-kvetna", destination: "/community", permanent: true },
       // Krátké odkazy pro Instagram Stories (link sticker nezvládne dlouhé URL s UTM).
       // Dočasné (307): cíl se může měnit podle kampaně. Příchozí query se předává dál.
       {
