@@ -384,6 +384,8 @@ MTB skupina jede po hřebeni do Semetína, kde dáme jeden až dva místní trai
 
 Na chatě nás čeká opékání na ohni, grilování a pivo. Zváni jsou všichni, kdo s námi jeli aspoň jednou na vyjížďce.
 
+Věci na přespání a na chatu (spacák, oblečení na večer) můžeš přivézt už v pátek 23. 10. v 17:00 k Apollu ve Valašském Meziříčí — odvezeme je na chatu autem, ať nemusíš nic vézt na kole.
+
 V přihlášce vyplníš jméno a město a případně zaškrtneš, jak chceš přespat (auto, vlastní stan, pod hvězdami, nebo v chatě s vlastním spacákem).`,
     whatToBring: [
       "MTB (trailové / enduro) nebo silniční kolo podle skupiny",
