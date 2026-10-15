@@ -170,7 +170,7 @@ export async function GET(req: NextRequest) {
         .split("\n")
         .map((l) => stripEmoji(l))
         .filter(Boolean);
-      const firstLine = cleaned.find((l) => !/^Trasa\b/i.test(l) && !/^Start\b/i.test(l)) ?? "";
+      const firstLine = cleaned.find((l) => !/^(Trasa|Start|Cíl|Pit stop|Předběžná trasa)\b/i.test(l)) ?? "";
       const description = (firstLine || `Vyjížďka Open Miles Clinic — ${title}.`).slice(0, 220);
 
       const { error } = await sb.from("events").insert({
