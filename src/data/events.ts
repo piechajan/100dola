@@ -392,6 +392,7 @@ Na chatě nás čeká opékání na ohni, grilování a pivo. Zváni jsou všich
     organizer: { name: "Jan Piecha", role: "Zakladatel Open Miles Clinic" },
     photo: "/media/mtb-krivoklatsko.jpg",
     photoPosition: "50% 30%",
+    heroPosition: "50% 16%",
   },
   {
     id: 43,
