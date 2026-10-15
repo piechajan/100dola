@@ -657,7 +657,7 @@ O logistiku kolem kola se staráme my — dopravu kola, servis a podporu na mís
       "**Cestovní pojištění** — doporučujeme sjednat samostatně ([doporučení najdeš zde](/pojisteni?zajem=cestovni))",
     ],
     whoIsItFor:
-      "Cyklisté všech úrovní — ideální pro ty, kdo mají kolo v zázemí 100dola Malaga. Jak to pojmeš, je na tobě: můžeš jet po svém a připojit se třeba jen na společnou večeři, svézt se s partou po naplánované trase, nebo to den ode dne kombinovat podle chuti a nohou. Nikdo tě nikam netlačí — jsme základna, ze které vyrážíš.",
+      "Pro všechny, kdo mají letos aspoň něco málo najeto — jedeš pro radost, nebo pro kilometry. Připojit se můžeš i s kolem, které už máš uskladněné v zázemí 100dola Malaga: cena se pak sníží o služby, které nepotřebuješ (například dopravu kola), přesnou částku ti napíšeme v nabídce. Jak to pojmeš, je na tobě: můžeš jet po svém a připojit se třeba jen na společnou večeři, svézt se s partou po naplánované trase, nebo to den ode dne kombinovat podle chuti a nohou. Nikdo tě nikam netlačí — jsme základna, ze které vyrážíš.",
     organizer: { name: "Jan Piecha", role: "Zakladatel 100dola Malaga" },
     photo: "/media/malaga-hero.jpg",
     malagaSignup: true,
