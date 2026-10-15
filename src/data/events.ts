@@ -616,7 +616,7 @@ Na trase plánujeme oběd v horské boudě a kávovou zastávku na Pustevnách.`
     elevation: "~1 000–2 000 m / den",
     difficulty: "Střední",
     capacity: 12,
-    filled: 4,
+    filled: 8,
     description: "První podzimní termín v Malaze. Vlastní kolo tě čeká na místě, letíš jen s příručákem. Kolo, město, dobré jídlo — týden, jak si ho poskládáš.",
     longDescription: `Malaga fall ride I je náš první podzimní termín — týden na kole v Andalusii, kde máš vlastní kolo připravené přímo na místě. Přiletíš jen s příručákem, kolo na tebe čeká na ubytování, a druhý den jedeš.
 

@@ -549,7 +549,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                         eventTitle={event.title}
                         eventDate={event.date}
                         color={color}
-                        filledCount={realFilled}
+                        filledCount={Math.max(realFilled, event.filled)}
                         capacity={event.capacity}
                         packageIncludesTransport={event.packageIncludesTransport}
                         stayOptions={event.stayOptions}
