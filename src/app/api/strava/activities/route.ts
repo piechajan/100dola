@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import {
+  fetchActivityDetail,
   fetchActivityLaps,
   fetchActivityStreams,
   fetchAthleteActivities,
@@ -36,6 +37,19 @@ export async function GET(req: NextRequest) {
   }
 
   const params = new URL(req.url).searchParams;
+
+  // ?detail=<activityId> — název, datum, km, převýšení a poloha (pro proběhlé akce na webu).
+  const detailId = params.get("detail");
+  if (detailId && /^\d{5,20}$/.test(detailId)) {
+    try {
+      const detail = await fetchActivityDetail(detailId);
+      return NextResponse.json({ configured: true, detail }, { headers: { "Cache-Control": "no-store" } });
+    } catch (e) {
+      const message = e instanceof Error ? e.message : "unknown error";
+      console.error("[api/strava/activities] detail error:", message);
+      return NextResponse.json({ error: message }, { status: 502 });
+    }
+  }
 
   // ?laps=<activityId> — vrátí lapy (úseky) konkrétní aktivity (pro intervaly).
   const lapsId = params.get("laps");

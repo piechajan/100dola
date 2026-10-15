@@ -145,6 +145,40 @@ export async function fetchClubGroupEvents(): Promise<StravaGroupEvent[]> {
   return JSON.parse(safe) as StravaGroupEvent[];
 }
 
+/**
+ * Detail jedné aktivity přihlášeného sportovce (název, datum, vzdálenost, převýšení
+ * + poloha startu/cíle a zjednodušená trasa) — pro založení proběhlé akce na webu.
+ */
+export async function fetchActivityDetail(activityId: number | string): Promise<Record<string, unknown>> {
+  const token = await refreshAccessToken();
+  const res = await fetch(`${API_BASE}/activities/${activityId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error(`Strava activity detail fetch failed: ${res.status} ${await res.text()}`);
+  }
+  const a = (await res.json()) as {
+    id: number; name: string; start_date_local: string; distance: number;
+    moving_time: number; total_elevation_gain: number; sport_type: string;
+    start_latlng?: number[]; end_latlng?: number[]; location_city?: string | null;
+    map?: { summary_polyline?: string };
+  };
+  return {
+    id: a.id,
+    name: a.name,
+    startDateLocal: a.start_date_local,
+    distanceKm: Math.round(a.distance / 100) / 10,
+    movingTimeMin: Math.round(a.moving_time / 60),
+    elevationM: Math.round(a.total_elevation_gain),
+    sportType: a.sport_type,
+    startLatLng: a.start_latlng ?? null,
+    endLatLng: a.end_latlng ?? null,
+    locationCity: a.location_city ?? null,
+    polyline: a.map?.summary_polyline ?? null,
+  };
+}
+
 /** Export GPX trasy ze Stravy (route_id z group eventu). Vrací GPX XML. */
 export async function fetchRouteGpx(routeId: number | string): Promise<string> {
   const token = await refreshAccessToken();
