@@ -302,6 +302,20 @@ export const EventSignupPayloadSchema = z
   })
   .merge(Honeypot);
 
+export const LightSignupPayloadSchema = z
+  .object({
+    kind: z.literal("light"),
+    eventSlug: z.string().min(1).max(120),
+    firstName: z.string().min(1).max(80).trim(),
+    lastName: z.string().min(1).max(80).trim(),
+    city: z.string().max(120).trim().optional().or(z.literal("")),
+    phone: z.string().max(40).trim().optional().or(z.literal("")),
+    overnight: z.array(z.string().max(20)).max(10).optional().default([]),
+    consentGdpr: z.literal(true),
+    attribution: AttributionSchema.optional(),
+  })
+  .merge(Honeypot);
+
 export type EventSignupPayload = z.infer<typeof EventSignupPayloadSchema>;
 
 // ── Prodejní Malaga přihláška (doprava / uskladnění / ubytování / výživa) ────

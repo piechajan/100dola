@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
-import { EventSignupPayloadSchema, HONEYPOT_NAME } from "@/lib/schemas";
+import { EventSignupPayloadSchema, LightSignupPayloadSchema, HONEYPOT_NAME } from "@/lib/schemas";
 import {
   sendEventSignupConfirmation,
   sendEventSignupNotification,
@@ -16,6 +16,83 @@ import {
   extractMarketingConsent,
 } from "@/lib/meta-capi";
 import { resolveAttribution, logConversionAttribution } from "@/lib/attribution-server";
+
+// Zjednodušená přihláška (bez e-mailu): jméno, město, volitelný telefon + přespání.
+async function handleLightSignup(req: NextRequest, body: unknown): Promise<NextResponse> {
+  const parsed = LightSignupPayloadSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      {
+        error: "Neplatná data",
+        issues: parsed.error.issues.map((i) => ({ path: i.path.join("."), message: i.message })),
+      },
+      { status: 400 },
+    );
+  }
+  const data = parsed.data;
+  const event = events.find((e) => e.slug === data.eventSlug);
+  if (!event || !event.lightSignup) {
+    return NextResponse.json({ error: "Na tuto akci nelze poslat přihlášku." }, { status: 400 });
+  }
+  // Jen hodnoty, které akce nabízí (nic z klienta se neukládá naslepo).
+  const allowed = new Map(event.lightSignup.overnightOptions.map((o) => [o.value, o.label]));
+  const overnight = [...new Set(data.overnight)].filter((v) => allowed.has(v));
+  if (!isSupabaseConfigured()) {
+    return NextResponse.json(
+      { error: "Přihlášky dočasně nedostupné. Napiš nám prosím na info@100dola.com." },
+      { status: 503 },
+    );
+  }
+
+  const { attribution } = resolveAttribution(req.headers, data.attribution);
+  const options: Record<string, unknown> = { light: true, overnight };
+  if (data.city) options.city = data.city;
+  if (attribution) options.attribution = attribution;
+
+  const leadName = `${data.firstName} ${data.lastName}`;
+  const sb = getSupabase();
+  const { data: inserted, error: insErr } = await sb
+    .from("event_signups")
+    .insert({
+      event_slug: data.eventSlug,
+      lead_name: leadName,
+      lead_email: "",
+      lead_phone: data.phone || "",
+      party_size: 1,
+      stay_type: null,
+      note: data.city ? `Město: ${data.city}` : null,
+      gdpr_consent: data.consentGdpr,
+      public_consent: false,
+      options,
+    })
+    .select("id")
+    .single();
+  if (insErr || !inserted) {
+    console.error("[event-signup:light] insert failed:", insErr);
+    return NextResponse.json({ error: "Přihlášku se nepodařilo uložit. Zkus to prosím znovu." }, { status: 500 });
+  }
+
+  revalidateTag(`signups-${data.eventSlug}`, "max");
+  revalidateTag("event-signups-counts", "max");
+
+  const sleep = overnight.length ? overnight.map((v) => allowed.get(v)).join(", ") : "nepřespává";
+  const emailPayload: EventSignupEmailPayload = {
+    eventTitle: event.title,
+    eventDate: event.date,
+    eventLocation: event.location,
+    venue: "chata v Semetíně",
+    leadName,
+    leadEmail: "(bez e-mailu)",
+    leadPhone: data.phone || "(bez telefonu)",
+    partySize: 1,
+    members: [],
+    stayLabel: `Přespání: ${sleep}`,
+    note: data.city ? `Město: ${data.city}` : undefined,
+  };
+  Promise.allSettled([sendEventSignupNotification(emailPayload)]);
+
+  return NextResponse.json({ ok: true, id: inserted.id });
+}
 
 function honeypotTriggered(body: unknown): boolean {
   if (!body || typeof body !== "object") return false;
@@ -42,6 +119,10 @@ export async function POST(req: NextRequest) {
 
   if (honeypotTriggered(body)) {
     return NextResponse.json({ ok: true });
+  }
+
+  if ((body as { kind?: unknown } | null)?.kind === "light") {
+    return handleLightSignup(req, body);
   }
 
   const parsed = EventSignupPayloadSchema.safeParse(body);

@@ -10,6 +10,7 @@ import EventParticipants from "@/components/community/EventParticipants";
 import EventDayGallery from "@/components/community/EventDayGallery";
 import ShareButton from "@/components/community/ShareButton";
 import { getEventParticipants } from "@/lib/event-participants";
+import EventLightSignup from "@/components/community/EventLightSignup";
 import RouteMapClient from "@/components/community/RouteMapClient";
 import GpxRouteMap from "@/components/community/GpxRouteMap";
 import {
@@ -100,7 +101,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
 
   // Reálný počet přihlášených z DB (kapacita bar) — pro group i Malaga přihlášky.
   const participants =
-    (event.groupSignup || event.malagaSignup) && !eventIsPast
+    (event.groupSignup || event.malagaSignup || event.lightSignup) && !eventIsPast
       ? await getEventParticipants(event.slug)
       : null;
   const realFilled = participants?.people ?? 0;
@@ -553,6 +554,16 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                         capacity={event.capacity}
                         packageIncludesTransport={event.packageIncludesTransport}
                         stayOptions={event.stayOptions}
+                      />
+                    ) : event.lightSignup ? (
+                      /* Zjednodušená přihláška (jméno, město, přespání) */
+                      <EventLightSignup
+                        eventSlug={event.slug}
+                        eventTitle={event.title}
+                        color={color}
+                        filledCount={Math.max(realFilled, event.filled)}
+                        capacity={event.capacity}
+                        overnightOptions={event.lightSignup.overnightOptions}
                       />
                     ) : event.groupSignup ? (
                       /* Skupinová přihláška (lead + členové + pobyt) */

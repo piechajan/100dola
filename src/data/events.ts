@@ -60,6 +60,8 @@ export interface Event {
   signupVenue?: string;
   /** Prodejní Malaga přihláška (doprava kola / uskladnění / ubytování / výživa) místo standardní registrace. */
   malagaSignup?: boolean;
+  /** Zjednodušená přihláška (jméno, město, volitelný telefon) s volbou přespání — bez e-mailu, bez členství. */
+  lightSignup?: { overnightOptions: { value: string; label: string }[] };
   /** Cena cyklistických služeb 100dola (jen naše služby; letenka, ubytování a stravování nejsou součástí). */
   priceInfo?: { amountIncVat: number; amountExVat: number; vatRate: number };
   /** „V ceně" — co akce zahrnuje (bulletpoints): jen vlastní cyklistické služby 100dola. */
@@ -365,22 +367,22 @@ Kdo dojede Kohútku, ten má den splněný. Detaily jízdy najdeš i na Stravě.
     slug: "mtb-semetin-zaverecna",
     title: "MTB Semetín trails — závěrečná",
     sport: "MTB",
-    date: "23.–24. října",
-    dateISO: "2026-10-23",
+    date: "24.–25. října",
+    dateISO: "2026-10-24",
     time: "14:00",
     location: "Valašské Meziříčí → Semetín",
     locationDetail: "Sraz u Tucanu na náměstí ve Valašském Meziříčí, dojezd na soukromou chatu v Semetíně",
     distance: "—",
     elevation: "—",
     difficulty: "Střední",
-    capacity: 18,
+    capacity: 20,
     filled: 0,
     description: "Závěrečná sezónní jízda: z náměstí ve Valmezu po hřebeni do Semetína, pár místních trailů a pak opékání, gril a pivo u ohně na soukromé chatě. Zváni jsou všichni, kdo s námi aspoň jednou jeli.",
-    longDescription: `Závěrečná jízda sezóny. Sraz ve 14:00 u Tucanu na náměstí ve Valašském Meziříčí a vyrážíme ve dvou skupinách — jedna na MTB, druhá na silničkách.
+    longDescription: `Závěrečná jízda sezóny. Sraz v sobotu ve 14:00 u Tucanu na náměstí ve Valašském Meziříčí a vyrážíme ve dvou skupinách — jedna na MTB, druhá na silničkách.
 
 MTB skupina jede po hřebeni do Semetína, kde dáme jeden až dva místní traily, a dojedeme na soukromou chatu Honzy Jurči. Silniční skupina míří na chatu po silnici (trasu upřesníme).
 
-Na chatě nás čeká opékání na ohni, grilování a pivo. Zváni jsou všichni, kdo s námi aspoň jednou jeli. Do přihlášky doplníme výběr, co chceš na gril a k ohni — zatím stačí jméno a město.`,
+Na chatě nás čeká opékání na ohni, grilování a pivo. Zváni jsou všichni, kdo s námi aspoň jednou jeli. Do přihlášky doplníme výběr, co chceš na gril a k ohni — stačí jméno a město a případně zaškrtni, jak chceš přespat (auto, vlastní stan, pod hvězdami, nebo v chatě s vlastním spacákem).`,
     whatToBring: [
       "MTB (trailové / enduro) nebo silniční kolo podle skupiny",
       "Helma — povinná, na MTB ideálně i chrániče",

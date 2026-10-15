@@ -8,7 +8,7 @@ import type { ListingEvent } from "@/lib/community-events";
 // Sluggy eventů s reálným DB přihlašováním → na kartách používáme reálný počet
 // z event_signups (ne naseedovaný `filled`).
 const SIGNUP_SLUGS = new Set(
-  codeEvents.filter((e) => e.groupSignup || e.malagaSignup).map((e) => e.slug),
+  codeEvents.filter((e) => e.groupSignup || e.malagaSignup || e.lightSignup).map((e) => e.slug),
 );
 
 // Karty berou data z jednoho zdroje (getCommunityListingEvents → getPublishedEvents).
