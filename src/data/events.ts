@@ -669,11 +669,11 @@ O logistiku kolem kola se staráme my — dopravu kola, servis a podporu na mís
   },
   {
     id: 4,
-    slug: "malaga-fall-ride-2",
-    title: "Malaga fall ride II",
+    slug: "malaga-winter-ride",
+    title: "Malaga winter ride",
     sport: "Malaga",
-    date: "13.–20. listopadu",
-    dateISO: "2026-11-13",
+    date: "15.–21. února",
+    dateISO: "2027-02-15",
     time: "—",
     location: "Málaga, Španělsko",
     locationDetail: "Zázemí 100dola Malaga, Málaga",
@@ -681,13 +681,13 @@ O logistiku kolem kola se staráme my — dopravu kola, servis a podporu na mís
     elevation: "~1 000–2 000 m / den",
     difficulty: "Střední",
     capacity: 12,
-    filled: 2,
-    description: "Druhý podzimní termín v Malaze. Vlastní kolo tě čeká na místě, letíš jen s příručákem. Kolo, město, dobré jídlo — týden, jak si ho poskládáš.",
-    longDescription: `Malaga fall ride II je náš druhý podzimní termín — stejný formát jako první, nová parta. Máš vlastní kolo připravené přímo na místě: přiletíš jen s příručákem, kolo na tebe čeká na ubytování, a druhý den jedeš. Chceš přijet na oba termíny? Kolo zůstane v zázemí 100dola Malaga mezi nimi.
+    filled: 0,
+    description: "Zimní termín v Malaze. Utečeš z české zimy, vlastní kolo tě čeká na místě a letíš jen s příručákem. Kolo, slunce, dobré jídlo — týden, jak si ho poskládáš.",
+    longDescription: `Malaga winter ride je náš zimní termín — týden na kole v Andalusii, zatímco doma je zima. Máš vlastní kolo připravené přímo na místě: přiletíš jen s příručákem, kolo na tebe čeká na ubytování, a druhý den jedeš. Máš kolo uskladněné v zázemí 100dola Malaga (třeba po podzimním termínu)? Čeká tam na tebe a cena se sníží o služby, které nepotřebuješ.
 
 Není to jen o kilometrech. Kromě ježdění zajdeme i do města, na dobré jídlo a kávu a Malagu poznáme i mimo sedlo. Kdo si bude chtít v průběhu odskočit a udělat si vlastní program — žádný problém, jsme základna, ze které vyrážíš, ne povinný peloton. Z celého týdne navíc vznikají fotky a videa, která si odvezeš.
 
-Konec října a začátek listopadu jsou v Malaze ideální — na pobřeží přes den 22–25 °C, zlaté světlo a prázdné silnice. Počítej ale s chladnějšími rány a večery (na pobřeží kolem 15 °C, a právě ráno a k večeru se vyjíždí i vrací) a hlavně s vnitrozemím a kopci, kam se dá dojet — tam bývá přes den kolem 20 °C a po ránu klidně jen 8–10 °C. Proto ber i teplejší vrstvu. Kopce nad městem dají zabrat zkušeným, pobřežní trasy jsou parádní na pohodovější dny; tempo i náročnost si řídí každý sám.
+Polovina února je v Malaze tichá a slunná — na pobřeží přes den kolem 17–19 °C, hodně slunce, kvetoucí mandloně a prázdné silnice. Počítej ale s chladnějšími rány a večery (kolem 8–10 °C), s vnitrozemím a kopci, kde bývá přes den chladněji a po ránu klidně jen pár stupňů nad nulou, a s tím, že občas může zapršet — trasy podle počasí upravíme. Proto ber teplejší vrstvy i nepromokavou bundu. Kopce nad městem dají zabrat zkušeným, pobřežní trasy jsou parádní na pohodovější dny; tempo i náročnost si řídí každý sám.
 
 O logistiku kolem kola se staráme my — dopravu kola, servis a podporu na místě. S letenkou a ubytováním ti poradíme a doporučíme prověřené možnosti, ale pořizuješ si je sám (nejsou součástí ceny našich služeb). Ty se soustředíš na ježdění. Rozpočet a detaily našich služeb pošleme na vyžádání přes přihlášku níže.`,
     priceInfo: { amountIncVat: 39809, amountExVat: 32900, vatRate: 21 },
@@ -706,8 +706,8 @@ O logistiku kolem kola se staráme my — dopravu kola, servis a podporu na mís
       "**Péče o kolo v Lab** před cestou — mytí, vosk řetězu a profi zabalení do krabice.",
     ],
     whatToBring: [
-      "**Cyklistické oblečení na proměnlivé počasí** — přes den 20–25 °C na dres a kraťasy, ale ber i **teplejší vrstvy** na chladná rána/večery a do vnitrozemí (8–10 °C): dlouhý dres nebo termo triko, návleky na nohy i ruce, dlouhé rukavice, nákrčník",
-      "**Větruodolná / lehká nepromokavá bunda a vesta** — na ranní výjezdy a horské sjezdy",
+      "**Cyklistické oblečení na proměnlivé počasí** — přes den kolem 17–19 °C na dres a kraťasy, ale ber **teplejší vrstvy** na chladná rána/večery (8–10 °C) a do vnitrozemí a kopců (i jen pár stupňů nad nulou): dlouhý dres nebo termo triko, návleky na nohy i ruce, dlouhé rukavice, nákrčník",
+      "**Větruodolná / nepromokavá bunda a vesta** — na ranní výjezdy, horské sjezdy a případný déšť",
       "**Vlastní helma a tretry**",
       "**Náhradní duše (2×), lepení, spojka řetězu**",
       "**Pumpička nebo bombičky CO2**",
@@ -722,13 +722,13 @@ O logistiku kolem kola se staráme my — dopravu kola, servis a podporu na mís
       "**Cestovní pojištění** — doporučujeme sjednat samostatně ([doporučení najdeš zde](/pojisteni?zajem=cestovni))",
     ],
     whoIsItFor:
-      "Cyklisté všech úrovní — ideální pro ty, kdo mají kolo v zázemí 100dola Malaga. Jak to pojmeš, je na tobě: můžeš jet po svém a připojit se třeba jen na společnou večeři, svézt se s partou po naplánované trase, nebo to den ode dne kombinovat podle chuti a nohou. Nikdo tě nikam netlačí — jsme základna, ze které vyrážíš.",
+      "Pro všechny, kdo mají letos aspoň něco málo najeto — jedeš pro radost, nebo pro kilometry. Připojit se můžeš i s kolem, které už máš uskladněné v zázemí 100dola Malaga: cena se pak sníží o služby, které nepotřebuješ (například dopravu kola), přesnou částku ti napíšeme v nabídce. Jak to pojmeš, je na tobě: můžeš jet po svém a připojit se třeba jen na společnou večeři, svézt se s partou po naplánované trase, nebo to den ode dne kombinovat podle chuti a nohou. Nikdo tě nikam netlačí — jsme základna, ze které vyrážíš.",
     organizer: { name: "Jan Piecha", role: "Zakladatel 100dola Malaga" },
     photo: "/media/malaga-event.jpg",
     malagaSignup: true,
     packageIncludesTransport: true,
     stayOptions: [
-      { key: "term", label: "Po dobu akce (13.–20.11.)", from: "2026-11-13", to: "2026-11-20" },
+      { key: "term", label: "Po dobu akce (15.–21.2.)", from: "2027-02-15", to: "2027-02-21" },
     ],
   },
   {

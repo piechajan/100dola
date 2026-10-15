@@ -1,7 +1,7 @@
 # Master prompt — Prodejní přihláška na Malaga akci
 
 **Cíl:** Postavit prodejní přihlašovací flow pro **každou Malaga akci** (event se
-`sport === "Malaga"`, např. `malaga-fall-ride-1`, `malaga-fall-ride-2`, budoucí
+`sport === "Malaga"`, např. `malaga-fall-ride-1`, `malaga-winter-ride`, budoucí
 camps/tours). Není to jen „zapiš se" — je to **kvalifikovaný sales lead**: z
 odpovědí musí Jan poskládat nabídku (doprava + uskladnění + ubytování + výživa)
 a zákazník musí během vyplňování **pochopit a chtít** celý model „vlastní kolo v

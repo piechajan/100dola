@@ -105,6 +105,8 @@ const nextConfig: NextConfig = {
       { source: "/oblibene/:path*", destination: "/wishlist/:path*", permanent: true },
       // Přejmenovaná trasa: slug „marbella-ronda-ojen" mátl (na Rondu nejede) → Ojén/Monda.
       { source: "/malaga/trasy/marbella-ronda-ojen", destination: "/malaga/trasy/marbella-ojen-monda", permanent: true },
+      // Přejmenovaný termín: Malaga fall ride II → Malaga winter ride (15.–21. 2. 2027).
+      { source: "/community/event/malaga-fall-ride-2", destination: "/community/event/malaga-winter-ride", permanent: true },
       // Krátké odkazy pro Instagram Stories (link sticker nezvládne dlouhé URL s UTM).
       // Dočasné (307): cíl se může měnit podle kampaně. Příchozí query se předává dál.
       {

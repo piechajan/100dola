@@ -49,7 +49,7 @@ const OVERRIDES: Record<
   "season-opening": { photo: "/media/season-opening.jpg" },
   "trojak-tesak": { photo: "/media/road-event.jpg" },
   "malaga-fall-ride-1": { photo: "/media/malaga-event.jpg" },
-  "malaga-fall-ride-2": { photo: "/media/malaga-event.jpg" },
+  "malaga-winter-ride": { photo: "/media/malaga-event.jpg" },
   "pustevny-czech-cycling-tour": { photo: "/media/pustevny-climb-ride.webp", photoPosition: "center", replacesStravaTitle: "Pustevny, Czech Cycling Tour" },
   "dlouhe-strane-czech-cycling-tour": { photo: "/media/road-event.jpg", replacesStravaTitle: "Dlouhé stráně, Czech Cycling Tour" },
   "odry-2026": { photo: "/media/road-event.jpg" },
