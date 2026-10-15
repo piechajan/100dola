@@ -47,7 +47,7 @@ function pragueParts(d: Date) {
 
 function stripEmoji(s: string): string {
   return s
-    .replace(/[\p{Extended_Pictographic}‍️]/gu, "")
+    .replace(/[\p{Extended_Pictographic}\p{Regional_Indicator}\u{1F3FB}-\u{1F3FF}‍️]/gu, "")
     .replace(/\s+/g, " ")
     .trim();
 }
